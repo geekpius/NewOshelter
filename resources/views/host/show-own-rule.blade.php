@@ -1,0 +1,30 @@
+@if (count($rules))
+@foreach ($rules as $item)
+<tr class="records">
+    <td><i class="fa fa-dot-circle" style="font-size: 9px"></i> {{ $item->rule }}</td>
+    <td><a href="javascript:void(0);" data-href="{{ route('host.property.rule.delete', $item->id) }}" class="text-danger ml-3 btnRemoveRule"><i class="fa fa-trash"></i></a></td>
+</tr>   
+@endforeach 
+        
+
+<script>
+    $(".btnRemoveRule").on("click", function(){
+        var $this = $(this);
+        $.ajax({
+            url: $this.data('href'),
+            type: "GET",
+            success: function(resp){
+                if(resp=='success'){
+                    $this.parents('.records').fadeOut('slow', function(){
+                        $this.parents('.records').remove();
+                    });
+                }
+            },
+            error: function(resp){
+                alert("Something went wrong with request");
+            }
+        });
+        return false;
+    });
+</script>
+@endif
