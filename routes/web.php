@@ -110,22 +110,9 @@ Route::group(['prefix' => 'landlord'], function () {
     Route::get('/view-tickets', 'TicketController@index')->name('host.ticket.view');
     Route::get('/view-tickets/{ticket}/read', 'TicketController@read')->name('host.ticket.read');
     Route::post('/ticket/reply', 'TicketController@reply')->name('host.ticket.reply');
+    Route::get('/ticket/{ticket}/close', 'TicketController@close')->name('host.ticket.close');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /*------- Activities ------- */
 
 
     /*Route::get('/subscription', 'SubscriptionController@index')->name('host.subscription');
@@ -153,4 +140,26 @@ Auth::routes();
 Route::group(['prefix' => 'guest'], function () {
     /*------- Dashboard route------- */
     Route::get('/dashboard', 'UserController@index')->name('guest.dashboard');
+    Route::get('/property-statistics', 'UserController@property')->name('guest.property.statistics');
+    Route::get('/payment-statistics', 'UserController@payment')->name('guest.payment.statistics');
+
+    /*------- Account and Profile ------- */
+    Route::get('/account', 'UserProfileController@index')->name('guest.account');
+    Route::post('/account/dob', 'UserProfileController@updateDob')->name('guest.account.dob');
+    Route::post('/account/city', 'UserProfileController@updateCity')->name('guest.account.city');
+    Route::post('/account/occupation', 'UserProfileController@updateOccupation')->name('guest.account.occupation');
+    Route::post('/account/business', 'UserProfileController@updateBusiness')->name('guest.account.business');
+    Route::post('/account/description', 'UserProfileController@updateDescription')->name('guest.account.description');
+    Route::post('/change-password', 'UserProfileController@updatePassword')->name('guest.password.change');
+    Route::post('/change-photo', 'UserProfileController@uploadProfilePhoto')->name('guest.profile.photo');
+
+    /*------- Nav actions ------- */
+    Route::get('/saved', 'AdminController@saved')->name('guest.saved');
+    Route::get('/saved/{propertyList}/remove', 'AdminController@removeSaved')->name('guest.saved.remove');
+    Route::get('/wallet', 'AdminWalletController@index')->name('guest.wallet');
+
+
+
+
+
 });

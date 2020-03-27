@@ -2,20 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin;
+use App\User;
 use Illuminate\Http\Request;
-use App\AdminModel\AdminProfile;
+use App\UserModel\UserProfile;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use DB;
-use Image;
 
-class AdminProfileController extends Controller
+class UserProfileController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('verify-admin');
-        $this->middleware('auth:admin');
+        $this->middleware('verify-user');
+        $this->middleware('auth');
     }
 
 
@@ -27,11 +24,11 @@ class AdminProfileController extends Controller
     public function index()
     {
         $data['page_title'] = 'My Account';
-        $data['user'] = Admin::findorFail(Auth::user()->id);
-        return view('host.account', $data);
+        return view('guest.account', $data);
     }
 
-    /**
+
+     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -211,6 +208,6 @@ class AdminProfileController extends Controller
     }
 
 
-
-
+    
+    
 }

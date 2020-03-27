@@ -27,7 +27,7 @@
                                     </span>                                                                                                              
                                     <input type="text" class="form-control" name="username" placeholder="Enter Email or Membership ID" autofocus>
                                 </div>  
-                                <span class="text-danger small" role="alert">{{ $errors->has('username') ? $errors->first('username') : '' }}</span>                                  
+                                <span class="text-danger small mySpan" role="alert">{{ $errors->has('username') ? $errors->first('username') : '' }}</span>                                  
                             </div><!--end form-group--> 
 
                             <div class="form-group validate">                                            
@@ -37,7 +37,7 @@
                                     </span>                                                       
                                     <input type="password" class="form-control" name="password" placeholder="Enter Password">
                                 </div>    
-                                <span class="text-danger small" role="alert">{{ $errors->has('password') ? $errors->first('password') : '' }}</span>                           
+                                <span class="text-danger small mySpan" role="alert">{{ $errors->has('password') ? $errors->first('password') : '' }}</span>                           
                             </div><!--end form-group--> 
 
                             <div class="form-group row mt-4">
@@ -101,7 +101,7 @@ $("#formSignIn").on("submit", function(e){
         
         if(!$this.val()) {
             valid = false;
-            $this.parents('.validate').find('span:last').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
         }
     });
     if(valid) {
@@ -113,8 +113,8 @@ $("#formSignIn").on("submit", function(e){
 
 $("#formSignIn input").on('input', function(){
     if($(this).val()!=''){
-        $(this).parents('.validate').find('span:last').text('');
-    }else{ $(this).parents('.validate').find('span:last').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
+        $(this).parents('.validate').find('.mySpan').text('');
+    }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
 });
 </script>
 @endsection

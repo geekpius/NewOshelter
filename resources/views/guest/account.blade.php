@@ -1,4 +1,4 @@
-@extends('layouts.host')
+@extends('layouts.guest')
 
 @section('styles')
 <link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet">
@@ -44,15 +44,15 @@
                                     </div>
                                     <div class="met-profile_user-detail ml-3">
                                         <h5 class="met-user-name">{{ Auth::user()->name }} <small>({{ Auth::user()->membership }})</small></h5>                                                        
-                                        <p class="mb-0 met-user-name-post" id="myOccupation">{{ empty($user->profile->occupation)? 'N/A':$user->profile->occupation }}</p>
+                                        <p class="mb-0 met-user-name-post" id="myOccupation">{{ empty(Auth::user()->profile->occupation)? 'N/A':Auth::user()->profile->occupation }}</p>
                                     </div>
                                 </div>                                                
                             </div><!--end col-->
                             <div class="col-lg-4 ml-auto">
                                 <ul class="list-unstyled personal-detail">
-                                    <li class=""><i class="dripicons-phone mr-2 text-info font-18"></i> <b> Phone </b> : {{ $user->phone }}</li>
+                                    <li class=""><i class="dripicons-phone mr-2 text-info font-18"></i> <b> Phone </b> : {{ Auth::user()->phone }}</li>
                                     <li class="mt-2"><i class="dripicons-mail text-info font-18 mt-2 mr-2"></i> <b> Email </b> : {{ Auth::user()->email }}</li>
-                                    <li class="mt-2"><i class="dripicons-location text-info font-18 mt-2 mr-2"></i> <b>Location</b> : <span id="myCity">{{ empty($user->profile->city)? 'N/A':$user->profile->city }}</span></li>
+                                    <li class="mt-2"><i class="dripicons-location text-info font-18 mt-2 mr-2"></i> <b>Location</b> : <span id="myCity">{{ empty(Auth::user()->profile->city)? 'N/A':Auth::user()->profile->city }}</span></li>
                                     <li class="mt-2"><i class="fas fa-map-pin text-info font-18 mt-2 mr-2"></i> <b>Digital Address</b> : <a class="text-white" href="https://ghanapostgps.com/mapview.html#{{ Auth::user()->digital_address }}" target="_blank">{{ Auth::user()->digital_address }}</a></li>
                                     <li class="mt-2"><i class="fa fa-clock text-info font-18 mt-2 mr-2"></i> <b>Login Time</b> : {{ Auth::user()->login_time }}</li>
                                 </ul>
@@ -99,31 +99,31 @@
                                                     <tr>
                                                         <td>Date of Birth</td>
                                                         <td>
-                                                            <a href="#" id="inline-dob" data-type="combodate" data-value="{{ empty($user->profile->dob)? '':$user->profile->dob }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Select Date of birth"></a> &nbsp; <span id="myAge">({{ $user->getAgeAttribute() }})</span>
+                                                            <a href="#" id="inline-dob" data-type="combodate" data-value="{{ empty(Auth::user()->profile->dob)? '':Auth::user()->profile->dob }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Select Date of birth"></a> &nbsp; <span id="myAge">({{ Auth::user()->getAgeAttribute() }})</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>City</td>
                                                         <td>
-                                                            <a href="#" id="inline-city" data-type="text" data-value="{{ empty($user->profile->city)? '':$user->profile->city }}" data-placement="right" data-placeholder="Required" data-title="Enter your city" data-pk="1"></a> - <strong>Ghana</strong>
+                                                            <a href="#" id="inline-city" data-type="text" data-value="{{ empty(Auth::user()->profile->city)? '':Auth::user()->profile->city }}" data-placement="right" data-placeholder="Required" data-title="Enter your city" data-pk="1"></a> - <strong>Ghana</strong>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Occupation/Profession</td>
                                                         <td>
-                                                            <a href="#" id="inline-occupation" data-type="text" data-pk="1" data-value="{{ empty($user->profile->occupation)? '':$user->profile->occupation }}" data-placement="right" data-placeholder="Required" data-title="Enter your occupation"></a>
+                                                            <a href="#" id="inline-occupation" data-type="text" data-pk="1" data-value="{{ empty(Auth::user()->profile->occupation)? '':Auth::user()->profile->occupation }}" data-placement="right" data-placeholder="Required" data-title="Enter your occupation"></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Business Name</td>
                                                         <td>
-                                                            <a href="#" id="inline-business" data-type="text" data-pk="1" data-value="{{ empty($user->profile->business_name)? '':$user->profile->business_name }}" data-placement="right" data-placeholder="Required" data-title="Enter your business name"></a>
+                                                            <a href="#" id="inline-business" data-type="text" data-pk="1" data-value="{{ empty(Auth::user()->profile->business_name)? '':Auth::user()->profile->business_name }}" data-placement="right" data-placeholder="Required" data-title="Enter your business name"></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>Business Description</td>
                                                         <td>
-                                                            <a href="#" id="inline-desc" data-type="textarea" data-pk="1" data-placeholder="Your business description here..." data-title="Enter business description">{{ empty($user->profile->description)? '':$user->profile->description }}</a>
+                                                            <a href="#" id="inline-desc" data-type="textarea" data-pk="1" data-placeholder="Your business description here..." data-title="Enter business description">{{ empty(Auth::user()->profile->description)? '':Auth::user()->profile->description }}</a>
                                                         </td>
                                                     </tr> 
                                                 </tbody>
@@ -133,16 +133,16 @@
                                             <div class="row">
                                                 <div class="col-lg-6 mx-auto">
                                                     <div class="own-detail bg-blue">
-                                                        <h1>{{Auth::user()->properties->count()}}</h1>
-                                                        <h5>Properties</h5>
+                                                        <h1>{{ Auth::user()->propertyRents->count() }}</h1>
+                                                        <h5>Rents</h5>
                                                     </div>
                                                     <div class="own-detail own-detail-project bg-secondary">
-                                                        <h1>0</h1>
-                                                        <h5>Tenants</h5>
+                                                        <h1>{{ Auth::user()->propertyBuys->count() }}</h1>
+                                                        <h5>Buys</h5>
                                                     </div>
                                                     <div class="own-detail own-detail-happy bg-success">
-                                                        <h1>0</h1>
-                                                        <h5>Reviews</h5>
+                                                        <h1>{{ Auth::user()->propertyBids->count() }}</h1>
+                                                        <h5>Bids</h5>
                                                     </div>
                                                 </div>                                        
                                             </div>                                                                                                                       

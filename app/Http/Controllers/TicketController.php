@@ -31,12 +31,7 @@ class TicketController extends Controller
         return view('host.new-ticket', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //save ticket message
     public function store(Request $request)
     {
         $validator = \Validator::make($request->all(), [
@@ -66,6 +61,7 @@ class TicketController extends Controller
         return view('host.read-ticket', $data);
     }
 
+    //reply ticket
     public function reply(Request $request)
     {
         $validator = \Validator::make($request->all(), [
@@ -78,13 +74,20 @@ class TicketController extends Controller
             $reply = new TicketReply;
             $reply->ticket_id = $request->ticket_id;
             $reply->message = $request->message;
+            $reply->owner = true;
             $reply->save();
             $message="success";
         }
         return $message;
     }
 
-
+    ///close ticket
+    public function close(Ticket $ticket)
+    {
+        $ticket->status=true;
+        $ticket->update();
+        return 'success';
+    }
 
 
 }

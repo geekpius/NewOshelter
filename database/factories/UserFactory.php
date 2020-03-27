@@ -14,10 +14,13 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\User::class, function (Faker $faker) {
+    $membership = gmdate('ymdHis');
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => str_random(10),
+        'membership' => $membership,
+        'name' => "Fiifi Pius",
+        'email' => 'fiifipius@gmail.com',
+        'password' => \Hash::make('aaaaaa'), // secret
+        'phone' => '0542398441',
+        'digital_address' => 'GL-050-6970',
     ];
 });

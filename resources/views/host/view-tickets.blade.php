@@ -4,8 +4,6 @@
 <!-- DataTables -->
 <link href="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 <link href="{{asset('assets/plugins/datatables/buttons.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-<!-- Responsive datatable examples -->
-<link href="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />  
 @endsection
 @section('content')
 
@@ -45,7 +43,7 @@
 
                             <tbody>
                             @foreach ($tickets as $tick)
-                                <tr>
+                                <tr class="record">
                                     <td>#{{$tick->id}}</td>
                                     <td class="text-primary">{{$tick->subject}}</td>
                                     <td>{{$tick->help_desk}}</td>
@@ -60,14 +58,14 @@
                                     <td>                                                       
                                         <a href="{{ route('host.ticket.read', $tick->id) }}" class="mr-3" title="View"><i class="fa fa-eye text-primary font-16"></i></a>
                                         @if (!$tick->status)
-                                        <a href="#" title="Close"><i class="fas fa-times-circle text-danger font-16"></i></a>
+                                        <a href="javascript:void(0);" data-id="{{ $tick->id }}" data-href="{{ route('host.ticket.close',$tick->id) }}" class="btnClose" title="Close"><i class="fas fa-times-circle text-danger font-16"></i></a>
                                         @endif
                                     </td>
                                 </tr><!--end tr-->
                             @endforeach                                       
                             </tbody>
                         </table>                    
-
+                    </div>
                 </div><!--end card-body-->
             </div><!--end card-->
         </div><!--end col-->
@@ -84,5 +82,53 @@
 
 <script>
     $('#datatable').DataTable();
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+        }
+    })
+
+
+    $("#datatable tbody").on("click", ".btnClose", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this = $(this);
+
+        swal({
+            title: "Are you sure?",
+            text: "You are about to close ticket #"+$this.data('id'),
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: "btn-danger btn-sm",
+            cancelButtonClass: "btn-sm",
+            confirmButtonText: "Yes, Close",
+            closeOnConfirm: true
+        },
+        function(){
+            $this.addClass('disabled');
+            $.ajax({
+                url: $this.data('href'),
+                type: "GET",
+                success: function(resp){
+                    if(resp=='success'){
+                        jQuery.trim($this.parents('.record').find('td').eq(3).text('Closed'));
+                        $this.remove();
+                    }
+                    else{
+                        alert("Something went wrong. Refresh page");
+                    }
+                    $this.removeClass('disabled');
+                },
+                error: function(resp){
+                    alert("Something went wrong with your request");
+                    $this.removeClass('disabled');
+                }
+            });
+        });
+
+        
+        return false;
+    });
 </script>
 @endsection

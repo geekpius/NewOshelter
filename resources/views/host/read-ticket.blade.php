@@ -32,7 +32,7 @@
                     <div class="card mb-4 p-4">
                         <div class="row">
                             <div class="col-sm-4">
-                                <img src="{{ (empty(Auth::user()->image))? asset('assets/images/tenants/user-4.jpg'):asset('assets/images/tenants/'.Auth::user()->image) }}" alt="{{ current(explode(' ',Auth::user()->name)) }}" class="rounded-circle thumb-lg m-2" /> 
+                                <img src="{{ (empty(Auth::user()->image))? asset('assets/images/users/user-4.jpg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ current(explode(' ',Auth::user()->name)) }}" class="rounded-circle thumb-lg m-2" /> 
                                 <p class="m-2">{{ Auth::user()->name }}</p>
                             </div>
                             <div class="col-sm-8">
@@ -42,9 +42,11 @@
                         </div>
                         <hr>
 
+                        @foreach ($ticket->ticketReplies as $reply)
+                        @if ($reply->owner)
                         <div class="row">
                             <div class="col-sm-4">
-                                <img src="{{ (empty(Auth::user()->image))? asset('assets/images/tenants/user-4.jpg'):asset('assets/images/tenants/'.Auth::user()->image) }}" alt="{{ current(explode(' ',Auth::user()->name)) }}" class="rounded-circle thumb-lg m-2" /> 
+                                <img src="{{ (empty(Auth::user()->image))? asset('assets/images/users/user-4.jpg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ current(explode(' ',Auth::user()->name)) }}" class="rounded-circle thumb-lg m-2" /> 
                                 <p class="m-2">{{ Auth::user()->name }}</p>
                             </div>
                             <div class="col-sm-8">
@@ -53,6 +55,20 @@
                             </div>
                         </div>
                         <hr>
+                        @else
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <img src="{{ asset('assets/images/logo-sm.png') }}" alt="admin_logo" class="rounded-circle thumb-lg m-2" /> 
+                                <p class="m-2">Admin</p>
+                            </div>
+                            <div class="col-sm-8">
+                                <p style="border-bottom: solid 1px" class="pl-1"><i class="fa fa-clock"></i> {{  \Carbon\Carbon::parse($reply->created_at)->diffForHumans() }}</p>
+                                <p>{{ $reply->message }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        @endif
+                        @endforeach
                         
 
                         @if (!$ticket->status)
@@ -76,7 +92,7 @@
                             </form>
                         @else
                             <div class="alert alert-info border-0 mb-5" role="alert">
-                                <strong>Opps!</strong> This ticket is closed and cannot be reopened.
+                                <strong>Closed!</strong> This ticket is closed and cannot be reopened.
                             </div>
                         @endif
 

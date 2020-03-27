@@ -44,6 +44,11 @@ class Admin extends Authenticatable
         $this->attributes['email'] = strtolower($value);
     }
 
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = strtolower($value);
+    }
+
     public function getNameAttribute($value)
     {
         return ucwords($value);
