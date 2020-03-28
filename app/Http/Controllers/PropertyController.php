@@ -34,7 +34,7 @@ class PropertyController extends Controller
     //show all properties listed
     public function index()
     {
-        $data['page_title'] = 'List Properties';
+        $data['page_title'] = 'List properties';
         $data['properties'] = Property::whereAdmin_id(Auth::user()->id)->whereDone_step(true)->get(); 
         return view('host.properties', $data);
     }
@@ -42,7 +42,7 @@ class PropertyController extends Controller
     ///check if uncompleted found
     public function addNewListing()
     {
-        $data['page_title'] = 'Found Something';
+        $data['page_title'] = 'Found something';
         $data['property']= Property::whereAdmin_id(Auth::user()->id)->whereDone_step(false)->get(); 
         return view('host.duplicate-listing', $data);
     }
@@ -50,7 +50,7 @@ class PropertyController extends Controller
     /// start new listing
     public function startNew()
     {
-        $data['page_title'] = 'Add New Listing';
+        $data['page_title'] = 'Add new listing';
         $data['property_types'] = PropertyType::all();
         return view('host.add-listing', $data);
     }
@@ -59,7 +59,7 @@ class PropertyController extends Controller
     public function createNewListing(Property $property)
     {
         if(!$property->done_step){
-            $data['page_title'] = 'Creating New Listing';
+            $data['page_title'] = 'Creating new listing';
             $data['property']= $property; 
             $data['amenities'] = Amenity::all();
             return view('host.create-listing', $data);
@@ -71,7 +71,7 @@ class PropertyController extends Controller
     ///preview after listing
     public function previewCreatedListing(Property $property)
     {
-        $data['page_title'] = 'Preview '.$property->title. ' Listing';
+        $data['page_title'] = 'Preview '.$property->title. ' listing';
         $data['property']= $property; 
         $countImages = PropertyImage::whereProperty_id($property->id)->count();
         $data['image'] = PropertyImage::whereProperty_id($property->id)->orderBy('id')->first();
@@ -455,7 +455,7 @@ class PropertyController extends Controller
     ///edit saved listing
     public function editListing(Property $property)
     {
-        $data['page_title'] = 'Edit '.$property->title.' Listing';
+        $data['page_title'] = 'Edit '.$property->title.' listing';
         $data['property'] = $property;
         $data['property_types'] = PropertyType::all();
         return view('host.edit-listing', $data);
@@ -533,7 +533,7 @@ class PropertyController extends Controller
     //manage property
     public function manageProperty()
     {
-        $data['page_title'] = 'Manage Rented Properties';
+        $data['page_title'] = 'Manage rented properties';
         return view('host.manage-property', $data);
     }
     

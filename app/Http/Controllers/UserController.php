@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Admin;
 use Illuminate\Http\Request;
+use App\MessageModel\Message;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -27,28 +30,51 @@ class UserController extends Controller
 
     public function property()
     {
-        $data['page_title'] = 'Property Statistics';
+        $data['page_title'] = 'Property statistics';
         return view('guest.property-statistics', $data);
     }
 
     public function payment()
     {
-        $data['page_title'] = 'Payment Statistics';
+        $data['page_title'] = 'Payment statistics';
         return view('guest.payment-statistics', $data);
     }
 
-    public function saved()
+    public function composeMessage(Admin $admin)
     {
-        $data['page_title'] = 'Properties Saved';
-        $data['lists'] = PropertyList::whereAdmin_id(Auth::user()->id)->get(); 
-        return view('host.saved', $data);
+        $data['page_title'] = 'Compose message to '.$admin->name;
+        $data['host'] = $admin;
+        return view('guest.compose', $data);
     }
 
-    public function removeSaved(PropertyList $propertyList)
+    //send message
+    public function sendMessage(Request $request)
     {
-        $propertyList->delete();
-        return redirect()->back();
+        $validator = \Validator::make($request->all(), [
+            'admin_id' => 'required|string',
+            'message' => 'required|string',
+        ]);
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            $msg = new Message;
+            $msg->user_id = Auth::user()->id;
+            $msg->admin_id = $request->admin_id;
+            $msg->message = $request->message;
+            $msg->save();
+            $message="success";
+        }
+        return $message;
     }
+
+    //read messages
+    public function readMessage()
+    {
+        $data['page_title'] = 'Read messages';
+        return view('guest.messages', $data);
+    }
+
+    
 
 
 

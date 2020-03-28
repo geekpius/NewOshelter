@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UserModel;
+namespace App\MessageModel;
 
 use App\User;
 use App\Admin;

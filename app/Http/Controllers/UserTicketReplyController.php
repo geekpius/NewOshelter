@@ -2,24 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\AdminModel\AdminWallet;
+use App\UserModel\UserTicketReply;
 use Illuminate\Http\Request;
 
-class AdminWalletController extends Controller
+class UserTicketReplyController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('verify-admin');
-        $this->middleware('auth:admin');
-    }
-
     /**
-     * display wallet
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $data['page_title'] = 'My wallet';
-        return view('host.wallet', $data);
+        //
     }
 
     /**
@@ -46,10 +41,10 @@ class AdminWalletController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\AdminModel\AdminWallet  $adminWallet
+     * @param  \App\UserModel\UserTicketReply  $userTicketReply
      * @return \Illuminate\Http\Response
      */
-    public function show(AdminWallet $adminWallet)
+    public function show(UserTicketReply $userTicketReply)
     {
         //
     }
@@ -57,10 +52,10 @@ class AdminWalletController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AdminModel\AdminWallet  $adminWallet
+     * @param  \App\UserModel\UserTicketReply  $userTicketReply
      * @return \Illuminate\Http\Response
      */
-    public function edit(AdminWallet $adminWallet)
+    public function edit(UserTicketReply $userTicketReply)
     {
         //
     }
@@ -69,10 +64,10 @@ class AdminWalletController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AdminModel\AdminWallet  $adminWallet
+     * @param  \App\UserModel\UserTicketReply  $userTicketReply
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AdminWallet $adminWallet)
+    public function update(Request $request, UserTicketReply $userTicketReply)
     {
         //
     }
@@ -80,10 +75,10 @@ class AdminWalletController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AdminModel\AdminWallet  $adminWallet
+     * @param  \App\UserModel\UserTicketReply  $userTicketReply
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AdminWallet $adminWallet)
+    public function destroy(UserTicketReply $userTicketReply)
     {
         //
     }

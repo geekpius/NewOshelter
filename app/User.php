@@ -2,6 +2,9 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use App\UserModel\UserTicket;
+use App\UserModel\UserWallet;
 use App\UserModel\UserProfile;
 use App\PropertyModel\PropertyBid;
 use App\PropertyModel\PropertyBuy;
@@ -76,6 +79,14 @@ class User extends Authenticatable
 
     public function propertyBids(){
         return $this->hasMany(PropertyBid::class);
+    }
+
+    public function userWallet(){
+        return $this->hasOne(UserWallet::class);
+    }
+
+    public function userTickets(){
+        return $this->hasMany(UserTicket::class);
     }
 
 

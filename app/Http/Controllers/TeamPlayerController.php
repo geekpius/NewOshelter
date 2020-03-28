@@ -17,13 +17,13 @@ class TeamPlayerController extends Controller
     //show all tenants
     public function tenant()
     {
-        $data['page_title'] = 'List Tenants';
+        $data['page_title'] = 'List lenants';
         return view('host.tenants', $data);
     }
 
     public function tenantProperty(User $user)
     {
-        $data['page_title'] =  $user->name.' Rented Properties';
+        $data['page_title'] =  $user->name.' Rented properties';
         $data['user'] = $user;
         return view('host.rented-properties', $data);
     }
@@ -31,13 +31,13 @@ class TeamPlayerController extends Controller
 
     public function buyer()
     {
-        $data['page_title'] = 'List Buyers';
+        $data['page_title'] = 'List buyers';
         return view('host.buyers', $data);
     }
 
     public function bidder()
     {
-        $data['page_title'] = 'List Bidders';
+        $data['page_title'] = 'List bidders';
         return view('host.bidders', $data);
     }
 

@@ -11,7 +11,7 @@ class TicketReply extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'ticket_id', 'message',
+        'ticket_id', 'message', 'owner',
     ];
 
     public function ticket(){

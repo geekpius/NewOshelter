@@ -7,15 +7,23 @@ use Illuminate\Http\Request;
 
 class PropertyRentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+    public function __construct()
+    {
+        $this->middleware('verify-user');
+        $this->middleware('auth');
+    }
+
+
+    /*
+     * rented properties
      */
     public function index()
     {
-        //
+        $data['page_title'] = 'Rented properties';
+        return view('guest.rented-properties', $data);
     }
+
+
 
     /**
      * Show the form for creating a new resource.

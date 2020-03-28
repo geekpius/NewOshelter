@@ -26,7 +26,7 @@ class AdminProfileController extends Controller
      */
     public function index()
     {
-        $data['page_title'] = 'My Account';
+        $data['page_title'] = 'My account';
         $data['user'] = Admin::findorFail(Auth::user()->id);
         return view('host.account', $data);
     }

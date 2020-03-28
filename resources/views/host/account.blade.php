@@ -36,7 +36,7 @@
                             <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
                                 <div class="met-profile-main">
                                     <div class="met-profile-main-pic">
-                                        <img src="{{ (empty(Auth::user()->image))? asset('assets/images/users/user-4.jpg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ Auth::user()->name }}" class="rounded-circle img_preview">
+                                        <img src="{{ (empty(Auth::user()->image))? asset('assets/images/users/user-4.jpg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ Auth::user()->name }}" width="130" height="130" class="rounded-circle img_preview">
                                         <span class="fro-profile_main-pic-change" onclick="getFile();">
                                             <i class="fas fa-camera">
                                                 <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" name="photo" /></div></i>

@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use Image;
 use App\User;
 use Illuminate\Http\Request;
 use App\UserModel\UserProfile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller
 {
@@ -16,23 +19,36 @@ class UserProfileController extends Controller
     }
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //view account
     public function index()
     {
-        $data['page_title'] = 'My Account';
+        $data['page_title'] = 'My account';
         return view('guest.account', $data);
     }
 
+    //update gender profiles
+    public function updateGender(Request $request)
+    {
+        if(empty($request->value))
+        {
+            return 'error';
+        }
+        else{
+            $profile = UserProfile::updateOrCreate(
+                ['user_id'=>Auth::user()->id],
+                ['gender'=>$request->value]
+            );
+            
+            if($profile){
+                return 'updated';
+            }
+            else{
+                return 'error';
+            }
+        }
+    }
 
-     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    //update dob profiles
     public function updateDob(Request $request)
     {
         if(empty($request->value))
@@ -40,8 +56,8 @@ class UserProfileController extends Controller
             return 'error';
         }
         else{
-            $profile = AdminProfile::updateOrCreate(
-                ['admin_id'=>Auth::user()->id],
+            $profile = UserProfile::updateOrCreate(
+                ['user_id'=>Auth::user()->id],
                 ['dob'=>$request->value]
             );
             
@@ -54,6 +70,51 @@ class UserProfileController extends Controller
         }
     }
 
+    //update marital status profiles
+    public function updateMaritalStatus(Request $request)
+    {
+        if(empty($request->value))
+        {
+            return 'error';
+        }
+        else{
+            $profile = UserProfile::updateOrCreate(
+                ['user_id'=>Auth::user()->id],
+                ['marital_status'=>$request->value]
+            );
+            
+            if($profile){
+                return 'updated';
+            }
+            else{
+                return 'error';
+            }
+        }
+    }
+
+    //update children profiles
+    public function updateChildren(Request $request)
+    {
+        if(empty($request->value))
+        {
+            return 'error';
+        }
+        else{
+            $profile = UserProfile::updateOrCreate(
+                ['user_id'=>Auth::user()->id],
+                ['children'=>$request->value]
+            );
+            
+            if($profile){
+                return 'updated';
+            }
+            else{
+                return 'error';
+            }
+        }
+    }
+
+    ///update city profiles
     public function updateCity(Request $request)
     {
         if(empty($request->value))
@@ -61,8 +122,8 @@ class UserProfileController extends Controller
             return 'error';
         }
         else{
-            $profile = AdminProfile::updateOrCreate(
-                ['admin_id'=>Auth::user()->id],
+            $profile = UserProfile::updateOrCreate(
+                ['user_id'=>Auth::user()->id],
                 ['city'=>$request->value]
             );
             
@@ -75,6 +136,7 @@ class UserProfileController extends Controller
         }
     }
 
+    ///update occupation profiles
     public function updateOccupation(Request $request)
     {
         if(empty($request->value))
@@ -82,51 +144,9 @@ class UserProfileController extends Controller
             return 'error';
         }
         else{
-            $profile = AdminProfile::updateOrCreate(
-                ['admin_id'=>Auth::user()->id],
+            $profile = UserProfile::updateOrCreate(
+                ['user_id'=>Auth::user()->id],
                 ['occupation'=>$request->value]
-            );
-            
-            if($profile){
-                return 'updated';
-            }
-            else{
-                return 'error';
-            }
-        }
-    }
-
-    public function updateBusiness(Request $request)
-    {
-        if(empty($request->value))
-        {
-            return 'error';
-        }
-        else{
-            $profile = AdminProfile::updateOrCreate(
-                ['admin_id'=>Auth::user()->id],
-                ['business_name'=>$request->value]
-            );
-            
-            if($profile){
-                return 'updated';
-            }
-            else{
-                return 'error';
-            }
-        }
-    }
-
-    public function updateDescription(Request $request)
-    {
-        if(empty($request->value))
-        {
-            return 'error';
-        }
-        else{
-            $profile = AdminProfile::updateOrCreate(
-                ['admin_id'=>Auth::user()->id],
-                ['description'=>$request->value]
             );
             
             if($profile){
@@ -153,7 +173,7 @@ class UserProfileController extends Controller
             if(auth()->check()){
                 if(Hash::check($request->current_password, Auth::user()->password)) 
                 {
-                    $user = Admin::findorFail(Auth::user()->id);
+                    $user = User::findorFail(Auth::user()->id);
                     $user->password = Hash::make($request->password);
                     $user->update();
                     return 'success';
@@ -179,15 +199,15 @@ class UserProfileController extends Controller
             if($request->hasFile('photo')){
                 try{
                     DB::beginTransaction();
-                    $user = Admin::findorFail(Auth::user()->id);
+                    $user = User::findorFail(Auth::user()->id);
                     $photo = $request->file('photo');
                     $name = sha1(date('YmdHis') . str_random(30));
                     $new_name = Auth::user()->id . $name . '.' . $photo->getClientOriginalExtension();
-                    $location = 'assets/images/users/' . $new_name;
+                    $location = 'assets/images/tenants/' . $new_name;
                     Image::make($photo)->resize(150, 150)->save($location); 
                     //delete old photo
                     if(!empty($user->image)){
-                        \File::delete("assets/images/users/".$user->image);
+                        \File::delete("assets/images/tenants/".$user->image);
                     }
                     $user->image = $new_name;
                     $user->update();

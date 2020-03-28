@@ -7,15 +7,22 @@ use Illuminate\Http\Request;
 
 class PropertyBidController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+    public function __construct()
+    {
+        $this->middleware('verify-user');
+        $this->middleware('auth');
+    }
+
+
+    /*
+     * properties bidden
      */
     public function index()
     {
-        //
+        $data['page_title'] = 'Properties bidden';
+        return view('guest.bidden-properties', $data);
     }
+
 
     /**
      * Show the form for creating a new resource.

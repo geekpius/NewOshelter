@@ -1,4 +1,4 @@
-@extends('layouts.host')
+@extends('layouts.guest')
 
 @section('styles')
 
@@ -101,7 +101,7 @@ $("#formTicket").on("submit", function(e){
         $(".btnSubmitTicket").html('<i class="fa fa-spin fa-spinner"></i> Submitting...').attr('disabled', true);
         var data  = $("#formTicket").serialize();
         $.ajax({
-            url: "{{route('host.ticket.submit')}}",
+            url: "{{route('guest.ticket.submit')}}",
             type: "POST",
             data: data,
             success: function(resp){

@@ -1,8 +1,6 @@
 @extends('layouts.guest')
 
 @section('styles')
-<link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet">
-<link href="{{ asset('assets/plugins/filter/magnific-popup.css') }}" rel="stylesheet" type="text/css" />
 <!-- X-editable css -->
 <link type="text/css" href="{{ asset('assets/plugins/x-editable/css/bootstrap-editable.css') }}" rel="stylesheet">
 
@@ -36,7 +34,7 @@
                             <div class="col-lg-4 align-self-center mb-3 mb-lg-0">
                                 <div class="met-profile-main">
                                     <div class="met-profile-main-pic">
-                                        <img src="{{ (empty(Auth::user()->image))? asset('assets/images/users/user-4.jpg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ Auth::user()->name }}" class="rounded-circle img_preview">
+                                        <img src="{{ (empty(Auth::user()->image))? asset('assets/images/tenants/user-4.jpg'):asset('assets/images/tenants/'.Auth::user()->image) }}" alt="{{ Auth::user()->name }}" width="130" height="130" class="rounded-circle img_preview">
                                         <span class="fro-profile_main-pic-change" onclick="getFile();">
                                             <i class="fas fa-camera">
                                                 <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" name="photo" /></div></i>
@@ -69,9 +67,6 @@
                             <a class="nav-link" id="settings_detail_tab" data-toggle="pill" href="#settings_detail">Change Password</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="portfolio_detail_tab" data-toggle="pill" href="#portfolio_detail">Portfolio</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" id="activity_detail_tab" data-toggle="pill" href="#activity_detail">Activities</a>
                         </li>
                     </ul>        
@@ -97,9 +92,27 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
+                                                        <td>Gender</td>
+                                                        <td>
+                                                            <a href="#" id="inline-gender" data-type="select" data-value="{{ empty(Auth::user()->profile->gender)? '':Auth::user()->profile->gender }}" data-placement="right" data-placeholder="Required" data-title="Select your gender" data-pk="1"></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
                                                         <td>Date of Birth</td>
                                                         <td>
                                                             <a href="#" id="inline-dob" data-type="combodate" data-value="{{ empty(Auth::user()->profile->dob)? '':Auth::user()->profile->dob }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Select Date of birth"></a> &nbsp; <span id="myAge">({{ Auth::user()->getAgeAttribute() }})</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Marital Status</td>
+                                                        <td>
+                                                            <a href="#" id="inline-marital" data-type="select" data-value="{{ empty(Auth::user()->profile->marital_status)? '':Auth::user()->profile->marital_status }}" data-placement="right" data-placeholder="Required" data-title="Select your marital status" data-pk="1"></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>No of Children</td>
+                                                        <td>
+                                                            <a href="#" id="inline-children" data-type="select" data-value="{{ empty(Auth::user()->profile->children)? '':Auth::user()->profile->children }}" data-placement="right" data-placeholder="Required" data-title="Enter your city" data-pk="1"></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -114,18 +127,6 @@
                                                             <a href="#" id="inline-occupation" data-type="text" data-pk="1" data-value="{{ empty(Auth::user()->profile->occupation)? '':Auth::user()->profile->occupation }}" data-placement="right" data-placeholder="Required" data-title="Enter your occupation"></a>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Business Name</td>
-                                                        <td>
-                                                            <a href="#" id="inline-business" data-type="text" data-pk="1" data-value="{{ empty(Auth::user()->profile->business_name)? '':Auth::user()->profile->business_name }}" data-placement="right" data-placeholder="Required" data-title="Enter your business name"></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Business Description</td>
-                                                        <td>
-                                                            <a href="#" id="inline-desc" data-type="textarea" data-pk="1" data-placeholder="Your business description here..." data-title="Enter business description">{{ empty(Auth::user()->profile->description)? '':Auth::user()->profile->description }}</a>
-                                                        </td>
-                                                    </tr> 
                                                 </tbody>
                                             </table><!--end table-->                                             
                                        </div>
@@ -196,175 +197,6 @@
                     </div><!--end row-->
                 </div><!--end settings detail-->
 
-                <div class="tab-pane fade" id="portfolio_detail">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <ul class="col container-filter categories-filter mb-0" id="filter">
-                                            <li><a class="categories active" data-filter="*">All</a></li>
-                                            <li><a class="categories" data-filter=".branding">House</a></li>
-                                            <li><a class="categories" data-filter=".design">Room</a></li>
-                                            <li><a class="categories" data-filter=".photo">Apartment</a></li>
-                                            <li><a class="categories" data-filter=".coffee">coffee</a></li>
-                                        </ul>
-                                    </div><!-- End portfolio  -->
-                                </div><!--end card-body-->
-                            </div><!--end card-->
-                            
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row container-grid nf-col-3  projects-wrapper">
-                                        <div class="col-lg-4 col-md-6 p-0 nf-item branding design coffee spacing">
-                                            <div class="item-box">
-                                                <a class="cbox-gallary1 mfp-image" href="../assets/images/small/img-1.jpg" title="Consequat massa quis">
-                                                    <img class="item-container " src="../assets/images/small/img-1.jpg" alt="7" />
-                                                    <div class="item-mask">
-                                                        <div class="item-caption">
-                                                            <h5 class="text-white">Consequat massa quis</h5>
-                                                            <p class="text-white">Branding, Design, Coffee</p>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div><!--end item-box-->
-                                        </div><!--end col-->
-                        
-                                        <div class="col-lg-4 col-md-6 p-0 nf-item photo spacing">
-                                            <div class="item-box">
-                                                <a class="cbox-gallary1 mfp-image" href="../assets/images/small/img-2.jpg" title="Vivamus elementum semper">
-                                                    <img class="item-container mfp-fade" src="../assets/images/small/img-2.jpg" alt="2" />
-                                                    <div class="item-mask">
-                                                        <div class="item-caption">
-                                                            <h5 class="text-light">Vivamus elementum semper</h5>
-                                                            <p class="text-light">Photo</p>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div><!--end item-box-->
-                                        </div><!--end col-->
-                        
-                                        <div class="col-lg-4 col-md-6 p-0 nf-item branding coffee spacing">
-                                            <div class="item-box">
-                                                <a class="cbox-gallary1 mfp-image" href="../assets/images/small/img-3.jpg" title="Quisque rutrum">
-                                                    <img class="item-container" src="../assets/images/small/img-3.jpg" alt="4" />
-                                                    <div class="item-mask">
-                                                        <div class="item-caption">
-                                                            <h5 class="text-light">Quisque rutrum</h5>
-                                                            <p class="text-light">Branding, Design, Coffee</p>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div><!--end item-box-->
-                                        </div><!--end col-->
-                        
-                                        <div class="col-lg-4 col-md-6 p-0 nf-item branding design spacing">
-                                            <div class="item-box">
-                                                <a class="cbox-gallary1 mfp-image" href="../assets/images/small/img-4.jpg" title="Tellus eget condimentum">
-                                                    <img class="item-container" src="../assets/images/small/img-4.jpg" alt="5" />
-                                                    <div class="item-mask">
-                                                        <div class="item-caption">
-                                                            <h5 class="text-light">Tellus eget condimentum</h5>
-                                                            <p class="text-light">Design</p>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div><!--end item-box-->
-                                        </div><!--end col-->
-                        
-                                        <div class="col-lg-4 col-md-6 p-0 nf-item branding design spacing">
-                                            <div class="item-box">
-                                                <a class="cbox-gallary1 mfp-image" href="../assets/images/small/img-5.jpg" title="Nullam quis ant">
-                                                    <img class="item-container" src="../assets/images/small/img-5.jpg" alt="6" />
-                                                    <div class="item-mask">
-                                                        <div class="item-caption">
-                                                            <h5 class="text-light">Nullam quis ant</h5>
-                                                            <p class="text-light">Branding, Design</p>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div><!--end item-box-->
-                                        </div><!--end col-->
-                        
-                                        <div class="col-lg-4 col-md-6 p-0 nf-item photo spacing">
-                                            <div class="item-box">
-                                                <a class="cbox-gallary1 mfp-image" href="{{ asset('assets/images/small/img-6.jpg') }}" title="Sed fringilla mauris">
-                                                    <img class="item-container" src="{{ asset('assets/images/small/img-6.jpg') }}" alt="1" />
-                                                    <div class="item-mask">
-                                                        <div class="item-caption">
-                                                            <h5 class="text-light">Sed fringilla mauris</h5>
-                                                            <p class="text-light">Photo</p>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div><!--end item-box-->
-                                        </div><!--end col-->
-                                    </div><!--end row-->
-                                </div><!--end card-body-->
-                            </div><!--end card-->
-                        </div><!--end col-->
-                        <div class="col-lg-4">
-                            <div class="card ">
-                                <div class="card-body">
-                                    <div class="text-center">
-                                        <h4><i class="fas fa-quote-left text-primary"></i></h4>
-                                    </div>                                            
-                                    <div id="carouselExampleFade2" class="carousel slide" data-ride="carousel">
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item">
-                                                <div class="text-center">
-                                                    <p class="text-muted px-4">
-                                                        It is a long established fact that a reader will be distracted by 
-                                                        the readable content of a page when looking at its layout. 
-                                                        The point of using Lorem Ipsum is that it has a more-or-less 
-                                                        normal distribution of letters, as opposed to using.
-                                                    </p>
-                                                    <div class="">
-                                                        <img src="{{ asset('assets/images/users/user-10.jpg') }}" alt="" class="rounded-circle thumb-lg mb-2">
-                                                        <p class="mb-0 text-primary"><b>- Mary K. Myers</b></p>
-                                                        <small class="text-muted">CEO Facebook</small>
-                                                    </div>                                                            
-                                                </div>
-                                            </div>
-                                            <div class="carousel-item active">
-                                                <div class="text-center">
-                                                    <p class="text-muted px-4">                                                                
-                                                        Where does it come from?
-                                                        Contrary to popular belief, Lorem Ipsum is not simply random text. 
-                                                        It has roots in a piece of classical Latin literature from 45 BC, 
-                                                        making it over 2000 years  popular belief,old.
-                                                    </p>
-                                                    <div class="">
-                                                        <img src="{{ asset('assets/images/users/user-4.jpg') }}" alt="" class="rounded-circle  thumb-lg mb-2">
-                                                        <p class="mb-0 text-primary"><b>- Michael C. Rios</b></p>
-                                                        <small class="text-muted">CEO Facebook</small>
-                                                    </div>                                                            
-                                                </div>
-                                            </div>
-                                            <div class="carousel-item">
-                                                <div class="text-center">
-                                                    <p class="text-muted px-4">
-                                                        There are many variations of passages of Lorem Ipsum available, 
-                                                        but the majority have suffered alteration in some form, by injected humour, 
-                                                        or randomised words which don't look even slightly believable. 
-                                                        If you are going to use a passage of Lorem Ipsum. 
-                                                    </p>
-                                                    <div class="">
-                                                        <img src="{{ asset('assets/images/users/user-5.jpg') }}" alt="" class="rounded-circle thumb-lg mb-2">
-                                                        <p class="mb-0 text-primary"><b>- Lisa D. Pullen</b></p>
-                                                        <small class="text-muted">CEO Facebook</small>
-                                                    </div>                                                            
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--end row-->
-                </div><!--end portfolio detail-->
-                
                 <div class="tab-pane fade" id="activity_detail">
                     <div class="row">
                         <div class="col-lg-2"></div>
@@ -422,14 +254,6 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/plugins/dropify/js/dropify.min.js') }}"></script>
-<script src="{{ asset('assets/pages/jquery.profile.init.js') }}"></script>
-
-<script src="{{ asset('assets/plugins/filter/isotope.pkgd.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/filter/masonry.pkgd.min.js') }}"></script>
-<script src="{{ asset('assets/plugins/filter/jquery.magnific-popup.min.js') }}"></script>
-<script src="{{ asset('assets/pages/jquery.gallery.inity.js') }}"></script>
-
 <!-- XEditable Plugin -->
 <script src="{{ asset('assets/plugins/moment/moment.js') }}"></script>
 <script src="{{ asset('assets/plugins/x-editable/js/bootstrap-editable.min.js') }}"></script>
@@ -450,17 +274,34 @@ $(function () {
         '<button type="submit" class="btn btn-success editable-submit btn-xs waves-effect waves-light"><i class="mdi mdi-check"></i></button>' +
         '<button type="button" class="btn btn-danger editable-cancel btn-xs waves-effect waves-light"><i class="mdi mdi-close"></i></button>';
 
+    $('#inline-gender').editable({
+        prepend: "-Select Gender-",
+        mode: 'inline',
+        inputclass: 'form-control-sm',
+        source: [
+            {value: "male", text: 'Male'},
+            {value: "female", text: 'Female'}
+        ],
+        url: "{{ route('guest.account.gender') }}",
+        success: function(response, newValue) {
+            if(response=='error') {
+                return 'Something went wrong. Please try later.';
+            }
+        }
+    });
+
+
     @php $today = \Carbon\Carbon::today(); $lastYear = $today->subYears(80); @endphp
     //inline
     $('#inline-dob').editable({
         mode: 'inline',
         combodate: {
-                minYear: {{ $lastYear->year }},
-                maxYear: {{ \Carbon\Carbon::now()->year }},
-                minuteStep: 1
-            },
+            minYear: {{ $lastYear->year }},
+            maxYear: {{ \Carbon\Carbon::now()->year }},
+            minuteStep: 1
+        },
         inputclass: 'form-control-sm',
-        url: "{{ route('host.account.dob') }}",
+        url: "{{ route('guest.account.dob') }}",
         success: function(response, newValue) {
             if(response=='error') {
                 return 'Something went wrong. Please try later.';
@@ -470,13 +311,59 @@ $(function () {
         }
     });
 
+
+    $('#inline-marital').editable({
+        prepend: "-Marital Status-",
+        mode: 'inline',
+        inputclass: 'form-control-sm',
+        source: [
+            {value: "single", text: 'Single'},
+            {value: "married", text: 'Married'},
+            {value: "divorce", text: 'Divorce'},
+            {value: "widow", text: 'Widow'},
+            {value: "widower", text: 'Widower'}
+        ],
+        url: "{{ route('guest.account.marital') }}",
+        success: function(response, newValue) {
+            if(response=='error') {
+                return 'Something went wrong. Please try later.';
+            }
+        }
+    });
+
+    $('#inline-children').editable({
+        prepend: "-No of Children-",
+        mode: 'inline',
+        inputclass: 'form-control-sm',
+        source: [
+            {value: "none", text: 'None'},
+            {value: "1 child", text: '1 Child'},
+            {value: "2 children", text: '2 Children'},
+            {value: "3 children", text: '3 Children'},
+            {value: "4 children", text: '4 Children'},
+            {value: "5 children", text: '5 Children'},
+            {value: "6 children", text: '6 Children'},
+            {value: "7 children", text: '7 Children'},
+            {value: "8 children", text: '8 Children'},
+            {value: "9 children", text: '9 Children'},
+            {value: "10 children", text: '10 Children'},
+        ],
+        url: "{{ route('guest.account.children') }}",
+        success: function(response, newValue) {
+            if(response=='error') {
+                return 'Something went wrong. Please try later.';
+            }
+        }
+    });
+
+
     $('#inline-city').editable({
         validate: function (value) {
             if ($.trim(value) == '') return 'This field is required';
         },
         mode: 'inline',
         inputclass: 'form-control-sm',
-        url: "{{ route('host.account.city') }}",
+        url: "{{ route('guest.account.city') }}",
         success: function(response, newValue) {
             if(response=='error') {
                 return 'Something went wrong. Please try later.';
@@ -493,38 +380,12 @@ $(function () {
         },
         mode: 'inline',
         inputclass: 'form-control-sm',
-        url: "{{ route('host.account.occupation') }}",
+        url: "{{ route('guest.account.occupation') }}",
         success: function(response, newValue) {
             if(response=='error') {
                 return 'Something went wrong. Please try later.';
             }else{
                 getOccupation(newValue);
-            }
-        }
-    });
-
-    $('#inline-business').editable({
-        validate: function (value) {
-            if ($.trim(value) == '') return 'This field is required';
-        },
-        mode: 'inline',
-        inputclass: 'form-control-sm',
-        url: "{{ route('host.account.business') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
-            }
-        }
-    });
-
-    $('#inline-desc').editable({
-        showbuttons: 'bottom',
-        mode: 'inline',
-        inputclass: 'form-control-sm',
-        url: "{{ route('host.account.description') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
             }
         }
     });
@@ -563,7 +424,7 @@ $("#formChangePassword").on("submit", function(e){
         $('.btnChangePassword').html('<i class="fa fa-spinner fa-spin"></i> Changing Password...').attr('disabled', true);
         var data = $("#formChangePassword").serialize();
         $.ajax({
-            url: "{{ route('host.password.change') }}",
+            url: "{{ route('guest.password.change') }}",
             type: "POST",
             data: data,
             success: function(resp){
@@ -628,7 +489,7 @@ $("#upfile").on("change", function(){
     else{
         form_data.append("photo", document.getElementById('upfile').files[0]);
         $.ajax({
-            url: "{{ route('host.profile.photo') }}", 
+            url: "{{ route('guest.profile.photo') }}", 
             type: 'POST',
             data: form_data,
             contentType: false,
@@ -644,7 +505,7 @@ $("#upfile").on("change", function(){
                     swal("Opps", "No photo is selected.", "warning");
                 }
                 else{
-                    $(".img_preview").attr("src", "{{ asset('assets/images/users') }}/"+response); 
+                    $(".img_preview").attr("src", "{{ asset('assets/images/tenants') }}/"+response); 
                 }
                 document.getElementById("upfile").value = null;
             },

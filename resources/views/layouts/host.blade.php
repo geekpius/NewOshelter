@@ -45,33 +45,15 @@
             <!-- Navbar -->
             <nav class="navbar-custom">    
                 <ul class="list-unstyled topbar-nav float-right mb-0"> 
+
                     <li class="dropdown notification-list">
                         <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="false" aria-expanded="false">
                             <i class="dripicons-inbox noti-icon text-white"></i>
-                            <span class="badge badge-danger badge-pill noti-icon-badge">2</span>
+                            <span class="badge badge-danger badge-pill noti-icon-badge myMessageCount"></span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-lg">
-                            <!-- item-->
-                            <h6 class="dropdown-item-text">
-                                Messages (2)
-                            </h6>
-                            <div class="slimscroll notification-list">
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                    <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
-                                    <p class="notify-details">Your order is placed<small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>
-                                </a>
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <div class="notify-icon bg-primary"><i class="mdi mdi-cart-outline"></i></div>
-                                    <p class="notify-details">Your order is placed<small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>
-                                </a>
-                            </div>
-                            <!-- All-->
-                            <a href="javascript:void(0);" class="dropdown-item text-center text-primary">
-                                View all <i class="fi-arrow-right"></i>
-                            </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-lg myMessages">
+                            
                         </div>
                     </li>
 
@@ -155,7 +137,7 @@
                             <i class="fa fa-home text-white"></i>
                         </a><!--end MetricaCrypto-->
         
-                        <a href="#MetricaTenant" class="nav-link leftmenu-sm-item bg-success shadow-success" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Team Players">
+                        <a href="#MetricaTenant" class="nav-link leftmenu-sm-item bg-success shadow-success" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Guests">
                             <i class="fa fa-users text-white"></i>
                         </a><!--end MetricaProject-->
         
@@ -177,7 +159,7 @@
                             </div>
                             <ul class="nav">
                                 <li class="nav-item"><a class="nav-link" href="{{ route('host.dashboard') }}"><i class="dripicons-meter"></i>Dashboard</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route('host.guest.statistics') }}"><i class="dripicons-user-group"></i>Team Players</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('host.guest.statistics') }}"><i class="dripicons-user-group"></i>Guests</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('host.property.statistics') }}"><i class="dripicons-document"></i>Properties</a></li> 
                                 <li class="nav-item"><a class="nav-link" href="{{ route('host.payment.statistics') }}"><i class="fa fa-money-bill-alt font-11"></i>Payments</a></li> 
                             </ul>
@@ -190,14 +172,14 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ route('host.property') }}"><i class="fa fa-list-alt"></i>List Properties</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('host.property.add') }}"><i class="fa fa-plus-square"></i>New Listing</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{route('host.property.manage')}}"><i class="dripicons-wallet"></i>Manage Properties</a></li>
-                                @if (Route::currentRouteNamed('host.property.start'))
-                                <li class="nav-item" style="display:none !important"><a class="nav-link" href="{{ route('host.property.start') }}"><i class="dripicons-wallet"></i>Starting Process</a></li>
+                                @if (Route::currentRouteName('host.property.start'))
+                                <li class="nav-item" style="display:none !important"><a class="nav-link" href="{{ route('host.property.start') }}"><i class="dripicons-wallet"></i></a></li>
                                 @endif
                             </ul>
                         </div><!-- end Crypto -->
                         <div id="MetricaTenant" class="main-icon-menu-pane">
                             <div class="title-box">
-                                <h6 class="menu-title">Team Players</h6>        
+                                <h6 class="menu-title">Guests</h6>        
                             </div>
                             <ul class="nav">
                                 <li class="nav-item"><a class="nav-link" href="{{route('host.tenant')}}"><i class="dripicons-user-id"></i>List Tenants</a></li>
@@ -253,5 +235,38 @@
         @yield('scripts')
         <!-- App js -->
         <script src="{{ asset('assets/js/app.js') }}"></script>
+        <script>
+            function getMessageCount(){
+                $.ajax({
+                    url: "{{ route('host.message.count') }}",
+                    type: "GET",
+                    success: function(resp){
+                        $(".myMessageCount").text(resp);
+                    },
+                    error: function(resp){
+                        console.log("Something went wrong with request");
+                    }
+                });
+                
+                setTimeout(getMessageCount, 1000);
+            }
+
+            function getMessageNotification(){
+                $.ajax({
+                    url: "{{ route('host.message.notification') }}",
+                    type: "GET",
+                    success: function(resp){
+                        $(".myMessages").html(resp);
+                    },
+                    error: function(resp){
+                        console.log("Something went wrong with request");
+                    }
+                });
+
+                setTimeout(getMessageNotification, 1000);
+            }
+            getMessageCount();
+            getMessageNotification();
+        </script>
     </body>
 </html>

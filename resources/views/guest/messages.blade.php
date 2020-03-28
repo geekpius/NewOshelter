@@ -1,4 +1,4 @@
-@extends('layouts.host')
+@extends('layouts.guest')
 
 @section('styles')
 
@@ -29,38 +29,31 @@
                 <div class="pt-3">
                     <div class="btn-toolbar" role="toolbar">
                         <div class="btn-group">
-                            <button type="button" onclick="window.location='{{route('host.messages')}}'" class="btn btn-gradient-secondary waves-light waves-effect"><i class="fas fa-inbox"></i></button>
-                        </div>  
-                        <div class="btn-group ml-1">  
-                            <button type="button" class="btn btn-gradient-secondary waves-light waves-effect" id="chkParent1">
-                                <input type="checkbox" id="chkParent">
-                                <label for="chkParent" class="toggle"></label>
-                            </button>
+                            <button type="button" onclick="window.location='{{route('guest.messages')}}'" class="btn btn-gradient-secondary waves-light waves-effect"><i class="fas fa-inbox"></i></button>
                         </div>  
                         <div class="btn-group ml-1">
-                            <button type="button" class="btn btn-gradient-secondary waves-light waves-effect btnDeleteAll"><i class="fas fa-trash"></i></button>
-                        </div>                                    
+                            <button type="button" class="btn btn-gradient-secondary waves-light waves-effect"><i class="fas fa-trash"></i></button>
+                        </div>                                      
                     </div><!-- end toolbar -->
 
 
                     <div class="card my-3">
                         <ul class="message-list">
-                        @if (count($messages))
-                        @foreach ($messages as $message)
                             <div class="inboxParent">
                                 <li>                                           
                                     <div class="col-mail col-mail-1">
                                         <div class="checkbox-wrapper-mail">
-                                            <input type="checkbox" id="chk{{ $message->id }}" value="{{ $message->id }}">
-                                            <label for="chk{{ $message->id }}" class="toggle"></label>
+                                            <input type="checkbox" id="chk19">
+                                            <label for="chk19" class="toggle"></label>
                                         </div>
-                                        <a href="javascript:void(0);" class="showReader" data-href="{{ route('host.messages.read', $message->id) }}">
-                                            <p class="title">{{ $message->user->name }}</p>
+                                        <a href="javascript:void(0);" class="showReader">
+                                            <p class="title">Peter, me (3)</p>
                                         </a>                                                     
                                     </div>
                                     <div class="col-mail col-mail-2">
-                                        <a href="javascript:void(0);" class="subject showReader" data-href="{{ route('host.messages.read', $message->id) }}"><span>{{ $message->message }}</span></a>
-                                        <div class="date">{{ \Carbon\Carbon::parse($message->created_at)->format("d-M-Y") }}</div><br>
+                                        <a href="javascript:void(0);" class="subject showReader">Hello &nbsp;–&nbsp; <span class="teaser">Trip home from 🎉 Colombo has been arranged, then Jenna will come get me from Stockholm. :)</span>
+                                        </a>
+                                        <div class="date">Mar. 6</div>
                                     </div>                                           
                                 </li>
 
@@ -68,44 +61,71 @@
                                     <div class="card-body">
                                         <i class="fa fa-times float-right fa-lg exitReader" style="cursor: pointer"></i>
                                         <div class="media mb-4">
-                                            <img class="d-flex mr-3 rounded-circle thumb-md" src="{{ empty($message->user->image)? asset('assets/images/tenants/user-4.jpg'):asset('assets/images/tenants/'.$message->user->image) }}" alt="Generic placeholder image">
+                                            <img class="d-flex mr-3 rounded-circle thumb-md" src="{{asset('assets/images/users/user-4.jpg')}}" alt="Generic placeholder image">
                                             <div class="media-body align-self-center">
-                                                <h4 class="font-14 m-0">{{ $message->user->name }}</h4>
-                                                <small class="text-muted">{{ $message->user->membership }}</small>
+                                                <h4 class="font-14 m-0">Humberto D. Champion</h4>
+                                                <small class="text-muted">support@domain.com</small>
                                             </div>
                                         </div>
             
-                                        <p>Dear {{ current(explode(' ',$message->user->name)) }},</p>
-                                        <p>{{ $message->message }}</p>
+                                        <p>Dear Lorem Ipsum,</p>
+                                        <p>Praesent dui ex, dapibus eget mauris ut, finibus vestibulum enim. Quisque arcu leo, facilisis in fringilla id, luctus in tortor. Nunc vestibulum est quis orci varius viverra. Curabitur dictum volutpat massa vulputate molestie. In at felis ac velit maximus
+                                            convallis.</p>
+                                        <p>Sed elementum turpis eu lorem interdum, 🏆sed porttitor eros commodo. Nam eu venenatis tortor, id lacinia diam. Sed aliquam in dui et porta. Sed bibendum orci non tincidunt ultrices. Vivamus fringilla, mi lacinia dapibus condimentum, ipsum urna lacinia
+                                            lacus, vel tincidunt mi nibh sit amet lorem.</p>
+                                        <p>Sincerly,</p>
                                         <hr/>
-
-                                        @foreach ($message->replies as $reply)
-                                            @if ($reply->status)
-                                                <p>{{ $reply->message }}</p>
-                                                <small>{{ $message->user->name }}</small>
-                                                <hr/>
-                                            @else
-                                                <div class="pl-5">
-                                                    <p>{{ $reply->message }}</p>
-                                                    <small>Me</small>
-                                                </div>
-                                                <hr/>
-                                            @endif
-                                        @endforeach
-                                        <div class="pl-5 myReplies" style="display:none"></div>
-                                        
-                                        <a href="javascript:void(0);" data-id="{{ $message->id }}" class="btn btn-gradient-primary waves-effect btnReply" data-animation="bounce">
+            
+                                        <a href="javascript:void(0);" data-id="1" class="btn btn-gradient-primary waves-effect btnReply" data-animation="bounce">
                                             <i class="mdi mdi-reply"></i> Reply
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                        @else
-                            <div class="text-center m-5">
-                                <p class="text-danger">Empty</p>
+
+                            <div class="inboxParent">
+                                <li>                                            
+                                    <div class="col-mail col-mail-1">
+                                        <div class="checkbox-wrapper-mail">
+                                            <input type="checkbox" id="chk18">
+                                            <label for="chk18" class="toggle"></label>
+                                        </div>
+                                        <a href="javascript:void(0);" class="showReader">
+                                            <p class="title">me, Susanna (11)</p>
+                                        </a>
+                                    </div>
+                                    <div class="col-mail col-mail-2">
+                                        <a href="javascript:void(0);" class="subject showReader">Train/Bus &nbsp;–&nbsp; <span class="teaser">Yes ok, great! I'm not stuck in Stockholm anymore, we're making progress.🏏</span>
+                                        </a>
+                                        <div class="date">Feb 19</div>
+                                    </div>                                            
+                                </li>
+
+                                <div class="card mt-3 myReader" style="display:none">
+                                    <div class="card-body">
+                                        <i class="fa fa-times float-right fa-lg exitReader" style="cursor: pointer"></i>
+                                        <div class="media mb-4">
+                                            <img class="d-flex mr-3 rounded-circle thumb-md" src="{{asset('assets/images/users/user-4.jpg')}}" alt="Generic placeholder image">
+                                            <div class="media-body align-self-center">
+                                                <h4 class="font-14 m-0">Humberto D. Champion</h4>
+                                                <small class="text-muted">support@domain.com</small>
+                                            </div>
+                                        </div>
+            
+                                        <p>Dear Lorem Ipsum,</p>
+                                        <p>Praesent dui ex, dapibus eget mauris ut, finibus vestibulum enim. Quisque arcu leo, facilisis in fringilla id, luctus in tortor. Nunc vestibulum est quis orci varius viverra. Curabitur dictum volutpat massa vulputate molestie. In at felis ac velit maximus
+                                            convallis.</p>
+                                        <p>Sed elementum turpis eu lorem interdum, 🏆sed porttitor eros commodo. Nam eu venenatis tortor, id lacinia diam. Sed aliquam in dui et porta. Sed bibendum orci non tincidunt ultrices. Vivamus fringilla, mi lacinia dapibus condimentum, ipsum urna lacinia
+                                            lacus, vel tincidunt mi nibh sit amet lorem.</p>
+                                        <p>Sincerly,</p>
+                                        <hr/>
+            
+                                        <a href="javascript:void(0);" data-id="2" class="btn btn-gradient-primary waves-effect btnReply" data-animation="bounce">
+                                            <i class="mdi mdi-reply"></i> Reply
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                        @endif
                         </ul>
                     </div> <!-- panel -->
 
@@ -174,18 +194,6 @@ $(".showReader").on("click", function(e){
     $this.parents('.inboxParent').find('.myReader').show();
     $this.parents('.inboxParent').nextAll().hide();
     $this.parents('.inboxParent').prevAll().hide();
-    $.ajax({
-        url: $this.data('href'),
-        type: "GET",
-        success: function(resp){
-            if(resp=='success'){
-                //
-            }                
-        },
-        error: function(resp){
-            console.log('Something went wrong with request');
-        }
-    });
     return false;
 });
 
@@ -225,10 +233,7 @@ $("#formReply").on("submit", function(e){
             data: data,
             success: function(resp){
                 if(resp=='success'){
-                    $(".myReplies").show().html("<p>"+$("#reply_message").val()+"</p><small>Me</small><hr>");
-                    $("#reply_message").val('');
-                    $(".compose-modal").modal('hide');
-                    $('.exitReader').trigger('click');
+                    $('.exitReader').trigger();
                 }
 
                 $(".btnSendReply").html('Send <i class="far fa-paper-plane ml-3"></i>').attr('disabled', false);
@@ -248,62 +253,5 @@ $("textarea").on('input', function(){
         $(this).parents('.validate').find('.mySpan').text('');
     }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required.'); }
 });
-
-$(".btnDeleteAll").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var isChecked = 0;
-    var ids = [];
-    $('.message-list .checkbox-wrapper-mail').find('input[type="checkbox"]').each(function() {
-        if ($(this).prop("checked")){
-            isChecked +=1;
-            ids.push($(this).val());
-        }
-    });
-    
-    if(isChecked==0){
-        return false;
-    }
-    else{
-        var data = {ids:ids};
-        $.ajax({
-            url: "{{ route('host.messages.delete') }}",
-            type: "POST",
-            data: data,
-            success: function(resp){
-                if(resp=='success'){
-                   window.location.reload();
-                }                
-            },
-            error: function(resp){
-                console.log('Something went wrong with request');
-            }
-        });
-    }
-
-    return false;
-});
-
-
-
-$('#chkParent').on("click", function() {
-    var isChecked = $(this).prop("checked");
-    $('.message-list .checkbox-wrapper-mail').find('input[type="checkbox"]').prop('checked', isChecked);
-});
-$('.message-list .checkbox-wrapper-mail').find('input[type="checkbox"]').on("click", function() {
-    var isChecked = $(this).prop("checked");
-    var isHeaderChecked = $("#chkParent").prop("checked");
-    if (!isChecked && isHeaderChecked)
-        $("#chkParent").prop('checked', isChecked);
-    else {
-        $('.message-list .checkbox-wrapper-mail').find('input[type="checkbox"]').each(function() {
-            if (!$(this).prop("checked"))
-                isChecked = false;
-        });
-        $("#chkParent").prop('checked', isChecked);
-    }
-}); 
-
 </script>
 @endsection

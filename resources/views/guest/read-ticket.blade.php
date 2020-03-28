@@ -1,4 +1,4 @@
-@extends('layouts.host')
+@extends('layouts.guest')
 
 @section('styles')
 
@@ -32,7 +32,7 @@
                     <div class="card mb-4 p-4">
                         <div class="row">
                             <div class="col-sm-4">
-                                <img src="{{ (empty(Auth::user()->image))? asset('assets/images/users/user-4.jpg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ current(explode(' ',Auth::user()->name)) }}" class="rounded-circle thumb-lg m-2" /> 
+                                <img src="{{ (empty(Auth::user()->image))? asset('assets/images/tenants/user-4.jpg'):asset('assets/images/tenants/'.Auth::user()->image) }}" alt="{{ current(explode(' ',Auth::user()->name)) }}" class="rounded-circle thumb-lg m-2" /> 
                                 <p class="m-2">{{ Auth::user()->name }}</p>
                             </div>
                             <div class="col-sm-8">
@@ -42,11 +42,11 @@
                         </div>
                         <hr>
 
-                        @foreach ($ticket->ticketReplies as $reply)
+                        @foreach ($ticket->userTicketReplies as $reply)
                         @if ($reply->owner)
                         <div class="row">
                             <div class="col-sm-4">
-                                <img src="{{ (empty(Auth::user()->image))? asset('assets/images/users/user-4.jpg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ current(explode(' ',Auth::user()->name)) }}" class="rounded-circle thumb-lg m-2" /> 
+                                <img src="{{ (empty(Auth::user()->image))? asset('assets/images/tenants/user-4.jpg'):asset('assets/images/tenants/'.Auth::user()->image) }}" alt="{{ current(explode(' ',Auth::user()->name)) }}" class="rounded-circle thumb-lg m-2" /> 
                                 <p class="m-2">{{ Auth::user()->name }}</p>
                             </div>
                             <div class="col-sm-8">
@@ -134,7 +134,7 @@ $("#formReply").on("submit", function(e){
         $(".btnSubmitReply").html('<i class="fa fa-spin fa-spinner"></i> Replying...').attr('disabled', true);
         var data  = $("#formReply").serialize();
         $.ajax({
-            url: "{{route('host.ticket.reply')}}",
+            url: "{{route('guest.ticket.reply')}}",
             type: "POST",
             data: data,
             success: function(resp){

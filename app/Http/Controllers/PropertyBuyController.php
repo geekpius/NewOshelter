@@ -7,14 +7,20 @@ use Illuminate\Http\Request;
 
 class PropertyBuyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+    public function __construct()
+    {
+        $this->middleware('verify-user');
+        $this->middleware('auth');
+    }
+
+
+    /*
+     * properties bought
      */
     public function index()
     {
-        //
+        $data['page_title'] = 'Properties bought';
+        return view('guest.bought-properties', $data);
     }
 
     /**

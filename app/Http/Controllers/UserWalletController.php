@@ -2,25 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\AdminModel\AdminWallet;
+use App\UserModel\UserWallet;
 use Illuminate\Http\Request;
 
-class AdminWalletController extends Controller
+class UserWalletController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('verify-admin');
-        $this->middleware('auth:admin');
+        $this->middleware('verify-user');
+        $this->middleware('auth');
     }
 
-    /**
+
+    /*
      * display wallet
      */
     public function index()
     {
         $data['page_title'] = 'My wallet';
-        return view('host.wallet', $data);
+        return view('guest.wallet', $data);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -46,10 +48,10 @@ class AdminWalletController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\AdminModel\AdminWallet  $adminWallet
+     * @param  \App\UserModel\UserWallet  $userWallet
      * @return \Illuminate\Http\Response
      */
-    public function show(AdminWallet $adminWallet)
+    public function show(UserWallet $userWallet)
     {
         //
     }
@@ -57,10 +59,10 @@ class AdminWalletController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AdminModel\AdminWallet  $adminWallet
+     * @param  \App\UserModel\UserWallet  $userWallet
      * @return \Illuminate\Http\Response
      */
-    public function edit(AdminWallet $adminWallet)
+    public function edit(UserWallet $userWallet)
     {
         //
     }
@@ -69,10 +71,10 @@ class AdminWalletController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AdminModel\AdminWallet  $adminWallet
+     * @param  \App\UserModel\UserWallet  $userWallet
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AdminWallet $adminWallet)
+    public function update(Request $request, UserWallet $userWallet)
     {
         //
     }
@@ -80,10 +82,10 @@ class AdminWalletController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AdminModel\AdminWallet  $adminWallet
+     * @param  \App\UserModel\UserWallet  $userWallet
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AdminWallet $adminWallet)
+    public function destroy(UserWallet $userWallet)
     {
         //
     }

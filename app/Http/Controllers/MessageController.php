@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\UserModel\Message;
 use App\MessageModel\Reply;
 use Illuminate\Http\Request;
+use App\MessageModel\Message;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -19,13 +20,8 @@ class MessageController extends Controller
     public function index()
     {
         $data['page_title'] = 'Messages';
+        $data['messages'] = Message::whereAdmin_id(Auth::user()->id)->whereIn('status', [0,1])->paginate(10);
         return view('host.messages', $data);
-    }
-
-    //send message
-    public function store(Request $request)
-    {
-        //
     }
 
     //reply message
@@ -47,37 +43,29 @@ class MessageController extends Controller
         return $message;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\UserModel\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Message $message)
+    //delete message
+    public function read(Message $message)
     {
-        //
+        if($message->status==0){
+            $message->status = 1;
+            $message->update();
+            return 'success';
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\UserModel\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Message $message)
+    //delete message
+    public function delete(Request $request)
     {
-        //
+        $count  = 0;
+        foreach($request->ids as $id){
+            $msg = Message::findOrFail($id);
+            $msg->status = 2;
+            $msg->update();
+            $count+=1;
+        }
+        if($count>0){
+            return 'success';
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\UserModel\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Message $message)
-    {
-        //
-    }
 }

@@ -11,7 +11,7 @@ class AdminWallet extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'admin_id', 'balance',
+        'admin_id', 'balance', 'currency',
     ];
 
     public function admin(){

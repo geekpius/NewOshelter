@@ -37,9 +37,15 @@ Route::group(['prefix' => 'landlord'], function () {
 
     /*------- Dashboard ------- */
     Route::get('/dashboard', 'AdminController@index')->name('host.dashboard');
-    Route::get('/tenant-statistics', 'AdminController@guest')->name('host.guest.statistics');
+    Route::get('/guest-statistics', 'AdminController@guest')->name('host.guest.statistics');
     Route::get('/property-statistics', 'AdminController@property')->name('host.property.statistics');
     Route::get('/payment-statistics', 'AdminController@payment')->name('host.payment.statistics');
+
+    /*------- Notifications ------- */
+    Route::get('/message-count', 'AdminController@messageCount')->name('host.message.count');
+    Route::get('/message-notification', 'AdminController@messageNotification')->name('host.message.notification');
+    Route::get('/notification-count', 'AdminController@notificationCount')->name('host.notification.count');
+    Route::get('/notifications', 'AdminController@notification')->name('host.notifications');
 
     /*------- Account and Profile ------- */
     Route::get('/account', 'AdminProfileController@index')->name('host.account');
@@ -100,8 +106,9 @@ Route::group(['prefix' => 'landlord'], function () {
 
     /*------- Messages ------- */
     Route::get('/messages', 'MessageController@index')->name('host.messages');
-    Route::post('/messages', 'MessageController@store')->name('host.messages.submit');
     Route::post('/messages/reply', 'MessageController@reply')->name('host.messages.reply');
+    Route::get('/messages/{message}/read', 'MessageController@read')->name('host.messages.read');
+    Route::post('/messages/delete', 'MessageController@delete')->name('host.messages.delete');
 
     /*------- Support ------- */
     Route::get('/new-ticket', 'TicketController@create')->name('host.ticket');
@@ -145,21 +152,38 @@ Route::group(['prefix' => 'guest'], function () {
 
     /*------- Account and Profile ------- */
     Route::get('/account', 'UserProfileController@index')->name('guest.account');
+    Route::post('/account/gender', 'UserProfileController@updateGender')->name('guest.account.gender');
     Route::post('/account/dob', 'UserProfileController@updateDob')->name('guest.account.dob');
+    Route::post('/account/marital-status', 'UserProfileController@updateMaritalStatus')->name('guest.account.marital');
+    Route::post('/account/children', 'UserProfileController@updateChildren')->name('guest.account.children');
     Route::post('/account/city', 'UserProfileController@updateCity')->name('guest.account.city');
     Route::post('/account/occupation', 'UserProfileController@updateOccupation')->name('guest.account.occupation');
-    Route::post('/account/business', 'UserProfileController@updateBusiness')->name('guest.account.business');
-    Route::post('/account/description', 'UserProfileController@updateDescription')->name('guest.account.description');
     Route::post('/change-password', 'UserProfileController@updatePassword')->name('guest.password.change');
     Route::post('/change-photo', 'UserProfileController@uploadProfilePhoto')->name('guest.profile.photo');
 
     /*------- Nav actions ------- */
-    Route::get('/saved', 'AdminController@saved')->name('guest.saved');
-    Route::get('/saved/{propertyList}/remove', 'AdminController@removeSaved')->name('guest.saved.remove');
-    Route::get('/wallet', 'AdminWalletController@index')->name('guest.wallet');
+    Route::get('/saved', 'UserSavedPropertyController@index')->name('guest.saved');
+    Route::get('/saved/{propertyList}/remove', 'UserSavedPropertyController@removeSaved')->name('guest.saved.remove');
+    Route::get('/wallet', 'UserWalletController@index')->name('guest.wallet');
 
+    /*------- Guest Properties ------- */
+    Route::get('/rented-properties', 'PropertyRentController@index')->name('guest.property.rent');
+    Route::get('/bought-properties', 'PropertyBuyController@index')->name('guest.property.buy');
+    Route::get('/bidden-properties', 'PropertyBidController@index')->name('guest.property.bid');
 
+    /*------- Messages ------- */
+    Route::get('/messages/{admin}/compose', 'UserController@composeMessage')->name('guest.messages.compose');
+    Route::post('/messages/submit', 'UserController@sendMessage')->name('guest.messages.compose.submit');
+    Route::get('/messages', 'UserController@readMessage')->name('guest.messages');
 
+    /*------- Support ------- */
+    Route::get('/new-ticket', 'UserTicketController@create')->name('guest.ticket');
+    Route::post('/ticket', 'UserTicketController@store')->name('guest.ticket.submit');
+
+    Route::get('/view-tickets', 'UserTicketController@index')->name('guest.ticket.view');
+    Route::get('/view-tickets/{userTicket}/read', 'UserTicketController@read')->name('guest.ticket.read');
+    Route::post('/ticket/reply', 'UserTicketController@reply')->name('guest.ticket.reply');
+    Route::get('/ticket/{userTicket}/close', 'UserTicketController@close')->name('guest.ticket.close');
 
 
 });

@@ -1,4 +1,4 @@
-@extends('layouts.host')
+@extends('layouts.guest')
 
 @section('styles')
 
@@ -12,10 +12,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">New Ticket</li>
+                        <li class="breadcrumb-item active">Compose Message</li>
                     </ol>
                 </div>
-                <h4 class="page-title">New Ticket</h4>
+                <h4 class="page-title">Compose Message</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>
@@ -26,32 +26,14 @@
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
                 <div class="card-body">
-                    <h4 class="mb-5 header-title">Open New Ticket</h4>
-                    <form id="formTicket">
+                    <div class="">
+                        <img src="{{ (empty($host->image))? asset('assets/images/users/user-4.jpg'):asset('assets/images/users/'.$host->image) }}" alt="{{ current(explode(' ',$host->name)) }}" class="rounded-circle thumb-md" />
+                        <p class="mt-lg-2">{{ $host->name }}</p>
+                    </div>
+                    <form id="formCompose">
                         <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group validate">
-                                    <label for="">Help Desk</label>
-                                    <select name="help_desk" class="form-control" id="help_desk">
-                                        <option value="support">Support</option>
-                                        <option value="payments">Payments</option>
-                                        <option value="abuse">Abuse</option>
-                                    </select>
-                                    <span class="text-danger small mySpan" role="alert"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12 pt-4">
-                                <div class="form-group validate">
-                                    <label>Subject</label>
-                                    <input id="subject" type="text" name="subject" class="form-control">
-                                    <span class="text-danger small mySpan" role="alert"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12 pt-4">                            
+                            <div class="col-sm-12 pt-4">     
+                                <input type="hidden" name="admin_id" value="{{ $host->id }}" readonly>                       
                                 <div class="form-group validate">
                                     <label for="message"><span class="text-primary">Message</span></label>
                                     <textarea class="form-control" maxlength="500" name="message" rows="5" maxlength="500" id="message" placeholder="Write your message"></textarea>
@@ -62,7 +44,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12 text-right">
-                                <button type="submit" class="btn btn-gradient-primary px-5 py-2 btnSubmitTicket"><i class="fa fa-dot-circle"></i> Submit</button>
+                                <button type="submit" class="btn btn-gradient-primary px-5 py-2 btnSubmitCompose"><i class="fa fa-dot-circle"></i> Submit</button>
                             </div>
                         </div>
                     </form>
@@ -85,11 +67,11 @@ $.ajaxSetup({
 })
 
 
-$("#formTicket").on("submit", function(e){
+$("#formCompose").on("submit", function(e){
     e.preventDefault();
     e.stopPropagation();
     var valid = true;
-    $('#formTicket input, #formTicket select,  #formTicket textarea').each(function() {
+    $('#formCompose input, #formCompose select,  #formCompose textarea').each(function() {
         var $this = $(this);
         
         if(!$this.val()) {
@@ -98,26 +80,25 @@ $("#formTicket").on("submit", function(e){
         }
     });
     if(valid){
-        $(".btnSubmitTicket").html('<i class="fa fa-spin fa-spinner"></i> Submitting...').attr('disabled', true);
-        var data  = $("#formTicket").serialize();
+        $(".btnSubmitCompose").html('<i class="fa fa-spin fa-spinner"></i> Submitting...').attr('disabled', true);
+        var data  = $("#formCompose").serialize();
         $.ajax({
-            url: "{{route('host.ticket.submit')}}",
+            url: "{{route('guest.messages.compose.submit')}}",
             type: "POST",
             data: data,
             success: function(resp){
                 if(resp=='success'){
-                    swal("Submitted", "Ticket submitted successful", "success");
-                    $("#subject").val('');
+                    swal("Submitted", "Message submitted successful", "success");
                     $("#message").val('');
                 }
                 else{
                     alert("Something went wrong");
                 }
-                $(".btnSubmitTicket").html('<i class="fa fa-dot-circle"></i> Submit').attr('disabled', false);
+                $(".btnSubmitCompose").html('<i class="fa fa-dot-circle"></i> Submit').attr('disabled', false);
             },
             error: function(resp){
                 alert("Something went wrong with your request");
-                $(".btnSubmitTicket").html('<i class="fa fa-dot-circle"></i> Submit').attr('disabled', false);
+                $(".btnSubmitCompose").html('<i class="fa fa-dot-circle"></i> Submit').attr('disabled', false);
             }
         });
     }
@@ -125,18 +106,10 @@ $("#formTicket").on("submit", function(e){
 });
 
 
-$("input, textarea").on('input', function(){
+$("textarea").on('input', function(){
     if($(this).val()!=''){
         $(this).parents('.validate').find('.mySpan').text('');
     }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required.'); }
-});
-
-$("select").on('change', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-    }else{ 
-        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
-    }
 });
 
 //check remaining characters
