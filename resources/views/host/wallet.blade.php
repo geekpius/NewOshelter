@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="wallet-bal-usd mb-2">
-                                <h4 class="wallet-title m-0">Your Total Balence</h4>
+                                <h4 class="wallet-title m-0">R-Pay Balence</h4>
                                 <span class="text-muted font-12">as at {{\Carbon\Carbon::parse(Auth::user()->adminWallet->updated_at)->format('d F, Y')}}</span>
                                 <h3 class="text-center"> {{Auth::user()->adminWallet->currency}} {{number_format(Auth::user()->adminWallet->balance,2)}}</h3>
                             </div> 
