@@ -11,10 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+/*----------------Website Route List----------------------------- */
+Route::get('/', 'WebsiteController@index')->name('index');
 
 
 
