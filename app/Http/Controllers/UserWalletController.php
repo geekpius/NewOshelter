@@ -20,7 +20,7 @@ class UserWalletController extends Controller
     public function index()
     {
         $data['page_title'] = 'My wallet';
-        return view('guest.wallet', $data);
+        return view('app.wallet', $data);
     }
 
 

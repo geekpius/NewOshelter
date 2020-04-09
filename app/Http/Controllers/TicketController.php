@@ -11,24 +11,24 @@ class TicketController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('verify-admin');
-        $this->middleware('auth:admin');
+        $this->middleware('verify-user');
+        $this->middleware('auth');
     }
 
 
     //show all messages
     public function index()
     {
-        $data['page_title'] = 'All Tickets';
-        $data['tickets'] = Ticket::whereAdmin_id(Auth::user()->id)->get();
-        return view('host.view-tickets', $data);
+        $data['page_title'] = 'All tickets';
+        $data['tickets'] = Ticket::whereUser_id(Auth::user()->id)->get();
+        return view('app.view-tickets', $data);
     }
 
     //create new ticket
     public function create()
     {
-        $data['page_title'] = 'New Tickets';
-        return view('host.new-ticket', $data);
+        $data['page_title'] = 'New ticket';
+        return view('app.new-ticket', $data);
     }
 
     //save ticket message
@@ -43,7 +43,7 @@ class TicketController extends Controller
             $message = 'fail';
         }else{
             $ticket = new Ticket;
-            $ticket->admin_id = Auth::user()->id;
+            $ticket->user_id = Auth::user()->id;
             $ticket->help_desk = $request->help_desk;
             $ticket->subject = $request->subject;
             $ticket->message = $request->message;
@@ -56,9 +56,9 @@ class TicketController extends Controller
     //read ticket and replies
     public function read(Ticket $ticket)
     {
-        $data['page_title'] = 'Read Ticket #'.$ticket->id;
+        $data['page_title'] = 'Read ticket #'.$ticket->id;
         $data['ticket'] = $ticket;
-        return view('host.read-ticket', $data);
+        return view('app.read-ticket', $data);
     }
 
     //reply ticket

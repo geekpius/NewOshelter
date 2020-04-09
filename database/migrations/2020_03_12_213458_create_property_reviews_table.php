@@ -16,7 +16,7 @@ class CreatePropertyReviewsTable extends Migration
         Schema::create('property_reviews', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('property_id')->unsigned()->index();
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned()->index();
             $table->integer('location_star');
             $table->integer('comm_star');
             $table->integer('value_star');
@@ -25,6 +25,7 @@ class CreatePropertyReviewsTable extends Migration
             $table->string('comment');
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

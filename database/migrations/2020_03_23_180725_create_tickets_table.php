@@ -15,13 +15,13 @@ class CreateTicketsTable extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('admin_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index();
             $table->string('help_desk');
             $table->string('subject');
             $table->mediumText('message');
             $table->boolean('status')->default(false);
             $table->timestamps();
-            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

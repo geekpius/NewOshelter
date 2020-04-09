@@ -31,8 +31,12 @@
     function onContentScroll() {
         if (window.pageYOffset > 93) {
             $('.pxp-header').addClass('pxp-is-sticky');
+            $("#signUp").addClass('text-danger');
+            $("#signIn").addClass('text-primary');
         } else {
             $('.pxp-header').removeClass('pxp-is-sticky');
+            $("#signUp").removeClass('text-danger');
+            $("#signIn").removeClass('text-primary');
         }
     }
 

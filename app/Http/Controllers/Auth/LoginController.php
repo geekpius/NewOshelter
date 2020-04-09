@@ -28,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/guest/dashboard';
+    protected $redirectTo = '/user/dashboard';
 
     /**
      * Create a new controller instance.
@@ -42,7 +42,7 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        $data['page_title'] = 'Guest Sign In';
+        $data['page_title'] = 'Sign in';
         return view('auth.login', $data);
     }
 
@@ -81,7 +81,7 @@ class LoginController extends Controller
 
         $request->session()->invalidate();
 
-        return $this->loggedOut($request) ?: redirect('/guest/signin');
+        return $this->loggedOut($request) ?: redirect('/signin');
     }
 
     /**

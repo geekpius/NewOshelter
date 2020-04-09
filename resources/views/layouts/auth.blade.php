@@ -7,7 +7,7 @@
         <meta content="Fiifi Pius(Geek)" name="author" />
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Real Home - {{$page_title}} </title>
+        <title>OShelta- {{$page_title}} </title>
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 

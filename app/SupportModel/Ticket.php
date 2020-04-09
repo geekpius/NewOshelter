@@ -2,7 +2,7 @@
 
 namespace App\SupportModel;
 
-use App\Admin;
+use App\User;
 use App\SupportModel\TicketReply;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,11 +12,11 @@ class Ticket extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'admin_id', 'help_desk', 'subject', 'message', 'status',
+        'user_id', 'help_desk', 'subject', 'message', 'status',
     ];
 
-    public function admin(){
-        return $this->belongsTo(Admin::class, 'admin_id');
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 

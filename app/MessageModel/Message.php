@@ -3,7 +3,6 @@
 namespace App\MessageModel;
 
 use App\User;
-use App\Admin;
 use App\MessageModel\Reply;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +12,7 @@ class Message extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id', 'admin_id', 'message', 'status',
+        'user_id', 'destination', 'message', 'status',
     ];
 
     public function user(){
@@ -21,8 +20,8 @@ class Message extends Model
     }
 
 
-    public function admin(){
-        return $this->belongsTo(Admin::class, 'admin_id');
+    public function destination(){
+        return $this->belongsTo(User::class, 'destination');
     }
 
 

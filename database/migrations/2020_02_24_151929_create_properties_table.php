@@ -15,7 +15,7 @@ class CreatePropertiesTable extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('admin_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index();
             $table->string('base');
             $table->string('type');
             $table->string('type_status');
@@ -25,7 +25,7 @@ class CreatePropertiesTable extends Migration
             $table->integer('step')->default(1);
             $table->boolean('done_step')->default(false);
             $table->timestamps();
-            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

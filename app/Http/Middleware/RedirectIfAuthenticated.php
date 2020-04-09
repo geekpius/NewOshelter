@@ -17,17 +17,21 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        switch ($guard){
-            case 'admin':
-                if (Auth::guard($guard)->check()) {
-                    return redirect('/landlord/dashboard');
-                }
-                break;
-            default:
-                if (Auth::guard($guard)->check()) {
-                    return redirect('/guest/dashboard');
-                }
-                break;
+        // switch ($guard){
+        //     case 'admin':
+        //         if (Auth::guard($guard)->check()) {
+        //             return redirect('/landlord/dashboard');
+        //         }
+        //         break;
+        //     default:
+        //         if (Auth::guard($guard)->check()) {
+        //             return redirect('/user/dashboard');
+        //         }
+        //         break;
+        // }
+
+        if (Auth::guard()->check()) {
+            return redirect('/user/dashboard');
         }
 
         return $next($request);

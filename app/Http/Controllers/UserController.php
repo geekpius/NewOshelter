@@ -25,56 +25,55 @@ class UserController extends Controller
     public function index()
     {
         $data['page_title'] = 'Dashboard';
-        return view('guest.dashboard', $data);
+        return view('app.dashboard', $data);
+    }
+
+
+    public function guest()
+    {
+        $data['page_title'] = 'Guest statistics';
+        return view('app.guest-statistics', $data);
     }
 
     public function property()
     {
         $data['page_title'] = 'Property statistics';
-        return view('guest.property-statistics', $data);
+        return view('app.property-statistics', $data);
     }
 
     public function payment()
     {
         $data['page_title'] = 'Payment statistics';
-        return view('guest.payment-statistics', $data);
+        return view('app.payment-statistics', $data);
     }
 
-    public function composeMessage(Admin $admin)
+     
+
+    //notification message count
+    public function messageCount()
     {
-        $data['page_title'] = 'Compose message to '.$admin->name;
-        $data['host'] = $admin;
-        return view('guest.compose', $data);
+        return Message::whereUser_id(Auth::user()->id)->whereStatus(0)->count();
     }
 
-    //send message
-    public function sendMessage(Request $request)
+    //notification messages
+    public function messageNotification()
     {
-        $validator = \Validator::make($request->all(), [
-            'admin_id' => 'required|string',
-            'message' => 'required|string',
-        ]);
-        if ($validator->fails()){
-            $message = 'fail';
-        }else{
-            $msg = new Message;
-            $msg->user_id = Auth::user()->id;
-            $msg->admin_id = $request->admin_id;
-            $msg->message = $request->message;
-            $msg->save();
-            $message="success";
-        }
-        return $message;
+        $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->get();
+        return view('app.message-notification', $data)->render();
     }
 
-    //read messages
-    public function readMessage()
+    //notification count
+    public function notificationCount()
     {
-        $data['page_title'] = 'Read messages';
-        return view('guest.messages', $data);
+        return Message::whereUser_id(Auth::user()->id)->whereStatus(0)->count();
     }
 
-    
+    //notification content
+    public function notification()
+    {
+        $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->get();
+        return view('app.message-notification', $data)->render();
+    }
 
 
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Image;
-use App\AdminModel\Amenity;
+use App\UserModel\Amenity;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyRule;
@@ -26,8 +26,8 @@ class PropertyController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('verify-admin');
-        $this->middleware('auth:admin');
+        $this->middleware('verify-user');
+        $this->middleware('auth');
     }
 
 
@@ -35,16 +35,16 @@ class PropertyController extends Controller
     public function index()
     {
         $data['page_title'] = 'List properties';
-        $data['properties'] = Property::whereAdmin_id(Auth::user()->id)->whereDone_step(true)->get(); 
-        return view('host.properties', $data);
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereDone_step(true)->get(); 
+        return view('app.properties', $data);
     }
 
     ///check if uncompleted found
     public function addNewListing()
     {
         $data['page_title'] = 'Found something';
-        $data['property']= Property::whereAdmin_id(Auth::user()->id)->whereDone_step(false)->get(); 
-        return view('host.duplicate-listing', $data);
+        $data['property']= Property::whereUser_id(Auth::user()->id)->whereDone_step(false)->get(); 
+        return view('app.duplicate-listing', $data);
     }
 
     /// start new listing
@@ -52,7 +52,7 @@ class PropertyController extends Controller
     {
         $data['page_title'] = 'Add new listing';
         $data['property_types'] = PropertyType::all();
-        return view('host.add-listing', $data);
+        return view('app.add-listing', $data);
     }
 
     ///create from the steps
@@ -62,7 +62,7 @@ class PropertyController extends Controller
             $data['page_title'] = 'Creating new listing';
             $data['property']= $property; 
             $data['amenities'] = Amenity::all();
-            return view('host.create-listing', $data);
+            return view('app.create-listing', $data);
         }else{
             return view('errors.404');
         }
@@ -76,10 +76,10 @@ class PropertyController extends Controller
         $countImages = PropertyImage::whereProperty_id($property->id)->count();
         $data['image'] = PropertyImage::whereProperty_id($property->id)->orderBy('id')->first();
         $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take($countImages-1)->get();
-        return view('host.preview-listing', $data);
+        return view('app.preview-listing', $data);
     }
 
-    ///add hostel block
+    ///add Hostel block
     public function addBlock(Request $request)
     {
         $validator = \Validator::make($request->all(), [
@@ -132,11 +132,11 @@ class PropertyController extends Controller
         return $message;
     }
 
-    ///show hostel blocks
+    ///show Hostel blocks
     public function showBlock(Property $property)
     {
         $data['blocks']=$property->propertyHostelBlocks;
-        return view("host.show-block", $data)->render();
+        return view("app.show-block", $data)->render();
     }
 
     ///show delete blocks
@@ -149,7 +149,7 @@ class PropertyController extends Controller
     ///upload property photos
     public function uploadPropertyPhoto(Request $request)
     {
-        $property= Property::whereAdmin_id(Auth::user()->id)->orderBy('id','DESC')->first(); 
+        $property= Property::whereUser_id(Auth::user()->id)->orderBy('id','DESC')->first(); 
         try{
             DB::beginTransaction();
                 $photos = $request->file('photos');
@@ -184,7 +184,7 @@ class PropertyController extends Controller
         }
 
         /* if($message=='success'){
-            return view('host.show-property-photos', $data)->render();
+            return view('app.show-property-photos', $data)->render();
         }else{
             return $message;
         } */
@@ -197,7 +197,7 @@ class PropertyController extends Controller
         $countImages = PropertyImage::whereProperty_id($property->id)->count();
         $data['image'] = PropertyImage::whereProperty_id($property->id)->orderBy('id')->first();
         $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take(($countImages==0)? 0:$countImages-1)->get();
-        return view('host.show-property-photos', $data)->render();        
+        return view('app.show-property-photos', $data)->render();        
     }
 
     ///update property caption
@@ -247,7 +247,7 @@ class PropertyController extends Controller
     public function showOwnRule(Property $property)
     {
         $data['rules'] = $property->propertyOwnRules;
-        return view("host.show-own-rule", $data)->render();
+        return view("app.show-own-rule", $data)->render();
     }
 
     ///delete own property rule
@@ -257,7 +257,7 @@ class PropertyController extends Controller
         return 'success'; 
     }
 
-    ///add hostel block prices
+    ///add Hostel block prices
     public function addHostelBlockPrice(Request $request)
     {
         $validator = \Validator::make($request->all(), [
@@ -296,14 +296,14 @@ class PropertyController extends Controller
         return $message;
     }
 
-    ///show hostel block prices
+    ///show Hostel block prices
     public function showHostelBlockPrice(Property $property)
     {
         $data['prices'] = $property->propertyHostelPrices;
-        return view("host.show-hostel-block-prices", $data)->render();
+        return view("app.show-hostel-block-prices", $data)->render();
     }
 
-    ///delete hostel block prices
+    ///delete Hostel block prices
     public function deleteHostelBlockPrice(PropertyHostelPrice $propertyHostelPrice)
     {
         $propertyHostelPrice->delete();
@@ -316,20 +316,20 @@ class PropertyController extends Controller
     {
         if($request->step==0){
             $property = new Property;
-            $property->admin_id = Auth::user()->id;
+            $property->user_id = Auth::user()->id;
             $property->base = $request->base_property;
             $property->type = $request->property_type;
             $property->title = $request->property_title;
             $property->type_status = $request->property_type_status;
             $property->step = ($request->step+1);
             $property->save();
-            return redirect()->route('host.property.create', $property->id);
+            return redirect()->route('property.create', $property->id);
         }
 
         $property = Property::findOrFail($request->property_id);
         if($property->type=='hostel')
         {
-            //nexts for hostel
+            //nexts for Hostel
             if($request->step==1){
                 $property->step = ($request->step+1);
                 $property->update();
@@ -378,7 +378,8 @@ class PropertyController extends Controller
         }
         elseif($request->step==5){
             $description = PropertyDescription::updateOrCreate(
-                ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 'direction'=>$request->directions]
+                ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 
+                'direction'=>$request->directions, 'size'=>$request->property_size, 'unit'=>$request->size_unit]
             );
             ///update step to move forward
             $property->step = ($request->step+1);
@@ -445,7 +446,7 @@ class PropertyController extends Controller
             $property->done_step = true;
             $property->update();
 
-            return redirect()->route('host.property');
+            return redirect()->route('property');
         }
 
 
@@ -458,7 +459,7 @@ class PropertyController extends Controller
         $data['page_title'] = 'Edit '.$property->title.' listing';
         $data['property'] = $property;
         $data['property_types'] = PropertyType::all();
-        return view('host.edit-listing', $data);
+        return view('app.edit-listing', $data);
     }
     
     ///update edited listing
@@ -475,7 +476,7 @@ class PropertyController extends Controller
             $property->done_step = false;
             $property->publish = false;
             $property->update();
-            return redirect()->route('host.property.create', $property->id);
+            return redirect()->route('property.create', $property->id);
         }
     }
 
@@ -502,7 +503,7 @@ class PropertyController extends Controller
     {
         $data['page_title'] = 'Delete '.$property->title.' Listing';
         $data['property'] = $property;
-        return view('host.confirm-listing-delete', $data);
+        return view('app.confirm-listing-delete', $data);
     }
 
     //delete listing
@@ -534,7 +535,7 @@ class PropertyController extends Controller
     public function manageProperty()
     {
         $data['page_title'] = 'Manage rented properties';
-        return view('host.manage-property', $data);
+        return view('app.manage-property', $data);
     }
     
 

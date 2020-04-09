@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\MessageModel\Reply;
 use Illuminate\Http\Request;
 use App\MessageModel\Message;
@@ -11,8 +12,8 @@ class MessageController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('verify-admin');
-        $this->middleware('auth:admin');
+        $this->middleware('verify-user');
+        $this->middleware('auth');
     }
 
 
@@ -20,10 +21,43 @@ class MessageController extends Controller
     public function index()
     {
         $data['page_title'] = 'Messages';
-        $data['messages'] = Message::whereAdmin_id(Auth::user()->id)->whereIn('status', [0,1])->paginate(10);
-        return view('host.messages', $data);
+        $data['messages'] = Message::whereUser_id(Auth::user()->id)->whereIn('status', [0,1])->paginate(10);
+        return view('app.messages', $data);
     }
 
+    public function composeMessage(User $user)
+    {
+        if(Auth::user()->id == $user->id){
+            return redirect()->route('messages');
+        }
+        else{
+            $data['page_title'] = 'Compose message to '.$user->name;
+            $data['host'] = $user;
+            return view('app.compose', $data);
+        }
+    }
+
+    //send message
+    public function sendMessage(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'destination' => 'required|string',
+            'message' => 'required|string',
+        ]);
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            $msg = new Message;
+            $msg->user_id = Auth::user()->id;
+            $msg->destination = $request->destination;
+            $msg->message = $request->message;
+            $msg->save();
+            $message="success";
+        }
+        return $message;
+    }
+
+    
     //reply message
     public function reply(Request $request)
     {

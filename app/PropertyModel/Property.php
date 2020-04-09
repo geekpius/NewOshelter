@@ -2,7 +2,7 @@
 
 namespace App\PropertyModel;
 
-use App\Admin;
+use App\User;
 use App\PropertyModel\PropertyList;
 use App\PropertyModel\PropertyRent;
 use App\PropertyModel\PropertyRule;
@@ -24,7 +24,7 @@ class Property extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'admin_id', 'base', 'type', 'type_status', 'title', 'step',
+        'user_id', 'base', 'type', 'type_status', 'title', 'step',
     ];
 
     public function getBaseAttribute($value)
@@ -32,8 +32,8 @@ class Property extends Model
         return ucwords(str_replace('_',' ',$value));
     }
 
-    public function admin(){
-        return $this->belongsTo(Admin::class, 'admin_id');
+    public function user(){
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function propertyContain(){

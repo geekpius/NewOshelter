@@ -23,7 +23,7 @@ class UserProfileController extends Controller
     public function index()
     {
         $data['page_title'] = 'My account';
-        return view('guest.account', $data);
+        return view('app.account', $data);
     }
 
     //update gender profiles
@@ -203,11 +203,11 @@ class UserProfileController extends Controller
                     $photo = $request->file('photo');
                     $name = sha1(date('YmdHis') . str_random(30));
                     $new_name = Auth::user()->id . $name . '.' . $photo->getClientOriginalExtension();
-                    $location = 'assets/images/tenants/' . $new_name;
+                    $location = 'assets/images/users/' . $new_name;
                     Image::make($photo)->resize(150, 150)->save($location); 
                     //delete old photo
                     if(!empty($user->image)){
-                        \File::delete("assets/images/tenants/".$user->image);
+                        \File::delete("assets/images/users/".$user->image);
                     }
                     $user->image = $new_name;
                     $user->update();

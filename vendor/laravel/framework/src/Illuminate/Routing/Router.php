@@ -1129,18 +1129,18 @@ class Router implements RegistrarContract, BindingRegistrar
     public function auth()
     {
         // Authentication Routes...
-        $this->get('guest/signin', 'Auth\LoginController@showLoginForm')->name('login');
+        $this->get('signin', 'Auth\LoginController@showLoginForm')->name('login');
         $this->post('login', 'Auth\LoginController@login');
         $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
         // Registration Routes...
-        $this->get('guest/signup', 'Auth\RegisterController@showRegistrationForm')->name('register');
+        $this->get('signup', 'Auth\RegisterController@showRegistrationForm')->name('register');
         $this->post('register', 'Auth\RegisterController@register');
 
         // Password Reset Routes...
-        $this->get('guest/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+        $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
         $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-        $this->get('guest/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+        $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
         $this->post('password/reset', 'Auth\ResetPasswordController@reset');
     }
 

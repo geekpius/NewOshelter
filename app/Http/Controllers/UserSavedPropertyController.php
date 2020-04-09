@@ -18,7 +18,7 @@ class UserSavedPropertyController extends Controller
     {
         $data['page_title'] = 'Properties saved';
         $data['lists'] = UserSavedProperty::whereUser_id(Auth::user()->id)->get(); 
-        return view('guest.saved', $data);
+        return view('app.saved', $data);
     }
 
     public function removeSaved(UserSavedProperty $userSavedProperty)

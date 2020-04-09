@@ -9,12 +9,12 @@
                 <div class="card-body">
                     <div class="px-3">
                         <div class="auth-logo-box">
-                            <a href="#" class="logo logo-admin"><img src="{{ asset('assets/images/logo-sm.png') }}" height="55" alt="logo" class="auth-logo"></a>
+                            <a href="{{ route('index') }}" class="logo logo-admin"><img src="{{ asset('assets/images/logo-sm.png') }}" height="55" alt="logo" class="auth-logo"></a>
                         </div><!--end auth-logo-box-->
                         
                         <div class="text-center auth-logo-text">
-                            <h4 class="mt-0 mb-3 mt-5">Sign Up Real Home Guest Account</h4>
-                            <p class="text-muted mb-0">Fill Your Info Real Home.</p>  
+                            <h4 class="mt-0 mb-3 mt-5">Sign Up For Account</h4>
+                            <p class="text-muted mb-0">Fill Your Information.</p>  
                         </div> <!--end auth-logo-text-->  
 
                         
