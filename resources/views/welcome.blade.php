@@ -90,6 +90,27 @@
                         <div class="pxp-prop-card-1-details">
                             <div class="pxp-prop-card-1-details-title">{{ $property->title }}</div>
                             <div class="pxp-prop-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}</div>                                
+                            <span class="fa fa-tag text-white pull-right"> 
+                                <strong>
+                                @if ($property->vacant)
+                                    @if ($property->type_status=='rent')
+                                        Rent
+                                    @elseif($property->type_status=='sell')
+                                        Buy
+                                    @else
+                                        Bid
+                                    @endif
+                                @else
+                                    @if ($property->type_status=='rent')
+                                        Rented
+                                    @elseif($property->type_status=='sell')
+                                        Bought
+                                    @else
+                                        Auctioned
+                                    @endif
+                                @endif
+                                </strong>
+                            </span>
                             <div class="pxp-prop-card-1-details-features text-uppercase">{{ $property->propertyContain->bedroom }} BD <span>|</span> {{ $property->propertyContain->bathroom }} BA <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</div>
                         </div>
                         <div class="pxp-prop-card-1-details-cta text-uppercase">View Details</div>

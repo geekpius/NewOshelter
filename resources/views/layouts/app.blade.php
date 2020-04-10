@@ -29,7 +29,7 @@
 
             <!-- LOGO -->
             <div class="topbar-left">
-                <a href="{{ route('dashboard') }}" class="logo">
+                <a href="{{ route('index') }}" class="logo">
                     <span>
                         <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-small" class="logo-sm">
                     </span>

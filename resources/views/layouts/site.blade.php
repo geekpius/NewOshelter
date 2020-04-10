@@ -20,9 +20,10 @@
         <link rel="stylesheet" href="{{ asset('assets/light/css/font-awesome.min.css') }}">
         @yield('style')
         <link rel="stylesheet" href="{{ asset('assets/light/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/light/css/my-style.css') }}">
     </head>
     <body>
-        <div class="pxp-header fixed-top pxp-animate">
+        <div class="pxp-header fixed-top pxp-animate {{ empty($menu)? '':$menu }}">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-5 col-md-2">
@@ -45,9 +46,18 @@
                     <div class="col-5 col-md-2 text-right">
                         <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars fa-lg"></span></a>
                         @auth
-                        <a href="#" class="pxp-header-user">
-                            <img src="{{ asset('assets/images/user.jpg') }}" alt="Avatar" style="border-radius: 50%" width="40" height="40">
-                        </a>
+                        <div class="dropdown">
+                            <a href="javascript:void(0);" class="pxp-header-user" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ asset('assets/images/'.(empty(Auth::user()->image)? 'user.jpg':'users/'.Auth::user()->image)) }}" alt="Avatar" class="rounded-circle thumb-md">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="{{ route('dashboard') }}"><span class="fa fa-dashboard"></span> Dashboard</a>
+                                <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> Listings</a>
+                                <a class="dropdown-item" href="{{ route('messages') }}"><span class="fa fa-envelope"></span> Messages</a>
+                                <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Saved</a>
+                                <a class="dropdown-item" href="{{ route('wallet') }}"><span class="fa fa-google-wallet"></span> My Wallet</a>
+                            </div>
+                        </div>
                         @endauth
                     </div>
                 </div>

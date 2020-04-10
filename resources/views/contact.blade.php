@@ -14,7 +14,7 @@
         </div>
 
         <div class="pxp-contact-hero mt-4 mt-md-5">
-            <div class="pxp-contact-hero-fig pxp-cover" style="background-image: url(assets/light/images/ph-big.jpg); background-position: 50% 50%;"></div>
+            <div class="pxp-contact-hero-fig pxp-cover" style="background-image: url({{ asset('assets/light/images/contact-bg.jpg') }}); background-position: 50% 50%;"></div>
 
             <div class="pxp-contact-hero-offices-container">
                 <div class="container">

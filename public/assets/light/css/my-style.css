@@ -1,0 +1,195 @@
+/*
+Description: HTML template for real estate businesses
+Version: 1.0
+Author: Fiifi Pius Geek | fiifipius@gmail.com
+*/
+
+/**
+ * 1.0 - General
+ */
+
+ thumb-xxs {
+    height: 24px !important;
+    width: 24px !important;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  
+  .thumb-xs {
+    height: 32px !important;
+    width: 32px !important;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  
+  .thumb-sm {
+    height: 36px !important;
+    width: 36px !important;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  
+  .thumb-md {
+    height: 48px;
+    width: 48px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  
+  .thumb-lg {
+    height: 60px;
+    width: 60px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .thumb-xl {
+    height: 78px;
+    width: 78px;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+
+.font-10 {
+    font-size: 10px !important;
+  }
+  
+  .font-11 {
+    font-size: 11px !important;
+  }
+  
+  .font-12 {
+    font-size: 12px !important;
+  }
+  
+  .font-13 {
+    font-size: 13px !important;
+  }
+  
+  .font-14 {
+    font-size: 14px !important;
+  }
+  
+  .font-15 {
+    font-size: 15px !important;
+  }
+  
+  .font-16 {
+    font-size: 16px !important;
+  }
+  
+  .font-18 {
+    font-size: 18px !important;
+  }
+  
+  .font-20 {
+    font-size: 20px !important;
+  }
+  
+  .font-22 {
+    font-size: 22px !important;
+  }
+  
+  .font-24 {
+    font-size: 24px !important;
+  }
+  
+
+  .img-right{
+    float: right;
+    clear: left;
+    }
+    .img-left{
+        float: left;
+        clear: right;
+    }
+    .no-border {
+        border:none !important;
+    }
+
+    .text-pink {
+        color: #fd3c97 !important;
+      }
+      
+      .text-purple {
+        color: #6d81f5 !important;
+      }
+      
+      .text-light {
+        color: #f1f5fa !important;
+      }
+      
+      .text-dark {
+        color: #2f4686 !important;
+      }
+
+
+      .card {
+        margin-bottom: 24px;
+        border: none;
+        -webkit-box-shadow: 0 6px 20px rgba(36, 37, 38, 0.08);
+                box-shadow: 0 6px 20px rgba(36, 37, 38, 0.08);
+        border-radius: 3px;
+        background-color: #ffffff;
+      }
+      
+      .card-border {
+        border: 1px solid #eff2f9;
+      }
+      
+      .card-header {
+        background-color: #eff2f9;
+        border-bottom: 1px solid #eff2f9;
+      }
+      
+      .card-footer {
+        background-color: #f1f5fa;
+        border-top: 1px solid #eff2f9;
+      }
+      
+      .card-primary {
+        background-color: #0656ff;
+      }
+      
+      .card-secondary {
+        background-color: #0dc8de;
+      }
+      
+      .card-success {
+        background-color: #1ecab8;
+      }
+      
+      .card-warning {
+        background-color: #ffb822;
+      }
+      
+      .card-info {
+        background-color: #9ba7ca;
+      }
+      
+      .card-danger {
+        background-color: #f1646c;
+      }
+      
+      .card-dark {
+        background-color: #2f4686;
+      }
+      
+      .card-light {
+        background-color: #f1f5fa;
+        color: #8997bd;
+      }
+      
+      .card-pink {
+        background-color: #fd3c97;
+      }
+      
+      .card-purple {
+        background-color: #6d81f5;
+      }
+      
+      .card-blue {
+        background-color: #2b55cc;
+      }
+      

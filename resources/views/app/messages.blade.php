@@ -220,7 +220,7 @@ $("#formReply").on("submit", function(e){
         $(".btnSendReply").html('Sending... <i class="fa fa-spin fa-spinner ml-3"></i>').attr('disabled', true);
         var data  = $("#formReply").serialize();
         $.ajax({
-            url: "{{route('host.messages.reply')}}",
+            url: "{{route('messages.reply')}}",
             type: "POST",
             data: data,
             success: function(resp){
@@ -268,7 +268,7 @@ $(".btnDeleteAll").on("click", function(e){
     else{
         var data = {ids:ids};
         $.ajax({
-            url: "{{ route('host.messages.delete') }}",
+            url: "{{ route('messages.delete') }}",
             type: "POST",
             data: data,
             success: function(resp){

@@ -40,7 +40,7 @@
                                             <i class="fas fa-ellipsis-v font-20 text-muted"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel1">
-                                            <a class="dropdown-item text-warning" href="javascript:void(0);" onclick="window.location='{{ route('property.preview', $property->id) }}';"><i class="fa fa-eye"></i> Preview</a>
+                                            <a class="dropdown-item text-warning" href="javascript:void(0);" onclick="window.location='{{ route('single.property', $property->id) }}';"><i class="fa fa-eye"></i> Preview</a>
                                             <a class="dropdown-item {{$property->publish? 'text-pink':'text-success'}} btnVisibility" href="javascript:void(0);" data-href="{{ route('property.visibility', $property->id) }}" data-title="{{ $property->title }}"><i class="{{$property->publish? 'fa fa-eye-slash':'fa fa-check'}}"></i> {{$property->publish? 'Hide':'Publish'}}</a>
                                             <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.edit', $property->id) }}';"><i class="fa fa-edit"></i> Edit</a>
                                             <a class="dropdown-item text-danger" href="javascript:void(0);" onclick="window.location='{{ route('property.confirmdelete', $property->id) }}';"><i class="fa fa-trash"></i> Delete</a>
@@ -48,7 +48,7 @@
                                     </div>
 
                                     <div class="blog-card">
-                                        <a href="{{ route('property.preview', $property->id) }}">
+                                        <a href="{{ route('single.property', $property->id) }}">
                                             <img src="{{ asset('assets/images/properties/'.$property->propertyImages->first()->image) }}" alt="PropertyPhoto" class="img-fluid">
                                         </a>
                                         <div class="meta-box">

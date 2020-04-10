@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
+use App\PropertyModel\PropertyImage;
 
 class WebsiteController extends Controller
 {
@@ -27,7 +28,11 @@ class WebsiteController extends Controller
     public function singleProperty(Property $property)
     {
         $data['page_title'] = 'View '.$property->title.' details';
+        $data['menu'] = 'pxp-no-bg';
         $data['property'] = $property;
+        $countImages = PropertyImage::whereProperty_id($property->id)->count();
+        $data['image'] = PropertyImage::whereProperty_id($property->id)->orderBy('id')->first();
+        $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take($countImages-1)->get();
         return view('property-detail', $data);
     }
 
@@ -47,6 +52,7 @@ class WebsiteController extends Controller
     public function contact()
     {
         $data['page_title'] = 'Contact us';
+        $data['menu'] = 'pxp-no-bg';
         return view('contact', $data);
     }
 
