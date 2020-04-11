@@ -23,6 +23,7 @@ class CreatePropertyContainsTable extends Migration
             $table->boolean('bath_private');
             $table->integer('toilet');
             $table->boolean('toilet_private');
+            $table->string('furnish');
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
         });

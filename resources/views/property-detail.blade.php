@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="pxp-sp-top-btns">
-                        <a href="javascript:void(0);" class="text-success text-decoration-none mr-5"><span class="fa fa-heart"></span> Save</a>
+                        <a href="javascript:void(0);" class="text-pink text-decoration-none mr-5"><span class="fa fa-heart"></span> Save</a>
                         <div class="dropdown">
                             <a class="text-primary text-decoration-none" href="avascript:void(0);" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="fa fa-share-alt"></span> Share
@@ -36,6 +36,7 @@
 
     <div class="pxp-single-property-gallery-container">
         <div class="pxp-single-property-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+            
             <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
                 <a href="{{ asset('assets/images/properties/'.$image->image) }}" title="{{ $image->caption }}" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$image->image) }});"></a>
                 <figcaption itemprop="caption description">{{ $image->caption }}</figcaption>
@@ -45,7 +46,7 @@
             @foreach ($images as $item)
             @php $i++; $j++; @endphp
             @if($j>4)
-            <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+            <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="remove-on-every-screen">
                 <a href="{{ asset('assets/images/properties/'.$item->image) }}" title="{{ $item->caption }}" itemprop="contentUrl" data-size="1920x1459" class="pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$item->image) }});"></a>
                 <figcaption itemprop="caption description">{{ $item->caption }}"</figcaption>
             </figure>
@@ -57,7 +58,7 @@
             @endif
             @endforeach 
         </div>
-        <a href="javascript:void(0);" class="pxp-sp-gallery-btn">View Photos</a>
+        <a href="javascript:void(0);" class="pxp-sp-gallery-btn">Browse Photos <i class="fa fa-photo text-pink"></i></a>
         <div class="clearfix"></div>
     </div>
     <hr>
@@ -79,7 +80,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <hr>
+                <hr>                
                 <div class="pxp-single-property-section">
                     <h3>Key Details</h3>
                 
@@ -144,10 +145,17 @@
                         @endif
                     @endif
                     <div class="mt-3 mt-md-4">
-                        <p>Fully furnished. Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is<span class="pxp-dots">...</span><span class="pxp-dots-more"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features include rich herringbone floors, crown moldings and coffered ceilings throughout the apartment. 1049 5th Avenue is a classic pre-war building located across from Central Park, the reservoir and The Metropolitan Museum. Elegant lobby and 24 hours doorman. This is a pet-friendly building. 
+                       @if ($property->type='hostel')
+                       <p>Fully furnished. Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is<span class="pxp-dots">...</span><span class="pxp-dots-more"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features include rich herringbone floors, crown moldings and coffered ceilings throughout the apartment. 1049 5th Avenue is a classic pre-war building located across from Central Park, the reservoir and The Metropolitan Museum. Elegant lobby and 24 hours doorman. This is a pet-friendly building. 
                         <br><br>
                         Conveniently located close to several trendy fitness centers like Equinox, New York Sports Clubs & Crunch. Fine restaurants around the area, as well as top-ranked schools. 2% Flip tax paid by buyer to the condominium. Building just put an assessment for 18 months of approximately $500 per month.</span></p>
                         <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1">Continue Reading <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2">Show Less <span class="fa fa-angle-up"></span></span></a>
+                       @else
+                        <p>{{ ucfirst($property->propertyContain->furnish) }}. Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is<span class="pxp-dots">...</span><span class="pxp-dots-more"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features include rich herringbone floors, crown moldings and coffered ceilings throughout the apartment. 1049 5th Avenue is a classic pre-war building located across from Central Park, the reservoir and The Metropolitan Museum. Elegant lobby and 24 hours doorman. This is a pet-friendly building. 
+                        <br><br>
+                        Conveniently located close to several trendy fitness centers like Equinox, New York Sports Clubs & Crunch. Fine restaurants around the area, as well as top-ranked schools. 2% Flip tax paid by buyer to the condominium. Building just put an assessment for 18 months of approximately $500 per month.</span></p>
+                        <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1">Continue Reading <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2">Show Less <span class="fa fa-angle-up"></span></span></a> 
+                       @endif
                     </div>
 
                     <p class="mt-4">
@@ -203,7 +211,7 @@
                             @if ($property->type_status=='rent')
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <h4 class="header-title">{{ $property->vacant? 'Available, ready for renting':'Rented, too late' }}</h4>
+                                        <h6 class="header-title {{ $property->vacant? 'text-primary':'text-danger' }}">{{ $property->vacant? 'Available, ready for renting':'Rented, too late' }}</h6>
                                         <p class=""><i class="fa fa-check text-success font-12"></i>
                                             @if ($property->propertyPrice->payment_duration==3)
                                                 <span>3 months advance payment</span>
@@ -217,8 +225,7 @@
                                             <br>
                                             <i class="fa fa-check text-success font-12"></i>
                                             <span>
-                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b> 
-                                                per {{ $property->propertyPrice->price_calendar }}
+                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>/<small>{{ $property->propertyPrice->price_calendar }}</small>
                                             </span>
                                         </p>
                                     </div>
@@ -383,7 +390,7 @@
                     @if (count($property->propertyReviews))
                         <span class="mr-5"><i class="fa fa-star text-warning"></i> <b>Overall Reviews</b></span>
                     @endif
-                    <span><i class="fa fa-check-circle {{ Auth::user()->verify_email? 'text-success':'text-danger' }}"></i> <b>{{ Auth::user()->verify_email? 'Verified':'Not Verified' }}</b></span>
+                    <span><i class="fa fa-check-circle {{ $property->user->verify_email? 'text-success':'text-danger' }}"></i> <b>{{ $property->user->verify_email? 'Verified':'Not Verified' }}</b></span>
                     <br>   <br> 
                     <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</button>     
                     <hr>
@@ -487,50 +494,85 @@
             
             <div class="col-lg-4">
                 <div class="pxp-single-property-section pxp-sp-agent-section mt-4 mt-md-5 mt-lg-0">
+                @if ($property->type=='hostel')
+                    
+                @else
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" style="padding-left:10px !important; padding-right:10px !important">
+                            <div class="card-heading">
+                                <h6><strong>{{ $property->propertyPrice->currency }} <span>{{ number_format($property->propertyPrice->property_price,2) }}</span>/<small>{{ $property->propertyPrice->price_calendar }}</small></strong></h6>
+                                <span class="font-12"><i class="fa fa-star text-warning"></i> <b>0.1</b> (1 Review)</span>
+                            </div>
+                            <hr>
+                            <span class="small text-primary">You're charged after booking is confirmed.</span>
+                            <hr>
         
                             <form class="form-horizontal form-material mb-0" id="formChangePassword">
                                 @csrf
-                                <div class="form-group validate">
-                                    <input type="password" name="current_password" id="currrent_password" placeholder="Enter Current Password" class="form-control">
-                                    <span class="text-danger small" role="alert"></span>                                  
+                                <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <span id="dateCalculator" class="small text-danger"></span>
+                                        <div class="input-group input-group-sm validate">
+                                            <input type="date" name="check_in" value="{{ date('Y-m-d') }}" class="form-control">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fa fa-arrow-right small" id="inputGroup-sizing-sm"></span>
+                                            </div>
+                                            <input type="date" name="check_out" value="{{ date('Y-m-d') }}" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mt-3">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="adult" id="adult" class="form-control">
+                                                <option value="">1 Adult</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mt-3">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="children" id="children" class="form-control">
+                                                <option value="">No Children</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <div class="form-group validate">
-                                    <input type="password" name="password" placeholder="Enter New Password" class="form-control">
-                                    <span class="text-danger small" role="alert"></span>                                  
-                                </div>
-                                <div class="form-group validate">
-                                    <input type="password" name="password_confirmation" placeholder="Confirm New Password" class="form-control">
-                                    <span class="text-danger small" role="alert"></span>                                  
-                                </div>
-                                <div class="form-group">
-                                    <button class="btn btn-gradient-primary btn-sm text-light px-4 mt-3 float-right mb-0 btnChangePassword"><i class="mdi mdi-refresh fa-lg"></i> Change Password</button>
+
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnBook"><i class="fa fa-check-circle"></i> Book this {{ $property->type }}</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
 
+                            <hr>
+                            <div class="">
+                                <span class="small text-primary">From 
+                                    @if ($property->propertyPrice->payment_duration==3)
+                                        3 months advance payment
+                                    @elseif ($property->propertyPrice->payment_duration==6)
+                                        6 months advance payment
+                                    @elseif ($property->propertyPrice->payment_duration==12)
+                                        1 year advance payment
+                                    @elseif ($property->propertyPrice->payment_duration==24)
+                                        2 years advance payment
+                                    @endif
+                                </span>
+                            </div>
                         </div><!--end card-body-->
                     </div><!--end card-->
+                    <div class="text-center">
+                        <a href="javascript:void(0);" class="text-danger small"><i class="fa fa-flag"></i> Report this listing</a>
+                    </div>
+                @endif
                 </div>
             </div>
         </div>
     </div>
 
-
-
-    <div class="pxp-single-property-top pxp-content-wrapper">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-sm-12">
-                    <hr>
-                    <h3>Properties you may be interested</h3>
-                </div><!-- end col -->
-            </div>
-        </div>
-    </div>
-
-
-
+    <hr>
 
 </div>
 

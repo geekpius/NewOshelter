@@ -94,6 +94,7 @@ class PropertyController extends Controller
             'bath_private' => 'required',
             'toilet' => 'required|numeric',
             'toilet_private' => 'required',
+            'furnish' => 'required',
         ]);
         if ($validator->fails()){
             $message = 'fail';
@@ -112,6 +113,7 @@ class PropertyController extends Controller
                 $block->bath_private = $request->bath_private;
                 $block->toilet = $request->toilet;
                 $block->toilet_private = $request->toilet_private;
+                $block->furnish = $request->furnish;
                 $block->save();
                 //create roooms
                 for($i=1; $i<=$request->rooms_on_block; $i++){
@@ -339,7 +341,7 @@ class PropertyController extends Controller
             ///nexts for other properties
             if($request->step==1){
                 $contain = PropertyContain::updateOrCreate(
-                    ['property_id'=>$request->property_id], ['bedroom'=>$request->bedrooms, 'no_bed'=>$request->beds, 'kitchen'=>$request->kitchen, 'bathroom'=>$request->baths, 'bath_private'=>$request->bath_private, 'toilet'=>$request->toilet, 'toilet_private'=>$request->toilet_private]
+                    ['property_id'=>$request->property_id], ['bedroom'=>$request->bedrooms, 'no_bed'=>$request->beds, 'kitchen'=>$request->kitchen, 'bathroom'=>$request->baths, 'bath_private'=>$request->bath_private, 'toilet'=>$request->toilet, 'toilet_private'=>$request->toilet_private, 'furnish'=>$request->furnish]
                 );
                 $property->step = ($request->step+1);
                 $property->update();

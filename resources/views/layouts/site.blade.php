@@ -31,15 +31,15 @@
                     </div>
                     <div class="col-2 col-md-8 text-right">
                         <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item"><a href="#">List Property</a></li>
-                            <li class="list-inline-item"><a href="#">List Experience</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-14">List Property</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-14">List Experience</a></li>
                             @guest
-                            <li class="list-inline-item"><a href="#">Become an Owner</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-14">Become an Owner</a></li>
                             @endguest
-                            <li class="list-inline-item"><a href="#">Help?</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-14">Help?</a></li>
                             @guest
-                            <li class="list-inline-item ml-lg-5"><a href="{{ route('login') }}" id="signIn">sign In</a></li>
-                            <li class="list-inline-item"><a href="{{ route('register') }}" id="signUp">sign Up</a></li>
+                            <li class="list-inline-item ml-lg-5"><a class="font-14" href="{{ route('login') }}" id="signIn">sign In</a></li>
+                            <li class="list-inline-item"><a class="font-14" href="{{ route('register') }}" id="signUp">sign Up</a></li>
                             @endguest
                         </ul>
                     </div>
@@ -56,6 +56,10 @@
                                 <a class="dropdown-item" href="{{ route('messages') }}"><span class="fa fa-envelope"></span> Messages</a>
                                 <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Saved</a>
                                 <a class="dropdown-item" href="{{ route('wallet') }}"><span class="fa fa-google-wallet"></span> My Wallet</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> Logout</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
                             </div>
                         </div>
                         @endauth
@@ -125,14 +129,5 @@
         <script src="{{ asset('assets/light/js/bootstrap.min.js') }}"></script>
         @yield('scripts')
         <script src="{{ asset('assets/light/js/main.js') }}"></script>
-        <script type="text/javascript" id="cookieinfo"
-            src="//cookieinfoscript.com/js/cookieinfo.min.js"
-            data-bg="#645862"
-            data-fg="#FFFFFF"
-            data-link="#F1D600"
-            data-cookie="CookieInfoScript"
-            data-text-align="left"
-            data-close-text="Got it!">
-        </script>
     </body>
 </html>

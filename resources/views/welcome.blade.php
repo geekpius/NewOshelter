@@ -15,7 +15,7 @@
             <div class="container">
                 <h1 class="text-white">Find your future home</h1>
 
-                <form class="pxp-hero-search mt-4" action="properties.html">
+                <form class="pxp-hero-search mt-4" autocomplete="off" >
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="form-group">
@@ -27,8 +27,8 @@
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-8">
-                            <div class="form-group">
-                                <input type="text" name="location" class="form-control pxp-is-address" placeholder="Enter location...">
+                            <div class="form-group autocomplete">
+                                <input type="text" name="location" id="location" class="form-control pxp-is-address" placeholder="Enter location...">
                                 <span class="fa fa-search"></span>
                             </div>
                         </div>
@@ -44,17 +44,27 @@
         <p class="pxp-text-light">Browse our comprehensive category listing</p>
 
         <div class="row mt-4 mt-md-5">
-            <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="col-sm-12 col-md-6 col-lg-3">
                 <a href="properties.html" class="pxp-areas-1-item rounded-lg">
                     <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url(assets/light/images/area-1.jpg);"></div>
                     <div class="pxp-areas-1-item-details">
-                        <div class="pxp-areas-1-item-details-area">Places to Stay</div>
+                        <div class="pxp-areas-1-item-details-area">Executive Places</div>
                     </div>
                     <div class="pxp-areas-1-item-counter"><span>324 Properties</span></div>
                     <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
                 </a>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="col-sm-12 col-md-6 col-lg-3">
+                <a href="properties.html" class="pxp-areas-1-item rounded-lg">
+                    <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url(assets/light/images/area-1.jpg);"></div>
+                    <div class="pxp-areas-1-item-details">
+                        <div class="pxp-areas-1-item-details-area">Regular Places</div>
+                    </div>
+                    <div class="pxp-areas-1-item-counter"><span>324 Properties</span></div>
+                    <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
+                </a>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3">
                 <a href="properties.html" class="pxp-areas-1-item rounded-lg">
                     <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url(assets/light/images/area-1.jpg);"></div>
                     <div class="pxp-areas-1-item-details">
@@ -64,7 +74,7 @@
                     <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
                 </a>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4">
+            <div class="col-sm-12 col-md-6 col-lg-3">
                 <a href="properties.html" class="pxp-areas-1-item rounded-lg">
                     <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url(assets/light/images/area-1.jpg);"></div>
                     <div class="pxp-areas-1-item-details">
@@ -86,10 +96,11 @@
                 <div>
                     <a href="{{ route('single.property', $property->id) }}" class="pxp-prop-card-1 rounded-lg">
                         <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url(assets/images/properties/{{ $property->propertyImages->first()->image }});"></div>
+                        <span class="fa fa-heart text-pink on-top m-2 fa-lg btnHeart" style="cursor:pointer"></span>
                         <div class="pxp-prop-card-1-gradient pxp-animate"></div>
                         <div class="pxp-prop-card-1-details">
                             <div class="pxp-prop-card-1-details-title">{{ $property->title }}</div>
-                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}</div>                                
+                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}<small>/{{ $property->propertyPrice->price_calendar }}</small></div>                                
                             <span class="fa fa-tag text-white pull-right"> 
                                 <strong>
                                 @if ($property->vacant)
@@ -322,4 +333,126 @@
 
 @section('scripts')
 <script src="{{ asset('assets/light/js/owl.carousel.min.js') }}"></script>
+<script>
+    function autocomplete(inp, arr) {
+        var currentFocus;
+        inp.addEventListener("input", function(e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) { return false;}
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                /*create a DIV element for each matching element:*/
+                b = document.createElement("DIV");
+                /*make the matching letters bold:*/
+                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                b.innerHTML += arr[i].substr(val.length);
+                /*insert a input field that will hold the current array item's value:*/
+                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                /*execute a function when someone clicks on the item value (DIV element):*/
+                b.addEventListener("click", function(e) {
+                    /*insert the value for the autocomplete text field:*/
+                    inp.value = this.getElementsByTagName("input")[0].value;
+                    /*close the list of autocompleted values,
+                    (or any other open lists of autocompleted values:*/
+                    closeAllLists();
+                });
+                a.appendChild(b);
+                }
+            }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function(e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                /*and simulate a click on the "active" item:*/
+                if (x) x[currentFocus].click();
+                }
+            }
+        });
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+            }
+        }
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+                x[i].parentNode.removeChild(x[i]);
+            }
+            }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+    }
+
+    /*An array containing all the location of properties listed:*/
+    var countries = [
+        @foreach($locations as $location)
+        "{{ $location->location }}",
+        @endforeach
+    ];
+
+    /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+    autocomplete(document.getElementById("location"), countries);
+
+    $(".btnHeart").on("click", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        //login before saving
+        alert()
+        return false;
+    });
+</script>
+<script type="text/javascript" id="cookieinfo"
+    src="//cookieinfoscript.com/js/cookieinfo.min.js"
+    data-bg="#645862"
+    data-fg="#FFFFFF"
+    data-link="#F1D600"
+    data-cookie="CookieInfoScript"
+    data-text-align="left"
+    data-close-text="Got it!">
+</script>
 @endsection

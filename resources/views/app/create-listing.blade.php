@@ -152,7 +152,7 @@
                                         <div class="col-lg-1"></div>
                                         <div class="col-lg-5">
                                             <h4>Provide block names of your hostel to make arrangement of rooms look nice and appreciated</h4>
-                                            <div style="position: relative;  height: 550px; overflow-y:scroll; overflow-x:hidden;">
+                                            <div style="position: relative;  height: 640px; overflow-y:scroll; overflow-x:hidden;">
                                                 <form class="mt-4" id="formBlockRooms" method="POST" action="{{ route("property.store") }}">
                                                     @csrf
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -241,6 +241,16 @@
                                                         </div>
                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                     </div>
+                                                    <div class="form-group mt-4 validate">
+                                                        <label for="">Furnished?</label>
+                                                        <select name="furnish" class="form-control" id="furnish">
+                                                            <option value="">--Select--</option>
+                                                            <option value="fully_furnished">Fully Furnished</option>
+                                                            <option value="partially_furnished">Partially Furnished</option>
+                                                            <option value="not_furnished">Not Furnished</option>
+                                                        </select>
+                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                    </div>
                                                 </form>
                                                 <button type="button" class="btn btnAddBlock btn-gradient-primary btn-sm mt-4"><i class="fa fa-plus-circle"></i> Add Block</button>
                                             </div>
@@ -326,6 +336,16 @@
                                                         <input type="radio" id="toilet_private1" name="toilet_private" value="0" class="custom-control-input" @if(!empty($property))  @if(!$property->toilet_private) checked @endif  @endif>
                                                         <label class="custom-control-label" for="toilet_private1">No, it's shared</label>
                                                     </div>
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+                                                <div class="form-group mt-4 validate">
+                                                    <label for="">Furnished?</label>
+                                                    <select name="furnish" class="form-control" id="furnish">
+                                                        <option value="">--Select--</option>
+                                                        <option value="fully_furnished">Fully Furnished</option>
+                                                        <option value="partially_furnished">Partially Furnished</option>
+                                                        <option value="not_furnished">Not Furnished</option>
+                                                    </select>
                                                     <span class="text-danger small mySpan" role="alert"></span>
                                                 </div>
                                             </form>
@@ -607,7 +627,6 @@
                                                     <option value="">--Select--</option>
                                                     <option value="night">Nightly</option>
                                                     <option value="month">Monthly</option>
-                                                    <option value="year">Yearly</option>
                                                 </select>
                                                 <span class="text-danger small mySpan" role="alert"></span>
                                             </div>
@@ -681,7 +700,6 @@
                                                         <option value="">--Select--</option>
                                                         <option value="night">Nightly</option>
                                                         <option value="month">Monthly</option>
-                                                        <option value="year">Yearly</option>
                                                     </select>
                                                     <span class="text-danger small mySpan" role="alert"></span>
                                                 </div>
@@ -1393,6 +1411,7 @@ $("#price_calendar").on("change", function(){
         $("#formContainAmenities #kitchen").val("{{ empty($property->propertyContain->kitchen)? '':$property->propertyContain->kitchen }}");
         $("#formContainAmenities #baths").val("{{ empty($property->propertyContain->bathroom)? '':$property->propertyContain->bathroom }}");
         $("#formContainAmenities #toilet").val("{{ empty($property->propertyContain->toilet)? '':$property->propertyContain->toilet }}");
+        $("#formContainAmenities #furnish").val("{{ empty($property->propertyContain->furnish)? '':strtolower(str_replace(' ','_',$property->propertyContain->furnish)) }}");
         @if(!empty($property->propertyContain))
             @if($property->propertyContain->toilet_private)
                 $("#formContainAmenities #toilet_private").prop("checked", true);
