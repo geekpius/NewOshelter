@@ -14,14 +14,16 @@
 
 /*----------------Website Route List----------------------------- */
 Route::get('/', 'WebsiteController@index')->name('index');
-Route::get('/category-properties/{category}/all', 'WebsiteController@categoryProperty')->name('category.property');
+Route::get('/category-properties/{category}', 'WebsiteController@categoryProperty')->name('category.property');
 Route::get('/single-property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
 Route::get('/properties', 'WebsiteController@property')->name('browse.property');
+Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
 Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
 
 
 /*----------------Start User Route List----------------------------- */
 Auth::routes();
+
 Route::group(['prefix' => 'user'], function () {
     /*------- Dashboard ------- */
     Route::get('/dashboard', 'UserController@index')->name('dashboard');
@@ -37,6 +39,7 @@ Route::group(['prefix' => 'user'], function () {
 
     /*------- Nav actions ------- */
     Route::get('/saved', 'UserSavedPropertyController@index')->name('saved');
+    Route::post('/saved', 'UserSavedPropertyController@store')->name('saved.submit');
     Route::get('/saved/{propertyList}/remove', 'UserSavedPropertyController@removeSaved')->name('saved.remove');
     Route::get('/wallet', 'UserWalletController@index')->name('wallet');
 

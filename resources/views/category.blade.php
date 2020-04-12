@@ -116,7 +116,7 @@
             </div>
             <div class="row pb-4">
                 <div class="col-sm-6">
-                    <h2 class="pxp-content-side-h2">{{ number_format(count($properties)) }} Results</h2>
+                    <h2 class="pxp-content-side-h2">{{ number_format(count($categories)) }} Results</h2>
                 </div>
                 <div class="col-sm-6">
                     <div class="pxp-sort-form form-inline float-right">
@@ -139,14 +139,14 @@
 
             <div class="row">
                 @php $i=0; @endphp
-                @foreach ($properties as $property)
+                @foreach ($categories as $cate)
                 @php $i++; @endphp
                 <div class="col-sm-12 col-md-6 col-xxxl-4">
-                    <a href="{{ route('single.property', $property->id) }}" class="pxp-results-card-1 rounded-lg" data-prop="{{ $i }}">
+                    <a href="{{ route('single.property', $cate->property->id) }}" class="pxp-results-card-1 rounded-lg" data-prop="{{ $i }}">
                         <div id="card-carousel-{{ $i }}" class="carousel slide" data-ride="carousel" data-interval="false">
                             <div class="carousel-inner">
                                 @php $j=0; @endphp
-                                @foreach ($property->propertyImages as $image)
+                                @foreach ($cate->property->propertyImages as $image)
                                 @php $j++; @endphp
                                 <div class="carousel-item{{ $j==1? ' active':'' }}" style="background-image: url({{ asset('assets/images/properties/'.$image->image) }})"></div>
                                 @endforeach
@@ -160,23 +160,23 @@
                         </div>
                         <div class="pxp-results-card-1-gradient"></div>
                         <div class="pxp-results-card-1-details">
-                            <div class="pxp-results-card-1-details-title">{{ $property->title }}</div>
-                            <div class="pxp-results-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}<small>/{{ $property->propertyPrice->price_calendar }}</small></div>
+                            <div class="pxp-results-card-1-details-title">{{ $cate->property->title }}</div>
+                            <div class="pxp-results-card-1-details-price">{{ $cate->property->propertyPrice->currency }}{{ number_format($cate->property->propertyPrice->property_price,2) }}<small>/{{ $cate->property->propertyPrice->price_calendar }}</small></div>
 
                             <span class="fa fa-tag text-white pull-right"> 
                                 <strong>
-                                @if ($property->vacant)
-                                    @if ($property->type_status=='rent')
+                                @if ($cate->property->vacant)
+                                    @if ($cate->property->type_status=='rent')
                                         Rent
-                                    @elseif($property->type_status=='sell')
+                                    @elseif($cate->property->type_status=='sell')
                                         Buy
                                     @else
                                         Bid
                                     @endif
                                 @else
-                                    @if ($property->type_status=='rent')
+                                    @if ($cate->property->type_status=='rent')
                                         Rented
-                                    @elseif($property->type_status=='sell')
+                                    @elseif($cate->property->type_status=='sell')
                                         Bought
                                     @else
                                         Auctioned
@@ -189,13 +189,12 @@
                             <span>{{ $property->propertyContain->bedroom }} BD <span>|</span> {{ $property->propertyContain->bathroom }} BA <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</span>
                         </div>
                         
-                        <div class="pxp-results-card-1-save btnHeart" data-id="{{ $property->id }}"><span class="fa fa-heart text-pink heart-hover" style="cursor:pointer"></span></div>
+                        <div class="pxp-results-card-1-save btnHeart" data-id="{{ $cate->property->id }}"><span class="fa fa-heart text-pink heart-hover" style="cursor:pointer"></span></div>
                     </a>
                 </div>
                 @endforeach
             </div>
 
-            {{ $property->links }}
 
         </div>
     </div>

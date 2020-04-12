@@ -30,7 +30,26 @@ class UserSavedPropertyController extends Controller
     //save property
     public function store(Request $request)
     {
-        //
+        $validator = \Validator::make($request->all(), [
+            'property_id' => 'required|string',
+        ]);
+
+        if ($validator->fails()){
+            $message = 'fail';
+        }
+        else{
+            if(auth()->check()){
+                $save = new UserSavedProperty;
+                $save->user_id = Auth::user()->id;
+                $save->property_id = $request->property_id;
+                $save->save();
+                $message='success';
+            }
+            else{
+                $message= 'auth';
+            }
+        }
+        return $message;
     }
 
    

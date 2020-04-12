@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="pxp-sp-top-btns">
-                        <a href="javascript:void(0);" class="text-pink text-decoration-none mr-5"><span class="fa fa-heart"></span> Save</a>
+                        <a href="javascript:void(0);" data-id="{{ $property->id }}" class="text-pink text-decoration-none mr-5 btnHeart"><span class="fa fa-heart"></span> Save</a>
                         <div class="dropdown">
                             <a class="text-primary text-decoration-none" href="avascript:void(0);" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="fa fa-share-alt"></span> Share
@@ -145,13 +145,13 @@
                         @endif
                     @endif
                     <div class="mt-3 mt-md-4">
-                       @if ($property->type='hostel')
+                       @if ($property->type=='hostel')
                        <p>Fully furnished. Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is<span class="pxp-dots">...</span><span class="pxp-dots-more"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features include rich herringbone floors, crown moldings and coffered ceilings throughout the apartment. 1049 5th Avenue is a classic pre-war building located across from Central Park, the reservoir and The Metropolitan Museum. Elegant lobby and 24 hours doorman. This is a pet-friendly building. 
                         <br><br>
                         Conveniently located close to several trendy fitness centers like Equinox, New York Sports Clubs & Crunch. Fine restaurants around the area, as well as top-ranked schools. 2% Flip tax paid by buyer to the condominium. Building just put an assessment for 18 months of approximately $500 per month.</span></p>
                         <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1">Continue Reading <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2">Show Less <span class="fa fa-angle-up"></span></span></a>
                        @else
-                        <p>{{ ucfirst($property->propertyContain->furnish) }}. Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is<span class="pxp-dots">...</span><span class="pxp-dots-more"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features include rich herringbone floors, crown moldings and coffered ceilings throughout the apartment. 1049 5th Avenue is a classic pre-war building located across from Central Park, the reservoir and The Metropolitan Museum. Elegant lobby and 24 hours doorman. This is a pet-friendly building. 
+                        <p>{{ ucfirst(strtolower($property->propertyContain->furnish)) }}. Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is<span class="pxp-dots">...</span><span class="pxp-dots-more"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features include rich herringbone floors, crown moldings and coffered ceilings throughout the apartment. 1049 5th Avenue is a classic pre-war building located across from Central Park, the reservoir and The Metropolitan Museum. Elegant lobby and 24 hours doorman. This is a pet-friendly building. 
                         <br><br>
                         Conveniently located close to several trendy fitness centers like Equinox, New York Sports Clubs & Crunch. Fine restaurants around the area, as well as top-ranked schools. 2% Flip tax paid by buyer to the condominium. Building just put an assessment for 18 months of approximately $500 per month.</span></p>
                         <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1">Continue Reading <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2">Show Less <span class="fa fa-angle-up"></span></span></a> 
@@ -406,7 +406,6 @@
                     <h3>Explore the Area</h3>
                     <!-- The descriptions and directions --> 
                     <div>
-                        <p>{{ $property->propertyDescription->description }}</p> 
                         <p>{{ $property->propertyDescription->neighbourhood }}</p>   
                     </div> 
                     <p class="mt-0">{{ current(explode(' ',$property->user->name)) }}'s property is located @ {{ $property->propertyLocation->location }}</p>     
@@ -500,7 +499,7 @@
                     <div class="card">
                         <div class="card-body" style="padding-left:10px !important; padding-right:10px !important">
                             <div class="card-heading">
-                                <h6><strong>{{ $property->propertyPrice->currency }} <span>{{ number_format($property->propertyPrice->property_price,2) }}</span>/<small>{{ $property->propertyPrice->price_calendar }}</small></strong></h6>
+                                <h6><strong>{{ $property->propertyPrice->currency }} <span id="initialAmount">{{ number_format($property->propertyPrice->property_price,2) }}</span>/<small>{{ $property->propertyPrice->price_calendar }}</small></strong></h6>
                                 <span class="font-12"><i class="fa fa-star text-warning"></i> <b>0.1</b> (1 Review)</span>
                             </div>
                             <hr>
@@ -524,14 +523,33 @@
                                     <div class="col-sm-6 mt-3">
                                         <div class="form-group input-group-sm validate">
                                             <select name="adult" id="adult" class="form-control">
-                                                <option value="">1 Adult</option>
+                                                <option value="1">1 Adult</option>
+                                                <option value="2">2 Adults</option>
+                                                <option value="3">3 Adults</option>
+                                                <option value="4">4 Adults</option>
+                                                <option value="5">5 Adults</option>
+                                                <option value="6">6 Adults</option>
+                                                <option value="7">7 Adults</option>
+                                                <option value="8">8 Adults</option>
+                                                <option value="9">9 Adults</option>
+                                                <option value="10">10 Adults</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 mt-3">
                                         <div class="form-group input-group-sm validate">
                                             <select name="children" id="children" class="form-control">
-                                                <option value="">No Children</option>
+                                                <option value="0">No Children</option>
+                                                <option value="1">1 Child</option>
+                                                <option value="2">2 Children</option>
+                                                <option value="3">3 Children</option>
+                                                <option value="4">4 Children</option>
+                                                <option value="5">5 Children</option>
+                                                <option value="6">6 Children</option>
+                                                <option value="7">7 Children</option>
+                                                <option value="8">8 Children</option>
+                                                <option value="9">9 Children</option>
+                                                <option value="10">10 Children</option>
                                             </select>
                                         </div>
                                     </div>
@@ -588,4 +606,47 @@
 <script src="{{ asset('assets/light/js/infobox.js') }}"></script>
 <script src="{{ asset('assets/light/js/single-map.js') }}"></script>
 <script src="{{ asset('assets/light/js/Chart.min.js') }}"></script>
+<script>
+    $("input[name='check_in']").on("change", function(){
+        var checkIn = $(this);
+        var checkOut = $("input[name='check_out']");
+        if(checkOut.val()){
+            if(Date.parse(checkIn.val()) < new Date().getTime()){
+                checkIn.val("{{ date('Y-m-d') }}");
+                $('#dateCalculator').text('');
+            }
+            else if(Date.parse(checkIn.val()) >= Date.parse(checkOut.val())){
+                $('#dateCalculator').text('');                
+            }
+            else{
+                var checkInDate = new Date(checkIn.val()).getTime()
+                var checkOutDate = new Date(checkOut.val()).getTime()
+                var distance = checkOutDate - checkInDate;
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                $('#dateCalculator').text(days+' days');
+            }
+        }
+    });
+
+    $("input[name='check_out']").on("change", function(){
+        var checkOut = $(this);
+        var checkIn = $("input[name='check_in']");
+        if(checkIn.val()){
+            if(Date.parse(checkOut.val()) < new Date().getTime()){
+                checkOut.val("{{ date('Y-m-d') }}");
+                $('#dateCalculator').text('');
+            }
+            else if(Date.parse(checkOut.val()) <= Date.parse(checkIn.val())){
+                $('#dateCalculator').text('');                
+            }
+            else{
+                var checkOutDate = new Date(checkOut.val()).getTime()
+                var checkInDate = new Date(checkIn.val()).getTime()
+                var distance = checkOutDate - checkInDate;
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                $('#dateCalculator').text(days+' days');
+            }
+        }
+    });
+</script>
 @endsection

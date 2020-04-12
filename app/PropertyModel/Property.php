@@ -12,6 +12,7 @@ use App\PropertyModel\PropertyReview;
 use App\PropertyModel\PropertyAmenity;
 use App\PropertyModel\PropertyContain;
 use App\PropertyModel\PropertyOwnRule;
+use App\PropertyModel\PropertyCategory;
 use App\PropertyModel\PropertyLocation;
 use Illuminate\Database\Eloquent\Model;
 use App\PropertyModel\PropertyDescription;
@@ -86,6 +87,10 @@ class Property extends Model
 
     public function propertyRents(){
         return $this->hasMany(PropertyRent::class);
+    }
+
+    public function propertyCategories(){
+        return $this->hasMany(PropertyCategory::class);
     }
 
 

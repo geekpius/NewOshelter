@@ -328,7 +328,9 @@
         $(this).toggleClass('pxp-sp-less');
     });
 
-    if ($('#pxp-calculator-chart').length > 0) {
+
+
+    /*if ($('#pxp-calculator-chart').length > 0) {
         var calculatorChartElem = document.getElementById('pxp-calculator-chart').getContext('2d');
         var calculatorChart = new Chart(calculatorChartElem, {
             type: 'doughnut',
@@ -481,7 +483,7 @@
 
     $('#pxp-calculator-form-term').on('change', function() {
         updateCalculatorInfo();
-    });
+    });*/
 
     $('.pxp-blog-posts-carousel-1 .pxp-carousel-control-next').click(function(e) { 
         $('.pxp-blog-posts-carousel-1-img').carousel('next');
@@ -564,20 +566,15 @@
         $('.pxp-content-side-search-form-adv').slideToggle();
     });
 
-    $('.pxp-signin-trigger').click(function() {
-        $('#pxp-signup-modal').modal('hide');
-        $('#pxp-signin-modal').modal('show');
-    });
-    $('.pxp-signup-trigger').click(function() {
-        $('#pxp-signin-modal').modal('hide');
-        $('#pxp-signup-modal').modal('show');
-    });
-    $('#pxp-signin-modal').on('shown.bs.modal', function () {
-        $('body').addClass('modal-open');
-    });
-    $('#pxp-signup-modal').on('shown.bs.modal', function () {
-        $('body').addClass('modal-open');
-    });
+    // $('.signInModal').on("click", function() {
+    //     $('#pxp-signup-modal').modal('hide');
+    //     $('#pxp-signin-modal').modal('show');
+    // });
+    // $('.signUpModal').click(function() {
+    //     $('#pxp-signin-modal').modal('hide');
+    //     $('#pxp-signup-modal').modal('show');
+    // });
+    
 
     $('.pxp-results-card-1 .carousel-control-next').click(function(event) {
         event.preventDefault();

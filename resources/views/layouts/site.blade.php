@@ -31,15 +31,15 @@
                     </div>
                     <div class="col-2 col-md-8 text-right">
                         <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item"><a href="#" class="font-14">List Property</a></li>
-                            <li class="list-inline-item"><a href="#" class="font-14">List Experience</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">List Property</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">List Culture & tour</a></li>
                             @guest
-                            <li class="list-inline-item"><a href="#" class="font-14">Become an Owner</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">Become an Owner</a></li>
                             @endguest
-                            <li class="list-inline-item"><a href="#" class="font-14">Help?</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">Help?</a></li>
                             @guest
-                            <li class="list-inline-item ml-lg-5"><a class="font-14" href="{{ route('login') }}" id="signIn">sign In</a></li>
-                            <li class="list-inline-item"><a class="font-14" href="{{ route('register') }}" id="signUp">sign Up</a></li>
+                            <li class="list-inline-item ml-lg-5"><a class="font-14 font-14-sm-laptop font-14-lg-laptop" href="{{ route('login') }}" id="signIn">sign In</a></li>
+                            <li class="list-inline-item"><a class="font-14 font-14-sm-laptop font-14-lg-laptop" href="{{ route('register') }}" id="signUp">sign Up</a></li>
                             @endguest
                         </ul>
                     </div>
@@ -127,7 +127,47 @@
         <script src="{{ asset('assets/light/js/jquery-3.4.1.min.js') }}"></script>
         <script src="{{ asset('assets/light/js/popper.min.js') }}"></script>
         <script src="{{ asset('assets/light/js/bootstrap.min.js') }}"></script>
+        <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+                }
+            })
+        </script>
         @yield('scripts')
         <script src="{{ asset('assets/light/js/main.js') }}"></script>
+        <script>
+            $(".btnHeart").on("click", function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                var $this = $(this);
+                //login before saving
+                var data={
+                    property_id : $this.data('id')
+                }
+                $.ajax({
+                    url: "{{ route('saved.submit') }}", 
+                    type: 'POST',
+                    data: data,
+                    statusCode: {
+                        401: function() {
+                            alert("Login to save favourite.");
+                        }
+                    },
+                    success: function (resp) {
+                        if(resp=='success'){
+
+                        }else{
+                            console.log('Something went wrong');
+                        }
+                    },
+                    error: function(resp){
+                        console.log('Something went wrong with request');
+                    }
+                    
+                });
+                return false;
+            });
+        </script>
     </body>
 </html>

@@ -9,7 +9,7 @@
 
 <div class="pxp-content">
     <div class="pxp-hero vh-100">
-        <div class="pxp-hero-bg pxp-cover pxp-cover-bottom" style="background-image: url(assets/light/images/hero-1.jpg);"></div>
+        <div class="pxp-hero-bg pxp-cover pxp-cover-bottom" style="background-image: url({{ asset('assets/light/images/hero-1.jpg') }});"></div>
         <div class="pxp-hero-opacity"></div>
         <div class="pxp-hero-caption">
             <div class="container">
@@ -19,10 +19,10 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <div class="form-group">
-                                <select class="custom-select" name="status">
+                                <select class="custom-select" name="status" id="status">
                                     <option value="rent" selected>Rent</option>
                                     <option value="buy">Buy</option>
-                                    <option value="auction">Auction</option>
+                                    <option value="bid">Bid</option>
                                 </select>
                             </div>
                         </div>
@@ -38,52 +38,26 @@
         </div>
     </div>
 
-
     <div class="container mt-100">
         <h2 class="pxp-section-h2">Explore Your Curiosity</h2>
         <p class="pxp-text-light">Browse our comprehensive category listing</p>
 
         <div class="row mt-4 mt-md-5">
+            @foreach ($categories as $cate)
             <div class="col-sm-12 col-md-6 col-lg-3">
-                <a href="properties.html" class="pxp-areas-1-item rounded-lg">
-                    <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url(assets/light/images/area-1.jpg);"></div>
+                <a href="{{ route('category.property',$cate->name) }}" class="pxp-areas-1-item rounded-lg">
+                    <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/light/images/area-1.jpg') }});"></div>
                     <div class="pxp-areas-1-item-details">
-                        <div class="pxp-areas-1-item-details-area">Executive Places</div>
+                        <div class="pxp-areas-1-item-details-area">{{ ucwords(str_replace('-',' ',$cate->name))}}</div>
                     </div>
-                    <div class="pxp-areas-1-item-counter"><span>324 Properties</span></div>
+                    <div class="pxp-areas-1-item-counter"><span>
+                    @php $propCount = \App\PropertyModel\PropertyCategory::whereCategory($cate->name)->count(); @endphp    
+                    {{ $propCount. ' Properties' }}
+                    </span></div>
                     <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
                 </a>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-3">
-                <a href="properties.html" class="pxp-areas-1-item rounded-lg">
-                    <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url(assets/light/images/area-1.jpg);"></div>
-                    <div class="pxp-areas-1-item-details">
-                        <div class="pxp-areas-1-item-details-area">Regular Places</div>
-                    </div>
-                    <div class="pxp-areas-1-item-counter"><span>324 Properties</span></div>
-                    <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
-                </a>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-3">
-                <a href="properties.html" class="pxp-areas-1-item rounded-lg">
-                    <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url(assets/light/images/area-1.jpg);"></div>
-                    <div class="pxp-areas-1-item-details">
-                        <div class="pxp-areas-1-item-details-area">Hostels</div>
-                    </div>
-                    <div class="pxp-areas-1-item-counter"><span>158 Properties</span></div>
-                    <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
-                </a>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-3">
-                <a href="properties.html" class="pxp-areas-1-item rounded-lg">
-                    <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url(assets/light/images/area-1.jpg);"></div>
-                    <div class="pxp-areas-1-item-details">
-                        <div class="pxp-areas-1-item-details-area">Culture and Tour</div>
-                    </div>
-                    <div class="pxp-areas-1-item-counter"><span>129 Properties</span></div>
-                    <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
-                </a>
-            </div>
+            @endforeach
         </div>
     </div>
 
@@ -95,8 +69,10 @@
                 @foreach ($properties as $property)
                 <div>
                     <a href="{{ route('single.property', $property->id) }}" class="pxp-prop-card-1 rounded-lg">
-                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url(assets/images/properties/{{ $property->propertyImages->first()->image }});"></div>
-                        <span class="fa fa-heart text-pink on-top m-2 fa-lg btnHeart" style="cursor:pointer"></span>
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$property->propertyImages->first()->image) }});"></div>
+                        <span class="on-top-save on-top m-2 btnHeart" data-id="{{ $property->id }}">
+                            <span class="fa fa-heart text-pink heart-hover"></span>
+                        </span>
                         <div class="pxp-prop-card-1-gradient pxp-animate"></div>
                         <div class="pxp-prop-card-1-details">
                             <div class="pxp-prop-card-1-details-title">{{ $property->title }}</div>
@@ -136,15 +112,15 @@
     </div>
 
     
-    <div class="pxp-services pxp-cover mt-100 pt-100 mb-200" style="background-image: url(assets/light/images/services-h-fig.jpg);">
+    <div class="pxp-services pxp-cover mt-100 pt-100 mb-200" style="background-image: url({{ asset('assets/light/images/services-h-fig.jpg') }});">
         <h2 class="text-center pxp-section-h2">Why Choose Us</h2>
         <p class="pxp-text-light text-center">We offer perfect real estate services</p>
 
         <div class="container">
             <div class="pxp-services-container rounded-lg mt-4 mt-md-5">
-                <a href="properties.html" class="pxp-services-item">
+                <a href="{{ route('why.choose', Illuminate\Support\Str::slug('Find your future home', '-')) }}" class="pxp-services-item">
                     <div class="pxp-services-item-fig">
-                        <img src="assets/light/images/service-icon-1.svg" alt="...">
+                        <img src="{{ asset('assets/light/images/service-icon-1.svg') }}" alt="property">
                     </div>
                     <div class="pxp-services-item-text text-center">
                         <div class="pxp-services-item-text-title">Find your future home</div>
@@ -154,7 +130,7 @@
                 </a>
                 {{-- <a href="agents.html" class="pxp-services-item">
                     <div class="pxp-services-item-fig">
-                        <img src="assets/light/images/service-icon-2.svg" alt="...">
+                        <img src="{{ asset('assets/light/images/service-icon-2.svg') }}" alt="...">
                     </div>
                     <div class="pxp-services-item-text text-center">
                         <div class="pxp-services-item-text-title">Experienced agents</div>
@@ -162,9 +138,9 @@
                     </div>
                     <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
                 </a> --}}
-                <a href="properties.html" class="pxp-services-item">
+                <a href="{{ route('why.choose', Illuminate\Support\Str::slug('Bid buy or rent properties', '-')) }}" class="pxp-services-item">
                     <div class="pxp-services-item-fig">
-                        <img src="assets/light/images/service-icon-3.svg" alt="...">
+                        <img src="{{ asset('assets/light/images/service-icon-3.svg') }}" alt="buy_sell_auction">
                     </div>
                     <div class="pxp-services-item-text text-center">
                         <div class="pxp-services-item-text-title">Bid, buy or rent properties</div>
@@ -172,9 +148,9 @@
                     </div>
                     <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
                 </a>
-                <a href="submit-property.html" class="pxp-services-item">
+                <a href="{{ route('why.choose', Illuminate\Support\Str::slug('List your own property', '-')) }}" class="pxp-services-item">
                     <div class="pxp-services-item-fig">
-                        <img src="assets/light/images/service-icon-4.svg" alt="...">
+                        <img src="{{ asset('assets/light/images/service-icon-4.svg') }}" alt="own">
                     </div>
                     <div class="pxp-services-item-text text-center">
                         <div class="pxp-services-item-text-title">List your own property</div>
@@ -187,14 +163,14 @@
         </div>
     </div>
 
-    <div class="pxp-cta-1 pxp-cover mt-100 pt-300" style="background-image: url(assets/light/images/cta-fig-1.jpg); background-position: 50% 50%;">
+    <div class="pxp-cta-1 pxp-cover mt-100 pt-300" style="background-image: url({{ asset('assets/light/images/cta-fig-1.jpg') }}); background-position: 50% 50%;">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="pxp-cta-1-caption pxp-animate-in rounded-lg">
                         <h2 class="pxp-section-h2">Search Smarter, From Anywhere</h2>
                         <p class="pxp-text-light">Power your search with our OShelter real estate platform, for timely listings and a seamless experience.</p>
-                        <a href="javascript:void(0);" class="pxp-primary-cta text-uppercase mt-3 mt-md-5 pxp-animate">Search Now Opens Modal</a>
+                        <a href="{{ route('browse.property') }}" class="pxp-primary-cta text-uppercase mt-3 mt-md-5 pxp-animate">Search Now</a>
                     </div>
                 </div>
             </div>
@@ -334,6 +310,7 @@
 @section('scripts')
 <script src="{{ asset('assets/light/js/owl.carousel.min.js') }}"></script>
 <script>
+
     function autocomplete(inp, arr) {
         var currentFocus;
         inp.addEventListener("input", function(e) {
@@ -438,13 +415,6 @@
     /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
     autocomplete(document.getElementById("location"), countries);
 
-    $(".btnHeart").on("click", function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        //login before saving
-        alert()
-        return false;
-    });
 </script>
 <script type="text/javascript" id="cookieinfo"
     src="//cookieinfoscript.com/js/cookieinfo.min.js"
