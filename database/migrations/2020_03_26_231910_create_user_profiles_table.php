@@ -21,7 +21,11 @@ class CreateUserProfilesTable extends Migration
             $table->string('marital_status')->nullable();
             $table->string('children')->nullable();
             $table->string('city')->nullable();
+            $table->string('country')->nullable();
             $table->string('occupation')->nullable();
+            $table->string('emergency')->nullable();
+            $table->string('id_front')->nullable();
+            $table->string('id_back')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

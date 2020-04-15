@@ -7,7 +7,7 @@
         <meta content="Fiifi Pius Geek" name="author" />
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>OShelta - {{$page_title}} </title>
+        <title>OShelter - {{$page_title}} </title>
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
@@ -18,6 +18,7 @@
         <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/metisMenu.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/my-styles.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
 
     </head>
@@ -96,13 +97,14 @@
                     <li class="dropdown">
                         <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="false" aria-expanded="false">
-                            <img src="{{ (empty(Auth::user()->image))? asset('assets/images/user.jpg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ Auth::user()->membership }}" class="rounded-circle img_preview" /> 
+                            <img src="{{ (empty(Auth::user()->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ Auth::user()->membership }}" class="rounded-circle img_preview" /> 
                             <span class="ml-1 nav-user-name hidden-sm">{{ current(explode(' ',Auth::user()->name)) }} <i class="mdi mdi-chevron-down"></i> </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="{{ route('account') }}"><i class="dripicons-user text-muted mr-2"></i> My Account</a>
                             <a class="dropdown-item" href="{{route('saved')}}"><i class="dripicons-heart text-muted mr-2"></i> Saved</a>
                             <a class="dropdown-item" href="{{route('wallet')}}"><i class="dripicons-wallet text-muted mr-2"></i> My Wallet</a>
+                            <a class="dropdown-item" href="{{route('activities')}}"><i class="dripicons-view-list text-muted mr-2"></i> My Activities</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"  href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="dripicons-exit text-muted mr-2"></i> Logout</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

@@ -32,13 +32,13 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="blog-card">
-                                        <a href="{{ route('host.property.preview', $list->property_id) }}">
+                                        <a href="{{ route('single.property', $list->property_id) }}">
                                             <img src="{{ asset('assets/images/properties/'.$list->property->propertyImages->first()->image) }}" alt="PropertyPhoto" class="img-fluid">
                                         </a>         
                                         <div class="mt-2 text-center">
-                                            <i class="fa fa-trash text-danger float-right" style="cursor:pointer" onclick="window.location='{{ route('host.saved.remove', $list->id) }}'"></i>
+                                            <i class="fa fa-trash text-danger float-right" style="cursor:pointer" onclick="window.location='{{ route('saved.remove', $list->id) }}'"></i>
                                             <h5>
-                                                <a href="{{ route('host.property.preview', $list->property_id) }}" class="text-primary">{{ $list->property->title }}</a>
+                                                <a href="{{ route('single.property', $list->property_id) }}" class="text-primary">{{ $list->property->title }}</a>
                                             </h5>
                                         </div>
                                     </div><!--end blog-card-->                                   

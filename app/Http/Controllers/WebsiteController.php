@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\User;
 use App\UserModel\Amenity;
 use App\UserModel\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyType;
 use App\PropertyModel\PropertyImage;
+use App\UserModel\AccountReactivate;
+use Illuminate\Support\Facades\Hash;
 use App\PropertyModel\PropertyCategory;
 use App\PropertyModel\PropertyLocation;
 
@@ -73,7 +78,65 @@ class WebsiteController extends Controller
         return view('choose-us', $data);
     }
 
+
+    //view deactivated account 
+    public function accountDeactivated()
+    {
+        $data['page_title'] = 'Account deactivated';
+        $data['menu'] = 'pxp-no-bg';
+        return view('deactivated', $data);
+    }
+
+    //view reactivate account 
+    public function reactivateAccount()
+    {
+        $data['page_title'] = 'Re-activate account';
+        $data['menu'] = 'pxp-no-bg';
+        return view('reactivate', $data);
+    }
+
+    //send reactivate email
+    public function sendReactivateEmail(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'email' => 'required|email',
+        ]);
+        if ($validator->fails()){
+            $message = 'Invalid email. Try again.';
+        }
+        else{
+            if(User::whereEmail($request->email)->whereActive(0)->exists()){
+                $token = Hash::make(Str::random(72));
+                $account = AccountReactivate::whereEmail($request->email)->first();
+                if(empty($account)){
+                    $acc = new AccountReactivate;
+                    $acc->email = $request->email;
+                    $acc->token = $token;
+                    $acc->save();
+                }
+                else{
+                    $update = DB::update('update account_reactivates set token = ? where email = ?', [$token, $request->email]);
+                }
+
+                //send email 
+                $message='success';
+            }else{
+                $message="Email address not found.";
+            }
+        }
+
+        return $message;
+    }
+
     
+    //contact page
+    public function help()
+    {
+        $data['page_title'] = 'Need help';
+        $data['menu'] = 'pxp-no-bg';
+        return view('help', $data);
+    }
+
     //contact page
     public function contact()
     {

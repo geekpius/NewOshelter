@@ -24,10 +24,10 @@ class CreateUsersTable extends Migration
             $table->integer('active')->default(2);
             $table->string('role');
             $table->string('image')->nullable();
-            $table->string('subscription')->nullable();
-            $table->date('expiry')->nullable();
-            $table->boolean('verify_email')->default(0);
-            $table->dateTime('verify_time')->nullable();
+            $table->boolean('verify_email')->default(false);
+            $table->boolean('verify_sms')->default(false);
+            $table->dateTime('verify_email_time')->nullable();
+            $table->dateTime('verify_sms_time')->nullable();
             $table->dateTime('login_time')->nullable();
             $table->rememberToken();
             $table->timestamps();

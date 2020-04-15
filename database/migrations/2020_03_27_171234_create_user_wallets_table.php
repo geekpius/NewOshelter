@@ -17,7 +17,7 @@ class CreateUserWalletsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->double('balance')->default(0);
-            $table->string('currency')->nullable();
+            $table->string('currency')->default('GH¢');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

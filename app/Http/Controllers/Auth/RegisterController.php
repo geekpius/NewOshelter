@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use DB;
 use App\User;
+use Carbon\Carbon;
+use App\UserModel\UserWallet;
+use App\UserModel\UserNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -60,7 +64,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|max:255|unique:users',
             'digital_address' => 'required|string',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
         ]);
     }
 
@@ -73,16 +77,37 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $membership = gmdate('ymdHis');
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'],
-            'digital_address' => $data['digital_address'],
-            'membership' => $membership,
-            'login_time' => Carbon::now(),
-            'password' => Hash::make($data['password']),
-        ]);
+        try{
+            DB::beginTransaction();
+            $membership = date('ymdHis');
+            $role = empty($data['owner'])? 'user':'owner';
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'],
+                'digital_address' => $data['digital_address'],
+                'membership' => $membership,
+                'role' => $role,
+                'login_time' => Carbon::now(),
+                'password' => Hash::make($data['password']),
+            ]);
+            
+            UserWallet::create([
+                'user_id' => $user->id,
+                'balance' => 0,
+            ]);
+            UserNotification::create([
+                'user_id' => $user->id,
+            ]);
+            DB::commit();
+
+            return $user;
+
+        }catch(\Exception $e){
+            DB::rollback();
+            session()->flash('error','Please login later.');
+            return redirect()->back();
+        }
     }
 
 

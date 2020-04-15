@@ -29,8 +29,7 @@ class VerifyUser
         else if ($user->active==0) {
             Auth::guard()->logout();
             $request->session()->invalidate();
-            session()->flash('error','Your Account Is Deactivated.');
-            return redirect()->route('login');
+            return redirect()->route('account.deactivated');
         }
 
 

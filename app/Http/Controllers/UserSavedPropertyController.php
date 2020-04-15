@@ -39,11 +39,15 @@ class UserSavedPropertyController extends Controller
         }
         else{
             if(auth()->check()){
-                $save = new UserSavedProperty;
-                $save->user_id = Auth::user()->id;
-                $save->property_id = $request->property_id;
-                $save->save();
-                $message='success';
+                if(UserSavedProperty::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->count()>0){
+                    $message='exist';
+                }else{
+                    $save = new UserSavedProperty;
+                    $save->user_id = Auth::user()->id;
+                    $save->property_id = $request->property_id;
+                    $save->save();
+                    $message='success';
+                }
             }
             else{
                 $message= 'auth';

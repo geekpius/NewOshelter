@@ -34,9 +34,9 @@
                             <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">List Property</a></li>
                             <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">List Culture & tour</a></li>
                             @guest
-                            <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">Become an Owner</a></li>
+                            <li class="list-inline-item"><a href="{{ route('owner.register') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Become an Owner</a></li>
                             @endguest
-                            <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">Help?</a></li>
+                            <li class="list-inline-item"><a href="{{ route('help') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Help?</a></li>
                             @guest
                             <li class="list-inline-item ml-lg-5"><a class="font-14 font-14-sm-laptop font-14-lg-laptop" href="{{ route('login') }}" id="signIn">sign In</a></li>
                             <li class="list-inline-item"><a class="font-14 font-14-sm-laptop font-14-lg-laptop" href="{{ route('register') }}" id="signUp">sign Up</a></li>
@@ -48,7 +48,7 @@
                         @auth
                         <div class="dropdown">
                             <a href="javascript:void(0);" class="pxp-header-user" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset('assets/images/'.(empty(Auth::user()->image)? 'user.jpg':'users/'.Auth::user()->image)) }}" alt="Avatar" class="rounded-circle thumb-md">
+                                <img src="{{ asset('assets/images/'.(empty(Auth::user()->image)? 'user.svg':'users/'.Auth::user()->image)) }}" alt="Avatar" class="rounded-circle thumb-md">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="{{ route('dashboard') }}"><span class="fa fa-dashboard"></span> Dashboard</a>
@@ -91,7 +91,7 @@
                             <div class="col-sm-12 col-md-4">
                                 <h4 class="pxp-footer-header mt-4 mt-lg-0">Company</h4>
                                 <ul class="list-unstyled pxp-footer-links mt-2">
-                                    <li><a href="{{ route('index') }}">OShelta</a></li>
+                                    <li><a href="{{ route('index') }}">OShelter</a></li>
                                     <li><a href="{{ route('contact') }}">Contact Us</a></li>
                                 </ul>
                             </div>
@@ -117,7 +117,7 @@
                 </div>
 
                 <div class="pxp-footer-bottom mt-2">
-                    <div><a href="#">Terms & Conditions</a> &nbsp; <a href="#">Privacy Policy</a> &nbsp; <a href="#">Sitemap</a></div>
+                    <div><a href="#">Terms & Conditions</a> &nbsp; <a href="#">Privacy Policy</a></div>
                     <div class="pxp-footer-copyright">&copy; OShelter <script>document.write(new Date().getFullYear());</script>. All Rights Reserved.</div>
                 </div>
             </div>

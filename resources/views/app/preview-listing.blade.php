@@ -24,9 +24,6 @@
         float: left;
         clear: right;
     }
-    .no-border {
-        border:none !important;
-    }
     .remove-on-every-screen{
         display: none;
     }

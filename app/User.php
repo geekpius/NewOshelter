@@ -3,12 +3,17 @@
 namespace App;
 
 use Carbon\Carbon;
+use App\UserModel\Vat;
+use App\UserModel\UserLogin;
 use App\UserModel\UserTicket;
 use App\UserModel\UserWallet;
 use App\UserModel\UserProfile;
+use App\UserModel\UserActivity;
 use App\PropertyModel\PropertyBid;
 use App\PropertyModel\PropertyBuy;
 use App\PropertyModel\PropertyRent;
+use App\UserModel\UserNotification;
+use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'membership', 'phone', 'digital_address', 'role', 'login_time',
     ];
 
     /**
@@ -65,6 +70,22 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
+    public function userLogins(){
+        return $this->hasMany(UserLogin::class);
+    }
+
+    public function userActivities(){
+        return $this->hasMany(UserActivity::class);
+    }
+
+    public function vat(){
+        return $this->hasOne(Vat::class);
+    }
+
+    public function userNotification(){
+        return $this->hasOne(UserNotification::class);
+    }
+
     public function propertyReviews(){
         return $this->hasMany(PropertyReview::class);
     }
@@ -87,6 +108,10 @@ class User extends Authenticatable
 
     public function userTickets(){
         return $this->hasMany(UserTicket::class);
+    }
+
+    public function userSavedProperties(){
+        return $this->hasMany(UserSavedProperty::class);
     }
 
 

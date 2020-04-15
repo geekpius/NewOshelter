@@ -18,7 +18,11 @@ Route::get('/category-properties/{category}', 'WebsiteController@categoryPropert
 Route::get('/single-property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
 Route::get('/properties', 'WebsiteController@property')->name('browse.property');
 Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
+Route::get('/help', 'WebsiteController@help')->name('help');
 Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
+Route::get('/account-deactivated', 'WebsiteController@accountDeactivated')->name('account.deactivated');
+Route::get('/reactivate-account', 'WebsiteController@reactivateAccount')->name('account.reactivate');
+Route::post('/reactivate-account', 'WebsiteController@sendReactivateEmail')->name('account.reactivate.submit');
 
 
 /*----------------Start User Route List----------------------------- */
@@ -40,19 +44,36 @@ Route::group(['prefix' => 'user'], function () {
     /*------- Nav actions ------- */
     Route::get('/saved', 'UserSavedPropertyController@index')->name('saved');
     Route::post('/saved', 'UserSavedPropertyController@store')->name('saved.submit');
-    Route::get('/saved/{propertyList}/remove', 'UserSavedPropertyController@removeSaved')->name('saved.remove');
+    Route::get('/saved/{userSavedProperty}/remove', 'UserSavedPropertyController@removeSaved')->name('saved.remove');
     Route::get('/wallet', 'UserWalletController@index')->name('wallet');
+    Route::get('/activities', 'UserActivityController@index')->name('activities');
 
     /*------- Account and Profile ------- */
     Route::get('/account', 'UserProfileController@index')->name('account');
+    Route::post('/account/name', 'UserProfileController@updateName')->name('account.name');
     Route::post('/account/gender', 'UserProfileController@updateGender')->name('account.gender');
     Route::post('/account/dob', 'UserProfileController@updateDob')->name('account.dob');
     Route::post('/account/marital-status', 'UserProfileController@updateMaritalStatus')->name('account.marital');
     Route::post('/account/children', 'UserProfileController@updateChildren')->name('account.children');
     Route::post('/account/city', 'UserProfileController@updateCity')->name('account.city');
     Route::post('/account/occupation', 'UserProfileController@updateOccupation')->name('account.occupation');
+    Route::post('/account/emergency', 'UserProfileController@updateEmergency')->name('account.emergency');
     Route::post('/change-password', 'UserProfileController@updatePassword')->name('password.change');
     Route::post('/change-photo', 'UserProfileController@uploadProfilePhoto')->name('profile.photo');
+    Route::post('/change-front-card', 'UserProfileController@uploadFrontCard')->name('profile.front.card');
+    Route::post('/change-back-card', 'UserProfileController@uploadBackCard')->name('profile.back.card');
+        
+    Route::get('/get-vat', 'VatController@getVat')->name('profile.vat');
+    Route::post('/vat', 'VatController@store')->name('profile.vat.submit');
+
+    Route::post('/check-message-notify', 'UserNotificationController@checkMessage')->name('profile.message.notify');
+    Route::post('/check-support-notify', 'UserNotificationController@checkSupport')->name('profile.support.notify');
+    Route::post('/check-reminder-notify', 'UserNotificationController@checkReminder')->name('profile.reminder.notify');
+    Route::post('/check-policy-notify', 'UserNotificationController@checkPolicy')->name('profile.policy.notify');
+    Route::post('/check-unsubscribe-notify', 'UserNotificationController@checkToggleSubscribe')->name('profile.unsubscribe.notify');
+
+    Route::get('/deactivate-account', 'DeactivateUserController@index')->name('profile.deactivate');
+    Route::post('/deactivate-account', 'DeactivateUserController@submitDeactivate')->name('profile.deactivate.submit');
 
     /*------- Listing Properties ------- */
     Route::get('/properties', 'PropertyController@index')->name('property');

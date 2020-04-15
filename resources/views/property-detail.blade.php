@@ -58,7 +58,7 @@
             @endif
             @endforeach 
         </div>
-        <a href="javascript:void(0);" class="pxp-sp-gallery-btn">Browse Photos <i class="fa fa-photo text-pink"></i></a>
+        <a href="javascript:void(0);" class="pxp-sp-gallery-btn"><i class="fa fa-photo text-pink"></i> View all {{ count($images)+1 }} photos </a>
         <div class="clearfix"></div>
     </div>
     <hr>

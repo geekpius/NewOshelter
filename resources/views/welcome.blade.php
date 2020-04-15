@@ -38,26 +38,28 @@
         </div>
     </div>
 
-    <div class="container mt-100">
+    <div class="container-fluid pxp-props-carousel-right mt-100">
         <h2 class="pxp-section-h2">Explore Your Curiosity</h2>
         <p class="pxp-text-light">Browse our comprehensive category listing</p>
-
-        <div class="row mt-4 mt-md-5">
-            @foreach ($categories as $cate)
-            <div class="col-sm-12 col-md-6 col-lg-3">
-                <a href="{{ route('category.property',$cate->name) }}" class="pxp-areas-1-item rounded-lg">
-                    <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/light/images/area-1.jpg') }});"></div>
-                    <div class="pxp-areas-1-item-details">
-                        <div class="pxp-areas-1-item-details-area">{{ ucwords(str_replace('-',' ',$cate->name))}}</div>
-                    </div>
-                    <div class="pxp-areas-1-item-counter"><span>
-                    @php $propCount = \App\PropertyModel\PropertyCategory::whereCategory($cate->name)->count(); @endphp    
-                    {{ $propCount. ' Properties' }}
-                    </span></div>
-                    <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
-                </a>
+        <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
+            <div class="owl-carousel pxp-props-carousel-right-stage">
+                @foreach ($categories as $cate)
+                <div>
+                    <a href="{{ route('category.property',$cate->name) }}" class="pxp-areas-1-item rounded-lg">
+                        @php $image = empty($cate->image)? 'area-1.jpg':'categories/'.$cate->image; @endphp
+                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/'.$image) }});"></div>
+                        <div class="pxp-areas-1-item-details">
+                            <div class="pxp-areas-1-item-details-area">{{ ucwords(str_replace('-',' ',$cate->name))}}</div>
+                        </div>
+                        <div class="pxp-areas-1-item-counter"><span class="text-primary">
+                        @php $propCount = \App\PropertyModel\PropertyCategory::whereCategory($cate->name)->count(); @endphp    
+                        {{ $propCount. ' Properties' }}
+                        </span></div>
+                        <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
+                    </a>
+                </div>
+                @endforeach
             </div>
-            @endforeach
         </div>
     </div>
 

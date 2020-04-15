@@ -1353,9 +1353,9 @@ h1.pxp-page-header {
     display: block;
     position: relative;
     overflow: hidden;
-    height: 180px;
-    box-shadow: 0px 15px 30px rgba(0,0,0,0.10);
-    margin-bottom: 30px;
+    height: 400px;
+    /* box-shadow: 0px 15px 30px rgba(0,0,0,0.10); */
+    margin-bottom: 10px;
 }
 .pxp-areas-1-item-fig {
     position: absolute;

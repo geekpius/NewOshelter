@@ -17,9 +17,13 @@
                             <p class="text-muted mb-0">Fill Your Information.</p>  
                         </div> <!--end auth-logo-text-->  
 
+                        @include('includes.alerts')
                         
                         <form class="form-horizontal auth-form my-4" id="formSignup" method="POST" action="{{ url('register') }}">
                             @csrf
+                            @if (Route::currentRouteNamed('owner.register'))
+                                <input type="hidden" name="owner" readonly value="owner">
+                            @endif
                             <div class="form-group validate">
                                 <div class="input-group mb-3">
                                     <span class="auth-form-icon">

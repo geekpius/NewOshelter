@@ -8,6 +8,7 @@ use App\PropertyModel\PropertyRent;
 use App\PropertyModel\PropertyRule;
 use App\PropertyModel\PropertyImage;
 use App\PropertyModel\PropertyPrice;
+use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
 use App\PropertyModel\PropertyAmenity;
 use App\PropertyModel\PropertyContain;
@@ -91,6 +92,10 @@ class Property extends Model
 
     public function propertyCategories(){
         return $this->hasMany(PropertyCategory::class);
+    }
+
+    public function userSavedProperties(){
+        return $this->hasMany(UserSavedProperty::class);
     }
 
 

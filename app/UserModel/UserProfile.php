@@ -11,7 +11,7 @@ class UserProfile extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id', 'gender', 'dob', 'marital_status', 'children', 'city', 'occupation', 'marital_status',
+        'user_id', 'gender', 'dob', 'marital_status', 'children', 'city', 'occupation', 'emergency', 'id_front', 'id_back',
     ];
 
     public function user(){

@@ -18,6 +18,8 @@
                         </div> <!--end auth-logo-text-->  
 
                         
+                        @include('includes.alerts')
+                        
                         <form class="form-horizontal auth-form my-4" id="formSignIn" method="POST" action="{{ url('login') }}">
                             @csrf
                             <div class="form-group validate">

@@ -26,6 +26,27 @@ class UserProfileController extends Controller
         return view('app.account', $data);
     }
 
+    //update name profiles
+    public function updateName(Request $request)
+    {
+        if(empty($request->value))
+        {
+            return 'error';
+        }
+        else{
+            $profile = User::FindorFail(Auth::user()->id);
+            $profile->name= $request->value;
+            $profile->update();
+            
+            if($profile){
+                return 'updated';
+            }
+            else{
+                return 'error';
+            }
+        }
+    }
+
     //update gender profiles
     public function updateGender(Request $request)
     {
@@ -158,6 +179,30 @@ class UserProfileController extends Controller
         }
     }
 
+    ///update emergency contact profiles
+    public function updateEmergency(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'value' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()){
+            return 'fail';
+        }else{
+            $profile = UserProfile::updateOrCreate(
+                ['user_id'=>Auth::user()->id],
+                ['emergency'=>$request->value]
+            );
+            
+            if($profile){
+                return 'updated';
+            }
+            else{
+                return 'error';
+            }
+        }
+    }
+
     public function updatePassword(Request $request)
     {
         $validator = \Validator::make($request->all(), [
@@ -227,6 +272,102 @@ class UserProfileController extends Controller
              
     }
 
+
+    public function uploadFrontCard(Request $request)
+    {    
+        $validator = \Validator::make($request->all(), [
+            'front_file' => 'required|image|mimes:jpg,png,jpeg|max:1024',
+        ]);
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            //upload image
+            if($request->hasFile('front_file')){
+                try{
+                    DB::beginTransaction();
+                    $user = UserProfile::whereUser_id(Auth::user()->id)->first();
+                    $photo = $request->file('front_file');
+                    $name = sha1(date('YmdHis') . str_random(30));
+                    $new_name = Auth::user()->id . $name . '.' . $photo->getClientOriginalExtension();
+                    $location = 'assets/images/cards/' . $new_name;
+                    Image::make($photo)->resize(300, 200)->save($location); 
+                    //delete old photo
+                    if(!empty($user)){
+                        if(!empty($user->id_front)){
+                            \File::delete("assets/images/cards/".$user->id_front);
+                        }
+                    }
+                    $profile = UserProfile::updateOrCreate(
+                        ['user_id'=>Auth::user()->id],
+                        ['id_front'=>$new_name]
+                    );
+
+                    DB::commit();
+                    $message = $profile->id_front;
+                }catch(\Exception $e){
+                    DB::rollback();
+                    $message = 'error';
+                }
+            }
+            else{
+                $message = 'nophoto';
+            }
+        }
+
+        return $message;
+             
+    }
+
+
+    public function uploadBackCard(Request $request)
+    {    
+        $validator = \Validator::make($request->all(), [
+            'back_file' => 'required|image|mimes:jpg,png,jpeg|max:1024',
+        ]);
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            //upload image
+            if($request->hasFile('back_file')){
+                try{
+                    DB::beginTransaction();
+                    $user = UserProfile::whereUser_id(Auth::user()->id)->first();
+                    $photo = $request->file('back_file');
+                    $name = sha1(date('YmdHis') . str_random(30));
+                    $new_name = Auth::user()->id . $name . '.' . $photo->getClientOriginalExtension();
+                    $location = 'assets/images/cards/' . $new_name;
+                    Image::make($photo)->resize(300, 200)->save($location); 
+                    //delete old photo
+                    if(!empty($user)){
+                        if(!empty($user->id_back)){
+                            \File::delete("assets/images/cards/".$user->id_back);
+                        }
+                    }
+                    $profile = UserProfile::updateOrCreate(
+                        ['user_id'=>Auth::user()->id],
+                        ['id_back'=>$new_name]
+                    );
+
+                    DB::commit();
+                    $message = $profile->id_back;
+                }catch(\Exception $e){
+                    DB::rollback();
+                    $message = 'error';
+                }
+            }
+            else{
+                $message = 'nophoto';
+            }
+        }
+
+        return $message;
+             
+    }
+
+    
+
+    
+    
 
     
     

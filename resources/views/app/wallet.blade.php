@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="wallet-bal-usd mb-2">
-                                <h4 class="wallet-title m-0">Shelta-Pay Balence</h4>
+                                <h4 class="wallet-title m-0">OS-Pay Balance</h4>
                                 <span class="text-muted font-12">as at {{\Carbon\Carbon::parse(Auth::user()->userWallet->updated_at)->format('d F, Y')}}</span>
                                 <h3 class="text-center"> {{Auth::user()->userWallet->currency}} {{number_format(Auth::user()->userWallet->balance,2)}}</h3>
                             </div> 
