@@ -13,7 +13,7 @@ class PropertyHostelBlock extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'property_id', 'block_name', 'type', 'no_room', 'bed', 'per_room', 'kitchen', 'bathroom', 'bath_private', 'toilet', 'toilet_private',
+        'property_id', 'block_name',
     ];
 
     public function property(){
@@ -37,10 +37,10 @@ class PropertyHostelBlock extends Model
         return ucwords($value);
     }
     
-    public function getTypeAttribute($value)
-    {
-        return ucwords(str_replace('_',' ',$value));
-    }
+    // public function getTypeAttribute($value)
+    // {
+    //     return ucwords(str_replace('_',' ',$value));
+    // }
 
 
 }

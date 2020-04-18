@@ -134,7 +134,7 @@ $("#formReply").on("submit", function(e){
         $(".btnSubmitReply").html('<i class="fa fa-spin fa-spinner"></i> Replying...').attr('disabled', true);
         var data  = $("#formReply").serialize();
         $.ajax({
-            url: "{{route('host.ticket.reply')}}",
+            url: "{{route('ticket.reply')}}",
             type: "POST",
             data: data,
             success: function(resp){

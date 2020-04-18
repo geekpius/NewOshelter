@@ -45,7 +45,7 @@ class WebsiteController extends Controller
     public function singleProperty(Property $property)
     {
         if($property->done_step){
-            $data['page_title'] = 'View '.$property->title.' details';
+            $data['page_title'] = 'View '.$property->title.' details. Have all the overviews of property';
             $data['menu'] = 'pxp-no-bg';
             $data['property'] = $property;
             $countImages = PropertyImage::whereProperty_id($property->id)->count();
@@ -61,7 +61,7 @@ class WebsiteController extends Controller
     //all properties
     public function property()
     {
-        $data['page_title'] = 'Browse all properties';
+        $data['page_title'] = 'Browse all properties of any kind';
         $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::where('type', '!=', 'hostel')->wherePublish(true)->orderBy('id', 'DESC')->get();
         $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
@@ -90,7 +90,7 @@ class WebsiteController extends Controller
     //view reactivate account 
     public function reactivateAccount()
     {
-        $data['page_title'] = 'Re-activate account';
+        $data['page_title'] = 'Re-activate your OShelter account';
         $data['menu'] = 'pxp-no-bg';
         return view('reactivate', $data);
     }
@@ -128,13 +128,36 @@ class WebsiteController extends Controller
         return $message;
     }
 
-    
-    //contact page
-    public function help()
+    //own property
+    public function ownProperty()
     {
-        $data['page_title'] = 'Need help';
+        $data['page_title'] = 'Own a property of any kind for rent, sell and auction on OShelter';
         $data['menu'] = 'pxp-no-bg';
-        return view('help', $data);
+        return view('ownproperty', $data);
+    }
+
+    //host an event
+    public function hostEvent()
+    {
+        $data['page_title'] = 'Host an event, make it know to the world on OShelter';
+        $data['menu'] = 'pxp-no-bg';
+        return view('hostevent', $data);
+    }
+    
+    //owner help page
+    public function ownerHelp()
+    {
+        $data['page_title'] = 'Property owner help';
+        $data['menu'] = 'pxp-no-bg';
+        return view('ownerhelp', $data);
+    }
+
+    //booking help page
+    public function bookingHelp()
+    {
+        $data['page_title'] = 'Booking and travellers help';
+        $data['menu'] = 'pxp-no-bg';
+        return view('bookinghelp', $data);
     }
 
     //contact page

@@ -1,10 +1,7 @@
-<table id="myTable" class="table table-striped small">
+<table id="myTable" class="table table-striped mt-2">
     <thead>
         <tr>
             <th>Block Name</th>
-            <th>Room Type</th>
-            <th>No(Rooms)</th>
-            <th>Per Room</th>
             <th>Remove</th>
         </tr>
     </thead>
@@ -12,10 +9,7 @@
         @foreach ($blocks as $item)
         <tr class="records">
             <td>{{ $item->block_name }}</td>
-            <td>{{ $item->type }}</td>
-            <td class="text-right text-primary">{{ $item->no_room }}</td>
-            <td class="text-right text-pink">{{ $item->per_room }}</td>
-            <td class="text-center">
+            <td class="">
                 <a href="javascript:void(0);" title="Remove" data-href="{{ route('property.block.delete', $item->id) }}" class="btnRemoveBlock"><i class="fa fa-times text-danger"></i></a>
             </td>
         </tr>    

@@ -11,7 +11,7 @@ class PropertyPrice extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'property_id', 'payment_duration', 'price_calendar', 'property_price', 'currency', 'negotiable',
+        'property_id', 'payment_duration', 'minimum_stay', 'maximum_stay', 'price_calendar', 'property_price', 'currency', 'negotiable',
     ];
 
     public function property(){

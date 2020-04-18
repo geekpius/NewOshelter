@@ -21,9 +21,6 @@
                         
                         <form class="form-horizontal auth-form my-4" id="formSignup" method="POST" action="{{ url('register') }}">
                             @csrf
-                            @if (Route::currentRouteNamed('owner.register'))
-                                <input type="hidden" name="owner" readonly value="owner">
-                            @endif
                             <div class="form-group validate">
                                 <div class="input-group mb-3">
                                     <span class="auth-form-icon">
@@ -31,7 +28,7 @@
                                     </span>                                                                                                              
                                     <input type="text" class="form-control" name="name" placeholder="Enter your name" autofocus>
                                 </div>  
-                                <span class="text-danger small" role="alert">{{ $errors->has('name') ? $errors->first('name') : '' }}</span>                                  
+                                <span class="text-danger small mySpan" role="alert">{{ $errors->has('name') ? $errors->first('name') : '' }}</span>                                  
                             </div><!--end form-group--> 
 
                             <div class="form-group validate">
@@ -41,7 +38,7 @@
                                     </span>                                                                                                              
                                     <input type="email" class="form-control" name="email" placeholder="Enter your email address">
                                 </div>  
-                                <span class="text-danger small" role="alert">{{ $errors->has('email') ? $errors->first('email') : '' }}</span>                                  
+                                <span class="text-danger small mySpan" role="alert">{{ $errors->has('email') ? $errors->first('email') : '' }}</span>                                  
                             </div><!--end form-group--> 
 
                             <div class="form-group validate">
@@ -51,7 +48,7 @@
                                     </span>                                                                                                 
                                     <input type="phone" class="form-control" name="phone" onkeypress="return isNumber(event);" maxlength="10" placeholder="Enter your phone number">
                                 </div>  
-                                <span class="text-danger small" role="alert">{{ $errors->has('phone') ? $errors->first('phone') : '' }}</span>                                  
+                                <span class="text-danger small mySpan" role="alert">{{ $errors->has('phone') ? $errors->first('phone') : '' }}</span>                                  
                             </div><!--end form-group--> 
 
                             <div class="form-group validate">
@@ -61,7 +58,7 @@
                                     </span>                                                                                                              
                                     <input type="phone" class="form-control" name="digital_address" id="digital_address" oninput="getUpperCase('digital_address')" placeholder="Enter your digital address">
                                 </div>  
-                                <span class="text-danger small" role="alert">{{ $errors->has('digital_address') ? $errors->first('digital_address') : '' }}</span>                                  
+                                <span class="text-danger small mySpan" role="alert">{{ $errors->has('digital_address') ? $errors->first('digital_address') : '' }}</span>                                  
                             </div><!--end form-group--> 
 
                             <div class="form-group validate">                                           
@@ -69,9 +66,10 @@
                                     <span class="auth-form-icon">
                                         <i class="dripicons-lock"></i> 
                                     </span>                                                       
-                                    <input type="password" class="form-control" name="password" placeholder="Enter your password">
+                                    <input type="password" class="form-control" name="password" onkeyup="validatePassword(this.value);" placeholder="Enter your password">
                                 </div>    
-                                <span class="text-danger small" role="alert">{{ $errors->has('password') ? $errors->first('password') : '' }}</span>                           
+                                <div class="text-center"><strong ><span id="msg"></span></strong>  </div>             
+                                <span class="text-danger small mySpan" role="alert" id="msg">{{ $errors->has('password') ? $errors->first('password') : '' }}</span>                           
                             </div><!--end form-group--> 
 
                             <div class="form-group mb-0 row">
@@ -104,7 +102,7 @@ $("#formSignup").on("submit", function(e){
         
         if(!$this.val()) {
             valid = false;
-            $this.parents('.validate').find('span:last').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
         }
     });
     if(valid) {
@@ -131,8 +129,9 @@ function isNumber(evt) {
 
 $("#formSignup input").on('input', function(){
     if($(this).val()!=''){
-        $(this).parents('.validate').find('span:last').text('');
-    }else{ $(this).parents('.validate').find('span:last').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
+        $(this).parents('.validate').find('.mySpan').text('');
+    }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
 });
+
 </script>
 @endsection

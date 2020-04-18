@@ -26,7 +26,7 @@
                             </div>
                             <div class="col-7 col-sm-7 col-md-8 col-lg-9 pxp-content-side-search-form-col autocomplete">
                                 <input type="text" name="location" class="form-control pxp-is-address" placeholder="Search by City, Neighborhood, or Address" id="location">
-                                <span class="fa fa-search"></span>
+                                <span class="fa fa-map-marker"></span>
                             </div>
                         </div>
                     </form>

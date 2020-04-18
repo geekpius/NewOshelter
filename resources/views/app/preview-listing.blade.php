@@ -100,12 +100,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="text-center">
-                        @if ($property->done_step)
-                            <a href="javascript:void(0);" class="mr-4 text-primary" onclick="window.location='{{ route('property') }}';"><i class="fa fa-backward"></i> Go Back</a>
-                            <a href="javascript:void(0);" class="mr-2 text-pink"><i class="fa fa-heart"></i> Save</a>
-                        @else    
-                            <a href="javascript:void(0);" onclick="window.location='{{ route('property.create', $property->id) }}';" class="mr-2 text-pink"><i class="fa fa-heart"></i> Save</a>
-                        @endif
+                        <a href="javascript:void(0);" onclick="window.location='{{ route('property.create', $property->id) }}';" class="mr-2 text-pink"><i class="fa fa-heart"></i> Save</a>
                         <a href="#shareModal" data-toggle="modal" data-backdrop="static" class="ml-2 text-pink"><i class="fa fa-share"></i> Share</a>
                     </div>
                     <div class="row">
@@ -182,7 +177,7 @@
                                 (<a href="{{ route('property.edit', $property->id) }}" class="text-primary"><i class="fa fa-edit"></i> Edit Listing</a>)
                                 @endif
                             </h3>
-                            <p><i class="fa fa-map-marker-alt text-success"></i> {{  $property->propertyLocation->location  }} - <a href="javascript:void(0);" class="text-primary" target="_blank">{{ $property->propertyLocation->digital_address }}</a> </p>
+                            <p><i class="fa fa-map-marker-alt text-success"></i> {{  $property->propertyLocation->location  }} - {{ $property->propertyLocation->digital_address }} </p>
                             
                             <hr>
                             <!-- Contained amenities -->
@@ -238,12 +233,6 @@
                             @endif 
 
                             <hr>
-                            @if (count($property->propertyReviews))
-                                <h5><b>Overview</b></h5>
-                                @if ($property->type=='hostel')
-                                @else
-                                @endif
-                            @endif
                             <p>
                                 <b>Other notice</b><br>
                                 @if ($property->propertyDescription->gate)
@@ -292,12 +281,9 @@
                                     @if ($property->type_status=='rent')
                                         <div class="col-sm-12 col-lg-6">
                                             <div class="pro-order-box">
-                                                <i class="fa fa-user-circle text-primary"></i>
-                                                <h4 class="header-title">{{ $property->vacant? 'Available, ready for renting':'Rented, too late' }}</h4>
+                                                <h4 class="header-title {{ $property->vacant? 'text-primary':'text-danger' }}">{{ $property->vacant? 'Available, ready for renting':'Rented, too late' }}</h4>
                                                 <p class=""><i class="fa fa-check text-success" style="font-size:9px"></i>
-                                                    @if ($property->propertyPrice->payment_duration==3)
-                                                        <span>3 months advance payment</span>
-                                                    @elseif ($property->propertyPrice->payment_duration==6)
+                                                    @if ($property->propertyPrice->payment_duration==6)
                                                         <span>6 months advance payment</span>
                                                     @elseif ($property->propertyPrice->payment_duration==12)
                                                         <span>1 year advance payment</span>
@@ -307,8 +293,100 @@
                                                     <br>
                                                     <i class="fa fa-check text-success" style="font-size:9px"></i>
                                                     <span>
-                                                        <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b> 
-                                                        per {{ $property->propertyPrice->price_calendar }}
+                                                        <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>
+                                                        /{{ $property->propertyPrice->price_calendar }}
+                                                    </span><br>
+                                                    <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                    <span>{{ $property->adult+$property->children+$property->infant }} Guests</span><br>
+                                                    <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                    <span>{{ $property->adult==1? $property->adult.' Adult':$property->adult.' Adults' }}</span> |
+                                                    <span>
+                                                    @if($property->children==0)
+                                                    No Children
+                                                    @elseif($property->children==1)
+                                                    {{ $property->children.' Child' }}
+                                                    @else
+                                                    {{ $property->children.' Children' }}
+                                                    @endif
+                                                    </span> |
+                                                    <span>
+                                                        @if($property->infant==0)
+                                                        No Infant
+                                                        @elseif($property->infant==1)
+                                                        {{ $property->infant.' Infant' }}
+                                                        @else
+                                                        {{ $property->infant.' Infants' }}
+                                                        @endif
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @elseif ($property->type_status=='short_stay')
+                                        <div class="col-sm-12 col-lg-6">
+                                            <div class="pro-order-box">
+                                                <h4 class="header-title {{ $property->vacant? 'text-primary':'text-danger' }}">{{ $property->vacant? 'Available, ready for booking':'Booked, too late' }}</h4>
+                                                <p class=""><i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                    <span>
+                                                        @if ($property->propertyPrice->minimum_stay==3)
+                                                            3 days minimum stay
+                                                        @elseif ($property->propertyPrice->minimum_stay==4)
+                                                            4 days minimum stay
+                                                        @elseif ($property->propertyPrice->minimum_stay==5)
+                                                            5 days minimum stay
+                                                        @elseif ($property->propertyPrice->minimum_stay==6)
+                                                            6 days minimum stay
+                                                        @elseif ($property->propertyPrice->minimum_stay==7)
+                                                            1 week minimum stay
+                                                        @endif
+                                                    </span><br>
+                                                    <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                    <span>
+                                                        @if ($property->propertyPrice->maximum_stay==1)
+                                                            1 month maximum stay
+                                                        @elseif ($property->propertyPrice->maximum_stay==1.1)
+                                                            1 month, 1 week maximum stay
+                                                        @elseif ($property->propertyPrice->maximum_stay==1.2)
+                                                            1 month, 2 weeks maximum stay
+                                                        @elseif ($property->propertyPrice->maximum_stay==1.3)
+                                                            1 month, 3 weeks maximum stay
+                                                        @elseif ($property->propertyPrice->maximum_stay==2)
+                                                            2 months maximum stay
+                                                        @elseif ($property->propertyPrice->maximum_stay==2.1)
+                                                            2 months, 1 week maximum stay
+                                                        @elseif ($property->propertyPrice->maximum_stay==2.2)
+                                                            2 months, 2 weeks maximum stay
+                                                        @elseif ($property->propertyPrice->maximum_stay==2.3)
+                                                            2 months, 3 weeks maximum stay
+                                                        @elseif ($property->propertyPrice->maximum_stay==3)
+                                                            3 months maximum stay
+                                                        @endif
+                                                    </span><br>
+                                                    <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                    <span>
+                                                        <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>
+                                                        /{{ $property->propertyPrice->price_calendar }}
+                                                    </span><br>
+                                                    <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                    <span>{{ $property->adult+$property->children+$property->infant }} Guests</span><br>
+                                                    <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                    <span>{{ $property->adult==1? $property->adult.' Adult':$property->adult.' Adults' }}</span> |
+                                                    <span>
+                                                    @if($property->children==0)
+                                                    No Children
+                                                    @elseif($property->children==1)
+                                                    {{ $property->children.' Child' }}
+                                                    @else
+                                                    {{ $property->children.' Children' }}
+                                                    @endif
+                                                    </span> |
+                                                    <span>
+                                                        @if($property->infant==0)
+                                                        No Infant
+                                                        @elseif($property->infant==1)
+                                                        {{ $property->infant.' Infant' }}
+                                                        @else
+                                                        {{ $property->infant.' Infants' }}
+                                                        @endif
                                                     </span>
                                                 </p>
                                             </div>
@@ -453,8 +531,8 @@
                             <!-- Refund policy -->
                             <div class="mt-5">
                                 <img src="{{ asset('assets/images/logo-sm.png') }}" alt="Logo" class="thumb-xs rounded-circle img-left mr-3" /> 
-                                <p>We never rest because we care. Real Home is here to protect both interest. All rent, sell and auction is covered 
-                                    by Real Home's <a href="javascript:void(0)" class="text-primary">Refund Policy</a>.
+                                <p>We never rest because we care. OShelter is here to protect both interest. All rent, sell and auction is covered 
+                                    by OShelter's <a href="javascript:void(0)" class="text-primary">Refund Policy</a>.
                                 </p>
                             </div>
 
@@ -474,8 +552,8 @@
                             <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</button>     
                             <hr>
                             <div>
-                                <p><b>Communication always happens on Real Home's platform.</b> For the protection of your payments, never make  
-                                payments outside Real Home's website and app.</p>    
+                                <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make  
+                                payments outside OShelter's website and app.</p>    
                             </div>     
 
                             <hr>
@@ -498,8 +576,10 @@
                                 are given out to tenant after renting is confirmed.
                                 @elseif($property->type_status=='sell')
                                 are given out to buyer after buying is confirmed.
-                                @else
+                                @elseif($property->type_status=='auction')
                                 are given out to highest bidder after auctioning is won.
+                                @else
+                                are given out to guest after booking is confirmed.
                                 @endif
                             </p>                           
                             <hr>     
@@ -511,19 +591,23 @@
                                 renting is confirmed.
                                 @elseif($property->type_status=='sell')
                                 buying is confirmed.
-                                @else
+                                @elseif($property->type_status=='auction')
                                 auctioning is won and confirmed.
+                                @else
+                                booking is confirmed.
                                 @endif
                             </p>       
                             <p>
                                 <i class="fa fa-minus-circle" style="font-size: 9px"></i> 
                                 Cancellation after 72 hours of
                                 @if($property->type_status=='rent')
-                                renting will attract pernalty of waiting for that property to be rented.
+                                renting will attract penalty of waiting for that property to be rented.
                                 @elseif($property->type_status=='sell')
-                                buying will attract pernalty of waiting for that property to be bought.
+                                buying will attract penalty of waiting for that property to be bought.
+                                @elseif($property->type_status=='auction')
+                                auctioning will attract penalty of waiting for that property to be auctioned.
                                 @else
-                                auctioning will attract pernalty of waiting for that property to be auctioned.
+                                booking will attract penalty of waiting for that property to be booked.
                                 @endif
                                  
                             </p>  
@@ -531,6 +615,11 @@
                                 <p>
                                     <i class="fa fa-minus-circle" style="font-size: 9px"></i> 
                                     Eviction notice will be sent to tenants 3 months before time. Tenants will wish to extend or evict.
+                                </p>
+                            @elseif($property->type_status=='short_stay')   
+                                <p>
+                                    <i class="fa fa-minus-circle" style="font-size: 9px"></i> 
+                                    Eviction notice will be sent to guest 3 days and 1 day before time.
                                 </p>
                             @endif         
       

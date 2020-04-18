@@ -80,14 +80,12 @@ class RegisterController extends Controller
         try{
             DB::beginTransaction();
             $membership = date('ymdHis');
-            $role = empty($data['owner'])? 'user':'owner';
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'phone' => $data['phone'],
                 'digital_address' => $data['digital_address'],
                 'membership' => $membership,
-                'role' => $role,
                 'login_time' => Carbon::now(),
                 'password' => Hash::make($data['password']),
             ]);

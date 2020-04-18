@@ -174,14 +174,14 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ route('property') }}"><i class="fa fa-list-alt"></i>List Properties</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('property.add') }}"><i class="fa fa-plus-square"></i>New Listing</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{route('property.manage')}}"><i class="dripicons-wallet"></i>Manage Properties</a></li>
-                                @if (Route::currentRouteName('property.start'))
-                                <li class="nav-item" style="display:none !important"><a class="nav-link" href="{{ route('property.start') }}"><i class="dripicons-wallet"></i></a></li>
+                                @if (Route::currentRouteNamed('property.start'))
+                                <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-wallet"></i></a></li>
                                 @endif
-                                @if (Route::currentRouteName('property.edit'))
-                                <li class="nav-item" style="display:none !important"><a class="nav-link" href="{{ route('property.edit', 1) }}"><i class="dripicons-wallet"></i></a></li>
+                                @if (Route::currentRouteNamed('property.edit'))
+                                <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-wallet"></i></a></li>
                                 @endif
-                                @if (Route::currentRouteName('property.confirmdelete'))
-                                <li class="nav-item" style="display:none !important"><a class="nav-link" href="{{ route('property.confirmdelete', 1) }}"><i class="dripicons-wallet"></i></a></li>
+                                @if (Route::currentRouteNamed('property.confirmdelete'))
+                                <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-wallet"></i></a></li>
                                 @endif
                             </ul>
                         </div><!-- end Crypto -->
@@ -201,8 +201,8 @@
                             </div>
                             <ul class="nav">
                                 <li class="nav-item"><a class="nav-link" href="{{route('messages')}}"><i class="dripicons-inbox"></i>Messages</a></li>
-                                @if (Route::currentRouteName('messages.compose'))
-                                <li class="nav-item" style="display:none !important"><a class="nav-link" href="{{ route('messages.compose', 1) }}"><i class="dripicons-wallet"></i></a></li>
+                                @if (Route::currentRouteNamed('messages.compose'))
+                                <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-wallet"></i></a></li>
                                 @endif
                             </ul>
                         </div><!-- end Ecommerce -->
@@ -214,7 +214,7 @@
                                 <li class="nav-item"><a class="nav-link" href="{{route('ticket')}}"><i class="mdi mdi-ticket"></i>New Ticket</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{route('ticket.view')}}"><i class="mdi mdi-ticket-outline"></i>View All Tickets</a></li>
                                 @if (Route::currentRouteNamed('ticket.read'))
-                                <li class="nav-item" style="display:none !important"><a class="nav-link" href="{{ route('ticket.read',1) }}"><i class="mdi mdi-ticket-outline"></i></a></li>  
+                                <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="mdi mdi-ticket-outline"></i></a></li>  
                                 @endif
                                 
                             </ul>

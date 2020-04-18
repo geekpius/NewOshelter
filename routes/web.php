@@ -14,11 +14,16 @@
 
 /*----------------Website Route List----------------------------- */
 Route::get('/', 'WebsiteController@index')->name('index');
+Route::get('/own-property', 'WebsiteController@ownProperty')->name('own.property');
+Route::get('/host-event', 'WebsiteController@hostEvent')->name('host.event');
 Route::get('/category-properties/{category}', 'WebsiteController@categoryProperty')->name('category.property');
+Route::get('/category-properties/{category}/search', 'WebsiteController@categoryProperty')->name('category.property.search');
 Route::get('/single-property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
 Route::get('/properties', 'WebsiteController@property')->name('browse.property');
+Route::get('/properties/search', 'WebsiteController@property')->name('browse.property.search');
 Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
-Route::get('/help', 'WebsiteController@help')->name('help');
+Route::get('/help/property-owners', 'WebsiteController@ownerHelp')->name('help.owner');
+Route::get('/help/booking-and-travellers', 'WebsiteController@bookingHelp')->name('help.booking');
 Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
 Route::get('/account-deactivated', 'WebsiteController@accountDeactivated')->name('account.deactivated');
 Route::get('/reactivate-account', 'WebsiteController@reactivateAccount')->name('account.reactivate');

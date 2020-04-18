@@ -84,10 +84,14 @@
                             $proTypeStatus = 'buying';
                             $sinTypeStatus = 'buy';
                             $guest = 'buyer';
-                        }else{
+                        }else if($property->type_status=='auction'){
                             $proTypeStatus = 'auctioning';
                             $sinTypeStatus = 'auction';
                             $guest = 'bidder';
+                        }else{
+                            $proTypeStatus = 'booking';
+                            $sinTypeStatus = 'book';
+                            $guest = 'guest';
                         }
                     @endphp
 
@@ -97,50 +101,58 @@
                                 @if($property->type=='hostel')
                                     <li data-step="1">
                                         <span class="step">1</span>
-                                        <span class="title text-primary"><small>Blocks&Rooms</small></span>
+                                        <span class="title text-primary"><small>Hostel Blocks</small></span>
+                                    </li>
+                                    <li data-step="2">
+                                        <span class="step">2</span>
+                                        <span class="title text-primary"><small>Hostel Rooms</small></span>
+                                    </li>
+                                    <li data-step="7">
+                                        <span class="step">7</span>
+                                        <span class="title text-primary"><small>Schedule&Price</small></span>
                                     </li>
                                 @else
                                     <li data-step="1">
                                         <span class="step">1</span>
                                         <span class="title text-primary"><small>Contain Amenities</small></span>
                                     </li>
+                                    <li data-step="2">
+                                        <span class="step">2</span>
+                                        <span class="title text-primary"><small>Location/Landmark</small></span>
+                                    </li>
+
+                                    <li data-step="3">
+                                        <span class="step">3</span>
+                                        <span class="title text-primary"><small>Amenities</small></span>
+                                    </li>
+
+                                    <li data-step="4">
+                                        <span class="step">4</span>
+                                        <span class="title text-primary"><small>Photos</small></span>
+                                    </li>
+
+                                    <li data-step="5">
+                                        <span class="step">5</span>
+                                        <span class="title text-primary"><small>Descriptions</small></span>
+                                    </li>
+
+                                    <li data-step="6">
+                                        <span class="step">6</span>
+                                        <span class="title text-primary"><small>Property Rules</small></span>
+                                    </li>
+                                    <li data-step="7">
+                                        <span class="step">7</span>
+                                        <span class="title text-primary"><small>Schedule&Price</small></span>
+                                    </li>
+                                    <li data-step="8">
+                                        <span class="step">8</span>
+                                        <span class="title text-primary"><small>{{ ucfirst($guest."'s") }} Guide</small></span>
+                                    </li>
+                                    <li data-step="9">
+                                        <span class="step">9</span>
+                                        <span class="title text-primary"><small>Ready to Publish</small></span>
+                                    </li>
                                 @endif 
-                                <li data-step="2">
-                                    <span class="step">2</span>
-                                    <span class="title text-primary"><small>Location/Landmark</small></span>
-                                </li>
-
-                                <li data-step="3">
-                                    <span class="step">3</span>
-                                    <span class="title text-primary"><small>Amenities</small></span>
-                                </li>
-
-                                <li data-step="4">
-                                    <span class="step">4</span>
-                                    <span class="title text-primary"><small>Photos</small></span>
-                                </li>
-
-                                <li data-step="5">
-                                    <span class="step">5</span>
-                                    <span class="title text-primary"><small>Descriptions</small></span>
-                                </li>
-
-                                <li data-step="6">
-                                    <span class="step">6</span>
-                                    <span class="title text-primary"><small>Property Rules</small></span>
-                                </li>
-                                <li data-step="7">
-                                    <span class="step">7</span>
-                                    <span class="title text-primary"><small>Schedule&Price</small></span>
-                                </li>
-                                <li data-step="8">
-                                    <span class="step">8</span>
-                                    <span class="title text-primary"><small>{{ ucfirst($guest."'s") }} Guide</small></span>
-                                </li>
-                                <li data-step="9">
-                                    <span class="step">9</span>
-                                    <span class="title text-primary"><small>Ready to Publish</small></span>
-                                </li>
 
                             </ul>
                         </div>  
@@ -152,115 +164,277 @@
                                         <div class="col-lg-1"></div>
                                         <div class="col-lg-5">
                                             <h4>Provide block names of your hostel to make arrangement of rooms look nice and appreciated</h4>
-                                            <div style="position: relative;  height: 640px; overflow-y:scroll; overflow-x:hidden;">
-                                                <form class="mt-4" id="formBlockRooms" method="POST" action="{{ route("property.store") }}">
-                                                    @csrf
-                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    <input type="hidden" name="step" value="1" readonly>
-                                                    <div class="form-group mt-4 validate">
-                                                        <label for="">Block name</label>
-                                                        <input type="text" name="block_name" class="form-control" placeholder="eg: Opoku Ware">
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                    <div class="form-group mt-4 validate">
-                                                        <label for="">Block Room Type</label>
-                                                        <select name="block_room_type" class="form-control" id="block_room_type">
-                                                            <option value="">--Select--</option>
-                                                            <option value="single_room">Single Room</option>
-                                                            <option value="chamber_and_hall">Chamber And Hall</option>
-                                                            <option value="apartment">Apartment</option>
-                                                        </select>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                    <div class="form-group mb-4 validate">
-                                                        <label class="mb-2">How many rooms on block?</label>
-                                                        <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                            <input id="rooms_on_block" type="text" value="0" onkeypress="return isNumber(event)" name="rooms_on_block" class="form-control">
-                                                        </div>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                    <div class="form-group mb-4 validate">
-                                                        <label class="mb-2">How many beds per room?</label>
-                                                        <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                            <input id="beds" type="text" value="0" onkeypress="return isNumber(event)" name="beds" class="form-control">
-                                                        </div>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                    <div class="form-group validate">
-                                                        <label class="mb-2">How many people per room?</label>
-                                                        <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                            <input id="person_per_room" type="text" value="0" onkeypress="return isNumber(event)" name="person_per_room" class="form-control">
-                                                        </div>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                    <div class="form-group mt-4 validate">
-                                                        <label for="">Have kitchen? What type?</label>
-                                                        <select name="kitchen" class="form-control" id="kitchen">
-                                                            <option value="">--Select--</option>
-                                                            <option value="1">It's a private kitchen</option>
-                                                            <option value="2">It's a shared kitchen</option>
-                                                            <option value="0">No kitchen</option>
-                                                        </select>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                    <div class="form-group mb-4 validate">
-                                                        <label class="mb-2">How many bathrooms?</label>
-                                                        <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                            <input id="baths" type="text" value="0" onkeypress="return isNumber(event)" name="baths" class="form-control">
-                                                        </div>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                    <div class="form-group mt-4 validate">
-                                                        <label for="">Is the bathroom private?</label>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="bath_private" name="bath_private" value="1" class="custom-control-input" @if(empty($property)) checked @else @if($property->bath_private) checked @endif  @endif>
-                                                            <label class="custom-control-label" for="bath_private">Yes, it's private</label>
-                                                        </div>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="bath_private1" name="bath_private" value="0" class="custom-control-input" @if(!empty($property))  @if(!$property->bath_private) checked @endif  @endif>
-                                                            <label class="custom-control-label" for="bath_private1">No, it's shared</label>
-                                                        </div>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                    <div class="form-group mb-0 validate">
-                                                        <label class="mb-2">How many toilet? </label>
-                                                        <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                            <input id="toilet" type="text" value="0" onkeypress="return isNumber(event)" name="toilet" class="form-control">
-                                                        </div>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                    <div class="form-group mt-4 validate">
-                                                        <label for="">Is the toilet private?</label>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="toilet_private" name="toilet_private" value="1" class="custom-control-input" @if(empty($property)) checked @else @if($property->toilet_private) checked @endif  @endif>
-                                                            <label class="custom-control-label" for="toilet_private">Yes, it's private</label>
-                                                        </div>
-                                                        <div class="custom-control custom-radio">
-                                                            <input type="radio" id="toilet_private1" name="toilet_private" value="0" class="custom-control-input" @if(!empty($property))  @if(!$property->toilet_private) checked @endif  @endif>
-                                                            <label class="custom-control-label" for="toilet_private1">No, it's shared</label>
-                                                        </div>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                    <div class="form-group mt-4 validate">
-                                                        <label for="">Furnished?</label>
-                                                        <select name="furnish" class="form-control" id="furnish">
-                                                            <option value="">--Select--</option>
-                                                            <option value="fully_furnished">Fully Furnished</option>
-                                                            <option value="partially_furnished">Partially Furnished</option>
-                                                            <option value="not_furnished">Not Furnished</option>
-                                                        </select>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                    </div>
-                                                </form>
-                                                <button type="button" class="btn btnAddBlock btn-gradient-primary btn-sm mt-4"><i class="fa fa-plus-circle"></i> Add Block</button>
-                                            </div>
+                                            <form class="mt-4" id="formBlocks">
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                <div class="form-group mt-4 validate">
+                                                    <label for="">Block name</label>
+                                                    <input type="text" name="block_name" class="form-control" placeholder="eg: Opoku Ware">
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+                                                <button type="submit" class="btn btnAddBlock btn-gradient-primary btn-sm mt-4"><i class="fa fa-plus-circle"></i> Add Block</button>
+                                            </form>
+
+                                            <form id="formBlockNames" method="POST" action="{{ route("property.store") }}" style="display:none !important;">
+                                                @csrf
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                <input type="hidden" name="step" value="1" readonly>
+                                            </form>
                                         </div>
-                                        <div class="col-lg-6 pt-5">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-5 pt-5">
                                             <div id="myErrorBlockMessage"></div>
                                             <div id="getMyBlockNames"></div>
                                         </div>
                                     </div><!-- end row --> 
                                 </div><!-- end step one --> 
+
+                                <div class="step-pane" data-step="2">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h4 class="ml-4">Create rooms for your hostel blocks</h4>
+                                            <div style="position: relative;  height: 640px; overflow-y:scroll; overflow-x:hidden;" class="pr-3 pl-4">
+                                                <form class="mt-4" id="formCreateRooms">
+                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group mt-4 validate">
+                                                                <label for="">Hostel block name</label>
+                                                                <select name="hostel_block" class="form-control" id="hostel_block">
+                                                                    <option value="">--Select--</option>
+                                                                    @foreach ($property->propertyHostelBlocks as $block)
+                                                                    <option value="{{ strtolower($block->block_name) }}">{{ $block->block_name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group mt-4 validate">
+                                                                <label for="">Block room type</label>
+                                                                <select name="block_room_type" class="form-control" id="block_room_type">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="single_room">Single Room</option>
+                                                                    <option value="chamber_and_hall">Chamber And Hall</option>
+                                                                    <option value="apartment">Apartment</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-sm-6 pr-lg-5">
+                                                            <div class="form-group mb-4 validate">
+                                                                <label class="mb-2">Create how many rooms on block?</label>
+                                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                                    <input id="rooms_on_block" type="text" value="0" onkeypress="return isNumber(event)" name="rooms_on_block" class="form-control">
+                                                                </div>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-6 pl-lg-5">
+                                                            <div class="form-group mb-4 validate">
+                                                                <label class="mb-2">Room no.# start from</label>
+                                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                                    <input id="room_start" type="text" value="0" onkeypress="return isNumber(event)" name="room_start" class="form-control">
+                                                                </div>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-sm-6 pr-lg-5">
+                                                            <div class="form-group validate">
+                                                                <label class="mb-2">How many beds per room?</label>
+                                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                                    <input id="beds" type="text" value="0" onkeypress="return isNumber(event)" name="beds" class="form-control">
+                                                                </div>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6 pl-lg-5">
+                                                            <div class="form-group validate">
+                                                                <label class="mb-2">How many people per room?</label>
+                                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                                    <input id="person_per_room" type="text" value="0" onkeypress="return isNumber(event)" name="person_per_room" class="form-control">
+                                                                </div>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-sm-6 pr-lg-5">
+                                                            <div class="form-group mt-4 validate">
+                                                                <label for="">Are rooms furnished?</label>
+                                                                <select name="furnish" class="form-control" id="furnish">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="fully_furnished">Fully Furnished</option>
+                                                                    <option value="partially_furnished">Partially Furnished</option>
+                                                                    <option value="not_furnished">Not Furnished</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6 pl-lg-5">
+                                                            <div class="form-group mt-4 validate">
+                                                                <label for="">Have kitchen? What type?</label>
+                                                                <select name="kitchen" class="form-control" id="kitchen">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="1">It's a private kitchen</option>
+                                                                    <option value="2">It's a shared kitchen</option>
+                                                                    <option value="0">No kitchen</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group mb-0 validate">
+                                                                <label class="mb-2">How many bathrooms?</label>
+                                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                                    <input id="baths" type="text" value="0" onkeypress="return isNumber(event)" name="baths" class="form-control">
+                                                                </div>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group mt-4 validate">
+                                                                <label for="">Is the bathroom private?</label>
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" id="bath_private" name="bath_private" value="1" class="custom-control-input" @if(empty($property)) checked @else @if($property->bath_private) checked @endif  @endif>
+                                                                    <label class="custom-control-label" for="bath_private">Yes, it's private</label>
+                                                                </div>
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" id="bath_private1" name="bath_private" value="0" class="custom-control-input" @if(!empty($property))  @if(!$property->bath_private) checked @endif  @endif>
+                                                                    <label class="custom-control-label" for="bath_private1">No, it's shared</label>
+                                                                </div>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group mb-0 validate">
+                                                                <label class="mb-2">How many toilet? </label>
+                                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                                    <input id="toilet" type="text" value="0" onkeypress="return isNumber(event)" name="toilet" class="form-control">
+                                                                </div>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group mt-4 validate">
+                                                                <label for="">Is the toilet private?</label>
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" id="toilet_private" name="toilet_private" value="1" class="custom-control-input" @if(empty($property)) checked @else @if($property->toilet_private) checked @endif  @endif>
+                                                                    <label class="custom-control-label" for="toilet_private">Yes, it's private</label>
+                                                                </div>
+                                                                <div class="custom-control custom-radio">
+                                                                    <input type="radio" id="toilet_private1" name="toilet_private" value="0" class="custom-control-input" @if(!empty($property))  @if(!$property->toilet_private) checked @endif  @endif>
+                                                                    <label class="custom-control-label" for="toilet_private1">No, it's shared</label>
+                                                                </div>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">
+                                                            <button type="submit" class="btn btnCreateRoom btn-gradient-primary btn-sm mt-4"><i class="fa fa-plus-circle"></i> Create Rooms</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                                <form id="formBlockRooms" method="POST" action="{{ route("property.store") }}" style="display:none !important;">
+                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                    <input type="hidden" name="step" value="1" readonly>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 pl-3">
+                                            <div id="myErrorRoomsMessage"></div>
+                                            <div id="getMyCreatedRooms"></div>
+                                        </div>
+                                    </div><!-- end row --> 
+                                </div><!-- end step one --> 
+
+                                <div class="step-pane" data-step="7">
+                                    <div class="row">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-5">
+                                            <h4>Provide tenants with your rent schedule</h4>
+                                            <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Tenants must know advance payment and price calendar</p>
+                                            <form class="mt-4" id="formRentSchedule">
+                                                @csrf
+                                                <input type="hidden" name="step" value="7" readonly>
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                <div class="form-group validate">
+                                                    <label for="">Which block do you want to set prices?</label>
+                                                    <select name="block" class="form-control" id="block">
+                                                        <option value="">--Select--</option>
+                                                        @if (count($property->propertyHostelBlocks))
+                                                        @foreach($property->propertyHostelBlocks as $block)
+                                                        <option value="{{ $block->id }}">{{ $block->block_name }}</option>
+                                                        @endforeach
+                                                        @endif
+                                                    </select>
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+                                                <div class="form-group validate">
+                                                    <label for="">Advance payment duration</label>
+                                                    <select name="advance_duration" class="form-control" id="advance_duration">
+                                                        <option value="">--Select--</option>
+                                                        <option value="3">3 months in advance</option>
+                                                        <option value="6">6 months in advance</option>
+                                                        <option value="12">1 year in advance</option>
+                                                        <option value="24">2 years in advance</option>
+                                                    </select>
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+                                                <div class="form-group validate">
+                                                    <label for="">How do you wish to set your price(Price Calendar)</label>
+                                                    <select name="price_calendar" class="form-control" id="price_calendar">
+                                                        <option value="">--Select--</option>
+                                                        <option value="night">Nightly</option>
+                                                        <option value="month">Monthly</option>
+                                                    </select>
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+
+                                                <p class="mt-5"><i class="fa fa-dot-circle" style="font-size: 9px"></i> <strong>Price your property</strong></p>
+                                                <div class="form-group validate">
+                                                    <label for="">This will be your default rent price <span id="myPriceCal"></span></label>
+                                                    <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+
+                                                <div class="form-group validate">
+                                                    <label for="">Currency</label>
+                                                    <select name="currency" class="form-control" id="currency">
+                                                        <option value="GH¢">Ghana Cedis(¢)</option>
+                                                    </select>
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+
+                                                <button class="btn btn-gradient-primary btn-sm btnHostelPrices"><i class="fa fa-plus-circle"></i> Add Price</button>
+                                            </form>
+
+                                            <form id="formHostelSchedule" method="POST" action="{{ route('property.store') }}" style="display: none !important">
+                                                @csrf
+                                                <input type="hidden" name="step" value="7" readonly>
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                            </form>
+                                            
+                                        </div>
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-5">
+                                            <label class="mt-3"><i class="fa fa-calendar text-success"></i> Prices calendar will be shown here <i class="fa fa-arrow-down"></i></label>
+                                            <div id="getMyBlockPrices" class="mt-3"></div>
+                                        </div>
+                                    </div><!-- end row --> 
+                                </div><!-- end step seven --> 
                             @else
                                 <div class="step-pane active" data-step="1">
                                     <div class="row">
@@ -353,563 +527,549 @@
                                         <div class="col-lg-6"></div>
                                     </div><!-- end row --> 
                                 </div><!-- end step one -->
-                            @endif
-                                
-                            <div class="step-pane" data-step="2">
-                                <div class="row">
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-5">
-                                        <h4>Provide your property location & landmark</h4>
-                                        <form class="mt-4" id="formLocationLandmark" method="POST" action="{{ route('property.store') }}">
-                                            @csrf
-                                            <input type="hidden" name="step" value="2" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                            <div class="form-group validate">
-                                                <label for="">Digital Address</label>
-                                                <input type="text" name="digital_address" class="form-control" placeholder="eg: GL-050-6789">
-                                                <span class="text-danger small mySpan" role="alert"></span>
+                                <div class="step-pane" data-step="2">
+                                    <div class="row">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-5">
+                                            <h4>Provide your property location & landmark</h4>
+                                            <form class="mt-4" id="formLocationLandmark" method="POST" action="{{ route('property.store') }}">
+                                                @csrf
+                                                <input type="hidden" name="step" value="2" readonly>
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                <div class="form-group validate">
+                                                    <label for="">Digital Address</label>
+                                                    <input type="text" name="digital_address" class="form-control" placeholder="eg: GL-050-6789">
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+                                                <div class="form-group validate">
+                                                    <label for="">Where is your property located?</label>
+                                                    <input type="text" name="location" class="form-control" placeholder="eg: Labadi, Joy Lane, Accra">
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="card mt-4">
+                                                <div class="card-body">        
+                                                    <h4 class="mt-0 header-title">Pin your location to the right place</h4>     
+                                                    <div id="gmaps-markers" class="gmaps"></div>
+                                                </div><!--end card-body-->
+                                            </div><!--end card--> 
+                                        </div>
+                                    </div><!-- end row --> 
+                                </div><!-- end step two -->  
+    
+                                <div class="step-pane" data-step="3">
+                                    <div class="row">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-11">
+                                            <form class="mt-4" id="formAmenities" method="POST" action="{{ route('property.store') }}">
+                                                <h4 class="mb-3">Amenities you offer to your {{ $guest.'s' }}</h4>
+                                                @csrf
+                                                <input type="hidden" name="step" value="3" readonly>
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                <div class="row">
+                                                    @php $i=0; @endphp
+                                                    @foreach ($amenities as $item)
+                                                    @php $i++; @endphp
+                                                    <div class="form-group col-sm-4">
+                                                        <div class="checkbox checkbox-primary">
+                                                            <input id="checkbox{{ $i }}" type="checkbox" value="{{ $item->name }}" name="amenities[]">
+                                                            <label for="checkbox{{ $i }}">{{ $item->name }}</label>
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div><!-- end row --> 
+                                </div><!-- end step three -->                              
+    
+                                <div class="step-pane" data-step="4">
+                                    <div class="row">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-6">
+                                            <h4>Lets take a tour on your property</h4>
+                                            <p class="mb-4"><i class="fa fa-dot-circle" style="font-size:9px"></i> Property photo with captions will best help us with the tour.</p>
+    
+                                            <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
+                                                
                                             </div>
-                                            <div class="form-group validate">
-                                                <label for="">Where is your property located?</label>
-                                                <input type="text" name="location" class="form-control" placeholder="eg: Labadi, Joy Lane, Accra">
-                                                <span class="text-danger small mySpan" role="alert"></span>
+                                            <button class="btn btn-primary mt-3 btn-sm" onclick="getFile();"><i class="fa fa-cloud-upload-alt"></i> Add Photos
+                                                <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" multiple name="photos[]" /></div>
+                                            </button>
+                                            <div class="mt-3">
+                                                <small><span id="uploadMsg" class="text-danger"></span></small>
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="card mt-4">
-                                            <div class="card-body">        
-                                                <h4 class="mt-0 header-title">Pin your location to the right place</h4>     
-                                                <div id="gmaps-markers" class="gmaps"></div>
-                                            </div><!--end card-body-->
-                                        </div><!--end card--> 
-                                    </div>
-                                </div><!-- end row --> 
-                            </div><!-- end step two -->  
-
-                            <div class="step-pane" data-step="3">
-                                <div class="row">
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-11">
-                                        <form class="mt-4" id="formAmenities" method="POST" action="{{ route('property.store') }}">
-                                            <h4 class="mb-3">Amenities you offer to your {{ $guest.'s' }}</h4>
-                                            @csrf
-                                            <input type="hidden" name="step" value="3" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                            <div class="row">
-                                                @php $i=0; @endphp
-                                                @foreach ($amenities as $item)
-                                                @php $i++; @endphp
-                                                <div class="form-group col-sm-4">
-                                                    <div class="checkbox checkbox-primary">
-                                                        <input id="checkbox{{ $i }}" type="checkbox" value="{{ $item->name }}" name="amenities[]">
-                                                        <label for="checkbox{{ $i }}">{{ $item->name }}</label>
+    
+                                            <form id="formPhotos" class="hidden" method="POST" action="{{ route('property.store') }}">
+                                                @csrf
+                                                <input type="hidden" name="step" value="4" readonly>
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                            </form>
+                                        </div>
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-4">
+                                            <div class="mt-5 pt-4" style="width:70%">
+                                                <i class="fa fa-lightbulb fa-lg text-pink"></i>
+                                                <h5>Tips for adding a great photos of your property</h5>
+                                                <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
+                                                <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in landscape mode in order to capture more spaces. Shoot from corners to add perspective.</p>
+                                                <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
+                                                <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Add property photos with size of 720x480 to best fit gallery.</p>
+                                                <p class="mt-5"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> High photo quality will boost your property marketing.</p>
+    
+                                            </div>
+                                        </div>
+                                    </div><!-- end row --> 
+                                </div><!-- end step four --> 
+    
+                                <div class="step-pane" data-step="5">
+                                    <div class="row">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-5">
+                                            <h4>How does your property looks like?</h4>
+                                            <form class="mt-4" id="formDescriptions" method="POST" action="{{ route('property.store') }}">
+                                                @csrf
+                                                <input type="hidden" name="step" value="5" readonly>
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                <div class="form-group validate">
+                                                    <label for="gate"><span class="text-primary">Is your property in a gated community?</span></label>
+                                                    <select name="gate" class="form-control" id="gate">
+                                                        <option value="">--Select--</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+                                                <div class="form-group validate">
+                                                    <label for="description"><span class="text-primary">A short description of your property</span></label>
+                                                    <textarea class="form-control" name="description" rows="5" maxlength="500" id="description" placeholder="Write descriptions about room decor, furniture, nearby things. Just make it simple">{{ empty($property->propertyDescription->description)? '':$property->propertyDescription->description }}</textarea>
+                                                    <small id="myDescriptionCharacters" class="form-text text-muted">500 characters remaining</small>
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+                                                <p class="mt-5"><strong>Let's narrow down the complexity</strong> <i class="fa fa-arrow-down"></i></p>
+                                                <div class="form-group validate">
+                                                    <label for="neighbourhood"><span class="text-primary">Neighbourhood description</span></label>
+                                                    <textarea class="form-control" name="neighbourhood" rows="3" maxlength="250" id="neighbourhood" placeholder="Why is your neighbourhood is the best place? eg:parks,supermarket,etc">{{ empty($property->propertyDescription->neighbourhood)? '':$property->propertyDescription->neighbourhood }}</textarea>
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+                                                <div class="form-group validate">
+                                                    <label for="directions"><span class="text-primary">Directions</span></label>
+                                                    <textarea class="form-control" name="directions" rows="3" maxlength="250" id="directions" placeholder="Directions on how to reach the property">{{ empty($property->propertyDescription->direction)? '':$property->propertyDescription->direction }}</textarea>
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+    
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group validate">
+                                                            <label for="property_size"><span class="text-primary">Size</span></label>    
+                                                            <input type="text" class="form-control" name="property_size" id="property_size" onkeypress="return isNumber(event);" placeholder="Enter property size" value="{{ empty($property->propertyDescription->size)? '':$property->propertyDescription->size }}" />
+                                                            <span class="text-danger small mySpan" role="alert"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group validate">
+                                                            <label for="size_unit"><span class="text-primary">Unit</span></label> 
+                                                            <select name="size_unit" class="form-control" id="size_unit">
+                                                                <option value="">Unit</option>
+                                                                <option value="sf">SF</option>
+                                                            </select>   
+                                                            <span class="text-danger small mySpan" role="alert"></span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                @endforeach
+                                            </form>
+                                        </div>
+                                    </div><!-- end row --> 
+                                </div><!-- end step five --> 
+                                
+                                <div class="step-pane" data-step="6">
+                                    <div class="row">
+                                        @if($property->type_status=='rent' || $property->type_status=='short_stay')
+                                            <div class="col-lg-1"></div>
+                                            <div class="col-lg-5">
+                                                <h4>Enforce property rules if any</h4>
+                                                @if ($property->type_status=='rent')
+                                                <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Tenants must agree to your rules before renting property</p>
+                                                @elseif($property->type_status=='short_stay')
+                                                <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Guests must agree to your rules before booking property</p>
+                                                @endif
+                                                <form class="mt-4" id="formPropertyRules" method="POST" action="{{ route('property.store') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="step" value="6" readonly>
+                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                    <div class="row">
+                                                        <div class="form-group col-sm-6">
+                                                            <div class="checkbox checkbox-primary">
+                                                                <input id="smoking" type="checkbox" value="No smoking" name="property_rules[]">
+                                                                <label for="smoking">No smoking</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-sm-6">
+                                                            <div class="checkbox checkbox-primary">
+                                                                <input id="weapon" type="checkbox" value="No deadly weapons" name="property_rules[]">
+                                                                <label for="weapon">No deadly weapons</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-sm-6">
+                                                            <div class="checkbox checkbox-primary">
+                                                                <input id="pool" type="checkbox" value="Dont urinate in pool" name="property_rules[]">
+                                                                <label for="pool">Dont unrinate in pool</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-sm-6">
+                                                            <div class="checkbox checkbox-primary">
+                                                                <input id="laundary" type="checkbox" value="No washing outside laundary" name="property_rules[]">
+                                                                <label for="laundary">No washing outside laundary</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>                                            
                                             </div>
-                                        </form>
-                                    </div>
-                                </div><!-- end row --> 
-                            </div><!-- end step three -->                              
+                                            <div class="col-lg-1"></div>
+                                            <div class="col-lg-5">
+                                                <h4>Would you like to add other rules?</h4>
+                                                <form class="mt-4" id="formPropertyOtherRules">
+                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                    <div class="form-group validate">
+                                                        <label for="">Add your own rule</label>
+                                                        <div class="input-group">
+                                                            <input type="text" name="add_rule" class="form-control" placeholder="eg: Don't drink alcohol infront of children">
+                                                            <i class="input-group-append">
+                                                                <button class="btn btn-gradient-primary btn-sm btnAddOwnRule" type="button"><i class="fa fa-plus-circle"></i> Add</button>
+                                                            </i>
+                                                        </div>
+                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                    </div>
+                                                </form>
+                                                <div id="myDefineRules"></div>
+                                            </div>
+                                        @else
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-6">
+                                                <div class="mt-5 mb-5 text-center">
+                                                    <h2 class="text-danger">If you are selling or auctioning, you don't need to set rules.</h2> 
+                                                    <h2 class="text-danger">Property rules are for tenants/guests only when renting or booking respectively.</h2> 
+                                                </div> 
+                                            </div>
+                                        @endif
+                                    </div><!-- end row --> 
+                                </div><!-- end step six -->    
+                                
+                                <div class="step-pane" data-step="7">
+                                    <div class="row">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-5">
+                                            @if ($property->type_status=='rent')
+                                                <h4>Provide tenants with your rent schedule</h4>
+                                                <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Tenants must know advance payment and price calendar</p>
+                                            @elseif ($property->type_status=='sell')
+                                                <h4>Provide buyers with your buying schedule</h4>
+                                                <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Buyers must know buying price</p>
+                                            @elseif ($property->type_status=='short_stay')
+                                                <h4>Provide guests with your booking schedule</h4>
+                                                <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Guests must know booking price</p>
+                                            @else
+                                                <h4>Provide bidders with your bidding schedule</h4>
+                                                <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Bidders must know initial bidding price</p>
+                                            @endif
+                                            <form class="mt-4" id="formRentSchedule" method="POST" action="{{ route('property.store') }}">
+                                                @csrf
+                                                <input type="hidden" name="step" value="7" readonly>
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                @if($property->type_status=='rent')
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group validate">
+                                                                <label for="">Advance payment duration</label>
+                                                                <select name="advance_duration" class="form-control" id="advance_duration">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="6">6 months in advance</option>
+                                                                    <option value="12">1 year in advance</option>
+                                                                    <option value="24">2 years in advance</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                            <div class="step-pane" data-step="4">
-                                <div class="row">
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-6">
-                                        <h4>Lets take a tour on your property</h4>
-                                        <p class="mb-4"><i class="fa fa-dot-circle" style="font-size:9px"></i> Property photo with captions will best help us with the tour.</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-7">
+                                                            <div class="form-group validate">
+                                                                <label for="">This will be your default booking price</label>
+                                                                <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group validate">
+                                                                <label for="">Your price calendar</label>
+                                                                <select name="price_calendar" class="form-control" id="price_calendar">
+                                                                    <option value="month">Monthly</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @elseif($property->type_status=='short_stay')
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group validate">
+                                                                <label for="">Minimum stay</label>
+                                                                <select name="minimum_stay" class="form-control" id="minimum_stay">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="3">3 Days</option>
+                                                                    <option value="4">4 Days</option>
+                                                                    <option value="5">5 Days</option>
+                                                                    <option value="6">6 Days</option>
+                                                                    <option value="7">1 Week</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group validate">
+                                                                <label for="">Maximum stay</label>
+                                                                <select name="maximum_stay" class="form-control" id="maximum_stay">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="1">1 Month</option>
+                                                                    <option value="1.1">1 Month, 1 week</option>
+                                                                    <option value="1.2">1 Month, 2 weeks</option>
+                                                                    <option value="1.3">1 Month, 3 weeks</option>
+                                                                    <option value="2">2 Months</option>
+                                                                    <option value="2.1">2 Months, 1 week</option>
+                                                                    <option value="2.2">2 Months, 2 weeks</option>
+                                                                    <option value="2.3">2 Months, 3 weeks</option>
+                                                                    <option value="3">3 Months</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                        <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
+                                                    <div class="row">
+                                                        <div class="col-sm-7">
+                                                            <div class="form-group validate">
+                                                                <label for="">This will be your default booking price</label>
+                                                                <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <div class="form-group validate">
+                                                                <label for="">Your price calendar</label>
+                                                                <select name="price_calendar" class="form-control" id="price_calendar">
+                                                                    <option value="night">Nightly</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <p class=""><i class="fa fa-dot-circle" style="font-size: 9px"></i> <strong>Price your property for {{ $property->type_status.'ing' }} </strong></p>
+                                                    <div class="form-group validate">
+                                                        <label for="">This will be your {{ $property->type_status=='sell'? 'default':'initial' }} {{ $property->type_status }} price <span id="myPriceCal"></span></label>
+                                                        @if($property->type_status=='sell')
+                                                        @endif
+                                                        <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                    </div>
+                                                    @if ($property->type_status=='sell')
+                                                    <div class="form-group validate">
+                                                        <div class="checkbox checkbox-primary">
+                                                            <input id="negotiable" type="checkbox" value="1" name="negotiable">
+                                                            <label for="negotiable">Negotiable</label>
+                                                        </div>
+                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                    </div>
+                                                    @endif                                            
+                                                @endif
+
+                                                <div class="form-group validate">
+                                                    <label for="">Currency</label>
+                                                    <select name="currency" class="form-control" id="currency">
+                                                        <option value="¢">Ghana Cedis(¢)</option>
+                                                    </select>
+                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                </div>
+
+                                            </form>
                                             
                                         </div>
-                                        <button class="btn btn-primary mt-3 btn-sm" onclick="getFile();"><i class="fa fa-cloud-upload-alt"></i> Add Photos
-                                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" multiple name="photos[]" /></div>
-                                        </button>
-                                        <div class="mt-3">
-                                            <small><span id="uploadMsg" class="text-danger"></span></small>
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-5">
+                                            @if ($property->type_status=='rent')
+                                                <p class="mt-5">You can set set-in price later when market is down.</p>
+                                                <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Eviction notice will start from 3months before due date.</h5>
+                                                <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Eviction notification will be sent to tenants every two weeks till due date.</h5>
+                                                <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> It's tenants choice to extend his/her stay or to evict.</h5>
+                                            @elseif ($property->type_status=='sell')
+                                                <p class="mt-5">You can set set-in price later when market is down.</p>
+                                                <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Set price which has value for your property.</h5>
+                                                <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Don't set your price too high or too low to scare buyers.</h5>
+                                            @elseif ($property->type_status=='short_stay')
+                                                <p class="mt-5">You can set set-in price later when market is down.</p>
+                                                <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Eviction notice will start from 3days before due date.</h5>
+                                                <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Set price which has value for your property.</h5>
+                                                <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Don't set your price too high or too low to scare travellers.</h5>
+                                            @else
+                                                <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Have a price range that values your property in mind.</h5>
+                                                <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Use the minimum price as initial.</h5>
+                                                <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Let bidder do their job of bidding.</h5>
+                                                <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> If you are satisfied with the highest bidding, you can close auctioning.</h5>
+                                            @endif
                                         </div>
+                                    </div><!-- end row --> 
+                                </div><!-- end step seven --> 
 
-                                        <form id="formPhotos" class="hidden" method="POST" action="{{ route('property.store') }}">
-                                            @csrf
-                                            <input type="hidden" name="step" value="4" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                        </form>
-                                    </div>
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-4">
-                                        <div class="mt-5 pt-4" style="width:70%">
-                                            <i class="fa fa-lightbulb fa-lg text-pink"></i>
-                                            <h5>Tips for adding a great photos of your property</h5>
-                                            <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
-                                            <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in landscape mode in order to capture more spaces. Shoot from corners to add perspective.</p>
-                                            <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
-                                            <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Add property photos with size of 720x480 to best fit gallery.</p>
-
-                                        </div>
-                                    </div>
-                                </div><!-- end row --> 
-                            </div><!-- end step four --> 
-
-                            <div class="step-pane" data-step="5">
-                                <div class="row">
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-5">
-                                        <h4>How does your property looks like?</h4>
-                                        <form class="mt-4" id="formDescriptions" method="POST" action="{{ route('property.store') }}">
-                                            @csrf
-                                            <input type="hidden" name="step" value="5" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                            <div class="form-group validate">
-                                                <label for="gate"><span class="text-primary">Is your property in a gated community?</span></label>
-                                                <select name="gate" class="form-control" id="gate">
-                                                    <option value="">--Select--</option>
-                                                    <option value="1">Yes</option>
-                                                    <option value="0">No</option>
-                                                </select>
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                            <div class="form-group validate">
-                                                <label for="description"><span class="text-primary">A short description of your property</span></label>
-                                                <textarea class="form-control" name="description" rows="5" maxlength="500" id="description" placeholder="Write descriptions about room decor, furniture, nearby things. Just make it simple">{{ empty($property->propertyDescription->description)? '':$property->propertyDescription->description }}</textarea>
-                                                <small id="myDescriptionCharacters" class="form-text text-muted">500 characters remaining</small>
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                            <p class="mt-5"><strong>Let's narrow down the complexity</strong> <i class="fa fa-arrow-down"></i></p>
-                                            <div class="form-group validate">
-                                                <label for="neighbourhood"><span class="text-primary">Neighbourhood description</span></label>
-                                                <textarea class="form-control" name="neighbourhood" rows="3" maxlength="255" id="neighbourhood" placeholder="Why is your neighbourhood is the best place? eg:parks,supermarket,etc">{{ empty($property->propertyDescription->neighbourhood)? '':$property->propertyDescription->neighbourhood }}</textarea>
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                            <div class="form-group validate">
-                                                <label for="directions"><span class="text-primary">Directions</span></label>
-                                                <textarea class="form-control" name="directions" rows="3" maxlength="255" id="directions" placeholder="Directions on how to reach the property">{{ empty($property->propertyDescription->direction)? '':$property->propertyDescription->direction }}</textarea>
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-
+                                <div class="step-pane" data-step="8">
+                                    <div class="row">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-10">
+                                            <h4 class="mb-3">
+                                                This is how {{ $guest.'s' }} will interact through the {{ $proTypeStatus }} process.
+                                            </h4>
+                                            
                                             <div class="row">
-                                                <div class="col-sm-8">
-                                                    <div class="form-group validate">
-                                                        <label for="property_size"><span class="text-primary">Size</span></label>    
-                                                        <input type="text" class="form-control" name="property_size" id="property_size" placeholder="Enter size" value="{{ empty($property->propertyDescription->size)? '':$property->propertyDescription->size }}" />
-                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                <div class="col-sm-4">
+                                                    <div class="card">
+                                                        <div class="card-body">      
+                                                            <div class="text-center">
+                                                                <i class="fa fa-user text-success fa-5x"></i>
+                                                                <hr>
+                                                                <p>
+                                                                    <i class="fa fa-square text-pink" style="font-size:10px"></i> 
+                                                                    Every {{ $guest }} on OShelter must be qualified to {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you
+                                                                </p>
+                                                                <i class="fa fa-square text-pink" style="font-size:10px"></i>
+                                                                <p>
+                                                                    Every qualified {{ $guest }} must confirm their contact info, provide payment info 
+                                                                    before they can {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you.
+                                                                </p>
+                                                            </div>
+                                                        </div><!--end card-body-->
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <div class="form-group validate">
-                                                        <label for="size_unit"><span class="text-primary">Unit</span></label> 
-                                                        <select name="size_unit" class="form-control" id="size_unit">
-                                                            <option value="">Unit</option>
-                                                            <option value="sf">SF</option>
-                                                            <option value="m2">M2</option>
-                                                        </select>   
-                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                    <div class="card">
+                                                        <div class="card-body">      
+                                                            <div class="text-center">
+                                                                <i class="fa fa-thumbs-up text-success fa-5x"></i>
+                                                                <hr>
+                                                                <p>
+                                                                    <i class="fa fa-square text-pink" style="font-size:10px"></i> 
+                                                                    You control who {{ $property->type_status=='auction'? 'bids':$sinTypeStatus.'s' }} you
+                                                                </p>
+                                                                <i class="fa fa-square text-pink" style="font-size:10px"></i>
+                                                                <p>
+                                                                    Every {{ $guest }} who wants to {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you should agree to the property 
+                                                                    @if($property->type_status=='rent')
+                                                                    rules
+                                                                    @elseif($property->type_status=='short_stay') 
+                                                                    rules
+                                                                    @else
+                                                                    info
+                                                                    @endif
+                                                                    set by you before they go ahead.
+                                                                </p>
+                                                            </div>
+                                                        </div><!--end card-body-->
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div><!-- end row --> 
-                            </div><!-- end step five --> 
-                            
-                            <div class="step-pane" data-step="6">
-                                <div class="row">
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-5">
-                                        <h4>Enforce property rules if any</h4>
-                                        @if ($property->type_status=='rent')
-                                        <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Tenants must agree to your rules before renting property</p>
-                                        @endif
-                                        <form class="mt-4" id="formPropertyRules" method="POST" action="{{ route('property.store') }}">
-                                            @csrf
-                                            <input type="hidden" name="step" value="6" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                            @if ($property->type_status=='rent')
-                                                <div class="row">
-                                                    <div class="form-group col-sm-6">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="smoking" type="checkbox" value="No smoking" name="property_rules[]">
-                                                            <label for="smoking">No smoking</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-6">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="weapon" type="checkbox" value="No deadly weapons" name="property_rules[]">
-                                                            <label for="weapon">No deadly weapons</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-6">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="pool" type="checkbox" value="Dont urinate in pool" name="property_rules[]">
-                                                            <label for="pool">Dont unrinate in pool</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-6">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="laundary" type="checkbox" value="No washing outside laundary" name="property_rules[]">
-                                                            <label for="laundary">No washing outside laundary</label>
-                                                        </div>
+                                                <div class="col-sm-4">
+                                                    <div class="card">
+                                                        <div class="card-body">      
+                                                            <div class="text-center">
+                                                                <i class="fa fa-bell text-success fa-5x"></i>
+                                                                <hr>
+                                                                <p>
+                                                                    <i class="fa fa-square text-pink" style="font-size:10px"></i> 
+                                                                    You are always notified
+                                                                </p>
+                                                                <i class="fa fa-square text-pink" style="font-size:10px"></i>
+                                                                <p>
+                                                                    Once {{ $guest }} {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you, you will get confirmation notification 
+                                                                    instantly with {{$guest}} info.
+                                                                </p>
+                                                            </div>
+                                                        </div><!--end card-body-->
                                                     </div>
                                                 </div>
-                                            @else
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="mt-5 mb-5">
-                                                            <h5 class="text-danger">If you are selling or auctioning, you don't need to set rules.</h5> 
-                                                            <h5 class="text-danger">Property rules are for tenants only when renting out.</h5> 
-                                                        </div>    
-                                                    </div>
+
+                                                <div class="col-lg-8 pt-4">
+                                                    <h5><b>You are protected every step of the way.</b></h5>
+                                                    <img src="{{ asset('assets/images/logo-sm.png') }}" alt="Logo" width="30" height="30"  class="rounded-circle img-left mr-3" /> 
+                                                    <p>We never rest because we care. OShelter is here to protect both interest. All rent, short stay, sell and auction is covered 
+                                                        by OShelter's <a href="javascript:void(0)" class="text-primary">{{ ucfirst($guest) }} Refund Policy</a>.
+                                                    </p>
+                                                    <p>We care for you and your property so we have you covered with every {{ $proTypeStatus }} 
+                                                        situations. <a href="javascript:void(0)" class="text-primary">{{ ucfirst($guest) }} Guide Policy</a>.
+                                                    </p>
                                                 </div>
-                                            @endif
-                                        </form>
+                                            </div> 
+                                            <form id="formTenantGuide" method="POST" action="{{ route('property.store') }}" style="display:none">
+                                                @csrf
+                                                <input type="hidden" name="step" value="8" readonly>
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                            </form>                                   
+                                        </div>
                                         
-                                    </div>
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-5">
-                                        <h4>Would you like to add other rules?</h4>
-                                        @if ($property->type_status=='rent')
-                                        <form class="mt-4" id="formPropertyOtherRules">
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                            <div class="form-group validate">
-                                                <label for="">Add your own rule</label>
-                                                <div class="input-group">
-                                                    <input type="text" name="add_rule" class="form-control" placeholder="eg: Don't drink alcohol infront of children">
-                                                    <i class="input-group-append">
-                                                        <button class="btn btn-gradient-primary btn-sm btnAddOwnRule" type="button"><i class="fa fa-plus-circle"></i> Add</button>
-                                                    </i>
-                                                </div>
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                        </form>
-                                        <div id="myDefineRules"></div>
-                                        @endif
-                                    </div>
-                                </div><!-- end row --> 
-                            </div><!-- end step six --> 
+                                    </div><!-- end row --> 
+                                </div><!-- end step eight -->   
 
-                            @if($property->type=='hostel')
-                            <div class="step-pane" data-step="7">
-                                <div class="row">
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-5">
-                                        <h4>Provide tenants with your rent schedule</h4>
-                                        <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Tenants must know advance payment and price calendar</p>
-                                        <form class="mt-4" id="formRentSchedule">
-                                            @csrf
-                                            <input type="hidden" name="step" value="7" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                            <div class="form-group validate">
-                                                <label for="">Which block do you want to set prices?</label>
-                                                <select name="block" class="form-control" id="block">
-                                                    <option value="">--Select--</option>
-                                                    @if (count($property->propertyHostelBlocks))
-                                                    @foreach($property->propertyHostelBlocks as $block)
-                                                    <option value="{{ $block->id }}">{{ $block->block_name }}</option>
-                                                    @endforeach
-                                                    @endif
-                                                </select>
-                                                <span class="text-danger small mySpan" role="alert"></span>
+                                <div class="step-pane" data-step="9">
+                                    <div class="row">
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-5">
+                                            <h4>All set and ready for publishing</h4>
+                                            <div class="mt-4 mb-3">
+                                                <i class="fa fa-building fa-5x"></i>
+                                                <i class="fa fa-home fa-5x ml-4 mr-4"></i>
+                                                <i class="fa fa-bed fa-5x"></i>
                                             </div>
-                                            <div class="form-group validate">
-                                                <label for="">Advance payment duration</label>
-                                                <select name="advance_duration" class="form-control" id="advance_duration">
-                                                    <option value="">--Select--</option>
-                                                    <option value="3">3 months in advance</option>
-                                                    <option value="6">6 months in advance</option>
-                                                    <option value="12">1 year in advance</option>
-                                                    <option value="24">2 years in advance</option>
-                                                </select>
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                            <div class="form-group validate">
-                                                <label for="">How do you wish to set your price(Price Calendar)</label>
-                                                <select name="price_calendar" class="form-control" id="price_calendar">
-                                                    <option value="">--Select--</option>
-                                                    <option value="night">Nightly</option>
-                                                    <option value="month">Monthly</option>
-                                                </select>
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-
-                                            <p class="mt-5"><i class="fa fa-dot-circle" style="font-size: 9px"></i> <strong>Price your property</strong></p>
-                                            <div class="form-group validate">
-                                                <label for="">This will be your default rent price <span id="myPriceCal"></span></label>
-                                                <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-
-                                            <div class="form-group validate">
-                                                <label for="">Currency</label>
-                                                <select name="currency" class="form-control" id="currency">
-                                                    <option value="GH¢">Ghana Cedis(¢)</option>
-                                                </select>
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-
-                                            <button class="btn btn-gradient-primary btn-sm btnHostelPrices"><i class="fa fa-plus-circle"></i> Add Price</button>
-                                        </form>
-
-                                        <form id="formHostelSchedule" method="POST" action="{{ route('property.store') }}" style="display: none !important">
-                                            @csrf
-                                            <input type="hidden" name="step" value="7" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                        </form>
+                                            <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Potential {{ $guest.'s' }} are wating for you to publish this property.</p>
                                         
-                                    </div>
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-5">
-                                        <label class="mt-3"><i class="fa fa-calendar text-success"></i> Prices calendar will be shown here <i class="fa fa-arrow-down"></i></label>
-                                        <div id="getMyBlockPrices" class="mt-3"></div>
-                                    </div>
-                                </div><!-- end row --> 
-                            </div><!-- end step seven --> 
-                            @else
-                            <div class="step-pane" data-step="7">
-                                <div class="row">
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-5">
-                                        @if ($property->type_status=='rent')
-                                            <h4>Provide tenants with your rent schedule</h4>
-                                            <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Tenants must know advance payment and price calendar</p>
-                                        @elseif ($property->type_status=='sell')
-                                            <h4>Provide buyers with your buying schedule</h4>
-                                            <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Buyers must know buying price</p>
-                                        @else
-                                            <h4>Provide bidders with your bidding schedule</h4>
-                                            <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Bidders must know initial bidding price</p>
-                                        @endif
-                                        <form class="mt-4" id="formRentSchedule" method="POST" action="{{ route('property.store') }}">
-                                            @csrf
-                                            <input type="hidden" name="step" value="7" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                            @if($property->type_status=='rent')
-                                                <div class="form-group validate">
-                                                    <label for="">Advance payment duration</label>
-                                                    <select name="advance_duration" class="form-control" id="advance_duration">
-                                                        <option value="">--Select--</option>
-                                                        <option value="3">3 months in advance</option>
-                                                        <option value="6">6 months in advance</option>
-                                                        <option value="12">1 year in advance</option>
-                                                        <option value="24">2 years in advance</option>
-                                                    </select>
-                                                    <span class="text-danger small mySpan" role="alert"></span>
-                                                </div>
-                                                <div class="form-group validate">
-                                                    <label for="">How do you wish to set your price(Price Calendar)</label>
-                                                    <select name="price_calendar" class="form-control" id="price_calendar">
-                                                        <option value="">--Select--</option>
-                                                        <option value="night">Nightly</option>
-                                                        <option value="month">Monthly</option>
-                                                    </select>
-                                                    <span class="text-danger small mySpan" role="alert"></span>
-                                                </div>
-
-                                                <p class="mt-5"><i class="fa fa-dot-circle" style="font-size: 9px"></i> <strong>Price your property</strong></p>
-                                                <div class="form-group validate">
-                                                    <label for="">This will be your default rent price <span id="myPriceCal"></span></label>
-                                                    <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
-                                                    <span class="text-danger small mySpan" role="alert"></span>
-                                                </div>
-                                            @else
-                                                <p class=""><i class="fa fa-dot-circle" style="font-size: 9px"></i> <strong>Price your property for {{ $property->type_status.'ing' }} </strong></p>
-                                                <div class="form-group validate">
-                                                    <label for="">This will be your {{ $property->type_status=='sell'? 'default':'initial' }} {{ $property->type_status }} price <span id="myPriceCal"></span></label>
-                                                    @if($property->type_status=='sell')
-                                                    @endif
-                                                    <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
-                                                    <span class="text-danger small mySpan" role="alert"></span>
-                                                </div>
-                                                @if ($property->type_status=='sell')
-                                                <div class="form-group validate">
-                                                    <div class="checkbox checkbox-primary">
-                                                        <input id="negotiable" type="checkbox" value="1" name="negotiable">
-                                                        <label for="negotiable">Negotiable</label>
-                                                    </div>
-                                                    <span class="text-danger small mySpan" role="alert"></span>
-                                                </div>
-                                                @endif                                            
-                                            @endif
-
-                                            <div class="form-group validate">
-                                                <label for="">Currency</label>
-                                                <select name="currency" class="form-control" id="currency">
-                                                    <option value="GH¢">Ghana Cedis(¢)</option>
-                                                </select>
-                                                <span class="text-danger small mySpan" role="alert"></span>
+                                            <div class="mt-4 mb-3">
+                                                <i class="fa fa-address-card fa-5x"></i>
                                             </div>
+                                            <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> {{ $property->type_status=='auction'? 'Highest bidder':ucfirst($guest) }} will send a message of the date they will be moving in.</p>
 
-                                        </form>
-                                        
-                                    </div>
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-5">
-                                        @if ($property->type_status=='rent')
-                                            <p class="mt-5">You can set set-in price later when market is down.</p>
-                                            <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Eviction notice will start from 3months before due date.</h5>
-                                            <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Eviction notification will be sent to tenants every two weeks till due date.</h5>
-                                            <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> It's tenants choice to extend his/her stay or to evict.</h5>
-                                        @elseif ($property->type_status=='sell')
-                                            <p class="mt-5">You can set set-in price later when market is down.</p>
-                                            <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Set price which has value for your property.</h5>
-                                            <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Don't set your price too high or too low to scare buyers.</h5>
-                                        @else
-                                            <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Have a price range that values your property in mind.</h5>
-                                            <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Use the minimum price as initial.</h5>
-                                            <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Let bidder do their job of bidding.</h5>
-                                            <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> If you are satisfied with the highest bidding, you can close auctioning.</h5>
-                                        @endif
-                                    </div>
-                                </div><!-- end row --> 
-                            </div><!-- end step seven --> 
+                                            <div class="mt-4 mb-3">
+                                                <i class="fa fa-key fa-5x"></i>
+                                            </div>
+                                            <p class="mb-3"><i class="fa fa-dot-circle" style="font-size: 9px"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>    
+                                            
+                                            <form id="formFinishListing" method="POST" action="{{ route('property.store') }}" style="display:none">
+                                                @csrf
+                                                <input type="hidden" name="step" value="9" readonly>
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                            </form> 
+
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <h4>Terms and conditions, your local law and taxes.</h4>
+                                            <div class="mt-4">
+                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+                                                    Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+                                                    Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+                                                    Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus. <a href="javascript:void(0);" class="text-primary">Read more</a></p>
+                                            </div>
+                                            <div class="card mt-3 float-right">
+                                                <div class="card-body">        
+                                                    <a href="{{ route('property.preview', $property->id) }}" class="text-primary">
+                                                        <i class="fa fa-eye text-primary"></i>
+                                                        Preview Property
+                                                    </a> 
+                                                    <i class="fa fa-home text-success fa-4x"></i>
+                                                </div><!--end card-body-->
+                                            </div>
+                                        </div>
+                                    </div><!-- end row --> 
+                                </div><!-- end step nine --> 
                             @endif
-
-                            <div class="step-pane" data-step="8">
-                                <div class="row">
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-10">
-                                        <h4 class="mb-3">
-                                            This is how {{ $guest.'s' }} will interact through the {{ $proTypeStatus }} process.
-                                        </h4>
-                                        
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <div class="card">
-                                                    <div class="card-body">      
-                                                        <div class="text-center">
-                                                            <i class="fa fa-user text-success fa-5x"></i>
-                                                            <hr>
-                                                            <p>
-                                                                <i class="fa fa-square text-pink" style="font-size:10px"></i> 
-                                                                Every {{ $guest }} on Real Home must be qualified to {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you
-                                                            </p>
-                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i>
-                                                            <p>
-                                                                Every qualified {{ $guest }} must confirm their contact info, provide payment info 
-                                                                before they can {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you.
-                                                            </p>
-                                                        </div>
-                                                    </div><!--end card-body-->
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="card">
-                                                    <div class="card-body">      
-                                                        <div class="text-center">
-                                                            <i class="fa fa-thumbs-up text-success fa-5x"></i>
-                                                            <hr>
-                                                            <p>
-                                                                <i class="fa fa-square text-pink" style="font-size:10px"></i> 
-                                                                You control who {{ $property->type_status=='auction'? 'bids':$sinTypeStatus.'s' }} you
-                                                            </p>
-                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i>
-                                                            <p>
-                                                                Every {{ $guest }} who wants to {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you should agree to the property 
-                                                                info set by you before they go ahead.
-                                                            </p>
-                                                        </div><br>
-                                                    </div><!--end card-body-->
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="card">
-                                                    <div class="card-body">      
-                                                        <div class="text-center">
-                                                            <i class="fa fa-bell text-success fa-5x"></i>
-                                                            <hr>
-                                                            <p>
-                                                                <i class="fa fa-square text-pink" style="font-size:10px"></i> 
-                                                                You are always notified
-                                                            </p>
-                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i>
-                                                            <p>
-                                                                Once {{ $guest }} {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you, you will get confirmation notification 
-                                                                instantly with {{$guest}} info.
-                                                            </p>
-                                                        </div><br>
-                                                    </div><!--end card-body-->
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-8 pt-4">
-                                                <h5><b>You are protected every step of the way.</b></h5>
-                                                <img src="{{ asset('assets/images/logo-sm.png') }}" alt="Logo" width="30" height="30"  class="rounded-circle img-left mr-3" /> 
-                                                <p>We never rest because we care. Real Home is here to protect both interest. All rent, sell and auction is covered 
-                                                    by Real Home's <a href="javascript:void(0)" class="text-primary">Refund Policy</a>.
-                                                </p>
-                                                <p>We care for you and your property so we have you covered with every {{ $proTypeStatus }} 
-                                                    situations. <a href="javascript:void(0)" class="text-primary">{{ ucfirst($guest) }} Guide Policy</a>.
-                                                </p>
-                                            </div>
-                                        </div> 
-                                        <form id="formTenantGuide" method="POST" action="{{ route('property.store') }}" style="display:none">
-                                            @csrf
-                                            <input type="hidden" name="step" value="8" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                        </form>                                   
-                                    </div>
-                                    
-                                </div><!-- end row --> 
-                            </div><!-- end step eight --> 
-
-                            <div class="step-pane" data-step="9">
-                                <div class="row">
-                                    <div class="col-lg-1"></div>
-                                    <div class="col-lg-5">
-                                        <h4>All set and ready for publishing</h4>
-                                        <div class="mt-4 mb-3">
-                                            <i class="fa fa-building fa-5x"></i>
-                                            <i class="fa fa-home fa-5x ml-4 mr-4"></i>
-                                            <i class="fa fa-bed fa-5x"></i>
-                                        </div>
-                                        <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Potential {{ $guest.'s' }} are wating for you to publish this property.</p>
-                                    
-                                        <div class="mt-4 mb-3">
-                                            <i class="fa fa-address-card fa-5x"></i>
-                                        </div>
-                                        <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> {{ $property->type_status=='auction'? 'Highest bidder':ucfirst($guest) }} will send a message of the date they will be moving in.</p>
-
-                                        <div class="mt-4 mb-3">
-                                            <i class="fa fa-key fa-5x"></i>
-                                        </div>
-                                        <p class="mb-3"><i class="fa fa-dot-circle" style="font-size: 9px"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>    
-                                        
-                                        <form id="formFinishListing" method="POST" action="{{ route('property.store') }}" style="display:none">
-                                            @csrf
-                                            <input type="hidden" name="step" value="9" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                        </form> 
-
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <h4>Terms and conditions, your local law and taxes.</h4>
-                                        <div class="mt-4">
-                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-                                                Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
-                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-                                                Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
-                                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-                                                Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
-                                        </div>
-                                        <div class="card mt-3 float-right">
-                                            <div class="card-body">        
-                                                <a href="{{ route('property.preview', $property->id) }}" class="text-primary">
-                                                    <i class="fa fa-eye text-primary"></i>
-                                                    Preview Property
-                                                </a> 
-                                                <i class="fa fa-home text-success fa-4x"></i>
-                                            </div><!--end card-body-->
-                                        </div>
-                                    </div>
-                                </div><!-- end row --> 
-                            </div><!-- end step nine --> 
-                            
-                            {{-- <div class="col-sm-4 offset-8">
-                                <i>Listing Progress</i>
-                                <div class="progress mb-4" style="height: 12px;">
-                                    <div class="progress-bar  progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">35%</div>
-                                </div>
-                            </div> --}}
-
                         </div><!-- end step content -->   
                     </div> <!-- end wizard -->                
                     
@@ -964,7 +1124,15 @@ $('#registrationWizard')
     @if($property->type=='hostel')
         if(info.step == 1) {
             $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+            document.getElementById("formBlockNames").submit();
+        }
+        else if(info.step==2){
+            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
             document.getElementById("formBlockRooms").submit();
+        }
+        if(info.step == 7){
+            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+            document.getElementById("formHostelSchedule").submit();
         }
     @else
         if(info.step == 1) {
@@ -994,8 +1162,6 @@ $('#registrationWizard')
                 document.getElementById("formContainAmenities").submit();
             }
         }
-    @endif
-    
         if(info.step == 2){
             var valid = true;
             $('#formLocationLandmark input').each(function() {
@@ -1021,7 +1187,7 @@ $('#registrationWizard')
         }
         else if(info.step == 5){
             var valid = true;
-            $('#formDescriptions textarea, #formDescriptions select').each(function() {
+            $('#formDescriptions input, #formDescriptions textarea, #formDescriptions select').each(function() {
                 var $this = $(this);
                 
                 if(!$this.val()) {
@@ -1038,13 +1204,7 @@ $('#registrationWizard')
             $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
             document.getElementById("formPropertyRules").submit();
         }
-    @if($property->type=='hostel')
-        if(info.step == 7){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formHostelSchedule").submit();
-        }
-    @else
-        if(info.step == 7){
+        else if(info.step == 7){
             var valid = true;
             $('#formRentSchedule input, #formRentSchedule select').each(function() {
                 var $this = $(this);
@@ -1059,8 +1219,7 @@ $('#registrationWizard')
                 document.getElementById("formRentSchedule").submit();
             }
         }
-    @endif
-        if(info.step == 8){
+        else if(info.step == 8){
             $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
             document.getElementById("formTenantGuide").submit();
         }
@@ -1068,7 +1227,7 @@ $('#registrationWizard')
             $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Finished, Publishing...').attr('disabled', true);
             document.getElementById("formFinishListing").submit();
         }
-
+    @endif
         return false;
     }
 })
@@ -1086,31 +1245,11 @@ $('#registrationWizard')
 });
 
 @if($property->type=='hostel')
-///add block rooms
-$(".btnAddBlock").on("click", function(){
-    var $this = $(this);
+$("#formBlocks").on("submit", function(e){
+    e.preventDefault();
+    e.stopPropagation();
     var valid = true;
-    if($("#formBlockRooms #rooms_on_block").val()=="0" || $("#formBlockRooms #rooms_on_block").val()==""){
-        valid = false;
-        $("#formBlockRooms #rooms_on_block").parents('.validate').find('.mySpan').text('The no. of rooms on blcok field is required');
-    }
-    if($("#formBlockRooms #person_per_room").val()=="0" || $("#formBlockRooms #person_per_room").val()==""){
-        valid = false;
-        $("#formBlockRooms #person_per_room").parents('.validate').find('.mySpan').text('The person per room field is required');
-    }
-    if($("#formBlockRooms #beds").val()=="0" || $("#formBlockRooms #beds").val()==""){
-        valid = false;
-        $("#formBlockRooms #beds").parents('.validate').find('.mySpan').text('The bed per person field is required');
-    }
-    if($("#formBlockRooms #baths").val()=="0" || $("#formBlockRooms #baths").val()==""){
-        valid = false;
-        $("#formBlockRooms #baths").parents('.validate').find('.mySpan').text('The bathroom field is required');
-    }
-    if($("#formBlockRooms #toilet").val()=="0" || $("#formBlockRooms #toilet").val()==""){
-        valid = false;
-        $("#formBlockRooms #toilet").parents('.validate').find('.mySpan').text('The bathroom field is required');
-    }
-    $('#formBlockRooms select').each(function() {
+    $('#formBlocks input').each(function() {
         var $this = $(this);
         
         if(!$this.val()) {
@@ -1118,6 +1257,83 @@ $(".btnAddBlock").on("click", function(){
             $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
         }
     });
+    if(valid){
+        var data = $("#formBlocks").serialize();
+        $(".btnAddBlock").html('<i class="fa fa-spin fa-spinner"></i> Adding Block...').attr('disabled', true);
+        $.ajax({
+            url: "{{ route('property.block.submit') }}",
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    showBlocks({{ $property->id }});
+                    $("#formBlocks input[name='block_name']").val('');
+                }
+                else{
+                    alert(resp);
+                }
+                $(".btnAddBlock").html('<i class="fa fa-plus-circle"></i> Add Block').attr('disabled', false);
+            },
+            error: function(resp){
+                alert("Something went wrong with request");
+                $(".btnAddBlock").html('<i class="fa fa-plus-circle"></i> Add Block').attr('disabled', false);
+            }
+        });
+    }
+    return false;
+});
+
+function showBlocks(id){
+    $.ajax({
+        url: "{{ url('/user/properties/block') }}/"+id+"/show",
+        type: "GET",
+        success: function(resp){
+            $("#getMyBlockNames").html(resp);
+        },
+        error: function(resp){
+            alert("Something went wrong with request");
+        }
+    });
+}
+showBlocks({{ $property->id }});
+
+$("#formCreateRooms").on("submit", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var valid = true;
+    if($("#formCreateRooms #rooms_on_block").val()=="0" || $("#formCreateRooms #rooms_on_block").val()==""){
+        valid = false;
+        $("#formCreateRooms #rooms_on_block").parents('.validate').find('.mySpan').text('The no. of rooms on blcok field is required');
+    }
+    if($("#formCreateRooms #room_start").val()=="0" || $("#formCreateRooms #room_start").val()==""){
+        valid = false;
+        $("#formCreateRooms #room_start").parents('.validate').find('.mySpan').text('The no. of rooms on blcok field is required');
+    }
+    if($("#formCreateRooms #person_per_room").val()=="0" || $("#formCreateRooms #person_per_room").val()==""){
+        valid = false;
+        $("#formCreateRooms #person_per_room").parents('.validate').find('.mySpan').text('The person per room field is required');
+    }
+    if($("#formCreateRooms #beds").val()=="0" || $("#formCreateRooms #beds").val()==""){
+        valid = false;
+        $("#formCreateRooms #beds").parents('.validate').find('.mySpan').text('The bed per person field is required');
+    }
+    if($("#formCreateRooms #baths").val()=="0" || $("#formCreateRooms #baths").val()==""){
+        valid = false;
+        $("#formCreateRooms #baths").parents('.validate').find('.mySpan').text('The bathroom field is required');
+    }
+    if($("#formCreateRooms #toilet").val()=="0" || $("#formCreateRooms #toilet").val()==""){
+        valid = false;
+        $("#formCreateRooms #toilet").parents('.validate').find('.mySpan').text('The bathroom field is required');
+    }
+    $('#formCreateRooms select').each(function() {
+        var $this = $(this);
+        
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
+    });
+
     if(valid){
         var data = $("#formBlockRooms").serialize();
         $this.html('<i class="fa fa-spin fa-spinner"></i> Adding Block...').attr('disabled', true);
@@ -1142,23 +1358,9 @@ $(".btnAddBlock").on("click", function(){
             }
         });
     }
+
     return false;
 });
-
-function showBlocks(id){
-    $.ajax({
-        url: "{{ url('/user/properties/block') }}/"+id+"/show",
-        type: "GET",
-        success: function(resp){
-            $("#getMyBlockNames").html(resp);
-        },
-        error: function(resp){
-            alert("Something went wrong with request");
-        }
-    });
-}
-
-showBlocks({{ $property->id }});
 @endif
 
 
@@ -1173,7 +1375,7 @@ $("#upfile").on("change", function(){
     var form_data = new FormData();
     var totalfiles = document.getElementById('upfile').files.length;
     if(totalfiles>30){
-        swal("Exceed", "You can not upload more than 10 photos.", "warning");
+        swal("Exceed", "You can not upload more than 30 photos.", "warning");
         document.getElementById("upfile").value = null;
         $("#uploadMsg").html('');
         return false;
@@ -1350,22 +1552,22 @@ $("select").on('change', function(){
 
 
 //check remaining characters
-var maxNumber = 500;
-var counter = $("#description").val().length;
-maxNumber=maxNumber-counter;
-$("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
+// var maxNumber = 500;
+// var counter = $("#description").val().length;
+// maxNumber=maxNumber-counter;
+// $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
 
-$("#description").on("input", function(){
-    var maxNumber = 500;
-    var $this = $(this);
-    if($this.val()!=""){
-        var counter = $this.val().length;
-        maxNumber=maxNumber-counter;
-        $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
-    }else{
-        $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
-    }
-});
+// $("#description").on("input", function(){
+//     var maxNumber = 500;
+//     var $this = $(this);
+//     if($this.val()!=""){
+//         var counter = $this.val().length;
+//         maxNumber=maxNumber-counter;
+//         $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
+//     }else{
+//         $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
+//     }
+// });
 
 
 $("input[name='beds']").TouchSpin({
@@ -1391,6 +1593,11 @@ $("input[name='rooms_on_block']").TouchSpin({
     buttondown_class: 'btn btn-gradient-primary',
     buttonup_class: 'btn btn-gradient-primary'
 });
+$("input[name='room_start']").TouchSpin({
+    initval: 0,
+    buttondown_class: 'btn btn-gradient-primary',
+    buttonup_class: 'btn btn-gradient-primary'
+});
 $("input[name='person_per_room']").TouchSpin({
     initval: 0,
     buttondown_class: 'btn btn-gradient-primary',
@@ -1407,10 +1614,10 @@ $("#price_calendar").on("change", function(){
 @if(!empty($property))
     @if($property->type!='hostel')
         $("#formContainAmenities #bedrooms").val("{{ empty($property->propertyContain->bedroom)? '':$property->propertyContain->bedroom }}");
-        $("#formContainAmenities #beds").val("{{ empty($property->propertyContain->no_bed)? '':$property->propertyContain->no_bed }}");
-        $("#formContainAmenities #kitchen").val("{{ empty($property->propertyContain->kitchen)? '':$property->propertyContain->kitchen }}");
-        $("#formContainAmenities #baths").val("{{ empty($property->propertyContain->bathroom)? '':$property->propertyContain->bathroom }}");
-        $("#formContainAmenities #toilet").val("{{ empty($property->propertyContain->toilet)? '':$property->propertyContain->toilet }}");
+        $("#formContainAmenities #beds").val("{{ empty($property->propertyContain->no_bed)? '0':$property->propertyContain->no_bed }}");
+        $("#formContainAmenities #kitchen").val("{{ empty($property->propertyContain->kitchen)? '0':$property->propertyContain->kitchen }}");
+        $("#formContainAmenities #baths").val("{{ empty($property->propertyContain->bathroom)? '0':$property->propertyContain->bathroom }}");
+        $("#formContainAmenities #toilet").val("{{ empty($property->propertyContain->toilet)? '0':$property->propertyContain->toilet }}");
         $("#formContainAmenities #furnish").val("{{ empty($property->propertyContain->furnish)? '':strtolower(str_replace(' ','_',$property->propertyContain->furnish)) }}");
         @if(!empty($property->propertyContain))
             @if($property->propertyContain->toilet_private)
@@ -1427,7 +1634,11 @@ $("#price_calendar").on("change", function(){
 
         @if($property->type_status=='rent')
             $("#formRentSchedule #advance_duration").val("{{ empty($property->propertyPrice->payment_duration)? '':$property->propertyPrice->payment_duration }}");
-            $("#formRentSchedule #price_calendar").val("{{ empty($property->propertyPrice->price_calendar)? '':$property->propertyPrice->price_calendar }}");
+            $("#formRentSchedule #price_calendar").val("{{ empty($property->propertyPrice->price_calendar)? 'month':$property->propertyPrice->price_calendar }}");
+        @elseif($property->type_status=='short_stay')
+            $("#formRentSchedule #minimum_stay").val("{{ empty($property->propertyPrice->minimum_stay)? '':$property->propertyPrice->minimum_stay }}");
+            $("#formRentSchedule #maximum_stay").val("{{ empty($property->propertyPrice->maximum_stay)? '':$property->propertyPrice->maximum_stay }}");
+            $("#formRentSchedule #price_calendar").val("{{ empty($property->propertyPrice->price_calendar)? 'night':$property->propertyPrice->price_calendar }}");
         @elseif($property->type_status=='sell')
             @if(!empty($property->propertyPrice->negotiable))
                 $("#formRentSchedule #negotiable").prop("checked", true);

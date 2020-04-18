@@ -146,7 +146,11 @@
                                                     <tr>
                                                         <td>Valid ID</td>
                                                         <td>
+                                                            @if (empty(Auth::user()->profile->id_front) && empty(Auth::user()->profile->id_back))
                                                             <a href="javascript:void(0);" class="text-primary btnAddNewID">Add New Government ID Approve</a>
+                                                            @else
+                                                            <i class="fa fa-check text-success"></i> ID is checked
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 </tbody>

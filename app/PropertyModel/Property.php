@@ -26,7 +26,7 @@ class Property extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id', 'base', 'type', 'type_status', 'title', 'step',
+        'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children', 'infant',
     ];
 
     public function getBaseAttribute($value)

@@ -17,6 +17,8 @@ class CreatePropertyPricesTable extends Migration
             $table->increments('id');
             $table->integer('property_id')->unsigned()->index();
             $table->integer('payment_duration')->nullable();
+            $table->double('minimum_stay')->nullable();
+            $table->double('maximum_stay')->nullable();
             $table->string('price_calendar')->nullable();
             $table->double('property_price');
             $table->string('currency');

@@ -61,13 +61,79 @@
                                 <div class="form-group validate">
                                     <label for="">What do you want to do with your property?</label>
                                     <select name="property_type_status" class="form-control" id="property_type_status">
-                                        <option value="">--Select--</option>
+                                        <option value="">--Select--</option>                                       
                                         <option value="rent">I want to rent out</option>                                        
                                         <option value="sell">I want to sell</option>                                        
-                                        <option value="auction">I want to auction</option>                                        
+                                        <option value="auction">I want to auction</option>   
+                                        <option value="short_stay">For short stay</option>                                      
                                     </select>
                                     <span class="text-danger small" role="alert"></span>
                                 </div>
+                               
+                                <div id="myGuests">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group validate">
+                                                <label for="">Expected Guests</label>
+                                                <input type="text" name="guest" id="guest" class="form-control" readonly placeholder="eg: Guests expecting">
+                                                <span class="text-danger small" role="alert"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">How many adult(12 years and above)</label>
+                                                <select name="adult" id="adult" class="form-control">
+                                                    <option value="1">1 Adult</option>
+                                                    <option value="2">2 Adults</option>
+                                                    <option value="3">3 Adults</option>
+                                                    <option value="4">4 Adults</option>
+                                                    <option value="5">5 Adults</option>
+                                                    <option value="6">6 Adults</option>
+                                                    <option value="7">7 Adults</option>
+                                                    <option value="8">8 Adults</option>
+                                                    <option value="9">9 Adults</option>
+                                                    <option value="10">10 Adults</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">How many children(above 2 years)</label>
+                                                <select name="children" id="children" class="form-control">
+                                                    <option value="0">No Children</option>
+                                                    <option value="1">1 Child</option>
+                                                    <option value="2">2 Children</option>
+                                                    <option value="3">3 Children</option>
+                                                    <option value="4">4 Children</option>
+                                                    <option value="5">5 Children</option>
+                                                    <option value="6">6 Children</option>
+                                                    <option value="7">7 Children</option>
+                                                    <option value="8">8 Children</option>
+                                                    <option value="9">9 Children</option>
+                                                    <option value="10">10 Children</option>
+                                                </select>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">How many infants(below 2 years)</label>
+                                                <select name="infant" id="infant" class="form-control">
+                                                    <option value="0">No Infant</option>
+                                                    <option value="1">1 Infant</option>
+                                                    <option value="2">2 Infants</option>
+                                                    <option value="3">3 Infants</option>
+                                                    <option value="4">4 Infants</option>
+                                                    <option value="5">5 Infants</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group mt-5">
                                     <button type="submit" class="btn btnMove btn-gradient-primary btn-sm">
                                         <i class="fa fa-arrow-right"></i>
@@ -164,9 +230,48 @@ $("#property_type").on("change", function(){
     $("#property_type_status").val('');
     if($this.val()=='hostel'){
         $('#property_type_status option:first').next().nextAll().hide();
+        $("#myGuests").hide();
     }else{
         $('#property_type_status option:first').next().nextAll().show();
+        $("#myGuests").fadeIn('fast');
     }
+    return false;
+});
+
+///calculating guests
+var totalGuests = parseFloat($("#adult").val()) + parseFloat($("#children").val()) + parseFloat($("#infant").val());
+$("#guest").val(totalGuests);
+
+$("#adult").on("change", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this= $(this);
+    var childrenGuests = parseFloat($("#children").val());
+    var infantGuests = parseFloat($("#infant").val());
+    var totalGuests = parseFloat($this.val()) + childrenGuests + infantGuests;
+    $("#guest").val(totalGuests);
+    return false;
+});
+
+$("#children").on("change", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this= $(this);
+    var adultGuests = parseFloat($("#adult").val());
+    var infantGuests = parseFloat($("#infant").val());
+    var totalGuests = parseFloat($this.val()) + adultGuests + infantGuests;
+    $("#guest").val(totalGuests);
+    return false;
+});
+
+$("#infant").on("change", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this= $(this);
+    var childrenGuests = parseFloat($("#children").val());
+    var adultGuests = parseFloat($("#adult").val());
+    var totalGuests = parseFloat($this.val()) + childrenGuests + adultGuests;
+    $("#guest").val(totalGuests);
     return false;
 });
 </script>

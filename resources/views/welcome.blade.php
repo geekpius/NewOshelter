@@ -17,7 +17,7 @@
 
                 <form class="pxp-hero-search mt-4" autocomplete="off" >
                     <div class="row">
-                        <div class="col-sm-12 col-md-4">
+                        <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                                 <select class="custom-select" name="status" id="status">
                                     <option value="rent" selected>Rent</option>
@@ -26,10 +26,15 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-8">
+                        <div class="col-sm-12 col-md-6">
                             <div class="form-group autocomplete">
                                 <input type="text" name="location" id="location" class="form-control pxp-is-address" placeholder="Enter location...">
-                                <span class="fa fa-search"></span>
+                                <span class="fa fa-map-marker"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <div class="form-group">
+                                <button class="btn btn-info form-control"><i class="fa fa-search"></i> Search</button>
                             </div>
                         </div>
                     </div>

@@ -4,9 +4,9 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="Real estate platform where property owners can manage their guests/tenants" name="description" />
-        <meta content="Fiifi Pius(Geek)" name="author" />
+        <meta content="Fiifi Pius Geek" name="author" />
         <!-- CSRF Token -->
-        <title>Real Home ||  </title>
+        <title>OShelter  </title>
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
@@ -30,7 +30,7 @@
                         <div class="card-body">
                             <div class="px-3">
                                 <div class="auth-logo-box">
-                                    <a href="javascript:void(0);" class="logo logo-admin"><img src="{{ asset('assets/images/logo-sm.png') }}" height="55" alt="logo" class="auth-logo"></a>
+                                    <a href="{{ route('index') }}" class="logo logo-admin"><img src="{{ asset('assets/images/logo-sm.png') }}" height="55" alt="logo" class="auth-logo"></a>
                                 </div><!--end auth-logo-box-->
                                 <img src="{{ asset('assets/images/404.jpg') }}" alt="" class="d-block mx-auto mt-4" height="250">
                                 <div class="text-center auth-logo-text mb-4">

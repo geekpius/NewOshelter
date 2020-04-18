@@ -55,15 +55,17 @@
                                             <ul class="p-0 mt-4 list-inline">
                                                 <li class="list-inline-item">
                                                     @if ($property->vacant)
-                                                        <span class="badge badge-secondary px-3">Available</span>
+                                                        <span class="badge badge-secondary px-3">Available for {{ str_replace('_',' ',$property->type_status) }}</span>
                                                     @else
                                                         <span class="badge badge-danger px-3">
                                                             @if ($property->type_status=='rent')
                                                                 Rented
                                                             @elseif ($property->type_status=='sell')
                                                                 Sold
-                                                            @else
+                                                            @elseif ($property->type_status=='auction')
                                                                 Auctioned
+                                                            @else
+                                                                Booked
                                                             @endif
                                                         </span>
                                                     @endif
@@ -75,6 +77,7 @@
                                         <h5 class="mt-2">
                                             <a href="{{ route('property.preview', $property->id) }}" class="text-primary">{{ $property->title }}</a>
                                         </h5>
+                                        <span>{{ $property->propertyLocation->location }}</span>
                                     </div><!--end blog-card-->                                   
                                 </div><!--end card-body-->
                             </div>

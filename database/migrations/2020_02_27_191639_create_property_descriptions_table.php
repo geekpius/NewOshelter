@@ -20,6 +20,8 @@ class CreatePropertyDescriptionsTable extends Migration
             $table->mediumText('description');
             $table->string('neighbourhood');
             $table->string('direction');
+            $table->string('size');
+            $table->string('unit');
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
         });

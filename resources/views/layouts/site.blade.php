@@ -4,8 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="keywords" content="Real Estate, Website, Room, House, Property, Property Management, Hosting, Apartment, Shelter, Buy, Sell, Rent, Office Space, Auction, Store, Building, Storey Building, Short Stay, Booking, Guests, Landlord, Host, Accomodation, Room Agent, Hostel, Self Contain" />
-        <meta property="og:image" content="{{ asset('assets/light/images/images/ph-big.jpg') }}, {{ asset('assets/light/images/favicon.png') }}">
-	    <meta property="og:title" content="The Space Is Yours | OShelta | Property Management | Real Estate">
+        <meta property="og:author" content="Fiifi Pius Geek"/>
+        <meta property="og:site_name" content="OShelter"/>
+        <meta name="twitter:title" content="{{ $page_title }}"/>
+        <meta name="twitter:site" content="@oshelter"/>
+        <meta property="og:image" content="{{ asset('assets/light/images/hero-1.jpg') }}, {{ asset('assets/light/images/favicon.png') }}">
+        <meta property="og:title" content="{{ $page_title }}">
+        <meta property="og:url" content="{{ Request::url() }}"/>
 	    <meta property="og:description" content="Real estate platform where property owners can rent, sell, auction their properties and manage their rented properties as well">
         <meta content="Real estate platform where property owners can rent, sell, auction their properties and manage their rented properties as well" name="description" />
         <meta content="Fiifi Pius Geek" name="author" />
@@ -31,12 +36,15 @@
                     </div>
                     <div class="col-2 col-md-8 text-right">
                         <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">List Property</a></li>
-                            <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">List Culture & tour</a></li>
-                            @guest
-                            <li class="list-inline-item"><a href="{{ route('owner.register') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Become an Owner</a></li>
-                            @endguest
-                            <li class="list-inline-item"><a href="{{ route('help') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Help?</a></li>
+                            <li class="list-inline-item"><a href="{{ route('own.property') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Own a Property</a></li>
+                            <li class="list-inline-item"><a href="{{ route('property.start') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Become an Owner</a></li>
+                            <li class="list-inline-item">
+                                <a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop"><i class="fa fa-question-circle"></i> Help</a>
+                                <ul class="pxp-nav-sub rounded-lg">
+                                    <li><a href="{{ route('help.owner') }}" class="font-13 sub-menu-item">Property Owners</a></li>
+                                    <li><a href="{{ route('help.booking') }}" class="font-13 sub-menu-item">Booking And Travellers</a></li>
+                                </ul>
+                            </li>
                             @guest
                             <li class="list-inline-item ml-lg-5"><a class="font-14 font-14-sm-laptop font-14-lg-laptop" href="{{ route('login') }}" id="signIn">sign In</a></li>
                             <li class="list-inline-item"><a class="font-14 font-14-sm-laptop font-14-lg-laptop" href="{{ route('register') }}" id="signUp">sign Up</a></li>
@@ -92,6 +100,7 @@
                                 <h4 class="pxp-footer-header mt-4 mt-lg-0">Company</h4>
                                 <ul class="list-unstyled pxp-footer-links mt-2">
                                     <li><a href="{{ route('index') }}">OShelter</a></li>
+                                    <li><a href="{{ route('contact') }}">About Us</a></li>
                                     <li><a href="{{ route('contact') }}">Contact Us</a></li>
                                 </ul>
                             </div>

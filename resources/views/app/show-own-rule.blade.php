@@ -1,8 +1,8 @@
 @if (count($rules))
 @foreach ($rules as $item)
 <tr class="records">
-    <td><i class="fa fa-dot-circle" style="font-size: 9px"></i> {{ $item->rule }}</td>
-    <td><a href="javascript:void(0);" data-href="{{ route('property.rule.delete', $item->id) }}" class="text-danger ml-3 btnRemoveRule"><i class="fa fa-trash"></i></a></td>
+    <td><i class="fa fa-check-square text-primary font-12"></i> {{ $item->rule }}</td>
+    <td class="pb-2"><a href="javascript:void(0);" data-href="{{ route('property.rule.delete', $item->id) }}" class="text-danger ml-3 btnRemoveRule"><i class="fa fa-trash"></i></a></td>
 </tr>   
 @endforeach 
         
