@@ -10,10 +10,10 @@ use App\PropertyModel\PropertyImage;
 use App\PropertyModel\PropertyPrice;
 use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
+use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\PropertyAmenity;
 use App\PropertyModel\PropertyContain;
 use App\PropertyModel\PropertyOwnRule;
-use App\PropertyModel\PropertyCategory;
 use App\PropertyModel\PropertyLocation;
 use Illuminate\Database\Eloquent\Model;
 use App\PropertyModel\PropertyDescription;
@@ -46,6 +46,11 @@ class Property extends Model
         return $this->hasMany(PropertyHostelBlock::class);
     }
 
+    public function propertyHostelBlockRooms()
+    {
+        return $this->hasManyThrough(HostelBlockRoom::class, PropertyHostelBlock::class);
+    }
+
     public function propertyAmenities(){
         return $this->hasMany(PropertyAmenity::class);
     }
@@ -74,24 +79,12 @@ class Property extends Model
         return $this->hasOne(PropertyPrice::class);
     }
 
-    public function propertyHostelPrices(){
-        return $this->hasMany(PropertyHostelPrice::class);
-    }
-
     public function propertyReviews(){
         return $this->hasMany(PropertyReview::class);
     }
 
-    public function propertyLists(){
-        return $this->hasMany(PropertyList::class);
-    }
-
     public function propertyRents(){
         return $this->hasMany(PropertyRent::class);
-    }
-
-    public function propertyCategories(){
-        return $this->hasMany(PropertyCategory::class);
     }
 
     public function userSavedProperties(){

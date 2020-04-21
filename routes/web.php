@@ -15,9 +15,8 @@
 /*----------------Website Route List----------------------------- */
 Route::get('/', 'WebsiteController@index')->name('index');
 Route::get('/own-property', 'WebsiteController@ownProperty')->name('own.property');
-Route::get('/host-event', 'WebsiteController@hostEvent')->name('host.event');
-Route::get('/category-properties/{category}', 'WebsiteController@categoryProperty')->name('category.property');
-Route::get('/category-properties/{category}/search', 'WebsiteController@categoryProperty')->name('category.property.search');
+Route::get('/property-types/{type}', 'WebsiteController@propertyType')->name('type.property');
+Route::get('/property-types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
 Route::get('/single-property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
 Route::get('/properties', 'WebsiteController@property')->name('browse.property');
 Route::get('/properties/search', 'WebsiteController@property')->name('browse.property.search');
@@ -47,9 +46,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/notifications', 'UserController@notification')->name('notifications');
 
     /*------- Nav actions ------- */
-    Route::get('/saved', 'UserSavedPropertyController@index')->name('saved');
-    Route::post('/saved', 'UserSavedPropertyController@store')->name('saved.submit');
-    Route::get('/saved/{userSavedProperty}/remove', 'UserSavedPropertyController@removeSaved')->name('saved.remove');
+    Route::get('/wishlist', 'UserSavedPropertyController@index')->name('saved');
+    Route::post('/wishlist', 'UserSavedPropertyController@store')->name('saved.submit');
+    Route::get('/wishlist/{userSavedProperty}/remove', 'UserSavedPropertyController@removeSaved')->name('saved.remove');
     Route::get('/wallet', 'UserWalletController@index')->name('wallet');
     Route::get('/activities', 'UserActivityController@index')->name('activities');
 
@@ -90,6 +89,15 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/properties/add/block', 'PropertyController@addBlock')->name('property.block.submit');
     Route::get('/properties/block/{property}/show', 'PropertyController@showBlock')->name('property.block.show');
     Route::get('/properties/block/{propertyHostelBlock}/delete', 'PropertyController@deleteBlock')->name('property.block.delete');
+
+    Route::post('/properties/add/block-rooms', 'PropertyController@addBlockRoom')->name('property.blockroom.submit');
+    Route::get('/properties/block-rooms/{property}/show', 'PropertyController@showBlockRoom')->name('property.blockroom.show');
+    Route::get('/properties/block-rooms/{hostelBlockRoom}/delete', 'PropertyController@deleteBlockRoom')->name('property.blockroom.delete');
+
+    Route::post('/properties/get/block-room-type', 'PropertyController@getRoomType')->name('property.get.roomtype');
+    Route::post('/properties/add/room-amenities', 'PropertyController@addBlockRoomAmenities')->name('property.room.amenities.submit');
+    Route::get('/properties/room-amenities/{property}/show', 'PropertyController@showBlockRoomAmenities')->name('property.room.amenities.show');
+    Route::get('/properties/room-amenities/{hostelRoomAmenity}/delete', 'PropertyController@deleteBlockRoomAmenities')->name('property.room.amenities.delete');
 
     Route::post('/properties/photos/upload', 'PropertyController@uploadPropertyPhoto')->name('property.photos.submit');
     Route::get('/properties/photos/{property}/show', 'PropertyController@showPropertyPhoto')->name('property.photos.show');

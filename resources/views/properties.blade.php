@@ -165,21 +165,25 @@
 
                             <span class="fa fa-tag text-white pull-right"> 
                                 <strong>
-                                @if ($property->vacant)
+                                    @if ($property->vacant)
                                     @if ($property->type_status=='rent')
                                         Rent
                                     @elseif($property->type_status=='sell')
                                         Buy
-                                    @else
+                                    @elseif($property->type_status=='auction')
                                         Bid
+                                    @else
+                                        Book
                                     @endif
                                 @else
                                     @if ($property->type_status=='rent')
                                         Rented
                                     @elseif($property->type_status=='sell')
                                         Bought
-                                    @else
+                                    @elseif($property->type_status=='auction')
                                         Auctioned
+                                    @else
+                                        Booked
                                     @endif
                                 @endif
                                 </strong>
@@ -189,7 +193,7 @@
                             <span>{{ $property->propertyContain->bedroom }} BD <span>|</span> {{ $property->propertyContain->bathroom }} BA <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</span>
                         </div>
                         
-                        <div class="pxp-results-card-1-save btnHeart" data-id="{{ $property->id }}"><span class="fa fa-heart text-pink heart-hover" style="cursor:pointer"></span></div>
+                        <div class="pxp-results-card-1-save btnHeart" data-id="{{ $property->id }}"><span class="fa fa-heart text-primary heart-hover" style="cursor:pointer"></span></div>
                     </a>
                 </div>
                 @endforeach

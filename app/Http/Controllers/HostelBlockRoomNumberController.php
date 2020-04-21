@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\PropertyModel\PropertyCategory;
+use App\PropertyModel\HostelBlockRoomNumber;
 use Illuminate\Http\Request;
 
-class PropertyCategoryController extends Controller
+class HostelBlockRoomNumberController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class PropertyCategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\PropertyModel\PropertyCategory  $propertyCategory
+     * @param  \App\PropertyModel\HostelBlockRoomNumber  $hostelBlockRoomNumber
      * @return \Illuminate\Http\Response
      */
-    public function show(PropertyCategory $propertyCategory)
+    public function show(HostelBlockRoomNumber $hostelBlockRoomNumber)
     {
         //
     }
@@ -52,10 +52,10 @@ class PropertyCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\PropertyModel\PropertyCategory  $propertyCategory
+     * @param  \App\PropertyModel\HostelBlockRoomNumber  $hostelBlockRoomNumber
      * @return \Illuminate\Http\Response
      */
-    public function edit(PropertyCategory $propertyCategory)
+    public function edit(HostelBlockRoomNumber $hostelBlockRoomNumber)
     {
         //
     }
@@ -64,10 +64,10 @@ class PropertyCategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PropertyModel\PropertyCategory  $propertyCategory
+     * @param  \App\PropertyModel\HostelBlockRoomNumber  $hostelBlockRoomNumber
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PropertyCategory $propertyCategory)
+    public function update(Request $request, HostelBlockRoomNumber $hostelBlockRoomNumber)
     {
         //
     }
@@ -75,10 +75,10 @@ class PropertyCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\PropertyModel\PropertyCategory  $propertyCategory
+     * @param  \App\PropertyModel\HostelBlockRoomNumber  $hostelBlockRoomNumber
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PropertyCategory $propertyCategory)
+    public function destroy(HostelBlockRoomNumber $hostelBlockRoomNumber)
     {
         //
     }

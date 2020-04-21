@@ -44,20 +44,81 @@
     </div>
 
     <div class="container-fluid pxp-props-carousel-right mt-100">
-        <h2 class="pxp-section-h2">Explore Your Curiosity</h2>
-        <p class="pxp-text-light">Browse our comprehensive category listing</p>
+        <h2 class="pxp-section-h2">We've made it simple</h2>
+        <p class="pxp-text-light">Narrow down your filtering complexity</p>
         <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
             <div class="owl-carousel pxp-props-carousel-right-stage">
-                @foreach ($categories as $cate)
                 <div>
-                    <a href="{{ route('category.property',$cate->name) }}" class="pxp-areas-1-item rounded-lg">
-                        @php $image = empty($cate->image)? 'area-1.jpg':'categories/'.$cate->image; @endphp
-                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/'.$image) }});"></div>
+                    <a href="" class="pxp-areas-1-item rounded-lg">
+                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
-                            <div class="pxp-areas-1-item-details-area">{{ ucwords(str_replace('-',' ',$cate->name))}}</div>
+                            <div class="pxp-areas-1-item-details-area">Book</div>
                         </div>
                         <div class="pxp-areas-1-item-counter"><span class="text-primary">
-                        @php $propCount = \App\PropertyModel\PropertyCategory::whereCategory($cate->name)->count(); @endphp    
+                        @php $propCount = App\PropertyModel\Property::whereType_status('short_stay')->whereDone_step(true)->count(); @endphp  
+                        {{ $propCount. ' Properties' }}
+                        </span></div>
+                        <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
+                    </a>
+                </div>
+                <div>
+                    <a href="" class="pxp-areas-1-item rounded-lg">
+                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
+                        <div class="pxp-areas-1-item-details">
+                            <div class="pxp-areas-1-item-details-area">Rent</div>
+                        </div>
+                        <div class="pxp-areas-1-item-counter"><span class="text-primary">
+                        @php $propCount = App\PropertyModel\Property::whereType_status('rent')->whereDone_step(true)->count(); @endphp  
+                        {{ $propCount. ' Properties' }}
+                        </span></div>
+                        <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
+                    </a>
+                </div>
+                <div>
+                    <a href="" class="pxp-areas-1-item rounded-lg">
+                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
+                        <div class="pxp-areas-1-item-details">
+                            <div class="pxp-areas-1-item-details-area">Buy</div>
+                        </div>
+                        <div class="pxp-areas-1-item-counter"><span class="text-primary">
+                        @php $propCount = App\PropertyModel\Property::whereType_status('sell')->whereDone_step(true)->count(); @endphp  
+                        {{ $propCount. ' Properties' }}
+                        </span></div>
+                        <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
+                    </a>
+                </div>
+                <div>
+                    <a href="" class="pxp-areas-1-item rounded-lg">
+                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
+                        <div class="pxp-areas-1-item-details">
+                            <div class="pxp-areas-1-item-details-area">Bid</div>
+                        </div>
+                        <div class="pxp-areas-1-item-counter"><span class="text-primary">
+                        @php $propCount = App\PropertyModel\Property::whereType_status('auction')->whereDone_step(true)->count(); @endphp  
+                        {{ $propCount. ' Properties' }}
+                        </span></div>
+                        <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid pxp-props-carousel-right mt-100">
+        <h2 class="pxp-section-h2">Explore Your Curiosity</h2>
+        <p class="pxp-text-light">Browse our comprehensive listing types</p>
+        <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
+            <div class="owl-carousel pxp-props-carousel-right-stage">
+                @foreach ($types as $type)
+                <div>
+                    <a href="{{ route('type.property', strtolower(str_replace(' ','-',$type->name))) }}" class="pxp-areas-1-item rounded-lg">
+                        @php $image = empty($type->image)? 'area-1.jpg':'types/'.$type->image; @endphp
+                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/'.$image) }});"></div>
+                        <div class="pxp-areas-1-item-details">
+                            <div class="pxp-areas-1-item-details-area">{{ $type->name }}</div>
+                        </div>
+                        <div class="pxp-areas-1-item-counter"><span class="text-primary">
+                        @php $propCount = $type->getPropertyCount(strtolower(str_replace(' ','_',$type->name))); @endphp  
                         {{ $propCount. ' Properties' }}
                         </span></div>
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
@@ -67,6 +128,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="container-fluid pxp-props-carousel-right mt-100">
         <h2 class="pxp-section-h2">Featured Properties</h2>
@@ -78,7 +140,7 @@
                     <a href="{{ route('single.property', $property->id) }}" class="pxp-prop-card-1 rounded-lg">
                         <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$property->propertyImages->first()->image) }});"></div>
                         <span class="on-top-save on-top m-2 btnHeart" data-id="{{ $property->id }}">
-                            <span class="fa fa-heart text-pink heart-hover"></span>
+                            <span class="fa fa-heart text-primary heart-hover"></span>
                         </span>
                         <div class="pxp-prop-card-1-gradient pxp-animate"></div>
                         <div class="pxp-prop-card-1-details">
@@ -91,16 +153,20 @@
                                         Rent
                                     @elseif($property->type_status=='sell')
                                         Buy
-                                    @else
+                                    @elseif($property->type_status=='auction')
                                         Bid
+                                    @else
+                                        Book
                                     @endif
                                 @else
                                     @if ($property->type_status=='rent')
                                         Rented
                                     @elseif($property->type_status=='sell')
                                         Bought
-                                    @else
+                                    @elseif($property->type_status=='auction')
                                         Auctioned
+                                    @else
+                                        Booked
                                     @endif
                                 @endif
                                 </strong>

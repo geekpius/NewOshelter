@@ -18,9 +18,11 @@ use App\PropertyModel\PropertyAmenity;
 use App\PropertyModel\PropertyContain;
 use App\PropertyModel\PropertyOwnRule;
 use App\PropertyModel\PropertyLocation;
+use App\PropertyModel\HostelRoomAmenity;
 use App\PropertyModel\PropertyDescription;
 use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
+use App\PropertyModel\HostelBlockRoomNumber;
 
 class PropertyController extends Controller
 {
@@ -91,7 +93,7 @@ class PropertyController extends Controller
         }else{
             try{
                 DB::beginTransaction();
-                if(PropertyHostelBlock::whereBlock_name($request->block_name)->exists()){
+                if(PropertyHostelBlock::whereBlock_name(strtolower($request->block_name))->exists()){
                     $message='Block name already exist.';
                 }
                 else{
@@ -111,60 +113,6 @@ class PropertyController extends Controller
         return $message;
     }
 
-    // public function addBlock(Request $request)
-    // {
-    //     $validator = \Validator::make($request->all(), [
-    //         'property_id' => 'required|string',
-    //         'block_name' => 'required|string',
-    //         'block_room_type' => 'required|string',
-    //         'rooms_on_block' => 'required|numeric',
-    //         'beds' => 'required|numeric',
-    //         'person_per_room' => 'required|numeric',
-    //         'kitchen' => 'required|string',
-    //         'baths' => 'required|numeric',
-    //         'bath_private' => 'required',
-    //         'toilet' => 'required|numeric',
-    //         'toilet_private' => 'required',
-    //         'furnish' => 'required',
-    //     ]);
-    //     if ($validator->fails()){
-    //         $message = 'fail';
-    //     }else{
-    //         try{
-    //             DB::beginTransaction();
-    //             $block = new PropertyHostelBlock;
-    //             $block->property_id = $request->property_id;
-    //             $block->block_name = $request->block_name;
-    //             $block->type = $request->block_room_type;
-    //             $block->no_room = $request->rooms_on_block;
-    //             $block->bed = $request->beds;
-    //             $block->per_room = $request->person_per_room;
-    //             $block->kitchen = $request->kitchen;
-    //             $block->bathroom = $request->baths;
-    //             $block->bath_private = $request->bath_private;
-    //             $block->toilet = $request->toilet;
-    //             $block->toilet_private = $request->toilet_private;
-    //             $block->furnish = $request->furnish;
-    //             $block->save();
-    //             //create roooms
-    //             for($i=1; $i<=$request->rooms_on_block; $i++){
-    //                 $room = new HostelBlockRoom;
-    //                 $room->property_hostel_block_id = $block->id;
-    //                 $room->room = $i;
-    //                 $room->no_person = $request->person_per_room;
-    //                 $room->save();
-    //             }
-    //             DB::commit();
-    //             $message="success";
-    //         }catch(\Exception $e){
-    //             DB::rollback();
-    //             $message = 'Something went wrong';
-    //         }
-    //     }
-
-    //     return $message;
-    // }
-
     ///show Hostel blocks
     public function showBlock(Property $property)
     {
@@ -176,6 +124,127 @@ class PropertyController extends Controller
     public function deleteBlock(PropertyHostelBlock $propertyHostelBlock)
     {
         $propertyHostelBlock->delete();
+        return 'success';
+    }
+
+    //create hostel block rooms
+    public function addBlockRoom(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'hostel_block' => 'required|string',
+            'block_room_type' => 'required|string',
+            'rooms_on_block' => 'required|numeric',
+            'room_start' => 'required|numeric',
+            'beds' => 'required|numeric',
+            'person_per_room' => 'required|numeric',
+            'kitchen' => 'required|string',
+            'baths' => 'required|numeric',
+            'bath_private' => 'required',
+            'toilet' => 'required|numeric',
+            'toilet_private' => 'required',
+            'furnish' => 'required',
+        ]);
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            try{
+                DB::beginTransaction();
+                $room = new HostelBlockRoom;
+                $room->property_hostel_block_id = $request->hostel_block;
+                $room->block_room_type = $request->block_room_type;
+                $room->block_no_room = $request->rooms_on_block;
+                $room->start_room_no = $request->room_start;
+                $room->bed_person = $request->beds;
+                $room->person_per_room = $request->person_per_room;
+                $room->furnish = $request->furnish;
+                $room->kitchen = $request->kitchen;
+                $room->bathroom = $request->baths;
+                $room->bath_private = $request->bath_private;
+                $room->toilet = $request->toilet;
+                $room->toilet_private = $request->toilet_private;
+                $room->save();
+                //create rooom numbers
+                $endNumber = $request->room_start + $request->rooms_on_block;
+                for($i=$request->room_start; $i<$endNumber; $i++){
+                    $number = new HostelBlockRoomNumber;
+                    $number->hostel_block_room_id = $room->id;
+                    $number->room_no = $i;
+                    $number->person_per_room = $request->person_per_room;
+                    $number->save();
+                }
+                DB::commit();
+                $message="success";
+            }catch(\Exception $e){
+                DB::rollback();
+                $message = 'Something went wrong';
+            }
+        }
+
+        return $message;
+    }
+
+    ///show Hostel blocks rooms
+    public function showBlockRoom(Property $property)
+    {
+        $data['blocks']=$property->propertyHostelBlocks;
+        return view("app.show-block-room", $data)->render();
+    }
+
+    ///show delete block rooms
+    public function deleteBlockRoom(HostelBlockRoom $hostelBlockRoom)
+    {
+        $hostelBlockRoom->delete();
+        return 'success';
+    }
+
+    //get room type base on block name
+    public function getRoomType(Request $request)
+    {
+        $rooms = HostelBlockRoom::whereProperty_hostel_block_id($request->block_name)->get(['id','block_room_type']);
+        return response()->json($rooms);
+    }
+
+    //create hostel block rooms amenities
+    public function addBlockRoomAmenities(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'hostel_block_name' => 'required|string',
+            'room_type' => 'required|string',
+        ]);
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            try{
+                DB::beginTransaction();
+                if(!empty($request->amenities)){
+                    foreach($request->amenities as $myAmenity){
+                        $amenity = HostelRoomAmenity::updateOrCreate(
+                            ['hostel_block_room_id'=>$request->room_type, 'name'=>$myAmenity]
+                        );
+                    }
+                }
+                DB::commit();
+                $message="success";
+            }catch(\Exception $e){
+                DB::rollback();
+                $message = 'Something went wrong';
+            }
+        }
+
+        return $message;
+    }
+
+    ///show Hostel blocks rooms amenities
+    public function showBlockRoomAmenities(Property $property)
+    {
+        $data['rooms']=$property->propertyHostelBlockRooms()->get();
+        return view("app.show-hostel-amenities", $data)->render();
+    }
+
+    ///show delete block rooms amenities
+    public function deleteBlockRoomAmenities(HostelRoomAmenity $hostelRoomAmenity)
+    {
+        $hostelRoomAmenity->delete();
         return 'success';
     }
 
@@ -294,8 +363,8 @@ class PropertyController extends Controller
     public function addHostelBlockPrice(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'property_id' => 'required|string',
             'block' => 'required|string',
+            'block_room' => 'required|string',
             'advance_duration' => 'required|string',
             'price_calendar' => 'required|string',
             'property_price' => 'required|string',
@@ -306,19 +375,11 @@ class PropertyController extends Controller
         }else{
             try{
                 DB::beginTransaction();
-                if(PropertyHostelPrice::whereProperty_hostel_block_id($request->block)->exists()){
-                    $message = "Block price already added";
-                }else{
-                    $price = new PropertyHostelPrice;
-                    $price->property_id = $request->property_id;
-                    $price->property_hostel_block_id = $request->block;
-                    $price->payment_duration = $request->advance_duration;
-                    $price->price_calendar = $request->price_calendar;
-                    $price->property_price = $request->property_price;
-                    $price->currency = $request->currency;
-                    $price->save();
-                    $message="success";
-                }
+                $price = PropertyHostelPrice::updateOrCreate(
+                    ['hostel_block_room_id'=>$request->block_room],['payment_duration'=>$request->advance_duration, 'price_calendar'=>$request->price_calendar, 
+                    'property_price'=>$request->property_price, 'currency'=>$request->currency]
+                );
+                $message="success";
                 DB::commit();
             }catch(\Exception $e){
                 DB::rollback();
@@ -332,7 +393,7 @@ class PropertyController extends Controller
     ///show Hostel block prices
     public function showHostelBlockPrice(Property $property)
     {
-        $data['prices'] = $property->propertyHostelPrices;
+        $data['prices'] = $property->propertyHostelBlockRooms()->get();
         return view("app.show-hostel-block-prices", $data)->render();
     }
 
@@ -373,12 +434,69 @@ class PropertyController extends Controller
                 $property->update();
                 return redirect()->back();
             }
-            if($request->step==7){
+            else if($request->step==2){
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            }
+            else if($request->step==3){
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            }
+            elseif($request->step==4){
+                if(!empty($request->property_rules)){
+                    foreach($request->property_rules as $rule){
+                        $rule = PropertyRule::updateOrCreate(
+                            ['property_id'=>$request->property_id,'rule'=>$rule]
+                        );
+                    }
+                }
                 ///update step to move forward
                 $property->step = ($request->step+1);
                 $property->update();
-
+    
                 return redirect()->back();
+            }
+            elseif($request->step==5){
+                $location = PropertyLocation::updateOrCreate(
+                    ['property_id'=>$request->property_id], ['digital_address'=>$request->digital_address, 'location'=>$request->location]
+                );
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            }
+            elseif($request->step==6){
+                ///update step to move forward
+                $property->step = ($request->step+1);
+                $property->update();
+    
+                return redirect()->back();
+            }
+            elseif($request->step==7){
+                $description = PropertyDescription::updateOrCreate(
+                    ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 
+                    'direction'=>$request->directions, 'size'=>$request->property_size, 'unit'=>$request->size_unit]
+                );
+                ///update step to move forward
+                $property->step = ($request->step+1);
+                $property->update();
+    
+                return redirect()->back();
+            }
+            elseif($request->step==8){
+                ///update step to move forward
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            } 
+            elseif($request->step==9){
+                ///final step to publish
+                $property->publish = true;
+                $property->done_step = true;
+                $property->update();
+
+                return redirect()->route('property');
             }
         }else{
             ///nexts for other properties
@@ -391,14 +509,6 @@ class PropertyController extends Controller
                 return redirect()->back();
             } 
             elseif($request->step==2){
-                $location = PropertyLocation::updateOrCreate(
-                    ['property_id'=>$request->property_id], ['digital_address'=>$request->digital_address, 'location'=>$request->location]
-                );
-                $property->step = ($request->step+1);
-                $property->update();
-                return redirect()->back();
-            }
-            elseif($request->step==3){
                 if(!empty($request->amenities)){
                     foreach($request->amenities as $myAmenity){
                         $amenity = PropertyAmenity::updateOrCreate(
@@ -412,25 +522,7 @@ class PropertyController extends Controller
     
                 return redirect()->back();
             }
-            elseif($request->step==4){
-                ///update step to move forward
-                $property->step = ($request->step+1);
-                $property->update();
-    
-                return redirect()->back();
-            }
-            elseif($request->step==5){
-                $description = PropertyDescription::updateOrCreate(
-                    ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 
-                    'direction'=>$request->directions, 'size'=>$request->property_size, 'unit'=>$request->size_unit]
-                );
-                ///update step to move forward
-                $property->step = ($request->step+1);
-                $property->update();
-    
-                return redirect()->back();
-            }
-            elseif($request->step==6){
+            elseif($request->step==3){
                 if(!empty($request->property_rules)){
                     foreach($request->property_rules as $rule){
                         $rule = PropertyRule::updateOrCreate(
@@ -438,6 +530,32 @@ class PropertyController extends Controller
                         );
                     }
                 }
+                ///update step to move forward
+                $property->step = ($request->step+1);
+                $property->update();
+    
+                return redirect()->back();
+            }
+            elseif($request->step==4){
+                $location = PropertyLocation::updateOrCreate(
+                    ['property_id'=>$request->property_id], ['digital_address'=>$request->digital_address, 'location'=>$request->location]
+                );
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            }
+            elseif($request->step==5){
+                ///update step to move forward
+                $property->step = ($request->step+1);
+                $property->update();
+    
+                return redirect()->back();
+            }
+            elseif($request->step==6){
+                $description = PropertyDescription::updateOrCreate(
+                    ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 
+                    'direction'=>$request->directions, 'size'=>$request->property_size, 'unit'=>$request->size_unit]
+                );
                 ///update step to move forward
                 $property->step = ($request->step+1);
                 $property->update();

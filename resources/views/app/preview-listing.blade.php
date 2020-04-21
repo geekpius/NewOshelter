@@ -183,23 +183,22 @@
                             <!-- Contained amenities -->
                             <p><i class="fa fa-home text-success"></i> <b>{{  ucwords(str_replace('_',' ',$property->type))  }} in {{  strtolower($property->base)  }} </b> </p>   
                             @if ($property->type=='hostel')
-                                @if (count($property->propertyHostelBlocks))
-                                    <div style="position: relative;  height: 260px; overflow-y:scroll; overflow-x:hidden;">
+                                @if (count($property->propertyHostelBlockRooms))
+                                    <div style="position: relative;  height: 460px; overflow-y:scroll; overflow-x:hidden;">
                                         <div class="activity">
-                                        @foreach ($property->propertyHostelBlocks as $block)
+                                        @foreach ($property->propertyHostelBlockRooms as $block)
                                             <div class="parentDiv">
                                                 <i class="mdi mdi-checkbox-marked-circle-outline icon-success"></i>
                                                 <div class="time-item">
                                                     <div class="item-info">
                                                         <div class="d-flex justify-content-between align-items-center">
-                                                            <h6 class="m-0">{{ $block->block_name }} Block</h6>
+                                                            <h6 class="m-0">{{ $block->propertyHostelBlock->block_name }}</h6>
                                                         </div>
                                                         <p class="mt-3">
-                                                            {{ ucfirst(strtolower($block->type)) }} with {{ $block->no_room }} rooms with {{ $block->per_room }} person per room. 
-
+                                                            <span class="text-primary font-13">{{ $block->block_room_type }}</span> with {{ $block->block_no_room }} rooms of {{ ($block->person_per_room==1)? $block->person_per_room.' person':$block->person_per_room.' persons' }} per room. 
                                                         </p>
                                                         <div>
-                                                            <span class="badge badge-soft-primary">{{$block->bed}} {{ $block->bed==1? 'bed':'beds' }} per room </span>                                                  
+                                                            <span class="badge badge-soft-primary">{{$block->bed_person}} {{ $block->bed_person==1? 'bed':'beds' }} per room </span>                                                  
                                                             @if($block->kitchen==0)
                                                             <span class="badge badge-soft-primary">No kitchen</span>                                                
                                                             @elseif($block->kitchen==1)
@@ -210,6 +209,17 @@
                                                             <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }} {{ ($block->bathroom==1)? 'bathroom':'bathrooms' }}</span>                                          
                                                             <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} {{ ($block->toilet==1)? 'toilet':'toilets' }}</span>                              
                                                         </div>
+                                                        <div class="mt-3">
+                                                            <h6><strong>Amenities</strong></h6>
+                                                            @if(count($block->hostelRoomAmenities))
+                                                                @foreach ($block->hostelRoomAmenities as $amenity)
+                                                                <span class="mr-4 font-12"><span class="fa fa-check-square text-success"></span>  {{ $amenity->name }}</span> 
+                                                                @endforeach   
+                                                            @else
+                                                                <p class="text-danger">No amenity reported</p>
+                                                            @endif  
+                                                        </div>    
+                                                        <hr>                                                    
                                                     </div>
                                                 </div> 
                                             </div>   
@@ -242,35 +252,37 @@
                                 @endif
                             </p>
                             <hr>
-                            <!-- Amenities -->
-                            <h5><b>Amenities</b></h5>
-                            @if (count($property->propertyAmenities))
-                                <div class="row">
-                                    @foreach ($property->propertyAmenities as $amen)
-                                    <div class="col-sm-6">
-                                        <p><i class="fa fa-check-square text-success" style="font-size: 12px"></i> {{ $amen->name }}</p>
-                                    </div>                                
-                                    @endforeach
-                                </div>
-                            @else
-                                <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> No amenities reported on property.</p>
+                            @if ($property->type!='hostel')
+                                <!-- Amenities -->
+                                <h5><b>Amenities</b></h5>
+                                @if (count($property->propertyAmenities))
+                                    <div class="row">
+                                        @foreach ($property->propertyAmenities as $amen)
+                                        <div class="col-sm-6">
+                                            <p><i class="fa fa-check-square text-success" style="font-size: 12px"></i> {{ $amen->name }}</p>
+                                        </div>                                
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> No amenities reported on property.</p>
+                                @endif
+                                <hr>
                             @endif
-
-                            <hr>
                             <!-- Vacancies -->
                             <h5><b>Availability</b></h5>
                             @if ($property->type=='hostel')
-                                <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> You will get to know your room mate when renting is 
-                                    confirmed. Click on vacant block room to book.
+                                <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> You will get to know your room mate when booking is 
+                                    confirmed. Click on vacant block room type to book.
                                 </p>
-                                @if (count($property->propertyHostelBlocks))
-                                    @foreach ($property->propertyHostelBlocks as $block)
+                                @if (count($property->propertyHostelBlockRooms))
+                                    @foreach ($property->propertyHostelBlockRooms as $block)
+                                    <hr>
                                         <div class="parentDiv mb-3">
-                                            <h6><i class="fa fa-square text-success" style="font-size:9px"></i> {{  $block->block_name  }} Block - <b>{{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>per {{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
-                                            @foreach ($block->hostelBlockRooms as $item)  
+                                            <h6><i class="fa fa-home text-success font-12"></i> {{  $block->propertyHostelBlock->block_name  }} | <span class="font-12 text-primary">{{  $block->block_room_type  }}</span> - <b>{{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>/{{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
+                                            @foreach ($block->hostelBlockRoomNumbers as $item)  
                                                 <span class="badge {{ ($item->full)? 'badge-danger':'badge-success' }} mb-1 mr-1">
-                                                    <span>Room {{ $item->room }} {{ ($item->full)?'Not Available':'Available' }}</span><br><br>
-                                                    <span>({{ ($item->no_person-$item->occupant)}} {{ ($item->no_person-$item->occupant)>1? 'spaces':'space' }})</span>
+                                                    <span>Room {{ $item->room_no }} {{ ($item->full)?'Not Available':'Available' }}</span><br><br>
+                                                    <span>({{ ($item->person_per_room-$item->occupant)}} {{ ($item->person_per_room-$item->occupant)>1? 'spaces':'space' }})</span>
                                                 </span>                                                                                      
                                             @endforeach
                                         </div> 
@@ -539,7 +551,7 @@
                             <hr>
                             <!-- Contact -->
                             <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                                <img src="{{ (empty($property->user->image))? asset('assets/images/user.jpg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
+                                <img src="{{ (empty($property->user->image))? asset('assets/images/user.jpg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->membership }}" class="thumb-lg rounded-circle" /> 
                             </div>
                             <h4><b>Owned by {{ current(explode(' ',$property->user->name)) }}</b></h4>                           
                             <p>{{ empty($property->user->profile->city)? '':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>                           
@@ -571,16 +583,8 @@
                                     <div id="gmaps-markers" class="gmaps"></div>
                                 </div><!--end card-body-->
                             </div>                    
-                            <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  Directions 
-                                @if($property->type_status=='rent')
-                                are given out to tenant after renting is confirmed.
-                                @elseif($property->type_status=='sell')
-                                are given out to buyer after buying is confirmed.
-                                @elseif($property->type_status=='auction')
-                                are given out to highest bidder after auctioning is won.
-                                @else
-                                are given out to guest after booking is confirmed.
-                                @endif
+                            <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  
+                                Directions are given out to guest after booking is confirmed.
                             </p>                           
                             <hr>     
                             <h5><b>Cancellation {{ $property->type_status=='rent'? 'and Eviction':'' }}</b></h5>  

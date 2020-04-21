@@ -16,10 +16,17 @@ class CreateHostelBlockRoomsTable extends Migration
         Schema::create('hostel_block_rooms', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('property_hostel_block_id')->unsigned()->index();
-            $table->integer('room');
-            $table->integer('no_person');
-            $table->integer('occupant')->default(0);
-            $table->boolean('full')->default(false);
+            $table->string('block_room_type');
+            $table->integer('block_no_room');
+            $table->integer('start_room_no');
+            $table->integer('bed_person');
+            $table->integer('person_per_room');
+            $table->string('furnish');
+            $table->integer('kitchen');
+            $table->integer('bathroom');
+            $table->boolean('bath_private');
+            $table->integer('toilet');
+            $table->boolean('toilet_private');
             $table->timestamps();
             $table->foreign('property_hostel_block_id')->references('id')->on('property_hostel_blocks')->onDelete('cascade');
         });

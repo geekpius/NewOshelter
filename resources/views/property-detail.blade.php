@@ -87,23 +87,22 @@
                     <!-- Contained amenities -->
                     <p><i class="fa fa-home text-success"></i> <b>{{  ucwords(str_replace('_',' ',$property->type))  }} in {{  strtolower($property->base)  }} </b> </p>   
                     @if ($property->type=='hostel')
-                        @if (count($property->propertyHostelBlocks))
-                            <div style="position: relative;  height: 260px; overflow-y:scroll; overflow-x:hidden;">
+                        @if (count($property->propertyHostelBlockRooms))
+                            <div style="position: relative;  height: 460px; overflow-y:scroll; overflow-x:hidden;">
                                 <div class="activity">
-                                @foreach ($property->propertyHostelBlocks as $block)
+                                @foreach ($property->propertyHostelBlockRooms as $block)
                                     <div class="parentDiv">
                                         <i class="mdi mdi-checkbox-marked-circle-outline icon-success"></i>
                                         <div class="time-item">
                                             <div class="item-info">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <h6 class="m-0">{{ $block->block_name }} Block</h6>
+                                                    <h6 class="m-0">{{ $block->propertyHostelBlock->block_name }}</h6>
                                                 </div>
-                                                <p class="mt-3">
-                                                    {{ ucfirst(strtolower($block->type)) }} with {{ $block->no_room }} rooms with {{ $block->per_room }} person per room. 
-
+                                                <p class="mt-2">
+                                                <span class="text-primary">{{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms with {{ $block->person_per_room }} person per room. 
                                                 </p>
                                                 <div>
-                                                    <span class="badge badge-soft-primary">{{$block->bed}} {{ $block->bed==1? 'bed':'beds' }} per room </span>                                                  
+                                                    <span class="badge badge-soft-primary">{{$block->bed_person}} {{ $block->bed_person==1? 'bed':'beds' }} per room </span>                                                  
                                                     @if($block->kitchen==0)
                                                     <span class="badge badge-soft-primary">No kitchen</span>                                                
                                                     @elseif($block->kitchen==1)
@@ -114,6 +113,17 @@
                                                     <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }} {{ ($block->bathroom==1)? 'bathroom':'bathrooms' }}</span>                                          
                                                     <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} {{ ($block->toilet==1)? 'toilet':'toilets' }}</span>                              
                                                 </div>
+                                                <div class="mt-3">
+                                                    <h6><strong>Amenities</strong></h6>
+                                                    @if(count($block->hostelRoomAmenities))
+                                                        @foreach ($block->hostelRoomAmenities as $amenity)
+                                                        <span class="mr-4 font-12"><span class="fa fa-check-square text-success"></span>  {{ $amenity->name }}</span> 
+                                                        @endforeach   
+                                                    @else
+                                                        <p class="text-danger">No amenity reported</p>
+                                                    @endif  
+                                                </div>    
+                                                <hr>    
                                             </div>
                                         </div> 
                                     </div>   
@@ -168,22 +178,24 @@
                     </p>
                 </div>
 
-                <hr>
-                <div class="pxp-single-property-section">
-                    <h3>Amenities</h3>
-                    <div class="row mt-3 mt-md-4">
-                        <!-- Amenities -->
-                        @if (count($property->propertyAmenities))
-                            @foreach ($property->propertyAmenities as $amen)
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="pxp-sp-amenities-item"><i class="fa fa-check-square text-success"></i> {{ $amen->name }}</div>
-                            </div>                 
-                            @endforeach
-                        @else
-                            <p><i class="fa fa-square font-12"></i> No amenities reported on property.</p>
-                        @endif
+                @if ($property->type!='hostel')
+                    <hr>
+                    <div class="pxp-single-property-section">
+                        <h3>Amenities</h3>
+                        <div class="row mt-3 mt-md-4">
+                            <!-- Amenities -->
+                            @if (count($property->propertyAmenities))
+                                @foreach ($property->propertyAmenities as $amen)
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><i class="fa fa-check-square text-success"></i> {{ $amen->name }}</div>
+                                </div>                 
+                                @endforeach
+                            @else
+                                <p><i class="fa fa-square font-12"></i> No amenities reported on property.</p>
+                            @endif
+                        </div>
                     </div>
-                </div>
+                @endif
                 
                 <hr>
                 <div class="pxp-single-property-section">
@@ -193,14 +205,14 @@
                         <p><i class="fa fa-square font-12"></i> You will get to know your room mate when renting is 
                             confirmed. Click on vacant block room to book.
                         </p>
-                        @if (count($property->propertyHostelBlocks))
-                            @foreach ($property->propertyHostelBlocks as $block)
+                        @if (count($property->propertyHostelBlockRooms))
+                            @foreach ($property->propertyHostelBlockRooms as $block)
                                 <div class="parentDiv mb-3">
-                                    <h6><i class="fa fa-square text-success" style="font-size:9px"></i> {{  $block->block_name  }} Block - <b>{{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>per {{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
-                                    @foreach ($block->hostelBlockRooms as $item)  
+                                    <h6><i class="fa fa-square text-success" style="font-size:9px"></i> {{  $block->propertyHostelBlock->block_name  }}  | <span class="font-15 text-primary">{{  $block->block_room_type  }}</span> - <b> {{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>/{{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
+                                    @foreach ($block->hostelBlockRoomNumbers as $item)  
                                         <span class="badge {{ ($item->full)? 'badge-danger':'badge-success' }} mb-1 mr-1">
                                             <span>Room {{ $item->room }} {{ ($item->full)?'Not Available':'Available' }}</span><br><br>
-                                            <span>({{ ($item->no_person-$item->occupant)}} {{ ($item->no_person-$item->occupant)>1? 'spaces':'space' }})</span>
+                                            <span>({{ ($item->person_per_room-$item->occupant)}} {{ ($item->person_per_room-$item->occupant)>1? 'spaces':'space' }})</span>
                                         </span>                                                                                      
                                     @endforeach
                                 </div> 
@@ -213,9 +225,7 @@
                                     <div class="pro-order-box">
                                         <h6 class="header-title {{ $property->vacant? 'text-primary':'text-danger' }}">{{ $property->vacant? 'Available, ready for renting':'Rented, too late' }}</h6>
                                         <p class=""><i class="fa fa-check text-success font-12"></i>
-                                            @if ($property->propertyPrice->payment_duration==3)
-                                                <span>3 months advance payment</span>
-                                            @elseif ($property->propertyPrice->payment_duration==6)
+                                            @if ($property->propertyPrice->payment_duration==6)
                                                 <span>6 months advance payment</span>
                                             @elseif ($property->propertyPrice->payment_duration==12)
                                                 <span>1 year advance payment</span>
@@ -226,6 +236,98 @@
                                             <i class="fa fa-check text-success font-12"></i>
                                             <span>
                                                 <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>/<small>{{ $property->propertyPrice->price_calendar }}</small>
+                                            </span><br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->adult+$property->children+$property->infant }} Guests</span><br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->adult==1? $property->adult.' Adult':$property->adult.' Adults' }}</span> |
+                                            <span>
+                                            @if($property->children==0)
+                                            No Children
+                                            @elseif($property->children==1)
+                                            {{ $property->children.' Child' }}
+                                            @else
+                                            {{ $property->children.' Children' }}
+                                            @endif
+                                            </span> |
+                                            <span>
+                                                @if($property->infant==0)
+                                                No Infant
+                                                @elseif($property->infant==1)
+                                                {{ $property->infant.' Infant' }}
+                                                @else
+                                                {{ $property->infant.' Infants' }}
+                                                @endif
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            @elseif ($property->type_status=='short_stay')
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="pro-order-box">
+                                        <h6 class="header-title {{ $property->vacant? 'text-primary':'text-danger' }}">{{ $property->vacant? 'Available, ready for renting':'Rented, too late' }}</h6>
+                                        <p class=""><i class="fa fa-check text-success font-12"></i>
+                                            <span>
+                                                @if ($property->propertyPrice->minimum_stay==3)
+                                                    3 days minimum stay
+                                                @elseif ($property->propertyPrice->minimum_stay==4)
+                                                    4 days minimum stay
+                                                @elseif ($property->propertyPrice->minimum_stay==5)
+                                                    5 days minimum stay
+                                                @elseif ($property->propertyPrice->minimum_stay==6)
+                                                    6 days minimum stay
+                                                @elseif ($property->propertyPrice->minimum_stay==7)
+                                                    1 week minimum stay
+                                                @endif
+                                            </span>
+                                            <br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>
+                                                @if ($property->propertyPrice->maximum_stay==1)
+                                                    1 month maximum stay
+                                                @elseif ($property->propertyPrice->maximum_stay==1.1)
+                                                    1 month, 1 week maximum stay
+                                                @elseif ($property->propertyPrice->maximum_stay==1.2)
+                                                    1 month, 2 weeks maximum stay
+                                                @elseif ($property->propertyPrice->maximum_stay==1.3)
+                                                    1 month, 3 weeks maximum stay
+                                                @elseif ($property->propertyPrice->maximum_stay==2)
+                                                    2 months maximum stay
+                                                @elseif ($property->propertyPrice->maximum_stay==2.1)
+                                                    2 months, 1 week maximum stay
+                                                @elseif ($property->propertyPrice->maximum_stay==2.2)
+                                                    2 months, 2 weeks maximum stay
+                                                @elseif ($property->propertyPrice->maximum_stay==2.3)
+                                                    2 months, 3 weeks maximum stay
+                                                @elseif ($property->propertyPrice->maximum_stay==3)
+                                                    3 months maximum stay
+                                                @endif
+                                            </span><br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>
+                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>/<small>{{ $property->propertyPrice->price_calendar }}</small>
+                                            </span><br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->adult+$property->children+$property->infant }} Guests</span><br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->adult==1? $property->adult.' Adult':$property->adult.' Adults' }}</span> |
+                                            <span>
+                                            @if($property->children==0)
+                                            No Children
+                                            @elseif($property->children==1)
+                                            {{ $property->children.' Child' }}
+                                            @else
+                                            {{ $property->children.' Children' }}
+                                            @endif
+                                            </span> |
+                                            <span>
+                                                @if($property->infant==0)
+                                                No Infant
+                                                @elseif($property->infant==1)
+                                                {{ $property->infant.' Infant' }}
+                                                @else
+                                                {{ $property->infant.' Infants' }}
+                                                @endif
                                             </span>
                                         </p>
                                     </div>
@@ -494,7 +596,94 @@
             <div class="col-lg-4">
                 <div class="pxp-single-property-section pxp-sp-agent-section mt-4 mt-md-5 mt-lg-0">
                 @if ($property->type=='hostel')
-                    
+                    <div class="card">
+                        <div class="card-body" style="padding-left:10px !important; padding-right:10px !important">
+                            <div class="card-heading">
+                                {{-- <h6><strong>{{ $property->propertyHostelPrice->currency }} <span id="initialAmount">{{ number_format($property->propertyHostelPrice->property_price,2) }}</span>/<small>{{ $property->propertyHostelPrice->price_calendar }}</small></strong></h6> --}}
+                                <span class="font-12"><i class="fa fa-star text-warning"></i> <b>0.1</b> (1 Review)</span>
+                            </div>
+                            <hr>
+                            <span class="small text-primary">You're charged after booking is confirmed.</span>
+                            <hr>
+        
+                            <form class="form-horizontal form-material mb-0" id="formChangePassword">
+                                @csrf
+                                <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <span id="dateCalculator" class="small text-danger"></span>
+                                        <div class="input-group input-group-sm validate">
+                                            <input type="date" name="check_in" value="{{ date('Y-m-d') }}" class="form-control">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fa fa-arrow-right small" id="inputGroup-sizing-sm"></span>
+                                            </div>
+                                            <input type="date" name="check_out" value="{{ date('Y-m-d') }}" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mt-3">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="adult" id="adult" class="form-control">
+                                                <option value="1">1 Adult</option>
+                                                <option value="2">2 Adults</option>
+                                                <option value="3">3 Adults</option>
+                                                <option value="4">4 Adults</option>
+                                                <option value="5">5 Adults</option>
+                                                <option value="6">6 Adults</option>
+                                                <option value="7">7 Adults</option>
+                                                <option value="8">8 Adults</option>
+                                                <option value="9">9 Adults</option>
+                                                <option value="10">10 Adults</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mt-3">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="children" id="children" class="form-control">
+                                                <option value="0">No Children</option>
+                                                <option value="1">1 Child</option>
+                                                <option value="2">2 Children</option>
+                                                <option value="3">3 Children</option>
+                                                <option value="4">4 Children</option>
+                                                <option value="5">5 Children</option>
+                                                <option value="6">6 Children</option>
+                                                <option value="7">7 Children</option>
+                                                <option value="8">8 Children</option>
+                                                <option value="9">9 Children</option>
+                                                <option value="10">10 Children</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnBook"><i class="fa fa-check-circle"></i> Book this {{ $property->type }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <hr>
+                            <div class="">
+                                {{-- <span class="small text-primary">From 
+                                    @if ($property->propertyHostelPrice->payment_duration==3)
+                                        3 months advance payment
+                                    @elseif ($property->propertyHostelPrice->payment_duration==6)
+                                        6 months advance payment
+                                    @elseif ($property->propertyHostelPrice->payment_duration==12)
+                                        1 year advance payment
+                                    @elseif ($property->propertyHostelPrice->payment_duration==24)
+                                        2 years advance payment
+                                    @endif
+                                </span> --}}
+                            </div>
+                        </div><!--end card-body-->
+                    </div><!--end card-->
+                    <div class="text-center">
+                        <a href="javascript:void(0);" class="text-danger small"><i class="fa fa-flag"></i> Report this listing</a>
+                    </div>
                 @else
                     <div class="card">
                         <div class="card-body" style="padding-left:10px !important; padding-right:10px !important">

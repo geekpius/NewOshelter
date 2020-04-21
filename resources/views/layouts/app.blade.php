@@ -102,7 +102,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="{{ route('account') }}"><i class="dripicons-user text-muted mr-2"></i> My Account</a>
-                            <a class="dropdown-item" href="{{route('saved')}}"><i class="dripicons-heart text-muted mr-2"></i> Saved</a>
+                            <a class="dropdown-item" href="{{route('saved')}}"><i class="dripicons-heart text-muted mr-2"></i> Wishlist</a>
                             <a class="dropdown-item" href="{{route('wallet')}}"><i class="dripicons-wallet text-muted mr-2"></i> My Wallet</a>
                             <a class="dropdown-item" href="{{route('activities')}}"><i class="dripicons-view-list text-muted mr-2"></i> My Activities</a>
                             <div class="dropdown-divider"></div>

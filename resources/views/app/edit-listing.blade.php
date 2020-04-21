@@ -67,64 +67,66 @@
                                     <span class="text-danger small" role="alert"></span>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group validate">
-                                            <label for="">Expected Guests</label>
-                                            <input type="text" name="guest" id="guest" class="form-control" readonly placeholder="eg: Guests expecting">
-                                            <span class="text-danger small" role="alert"></span>
+                                <div id="myGuests">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group validate">
+                                                <label for="">Expected Guests</label>
+                                                <input type="text" name="guest" id="guest" class="form-control" readonly placeholder="eg: Guests expecting">
+                                                <span class="text-danger small" role="alert"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">How many adult(12 years and above)</label>
-                                            <select name="adult" id="adult" class="form-control">
-                                                <option value="1">1 Adult</option>
-                                                <option value="2">2 Adults</option>
-                                                <option value="3">3 Adults</option>
-                                                <option value="4">4 Adults</option>
-                                                <option value="5">5 Adults</option>
-                                                <option value="6">6 Adults</option>
-                                                <option value="7">7 Adults</option>
-                                                <option value="8">8 Adults</option>
-                                                <option value="9">9 Adults</option>
-                                                <option value="10">10 Adults</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">How many children(above 2 years)</label>
-                                            <select name="children" id="children" class="form-control">
-                                                <option value="0">No Children</option>
-                                                <option value="1">1 Child</option>
-                                                <option value="2">2 Children</option>
-                                                <option value="3">3 Children</option>
-                                                <option value="4">4 Children</option>
-                                                <option value="5">5 Children</option>
-                                                <option value="6">6 Children</option>
-                                                <option value="7">7 Children</option>
-                                                <option value="8">8 Children</option>
-                                                <option value="9">9 Children</option>
-                                                <option value="10">10 Children</option>
-                                            </select>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">How many adult(12 years and above)</label>
+                                                <select name="adult" id="adult" class="form-control">
+                                                    <option value="1">1 Adult</option>
+                                                    <option value="2">2 Adults</option>
+                                                    <option value="3">3 Adults</option>
+                                                    <option value="4">4 Adults</option>
+                                                    <option value="5">5 Adults</option>
+                                                    <option value="6">6 Adults</option>
+                                                    <option value="7">7 Adults</option>
+                                                    <option value="8">8 Adults</option>
+                                                    <option value="9">9 Adults</option>
+                                                    <option value="10">10 Adults</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">How many infants(below 2 years)</label>
-                                            <select name="infant" id="infant" class="form-control">
-                                                <option value="0">No Infant</option>
-                                                <option value="1">1 Infant</option>
-                                                <option value="2">2 Infants</option>
-                                                <option value="3">3 Infants</option>
-                                                <option value="4">4 Infants</option>
-                                                <option value="5">5 Infants</option>
-                                            </select>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">How many children(above 2 years)</label>
+                                                <select name="children" id="children" class="form-control">
+                                                    <option value="0">No Children</option>
+                                                    <option value="1">1 Child</option>
+                                                    <option value="2">2 Children</option>
+                                                    <option value="3">3 Children</option>
+                                                    <option value="4">4 Children</option>
+                                                    <option value="5">5 Children</option>
+                                                    <option value="6">6 Children</option>
+                                                    <option value="7">7 Children</option>
+                                                    <option value="8">8 Children</option>
+                                                    <option value="9">9 Children</option>
+                                                    <option value="10">10 Children</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">How many infants(below 2 years)</label>
+                                                <select name="infant" id="infant" class="form-control">
+                                                    <option value="0">No Infant</option>
+                                                    <option value="1">1 Infant</option>
+                                                    <option value="2">2 Infants</option>
+                                                    <option value="3">3 Infants</option>
+                                                    <option value="4">4 Infants</option>
+                                                    <option value="5">5 Infants</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -204,12 +206,14 @@ $('#base_property').val("{{ strtolower(str_replace(' ','_',$property->base)) }}"
 $('#property_type').val("{{ $property->type }}");
 $('#formPropertyType input[name="property_title"]').val("{{ $property->title }}");
 $('#property_type_status').val("{{ $property->type_status }}");
+@if($property->type!='hostel')
 $('#adult').val("{{ $property->adult }}");
 $('#children').val("{{ $property->children }}");
 $('#infant').val("{{ $property->infant }}");
-
+@endif
 if($('#property_type').val()=='hostel'){
     $('#property_type_status option:first').nextAll().hide();  
+    $("#myGuests").hide();
 }
 
 $("#property_type").on("change", function(){
@@ -217,8 +221,10 @@ $("#property_type").on("change", function(){
     $("#property_type_status").val('');
     if($this.val()=='hostel'){
         $('#property_type_status option:first').nextAll().hide();
+        $("#myGuests").hide();
     }else{
         $('#property_type_status option:first').nextAll().show();
+        $("#myGuests").fadeIn('fast');
     }
     return false;
 });

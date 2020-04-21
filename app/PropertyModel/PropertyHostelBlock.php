@@ -5,6 +5,7 @@ namespace App\PropertyModel;
 use App\PropertyModel\Property;
 use App\PropertyModel\HostelBlockRoom;
 use Illuminate\Database\Eloquent\Model;
+use App\PropertyModel\HostelRoomAmenity;
 use App\PropertyModel\PropertyHostelPrice;
 
 class PropertyHostelBlock extends Model
@@ -37,10 +38,6 @@ class PropertyHostelBlock extends Model
         return ucwords($value);
     }
     
-    // public function getTypeAttribute($value)
-    // {
-    //     return ucwords(str_replace('_',' ',$value));
-    // }
 
 
 }

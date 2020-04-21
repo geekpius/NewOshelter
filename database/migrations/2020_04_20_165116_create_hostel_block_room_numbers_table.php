@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePropertyHostelPricesTable extends Migration
+class CreateHostelBlockRoomNumbersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreatePropertyHostelPricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('property_hostel_prices', function (Blueprint $table) {
+        Schema::create('hostel_block_room_numbers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('hostel_block_room_id')->unsigned()->index();
-            $table->integer('payment_duration')->nullable();
-            $table->string('price_calendar')->nullable();
-            $table->double('property_price');
-            $table->string('currency');
+            $table->integer('room_no');
+            $table->integer('person_per_room');
+            $table->integer('occupant')->default(0);
+            $table->boolean('full')->default(false);
             $table->timestamps();
             $table->foreign('hostel_block_room_id')->references('id')->on('hostel_block_rooms')->onDelete('cascade');
         });
@@ -32,6 +32,6 @@ class CreatePropertyHostelPricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('property_hostel_prices');
+        Schema::dropIfExists('hostel_block_room_numbers');
     }
 }

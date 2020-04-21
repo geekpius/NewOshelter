@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use DB;
 use App\User;
 use App\UserModel\Amenity;
-use App\UserModel\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
@@ -23,22 +22,22 @@ class WebsiteController extends Controller
     public function index()
     {
         $data['page_title'] = null;
-        $data['categories'] = Category::all();
+        $data['types'] = PropertyType::all();
         $data['properties'] = Property::where('type', '!=', 'hostel')->wherePublish(true)->orderBy('id', 'DESC')->get();
         $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         return view('welcome', $data);
     }
 
-    //single category properties
-    public function categoryProperty($category)
+    //property listing types
+    public function propertyType($type)
     {
-        $data['page_title'] = 'Explore '.str_replace('-',' ',$category);
+        $data['page_title'] = 'Explore '.str_replace('-',' ',$type);
         $data['menu'] = 'pxp-no-bg';
-        $data['categories'] = PropertyCategory::whereCategory($category)->get();
+        $data['properties'] = Property::whereType($type)->whereDone_step(true)->get();
         $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
         $data['amenities'] = Amenity::get(['name']);
-        return view('category', $data);
+        return view('types', $data);
     }
 
     //single property details
