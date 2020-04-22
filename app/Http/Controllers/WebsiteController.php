@@ -44,7 +44,7 @@ class WebsiteController extends Controller
     public function singleProperty(Property $property)
     {
         if($property->done_step){
-            $data['page_title'] = 'View '.$property->title.' details. Have all the overviews of property';
+            $data['page_title'] = 'Detailing '.$property->title.' property for you. Have all the overviews of property to make decisions.';
             $data['menu'] = 'pxp-no-bg';
             $data['property'] = $property;
             $countImages = PropertyImage::whereProperty_id($property->id)->count();

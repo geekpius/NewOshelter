@@ -124,7 +124,14 @@ Route::group(['prefix' => 'user'], function () {
 
     Route::get('/manage-properties', 'PropertyController@manageProperty')->name('property.manage');
 
-    /*------- Listing TeamPlayers ------- */
+    /*------- Renting Properties ------- */
+    /*------- Booking Short Stay Properties ------- */
+    /*------- Booking Hostel Properties ------- */
+    Route::post('/properties/get/block-room-number', 'BookingController@getRoomTypeNumber')->name('property.get.roomnumber');
+    Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
+
+
+    /*------- Listing Guests ------- */
     Route::get('/tenants', 'GuestController@tenant')->name('tenant');
     Route::get('/tenants/{user}/properties-rented', 'GuestController@tenantProperty')->name('tenant.rented');
     Route::get('/buyers', 'GuestController@buyer')->name('buyer');

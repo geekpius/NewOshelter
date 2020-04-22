@@ -20,9 +20,10 @@
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                                 <select class="custom-select" name="status" id="status">
-                                    <option value="rent" selected>Rent</option>
-                                    <option value="buy">Buy</option>
-                                    <option value="bid">Bid</option>
+                                    <option value="short_stay" selected>Short Stay</option>
+                                    <option value="rent">Rent</option>
+                                    <option value="sell">Sell</option>
+                                    <option value="auction">Auction</option>
                                 </select>
                             </div>
                         </div>
@@ -52,7 +53,7 @@
                     <a href="" class="pxp-areas-1-item rounded-lg">
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
-                            <div class="pxp-areas-1-item-details-area">Book</div>
+                            <div class="pxp-areas-1-item-details-area">Short Stay</div>
                         </div>
                         <div class="pxp-areas-1-item-counter"><span class="text-primary">
                         @php $propCount = App\PropertyModel\Property::whereType_status('short_stay')->whereDone_step(true)->count(); @endphp  
@@ -78,7 +79,7 @@
                     <a href="" class="pxp-areas-1-item rounded-lg">
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
-                            <div class="pxp-areas-1-item-details-area">Buy</div>
+                            <div class="pxp-areas-1-item-details-area">Sell</div>
                         </div>
                         <div class="pxp-areas-1-item-counter"><span class="text-primary">
                         @php $propCount = App\PropertyModel\Property::whereType_status('sell')->whereDone_step(true)->count(); @endphp  
@@ -91,7 +92,7 @@
                     <a href="" class="pxp-areas-1-item rounded-lg">
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
-                            <div class="pxp-areas-1-item-details-area">Bid</div>
+                            <div class="pxp-areas-1-item-details-area">Auction</div>
                         </div>
                         <div class="pxp-areas-1-item-counter"><span class="text-primary">
                         @php $propCount = App\PropertyModel\Property::whereType_status('auction')->whereDone_step(true)->count(); @endphp  
@@ -152,17 +153,17 @@
                                     @if ($property->type_status=='rent')
                                         Rent
                                     @elseif($property->type_status=='sell')
-                                        Buy
+                                        Sell
                                     @elseif($property->type_status=='auction')
-                                        Bid
+                                        Auction
                                     @else
-                                        Book
+                                        Short Stay
                                     @endif
                                 @else
                                     @if ($property->type_status=='rent')
                                         Rented
                                     @elseif($property->type_status=='sell')
-                                        Bought
+                                        Sold
                                     @elseif($property->type_status=='auction')
                                         Auctioned
                                     @else

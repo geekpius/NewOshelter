@@ -28,8 +28,8 @@ class PropertyController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('verify-user');
-        $this->middleware('auth');
+        $this->middleware('verify-user')->except(['getRoomType']);
+        $this->middleware('auth')->except(['getRoomType']);
     }
 
 
@@ -696,6 +696,9 @@ class PropertyController extends Controller
         return view('app.manage-property', $data);
     }
     
+
+   
+
 
 
 

@@ -211,7 +211,7 @@
                                     <h6><i class="fa fa-square text-success" style="font-size:9px"></i> {{  $block->propertyHostelBlock->block_name  }}  | <span class="font-15 text-primary">{{  $block->block_room_type  }}</span> - <b> {{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>/{{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
                                     @foreach ($block->hostelBlockRoomNumbers as $item)  
                                         <span class="badge {{ ($item->full)? 'badge-danger':'badge-success' }} mb-1 mr-1">
-                                            <span>Room {{ $item->room }} {{ ($item->full)?'Not Available':'Available' }}</span><br><br>
+                                            <span>Room {{ $item->room_no }} {{ ($item->full)?'Not Available':'Available' }}</span><br><br>
                                             <span>({{ ($item->person_per_room-$item->occupant)}} {{ ($item->person_per_room-$item->occupant)>1? 'spaces':'space' }})</span>
                                         </span>                                                                                      
                                     @endforeach
@@ -599,17 +599,43 @@
                     <div class="card">
                         <div class="card-body" style="padding-left:10px !important; padding-right:10px !important">
                             <div class="card-heading">
-                                {{-- <h6><strong>{{ $property->propertyHostelPrice->currency }} <span id="initialAmount">{{ number_format($property->propertyHostelPrice->property_price,2) }}</span>/<small>{{ $property->propertyHostelPrice->price_calendar }}</small></strong></h6> --}}
+                                <h6 id="myHostelPriceHeading"><strong><span id="myHostelCurrency" class="font-20"></span> <span id="initialHostelAmount"></span><small id="myHostelPriceCal"></small></strong></h6>
+                                <div id="myHostelSwitch" style="display:none"><img src="{{ asset('assets/images/gif/Bars-1s-200px.gif') }}" alt="load" width="30" height="30"></div>
                                 <span class="font-12"><i class="fa fa-star text-warning"></i> <b>0.1</b> (1 Review)</span>
                             </div>
                             <hr>
                             <span class="small text-primary">You're charged after booking is confirmed.</span>
                             <hr>
         
-                            <form class="form-horizontal form-material mb-0" id="formChangePassword">
+                            <form class="form-horizontal form-material mb-0" id="formBookHostel">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <div class="row">
+                                    <div class="col-sm-12">
+                                        <span id="hostelAvailabilityChecker" class="small text-success"></span>
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="block_name" id="block_name" class="form-control">
+                                                <option value="">-Block-</option>
+                                                @foreach ($property->propertyHostelBlocks as $block)
+                                                <option value="{{ $block->id }}">{{ $block->block_name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="room_type" id="room_type" class="form-control">
+                                                <option value="" class="after">-Room Type-</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="room_number" id="room_number" class="form-control">
+                                                <option value="" class="after">-Room Number-</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-sm-12">
                                         <span id="dateCalculator" class="small text-danger"></span>
                                         <div class="input-group input-group-sm validate">
@@ -620,40 +646,6 @@
                                             <input type="date" name="check_out" value="{{ date('Y-m-d') }}" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 mt-3">
-                                        <div class="form-group input-group-sm validate">
-                                            <select name="adult" id="adult" class="form-control">
-                                                <option value="1">1 Adult</option>
-                                                <option value="2">2 Adults</option>
-                                                <option value="3">3 Adults</option>
-                                                <option value="4">4 Adults</option>
-                                                <option value="5">5 Adults</option>
-                                                <option value="6">6 Adults</option>
-                                                <option value="7">7 Adults</option>
-                                                <option value="8">8 Adults</option>
-                                                <option value="9">9 Adults</option>
-                                                <option value="10">10 Adults</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 mt-3">
-                                        <div class="form-group input-group-sm validate">
-                                            <select name="children" id="children" class="form-control">
-                                                <option value="0">No Children</option>
-                                                <option value="1">1 Child</option>
-                                                <option value="2">2 Children</option>
-                                                <option value="3">3 Children</option>
-                                                <option value="4">4 Children</option>
-                                                <option value="5">5 Children</option>
-                                                <option value="6">6 Children</option>
-                                                <option value="7">7 Children</option>
-                                                <option value="8">8 Children</option>
-                                                <option value="9">9 Children</option>
-                                                <option value="10">10 Children</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
                                 </div>
 
                                 <div class="row">
@@ -667,17 +659,7 @@
 
                             <hr>
                             <div class="">
-                                {{-- <span class="small text-primary">From 
-                                    @if ($property->propertyHostelPrice->payment_duration==3)
-                                        3 months advance payment
-                                    @elseif ($property->propertyHostelPrice->payment_duration==6)
-                                        6 months advance payment
-                                    @elseif ($property->propertyHostelPrice->payment_duration==12)
-                                        1 year advance payment
-                                    @elseif ($property->propertyHostelPrice->payment_duration==24)
-                                        2 years advance payment
-                                    @endif
-                                </span> --}}
+                                <span class="small text-primary" id="myHostelAdvance"></span>
                             </div>
                         </div><!--end card-body-->
                     </div><!--end card-->
@@ -688,7 +670,7 @@
                     <div class="card">
                         <div class="card-body" style="padding-left:10px !important; padding-right:10px !important">
                             <div class="card-heading">
-                                <h6><strong>{{ $property->propertyPrice->currency }} <span id="initialAmount">{{ number_format($property->propertyPrice->property_price,2) }}</span>/<small>{{ $property->propertyPrice->price_calendar }}</small></strong></h6>
+                                <h6><strong><span class="font-20">{{ $property->propertyPrice->currency }}</span> <span id="initialAmount">{{ number_format($property->propertyPrice->property_price,2) }}</span>/<small>{{ $property->propertyPrice->price_calendar }}</small></strong></h6>
                                 <span class="font-12"><i class="fa fa-star text-warning"></i> <b>0.1</b> (1 Review)</span>
                             </div>
                             <hr>
@@ -709,7 +691,7 @@
                                             <input type="date" name="check_out" value="{{ date('Y-m-d') }}" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 mt-3">
+                                    <div class="col-sm-12 mt-3">
                                         <div class="form-group input-group-sm validate">
                                             <select name="adult" id="adult" class="form-control">
                                                 <option value="1">1 Adult</option>
@@ -743,6 +725,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-sm-6 mt-3">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="infant" id="infant" class="form-control">
+                                                <option value="0">No Infant</option>
+                                                <option value="1">1 Infant</option>
+                                                <option value="2">2 Infants</option>
+                                                <option value="3">3 Infants</option>
+                                                <option value="4">4 Infants</option>
+                                                <option value="5">5 Infants</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -756,7 +750,8 @@
 
                             <hr>
                             <div class="">
-                                <span class="small text-primary">From 
+                                @if ($property->type_status=='rent')
+                                <span class="small text-primary">
                                     @if ($property->propertyPrice->payment_duration==3)
                                         3 months advance payment
                                     @elseif ($property->propertyPrice->payment_duration==6)
@@ -767,6 +762,7 @@
                                         2 years advance payment
                                     @endif
                                 </span>
+                                @endif
                             </div>
                         </div><!--end card-body-->
                     </div><!--end card-->
@@ -837,5 +833,112 @@
             }
         }
     });
+
+@if($property->type=='hostel')
+$("#formBookHostel #block_name").on("change", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this= $(this);
+    $("#formBookHostel #room_type").find('.after').nextAll().remove();
+    $("#formBookHostel #room_number").find('.after').nextAll().remove();
+    $("#hostelAvailabilityChecker").text('');
+    $("#myHostelPriceHeading").fadeOut('slow',function(){
+        $("#myHostelSwitch").fadeIn('fast');
+    });
+    if($this.val()!=''){
+        var data={ block_name:$this.val() }
+        $("#formBookHostel #room_type").find('.after').nextAll().remove();
+        $.ajax({
+            url: "{{ route('property.get.roomtype') }}",
+            type: "POST",
+            data: data,
+            dataType: 'json',
+            success: function(resp){
+                let options = '';
+                $.each( resp, function( key, value ) {
+                    options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
+                });
+                $("#formBookHostel #room_type").find('.after').after(options);
+            },
+            error: function(resp){
+                alert("Something went wrong with request");
+            }
+        });
+    }
+    else{
+        $("#formBookHostel #room_type").find('.after').nextAll().remove();
+    }
+    return false;
+});
+
+$("#formBookHostel #room_type").on("change", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this= $(this);
+    $("#hostelAvailabilityChecker").text('');
+    $("#myHostelPriceHeading").fadeOut('slow',function(){
+        $("#myHostelSwitch").fadeIn('fast');
+    });
+    if($this.val()!=''){
+        var data={ room_type:$this.val() }
+        $("#formBookHostel #room_number").find('.after').nextAll().remove();
+        $.ajax({
+            url: "{{ route('property.get.roomnumber') }}",
+            type: "POST",
+            data: data,
+            dataType: 'json',
+            success: function(resp){
+                let options = '';
+                $.each( resp, function( key, value ) {
+                    options+='<option value='+value.room_no+'>'+value.room_no +'</option>';
+                });
+                $("#formBookHostel #room_number").find('.after').after(options);
+            },
+            error: function(resp){
+                alert("Something went wrong with request");
+            }
+        });
+    }
+    else{
+        $("#formBookHostel #room_number").find('.after').nextAll().remove();
+    }
+    return false;
+});
+
+$("#formBookHostel #room_number").on("change", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this= $(this);
+    if($this.val()!=''){
+        var data={ room_number:$this.val(), room_type:$("#formBookHostel #room_type").val() }
+        $.ajax({
+            url: "{{ route('property.check.roomtype') }}",
+            type: "POST",
+            data: data,
+            dataType: 'json',
+            success: function(resp){
+                $("#hostelAvailabilityChecker").text(resp.data);
+                $("#myHostelCurrency").text(resp.currency);
+                $("#initialHostelAmount").text(resp.price+'/');
+                $("#myHostelPriceCal").text(resp.calendar+' per person');
+                $("#myHostelAdvance").text(resp.advance);
+                $("#myHostelSwitch").fadeOut('slow',function(){
+                    $("#myHostelPriceHeading").fadeIn('fast');
+                });
+            },
+            error: function(resp){
+                alert("Something went wrong with request");
+            }
+        });
+    }
+    else{
+        $("#hostelAvailabilityChecker").text('');
+        $("#myHostelPriceHeading").fadeOut('slow',function(){
+            $("#myHostelSwitch").fadeIn('fast');
+        });
+    }
+    return false;
+});
+@endif
 </script>
 @endsection

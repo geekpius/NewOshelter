@@ -165,7 +165,7 @@
                     },
                     success: function (resp) {
                         if(resp=='success'){
-                            //$this.child('.fa fa-heart').removeClass('text-primary').addClass('text-pink');
+                            $this.children().removeClass('text-primary').addClass('text-pink');
                         }else{
                             console.log('Something went wrong');
                         }
@@ -177,6 +177,8 @@
                 });
                 return false;
             });
+
+            
         </script>
     </body>
 </html>
