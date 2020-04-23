@@ -113,6 +113,40 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="mb-2">Property Rules</label>
+                    <div class="row pxp-content-side-search-form-row">
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="No smoking"><span class="fa fa-check"></span> No smoking</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="No deadly weapons"><span class="fa fa-check"></span> No deadly weapons</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="Dont urinate in pool"><span class="fa fa-check"></span> Dont urinate in pool</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="No washing outside laundary"><span class="fa fa-check"></span> No washing outside laundary</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <a href="#" class="pxp-filter-btn">Apply Filters</a>
             </div>
             <div class="row pb-4">
@@ -236,7 +270,6 @@
                 @endforeach
             </div>
 
-            {{ $property->links }}
 
         </div>
     </div>

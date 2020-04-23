@@ -15,11 +15,16 @@
 /*----------------Website Route List----------------------------- */
 Route::get('/', 'WebsiteController@index')->name('index');
 Route::get('/own-property', 'WebsiteController@ownProperty')->name('own.property');
+Route::get('/property-status/{status}', 'WebsiteController@propertyStatus')->name('status.property');
 Route::get('/property-types/{type}', 'WebsiteController@propertyType')->name('type.property');
-Route::get('/property-types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
 Route::get('/single-property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
 Route::get('/properties', 'WebsiteController@property')->name('browse.property');
-Route::get('/properties/search', 'WebsiteController@property')->name('browse.property.search');
+
+Route::post('/properties/search', 'WebsiteController@searchProperty')->name('browse.property.search.submit');
+Route::get('/properties/search/{status}/{location}', 'WebsiteController@searchPropertyResult')->name('browse.property.search');
+Route::get('/property-status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');
+Route::get('/property-types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
+
 Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
 Route::get('/help/property-owners', 'WebsiteController@ownerHelp')->name('help.owner');
 Route::get('/help/booking-and-travellers', 'WebsiteController@bookingHelp')->name('help.booking');

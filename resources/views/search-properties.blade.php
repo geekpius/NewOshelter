@@ -19,14 +19,14 @@
                         <div class="row pxp-content-side-search-form-row">
                             <div class="col-5 col-sm-5 col-md-4 col-lg-3 pxp-content-side-search-form-col">
                                 <select class="custom-select" id="pxp-p-search-status" name="status">
-                                    <option value="short_stay" selected>Short Stay</option>
+                                    <option value="short_stay">Short Stay</option>
                                     <option value="rent">Rent</option>
                                     <option value="sell">Sell</option>
                                     <option value="auction">Auction</option>
                                 </select>
                             </div>
                             <div class="col-7 col-sm-7 col-md-8 col-lg-9 pxp-content-side-search-form-col autocomplete">
-                                <input type="text" name="location" class="form-control pxp-is-address" placeholder="Search by City, Neighborhood, or Address" id="location">
+                                <input type="text" name="location" value="{{ $location->location }}" class="form-control pxp-is-address" placeholder="Search by City, Neighborhood, or Address" id="location">
                                 <span class="fa fa-map-marker"></span>
                             </div>
                         </div>
@@ -110,6 +110,40 @@
                             </div>
                         </div>
                         @endforeach
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="mb-2">Property Rules</label>
+                    <div class="row pxp-content-side-search-form-row">
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="No smoking"><span class="fa fa-check"></span> No smoking</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="No deadly weapons"><span class="fa fa-check"></span> No deadly weapons</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="Dont urinate in pool"><span class="fa fa-check"></span> Dont urinate in pool</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="No washing outside laundary"><span class="fa fa-check"></span> No washing outside laundary</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -236,8 +270,6 @@
                 @endforeach
             </div>
 
-            {{ $property->links }}
-
         </div>
     </div>
 </div>
@@ -361,5 +393,7 @@
     }).on('paste', function(event) {
         event.preventDefault();
     });
+
+    $("#pxp-p-search-status").val("{{ $status }}");
 </script>
 @endsection

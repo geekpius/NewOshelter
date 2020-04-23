@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Image;
 use App\UserModel\Amenity;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyRule;
@@ -460,7 +461,7 @@ class PropertyController extends Controller
             }
             elseif($request->step==5){
                 $location = PropertyLocation::updateOrCreate(
-                    ['property_id'=>$request->property_id], ['digital_address'=>$request->digital_address, 'location'=>$request->location]
+                    ['property_id'=>$request->property_id], ['digital_address'=>$request->digital_address, 'location'=>$request->location, 'location_slug'=>Str::slug($request->location, '-')]
                 );
                 $property->step = ($request->step+1);
                 $property->update();
@@ -538,7 +539,7 @@ class PropertyController extends Controller
             }
             elseif($request->step==4){
                 $location = PropertyLocation::updateOrCreate(
-                    ['property_id'=>$request->property_id], ['digital_address'=>$request->digital_address, 'location'=>$request->location]
+                    ['property_id'=>$request->property_id], ['digital_address'=>$request->digital_address, 'location'=>$request->location, 'location_slug'=>Str::slug($request->location, '-')]
                 );
                 $property->step = ($request->step+1);
                 $property->update();

@@ -1029,7 +1029,7 @@
                                                         <div class="form-group col-sm-6">
                                                             <div class="checkbox checkbox-primary">
                                                                 <input id="pool" type="checkbox" value="Dont urinate in pool" name="property_rules[]">
-                                                                <label for="pool">Dont unrinate in pool</label>
+                                                                <label for="pool">Dont urinate in pool</label>
                                                             </div>
                                                         </div>
                                                         <div class="form-group col-sm-6">

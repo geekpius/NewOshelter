@@ -15,8 +15,9 @@
             <div class="container">
                 <h1 class="text-white">Find your future home</h1>
 
-                <form class="pxp-hero-search mt-4" autocomplete="off" >
+                <form class="pxp-hero-search mt-4" autocomplete="off" action="{{ route('browse.property.search.submit') }}" method="POST">
                     <div class="row">
+                        @csrf
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                                 <select class="custom-select" name="status" id="status">
@@ -50,7 +51,7 @@
         <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
             <div class="owl-carousel pxp-props-carousel-right-stage">
                 <div>
-                    <a href="" class="pxp-areas-1-item rounded-lg">
+                    <a href="{{ route('status.property', 'short-stay') }}" class="pxp-areas-1-item rounded-lg">
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
                             <div class="pxp-areas-1-item-details-area">Short Stay</div>
@@ -63,7 +64,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="" class="pxp-areas-1-item rounded-lg">
+                    <a href="{{ route('status.property', 'rent') }}" class="pxp-areas-1-item rounded-lg">
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
                             <div class="pxp-areas-1-item-details-area">Rent</div>
@@ -76,7 +77,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="" class="pxp-areas-1-item rounded-lg">
+                    <a href="{{ route('status.property', 'sell') }}" class="pxp-areas-1-item rounded-lg">
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
                             <div class="pxp-areas-1-item-details-area">Sell</div>
@@ -89,7 +90,7 @@
                     </a>
                 </div>
                 <div>
-                    <a href="" class="pxp-areas-1-item rounded-lg">
+                    <a href="{{ route('status.property', 'auction') }}" class="pxp-areas-1-item rounded-lg">
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
                             <div class="pxp-areas-1-item-details-area">Auction</div>
@@ -146,7 +147,11 @@
                         <div class="pxp-prop-card-1-gradient pxp-animate"></div>
                         <div class="pxp-prop-card-1-details">
                             <div class="pxp-prop-card-1-details-title">{{ $property->title }}</div>
+                            @if($property->type=='hostel')
+                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} Rooms</div>                                
+                            @else
                             <div class="pxp-prop-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}<small>/{{ $property->propertyPrice->price_calendar }}</small></div>                                
+                            @endif
                             <span class="fa fa-tag text-white pull-right"> 
                                 <strong>
                                 @if ($property->vacant)
@@ -172,7 +177,11 @@
                                 @endif
                                 </strong>
                             </span>
+                            @if($property->type=='hostel')
+                            <div class="pxp-prop-card-1-details-features text-uppercase"> <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i> <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</span></div>
+                            @else
                             <div class="pxp-prop-card-1-details-features text-uppercase">{{ $property->propertyContain->bedroom }} BD <span>|</span> {{ $property->propertyContain->bathroom }} BA <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</div>
+                            @endif
                         </div>
                         <div class="pxp-prop-card-1-details-cta text-uppercase">View Details</div>
                     </a>
@@ -217,7 +226,7 @@
                         <img src="{{ asset('assets/light/images/service-icon-3.svg') }}" alt="buy_sell_auction">
                     </div>
                     <div class="pxp-services-item-text text-center">
-                        <div class="pxp-services-item-text-title">Bid, buy or rent properties</div>
+                        <div class="pxp-services-item-text-title">Auction, sell, book or rent properties</div>
                         <div class="pxp-services-item-text-sub">Millions of properties of different kinds <br>in your favourite cities</div>
                     </div>
                     <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
@@ -228,7 +237,7 @@
                     </div>
                     <div class="pxp-services-item-text text-center">
                         <div class="pxp-services-item-text-title">List your own property</div>
-                        <div class="pxp-services-item-text-sub">Sign up now and auction, sell or rent<br>your own properties and also manage rented properties.</div>
+                        <div class="pxp-services-item-text-sub">Sign up now and auction, sell, book or rent<br>your own properties and also manage rented properties.</div>
                     </div>
                     <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
                 </a>
@@ -489,6 +498,21 @@
     /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
     autocomplete(document.getElementById("location"), countries);
 
+    $(".pxp-hero-search").on('submit', function(e){
+        e.stopPropagation();
+        var valid = true;
+        $('.pxp-hero-search input').each(function() {
+            var $this = $(this);
+            
+            if(!$this.val()) {
+                valid = false;
+            }
+        });
+        if(valid){
+            return true;
+        }
+        return false;
+    });
 </script>
 <script type="text/javascript" id="cookieinfo"
     src="//cookieinfoscript.com/js/cookieinfo.min.js"

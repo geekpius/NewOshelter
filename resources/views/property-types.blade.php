@@ -112,6 +112,40 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="mb-2">Property Rules</label>
+                    <div class="row pxp-content-side-search-form-row">
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="No smoking"><span class="fa fa-check"></span> No smoking</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="No deadly weapons"><span class="fa fa-check"></span> No deadly weapons</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="Dont urinate in pool"><span class="fa fa-check"></span> Dont urinate in pool</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+                            <div class="form-group">
+                                <div class="checkbox custom-checkbox">
+                                    <label><input type="checkbox" name="property_rules[]" value="No washing outside laundary"><span class="fa fa-check"></span> No washing outside laundary</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <a href="#" class="pxp-filter-btn">Apply Filters</a>
             </div>
             <div class="row pb-4">
@@ -159,39 +193,75 @@
                             </span>
                         </div>
                         <div class="pxp-results-card-1-gradient"></div>
-                        <div class="pxp-results-card-1-details">
-                            <div class="pxp-results-card-1-details-title">{{ $property->title }}</div>
-                            <div class="pxp-results-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}<small>/{{ $property->propertyPrice->price_calendar }}</small></div>
+                        @if ($property->type=='hostel')
+                            <div class="pxp-results-card-1-details">
+                                <div class="pxp-results-card-1-details-title">{{ $property->title }}</div>
+                                <div class="pxp-results-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} Rooms</div>
 
-                            <span class="fa fa-tag text-white pull-right"> 
-                                <strong>
+                                <span class="fa fa-tag text-white pull-right"> 
+                                    <strong>
                                     @if ($property->vacant)
-                                    @if ($property->type_status=='rent')
-                                        Rent
-                                    @elseif($property->type_status=='sell')
-                                        Buy
-                                    @elseif($property->type_status=='auction')
-                                        Bid
+                                        @if ($property->type_status=='rent')
+                                            Rent
+                                        @elseif($property->type_status=='sell')
+                                            Sell
+                                        @elseif($property->type_status=='auction')
+                                            Auction
+                                        @else
+                                            Short Stay
+                                        @endif
                                     @else
-                                        Book
+                                        @if ($property->type_status=='rent')
+                                            Rented
+                                        @elseif($property->type_status=='sell')
+                                            Sold
+                                        @elseif($property->type_status=='auction')
+                                            Auctioned
+                                        @else
+                                            Booked
+                                        @endif
                                     @endif
-                                @else
-                                    @if ($property->type_status=='rent')
-                                        Rented
-                                    @elseif($property->type_status=='sell')
-                                        Bought
-                                    @elseif($property->type_status=='auction')
-                                        Auctioned
+                                    </strong>
+                                </span>
+                            </div>
+                            <div class="pxp-results-card-1-features">
+                                <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i> <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</span>
+                            </div>
+                        @else
+                            <div class="pxp-results-card-1-details">
+                                <div class="pxp-results-card-1-details-title">{{ $property->title }}</div>
+                                <div class="pxp-results-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}<small>/{{ $property->propertyPrice->price_calendar }}</small></div>
+
+                                <span class="fa fa-tag text-white pull-right"> 
+                                    <strong>
+                                    @if ($property->vacant)
+                                        @if ($property->type_status=='rent')
+                                            Rent
+                                        @elseif($property->type_status=='sell')
+                                            Sell
+                                        @elseif($property->type_status=='auction')
+                                            Auction
+                                        @else
+                                            Short Stay
+                                        @endif
                                     @else
-                                        Booked
+                                        @if ($property->type_status=='rent')
+                                            Rented
+                                        @elseif($property->type_status=='sell')
+                                            Sold
+                                        @elseif($property->type_status=='auction')
+                                            Auctioned
+                                        @else
+                                            Booked
+                                        @endif
                                     @endif
-                                @endif
-                                </strong>
-                            </span>
-                        </div>
-                        <div class="pxp-results-card-1-features">
-                            <span>{{ $property->propertyContain->bedroom }} BD <span>|</span> {{ $property->propertyContain->bathroom }} BA <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</span>
-                        </div>
+                                    </strong>
+                                </span>
+                            </div>
+                            <div class="pxp-results-card-1-features">
+                                <span>{{ $property->propertyContain->bedroom }} BD <span>|</span> {{ $property->propertyContain->bathroom }} BA <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</span>
+                            </div>
+                        @endif
                         
                         <div class="pxp-results-card-1-save btnHeart" data-id="{{ $property->id }}"><span class="fa fa-heart text-primary heart-hover" style="cursor:pointer"></span></div>
                     </a>

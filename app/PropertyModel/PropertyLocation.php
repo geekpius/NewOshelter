@@ -11,7 +11,7 @@ class PropertyLocation extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'property_id', 'digital_address', 'location',
+        'property_id', 'digital_address', 'location', 'location_slug',
     ];
 
 

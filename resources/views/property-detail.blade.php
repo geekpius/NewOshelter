@@ -72,7 +72,7 @@
                     <p>{{ current(explode(' ',$property->user->name)) }}</p>
                 </div>
                 <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
-                <p class="pxp-sp-top-address pxp-text-light"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }} - <a href="https://ghanapostgps.com/mapview.html#{{ $property->propertyLocation->digital_address }}" target="_blank">{{ $property->propertyLocation->digital_address }}</a></p>
+                <p class="pxp-sp-top-address pxp-text-light"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }}</p>
             </div>
         </div>
     </div>
@@ -209,11 +209,12 @@
                             @foreach ($property->propertyHostelBlockRooms as $block)
                                 <div class="parentDiv mb-3">
                                     <h6><i class="fa fa-square text-success" style="font-size:9px"></i> {{  $block->propertyHostelBlock->block_name  }}  | <span class="font-15 text-primary">{{  $block->block_room_type  }}</span> - <b> {{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>/{{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
-                                    @foreach ($block->hostelBlockRoomNumbers as $item)  
-                                        <span class="badge {{ ($item->full)? 'badge-danger':'badge-success' }} mb-1 mr-1">
+                                    @foreach ($block->hostelBlockRoomNumbers as $item) 
+                                        <img src="{{ asset('assets/light/images/service-icon-1.svg') }}" alt="{{ $item->room_no }}" width="70" height="70" class="mr-4"> 
+                                        {{-- <span class="badge {{ ($item->full)? 'badge-danger':'badge-success' }} mb-1 mr-1">
                                             <span>Room {{ $item->room_no }} {{ ($item->full)?'Not Available':'Available' }}</span><br><br>
                                             <span>({{ ($item->person_per_room-$item->occupant)}} {{ ($item->person_per_room-$item->occupant)>1? 'spaces':'space' }})</span>
-                                        </span>                                                                                      
+                                        </span>                                                                                       --}}
                                     @endforeach
                                 </div> 
                             @endforeach       
