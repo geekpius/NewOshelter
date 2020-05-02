@@ -21,6 +21,7 @@ class CreatePropertyPricesTable extends Migration
             $table->double('maximum_stay')->nullable();
             $table->string('price_calendar')->nullable();
             $table->double('property_price');
+            $table->double('smart_price')->nullable();
             $table->string('currency');
             $table->boolean('negotiable')->nullable();
             $table->timestamps();

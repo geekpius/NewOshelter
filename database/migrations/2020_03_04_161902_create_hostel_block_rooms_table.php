@@ -17,6 +17,7 @@ class CreateHostelBlockRoomsTable extends Migration
             $table->increments('id');
             $table->integer('property_hostel_block_id')->unsigned()->index();
             $table->string('block_room_type');
+            $table->string('gender');
             $table->integer('block_no_room');
             $table->integer('start_room_no');
             $table->integer('bed_person');

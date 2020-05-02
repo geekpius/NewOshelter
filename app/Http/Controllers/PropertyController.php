@@ -24,6 +24,7 @@ use App\PropertyModel\PropertyDescription;
 use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
+use App\PropertyModel\PropertySharedAmenity;
 
 class PropertyController extends Controller
 {
@@ -64,7 +65,6 @@ class PropertyController extends Controller
         if(!$property->done_step){
             $data['page_title'] = 'Creating new listing';
             $data['property']= $property; 
-            $data['amenities'] = Amenity::all();
             return view('app.create-listing', $data);
         }else{
             return view('errors.404');
@@ -134,6 +134,7 @@ class PropertyController extends Controller
         $validator = \Validator::make($request->all(), [
             'hostel_block' => 'required|string',
             'block_room_type' => 'required|string',
+            'room_gender' => 'required|string',
             'rooms_on_block' => 'required|numeric',
             'room_start' => 'required|numeric',
             'beds' => 'required|numeric',
@@ -153,6 +154,7 @@ class PropertyController extends Controller
                 $room = new HostelBlockRoom;
                 $room->property_hostel_block_id = $request->hostel_block;
                 $room->block_room_type = $request->block_room_type;
+                $room->gender = $request->room_gender;
                 $room->block_no_room = $request->rooms_on_block;
                 $room->start_room_no = $request->room_start;
                 $room->bed_person = $request->beds;
@@ -441,6 +443,15 @@ class PropertyController extends Controller
                 return redirect()->back();
             }
             else if($request->step==3){
+                if(!empty($request->shared_amenities)){
+                    PropertySharedAmenity::whereProperty_id($request->property_id)->delete();
+                    foreach($request->shared_amenities as $amenity){
+                        $myAmenity = PropertySharedAmenity::updateOrCreate(
+                            ['property_id'=>$request->property_id,'name'=>$amenity]
+                        );
+                    }
+                }
+                ///update step to move forward
                 $property->step = ($request->step+1);
                 $property->update();
                 return redirect()->back();
@@ -517,6 +528,15 @@ class PropertyController extends Controller
                         );
                     }
                 }
+
+                if(!empty($request->shared_amenities)){
+                    foreach($request->shared_amenities as $amenity){
+                        $myAmenity = PropertySharedAmenity::updateOrCreate(
+                            ['property_id'=>$request->property_id,'name'=>$amenity]
+                        );
+                    }
+                }
+
                 ///update step to move forward
                 $property->step = ($request->step+1);
                 $property->update();
@@ -573,7 +593,7 @@ class PropertyController extends Controller
                 elseif($property->type_status=='short_stay'){
                     $price = PropertyPrice::updateOrCreate(
                         ['property_id'=>$request->property_id],['minimum_stay'=>$request->minimum_stay, 'maximum_stay'=>$request->maximum_stay, 'price_calendar'=>$request->price_calendar, 
-                        'property_price'=>$request->property_price, 'currency'=>$request->currency]
+                        'property_price'=>$request->property_price, 'smart_price'=>$request->smart_price, 'currency'=>$request->currency]
                     );
                 }
                 elseif($property->type_status=='sell'){

@@ -221,7 +221,7 @@
                                             <div style="position: relative;  height: 640px; overflow-y:scroll; overflow-x:hidden;" class="pr-3 pl-4">
                                                 <form class="mt-4" id="formCreateRooms">
                                                     <div class="row">
-                                                        <div class="col-sm-6">
+                                                        <div class="col-sm-12">
                                                             <div class="form-group mt-4 validate">
                                                                 <label for="">Hostel block name</label>
                                                                 <select name="hostel_block" class="form-control" id="hostel_block">
@@ -242,6 +242,17 @@
                                                                     <option value="single_room">Single Room</option>
                                                                     <option value="chamber_and_hall">Chamber And Hall</option>
                                                                     <option value="apartment">Apartment</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group mt-4 validate">
+                                                                <label for="">Gender</label>
+                                                                <select name="room_gender" class="form-control" id="room_gender">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="male">Male</option>
+                                                                    <option value="female">Female</option>
                                                                 </select>
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
@@ -417,20 +428,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="row mt-4 validate">
-                                                        @php $i=0; @endphp
-                                                        @foreach ($amenities as $item)
-                                                        @php $i++; @endphp
-                                                        <div class="form-group col-sm-4">
-                                                            <div class="checkbox checkbox-primary">
-                                                                <input id="checkbox{{ $i }}" type="checkbox" value="{{ $item->name }}" name="amenities[]">
-                                                                <label for="checkbox{{ $i }}">{{ $item->name }}</label>
-                                                            </div>
-                                                        </div>
-                                                        @endforeach
-
-                                                        <span class="text-danger small" id="selectMsg" style="display:none" role="alert">Select at least one amenity</span>
-                                                    </div>
+                                                    @include('includes.amenities')
 
                                                     <div class="row">
                                                         <div class="col-sm-12">
@@ -439,10 +437,13 @@
                                                     </div>
                                                 </form>
 
-                                                <form id="formRoomAmenities" method="POST" action="{{ route("property.store") }}" style="display:none !important;">
+                                                <hr class="mt-5">
+                                                <h4 class="ml-4">If there are shared amenities offered to your guests in your hostel, let them know.</h4>
+                                                <form id="formRoomAmenities" method="POST" action="{{ route("property.store") }}">
                                                     @csrf
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                     <input type="hidden" name="step" value="3" readonly>
+                                                    @include('includes.shared-amenities')
                                                 </form>
 
                                             </div>
@@ -464,32 +465,7 @@
                                                 @csrf
                                                 <input type="hidden" name="step" value="4" readonly>
                                                 <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                <div class="row">
-                                                    <div class="form-group col-sm-6">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="smoking" type="checkbox" value="No smoking" name="property_rules[]">
-                                                            <label for="smoking">No smoking</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-6">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="weapon" type="checkbox" value="No deadly weapons" name="property_rules[]">
-                                                            <label for="weapon">No deadly weapons</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-6">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="pool" type="checkbox" value="Dont urinate in pool" name="property_rules[]">
-                                                            <label for="pool">Dont unrinate in pool</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-6">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="laundary" type="checkbox" value="No washing outside laundary" name="property_rules[]">
-                                                            <label for="laundary">No washing outside laundary</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                @include('includes.rules')
                                             </form>                                            
                                         </div>
                                         <div class="col-lg-1"></div>
@@ -981,18 +957,9 @@
                                                 @csrf
                                                 <input type="hidden" name="step" value="2" readonly>
                                                 <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                <div class="row">
-                                                    @php $i=0; @endphp
-                                                    @foreach ($amenities as $item)
-                                                    @php $i++; @endphp
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkbox{{ $i }}" type="checkbox" value="{{ $item->name }}" name="amenities[]">
-                                                            <label for="checkbox{{ $i }}">{{ $item->name }}</label>
-                                                        </div>
-                                                    </div>
-                                                    @endforeach
-                                                </div>
+                                               @include('includes.amenities')
+                                               <h4 class="mt-4">If there are shared amenities offered to your {{ $guest.'s' }} in your property, let them know.</h4>
+                                               @include('includes.shared-amenities')
                                             </form>
                                         </div>
                                     </div><!-- end row --> 
@@ -1013,32 +980,7 @@
                                                     @csrf
                                                     <input type="hidden" name="step" value="3" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    <div class="row">
-                                                        <div class="form-group col-sm-6">
-                                                            <div class="checkbox checkbox-primary">
-                                                                <input id="smoking" type="checkbox" value="No smoking" name="property_rules[]">
-                                                                <label for="smoking">No smoking</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-sm-6">
-                                                            <div class="checkbox checkbox-primary">
-                                                                <input id="weapon" type="checkbox" value="No deadly weapons" name="property_rules[]">
-                                                                <label for="weapon">No deadly weapons</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-sm-6">
-                                                            <div class="checkbox checkbox-primary">
-                                                                <input id="pool" type="checkbox" value="Dont urinate in pool" name="property_rules[]">
-                                                                <label for="pool">Dont urinate in pool</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-sm-6">
-                                                            <div class="checkbox checkbox-primary">
-                                                                <input id="laundary" type="checkbox" value="No washing outside laundary" name="property_rules[]">
-                                                                <label for="laundary">No washing outside laundary</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    @include('includes.rules')
                                                 </form>                                            
                                             </div>
                                             <div class="col-lg-1"></div>
@@ -1307,6 +1249,15 @@
                                                                 <select name="price_calendar" class="form-control" id="price_calendar">
                                                                     <option value="night">Nightly</option>
                                                                 </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group validate">
+                                                                <label for="" class="text-primary">Smart price will set in when market demand is low.</label>
+                                                                <input type="text" name="smart_price" class="form-control" id="smart_price" placeholder="Enter smart price">
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
@@ -2269,7 +2220,7 @@ function isNumber(evt) {
 }
 
 
-$('#property_price').keypress(function(event) {
+$('#property_price, #smart_price').keypress(function(event) {
     if (((event.which != 46 || (event.which == 46 && $(this).val() == '')) ||
             $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
         event.preventDefault();

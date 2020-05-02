@@ -12,7 +12,7 @@
                         <h6 class="m-0">{{ $item->propertyHostelBlock->block_name }}</h6>
                     </div>
                     <p class="mt-1">
-                        <span class="text-primary font-13">{{ $item->block_room_type }}</span> with {{ $item->block_no_room }} rooms of {{ ($item->person_per_room==1)? $item->person_per_room.' person':$item->person_per_room.' persons' }} per room.
+                        <span class="text-primary font-13">{{ $item->block_room_type }} ({{ $item->gender }})</span> with {{ $item->block_no_room }} rooms of {{ ($item->person_per_room==1)? $item->person_per_room.' person':$item->person_per_room.' persons' }} per room.
                     </p>
                     <div class="removeDiv">
                         @if(!empty($item->propertyHostelPrice))

@@ -195,7 +195,7 @@
                                                             <h6 class="m-0">{{ $block->propertyHostelBlock->block_name }}</h6>
                                                         </div>
                                                         <p class="mt-3">
-                                                            <span class="text-primary font-13">{{ $block->block_room_type }}</span> with {{ $block->block_no_room }} rooms of {{ ($block->person_per_room==1)? $block->person_per_room.' person':$block->person_per_room.' persons' }} per room. 
+                                                            <span class="text-primary font-13">{{ $block->block_room_type }} ({{ $block->gender }})</span> with {{ $block->block_no_room }} rooms of {{ ($block->person_per_room==1)? $block->person_per_room.' person':$block->person_per_room.' persons' }} per room. 
                                                         </p>
                                                         <div>
                                                             <span class="badge badge-soft-primary">{{$block->bed_person}} {{ $block->bed_person==1? 'bed':'beds' }} per room </span>                                                  
@@ -278,7 +278,7 @@
                                     @foreach ($property->propertyHostelBlockRooms as $block)
                                     <hr>
                                         <div class="parentDiv mb-3">
-                                            <h6><i class="fa fa-home text-success font-12"></i> {{  $block->propertyHostelBlock->block_name  }} | <span class="font-12 text-primary">{{  $block->block_room_type  }}</span> - <b>{{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>/{{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
+                                            <h6><i class="fa fa-home text-success font-12"></i> {{  $block->propertyHostelBlock->block_name  }} | <span class="font-12 text-primary">{{  $block->block_room_type  }} ({{ $block->gender }})</span> - <b>{{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>/{{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
                                             @foreach ($block->hostelBlockRoomNumbers as $item)  
                                                 <span class="badge {{ ($item->full)? 'badge-danger':'badge-success' }} mb-1 mr-1">
                                                     <span>Room {{ $item->room_no }} {{ ($item->full)?'Not Available':'Available' }}</span><br><br>

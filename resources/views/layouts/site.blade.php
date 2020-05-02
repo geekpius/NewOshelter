@@ -62,8 +62,8 @@
                                 <a class="dropdown-item" href="{{ route('dashboard') }}"><span class="fa fa-dashboard"></span> Dashboard</a>
                                 <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> Listings</a>
                                 <a class="dropdown-item" href="{{ route('messages') }}"><span class="fa fa-envelope"></span> Messages</a>
-                                <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Saved</a>
-                                <a class="dropdown-item" href="{{ route('wallet') }}"><span class="fa fa-google-wallet"></span> My Wallet</a>
+                                <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
+                                <a class="dropdown-item" href="#"><span class="fa fa-user"></span> Visits</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> Logout</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf

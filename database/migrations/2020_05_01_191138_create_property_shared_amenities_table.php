@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePropertyCategoriesTable extends Migration
+class CreatePropertySharedAmenitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePropertyCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('property_categories', function (Blueprint $table) {
+        Schema::create('property_shared_amenities', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('property_id')->unsigned()->index();
-            $table->string('category');
+            $table->string('name');
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
         });
@@ -29,6 +29,6 @@ class CreatePropertyCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('property_categories');
+        Schema::dropIfExists('property_shared_amenities');
     }
 }

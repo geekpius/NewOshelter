@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\PropertyModel\PropertyDescription;
 use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
+use App\PropertyModel\PropertySharedAmenity;
 
 class Property extends Model
 {
@@ -53,6 +54,10 @@ class Property extends Model
 
     public function propertyAmenities(){
         return $this->hasMany(PropertyAmenity::class);
+    }
+
+    public function propertySharedAmenities(){
+        return $this->hasMany(PropertySharedAmenity::class);
     }
 
     public function propertyLocation(){

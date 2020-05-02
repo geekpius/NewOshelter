@@ -14,7 +14,7 @@ class HostelBlockRoom extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'property_hostel_block_id', 'block_room_type', 'block_no_room', 'start_room_no', 'bed_person', 'person_per_room', 'furnish', 'kitchen', 'bathroom', 'bath_private', 'toilet', 'toilet_private',
+        'property_hostel_block_id', 'block_room_type', 'gender', 'block_no_room', 'start_room_no', 'bed_person', 'person_per_room', 'furnish', 'kitchen', 'bathroom', 'bath_private', 'toilet', 'toilet_private',
     ];
 
     public function propertyHostelBlock(){
@@ -36,6 +36,11 @@ class HostelBlockRoom extends Model
     public function getBlockRoomTypeAttribute($value)
     {
         return ucwords(str_replace('_',' ',$value));
+    }
+
+    public function getGenderAttribute($value)
+    {
+        return ucfirst($value);
     }
 
 

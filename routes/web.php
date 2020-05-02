@@ -30,8 +30,6 @@ Route::get('/help/property-owners', 'WebsiteController@ownerHelp')->name('help.o
 Route::get('/help/booking-and-travellers', 'WebsiteController@bookingHelp')->name('help.booking');
 Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
 Route::get('/account-deactivated', 'WebsiteController@accountDeactivated')->name('account.deactivated');
-Route::get('/reactivate-account', 'WebsiteController@reactivateAccount')->name('account.reactivate');
-Route::post('/reactivate-account', 'WebsiteController@sendReactivateEmail')->name('account.reactivate.submit');
 
 
 /*----------------Start User Route List----------------------------- */

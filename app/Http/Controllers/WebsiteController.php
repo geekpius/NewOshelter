@@ -37,7 +37,6 @@ class WebsiteController extends Controller
         $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->whereDone_step(true)->get();
         $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
-        $data['amenities'] = Amenity::get(['name']);
         return view('property-status', $data);
     }
 
@@ -50,7 +49,6 @@ class WebsiteController extends Controller
         $data['properties'] = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->get();
         $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
-        $data['amenities'] = Amenity::get(['name']);
         return view('property-types', $data);
     }
 
@@ -79,7 +77,6 @@ class WebsiteController extends Controller
         $data['properties'] = Property::wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->get();
         $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
-        $data['amenities'] = Amenity::get(['name']);
         return view('properties', $data);
     }
 
@@ -98,8 +95,7 @@ class WebsiteController extends Controller
         $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::whereType_status($data['status'])->wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->get();
         $data['locations'] = PropertyLocation::get(['location']);
-        $data['property_types'] = PropertyType::where('name','!=','hostel')->get(['name']);
-        $data['amenities'] = Amenity::get(['name']);
+        $data['property_types'] = PropertyType::get(['name']);
         return view('search-properties', $data);
     }
 
@@ -120,46 +116,7 @@ class WebsiteController extends Controller
         return view('deactivated', $data);
     }
 
-    //view reactivate account 
-    public function reactivateAccount()
-    {
-        $data['page_title'] = 'Re-activate your OShelter account';
-        $data['menu'] = 'pxp-no-bg';
-        return view('reactivate', $data);
-    }
 
-    //send reactivate email
-    public function sendReactivateEmail(Request $request)
-    {
-        $validator = \Validator::make($request->all(), [
-            'email' => 'required|email',
-        ]);
-        if ($validator->fails()){
-            $message = 'Invalid email. Try again.';
-        }
-        else{
-            if(User::whereEmail($request->email)->whereActive(0)->exists()){
-                $token = Hash::make(Str::random(72));
-                $account = AccountReactivate::whereEmail($request->email)->first();
-                if(empty($account)){
-                    $acc = new AccountReactivate;
-                    $acc->email = $request->email;
-                    $acc->token = $token;
-                    $acc->save();
-                }
-                else{
-                    $update = DB::update('update account_reactivates set token = ? where email = ?', [$token, $request->email]);
-                }
-
-                //send email 
-                $message='success';
-            }else{
-                $message="Email address not found.";
-            }
-        }
-
-        return $message;
-    }
 
     //own property
     public function ownProperty()
