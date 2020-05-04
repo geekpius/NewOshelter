@@ -24,7 +24,7 @@
                                         You will not be able to access anything on OShelter with the deactivated account.
                                     </p>
                                     <p class="mt-5">
-                                        Would you like to re-activate your account? <a href="{{ route('account.reactivate') }}">Re-Activate Account</a>
+                                        Would you like to re-activate your account? <a href="#">Re-Activate Account</a>
                                     </p>
                                 </div>
                             </div>
