@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -23,13 +24,16 @@ class CreateUsersTable extends Migration
             $table->string('digital_address');
             $table->integer('active')->default(2);
             $table->string('image')->nullable();
-            $table->boolean('verify_email')->default(false);
-            $table->boolean('verify_sms')->default(false);
+            $table->string('email_verification_token')->nullable();
+            $table->boolean('verify_email')->default(User::UNVERIFY_EMAIL);
             $table->dateTime('verify_email_time')->nullable();
+            $table->string('sms_verification_token')->nullable();
+            $table->boolean('verify_sms')->default(User::UNVERIFY_SMS);
             $table->dateTime('verify_sms_time')->nullable();
             $table->dateTime('login_time')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

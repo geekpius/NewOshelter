@@ -163,8 +163,8 @@
                                             <div class="flip-box">
                                                 <div class="flip-box-inner">
                                                     @php
-                                                        $cardFront = (empty(Auth::user()->profile->id_front))? 'user.jpg':'cards/'.Auth::user()->profile->id_front;
-                                                        $cardBack = (empty(Auth::user()->profile->id_back))? 'user.jpg':'cards/'.Auth::user()->profile->id_back;
+                                                        $cardFront = (empty(Auth::user()->profile->id_front))? '1.png':'cards/'.Auth::user()->profile->id_front;
+                                                        $cardBack = (empty(Auth::user()->profile->id_back))? '1.png':'cards/'.Auth::user()->profile->id_back;
                                                     @endphp
                                                     <div class="text-center mt-2 flip-box-front">
                                                         <img src="{{ asset('assets/images/'.$cardFront) }}" alt="ID Card Front" class="front_card" style="width:300px; height:200px; border-radius:2%" />

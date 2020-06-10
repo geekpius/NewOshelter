@@ -1,5 +1,6 @@
 <?php
 
+use App\PropertyModel\Property;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -23,11 +24,12 @@ class CreatePropertiesTable extends Migration
             $table->integer('adult')->nullable();
             $table->integer('children')->nullable();
             $table->integer('infant')->nullable();
-            $table->boolean('publish')->default(false);
-            $table->boolean('vacant')->default(true);
+            $table->boolean('publish')->default(Property::NOT_PUBLISH);
+            $table->boolean('vacant')->default(Property::VACANT);
             $table->integer('step')->default(1);
-            $table->boolean('done_step')->default(false);
+            $table->boolean('done_step')->default(Property::NOT_DONE_STEP);
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

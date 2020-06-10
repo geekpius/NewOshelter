@@ -22,6 +22,5 @@ $factory->define(App\User::class, function (Faker $faker) {
         'password' => \Hash::make('aaaaaa'), // secret
         'phone' => '0542398441',
         'digital_address' => 'GL-050-6970',
-        'role' => 'landlord',
     ];
 });

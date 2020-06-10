@@ -96,7 +96,7 @@
                     @endphp
 
                     <div id="registrationWizard">
-                        <div>
+                        <div class="steps-container">
                             <ul class="steps">
                                 @if($property->type=='hostel')
                                     <li data-step="1">

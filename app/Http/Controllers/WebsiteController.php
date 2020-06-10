@@ -6,6 +6,7 @@ use DB;
 use App\User;
 use App\UserModel\Amenity;
 use Illuminate\Support\Str;
+use Route;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyType;
@@ -23,7 +24,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = null;
         $data['types'] = PropertyType::all();
-        $data['properties'] = Property::wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->get();
+        $data['properties'] = Property::wherePublish(true)->whereVacant(true)->take(50)->orderBy('id', 'DESC')->get();
         $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         return view('welcome', $data);
     }
@@ -47,7 +48,7 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Explore your curiosity on '.$type;
         $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->get();
-        $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
+        $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
         return view('property-types', $data);
     }
@@ -75,7 +76,7 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Browse all properties of any kind';
         $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->get();
-        $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
+        $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
         return view('properties', $data);
     }
@@ -83,21 +84,47 @@ class WebsiteController extends Controller
     //property search
     public function searchProperty(Request $request)
     {
-        return redirect()->route('browse.property.search', ['status'=>Str::slug($request->status, '-'),'location'=>Str::slug($request->location, '-')]);
+        return redirect()->route('browse.property.search', ['status'=>Str::slug($request->status), 'location'=>Str::slug($request->location)]);
     }
 
     //property search results
-    public function searchPropertyResult($status,$location)
+    public function searchPropertyResult($status, $location)
     {
         $data['location'] = PropertyLocation::whereLocation_slug($location)->first(['location']);
         $data['status'] = str_replace('-','_',$status);
         $data['page_title'] = $data['location']->location;
         $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::whereType_status($data['status'])->wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->get();
-        $data['locations'] = PropertyLocation::get(['location']);
+        $data['properties'] = Property::whereType_status($data['status'])->whereHas('propertyLocation', function($query) use($location){
+           $query->whereLocation_slug($location);
+        })->paginate(9);
+        $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
         return view('search-properties', $data);
     }
+
+    //property search
+    public function searchPropertyWithParam(Request $request)
+    {
+        return $request->all();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //why choose us
     public function whyChooseUs($title)

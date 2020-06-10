@@ -20,8 +20,9 @@ Route::get('/property-types/{type}', 'WebsiteController@propertyType')->name('ty
 Route::get('/single-property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
 Route::get('/properties', 'WebsiteController@property')->name('browse.property');
 
-Route::post('/properties/search', 'WebsiteController@searchProperty')->name('browse.property.search.submit');
-Route::get('/properties/search/{status}/{location}', 'WebsiteController@searchPropertyResult')->name('browse.property.search');
+Route::post('/', 'WebsiteController@searchProperty')->name('browse.property.search.send');
+Route::post('/properties/search', 'WebsiteController@searchPropertyWithParam')->name('browse.property.search.filter');
+Route::get('/properties/search/{status}/{location}/{minprice?}/{maxprice?}/{bedroom?}/{furnish?}/{type?}/{minsize?}/{maxsize?}', 'WebsiteController@searchPropertyResult')->name('browse.property.search');
 Route::get('/property-status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');
 Route::get('/property-types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
 

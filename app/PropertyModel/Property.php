@@ -20,15 +20,42 @@ use App\PropertyModel\PropertyDescription;
 use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\PropertySharedAmenity;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\PropertyModel\Property;
 
 class Property extends Model
 {
+    use SoftDeletes; 
+    
     protected $table = 'properties';
     protected $primaryKey = 'id';
+    protected $dates = ['deleted_at'];
+    const PUBLISH = true;
+    const NOT_PUBLISH = false;
+    const VACANT = true;
+    const NOT_VACANT = false;
+    const DONE_STEP = true;
+    const NOT_DONE_STEP = false;
 
     protected $fillable = [
-        'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children', 'infant',
+        'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children', 
+        'infant',
     ];
+
+    public function isPublish() : bool
+    {
+        return $this->publish == Property::PUBLISH;
+    }
+
+    public function isVacant() : bool
+    {
+        return $this->vacant == Property::VACANT;
+    }
+
+    public function isDoneStep() : bool
+    {
+        return $this->done_step == Property::DONE_STEP;
+    }
 
     public function getBaseAttribute($value)
     {

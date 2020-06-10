@@ -15,9 +15,9 @@
             <div class="container">
                 <h1 class="text-white">Find your future home</h1>
 
-                <form class="pxp-hero-search mt-4" autocomplete="off" action="{{ route('browse.property.search.submit') }}" method="POST">
+                <form class="pxp-hero-search mt-4" autocomplete="off" action="{{ route('browse.property.search.send') }}" method="POST">
+                    @csrf
                     <div class="row">
-                        @csrf
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                                 <select class="custom-select" name="status" id="status">

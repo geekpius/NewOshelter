@@ -43,14 +43,14 @@
     </div>
     <div class="form-group col-sm-4">
         <div class="checkbox checkbox-primary">
-            <input id="checkboxa6" type="checkbox" value="Air Conditioning" name="amenities[]">
-            <label for="checkboxa6">Air Conditioning</label>
+            <input id="checkboxa7" type="checkbox" value="Air Conditioning" name="amenities[]">
+            <label for="checkboxa7">Air Conditioning</label>
         </div>
     </div>
     <div class="form-group col-sm-4">
         <div class="checkbox checkbox-primary">
-            <input id="checkboxa6" type="checkbox" value="Ceiling Fan" name="amenities[]">
-            <label for="checkboxa6">Ceiling Fan</label>
+            <input id="checkboxa8" type="checkbox" value="Ceiling Fan" name="amenities[]">
+            <label for="checkboxa8">Ceiling Fan</label>
         </div>
     </div>
 

@@ -2,8 +2,10 @@
 
 namespace App;
 
+use App\User;
 use Carbon\Carbon;
 use App\UserModel\Vat;
+use Illuminate\Support\Str;
 use App\UserModel\UserLogin;
 use App\UserModel\UserTicket;
 use App\UserModel\UserWallet;
@@ -16,11 +18,21 @@ use App\UserModel\UserNotification;
 use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
+
+    protected $table = 'users';
+    protected $dates = ['deleted_at'];
+
+    const VERIFY_EMAIL = true;
+    const UNVERIFY_EMAIL = false;
+    const VERIFY_SMS = true;
+    const UNVERIFY_SMS = false;
+
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +40,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'membership', 'phone', 'digital_address', 'role', 'login_time',
+        'name', 'email', 'password', 'membership', 'phone', 'digital_address', 
+        'verify_email', 'verify_sms', 'role', 'login_time',
     ];
 
     /**
@@ -40,6 +53,26 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+    public function isVerifyEmail() : bool
+    {
+        return $this->verify_email == User::VERIFY_EMAIL;
+    }
+
+    public function isVerifySms() : bool
+    {
+        return $this->verify_sms == User::VERIFY_SMS;
+    }
+
+    public function generateEmailVerificationCode() : string
+    {
+        return Str::random(42);
+    }
+
+    public function generateSmsVerificationCode() : string
+    {
+        return Str::random(8);
+    }
 
     public function setEmailAttribute($value)
     {

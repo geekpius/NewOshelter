@@ -10,7 +10,7 @@
         "intervention/image": "^2.5",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
-        "spatie/laravel-query-builder": "^2.8"
+        "nicolaslopezj/searchable": "1.*"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
