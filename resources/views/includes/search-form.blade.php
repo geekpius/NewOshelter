@@ -1,4 +1,5 @@
-<form action="">
+<form autocomplete="off" action="{{ route('browse.property.search') }}" method="GET" id="formSearch">
+    <input type="hidden" name="query_id" value="{{ str_random(32) }}" readonly>
     <div class="d-flex">
         <div class="pxp-content-side-search-form">
             <div class="row pxp-content-side-search-form-row">
@@ -11,26 +12,10 @@
                     </select>
                 </div>
                 <div class="col-7 col-sm-7 col-md-8 col-lg-9 pxp-content-side-search-form-col autocomplete">
-                    <input type="text" name="location" class="form-control pxp-is-address" value="{{ (empty($location))? '':$location->location }}" placeholder="Search by City, Neighborhood, or Address" id="location">
+                    <input type="text" name="location" class="form-control pxp-is-address" value="{{ request()->input('location') }}" placeholder="Search by City, Neighborhood, or Address" id="location">
                     <span class="fa fa-map-marker"></span>
                 </div>
             </div>
-            {{-- <form autocomplete="off">
-                <div class="row pxp-content-side-search-form-row">
-                    <div class="col-5 col-sm-5 col-md-4 col-lg-3 pxp-content-side-search-form-col">
-                        <select class="custom-select" id="pxp-p-search-status" name="status">
-                            <option value="short_stay" selected>Short Stay</option>
-                            <option value="rent">Rent</option>
-                            <option value="sell">Sell</option>
-                            <option value="auction">Auction</option>
-                        </select>
-                    </div>
-                    <div class="col-7 col-sm-7 col-md-8 col-lg-9 pxp-content-side-search-form-col autocomplete">
-                        <input type="text" name="location" class="form-control pxp-is-address" value="{{ (empty($location))? '':$location->location }}" placeholder="Search by City, Neighborhood, or Address" id="location">
-                        <span class="fa fa-map-marker"></span>
-                    </div>
-                </div>
-            </form> --}}
         </div>
         <div class="d-flex">
             <a role="button" class="pxp-adv-toggle"><span class="fa fa-sliders"></span></a>
@@ -38,16 +23,36 @@
     </div>
     <div class="pxp-content-side-search-form-adv mb-3">
         <div class="row pxp-content-side-search-form-row">
+
+            <div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select class="custom-select" name="type" id="type">
+                        <option value="">Select type</option>
+                        @foreach ($property_types as $type)
+                        <option value="{{ strtolower(str_replace(' ','_',$type->name))  }}">{{ $type->name }}</option>    
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div data-role="rangeslider">
+                <label for="price-min">Price:</label>
+                <input type="range" name="price-min" id="price-min" value="200" min="0" max="1000">
+                <label for="price-max">Price:</label>
+                <input type="range" name="price-max" id="price-max" value="800" min="0" max="1000">
+              </div>
+              
             <div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
                 <div class="form-group">
                     <label for="min_price">Price</label>
-                    <input type="text" class="form-control" name="min_price" placeholder="Min" id="min_price">
+                    <input type="text" class="form-control" name="min_price" value="{{ request()->input('min_price') }}" placeholder="Min" id="min_price">
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
                 <div class="form-group">
                     <label for="max_price" class="d-none d-sm-inline-block">&nbsp;</label>
-                    <input type="text" class="form-control" name="max_price" placeholder="Max" id="max_price">
+                    <input type="text" class="form-control" name="max_price" value="{{ request()->input('max_price') }}" placeholder="Max" id="max_price">
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
@@ -55,15 +60,16 @@
                     <label for="bedroom">Bedroom</label>
                     <select class="custom-select" name="bedroom" id="bedroom">
                         <option value="" selected="selected">Any</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5+">5+</option>
+                        <option value="1">1 Bedroom</option>
+                        @for ($i = 2; $i <= 50; $i++)
+                        <option value="{{ $i }}">{{ $i }} Bedrooms</option>    
+                        @endfor
+                        <option value="50+">50+ Bedrooms</option>
                     </select>
                 </div>
-            </div>
-            <div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+            </div>       
+
+            <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
                 <div class="form-group">
                     <label for="furnish">Furnish</label>
                     <select class="custom-select" name="furnish" id="furnish">
@@ -76,25 +82,14 @@
             </div>
             <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
                 <div class="form-group">
-                    <label for="type">Type</label>
-                    <select class="custom-select" name="type" id="type">
-                        <option value="">Select type</option>
-                        @foreach ($property_types as $type)
-                        <option value="{{ strtolower(str_replace(' ','_',$type->name))  }}">{{ $type->name }}</option>    
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
-                <div class="form-group">
                     <label for="min_size">Size (sq ft)</label>
-                    <input type="text" class="form-control" name="min_size" id="min_size" placeholder="Min">
+                    <input type="text" class="form-control" name="min_size" value="{{ request()->input('min_size') }}" id="min_size" placeholder="Min">
                 </div>
             </div>
             <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
                 <div class="form-group">
                     <label for="max_size" class="d-none d-sm-inline-block">&nbsp;</label>
-                    <input type="text" class="form-control" name="max_size" id="max_size" placeholder="Max">
+                    <input type="text" class="form-control" name="max_size" value="{{ request()->input('max_size') }}" id="max_size" placeholder="Max">
                 </div>
             </div>
         </div>
@@ -255,12 +250,18 @@
                 </div>
             </div>
         </div>
-    
-        <a href="#" class="pxp-filter-btn">Apply Filters</a>
+        <input type="hidden" name="query_param" value="complex" readonly>
+        <button type="submit" class="pxp-filter-btn">Apply Filters</button>
     </div>
     <div class="row pb-4">
         <div class="col-sm-6">
-            <h2 class="pxp-content-side-h2">{{ number_format(count($properties)) }} Results</h2>
+            <h2 class="pxp-content-side-h2">
+                @if (empty(request()->input('location')))
+                {{ ($properties->total()>1)? number_format($properties->total()).' results':number_format($properties->total()).' result' }}
+                @else
+                {{ ($properties->total()>1)? number_format($properties->total()).' results':number_format($properties->total()).' result' }} for {{ request()->input('location') }}
+                @endif
+            </h2>
         </div>
         <div class="col-sm-6">
             <div class="pxp-sort-form form-inline float-right">

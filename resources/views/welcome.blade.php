@@ -15,8 +15,8 @@
             <div class="container">
                 <h1 class="text-white">Find your future home</h1>
 
-                <form class="pxp-hero-search mt-4" autocomplete="off" action="{{ route('browse.property.search.send') }}" method="POST">
-                    @csrf
+                <form class="pxp-hero-search mt-4" autocomplete="off" action="{{ route('browse.property.search') }}" method="GET" id="formSearch">
+                    <input type="hidden" name="query_id" value="{{ str_random(32) }}" readonly>
                     <div class="row">
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
@@ -34,6 +34,7 @@
                                 <span class="fa fa-map-marker"></span>
                             </div>
                         </div>
+                        <input type="hidden" name="query_param" value="simple" readonly>
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                                 <button class="btn btn-info form-control"><i class="fa fa-search"></i> Search</button>
@@ -498,10 +499,10 @@
     /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
     autocomplete(document.getElementById("location"), countries);
 
-    $(".pxp-hero-search").on('submit', function(e){
+    $("#formSearch").on('submit', function(e){
         e.stopPropagation();
         var valid = true;
-        $('.pxp-hero-search input').each(function() {
+        $('#formSearch input').each(function() {
             var $this = $(this);
             
             if(!$this.val()) {
@@ -512,6 +513,13 @@
             return true;
         }
         return false;
+    });
+
+    $("#formSearch input, #formSearch select").on('keydown', function(e){
+        e.stopPropagation();
+        if(e.which==13){
+            $("#formSearch").trigger("submit");
+        }
     });
 </script>
 <script type="text/javascript" id="cookieinfo"

@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Route;
 use App\User;
 use App\UserModel\Amenity;
 use Illuminate\Support\Str;
-use Route;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyType;
 use App\PropertyModel\PropertyImage;
 use App\UserModel\AccountReactivate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use App\PropertyModel\PropertyCategory;
 use App\PropertyModel\PropertyLocation;
 
@@ -75,7 +76,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Browse all properties of any kind';
         $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->get();
+        $data['properties'] = Property::wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->paginate(9);
         $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
         return view('properties', $data);
@@ -84,28 +85,69 @@ class WebsiteController extends Controller
     //property search
     public function searchProperty(Request $request)
     {
-        return redirect()->route('browse.property.search', ['status'=>Str::slug($request->status), 'location'=>Str::slug($request->location)]);
-    }
+        if($request->get('query_param')=='simple'){
+            $location = $request->get('location');
+            $data['page_title'] = $location;
+            $data['menu'] = 'pxp-no-bg';
+            $data['properties'] = Property::whereType_status($request->get('status'))->whereVacant(true)->wherePublish(true)
+                ->whereHas('propertyLocation', function($query) use($location){
+                $query->whereLocation($location);
+            })->paginate(9);
+            $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
+            $data['property_types'] = PropertyType::get(['name']);
+            return view('search-properties', $data);
+        }
+        else{
+            $location = $request->get('location');
+            $data['page_title'] = $location;
+            $data['menu'] = 'pxp-no-bg';
 
-    //property search results
-    public function searchPropertyResult($status, $location)
-    {
-        $data['location'] = PropertyLocation::whereLocation_slug($location)->first(['location']);
-        $data['status'] = str_replace('-','_',$status);
-        $data['page_title'] = $data['location']->location;
-        $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::whereType_status($data['status'])->whereHas('propertyLocation', function($query) use($location){
-           $query->whereLocation_slug($location);
-        })->paginate(9);
-        $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
-        $data['property_types'] = PropertyType::get(['name']);
-        return view('search-properties', $data);
-    }
+            $props = Property::whereType_status($request->get('status'))->whereVacant(true)->wherePublish(true);
+            if(empty($request->get('type'))){
+                $props->whereHas('propertyLocation', function($query) use($location){
+                    $query->whereLocation($location);
+                })->whereHas('propertyPrice', function($query) use($request){
+                    $min = empty($request->get('min_price'))? 0:$request->get('min_price');
+                    $max = empty($request->get('max_price'))? 0:$request->get('max_price');
+                    if($min==0 && $max==0){
+                        $query->where('property_price','>', 0);
+                    }else{
+                        $query->whereBetween('property_price', [$min, $max]);
+                    }
+                })->whereHas('propertyContain', function($query) use($request){
+                    if(!empty($request->get('bedroom')) && !empty($request->get('furnish'))){
+                        $query->whereBedroom($request->get('bedroom'))->whereFurnish($request->get('furnish'));
+                    }elseif(!empty($request->get('bedroom')) || !empty($request->get('furnish'))){
+                        $query->whereBedroom($request->get('bedroom'))->orWhere('furnish','=', $request->get('furnish'));
+                    }
+                });
+            }else{
+                $props->whereType($request->get('type'));
+                $props->whereHas('propertyLocation', function($query) use($location){
+                    $query->whereLocation($location);
+                })->whereHas('propertyPrice', function($query) use($request){
+                    $min = empty($request->get('min_price'))? 0:$request->get('min_price');
+                    $max = empty($request->get('max_price'))? 0:$request->get('max_price');
+                    if($min==0 && $max==0){
+                        $query->where('property_price','>', 0);
+                    }else{
+                        $query->whereBetween('property_price', [$min, $max]);
+                    }
+                })->whereHas('propertyContain', function($query) use($request){
+                    if(!empty($request->get('bedroom')) && !empty($request->get('furnish'))){
+                        $query->whereBedroom($request->get('bedroom'))->whereFurnish($request->get('furnish'));
+                    }elseif(!empty($request->get('bedroom')) || !empty($request->get('furnish'))){
+                        $query->whereBedroom($request->get('bedroom'))->orWhere('furnish','=', $request->get('furnish'));
+                    }
+                });
+            }
+            
+            $data['properties'] = $props->paginate(9);
 
-    //property search
-    public function searchPropertyWithParam(Request $request)
-    {
-        return $request->all();
+            $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
+            $data['property_types'] = PropertyType::get(['name']);
+            return view('search-properties', $data);
+        }
     }
 
 

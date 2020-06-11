@@ -243,6 +243,19 @@
         event.preventDefault();
     });
 
-    $("#pxp-p-search-status").val("{{ $status }}");
+    $("#formSearch").on('submit', function(e){
+        e.stopPropagation();
+        if($("#location").val()==''){
+            return false;
+        }else{
+            return true;
+        }
+        return false;
+    });
+
+    $("#pxp-p-search-status").val("{{ request()->input('status') }}");
+    $("#type").val("{{ request()->input('type') }}");
+    $("#bedroom").val("{{ request()->input('bedroom') }}");
+    $("#furnish").val("{{ request()->input('furnish') }}");
 </script>
 @endsection
