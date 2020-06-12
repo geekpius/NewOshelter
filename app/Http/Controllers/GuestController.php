@@ -18,11 +18,11 @@ class GuestController extends Controller
     //show all tenants
     public function tenant()
     {
-        $data['page_title'] = 'List lenants';
+        $data['page_title'] = 'List tenants';
         return view('app.tenants', $data);
     }
 
-    public function tenantProperty(User $user)
+    public function tenantRentedProperty(User $user)
     {
         $data['page_title'] =  $user->name.' Rented properties';
         $data['user'] = $user;

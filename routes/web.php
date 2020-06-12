@@ -21,9 +21,6 @@ Route::get('/single-property/{property}/details', 'WebsiteController@singlePrope
 Route::get('/properties', 'WebsiteController@property')->name('browse.property');
 
 Route::get('/properties/search', 'WebsiteController@searchProperty')->name('browse.property.search');
-//Route::post('/', 'WebsiteController@searchProperty')->name('browse.property.search.send');
-//Route::post('/properties/search', 'WebsiteController@searchPropertyWithParam')->name('browse.property.search.filter');
-//Route::get('/properties/search/{status}/{location}/{minprice?}/{maxprice?}/{bedroom?}/{furnish?}/{type?}/{minsize?}/{maxsize?}', 'WebsiteController@searchPropertyResult')->name('browse.property.search');
 Route::get('/property-status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');
 Route::get('/property-types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
 
@@ -51,9 +48,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/notifications', 'UserController@notification')->name('notifications');
 
     /*------- Nav actions ------- */
-    Route::get('/wishlist', 'UserSavedPropertyController@index')->name('saved');
+    Route::get('/wishlist', 'UserSavedPropertyController@wishList')->name('saved');
     Route::post('/wishlist', 'UserSavedPropertyController@store')->name('saved.submit');
-    Route::get('/wishlist/{userSavedProperty}/remove', 'UserSavedPropertyController@removeSaved')->name('saved.remove');
+    Route::get('/wishlist/{userSavedProperty}/remove', 'UserSavedPropertyController@removeWishList')->name('saved.remove');
     Route::get('/wallet', 'UserWalletController@index')->name('wallet');
     Route::get('/activities', 'UserActivityController@index')->name('activities');
 
@@ -138,7 +135,7 @@ Route::group(['prefix' => 'user'], function () {
 
     /*------- Listing Guests ------- */
     Route::get('/tenants', 'GuestController@tenant')->name('tenant');
-    Route::get('/tenants/{user}/properties-rented', 'GuestController@tenantProperty')->name('tenant.rented');
+    Route::get('/tenants/{user}/properties-rented', 'GuestController@tenantRentedProperty')->name('tenant.rented');
     Route::get('/buyers', 'GuestController@buyer')->name('buyer');
     Route::get('/bidders', 'GuestController@bidder')->name('bidder');
 

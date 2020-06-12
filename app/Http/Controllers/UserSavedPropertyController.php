@@ -14,21 +14,21 @@ class UserSavedPropertyController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function wishList()
     {
-        $data['page_title'] = 'Properties saved';
+        $data['page_title'] = 'Saved properties for wishlist';
         $data['lists'] = UserSavedProperty::whereUser_id(Auth::user()->id)->get(); 
-        return view('app.saved', $data);
+        return view('app.wishlist', $data);
     }
 
-    public function removeSaved(UserSavedProperty $userSavedProperty)
+    public function removeWishList(UserSavedProperty $userSavedProperty)
     {
         $userSavedProperty->delete();
         return redirect()->back();
     }
 
     //save property
-    public function store(Request $request)
+    public function store(Request $request) : string
     {
         $validator = \Validator::make($request->all(), [
             'property_id' => 'required|string',
@@ -39,7 +39,9 @@ class UserSavedPropertyController extends Controller
         }
         else{
             if(auth()->check()){
-                if(UserSavedProperty::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->count()>0){
+                $wish_list = UserSavedProperty::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id);
+                if($wish_list->count()>0){
+                    $wish_list->delete();
                     $message='exist';
                 }else{
                     $save = new UserSavedProperty;

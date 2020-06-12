@@ -143,7 +143,11 @@
                     <a href="{{ route('single.property', $property->id) }}" class="pxp-prop-card-1 rounded-lg">
                         <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$property->propertyImages->first()->image) }});"></div>
                         <span class="on-top-save on-top m-2 btnHeart" data-id="{{ $property->id }}">
+                            @auth
+                            <span class="fa fa-heart {{ (Auth::user()->userSavedProperties()->whereProperty_id($property->id)->count()>0)? 'text-pink':'text-primary' }} heart-hover"></span>
+                            @else
                             <span class="fa fa-heart text-primary heart-hover"></span>
+                            @endauth
                         </span>
                         <div class="pxp-prop-card-1-gradient pxp-animate"></div>
                         <div class="pxp-prop-card-1-details">

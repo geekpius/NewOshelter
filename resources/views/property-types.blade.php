@@ -108,7 +108,11 @@
                             </div>
                         @endif
                         
+                        @auth
+                        <div class="pxp-results-card-1-save btnHeart" data-id="{{ $property->id }}"><span class="fa fa-heart {{ (Auth::user()->userSavedProperties()->whereProperty_id($property->id)->count()>0)? 'text-pink':'text-primary' }} heart-hover" style="cursor:pointer"></span></div>
+                        @else
                         <div class="pxp-results-card-1-save btnHeart" data-id="{{ $property->id }}"><span class="fa fa-heart text-primary heart-hover" style="cursor:pointer"></span></div>
+                        @endauth
                     </a>
                 </div>
                 @endforeach
@@ -237,6 +241,23 @@
         }
     }).on('paste', function(event) {
         event.preventDefault();
+    });
+
+    $("#formSearch").on('submit', function(e){
+        e.stopPropagation();
+        if($("#location").val()==''){
+            return false;
+        }else{
+            return true;
+        }
+        return false;
+    });
+    
+    $("#formSearch #location, #formSearch status").on('keydown', function(e){
+        e.stopPropagation();
+        if(e.which==13){
+            $("#formSearch").trigger("submit");
+        }
     });
 </script>
 @endsection

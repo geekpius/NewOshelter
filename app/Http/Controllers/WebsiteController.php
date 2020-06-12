@@ -12,6 +12,7 @@ use App\PropertyModel\Property;
 use App\PropertyModel\PropertyType;
 use App\PropertyModel\PropertyImage;
 use App\UserModel\AccountReactivate;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use App\PropertyModel\PropertyCategory;
@@ -36,7 +37,7 @@ class WebsiteController extends Controller
         $status = str_replace('-',' ',$status);
         $data['page_title'] = 'Narrow down '.$status.' filter complexity';
         $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->whereDone_step(true)->get();
+        $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->whereDone_step(true)->orderBy('id', 'DESC')->paginate(9);
         $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
         return view('property-status', $data);
@@ -48,7 +49,7 @@ class WebsiteController extends Controller
         $type = str_replace('-',' ',$type);
         $data['page_title'] = 'Explore your curiosity on '.$type;
         $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->get();
+        $data['properties'] = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->orderBy('id', 'DESC')->paginate(9);
         $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
         return view('property-types', $data);
@@ -141,8 +142,8 @@ class WebsiteController extends Controller
                     }
                 });
             }
-            
-            $data['properties'] = $props->paginate(9);
+
+            $data['properties'] = $props->orderBy('id','desc')->paginate(9);
 
             $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
             $data['property_types'] = PropertyType::get(['name']);

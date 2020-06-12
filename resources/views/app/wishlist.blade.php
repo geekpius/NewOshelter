@@ -12,10 +12,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">List Saved</li>
+                        <li class="breadcrumb-item active">Wishlist</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Saved Properties</h4>
+                <h4 class="page-title">Wishlist</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>
@@ -52,7 +52,7 @@
                         <div class="alert icon-custom-alert alert-outline-pink b-round fade show" role="alert">                                            
                             <i class="mdi mdi-alert-outline alert-icon"></i>
                             <div class="alert-text">
-                                <strong>Opps!</strong> No property found in your saved lists.
+                                <strong>Opps!</strong> No property found in your wishlists.
                             </div>
                             
                             <div class="alert-close">

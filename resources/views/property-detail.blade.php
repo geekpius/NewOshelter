@@ -14,11 +14,17 @@
             <div class="row">
                 <div class="col-sm-7">
                     <div class="pxp-sp-top-btns">
-                        <a href="javascript:void(0);" data-id="{{ $property->id }}" class="text-pink text-decoration-none mr-5 btnHeart"><span class="fa fa-heart"></span> Save</a>
+                        @auth
+                        <a href="javascript:void(0);" data-id="{{ $property->id }}" class="text-pink text-decoration-none mr-5 btnHeart"><span class="fa fa-heart {{ (Auth::user()->userSavedProperties()->whereProperty_id($property->id)->count()>0)? 'text-pink':'text-primary' }}"></span> </a>
+                        @else
+                        <a href="javascript:void(0);" data-id="{{ $property->id }}" class="text-pink text-decoration-none mr-5 btnHeart"><span class="fa fa-heart text-primary"></span></a>
+                        @endauth
+
                         <div class="dropdown">
                             <a class="text-primary text-decoration-none" href="avascript:void(0);" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="fa fa-share-alt"></span> Share
                             </a>
+                            
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="#"><span class="fa fa-facebook text-primary"></span> Facebook</a>
                                 <a class="dropdown-item" href="#"><span class="fa fa-twitter text-primary"></span> Twitter</a>

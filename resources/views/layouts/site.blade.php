@@ -166,6 +166,8 @@
                     success: function (resp) {
                         if(resp=='success'){
                             $this.children().removeClass('text-primary').addClass('text-pink');
+                        }else if(resp=='exist'){
+                            $this.children().removeClass('text-pink').addClass('text-primary');
                         }else{
                             console.log('Something went wrong');
                         }
