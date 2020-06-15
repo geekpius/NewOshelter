@@ -131,7 +131,8 @@ Route::group(['prefix' => 'user'], function () {
     /*------- Booking Hostel Properties ------- */
     Route::post('/properties/get/block-room-number', 'BookingController@getRoomTypeNumber')->name('property.get.roomnumber');
     Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
-
+    Route::post('/properties/bookings', 'BookingController@book')->name('property.bookings.submit');
+    Route::get('/properties/bookings/{property}', 'BookingController@index')->name('property.bookings.index');
 
     /*------- Listing tenants ------- */
     Route::resource('/tenants', 'TenantsController');

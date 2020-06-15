@@ -51,6 +51,19 @@ class BookingController extends Controller
         }
     }
 
+ 
+    public function index()
+    {
+        //
+        $data['page_title'] = 'booking';
+        return view('website.bookings.index', $data);
+    }
 
+  
+    public function book(Request $request)
+    {
+        //
+
+    }
 
 }
