@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\UserModel\UserWallet;
 use Illuminate\Http\Request;
 
-class UserWalletController extends Controller
+class VisitorsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('verify-user');
-        $this->middleware('auth');
-    }
-
-
-    /*
-     * display wallet
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $data['page_title'] = 'My wallet';
-        return view('admin.wallet.index', $data);
+        //
+        $data['page_title'] = 'visitors index';
+        $data['menu'] = 'pxp-no-bg';
+        return view('admin.visitors.index', $data);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -48,10 +43,10 @@ class UserWalletController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\UserModel\UserWallet  $userWallet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(UserWallet $userWallet)
+    public function show($id)
     {
         //
     }
@@ -59,10 +54,10 @@ class UserWalletController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\UserModel\UserWallet  $userWallet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(UserWallet $userWallet)
+    public function edit($id)
     {
         //
     }
@@ -71,10 +66,10 @@ class UserWalletController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\UserModel\UserWallet  $userWallet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserWallet $userWallet)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -82,10 +77,10 @@ class UserWalletController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\UserModel\UserWallet  $userWallet
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(UserWallet $userWallet)
+    public function destroy($id)
     {
         //
     }

@@ -20,7 +20,7 @@ class UserActivityController extends Controller
     {
         $data['page_title'] = 'My account activities';
         $data['activites'] = UserActivity::whereUser_id(Auth::user()->id)->get();
-        return view('app.activities', $data);
+        return view('admin.activities.index', $data);
     }
 
     

@@ -18,7 +18,7 @@ class UserSavedPropertyController extends Controller
     {
         $data['page_title'] = 'Saved properties for wishlist';
         $data['lists'] = UserSavedProperty::whereUser_id(Auth::user()->id)->get(); 
-        return view('app.wishlist', $data);
+        return view('admin.wishlist.index', $data);
     }
 
     public function removeWishList(UserSavedProperty $userSavedProperty)

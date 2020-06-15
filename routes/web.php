@@ -133,11 +133,11 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
 
 
-    /*------- Listing Guests ------- */
-    Route::get('/tenants', 'GuestController@tenant')->name('tenant');
-    Route::get('/tenants/{user}/properties-rented', 'GuestController@tenantRentedProperty')->name('tenant.rented');
-    Route::get('/buyers', 'GuestController@buyer')->name('buyer');
-    Route::get('/bidders', 'GuestController@bidder')->name('bidder');
+    /*------- Listing tenants ------- */
+    Route::resource('/tenants', 'TenantsController');
+    Route::get('/tenants/{user}/properties-rented', 'TenantsController@tenantRentedProperty')->name('tenant.rented');
+    Route::get('/buyers', 'TenantsController@buyer')->name('buyer');
+    Route::get('/bidders', 'TenantsController@bidder')->name('bidder');
 
     /*------- Messages ------- */
     Route::get('/messages/{user}/compose', 'MessageController@composeMessage')->name('messages.compose');
@@ -155,6 +155,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/view-tickets/{ticket}/read', 'TicketController@read')->name('ticket.read');
     Route::post('/ticket/reply', 'TicketController@reply')->name('ticket.reply');
     Route::get('/ticket/{ticket}/close', 'TicketController@close')->name('ticket.close');
+
+    // vistors
+    Route::resource('/Visitors', 'VisitorsController');
 
     /*------- Activities ------- */
 

@@ -25,26 +25,26 @@ class UserController extends Controller
     public function index()
     {
         $data['page_title'] = 'Dashboard';
-        return view('app.dashboard', $data);
+        return view('admin.dashboard.index', $data);
     }
 
 
     public function guest()
     {
         $data['page_title'] = 'Guest statistics';
-        return view('app.guest-statistics', $data);
+        return view('admin.guest-statistics', $data);
     }
 
     public function property()
     {
         $data['page_title'] = 'Property statistics';
-        return view('app.property-statistics', $data);
+        return view('admin.property-statistics', $data);
     }
 
     public function payment()
     {
         $data['page_title'] = 'Payment statistics';
-        return view('app.payment-statistics', $data);
+        return view('admin.payment-statistics', $data);
     }
 
      
@@ -59,7 +59,7 @@ class UserController extends Controller
     public function messageNotification()
     {
         $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->get();
-        return view('app.message-notification', $data)->render();
+        return view('admin.message-notification', $data)->render();
     }
 
     //notification count
@@ -72,7 +72,7 @@ class UserController extends Controller
     public function notification()
     {
         $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->get();
-        return view('app.message-notification', $data)->render();
+        return view('admin.message-notification', $data)->render();
     }
 
 
