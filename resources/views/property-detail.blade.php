@@ -686,7 +686,7 @@
                             <span class="small text-primary">You're charged after booking is confirmed.</span>
                             <hr>
         
-                            <form class="form-horizontal form-material mb-0" id="formBooking" method="POST" action="{{ route('property.booking.submit') }}">
+                            <form class="form-horizontal form-material mb-0" id="formBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <div class="row">
