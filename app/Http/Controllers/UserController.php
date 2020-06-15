@@ -32,19 +32,19 @@ class UserController extends Controller
     public function guest()
     {
         $data['page_title'] = 'Guest statistics';
-        return view('admin.guest-statistics', $data);
+        return view('admin.properties.guest-statistics', $data);
     }
 
     public function property()
     {
         $data['page_title'] = 'Property statistics';
-        return view('admin.property-statistics', $data);
+        return view('admin.properties.property-statistics', $data);
     }
 
     public function payment()
     {
         $data['page_title'] = 'Payment statistics';
-        return view('admin.payment-statistics', $data);
+        return view('admin.properties.payment-statistics', $data);
     }
 
      

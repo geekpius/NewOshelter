@@ -3,6 +3,8 @@
 @section('style')
 <link rel="stylesheet" href="{{ asset('assets/light/css/photoswipe.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/light/css/default-skin/default-skin.css') }}">
+{{-- date range --}}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 
 @section('content')
@@ -674,8 +676,8 @@
                         <a href="javascript:void(0);" class="text-danger small"><i class="fa fa-flag"></i> Report this listing</a>
                     </div>
                 @else
-                    <div class="card">
-                        <div class="card-body" style="padding-left:10px !important; padding-right:10px !important">
+                    <div class="card card-bordered-pink">
+                        <div class="card-body" style="padding-left:10px !important; padding-right:10px !important;">
                             <div class="card-heading">
                                 <h6><strong><span class="font-20">{{ $property->propertyPrice->currency }}</span> <span id="initialAmount">{{ number_format($property->propertyPrice->property_price,2) }}</span>/<small>{{ $property->propertyPrice->price_calendar }}</small></strong></h6>
                                 <span class="font-12"><i class="fa fa-star text-warning"></i> <b>0.1</b> (1 Review)</span>
@@ -684,18 +686,17 @@
                             <span class="small text-primary">You're charged after booking is confirmed.</span>
                             <hr>
         
-                            <form class="form-horizontal form-material mb-0" id="formChangePassword">
+                            <form class="form-horizontal form-material mb-0" id="formBooking" method="POST" action="{{ route('property.booking.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <span id="dateCalculator" class="small text-danger"></span>
-                                        <div class="input-group input-group-sm validate">
-                                            <input type="date" name="check_in" value="{{ date('Y-m-d') }}" class="form-control">
+                                        <div class="input-group input-group-sm validate" id="dateRanger">
+                                            <input type="text" name="check_in" value="" class="form-control" placeholder="Check In" readonly />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text fa fa-arrow-right small" id="inputGroup-sizing-sm"></span>
                                             </div>
-                                            <input type="date" name="check_out" value="{{ date('Y-m-d') }}" class="form-control">
+                                            <input type="text" name="check_out" value="" class="form-control" placeholder="Check Out" readonly />
                                         </div>
                                     </div>
                                     <div class="col-sm-12 mt-3">
@@ -746,6 +747,27 @@
                                     </div>
                                 </div>
 
+                                <div class="row" id="showCalculations">
+                                    <div class="col-sm-12">
+                                        <div>
+                                            <span id="dateCalculator">Night Cal</span>
+                                            <span class="pull-right" id="dateCalculatorResult">Total Night Fee</span>
+                                        </div>
+                                        {{-- <div>
+                                            <span>Discount Cal</span>
+                                            <span class="pull-right">Total Discount Fee</span>
+                                        </div> --}}
+                                        <div>
+                                            <span>Service Fee</span>
+                                            <span class="pull-right" id="serviceFeeResult">Total Service Fee</span>
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <span><strong>Total</strong></span>
+                                            <span class="pull-right"><strong id="totalFeeResult">Total Fee</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
@@ -754,10 +776,9 @@
                                     </div>
                                 </div>
                             </form>
-
+                            @if ($property->type_status=='rent')
                             <hr>
                             <div class="">
-                                @if ($property->type_status=='rent')
                                 <span class="small text-primary">
                                     @if ($property->propertyPrice->payment_duration==3)
                                         3 months advance payment
@@ -769,8 +790,8 @@
                                         2 years advance payment
                                     @endif
                                 </span>
-                                @endif
                             </div>
+                            @endif
                         </div><!--end card-body-->
                     </div><!--end card-->
                     <div class="text-center">
@@ -798,49 +819,10 @@
 <script src="{{ asset('assets/light/js/infobox.js') }}"></script>
 <script src="{{ asset('assets/light/js/single-map.js') }}"></script>
 <script src="{{ asset('assets/light/js/Chart.min.js') }}"></script>
+{{-- date range --}}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script>
-    $("input[name='check_in']").on("change", function(){
-        var checkIn = $(this);
-        var checkOut = $("input[name='check_out']");
-        if(checkOut.val()){
-            if(Date.parse(checkIn.val()) < new Date().getTime()){
-                checkIn.val("{{ date('Y-m-d') }}");
-                $('#dateCalculator').text('');
-            }
-            else if(Date.parse(checkIn.val()) >= Date.parse(checkOut.val())){
-                $('#dateCalculator').text('');                
-            }
-            else{
-                var checkInDate = new Date(checkIn.val()).getTime()
-                var checkOutDate = new Date(checkOut.val()).getTime()
-                var distance = checkOutDate - checkInDate;
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                $('#dateCalculator').text(days+' days');
-            }
-        }
-    });
-
-    $("input[name='check_out']").on("change", function(){
-        var checkOut = $(this);
-        var checkIn = $("input[name='check_in']");
-        if(checkIn.val()){
-            if(Date.parse(checkOut.val()) < new Date().getTime()){
-                checkOut.val("{{ date('Y-m-d') }}");
-                $('#dateCalculator').text('');
-            }
-            else if(Date.parse(checkOut.val()) <= Date.parse(checkIn.val())){
-                $('#dateCalculator').text('');                
-            }
-            else{
-                var checkOutDate = new Date(checkOut.val()).getTime()
-                var checkInDate = new Date(checkIn.val()).getTime()
-                var distance = checkOutDate - checkInDate;
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                $('#dateCalculator').text(days+' days');
-            }
-        }
-    });
-
 @if($property->type=='hostel')
 $("#formBookHostel #block_name").on("change", function(e){
     e.preventDefault();
@@ -946,6 +928,61 @@ $("#formBookHostel #room_number").on("change", function(e){
     }
     return false;
 });
+@else
+$(function() {
+    $('#dateRanger').daterangepicker({
+        opens: 'left',
+        autoApply: true,
+        minDate: "{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}", 
+    });
+});
+
+$('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
+    var checkIn = picker.startDate;
+    var checkOut =picker.endDate;
+    if(checkOut){
+        let checkInDate = new Date(checkIn).getTime();
+        let checkOutDate = new Date(checkOut).getTime();
+        let distance = checkOutDate - checkInDate;
+        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        let result = days*parseFloat("{{ $property->propertyPrice->property_price }}");
+        let nights = (days>1)? days.toString()+" nights":days.toString()+" night";
+        $('#dateCalculator').text("{{ $property->propertyPrice->property_price }} x " + nights);
+        $('#dateCalculatorResult').text("{{ $property->propertyPrice->currency }}"+Math.floor(result));
+        // service
+        $("#serviceFeeResult").text("{{ $property->propertyPrice->currency }}"+Math.floor((0.14*result)));
+        // total
+        let totalPrice = (0.14*result)+result;
+        $("#totalFeeResult").text("{{ $property->propertyPrice->currency }}"+Math.floor(totalPrice));
+    }
+
+    $("#dateRanger input[name='check_in']").val(picker.startDate.format('DD-MM-YYYY').toString());
+    $("#dateRanger input[name='check_out']").val(picker.endDate.format('DD-MM-YYYY').toString());
+    $("#formBooking #showCalculations").hide().slideDown('slow');
+});
+
+$("#formBooking #adult").on("change", function(){
+    $this = $(this);
+    if($this.val()!=""){
+        if(parseInt($this.val())>parseInt("{{ $property->adult }}")){
+            let noOfAdult = (parseInt("{{ $property->adult }}")>1)? "{{ $property->adult }} adults":"{{ $property->adult }} adult";
+            alert("Property require "+noOfAdult);
+            $this.val('1');
+        }
+    }
+});
+
+$("#formBooking #children").on("change", function(){
+    $this = $(this);
+    if($this.val()!=""){
+        if(parseInt($this.val())>parseInt("{{ $property->children }}")){
+            let noOfChild = (parseInt("{{ $property->children }}")>1)? "{{ $property->children }} children":"{{ $property->children }} child";
+            alert("Property require "+noOfChild);
+            $this.val('0');
+        }
+    }
+});
+
 @endif
 </script>
 @endsection

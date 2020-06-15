@@ -214,6 +214,11 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         background-color: #2b55cc;
       }
 
+      .card-bordered-pink{
+        border: solid #fd3c97 !important; 
+        border-radius: 10px; 
+        border-width: 1px !important;
+      }
       .on-top{
         position: absolute;
         z-index: 1;
@@ -380,6 +385,15 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         color: #000f !important;
       }
       /* end help collapsable */
+
+      /* IDs  */
+      #showCalculations{
+        display: none;
+      }
+
+
+
+
 
       @media (min-width: 320px){
         .own-property-bottom {
