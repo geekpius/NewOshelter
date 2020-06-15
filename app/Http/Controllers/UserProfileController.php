@@ -23,7 +23,7 @@ class UserProfileController extends Controller
     public function index()
     {
         $data['page_title'] = 'My account';
-        return view('app.account', $data);
+        return view('admin.account.index', $data);
     }
 
     //update name profiles

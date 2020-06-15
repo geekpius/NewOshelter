@@ -21,14 +21,14 @@ class TicketController extends Controller
     {
         $data['page_title'] = 'All tickets';
         $data['tickets'] = Ticket::whereUser_id(Auth::user()->id)->get();
-        return view('app.view-tickets', $data);
+        return view('admin.tickets.index', $data);
     }
 
     //create new ticket
     public function create()
     {
         $data['page_title'] = 'New ticket';
-        return view('app.new-ticket', $data);
+        return view('admin.tickets.create', $data);
     }
 
     //save ticket message
@@ -58,7 +58,7 @@ class TicketController extends Controller
     {
         $data['page_title'] = 'Read ticket #'.$ticket->id;
         $data['ticket'] = $ticket;
-        return view('app.read-ticket', $data);
+        return view('admin.tickets.read', $data);
     }
 
     //reply ticket

@@ -22,7 +22,7 @@ class MessageController extends Controller
     {
         $data['page_title'] = 'Messages';
         $data['messages'] = Message::whereUser_id(Auth::user()->id)->whereIn('status', [0,1])->paginate(10);
-        return view('app.messages', $data);
+        return view('admin.messages.index', $data);
     }
 
     public function composeMessage(User $user)
@@ -33,7 +33,7 @@ class MessageController extends Controller
         else{
             $data['page_title'] = 'Compose message to '.$user->name;
             $data['host'] = $user;
-            return view('app.compose', $data);
+            return view('admin.messages.compose', $data);
         }
     }
 
