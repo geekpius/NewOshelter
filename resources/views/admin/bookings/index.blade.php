@@ -24,8 +24,10 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                   
-                    {{-- <div class="row">
+                   @if (!$property->user->verify_email)
+                       
+                  
+                    <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-4">
                             <div class="mb-5">
@@ -38,8 +40,8 @@
                         <div class="col-sm-12 mt-4">
                             <button class="btn btn-primary pl-5 pr-5"><i class="fa fa-arrow-right"></i> Next</button>
                         </div>
-                    </div><!-- end row -->  --}}
-
+                    </div><!-- end row --> 
+                    @endif
                     {{-- <div class="row mb-5">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-4">

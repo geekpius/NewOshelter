@@ -63,6 +63,13 @@ class BookingController extends Controller
   
     public function book(Request $request)
     {
+        $validatedData = $request->validate([
+            'check_in'  => 'required',
+            'check_out' => 'required',
+            'adult'     => 'required',
+            'children'  => 'required',
+            'infant'    => 'required'
+        ]);
         return redirect()->route('property.bookings.index', $request->property_id);
     }
 
