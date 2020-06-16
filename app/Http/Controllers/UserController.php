@@ -59,7 +59,7 @@ class UserController extends Controller
     public function messageNotification()
     {
         $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->get();
-        return view('admin.message-notification', $data)->render();
+        return view('admin.notifications.message-notification', $data)->render();
     }
 
     //notification count
@@ -72,7 +72,7 @@ class UserController extends Controller
     public function notification()
     {
         $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->get();
-        return view('admin.message-notification', $data)->render();
+        return view('admin.notifications.message-notification', $data)->render();
     }
 
 

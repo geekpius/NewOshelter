@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\PropertyModel\Property;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
 
@@ -52,18 +53,17 @@ class BookingController extends Controller
     }
 
  
-    public function index()
+    public function index(Property $property)
     {
-        //
-        $data['page_title'] = 'booking';
-        return view('website.bookings.index', $data);
+        $data['page_title'] = 'Booking '.$property->title;
+        $data['property'] = $property;
+        return view('admin.bookings.index', $data);
     }
 
   
     public function book(Request $request)
     {
-        //
-
+        return redirect()->route('property.bookings.index', $request->property_id);
     }
 
 }
