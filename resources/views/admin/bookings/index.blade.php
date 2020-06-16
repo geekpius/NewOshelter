@@ -79,25 +79,125 @@
 
 
                     <div class="row">
-                        <div class="col-sm-6 ml-sm-4">
+                        <div class="col-sm-6">
                             <div class="col-sm-12">
                                 <h3>Review {{ $property->type }} rules</h3>
                                 <div class="col-sm-12 mt-5">
                                     <div class="card card-bordered-pink">
                                         <div class="card-body">
                                             <p class="font-14">
-                                                <i class="fa fa-home"></i>&nbsp;
+                                                <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
                                                 This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                             </p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-5">
+                                        <h3>2 nights</h3>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-lg-6">
+                                                Check In
+                                                <div class="card card-purple" style="width:40% !important">
+                                                    <div class="card-body text-center text-white">
+                                                        <strong class="font-16">16-Mar-2020</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-lg-6">
+                                                Check Out
+                                                <div class="card card-purple" style="width:40% !important">
+                                                    <div class="card-body text-center text-white">
+                                                        <strong class="font-16">25-Mar-2020</strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-5">
+                                        <h3>Take note of the rules</h3>
+                                        <div class="col-sm-12">
+                                            @if (count($property->propertyOwnRules))
+                                                @foreach ($property->propertyOwnRules as $own_rule)
+                                                <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $own_rule->rule }}</h4>
+                                                @endforeach
+                                                
+                                                @foreach ($property->propertyRules as $rule)
+                                                <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</h4>
+                                                @endforeach
+                                            @else
+                                                @foreach ($property->propertyRules as $rule)
+                                                <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</h4>
+                                                @endforeach
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>   
                         </div>
+                        <div class="col-sm-6">
+                            <div class="col-sm-12">
+                                <div class="col-sm-12 mt-5">
+                                    <div class="card card-bordered-pink">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    @php $image = $property->propertyImages->first(); @endphp
+                                                    <img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-thumbnail" width="200" height="200" />
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <h4>{{ $property->title }}</h4>
+                                                    <p>{{ ucfirst($property->type) }} in {{ strtolower($property->base) }}</p>
+                                                    <p>
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        &nbsp;&nbsp;
+                                                        {{ $property->propertyReviews->count() }} Reviews
+                                                    </p>
+                                                </div>
+                                                <div class="col-sm-12"><hr></div>
+                                                <div class="col-sm-12">
+                                                    <h4><i class="fa fa-users"></i> &nbsp;&nbsp; 2 Guests</h4>
+                                                </div>
+                                                <div class="col-sm-12"><hr></div>
+                                                <div class="col-sm-12">
+                                                    <div>
+                                                        <p class="font-18">30/night</p>
+                                                    </div>
+                                                    <div class="font-18">
+                                                        <span id="dateCalculator">Night Cal</span>
+                                                        <span class="float-right" id="dateCalculatorResult">Total Night Fee</span>
+                                                    </div>
+                                                    {{-- <div class="font-18">
+                                                        <span>Discount Cal</span>
+                                                        <span class="float-right">Total Discount Fee</span>
+                                                    </div> --}}
+                                                    <div class="font-18">
+                                                        <span>Service Fee</span>
+                                                        <span class="float-right" id="serviceFeeResult">Total Service Fee</span>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="font-18">
+                                                        <span><strong>Total</strong></span>
+                                                        <span class="float-right"><strong id="totalFeeResult">Total Fee</strong></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12"><hr></div>
+                                                <div class="col-sm-12">
+                                                    <p class="font-16"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                        
                         
 
                         {{-- Move next button --}}
-                        <div class="col-sm-12 mt-4 ml-sm-4">
+                        <div class="col-sm-12 mt-5 ml-sm-4">
                             <button class="btn btn-primary pl-5 pr-5"><i class="fa fa-arrow-right"></i> Agree and continue</button>
                         </div>
                     </div>

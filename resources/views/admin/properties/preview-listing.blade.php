@@ -590,29 +590,9 @@
                             <h5><b>Cancellation {{ $property->type_status=='rent'? 'and Eviction':'' }}</b></h5>  
                             <p>
                                 <i class="fa fa-minus-circle" style="font-size: 9px"></i> 
-                                Cancellation is free up to 72 hours after 
-                                @if($property->type_status=='rent')
-                                renting is confirmed.
-                                @elseif($property->type_status=='sell')
-                                buying is confirmed.
-                                @elseif($property->type_status=='auction')
-                                auctioning is won and confirmed.
-                                @else
-                                booking is confirmed.
-                                @endif
+                                Cancellation after 48 hours, you will get full refund minus service fee.
                             </p>       
                             <p>
-                                <i class="fa fa-minus-circle" style="font-size: 9px"></i> 
-                                Cancellation after 72 hours of
-                                @if($property->type_status=='rent')
-                                renting will attract penalty of waiting for that property to be rented.
-                                @elseif($property->type_status=='sell')
-                                buying will attract penalty of waiting for that property to be bought.
-                                @elseif($property->type_status=='auction')
-                                auctioning will attract penalty of waiting for that property to be auctioned.
-                                @else
-                                booking will attract penalty of waiting for that property to be booked.
-                                @endif
                                  
                             </p>  
                             @if($property->type_status=='rent')   
