@@ -75,3 +75,9 @@
 .no-border {
   border:none !important;
 }
+
+.card-bordered-pink{
+  border: solid #fd3c97 !important; 
+  border-radius: 10px; 
+  border-width: 1px !important;
+}
