@@ -539,27 +539,8 @@
                     <h3>Cancellation {{ $property->type_status=='rent'? 'and Eviction':'' }}</h3>
                     <p>
                         <i class="fa fa-minus-circle font-12"></i> 
-                        Cancellation is free up to 72 hours after 
-                        @if($property->type_status=='rent')
-                        renting is confirmed.
-                        @elseif($property->type_status=='sell')
-                        buying is confirmed.
-                        @else
-                        auctioning is won and confirmed.
-                        @endif
+                        Cancellation after 48 hours, you will get full refund minus service fee.
                     </p>       
-                    <p>
-                        <i class="fa fa-minus-circle font-12"></i> 
-                        Cancellation after 72 hours of
-                        @if($property->type_status=='rent')
-                        renting will attract pernalty of waiting for that property to be rented.
-                        @elseif($property->type_status=='sell')
-                        buying will attract pernalty of waiting for that property to be bought.
-                        @else
-                        auctioning will attract pernalty of waiting for that property to be auctioned.
-                        @endif
-                        
-                    </p>  
                     @if($property->type_status=='rent')   
                         <p>
                             <i class="fa fa-minus-circle font-12"></i> 
@@ -948,12 +929,12 @@ $('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
         let result = days*parseFloat("{{ $property->propertyPrice->property_price }}");
         let nights = (days>1)? days.toString()+" nights":days.toString()+" night";
         $('#dateCalculator').text("{{ $property->propertyPrice->property_price }} x " + nights);
-        $('#dateCalculatorResult').text("{{ $property->propertyPrice->currency }}"+Math.floor(result));
+        $('#dateCalculatorResult').text("{{ $property->propertyPrice->currency }}"+result.toFixed(2));
         // service
-        $("#serviceFeeResult").text("{{ $property->propertyPrice->currency }}"+Math.floor((0.14*result)));
+        $("#serviceFeeResult").text("{{ $property->propertyPrice->currency }}"+(0.14*result).toFixed(2));
         // total
         let totalPrice = (0.14*result)+result;
-        $("#totalFeeResult").text("{{ $property->propertyPrice->currency }}"+Math.floor(totalPrice));
+        $("#totalFeeResult").text("{{ $property->propertyPrice->currency }}"+totalPrice.toFixed(2));
     }
 
     $("#dateRanger input[name='check_in']").val(picker.startDate.format('DD-MM-YYYY').toString());
@@ -981,6 +962,26 @@ $("#formBooking #children").on("change", function(){
             $this.val('0');
         }
     }
+});
+
+$("#formBooking").on('submit', function(e){
+    e.stopPropagation();
+    var $this = $(this);
+    var valid = true;
+    $('#formBooking input, #formBooking select').each(function() {
+        var $this = $(this);
+        
+        if(!$this.val()) {
+            valid = false;
+            //$this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            $this.addClass('is-invalid');
+        }
+    });
+    if(valid){
+        $(".btnBook").html('<i class="fa fa-spin fa-spinner"></i> Reserving..').attr('disabled', true);
+        return true;
+    }
+    return false;
 });
 
 @endif
