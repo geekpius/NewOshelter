@@ -133,7 +133,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
     Route::post('/properties/bookings', 'BookingController@book')->name('property.bookings.submit');
     Route::get('/properties/{booking}/bookings', 'BookingController@index')->name('property.bookings.index');
-    Route::post('/properties/{booking}/verify', 'BookingController@verify')->name('property.bookings.verifty');
+
 
     /*------- Listing tenants ------- */
     Route::resource('/tenants', 'TenantsController');

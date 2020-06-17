@@ -64,39 +64,19 @@ class BookingController extends Controller
         $data['children'] = $children;
         $data['infant'] = $infant;
         return view('admin.bookings.index', $data);
-    }
-
-  
-    public function book(Request $request)
+    } 
+    
+    //move from review, verify and payment
+    public function moveNext(Request $request) : string
     {
-        $this->validate($request, [
-            'check_in'  => 'required',
-            'check_out' => 'required',
-            'adult'     => 'required|integer',
-            'children'  => 'required|integer',
-            'infant'    => 'required|integer',
-        ]);
-
-        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->exists())
-        {
-            $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->first();
-            $book->check_in= $request->check_in;
-            $book->check_out= $request->check_out;
-            $book->adult= $request->adult;
-            $book->children= $request->children;
-            $book->infant= $request->infant;
-            $book->update();
-
-        }else{
-            $book = new Booking;
-            $book->check_in= $request->check_in;
-            $book->check_out= $request->check_out;
-            $book->adult= $request->adult;
-            $book->children= $request->children;
-            $book->infant= $request->infant;
-            $book->save();
-            
+        (string) $message="";
+        $booking = Booking::findOrFail($request->booking_id);
+        if($request->step==1){
+            $booking->step = $request->step+1;
+            $booking->update();
+            $message="success";
         }
+=======
 
         // $guest = $request->adult+$request->children+$request->infant;
         // return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant]);
@@ -125,8 +105,8 @@ class BookingController extends Controller
             }
         }
 
-        return $message;
     }
+    
 
 
 
