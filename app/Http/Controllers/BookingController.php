@@ -75,20 +75,31 @@ class BookingController extends Controller
 
         if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->exists())
         {
-            $update = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->first();
-            $update->check_in= $request->check_in;
-            $update->check_out= $request->check_out;
-            $update->adult= $request->adult;
-            $update->children = $request->children;
-            $update->infant = $request->infant;
-
+            $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->first();
+            $book->check_in= $request->check_in;
+            $book->check_out= $request->check_out;
+            $book->adult= $request->adult;
+            $book->children = $request->children;
+            $book->infant = $request->infant;
+            $book->update();
         }else{
 
         }
-
-
+        return redirect()->route('property.bookings.index', $book->id);
+    }  
+    
+    //move from review, verify and payment
+    public function moveNext(Request $request) : string
+    {
+        (string) $message="";
+        $booking = Booking::findOrFail($request->booking_id);
+        if($request->step==1){
+            $booking->step = $request->step+1;
+            $booking->update();
+            $message="success";
         }
-        return redirect()->route('property.bookings.index', 1);
+        return $message;
     }
+    
 
 }
