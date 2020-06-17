@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\BookingModel\Booking;
 use App\PropertyModel\Property;
+use Illuminate\Support\Facades\Auth;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
 
@@ -53,16 +55,10 @@ class BookingController extends Controller
     }
 
  
-    public function index(Property $property, $check_in, $check_out, $guest, $adult, $children, $infant)
+    public function index(Booking $booking)
     {
-        $data['page_title'] = 'Booking '.$property->title;
-        $data['property'] = $property;
-        $data['guest'] = $guest;
-        $data['check_in'] = $check_in;
-        $data['check_out'] = $check_out;
-        $data['adult'] = $adult;
-        $data['children'] = $children;
-        $data['infant'] = $infant;
+        $data['page_title'] = 'Booking '.$booking->property->title;
+        $data['booking'] = $booking;
         return view('admin.bookings.index', $data);
     }
 
@@ -77,7 +73,7 @@ class BookingController extends Controller
             'infant'    => 'required|integer',
         ]);
 
-        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->exists())
+        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->exists())
         {
             $update = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->first();
             $update->check_in= $request->check_in;
@@ -87,18 +83,12 @@ class BookingController extends Controller
             $update->infant = $request->infant;
 
         }else{
-            $book = new bookings;
-            $book->check_in = $request->check_in;
-            $book->check_out = $request->check_out;
-            $book->adult = $request->adult;
-            $book->children = $request->children;
-            $book->infant = $request->infant;
-            $book->save();
-            
+
         }
 
-        // $guest = $request->adult+$request->children+$request->infant;
-        // return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant]);
+
+        }
+        return redirect()->route('property.bookings.index', 1);
     }
 
 }
