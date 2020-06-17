@@ -68,6 +68,26 @@ class BookingController extends Controller
         return view('admin.bookings.index', $data);
     } 
     
+
+    //move from review, verify and payment
+    public function moveNext(Request $request) : string
+    {
+        (string) $message="";
+        $booking = Booking::findOrFail($request->booking_id);
+        if($request->step==1){
+            $booking->step = $request->step+1;
+            $booking->update();
+            $message="success";
+        }elseif($request->step==2){
+            $booking->step = $request->step+1;
+            $booking->update();
+            $message="success";
+        }
+
+        return $message;        
+    }
+
+  
      public function book(Request $request)
      {
         $this->validate($request, [
@@ -125,7 +145,6 @@ class BookingController extends Controller
         }
 
     }
-    
 
     public function verify(Request $request) :string
     {
