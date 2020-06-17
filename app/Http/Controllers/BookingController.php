@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\BookingModel\Booking;
 use App\PropertyModel\Property;
+use Illuminate\Support\Facades\Auth;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
 
@@ -66,24 +68,41 @@ class BookingController extends Controller
         return view('admin.bookings.index', $data);
     } 
     
-    //move from review, verify and payment
-    public function moveNext(Request $request) : string
-    {
-        (string) $message="";
-        $booking = Booking::findOrFail($request->booking_id);
-        if($request->step==1){
-            $booking->step = $request->step+1;
-            $booking->update();
-            $message="success";
-        }
-=======
+     public function book(Request $request)
+     {
+        $this->validate($request, [
+            'check_in'  => 'required',
+            'check_out' => 'required',
+            'adult'     => 'required|integer',
+            'children'  => 'required|integer',
+            'infant'    => 'required|integer',
+        ]);
 
-        // $guest = $request->adult+$request->children+$request->infant;
-        // return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant]);
+        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->exists())
+        {
+            $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->first();
+            $book->check_in= $request->check_in;
+            $book->check_out= $request->check_out;
+            $book->adult= $request->adult;
+            $book->children= $request->children;
+            $book->infant= $request->infant;
+            $book->update();
+        }else{
+            $book = new Booking;
+            $book->check_in= $request->check_in;
+            $book->check_out= $request->check_out;
+            $book->adult= $request->adult;
+            $book->children= $request->children;
+            $book->infant= $request->infant;
+            $book->save();
+        }
+
+        return redirect()->route('property.bookings.index', $book->id);
+
     }
 
 
-    public function verify(Request $request ) : string
+    public function sendSmsVerification(Request $request ) : string
     {
         $validator = \Validator::make($request->all(), [
             'phone_number' => 'required|numeric',
@@ -108,7 +127,24 @@ class BookingController extends Controller
     }
     
 
+    public function verify(Request $request) :string
+    {
+        $validator = \Validator::make($request->all(), [
+            'verify_code' => 'required|numeric',
+        ]);
+        (string)$message ='';
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            if (condition) {
+                # code...
+            } else {
+                # code...
+            }
+        }
 
+        return $message;        
+    }
 
 
 
