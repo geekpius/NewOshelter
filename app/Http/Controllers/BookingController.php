@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\BookingModel\Booking;
 use App\PropertyModel\Property;
-use Illuminate\Support\Facades\Auth;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
 
@@ -55,38 +53,18 @@ class BookingController extends Controller
     }
 
  
-    public function index(Booking $booking)
+    public function index(Property $property, $check_in, $check_out, $guest, $adult, $children, $infant)
     {
-        $data['page_title'] = 'Booking '.$booking->property->title;
-        $data['booking'] = $booking;
+        $data['page_title'] = 'Booking '.$property->title;
+        $data['property'] = $property;
+        $data['guest'] = $guest;
+        $data['check_in'] = $check_in;
+        $data['check_out'] = $check_out;
+        $data['adult'] = $adult;
+        $data['children'] = $children;
+        $data['infant'] = $infant;
         return view('admin.bookings.index', $data);
-    }
-
-  
-    public function book(Request $request)
-    {
-        $this->validate($request, [
-            'check_in'  => 'required',
-            'check_out' => 'required',
-            'adult'     => 'required|integer',
-            'children'  => 'required|integer',
-            'infant'    => 'required|integer',
-        ]);
-
-        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->exists())
-        {
-            $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->first();
-            $book->check_in= $request->check_in;
-            $book->check_out= $request->check_out;
-            $book->adult= $request->adult;
-            $book->children = $request->children;
-            $book->infant = $request->infant;
-            $book->update();
-        }else{
-
-        }
-        return redirect()->route('property.bookings.index', $book->id);
-    }  
+    } 
     
     //move from review, verify and payment
     public function moveNext(Request $request) : string
@@ -98,8 +76,40 @@ class BookingController extends Controller
             $booking->update();
             $message="success";
         }
-        return $message;
+=======
+
+        // $guest = $request->adult+$request->children+$request->infant;
+        // return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant]);
+    }
+
+
+    public function verify(Request $request ) : string
+    {
+        $validator = \Validator::make($request->all(), [
+            'phone_number' => 'required|numeric',
+        ]);
+
+        (string)$message = '';
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            $user = User::findOrFail(Auth::user()->id);
+            if($user->phone==$request->phone_number){
+                //send sms verification code
+                $message='success';
+            }else{
+                $user->phone=$request->phone_number;
+                $user->update();
+                //send sms verification code
+                $message='success';
+            }
+        }
+
     }
     
+
+
+
+
 
 }
