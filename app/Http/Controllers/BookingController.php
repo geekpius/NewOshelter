@@ -66,11 +66,10 @@ class BookingController extends Controller
         $data['children'] = $children;
         $data['infant'] = $infant;
         return view('admin.bookings.index', $data);
-    }
-
-  
-    public function book(Request $request)
-    {
+    } 
+    
+     public function book(Request $request)
+     {
         $this->validate($request, [
             'check_in'  => 'required',
             'check_out' => 'required',
@@ -125,8 +124,8 @@ class BookingController extends Controller
             }
         }
 
-        return $message;
     }
+    
 
     public function verify(Request $request) :string
     {

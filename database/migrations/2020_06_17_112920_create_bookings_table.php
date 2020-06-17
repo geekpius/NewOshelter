@@ -24,6 +24,7 @@ class CreateBookingsTable extends Migration
             $table->integer('children');
             $table->integer('infant');
             $table->boolean('status')->default(Booking::INCOMPLETE);
+            $table->integer('step')->default(1);
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

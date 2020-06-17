@@ -78,131 +78,354 @@
                         </div>
                     </div><!-- end row --> 
                     @else
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="col-sm-12">
-                                <h3>Review {{ $booking->property->type }} rules</h3>
-                                <div class="col-sm-12 mt-5">
-                                    <div class="card card-bordered-pink">
-                                        <div class="card-body">
-                                            <p class="font-14">
-                                                <img src="{{ asset('assets/images/users/'.$booking->user->image) }}" alt="{{ $booking->user->name }}" class="thumb-sm rounded-circle mr-1" />
-                                                This property belongs to {{ current(explode(' ',$booking->user->name))}}. Other people like it.
-                                            </p>
+                    <div id="propertyReview" style="display: {{ ($booking->step==1)? 'block':'none' }}">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <h3>Review {{ $booking->property->type }} rules</h3>
+                                    <div class="col-sm-12 mt-5">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <p class="font-14">
+                                                    <img src="{{ asset('assets/images/users/'.$booking->user->image) }}" alt="{{ $booking->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                    This property belongs to {{ current(explode(' ',$booking->user->name))}}. Other people like it.
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    @php
-                                        $date1=date_create($booking->check_in);
-                                        $date2=date_create($booking->check_out);
-                                        $diff=date_diff($date1,$date2);
-                                        $days = $diff->format("%a");
-                                    @endphp
-                                    <div class="mt-5">
-                                        <h3>{{ $days }}  {{ str_plural('Day', $days) }}</h3>
-                                        <div class="row">
-                                            <div class="col-sm-12 col-lg-6">
-                                                Check In
-                                                <div class="card card-purple" style="width:40% !important">
-                                                    <div class="card-body text-center text-white">
-                                                        <strong class="font-16">{{ \Carbon\Carbon::parse($booking->check_in)->format('d-M-Y') }}</strong>
+                                        @php
+                                            $date1=date_create($booking->check_in);
+                                            $date2=date_create($booking->check_out);
+                                            $diff=date_diff($date1,$date2);
+                                            $days = $diff->format("%a");
+                                        @endphp
+                                        <div class="mt-5">
+                                            <h3>{{ $days }}  {{ str_plural('Day', $days) }}</h3>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-lg-6">
+                                                    Check In
+                                                    <div class="card card-purple" style="width:40% !important">
+                                                        <div class="card-body text-center text-white">
+                                                            <strong class="font-16">{{ \Carbon\Carbon::parse($booking->check_in)->format('d-M-Y') }}</strong>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 col-lg-6">
+                                                    Check Out
+                                                    <div class="card card-purple" style="width:40% !important">
+                                                        <div class="card-body text-center text-white">
+                                                            <strong class="font-16">{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</strong>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-12 col-lg-6">
-                                                Check Out
-                                                <div class="card card-purple" style="width:40% !important">
-                                                    <div class="card-body text-center text-white">
-                                                        <strong class="font-16">{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</strong>
+                                        </div>
+                                        <div class="mt-5">
+                                            <h3>Take note of the rules</h3>
+                                            <div class="col-sm-12">
+                                                @if (count($booking->property->propertyOwnRules))
+                                                    @foreach ($booking->property->propertyOwnRules as $own_rule)
+                                                    <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $own_rule->rule }}</h4>
+                                                    @endforeach
+                                                    
+                                                    @foreach ($booking->property->propertyRules as $rule)
+                                                    <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</h4>
+                                                    @endforeach
+                                                @else
+                                                    @foreach ($booking->property->propertyRules as $rule)
+                                                    <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</h4>
+                                                    @endforeach
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>   
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12 mt-5">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        @php $image = $booking->property->propertyImages->first(); @endphp
+                                                        <img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-thumbnail" width="200" height="200" />
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <h4>{{ $booking->property->title }}</h4>
+                                                        <p>{{ ucfirst($booking->property->type) }} in {{ strtolower($booking->property->base) }}</p>
+                                                        <p>
+                                                            <i class="fa fa-star"></i> 
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            &nbsp;&nbsp;
+                                                            {{ $booking->property->propertyReviews->count() }} Reviews
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-sm-12"><hr></div>
+                                                    <div class="col-sm-12">
+                                                        <h4><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($booking->adult+$booking->children+$booking->infant) }} {{ str_plural('Guest', ($booking->adult+$booking->children+$booking->infant)) }}</h4>
+                                                    </div>
+                                                    <div class="col-sm-12"><hr></div>
+                                                    <div class="col-sm-12">
+                                                        <div>
+                                                            <p class="font-18">{{ $booking->property->propertyPrice->currency }}{{ number_format($booking->property->propertyPrice->property_price,2) }}/night</p>
+                                                        </div>
+                                                        <div class="font-18">
+                                                            <span id="dateCalculator">{{ $days }} x {{ number_format($booking->property->propertyPrice->property_price* $days,2) }}</span>
+                                                            <span class="float-right" id="dateCalculatorResult">{{ $booking->property->propertyPrice->currency }}{{ number_format($booking->property->propertyPrice->property_price* $days,2) }}</span>
+                                                        </div>
+                                                        <!-- <div class="font-18">
+                                                            <span>Discount Cal</span>
+                                                            <span class="float-right">Total Discount Fee</span>
+                                                        </div> -->
+                                                        <div class="font-18">
+                                                            <span>Service Fee</span>
+                                                            <span class="float-right" id="serviceFeeResult">{{ $booking->property->propertyPrice->currency }}{{ number_format(($booking->property->propertyPrice->property_price* $days)*0.12,2) }}</span>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="font-18">
+                                                            <span><strong>Total</strong></span>
+                                                            <span class="float-right"><strong id="totalFeeResult">
+                                                                {{ $booking->property->propertyPrice->currency }}{{ number_format((($booking->property->propertyPrice->property_price* $days)*0.12)+$booking->property->propertyPrice->property_price* $days,2) }}</strong></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12"><hr></div>
+                                                    <div class="col-sm-12">
+                                                        <p class="font-16"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="mt-5">
-                                        <h3>Take note of the rules</h3>
-                                        <div class="col-sm-12">
-                                            @if (count($booking->property->propertyOwnRules))
-                                                @foreach ($booking->property->propertyOwnRules as $own_rule)
-                                                <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $own_rule->rule }}</h4>
-                                                @endforeach
-                                                
-                                                @foreach ($booking->property->propertyRules as $rule)
-                                                <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</h4>
-                                                @endforeach
+                                </div> 
+                            </div>
+                            
+                            <div class="col-sm-12 mt-5 ml-sm-4">
+                                <button class="btn btn-primary pl-5 pr-5 btnAgree"><i class="fa fa-arrow-right"></i> Agree and continue</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="verifyContact" style="display: {{ ($booking->step==2)? 'block':'none' }}">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <h3>Verify to boost owner/OShelter early feedback</h3>
+                                    <div class="col-sm-12 mt-5">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <p class="font-14">
+                                                    <img src="{{ asset('assets/images/users/'.$booking->user->image) }}" alt="{{ $booking->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                    This property belongs to {{ current(explode(' ',$booking->user->name))}}. Other people like it.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-5">
+                                            <h4>Click with your property owner</h4>
+                                            <p>Say hi to {{ current(explode(' ',$booking->user->name))}} to kickstart before you arrive.</p>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group validate">
+                                                        <textarea name="owner_message" id="owner_message" cols="10" rows="4" class="form-control" placeholder="Hi {{ current(explode(' ',$booking->user->name))}}, i'm excited to lodge in your property"></textarea>
+                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-5">
+                                            @if (!Auth::user()->verify_sms)
+                                            <div id="phoneNumberCover">
+                                                <h4>Verify your phone number</h4>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group validate phoneNumberField" style="display: {{ empty(Auth::user()->sms_verification_token)? 'block':'none' }}">
+                                                            <label for="">Phone Number</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">233</span>
+                                                                </div>
+                                                                <input type="text" name="phone_number" id="phone_number" onkeypress="return isNumber(event);" class="form-control" value="{{ Auth::user()->phone }}" placeholder="eg: 0542398441">
+                                                            </div>
+                                                            <span class="text-danger small mySpan" role="alert"></span>
+                                                        </div>
+
+                                                        <div class="form-group validate verifyCodeField" style="display: {{ empty(Auth::user()->sms_verification_token)? 'none':'block' }}">
+                                                            <label for="">Enter verification code</label>
+                                                            <input type="text" name="verify_code" id="verify_code" onkeypress="return isNumber(event);" maxlength="4" class="form-control" placeholder="eg: xxxx">
+                                                            <span class="text-danger small mySpan" role="alert"></span>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
                                             @else
-                                                @foreach ($booking->property->propertyRules as $rule)
-                                                <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</h4>
-                                                @endforeach
+                                            <div id="verifyNumberCover">
+                                                <h4>Phone number is verified</h4>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <p class="font-18"><i class="fa fa-check text-success"></i>  {{ Auth::user()->phone }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             @endif
                                         </div>
                                     </div>
-                                </div>
-                            </div>   
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="col-sm-12">
-                                <div class="col-sm-12 mt-5">
-                                    <div class="card card-bordered-pink">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    @php $image = $booking->property->propertyImages->first(); @endphp
-                                                    <img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-thumbnail" width="200" height="200" />
-                                                </div>
-                                                <div class="col-sm-8">
-                                                    <h4>{{ $booking->property->title }}</h4>
-                                                    <p>{{ ucfirst($booking->property->type) }} in {{ strtolower($booking->property->base) }}</p>
-                                                    <p>
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        &nbsp;&nbsp;
-                                                        {{ $booking->property->propertyReviews->count() }} Reviews
-                                                    </p>
-                                                </div>
-                                                <div class="col-sm-12"><hr></div>
-                                                <div class="col-sm-12">
-                                                    <h4><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($booking->adult+$booking->children+$booking->infant) }} {{ str_plural('Guest', ($booking->adult+$booking->children+$booking->infant)) }}</h4>
-                                                </div>
-                                                <div class="col-sm-12"><hr></div>
-                                                <div class="col-sm-12">
-                                                    <div>
-                                                        <p class="font-18">{{ $booking->property->propertyPrice->currency }}{{ number_format($booking->property->propertyPrice->property_price,2) }}/night</p>
+                                </div>   
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12 mt-5">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        @php $image = $booking->property->propertyImages->first(); @endphp
+                                                        <img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-thumbnail" width="200" height="200" />
                                                     </div>
-                                                    <div class="font-18">
-                                                        <span id="dateCalculator">{{ $days }} x {{ number_format($booking->property->propertyPrice->property_price* $days,2) }}</span>
-                                                        <span class="float-right" id="dateCalculatorResult">{{ $booking->property->propertyPrice->currency }}{{ number_format($booking->property->propertyPrice->property_price* $days,2) }}</span>
+                                                    <div class="col-sm-8">
+                                                        <h4>{{ $booking->property->title }}</h4>
+                                                        <p>{{ ucfirst($booking->property->type) }} in {{ strtolower($booking->property->base) }}</p>
+                                                        <p>
+                                                            <i class="fa fa-star"></i> 
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            &nbsp;&nbsp;
+                                                            {{ $booking->property->propertyReviews->count() }} Reviews
+                                                        </p>
                                                     </div>
-                                                    <!-- <div class="font-18">
-                                                        <span>Discount Cal</span>
-                                                        <span class="float-right">Total Discount Fee</span>
-                                                    </div> -->
-                                                    <div class="font-18">
-                                                        <span>Service Fee</span>
-                                                        <span class="float-right" id="serviceFeeResult">{{ $booking->property->propertyPrice->currency }}{{ number_format(($booking->property->propertyPrice->property_price* $days)*0.12,2) }}</span>
+                                                    <div class="col-sm-12"><hr></div>
+                                                    <div class="col-sm-12">
+                                                        <h4><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($booking->adult+$booking->children+$booking->infant) }} {{ str_plural('Guest', ($booking->adult+$booking->children+$booking->infant)) }}</h4>
                                                     </div>
-                                                    <hr>
-                                                    <div class="font-18">
-                                                        <span><strong>Total</strong></span>
-                                                        <span class="float-right"><strong id="totalFeeResult">
-                                                            {{ $booking->property->propertyPrice->currency }}{{ number_format((($booking->property->propertyPrice->property_price* $days)*0.12)+$booking->property->propertyPrice->property_price* $days,2) }}</strong></span>
+                                                    <div class="col-sm-12"><hr></div>
+                                                    <div class="col-sm-12">
+                                                        <div>
+                                                            <p class="font-18">{{ $booking->property->propertyPrice->currency }}{{ number_format($booking->property->propertyPrice->property_price,2) }}/night</p>
+                                                        </div>
+                                                        <div class="font-18">
+                                                            <span id="dateCalculator">{{ $days }} x {{ number_format($booking->property->propertyPrice->property_price* $days,2) }}</span>
+                                                            <span class="float-right" id="dateCalculatorResult">{{ $booking->property->propertyPrice->currency }}{{ number_format($booking->property->propertyPrice->property_price* $days,2) }}</span>
+                                                        </div>
+                                                        <!-- <div class="font-18">
+                                                            <span>Discount Cal</span>
+                                                            <span class="float-right">Total Discount Fee</span>
+                                                        </div> -->
+                                                        <div class="font-18">
+                                                            <span>Service Fee</span>
+                                                            <span class="float-right" id="serviceFeeResult">{{ $booking->property->propertyPrice->currency }}{{ number_format(($booking->property->propertyPrice->property_price* $days)*0.12,2) }}</span>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="font-18">
+                                                            <span><strong>Total</strong></span>
+                                                            <span class="float-right"><strong id="totalFeeResult">
+                                                                {{ $booking->property->propertyPrice->currency }}{{ number_format((($booking->property->propertyPrice->property_price* $days)*0.12)+$booking->property->propertyPrice->property_price* $days,2) }}</strong></span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-sm-12"><hr></div>
-                                                <div class="col-sm-12">
-                                                    <p class="font-16"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
+                                                    <div class="col-sm-12"><hr></div>
+                                                    <div class="col-sm-12">
+                                                        <p class="font-16"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div> 
+                                </div> 
+                            </div>
+                            
+                            <div class="col-sm-12 mt-5 ml-sm-4">
+                                <button class="btn btn-primary pl-5 pr-5 btnVerify"><i class="fa fa-arrow-right"></i> Verify</button>
+                                <button class="btn btn-primary pl-5 pr-5 btnContinue" style="display: none"><i class="fa fa-arrow-right"></i> Continue</button>
+                            </div>
                         </div>
-                        
-                        <div class="col-sm-12 mt-5 ml-sm-4">
-                            <button class="btn btn-primary pl-5 pr-5 btnAgree"><i class="fa fa-arrow-right"></i> Agree and continue</button>
+                    </div>
+
+                    <div id="paymentDiv" style="display: {{ ($booking->step==3)? 'block':'none' }}">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <h3>Verify to boost owner/OShelter early feedback</h3>
+                                    <div class="col-sm-12 mt-5">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <p class="font-14">
+                                                    <img src="{{ asset('assets/images/users/'.$booking->user->image) }}" alt="{{ $booking->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                    This property belongs to {{ current(explode(' ',$booking->user->name))}}. Other people like it.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>   
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12 mt-5">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        @php $image = $booking->property->propertyImages->first(); @endphp
+                                                        <img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-thumbnail" width="200" height="200" />
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <h4>{{ $booking->property->title }}</h4>
+                                                        <p>{{ ucfirst($booking->property->type) }} in {{ strtolower($booking->property->base) }}</p>
+                                                        <p>
+                                                            <i class="fa fa-star"></i> 
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            <i class="fa fa-star"></i>
+                                                            &nbsp;&nbsp;
+                                                            {{ $booking->property->propertyReviews->count() }} Reviews
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-sm-12"><hr></div>
+                                                    <div class="col-sm-12">
+                                                        <h4><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($booking->adult+$booking->children+$booking->infant) }} {{ str_plural('Guest', ($booking->adult+$booking->children+$booking->infant)) }}</h4>
+                                                    </div>
+                                                    <div class="col-sm-12"><hr></div>
+                                                    <div class="col-sm-12">
+                                                        <div>
+                                                            <p class="font-18">{{ $booking->property->propertyPrice->currency }}{{ number_format($booking->property->propertyPrice->property_price,2) }}/night</p>
+                                                        </div>
+                                                        <div class="font-18">
+                                                            <span id="dateCalculator">{{ $days }} x {{ number_format($booking->property->propertyPrice->property_price* $days,2) }}</span>
+                                                            <span class="float-right" id="dateCalculatorResult">{{ $booking->property->propertyPrice->currency }}{{ number_format($booking->property->propertyPrice->property_price* $days,2) }}</span>
+                                                        </div>
+                                                        <!-- <div class="font-18">
+                                                            <span>Discount Cal</span>
+                                                            <span class="float-right">Total Discount Fee</span>
+                                                        </div> -->
+                                                        <div class="font-18">
+                                                            <span>Service Fee</span>
+                                                            <span class="float-right" id="serviceFeeResult">{{ $booking->property->propertyPrice->currency }}{{ number_format(($booking->property->propertyPrice->property_price* $days)*0.12,2) }}</span>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="font-18">
+                                                            <span><strong>Total</strong></span>
+                                                            <span class="float-right"><strong id="totalFeeResult">
+                                                                {{ $booking->property->propertyPrice->currency }}{{ number_format((($booking->property->propertyPrice->property_price* $days)*0.12)+$booking->property->propertyPrice->property_price* $days,2) }}</strong></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12"><hr></div>
+                                                    <div class="col-sm-12">
+                                                        <p class="font-16"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                            
+                            <div class="col-sm-12 mt-5 ml-sm-4">
+                                <button class="btn btn-primary pl-5 pr-5 btnVerify"><i class="fa fa-arrow-right"></i> Verify</button>
+                                <button class="btn btn-primary pl-5 pr-5 btnContinue" style="display: none"><i class="fa fa-arrow-right"></i> Continue</button>
+                            </div>
                         </div>
                     </div>
                     @endif
@@ -255,6 +478,12 @@
 @section('scripts')
 
 <script>
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+    }
+})
+
 $(".btnAddNewID").on("click", function(e){
     e.preventDefault();
     e.stopPropagation();
@@ -372,8 +601,114 @@ $(".btnAgree").on("click", function(e){
     e.preventDefault();
     e.stopPropagation();
     $this = $(this);
+    $.ajax({
+        url: "{{ route('property.bookings.movenext') }}",
+        type: "POST",
+        data: {step: 1, booking_id: "{{ $booking->id }}"},
+        success: function(resp){
+            if(resp=='success'){
+                $("#propertyReview").slideUp('fast', function(){
+                    $("#verifyContact").slideDown('fast');
+                });
+            }
+        },
+        error: function(resp){
+            console.log('something went wrong with request');
+        }
+    });
+    return false;
+});
+
+$(".btnVerify").on("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    $this = $(this);
+    if($("#phone_number").val()==''){
+        $("#phone_number").addClass('is-invalid').focus();
+    }else{
+        $("#phone_number").removeClass('is-invalid');
+        var data = $("#phone_number").serialize();
+        $.ajax({
+            url: "",
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    $(".phoneNumberField").slideUp('fast', function(){
+                        $(".verifyCodeField").slideDown('fast');
+                    });
+                }
+            },
+            error: function(resp){
+                console.log('something went wrong with request');
+            }
+        });
+    }
     
     return false;
 });
+
+$("#verify_code").on("keyup", function(e){
+    e.stopPropagation();
+    $this = $(this);
+    if($this.val()!=''){
+        var data = $this.serialize();
+        $.ajax({
+            url: "",
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    $("#phoneNumberCover").slideUp('fast', function(){
+                        $("#verifyNumberCover").slideDown('fast');
+                        $(".btnContinue").show();
+                    });
+                }
+            },
+            error: function(resp){
+                console.log('something went wrong with request');
+            }
+        });
+    }
+    return false;
+});
+
+$(".btnContinue").on("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    $this = $(this);
+    if($("#owner_message").val()==''){
+        $("#owner_message").addClass('is-invalid').focus();
+    }else{
+        $("#owner_message").removeClass('is-invalid');
+        var data = $("#owner_message").serialize();
+        $.ajax({
+            url: "",
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    $("#verifyContact").slideUp('fast', function(){
+                        $("#paymentDiv").slideDown('fast');
+                    });
+                }
+            },
+            error: function(resp){
+                console.log('something went wrong with request');
+            }
+        });
+    }
+    
+    return false;
+});
+
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
 </script>
 @endsection
