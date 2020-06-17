@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\BookingModel\\Booking' => $baseDir . '/app/BookingModel/Booking.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\AmenityController' => $baseDir . '/app/Http/Controllers/AmenityController.php',
@@ -42,6 +43,7 @@ return array(
     'App\\Http\\Controllers\\PropertySharedAmenityController' => $baseDir . '/app/Http/Controllers/PropertySharedAmenityController.php',
     'App\\Http\\Controllers\\PropertyTypeController' => $baseDir . '/app/Http/Controllers/PropertyTypeController.php',
     'App\\Http\\Controllers\\ReplyController' => $baseDir . '/app/Http/Controllers/ReplyController.php',
+    'App\\Http\\Controllers\\TenantsController' => $baseDir . '/app/Http/Controllers/TenantsController.php',
     'App\\Http\\Controllers\\TicketController' => $baseDir . '/app/Http/Controllers/TicketController.php',
     'App\\Http\\Controllers\\TicketReplyController' => $baseDir . '/app/Http/Controllers/TicketReplyController.php',
     'App\\Http\\Controllers\\UserActivityController' => $baseDir . '/app/Http/Controllers/UserActivityController.php',
@@ -52,6 +54,7 @@ return array(
     'App\\Http\\Controllers\\UserSavedPropertyController' => $baseDir . '/app/Http/Controllers/UserSavedPropertyController.php',
     'App\\Http\\Controllers\\UserWalletController' => $baseDir . '/app/Http/Controllers/UserWalletController.php',
     'App\\Http\\Controllers\\VatController' => $baseDir . '/app/Http/Controllers/VatController.php',
+    'App\\Http\\Controllers\\VisitorsController' => $baseDir . '/app/Http/Controllers/VisitorsController.php',
     'App\\Http\\Controllers\\WebsiteController' => $baseDir . '/app/Http/Controllers/WebsiteController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\CheckForMaintenanceMode' => $baseDir . '/app/Http/Middleware/CheckForMaintenanceMode.php',

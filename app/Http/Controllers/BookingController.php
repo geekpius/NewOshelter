@@ -72,8 +72,15 @@ class BookingController extends Controller
             'infant'    => 'required|integer',
         ]);
 
-        $guest = $request->adult+$request->children+$request->infant;
-        return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant]);
+        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->exists())
+        {
+
+        }else{
+            
+        }
+
+        // $guest = $request->adult+$request->children+$request->infant;
+        // return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant]);
     }
 
 }

@@ -3,6 +3,8 @@
 namespace App\PropertyModel;
 
 use App\User;
+use App\BookingModel\Booking;
+use App\PropertyModel\Property;
 use App\PropertyModel\PropertyList;
 use App\PropertyModel\PropertyRent;
 use App\PropertyModel\PropertyRule;
@@ -21,7 +23,6 @@ use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\PropertySharedAmenity;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\PropertyModel\Property;
 
 class Property extends Model
 {
@@ -123,6 +124,9 @@ class Property extends Model
         return $this->hasMany(UserSavedProperty::class);
     }
 
+    public function bookings(){
+        return $this->hasMany(Booking::class);
+    }
 
 
 }
