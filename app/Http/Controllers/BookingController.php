@@ -58,6 +58,11 @@ class BookingController extends Controller
         $data['page_title'] = 'Booking '.$property->title;
         $data['property'] = $property;
         $data['guest'] = $guest;
+        $data['check_in'] = $check_in;
+        $data['check_out'] = $check_out;
+        $data['adult'] = $adult;
+        $data['children'] = $children;
+        $data['infant'] = $infant;
         return view('admin.bookings.index', $data);
     }
 
