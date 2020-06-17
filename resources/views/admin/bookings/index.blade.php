@@ -25,8 +25,6 @@
             <div class="card">
                 <div class="card-body">
                    @if (!$property->user->verify_email)
-                       
-                  
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-4">
@@ -41,8 +39,9 @@
                             <button class="btn btn-primary pl-5 pr-5"><i class="fa fa-arrow-right"></i> Next</button>
                         </div>
                     </div><!-- end row --> 
-                    @endif
-                    {{-- <div class="row mb-5">
+
+                    @elseif(empty(Auth::user()->profile->id_front) || empty(Auth::user()->profile->id_back))
+                    <div class="row mb-5">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-4">
                             <div class="text-center mt-2">
@@ -77,9 +76,8 @@
                         <div class="col-sm-12 mt-4">
                             <button class="btn btn-primary pl-5 pr-5"><i class="fa fa-arrow-right"></i> Next</button>
                         </div>
-                    </div><!-- end row -->  --}}
-
-
+                    </div><!-- end row --> 
+                    @else
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="col-sm-12">
@@ -160,7 +158,7 @@
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
                                                 <div class="col-sm-12">
-                                                    <h4><i class="fa fa-users"></i> &nbsp;&nbsp; 2 Guests</h4>
+                                                    <h4><i class="fa fa-users"></i> &nbsp;&nbsp; {{ $guest }} {{ str_plural('Guest', $guest) }}</h4>
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
                                                 <div class="col-sm-12">
@@ -171,10 +169,10 @@
                                                         <span id="dateCalculator">Night Cal</span>
                                                         <span class="float-right" id="dateCalculatorResult">Total Night Fee</span>
                                                     </div>
-                                                    {{-- <div class="font-18">
+                                                    <!-- <div class="font-18">
                                                         <span>Discount Cal</span>
                                                         <span class="float-right">Total Discount Fee</span>
-                                                    </div> --}}
+                                                    </div> -->
                                                     <div class="font-18">
                                                         <span>Service Fee</span>
                                                         <span class="float-right" id="serviceFeeResult">Total Service Fee</span>
@@ -196,13 +194,12 @@
                             </div> 
                         </div>
                         
-                        
-
-                        {{-- Move next button --}}
                         <div class="col-sm-12 mt-5 ml-sm-4">
                             <button class="btn btn-primary pl-5 pr-5"><i class="fa fa-arrow-right"></i> Agree and continue</button>
                         </div>
                     </div>
+                    @endif
+
 
                 </div><!--end card-body-->
             </div><!--end card-->

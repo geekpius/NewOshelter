@@ -53,24 +53,27 @@ class BookingController extends Controller
     }
 
  
-    public function index(Property $property)
+    public function index(Property $property, $check_in, $check_out, $guest, $adult, $children, $infant)
     {
         $data['page_title'] = 'Booking '.$property->title;
         $data['property'] = $property;
+        $data['guest'] = $guest;
         return view('admin.bookings.index', $data);
     }
 
   
     public function book(Request $request)
     {
-        $validatedData = $request->validate([
+        $this->validate($request, [
             'check_in'  => 'required',
             'check_out' => 'required',
-            'adult'     => 'required',
-            'children'  => 'required',
-            'infant'    => 'required'
+            'adult'     => 'required|integer',
+            'children'  => 'required|integer',
+            'infant'    => 'required|integer',
         ]);
-        return redirect()->route('property.bookings.index', $request->property_id);
+
+        $guest = $request->adult+$request->children+$request->infant;
+        return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant]);
     }
 
 }
