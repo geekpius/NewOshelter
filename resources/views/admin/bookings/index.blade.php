@@ -91,14 +91,23 @@
                                             </p>
                                         </div>
                                     </div>
+                                    @php
+                                      $date1=date_create($check_in);
+                                        $date2=date_create($check_out);
+                                        $diff=date_diff($date1,$date2);
+
+                                        // %a outputs the total number of days
+                                        $days = $diff->format("%a");
+                                       
+                                    @endphp
                                     <div class="mt-5">
-                                        <h3>2 nights</h3>
+                                        <h3>{{ $days }}  {{ str_plural('Day', $days) }}</h3>
                                         <div class="row">
                                             <div class="col-sm-12 col-lg-6">
                                                 Check In
                                                 <div class="card card-purple" style="width:40% !important">
                                                     <div class="card-body text-center text-white">
-                                                        <strong class="font-16">16-Mar-2020</strong>
+                                                        <strong class="font-16">{{ $check_in }}</strong>
                                                     </div>
                                                 </div>
                                             </div>
@@ -106,7 +115,7 @@
                                                 Check Out
                                                 <div class="card card-purple" style="width:40% !important">
                                                     <div class="card-body text-center text-white">
-                                                        <strong class="font-16">25-Mar-2020</strong>
+                                                        <strong class="font-16">{{ $check_out }}</strong>
                                                     </div>
                                                 </div>
                                             </div>
@@ -167,7 +176,7 @@
                                                     </div>
                                                     <div class="font-18">
                                                         <span id="dateCalculator">Night Cal</span>
-                                                        <span class="float-right" id="dateCalculatorResult">Total Night Fee</span>
+                                                        <span class="float-right" id="dateCalculatorResult">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price* $days,2) }}</span>
                                                     </div>
                                                     <!-- <div class="font-18">
                                                         <span>Discount Cal</span>
@@ -175,12 +184,13 @@
                                                     </div> -->
                                                     <div class="font-18">
                                                         <span>Service Fee</span>
-                                                        <span class="float-right" id="serviceFeeResult">Total Service Fee</span>
+                                                        <span class="float-right" id="serviceFeeResult">{{ $property->propertyPrice->currency }}{{ number_format(($property->propertyPrice->property_price* $days)*0.12,2) }}</span>
                                                     </div>
                                                     <hr>
                                                     <div class="font-18">
                                                         <span><strong>Total</strong></span>
-                                                        <span class="float-right"><strong id="totalFeeResult">Total Fee</strong></span>
+                                                        <span class="float-right"><strong id="totalFeeResult">
+                                                            {{ $property->propertyPrice->currency }}{{ number_format((($property->propertyPrice->property_price* $days)*0.12)+$property->propertyPrice->property_price* $days,2) }}</strong></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
