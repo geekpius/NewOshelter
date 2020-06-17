@@ -406,6 +406,7 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
     );
 
     public static $classMap = array (
+        'App\\BookingModel\\Booking' => __DIR__ . '/../..' . '/app/BookingModel/Booking.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AmenityController' => __DIR__ . '/../..' . '/app/Http/Controllers/AmenityController.php',
@@ -442,6 +443,7 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
         'App\\Http\\Controllers\\PropertySharedAmenityController' => __DIR__ . '/../..' . '/app/Http/Controllers/PropertySharedAmenityController.php',
         'App\\Http\\Controllers\\PropertyTypeController' => __DIR__ . '/../..' . '/app/Http/Controllers/PropertyTypeController.php',
         'App\\Http\\Controllers\\ReplyController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReplyController.php',
+        'App\\Http\\Controllers\\TenantsController' => __DIR__ . '/../..' . '/app/Http/Controllers/TenantsController.php',
         'App\\Http\\Controllers\\TicketController' => __DIR__ . '/../..' . '/app/Http/Controllers/TicketController.php',
         'App\\Http\\Controllers\\TicketReplyController' => __DIR__ . '/../..' . '/app/Http/Controllers/TicketReplyController.php',
         'App\\Http\\Controllers\\UserActivityController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserActivityController.php',
@@ -452,6 +454,7 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
         'App\\Http\\Controllers\\UserSavedPropertyController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserSavedPropertyController.php',
         'App\\Http\\Controllers\\UserWalletController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserWalletController.php',
         'App\\Http\\Controllers\\VatController' => __DIR__ . '/../..' . '/app/Http/Controllers/VatController.php',
+        'App\\Http\\Controllers\\VisitorsController' => __DIR__ . '/../..' . '/app/Http/Controllers/VisitorsController.php',
         'App\\Http\\Controllers\\WebsiteController' => __DIR__ . '/../..' . '/app/Http/Controllers/WebsiteController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',

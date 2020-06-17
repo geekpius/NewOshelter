@@ -195,7 +195,7 @@
                         </div>
                         
                         <div class="col-sm-12 mt-5 ml-sm-4">
-                            <button class="btn btn-primary pl-5 pr-5"><i class="fa fa-arrow-right"></i> Agree and continue</button>
+                            <button class="btn btn-primary pl-5 pr-5 btnAgree"><i class="fa fa-arrow-right"></i> Agree and continue</button>
                         </div>
                     </div>
                     @endif
@@ -357,6 +357,14 @@ $("#back_file").on("change", function(){
             
         });
     }
+    
+    return false;
+});
+
+$(".btnAgree").on("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    $this = $(this);
     
     return false;
 });
