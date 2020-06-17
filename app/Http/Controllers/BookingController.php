@@ -79,8 +79,21 @@ class BookingController extends Controller
 
         if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->exists())
         {
+            $update = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->first();
+            $update->check_in= $request->check_in;
+            $update->check_out= $request->check_out;
+            $update->adult= $request->adult;
+            $update->children = $request->children;
+            $update->infant = $request->infant;
 
         }else{
+            $book = new bookings;
+            $book->check_in = $request->check_in;
+            $book->check_out = $request->check_out;
+            $book->adult = $request->adult;
+            $book->children = $request->children;
+            $book->infant = $request->infant;
+            $book->save();
             
         }
 
