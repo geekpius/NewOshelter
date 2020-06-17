@@ -102,4 +102,34 @@ class BookingController extends Controller
         // return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant]);
     }
 
+
+    public function verify(Request $request ) : string
+    {
+        $validator = \Validator::make($request->all(), [
+            'phone_number' => 'required|numeric',
+        ]);
+
+        (string)$message = '';
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            $user = User::findOrFail(Auth::user()->id);
+            if($user->phone==$request->phone_number){
+                //send sms verification code
+                $message='success';
+            }else{
+                $user->phone=$request->phone_number;
+                $user->update();
+                //send sms verification code
+                $message='success';
+            }
+        }
+
+        return $message;
+    }
+
+
+
+
+
 }
