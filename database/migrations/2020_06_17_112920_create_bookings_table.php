@@ -18,7 +18,12 @@ class CreateBookingsTable extends Migration
             $table->increments('id');            
             $table->integer('property_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
-            $table->boolean('status')->default(Booking::COMPLETE);
+            $table->date('check_in');
+            $table->date('check_out');
+            $table->integer('adult');
+            $table->integer('children');
+            $table->integer('infant');
+            $table->boolean('status')->default(Booking::INCOMPLETE);
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

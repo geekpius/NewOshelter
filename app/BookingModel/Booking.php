@@ -14,7 +14,7 @@ class Booking extends Model
     const INCOMPLETE = false;
 
     protected $fillable = [
-        'property_id', 'user_id', 'status',
+        'property_id', 'user_id', 'check_in', 'check_out', 'adult', 'children', 'infant', 'status',
     ];
 
     public function isCompleted()
