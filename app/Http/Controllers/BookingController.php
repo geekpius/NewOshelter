@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\BookingModel\Booking;
 use App\PropertyModel\Property;
+use Illuminate\Support\Facades\Auth;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
 
@@ -77,16 +79,15 @@ class BookingController extends Controller
             'infant'    => 'required|integer',
         ]);
 
-        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->exists())
+        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->exists())
         {
-            $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->first();
+            $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->first();
             $book->check_in= $request->check_in;
             $book->check_out= $request->check_out;
             $book->adult= $request->adult;
             $book->children= $request->children;
             $book->infant= $request->infant;
             $book->update();
-
         }else{
             $book = new Booking;
             $book->check_in= $request->check_in;
@@ -95,15 +96,14 @@ class BookingController extends Controller
             $book->children= $request->children;
             $book->infant= $request->infant;
             $book->save();
-            
         }
 
-        // $guest = $request->adult+$request->children+$request->infant;
-        // return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant]);
+        return redirect()->route('property.bookings.index', $book->id);
+
     }
 
 
-    public function verify(Request $request ) : string
+    public function sendSmsVerification(Request $request ) : string
     {
         $validator = \Validator::make($request->all(), [
             'phone_number' => 'required|numeric',
@@ -128,7 +128,24 @@ class BookingController extends Controller
         return $message;
     }
 
+    public function verify(Request $request) :string
+    {
+        $validator = \Validator::make($request->all(), [
+            'verify_code' => 'required|numeric',
+        ]);
+        (string)$message ='';
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            if (condition) {
+                # code...
+            } else {
+                # code...
+            }
+        }
 
+        return $message;        
+    }
 
 
 
