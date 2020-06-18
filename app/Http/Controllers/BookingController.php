@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\BookingModel\Booking;
+use App\MessageModel\Message;
 use App\PropertyModel\Property;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
@@ -53,21 +57,13 @@ class BookingController extends Controller
             return response()->json(array('data'=>$left.' '.$plural.' available','currency'=>(empty($price->currency)? '':$price->currency),'price'=>(empty($price->property_price)? '':$price->property_price),'calendar'=>(empty($price->price_calendar)? '':$price->price_calendar),'advance'=>$advance));
         }
     }
-
  
-    public function index(Property $property, $check_in, $check_out, $guest, $adult, $children, $infant)
+    public function index(Booking $booking)
     {
-        $data['page_title'] = 'Booking '.$property->title;
-        $data['property'] = $property;
-        $data['guest'] = $guest;
-        $data['check_in'] = $check_in;
-        $data['check_out'] = $check_out;
-        $data['adult'] = $adult;
-        $data['children'] = $children;
-        $data['infant'] = $infant;
+        $data['page_title'] = 'Booking '.$booking->property->title;
+        $data['booking'] = $booking;
         return view('admin.bookings.index', $data);
-    } 
-    
+    }     
 
     //move from review, verify and payment
     public function moveNext(Request $request) : string
@@ -79,17 +75,33 @@ class BookingController extends Controller
             $booking->update();
             $message="success";
         }elseif($request->step==2){
-            $booking->step = $request->step+1;
-            $booking->update();
+            try {
+                DB::beginTransaction();
+                $booking->step = $request->step+1;
+                $booking->update();
+
+                //send owner message
+                $msg = new Message;
+                $msg->user_id = Auth::user()->id;
+                $msg->destination = $request->owner;
+                $msg->message = $request->owner_message;
+                $msg->save();
+                DB::commit();
+                $message="success";
+            } catch (\Exception $e) {
+                DB::rollback();
+                $message = 'error';
+            }
+        }elseif($request->step==3){
             $message="success";
         }
 
         return $message;        
     }
-
   
-     public function book(Request $request)
-     {
+    // book a reservation
+    public function book(Request $request)
+    {
         $this->validate($request, [
             'check_in'  => 'required',
             'check_out' => 'required',
@@ -98,19 +110,21 @@ class BookingController extends Controller
             'infant'    => 'required|integer',
         ]);
 
-        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->exists())
+        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(false)->exists())
         {
-            $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(true)->first();
-            $book->check_in= $request->check_in;
-            $book->check_out= $request->check_out;
+            $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(false)->first();
+            $book->check_in= Carbon::parse($request->check_in);
+            $book->check_out= Carbon::parse($request->check_out);
             $book->adult= $request->adult;
             $book->children= $request->children;
             $book->infant= $request->infant;
             $book->update();
         }else{
             $book = new Booking;
-            $book->check_in= $request->check_in;
-            $book->check_out= $request->check_out;
+            $book->user_id = Auth::user()->id;
+            $book->property_id= $request->property_id;
+            $book->check_in= Carbon::parse($request->check_in);
+            $book->check_out= Carbon::parse($request->check_out);
             $book->adult= $request->adult;
             $book->children= $request->children;
             $book->infant= $request->infant;
@@ -121,7 +135,7 @@ class BookingController extends Controller
 
     }
 
-
+    // send sms verification code if not verified
     public function sendSmsVerification(Request $request ) : string
     {
         $validator = \Validator::make($request->all(), [
@@ -133,32 +147,46 @@ class BookingController extends Controller
             $message = 'fail';
         }else{
             $user = User::findOrFail(Auth::user()->id);
+            $code = new User;
             if($user->phone==$request->phone_number){
+                $user->sms_verification_token = $code->generateSmsVerificationCode();
+                $user->update();
+
                 //send sms verification code
                 $message='success';
             }else{
                 $user->phone=$request->phone_number;
+                $user->sms_verification_token = $code->generateSmsVerificationCode();
                 $user->update();
+
                 //send sms verification code
                 $message='success';
             }
         }
 
+        return $message;
+
     }
 
+    // verify code sent from the sms
     public function verify(Request $request) :string
     {
         $validator = \Validator::make($request->all(), [
             'verify_code' => 'required|numeric',
         ]);
+        
         (string)$message ='';
         if ($validator->fails()){
             $message = 'fail';
         }else{
-            if (condition) {
-                # code...
+            $user = User::findOrFail(Auth::user()->id);
+            if ($user->sms_verification_token==$request->verify_code) {
+                $user->verify_sms = true;
+                $user->verify_sms_time = Carbon::now();
+                $user->update();
+                $message = 'success';
             } else {
-                # code...
+                $message = 'Invalid phone verification code.';
             }
         }
 

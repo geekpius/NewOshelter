@@ -929,12 +929,12 @@ $('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
         let result = days*parseFloat("{{ $property->propertyPrice->property_price }}");
         let nights = (days>1)? days.toString()+" nights":days.toString()+" night";
         $('#dateCalculator').text("{{ $property->propertyPrice->property_price }} x " + nights);
-        $('#dateCalculatorResult').text("{{ $property->propertyPrice->currency }}"+result.toFixed(2));
+        $('#dateCalculatorResult').text("{{ $property->propertyPrice->currency }} "+result.toFixed(2));
         // service
-        $("#serviceFeeResult").text("{{ $property->propertyPrice->currency }}"+(0.12*result).toFixed(2));
+        $("#serviceFeeResult").text("{{ $property->propertyPrice->currency }} "+(0.12*result).toFixed(2));
         // total
         let totalPrice = (0.12*result)+result;
-        $("#totalFeeResult").text("{{ $property->propertyPrice->currency }}"+totalPrice.toFixed(2));
+        $("#totalFeeResult").text("{{ $property->propertyPrice->currency }} "+totalPrice.toFixed(2));
     }
 
     $("#dateRanger input[name='check_in']").val(picker.startDate.format('DD-MM-YYYY').toString());
