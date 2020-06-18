@@ -193,6 +193,14 @@ class BookingController extends Controller
         return $message;        
     }
 
+    public function view()
+    {
+        //
+        $data['page_title'] = 'booking view';
+        $data['menu'] = 'pxp-no-bg';
+        return view('admin.bookings.view', $data);
+    }
+
 
 
 }

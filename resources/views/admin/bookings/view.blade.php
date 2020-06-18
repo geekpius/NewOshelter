@@ -13,10 +13,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">My Visitors</li>
+                        <li class="breadcrumb-item active">My View Bookings </li>
                     </ol>
                 </div>
-                <h4 class="page-title">My Visitors</h4>
+                <h4 class="page-title">My View Bookings </h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>
@@ -30,7 +30,7 @@
 
                 <div class="card-body pt-12">
 
-                    <h4 class="header-title mt-lg-12 mb-3">Visitors History</h4> 
+                    <h4 class="header-title mt-lg-12 mb-3">Bookings History</h4> 
 
                     <!-- Nav tabs -->
                     <ul class="nav nav-pills nav-justified" role="tablist">

@@ -104,6 +104,7 @@
                             <a class="dropdown-item" href="{{ route('account') }}"><i class="dripicons-user text-muted mr-2"></i> My Account</a>
                             <a class="dropdown-item" href="{{route('saved')}}"><i class="dripicons-heart text-muted mr-2"></i> Wishlist</a>
                             <a class="dropdown-item" href="{{ route('Visitors.index') }}"><i class="dripicons-user text-muted mr-2"></i> Visits</a>
+                            <a class="dropdown-item" href="{{ route('property.bookings.view') }}"><i class="dripicons-bookmark text-muted mr-2"></i> bookings</a>
                             <a class="dropdown-item" href="{{route('wallet')}}"><i class="dripicons-wallet text-muted mr-2"></i> My Wallet</a>
                             <a class="dropdown-item" href="{{route('activities')}}"><i class="dripicons-view-list text-muted mr-2"></i> My Activities</a>
                             <div class="dropdown-divider"></div>
