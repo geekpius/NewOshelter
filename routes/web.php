@@ -135,6 +135,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/properties/{booking}/bookings', 'BookingController@index')->name('property.bookings.index');
     Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
     Route::post('/properties/bookings/verify', 'BookingController@verify')->name('property.bookings.verify');
+    Route::get('/properties/bookings/view', 'BookingController@view')->name('property.bookings.view');
 
     
     /*------- Listing tenants ------- */
