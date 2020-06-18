@@ -67,12 +67,18 @@ class User extends Authenticatable
 
     public function generateEmailVerificationCode() : string
     {
-        return Str::random(42);
+        return Str::random(32);
     }
 
-    public function generateSmsVerificationCode() : string
+    public function generateSmsVerificationCode(int $length=4) : string
     {
-        return Str::random(8);
+        (string) $characters = '0123456789';
+        (int) $charactersLength = strlen($characters);
+        (string) $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
     public function setEmailAttribute($value)

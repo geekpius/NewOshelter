@@ -21,7 +21,7 @@
 </div>
 <!-- All-->
 @if (count($notifications))
-<a href="{{ route('host.messages') }}" class="dropdown-item text-center text-primary">
+<a href="{{ route('messages') }}" class="dropdown-item text-center text-primary">
     View all <i class="fi-arrow-right"></i>
 </a>
 @endif

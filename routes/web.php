@@ -126,13 +126,13 @@ Route::group(['prefix' => 'user'], function () {
 
     Route::get('/manage-properties', 'PropertyController@manageProperty')->name('property.manage');
 
-    /*------- Renting Properties ------- */
-    /*------- Booking Short Stay Properties ------- */
-    /*------- Booking Hostel Properties ------- */
+    
+    /*------- Booking a Properties ------- */
     Route::post('/properties/get/block-room-number', 'BookingController@getRoomTypeNumber')->name('property.get.roomnumber');
     Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
     Route::post('/properties/bookings', 'BookingController@book')->name('property.bookings.submit');
     Route::get('/properties/{booking}/bookings', 'BookingController@index')->name('property.bookings.index');
+    Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
     Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
     Route::post('/properties/bookings/verify', 'BookingController@verify')->name('property.bookings.verify');
 
