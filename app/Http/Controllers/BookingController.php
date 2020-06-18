@@ -195,9 +195,8 @@ class BookingController extends Controller
 
     public function view()
     {
-        //
-        $data['page_title'] = 'booking view';
-        $data['menu'] = 'pxp-no-bg';
+        $data['page_title'] = 'View your bookings';
+        $data['bookings'] = Booking::whereUser_id(Auth::user()->id)->get();
         return view('admin.bookings.view', $data);
     }
 

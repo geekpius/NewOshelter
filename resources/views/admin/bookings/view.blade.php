@@ -38,10 +38,10 @@
                             <a class="nav-link active" data-toggle="tab" href="#all" role="tab">All</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" data-toggle="tab" href="#received" role="tab">Recieved</a>
+                            <a class="nav-link" data-toggle="tab" href="#complete" role="tab">Complete</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" data-toggle="tab" href="#withdrawn" role="tab">Withdrawn</a>
+                            <a class="nav-link" data-toggle="tab" href="#incomplete" role="tab">Incomplete</a>
                         </li>
                     </ul>
 
@@ -53,30 +53,41 @@
                                     <thead class="thead-light">
                                     <tr>
                                         <th>Date</th>                                               
-                                        <th>Transaction ID</th>
-                                        <th>Type</th>
-                                        <th>Value</th>
+                                        <th>Property</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Guests</th>
+                                        <th>Status</th>
                                     </tr><!--end tr-->
                                     </thead>
 
                                     <tbody>
+                                        @foreach ($bookings as $booking)
                                         <tr>
-                                            <td>13 Jan 2019-10:15am</td>
-                                            <td>0012369584712458</td>
-                                            <td><span class="badge badge-md badge-soft-success">Received</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
-                                        </tr><!--end tr-->
-                                        <tr>
-                                            <td>14 Jan 2019-12:05pm</td>
-                                            <td>0001245368452136</td>
-                                            <td><span class="badge badge-md badge-soft-danger">Withdrawn</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
-                                        </tr><!--end tr-->                                                                                    
+                                            <td>{{ \Carbon\Carbon::parse($booking->created_at)->diffForHumans() }}</td>
+                                            <td>
+                                                @php $image = $booking->property->propertyImages->first();  @endphp
+                                                <a href="javascript:void(0);" data-toggle="popover" data-trigger="hover" data-placement="left" data-html=true data-title='<img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-responsive img-thumbnail" height="300" width="300">'>
+                                                    <span>{{ $booking->property->title }}</span>
+                                                </a>
+                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($booking->check_in)->format('d-M-Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</td>
+                                            <td>{{ ($booking->adult+$booking->children+$booking->infant) }}</td>
+                                            <td>
+                                                @if ($booking->status==4)
+                                                <span class="badge badge-md badge-soft-success" style="color: #000000 !important">Complete</span>
+                                                @else
+                                                <span class="badge badge-md badge-soft-warning" style="color: #000000 !important">Incomplete</span>   
+                                                @endif
+                                            </td>
+                                        </tr><!--end tr-->    
+                                        @endforeach                                                                              
                                     </tbody>
                                 </table>                    
                             </div>     
                         </div>
-                        <div class="tab-pane p-3" id="received" role="tabpanel">
+                        <div class="tab-pane p-3" id="complete" role="tabpanel">
                             <div class="table-responsive dash-social">
                                 <table id="datatable1" class="table table-bordered">
                                     <thead class="thead-light">
@@ -99,7 +110,7 @@
                                 </table>                    
                             </div>                             
                         </div>
-                        <div class="tab-pane p-3" id="withdrawn" role="tabpanel">
+                        <div class="tab-pane p-3" id="incomplete" role="tabpanel">
                             <div class="table-responsive dash-social">
                                 <table id="datatable2" class="table table-bordered">
                                     <thead class="thead-light">
@@ -132,32 +143,6 @@
         </div><!-- End row -->
     </div>
 
-    <!-- withdraw modal -->
-    <div id="withdrawModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="withdrawModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0" id="withdrawModalLabel">Withdraw From Wallet</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    <form id="formWithdraw">
-                        @csrf
-                        <input type="hidden" name="old_amount" id="old_amount" value="{{ Auth::user()->userWallet->balance }}" readonly>
-                        <div class="form-group validate">
-                            <label for="amount">Amount</label>
-                            <input type="text" class="form-control" name="amount" id="amount" placeholder="Enter enter amount">
-                            <span class="text-danger mySpan"></span>
-                        </div>
-                        <div class="form-group text-right">
-                            <button type="submit" class="btn btn-gradient-success btnWithdrawSubmit">Submit</button>
-                        </div>
-                    </form>                    
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->  
-
 </div><!-- container -->
 
 @endsection
@@ -168,38 +153,5 @@
 <script>
 $('#datatable, #datatable1, #datatable2').DataTable();
 
-$('#amount').keypress(function(event) {
-    if (((event.which != 46 || (event.which == 46 && $(this).val() == '')) ||
-            $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-        event.preventDefault();
-    }
-}).on('paste', function(event) {
-    event.preventDefault();
-});
-
-$("#formWithdraw").on("submit", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var valid = true;
-    var oldAmount = $("#formWithdraw #old_amount").val();
-    var amount = $("#formWithdraw #amount").val();
-    if(amount==''){
-        $("#formWithdraw #amount").parents('.validate').find('.mySpan').text("The amount field is required");
-    }
-    else if(parseFloat(amount)==0){
-        $("#formWithdraw #amount").parents('.validate').find('.mySpan').text("Zero amount not allowed");
-    }else if(parseFloat(amount)>parseFloat(oldAmount)){
-        $("#formWithdraw #amount").parents('.validate').find('.mySpan').text("Not enough balance");
-    }
-
-    return false;
-});
-
-$("input").on('input', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-    }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
-});
 </script>
 @endsection
