@@ -17,8 +17,8 @@ class BookingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('verify-user')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability']);
-        $this->middleware('auth')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability']);
+        $this->middleware('verify-user')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
+        $this->middleware('auth')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
     }
 
 
@@ -102,36 +102,40 @@ class BookingController extends Controller
     // book a reservation
     public function book(Request $request)
     {
-        $this->validate($request, [
-            'check_in'  => 'required',
-            'check_out' => 'required',
-            'adult'     => 'required|integer',
-            'children'  => 'required|integer',
-            'infant'    => 'required|integer',
-        ]);
-
-        if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(false)->exists())
-        {
-            $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(false)->first();
-            $book->check_in= Carbon::parse($request->check_in);
-            $book->check_out= Carbon::parse($request->check_out);
-            $book->adult= $request->adult;
-            $book->children= $request->children;
-            $book->infant= $request->infant;
-            $book->update();
+        if(auth()->check()){
+            $this->validate($request, [
+                'check_in'  => 'required',
+                'check_out' => 'required',
+                'adult'     => 'required|integer',
+                'children'  => 'required|integer',
+                'infant'    => 'required|integer',
+            ]);
+    
+            if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(false)->exists())
+            {
+                $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(false)->first();
+                $book->check_in= Carbon::parse($request->check_in);
+                $book->check_out= Carbon::parse($request->check_out);
+                $book->adult= $request->adult;
+                $book->children= $request->children;
+                $book->infant= $request->infant;
+                $book->update();
+            }else{
+                $book = new Booking;
+                $book->user_id = Auth::user()->id;
+                $book->property_id= $request->property_id;
+                $book->check_in= Carbon::parse($request->check_in);
+                $book->check_out= Carbon::parse($request->check_out);
+                $book->adult= $request->adult;
+                $book->children= $request->children;
+                $book->infant= $request->infant;
+                $book->save();
+            }
+    
+            return redirect()->route('property.bookings.index', $book->id);
         }else{
-            $book = new Booking;
-            $book->user_id = Auth::user()->id;
-            $book->property_id= $request->property_id;
-            $book->check_in= Carbon::parse($request->check_in);
-            $book->check_out= Carbon::parse($request->check_out);
-            $book->adult= $request->adult;
-            $book->children= $request->children;
-            $book->infant= $request->infant;
-            $book->save();
+            return redirect()->route('login');
         }
-
-        return redirect()->route('property.bookings.index', $book->id);
 
     }
 
