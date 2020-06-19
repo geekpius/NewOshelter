@@ -104,6 +104,7 @@ return array(
     'App\\UserModel\\UserProfile' => $baseDir . '/app/UserModel/UserProfile.php',
     'App\\UserModel\\UserSavedProperty' => $baseDir . '/app/UserModel/UserSavedProperty.php',
     'App\\UserModel\\UserWallet' => $baseDir . '/app/UserModel/UserWallet.php',
+    'App\\UserModel\\UserWalletTransaction' => $baseDir . '/app/UserModel/UserWalletTransaction.php',
     'App\\UserModel\\Vat' => $baseDir . '/app/UserModel/Vat.php',
     'Carbon\\Carbon' => $vendorDir . '/nesbot/carbon/src/Carbon/Carbon.php',
     'Carbon\\CarbonInterval' => $vendorDir . '/nesbot/carbon/src/Carbon/CarbonInterval.php',

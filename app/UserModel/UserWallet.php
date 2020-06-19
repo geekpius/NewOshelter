@@ -4,6 +4,7 @@ namespace App\UserModel;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use App\UserModel\UserWalletTransaction;
 
 class UserWallet extends Model
 {
@@ -17,6 +18,10 @@ class UserWallet extends Model
 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function userWalletTransactions(){
+        return $this->hasMany(UserWalletTransaction::class);
     }
 
 

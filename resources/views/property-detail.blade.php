@@ -546,7 +546,12 @@
                             <i class="fa fa-minus-circle font-12"></i> 
                             Eviction notice will be sent to tenants 3 months before time. Tenants will wish to extend or evict.
                         </p>
-                    @endif                      
+                    @elseif($property->type_status=='short_stay')   
+                        <p>
+                            <i class="fa fa-minus-circle" style="font-size: 9px"></i> 
+                            Eviction notice will be sent to guest 3 days and 1 day before time.
+                        </p>
+                    @endif                       
                 </div>
 
                 @if ($property->type_status=='rent')

@@ -11,6 +11,7 @@ use App\BookingModel\Booking;
 use App\UserModel\UserTicket;
 use App\UserModel\UserWallet;
 use App\UserModel\UserProfile;
+use App\PropertyModel\Property;
 use App\UserModel\UserActivity;
 use App\PropertyModel\PropertyBid;
 use App\PropertyModel\PropertyBuy;
@@ -42,7 +43,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password', 'membership', 'phone', 'digital_address', 
-        'verify_email', 'verify_sms', 'role', 'login_time',
+        'verify_email', 'verify_sms', 'login_time',
     ];
 
     /**
@@ -106,6 +107,10 @@ class User extends Authenticatable
         return (empty($this->profile->dob))? 'Age':Carbon::parse($this->profile->dob)->age;
     }
 
+    public function properties(){
+        return $this->hasMany(Property::class);
+    }
+    
     public function profile(){
         return $this->hasOne(UserProfile::class);
     }

@@ -46,9 +46,15 @@ class PropertyController extends Controller
     ///check if uncompleted found
     public function addNewListing()
     {
-        $data['page_title'] = 'Found something';
-        $data['property']= Property::whereUser_id(Auth::user()->id)->whereDone_step(false)->get(); 
-        return view('admin.properties.duplicate-listing', $data);
+        if(Property::whereUser_id(Auth::user()->id)->whereDone_step(false)->count()>0){
+            $data['page_title'] = 'Found something';
+            $data['property']= Property::whereUser_id(Auth::user()->id)->whereDone_step(false)->get(); 
+            return view('admin.properties.duplicate-listing', $data);
+        }else{
+            $data['page_title'] = 'Add new listing';
+            $data['property_types'] = PropertyType::all();
+            return view('admin.properties.add-listing', $data);
+        }
     }
 
     /// start new listing
