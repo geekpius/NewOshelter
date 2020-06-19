@@ -92,20 +92,39 @@
                                 <table id="datatable1" class="table table-bordered">
                                     <thead class="thead-light">
                                     <tr>
-                                        <th>Date</th>                                               
-                                        <th>Transaction ID</th>
-                                        <th>Type</th>
-                                        <th>Value</th>
+                                        <tr>
+                                            <th>Date</th>                                               
+                                            <th>Property</th>
+                                            <th>Check In</th>
+                                            <th>Check Out</th>
+                                            <th>Guests</th>
+                                            <th>Status</th>
+                                        </tr>
                                     </tr><!--end tr-->
                                     </thead>
 
                                     <tbody>
+                                        @foreach ($bookings as $booking)
+                                        @if ($booking->status==4)
                                         <tr>
-                                            <td>13 Jan 2019-10:15am</td>
-                                            <td>0012369584712458</td>
-                                            <td><span class="badge badge-md badge-soft-success">Received</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
-                                        </tr><!--end tr-->                                                                                 
+                                            <td>{{ \Carbon\Carbon::parse($booking->created_at)->diffForHumans() }}</td>
+                                            <td>
+                                                @php $image = $booking->property->propertyImages->first();  @endphp
+                                                <a href="javascript:void(0);" data-toggle="popover" data-trigger="hover" data-placement="left" data-html=true data-title='<img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-responsive img-thumbnail" height="300" width="300">'>
+                                                    <span>{{ $booking->property->title }}</span>
+                                                </a>
+                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($booking->check_in)->format('d-M-Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</td>
+                                            <td>{{ ($booking->adult+$booking->children+$booking->infant) }}</td>
+                                            <td>
+                                               
+                                                <span class="badge badge-md badge-soft-success" style="color: #000000 !important">Complete</span>
+                                               
+                                            </td>
+                                        </tr><!--end tr--> 
+                                        @endif    
+                                        @endforeach                                                                            
                                     </tbody>
                                 </table>                    
                             </div>                             
@@ -116,19 +135,36 @@
                                     <thead class="thead-light">
                                     <tr>
                                         <th>Date</th>                                               
-                                        <th>Transaction ID</th>
-                                        <th>Type</th>
-                                        <th>Value</th>
+                                        <th>Property</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Guests</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr><!--end tr-->
                                     </thead>
 
                                     <tbody>
+                                        @foreach ($bookings as $booking)
+                                        @if (!$booking->status==4)
                                         <tr>
-                                            <td>14 Jan 2019-12:05pm</td>
-                                            <td>0001245368452136</td>
-                                            <td><span class="badge badge-md badge-soft-danger">Withdrawn</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
-                                        </tr><!--end tr-->                                                                                    
+                                            <td>{{ \Carbon\Carbon::parse($booking->created_at)->diffForHumans() }}</td>
+                                            <td>
+                                                @php $image = $booking->property->propertyImages->first();  @endphp
+                                                <a href="javascript:void(0);" data-toggle="popover" data-trigger="hover" data-placement="left" data-html=true data-title='<img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-responsive img-thumbnail" height="300" width="300">'>
+                                                    <span>{{ $booking->property->title }}</span>
+                                                </a>
+                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($booking->check_in)->format('d-M-Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</td>
+                                            <td>{{ ($booking->adult+$booking->children+$booking->infant) }}</td>
+                                            <td> 
+                                                <span class="badge badge-md badge-soft-warning" style="color: #000000 !important">InComplete</span>
+                                            </td>
+                                            <td></td>
+                                        </tr><!--end tr--> 
+                                        @endif 
+                                        @endforeach                                                                               
                                     </tbody>
                                 </table>                    
                             </div>                             

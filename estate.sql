@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 10, 2020 at 02:05 PM
+-- Generation Time: Jun 18, 2020 at 10:05 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.28
 
@@ -47,6 +47,34 @@ CREATE TABLE `amenities` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bookings`
+--
+
+CREATE TABLE `bookings` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `property_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `check_in` date NOT NULL,
+  `check_out` date NOT NULL,
+  `adult` int(11) NOT NULL,
+  `children` int(11) NOT NULL,
+  `infant` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `step` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `bookings`
+--
+
+INSERT INTO `bookings` (`id`, `property_id`, `user_id`, `check_in`, `check_out`, `adult`, `children`, `infant`, `status`, `step`, `created_at`, `updated_at`) VALUES
+(1, 2, 1, '2020-06-19', '2020-06-26', 1, 0, 0, 0, 3, '2020-06-18 09:36:17', '2020-06-18 15:33:23');
 
 -- --------------------------------------------------------
 
@@ -134,6 +162,13 @@ CREATE TABLE `messages` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `user_id`, `destination`, `message`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'Hi Pius i\'m excited to lodge in your property', 0, '2020-06-18 11:54:43', '2020-06-18 11:54:43');
+
 -- --------------------------------------------------------
 
 --
@@ -188,7 +223,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (144, '2020_04_15_181351_create_account_reactivates_table', 2),
 (145, '2020_04_20_165116_create_hostel_block_room_numbers_table', 2),
 (146, '2020_04_20_184651_create_hostel_room_amenities_table', 2),
-(147, '2020_05_01_191138_create_property_shared_amenities_table', 2);
+(147, '2020_05_01_191138_create_property_shared_amenities_table', 2),
+(148, '2020_06_17_112920_create_bookings_table', 3);
 
 -- --------------------------------------------------------
 
@@ -489,8 +525,8 @@ CREATE TABLE `property_prices` (
 --
 
 INSERT INTO `property_prices` (`id`, `property_id`, `payment_duration`, `minimum_stay`, `maximum_stay`, `price_calendar`, `property_price`, `smart_price`, `currency`, `negotiable`, `created_at`, `updated_at`) VALUES
-(1, 1, 12, NULL, NULL, 'month', 500, NULL, '¢', NULL, '2020-06-08 12:59:27', '2020-06-08 12:59:27'),
-(2, 2, NULL, 3, 3, 'night', 350, 300, '¢', NULL, '2020-06-09 10:05:27', '2020-06-09 10:05:27');
+(1, 1, 12, NULL, NULL, 'month', 500, NULL, 'GHC', NULL, '2020-06-08 12:59:27', '2020-06-08 12:59:27'),
+(2, 2, NULL, 3, 3, 'night', 30, 25, 'GHC', NULL, '2020-06-09 10:05:27', '2020-06-09 10:05:27');
 
 -- --------------------------------------------------------
 
@@ -687,7 +723,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `membership`, `name`, `email`, `password`, `phone`, `digital_address`, `active`, `image`, `email_verification_token`, `verify_email`, `verify_email_time`, `sms_verification_token`, `verify_sms`, `verify_sms_time`, `login_time`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, '200608120939', 'pius geek', 'fiifipius@gmail.com', '$2y$10$NNIqEJv0fJijC1fmzs0c..prAoxds3dMwMIjsg/NmYKX5g1ihzMsa', '0542398441', 'EZ-004-8305', 2, '176c7304e6a375ad2fd54b107c0e6e7cbde561a33.jpeg', NULL, 0, NULL, NULL, 0, NULL, '2020-06-08 12:09:39', 'u67qsNtUlc2IHsfiahufbHrxtyolIPZinMWYmHnZEwrqUaFsGfbvQGh08Aht', '2020-06-08 12:09:39', '2020-06-09 10:12:19', NULL);
+(1, '200608120939', 'pius geek', 'fiifipius@gmail.com', '$2y$10$NNIqEJv0fJijC1fmzs0c..prAoxds3dMwMIjsg/NmYKX5g1ihzMsa', '0542398441', 'EZ-004-8305', 2, '176c7304e6a375ad2fd54b107c0e6e7cbde561a33.jpeg', NULL, 1, NULL, '6538', 1, '2020-06-18 11:54:17', '2020-06-08 12:09:39', '2vR2umKuclLYZ7ypvCTOwvu5pyK0N7Pd54wjJ7W5sDwlZN1gk53wSA7Aml8B', '2020-06-08 12:09:39', '2020-06-18 11:54:17', NULL);
 
 -- --------------------------------------------------------
 
@@ -778,7 +814,7 @@ CREATE TABLE `user_profiles` (
 --
 
 INSERT INTO `user_profiles` (`id`, `user_id`, `gender`, `dob`, `marital_status`, `children`, `city`, `country`, `occupation`, `emergency`, `id_front`, `id_back`, `created_at`, `updated_at`) VALUES
-(1, 1, 'male', '1994-04-13', 'single', 'none', 'Labadi, Accra', NULL, 'Graphic Designer', '02451475575', NULL, NULL, '2020-06-08 12:22:37', '2020-06-08 12:23:33');
+(1, 1, 'male', '1994-04-13', 'single', 'none', 'Labadi, Accra', NULL, 'Graphic Designer', '02451475575', '2d3bb8bef3c448a0a880b06e6d313450485babc8c.png', '2c8c81c5f4af024c52837f36da38d7a6298dabebb.png', '2020-06-08 12:22:37', '2020-06-08 12:23:33');
 
 -- --------------------------------------------------------
 
@@ -814,7 +850,7 @@ CREATE TABLE `user_wallets` (
 --
 
 INSERT INTO `user_wallets` (`id`, `user_id`, `balance`, `currency`, `created_at`, `updated_at`) VALUES
-(1, 1, 0, '¢', '2020-06-08 12:09:39', '2020-06-08 12:09:39');
+(1, 1, 0, 'GHC', '2020-06-08 12:09:39', '2020-06-08 12:09:39');
 
 -- --------------------------------------------------------
 
@@ -846,6 +882,14 @@ CREATE TABLE `vats` (
 --
 ALTER TABLE `amenities`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `bookings_property_id_index` (`property_id`),
+  ADD KEY `bookings_user_id_index` (`user_id`);
 
 --
 -- Indexes for table `deactivate_users`
@@ -1107,6 +1151,12 @@ ALTER TABLE `amenities`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `deactivate_users`
 --
 ALTER TABLE `deactivate_users`
@@ -1134,13 +1184,13 @@ ALTER TABLE `hostel_room_amenities`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=148;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 
 --
 -- AUTO_INCREMENT for table `properties`
@@ -1296,7 +1346,7 @@ ALTER TABLE `user_profiles`
 -- AUTO_INCREMENT for table `user_saved_properties`
 --
 ALTER TABLE `user_saved_properties`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_wallets`
@@ -1313,6 +1363,13 @@ ALTER TABLE `vats`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD CONSTRAINT `bookings_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bookings_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `deactivate_users`
