@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Admin;
 use Illuminate\Http\Request;
 use App\MessageModel\Message;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +24,10 @@ class UserController extends Controller
     public function index()
     {
         $data['page_title'] = 'Dashboard';
+        $data['count_short_stay'] = Auth::user()->properties->where('type_status','short_stay')->count();
+        $data['count_rent'] = Auth::user()->properties->where('type_status','rent')->count();
+        $data['count_sell'] = Auth::user()->properties->where('type_status','sell')->count();
+        $data['count_auction'] = Auth::user()->properties->where('type_status','auction')->count();
         return view('admin.dashboard.index', $data);
     }
 
@@ -32,19 +35,19 @@ class UserController extends Controller
     public function guest()
     {
         $data['page_title'] = 'Guest statistics';
-        return view('admin.properties.guest-statistics', $data);
+        return view('admin.dashboard.guest-statistics', $data);
     }
 
     public function property()
     {
         $data['page_title'] = 'Property statistics';
-        return view('admin.properties.property-statistics', $data);
+        return view('admin.dashboard.property-statistics', $data);
     }
 
     public function payment()
     {
         $data['page_title'] = 'Payment statistics';
-        return view('admin.properties.payment-statistics', $data);
+        return view('admin.dashboard.payment-statistics', $data);
     }
 
      

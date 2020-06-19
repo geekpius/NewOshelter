@@ -504,6 +504,7 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
         'App\\UserModel\\UserProfile' => __DIR__ . '/../..' . '/app/UserModel/UserProfile.php',
         'App\\UserModel\\UserSavedProperty' => __DIR__ . '/../..' . '/app/UserModel/UserSavedProperty.php',
         'App\\UserModel\\UserWallet' => __DIR__ . '/../..' . '/app/UserModel/UserWallet.php',
+        'App\\UserModel\\UserWalletTransaction' => __DIR__ . '/../..' . '/app/UserModel/UserWalletTransaction.php',
         'App\\UserModel\\Vat' => __DIR__ . '/../..' . '/app/UserModel/Vat.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',

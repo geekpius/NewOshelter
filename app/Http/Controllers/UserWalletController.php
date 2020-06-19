@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\UserModel\UserWallet;
+
 use Illuminate\Http\Request;
+use App\UserModel\UserWallet;
+use Illuminate\Support\Facades\Auth;
 
 class UserWalletController extends Controller
 {

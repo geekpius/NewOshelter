@@ -25,14 +25,14 @@
     <div class="card">
         
         <div class="row">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-6">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
 
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
                             <div class="wallet-bal-usd mb-2">
-                                <h4 class="wallet-title m-0">OPay Balance</h4>
+                                <h4 class="wallet-title m-0">OShelter-Pay Balance</h4>
                                 <span class="text-muted font-12">as at {{\Carbon\Carbon::parse(Auth::user()->userWallet->updated_at)->format('d F, Y')}}</span>
                                 <h3 class="text-center"> {{Auth::user()->userWallet->currency}} {{number_format(Auth::user()->userWallet->balance,2)}}</h3>
                             </div> 
@@ -54,10 +54,10 @@
                             <a class="nav-link active" data-toggle="tab" href="#all" role="tab">All</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" data-toggle="tab" href="#received" role="tab">Recieved</a>
+                            <a class="nav-link" data-toggle="tab" href="#in" role="tab">In</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" data-toggle="tab" href="#withdrawn" role="tab">Withdrawn</a>
+                            <a class="nav-link" data-toggle="tab" href="#out" role="tab">Out</a>
                         </li>
                     </ul>
 
@@ -76,23 +76,19 @@
                                     </thead>
 
                                     <tbody>
+                                        @foreach (Auth::user()->userWallet->userWalletTransactions as $trans)
                                         <tr>
-                                            <td>13 Jan 2019-10:15am</td>
-                                            <td>0012369584712458</td>
-                                            <td><span class="badge badge-md badge-soft-success">Received</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
+                                            <td>{{ \Carbon\Carbon::parse($trans->created_at)->diffForHumans() }}</td>
+                                            <td>{{ $trans->transaction_id }}</td>
+                                            <td><span class="badge badge-md badge-soft-success">{{ $trans->type }}</span></td>
+                                            <td>{{Auth::user()->userWallet->currency}} {{ number_format($trans->amount,2) }}</td>
                                         </tr><!--end tr-->
-                                        <tr>
-                                            <td>14 Jan 2019-12:05pm</td>
-                                            <td>0001245368452136</td>
-                                            <td><span class="badge badge-md badge-soft-danger">Withdrawn</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
-                                        </tr><!--end tr-->                                                                                    
+                                        @endforeach                                                                                  
                                     </tbody>
                                 </table>                    
                             </div>     
                         </div>
-                        <div class="tab-pane p-3" id="received" role="tabpanel">
+                        <div class="tab-pane p-3" id="in" role="tabpanel">
                             <div class="table-responsive dash-social">
                                 <table id="datatable1" class="table table-bordered">
                                     <thead class="thead-light">
@@ -105,17 +101,21 @@
                                     </thead>
 
                                     <tbody>
+                                        @foreach (Auth::user()->userWallet->userWalletTransactions as $trans)
+                                        @if ($trans->status)
                                         <tr>
-                                            <td>13 Jan 2019-10:15am</td>
-                                            <td>0012369584712458</td>
-                                            <td><span class="badge badge-md badge-soft-success">Received</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
-                                        </tr><!--end tr-->                                                                                 
+                                            <td>{{ \Carbon\Carbon::parse($trans->created_at)->diffForHumans() }}</td>
+                                            <td>{{ $trans->transaction_id }}</td>
+                                            <td><span class="badge badge-md badge-soft-success">{{ $trans->type }}</span></td>
+                                            <td>{{Auth::user()->userWallet->currency}} {{ number_format($trans->amount,2) }}</td>
+                                        </tr><!--end tr-->
+                                        @endif
+                                        @endforeach                                                                                 
                                     </tbody>
                                 </table>                    
                             </div>                             
                         </div>
-                        <div class="tab-pane p-3" id="withdrawn" role="tabpanel">
+                        <div class="tab-pane p-3" id="out" role="tabpanel">
                             <div class="table-responsive dash-social">
                                 <table id="datatable2" class="table table-bordered">
                                     <thead class="thead-light">
@@ -128,12 +128,16 @@
                                     </thead>
 
                                     <tbody>
+                                        @foreach (Auth::user()->userWallet->userWalletTransactions as $trans)
+                                        @if (!$trans->status)
                                         <tr>
-                                            <td>14 Jan 2019-12:05pm</td>
-                                            <td>0001245368452136</td>
-                                            <td><span class="badge badge-md badge-soft-danger">Withdrawn</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
-                                        </tr><!--end tr-->                                                                                    
+                                            <td>{{ \Carbon\Carbon::parse($trans->created_at)->diffForHumans() }}</td>
+                                            <td>{{ $trans->transaction_id }}</td>
+                                            <td><span class="badge badge-md badge-soft-success">{{ $trans->type }}</span></td>
+                                            <td>{{Auth::user()->userWallet->currency}} {{ number_format($trans->amount,2) }}</td>
+                                        </tr><!--end tr-->
+                                        @endif
+                                        @endforeach                                                                                     
                                     </tbody>
                                 </table>                    
                             </div>                             
