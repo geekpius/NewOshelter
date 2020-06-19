@@ -58,6 +58,7 @@
                                         <th>Check Out</th>
                                         <th>Guests</th>
                                         <th>Status</th>
+                                        <th>Action</th>
                                     </tr><!--end tr-->
                                     </thead>
 
@@ -79,6 +80,11 @@
                                                 <span class="badge badge-md badge-soft-success" style="color: #000000 !important">Complete</span>
                                                 @else
                                                 <span class="badge badge-md badge-soft-warning" style="color: #000000 !important">Incomplete</span>   
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($booking->status!=4)
+                                                <a href="{{ route('property.bookings.index', $booking->id) }}" class="text-primary"><i class="fa fa-arrow-right"></i> Continue</a>
                                                 @endif
                                             </td>
                                         </tr><!--end tr-->    
@@ -118,9 +124,7 @@
                                             <td>{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</td>
                                             <td>{{ ($booking->adult+$booking->children+$booking->infant) }}</td>
                                             <td>
-                                               
                                                 <span class="badge badge-md badge-soft-success" style="color: #000000 !important">Complete</span>
-                                               
                                             </td>
                                         </tr><!--end tr--> 
                                         @endif    
@@ -159,9 +163,11 @@
                                             <td>{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</td>
                                             <td>{{ ($booking->adult+$booking->children+$booking->infant) }}</td>
                                             <td> 
-                                                <span class="badge badge-md badge-soft-warning" style="color: #000000 !important">InComplete</span>
+                                                <span class="badge badge-md badge-soft-warning" style="color: #000000 !important">Incomplete</span>
                                             </td>
-                                            <td></td>
+                                            <td>
+                                                <a href="{{ route('property.bookings.index', $booking->id) }}" class="text-primary"><i class="fa fa-arrow-right"></i> Continue</a>
+                                            </td>
                                         </tr><!--end tr--> 
                                         @endif 
                                         @endforeach                                                                               
