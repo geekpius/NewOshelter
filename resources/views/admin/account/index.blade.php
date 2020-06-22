@@ -237,32 +237,14 @@
 
                                         <div class="col-sm-4">
                                             <h5 class="text-primary">Device History</h5>
-                                            <div>
-                                                <div class="float-left mr-3">
-                                                    <i class="fa fa-desktop fa-2x"></i>
-                                                </div>
-                                                <div class="">
-                                                    <p>Linux - Chrome <br>Accra, Ghana - 14-April-2020 at 11:05am</p>
-                                                </div>
-                                                <hr>
-                                            </div>
-                                            <div>
-                                                <div class="float-left mr-3">
-                                                    <i class="fa fa-desktop fa-2x"></i>
-                                                </div>
-                                                <div class="">
-                                                    <p>Linux - Chrome <br>Accra, Ghana - 14-April-2020 at 11:05am</p>
-                                                </div>
-                                                <hr>
-                                            </div>
-                                            @foreach (Auth::user()->userLogins() as $log)
+                                            @foreach (Auth::user()->userLogins as $log)
                                                 <div>
                                                     <div class="float-left mr-3">
                                                         <i class="fa fa-desktop fa-2x"></i>
                                                     </div>
                                                     <div class="">
                                                         <p>{{ $log->device }} - {{ $log->browser }} <br>
-                                                            {{ $log->location }} - {{ \Carbon\Carbon::parse($log->login_date)->format('d-M-Y') }} at {{ \Carbon\Carbon::parse($log->login_time)->format('h:ia') }}
+                                                            {{ (trim($log->location)==',')?'Unknown Location':$log->location }} - {{ \Carbon\Carbon::parse($log->created_at)->diffForHumans() }}
                                                         </p>
                                                     </div>
                                                     <hr>
