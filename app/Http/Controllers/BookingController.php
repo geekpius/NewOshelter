@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\BookingModel\Booking;
 use App\MessageModel\Message;
 use App\PropertyModel\Property;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
 
@@ -20,7 +21,6 @@ class BookingController extends Controller
         $this->middleware('verify-user')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
         $this->middleware('auth')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
     }
-
 
     //get hostel room number base on room type
     public function getRoomTypeNumber(Request $request)
@@ -58,10 +58,15 @@ class BookingController extends Controller
         }
     }
  
-    public function index(Booking $booking)
+    public function index(Property $property,$checkin,$checkout,$adult,$children,$infant,$filter_id)
     {
-        $data['page_title'] = 'Booking '.$booking->property->title;
-        $data['booking'] = $booking;
+        $data['page_title'] = 'Booking '.$property->title;
+        $data['property'] = $property;
+        $data['check_in'] = $checkin;
+        $data['check_out'] = $checkout;
+        $data['adult'] = $adult;
+        $data['children'] = $children;
+        $data['infant'] = $infant;
         return view('admin.bookings.index', $data);
     }     
 
@@ -69,29 +74,15 @@ class BookingController extends Controller
     public function moveNext(Request $request) : string
     {
         (string) $message="";
-        $booking = Booking::findOrFail($request->booking_id);
         if($request->step==1){
-            $booking->step = $request->step+1;
-            $booking->update();
+            (int) $step = $request->step+1;
+            Session::put('step', $step);
             $message="success";
         }elseif($request->step==2){
-            try {
-                DB::beginTransaction();
-                $booking->step = $request->step+1;
-                $booking->update();
-
-                //send owner message
-                $msg = new Message;
-                $msg->user_id = Auth::user()->id;
-                $msg->destination = $request->owner;
-                $msg->message = $request->owner_message;
-                $msg->save();
-                DB::commit();
-                $message="success";
-            } catch (\Exception $e) {
-                DB::rollback();
-                $message = 'error';
-            }
+            (int) $step = $request->step+1;
+            Session::put('step', $step);
+            Session::put('owner_message', $request->owner_message);
+            $message="success";
         }elseif($request->step==3){
             $message="success";
         }
@@ -109,30 +100,11 @@ class BookingController extends Controller
                 'adult'     => 'required|integer',
                 'children'  => 'required|integer',
                 'infant'    => 'required|integer',
-            ]);
-    
-            if(Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(false)->exists())
-            {
-                $book = Booking::whereUser_id(Auth::user()->id)->whereProperty_id($request->property_id)->whereStatus(false)->first();
-                $book->check_in= Carbon::parse($request->check_in);
-                $book->check_out= Carbon::parse($request->check_out);
-                $book->adult= $request->adult;
-                $book->children= $request->children;
-                $book->infant= $request->infant;
-                $book->update();
-            }else{
-                $book = new Booking;
-                $book->user_id = Auth::user()->id;
-                $book->property_id= $request->property_id;
-                $book->check_in= Carbon::parse($request->check_in);
-                $book->check_out= Carbon::parse($request->check_out);
-                $book->adult= $request->adult;
-                $book->children= $request->children;
-                $book->infant= $request->infant;
-                $book->save();
-            }
-    
-            return redirect()->route('property.bookings.index', $book->id);
+            ]);    
+            $token = Str::random(32);
+            (int) $step = 1;
+            Session::put('step', $step);
+            return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant, 'filter_id'=>$token]);
         }else{
             return redirect()->route('login');
         }
@@ -197,12 +169,7 @@ class BookingController extends Controller
         return $message;        
     }
 
-    public function view()
-    {
-        $data['page_title'] = 'View your bookings';
-        $data['bookings'] = Booking::whereUser_id(Auth::user()->id)->get();
-        return view('admin.bookings.view', $data);
-    }
+    
 
 
 

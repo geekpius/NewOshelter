@@ -39,7 +39,6 @@
                             <button class="btn btn-primary pl-5 pr-5"><i class="fa fa-arrow-right"></i> Next</button>
                         </div>
                     </div><!-- end row --> 
-
                     @elseif(empty(Auth::user()->profile->id_front) || empty(Auth::user()->profile->id_back))
                     <div class="row mb-5">
                         <div class="col-sm-1"></div>
@@ -80,22 +79,22 @@
                     @else
                     <div class="row">
                         <div class="col-sm-6">
-                            <div id="propertyReview" style="display: {{ ($booking->step==1)? 'block':'none' }}">
+                            <div id="propertyReview" style="display: {{ (Session::get('step')==1)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h3>Review {{ $booking->property->type }} rules</h3>
+                                        <h3>Review {{ $property->type }} rules</h3>
                                         <div class="col-sm-12 mt-5">
                                             <div class="card card-bordered-pink">
                                                 <div class="card-body">
                                                     <p class="font-14">
-                                                        <img src="{{ asset('assets/images/users/'.$booking->user->image) }}" alt="{{ $booking->user->name }}" class="thumb-sm rounded-circle mr-1" />
-                                                        This property belongs to {{ current(explode(' ',$booking->user->name))}}. Other people like it.
+                                                        <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                        This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                                     </p>
                                                 </div>
                                             </div>
                                             @php
-                                                $date1=date_create($booking->check_in);
-                                                $date2=date_create($booking->check_out);
+                                                $date1=date_create($check_in);
+                                                $date2=date_create($check_out);
                                                 $diff=date_diff($date1,$date2);
                                                 $days = $diff->format("%a");
                                             @endphp
@@ -106,7 +105,7 @@
                                                         Check In
                                                         <div class="card card-purple" style="width:40% !important">
                                                             <div class="card-body text-center text-white">
-                                                                <strong class="font-16">{{ \Carbon\Carbon::parse($booking->check_in)->format('d-M-Y') }}</strong>
+                                                                <strong class="font-16">{{ \Carbon\Carbon::parse($check_in)->format('d-M-Y') }}</strong>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -114,7 +113,7 @@
                                                         Check Out
                                                         <div class="card card-purple" style="width:40% !important">
                                                             <div class="card-body text-center text-white">
-                                                                <strong class="font-16">{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</strong>
+                                                                <strong class="font-16">{{ \Carbon\Carbon::parse($check_out)->format('d-M-Y') }}</strong>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -123,16 +122,16 @@
                                             <div class="mt-5">
                                                 <h3>Take note of the rules</h3>
                                                 <div class="col-sm-12">
-                                                    @if (count($booking->property->propertyOwnRules))
-                                                        @foreach ($booking->property->propertyOwnRules as $own_rule)
+                                                    @if (count($property->propertyOwnRules))
+                                                        @foreach ($property->propertyOwnRules as $own_rule)
                                                         <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $own_rule->rule }}</h4>
                                                         @endforeach
                                                         
-                                                        @foreach ($booking->property->propertyRules as $rule)
+                                                        @foreach ($property->propertyRules as $rule)
                                                         <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</h4>
                                                         @endforeach
                                                     @else
-                                                        @foreach ($booking->property->propertyRules as $rule)
+                                                        @foreach ($property->propertyRules as $rule)
                                                         <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</h4>
                                                         @endforeach
                                                     @endif
@@ -146,26 +145,27 @@
                                 </div> 
                             </div>  
 
-                            <div id="verifyContact" style="display: {{ ($booking->step==2)? 'block':'none' }}">
+                            <div id="verifyContact" style="display: {{ (Session::get('step')==2)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
+                                        <a href="javascript:void(0);" class="text-primary moveBack" data-step="2">Back</a>
                                         <h3>Verify to boost owner/OShelter early feedback</h3>
                                         <div class="col-sm-12 mt-5">
                                             <div class="card card-bordered-pink">
                                                 <div class="card-body">
                                                     <p class="font-14">
-                                                        <img src="{{ asset('assets/images/users/'.$booking->user->image) }}" alt="{{ $booking->user->name }}" class="thumb-sm rounded-circle mr-1" />
-                                                        This property belongs to {{ current(explode(' ',$booking->user->name))}}. Other people like it.
+                                                        <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                        This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="mt-5">
                                                 <h4>Click with your property owner</h4>
-                                                <p>Say hi to {{ current(explode(' ',$booking->user->name))}} to kickstart before you arrive.</p>
+                                                <p>Say hi to {{ current(explode(' ',$property->user->name))}} to kickstart before you arrive.</p>
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="form-group validate">
-                                                            <textarea name="owner_message" id="owner_message" cols="10" rows="4" class="form-control" placeholder="Hi {{ current(explode(' ',$booking->user->name))}}, i'm excited to lodge in your property"></textarea>
+                                                            <textarea name="owner_message" id="owner_message" cols="10" rows="4" class="form-control" placeholder="Hi {{ current(explode(' ',$property->user->name))}}, i'm excited to lodge in your property">{{ (empty(Session::get('owner_message')))? '':Session::get('owner_message') }}</textarea>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                     </div>
@@ -216,16 +216,17 @@
                                 </div> 
                             </div> 
                             
-                            <div id="paymentDiv" style="display: {{ ($booking->step==3)? 'block':'none' }}">
+                            <div id="paymentDiv" style="display: {{ (Session::get('step')==3)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
+                                        <a href="javascript:void(0);" class="text-primary moveBack" data-step="3">Back</a>
                                         <h3>Confirm and make payment</h3>
                                         <div class="col-sm-12 mt-5">
                                             <div class="card card-bordered-pink">
                                                 <div class="card-body">
                                                     <p class="font-14">
-                                                        <img src="{{ asset('assets/images/users/'.$booking->user->image) }}" alt="{{ $booking->user->name }}" class="thumb-sm rounded-circle mr-1" />
-                                                        This property belongs to {{ current(explode(' ',$booking->user->name))}}. Other people like it.
+                                                        <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                        This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                                     </p>
                                                 </div>
                                             </div>
@@ -304,12 +305,12 @@
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-4">
-                                                    @php $image = $booking->property->propertyImages->first(); @endphp
+                                                    @php $image = $property->propertyImages->first(); @endphp
                                                     <img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-thumbnail" width="200" height="200" />
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <h4>{{ $booking->property->title }}</h4>
-                                                    <p>{{ ucfirst($booking->property->type) }} in {{ strtolower($booking->property->base) }}</p>
+                                                    <h4>{{ $property->title }}</h4>
+                                                    <p>{{ ucfirst($property->type) }} in {{ strtolower($property->base) }}</p>
                                                     <p>
                                                         <i class="fa fa-star"></i> 
                                                         <i class="fa fa-star"></i>
@@ -317,21 +318,21 @@
                                                         <i class="fa fa-star"></i>
                                                         <i class="fa fa-star"></i>
                                                         &nbsp;&nbsp;
-                                                        {{ $booking->property->propertyReviews->count() }} Reviews
+                                                        {{ $property->propertyReviews->count() }} Reviews
                                                     </p>
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
                                                 <div class="col-sm-12">
-                                                    <h4><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($booking->adult+$booking->children+$booking->infant) }} {{ str_plural('Guest', ($booking->adult+$booking->children+$booking->infant)) }}</h4>
+                                                    <h4><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($adult+$children+$infant) }} {{ str_plural('Guest', ($adult+$children+$infant)) }}</h4>
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
                                                 <div class="col-sm-12">
                                                     <div>
-                                                        <p class="font-18">{{ $booking->property->propertyPrice->currency }} {{ number_format($booking->property->propertyPrice->property_price,2) }}/night</p>
+                                                        <p class="font-18">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}/night</p>
                                                     </div>
                                                     <div class="font-18">
-                                                        <span id="dateCalculator">{{ $days }} x {{ number_format($booking->property->propertyPrice->property_price* $days,2) }}</span>
-                                                        <span class="float-right" id="dateCalculatorResult">{{ $booking->property->propertyPrice->currency }} {{ number_format($booking->property->propertyPrice->property_price* $days,2) }}</span>
+                                                        <span id="dateCalculator">{{ $days }} x {{ number_format($property->propertyPrice->property_price,2) }}</span>
+                                                        <span class="float-right" id="dateCalculatorResult">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price* $days,2) }}</span>
                                                     </div>
                                                     <!-- <div class="font-18">
                                                         <span>Discount Cal</span>
@@ -339,13 +340,13 @@
                                                     </div> -->
                                                     <div class="font-18">
                                                         <span>Service Fee</span>
-                                                        <span class="float-right" id="serviceFeeResult">{{ $booking->property->propertyPrice->currency }} {{ number_format(($booking->property->propertyPrice->property_price* $days)*0.12,2) }}</span>
+                                                        <span class="float-right" id="serviceFeeResult">{{ $property->propertyPrice->currency }} {{ number_format(($property->propertyPrice->property_price* $days)*0.12,2) }}</span>
                                                     </div>
                                                     <hr>
                                                     <div class="font-18">
                                                         <span><strong>Total</strong></span>
                                                         <span class="float-right"><strong id="totalFeeResult">
-                                                            {{ $booking->property->propertyPrice->currency }} {{ number_format((($booking->property->propertyPrice->property_price* $days)*0.12)+$booking->property->propertyPrice->property_price* $days,2) }}</strong></span>
+                                                            {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $days)*0.12)+$property->propertyPrice->property_price* $days,2) }}</strong></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
@@ -534,8 +535,7 @@ $(".btnContinue").on("click", function(e){
     var $this = $(this);
     if($this.data('step')=='1'){
         var data = {
-            step: $this.data('step'),
-            booking_id: "{{ $booking->id }}",
+            "step": $this.data('step'),
         }
 
         $.ajax({
@@ -562,10 +562,8 @@ $(".btnContinue").on("click", function(e){
             $("#owner_message").parents('.validate').find('.mySpan').text('owner message field is required');
         }else{
             var data = {
-                step: $this.data('step'),
-                booking_id: "{{ $booking->id }}",
-                owner_message: $("#owner_message").val(),
-                owner: "{{ $booking->user->id }}"
+                "step": $this.data('step'),
+                "owner_message": $("#owner_message").val(),
             }
 
             $.ajax({
@@ -706,6 +704,22 @@ $("select").on('change', function(){
     }
 });
 
+$(".moveBack").on("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this=$(this);
+    if($this.data('step')=='3'){
+        $("#paymentDiv").slideUp('fast', function(){
+            $("#verifyContact").slideDown('fast');
+        });
+    }
+    else if($this.data('step')=='2'){
+        $("#verifyContact").slideUp('fast', function(){
+            $("#propertyReview").slideDown('fast');
+        });
+    }
+    return false;
+});
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;

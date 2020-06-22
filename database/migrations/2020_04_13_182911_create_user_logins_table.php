@@ -16,8 +16,7 @@ class CreateUserLoginsTable extends Migration
         Schema::create('user_logins', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
-            $table->date('login_date');
-            $table->time('login_time');
+            $table->string('ip');
             $table->string('device');
             $table->string('browser');
             $table->string('location');
