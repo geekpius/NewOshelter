@@ -3,6 +3,7 @@
 namespace App\PropertyModel;
 
 use App\User;
+use App\UserModel\UserVisit;
 use App\BookingModel\Booking;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyList;
@@ -123,9 +124,9 @@ class Property extends Model
     public function userSavedProperties(){
         return $this->hasMany(UserSavedProperty::class);
     }
-
-    public function bookings(){
-        return $this->hasMany(Booking::class);
+    
+    public function userVisits(){
+        return $this->hasMany(UserVisit::class);
     }
 
 

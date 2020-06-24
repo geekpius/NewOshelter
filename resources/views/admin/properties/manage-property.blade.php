@@ -49,7 +49,7 @@
                                     <td>+123456789</td>
                                     <td>68</td>
                                     <td>                                                       
-                                        <a href="{{route('tenant.rented', 1)}}" class="mr-3" title="Utilities"><i class="fa fa-money-bill-wave text-primary font-16"></i></a>
+                                        <a href="{{route('tenant.visited', 1)}}" class="mr-3" title="Utilities"><i class="fa fa-money-bill-wave text-primary font-16"></i></a>
                                         <a href="#" title="Send Email to Tenants"><i class="fas fa-envelope text-pink font-16"></i></a>
                                     </td>
                                 </tr><!--end tr-->
@@ -59,7 +59,7 @@
                                     <td>+123456789</td>
                                     <td>112</td>
                                     <td>                                                       
-                                        <a href="{{route('tenant.rented', 2)}}" class="mr-3" title="Utilities"><i class="fa fa-money-bill-wave text-primary font-16"></i></a>
+                                        <a href="{{route('tenant.visited', 2)}}" class="mr-3" title="Utilities"><i class="fa fa-money-bill-wave text-primary font-16"></i></a>
                                         <a href="#" title="Send Email to Tenants"><i class="fas fa-envelope text-pink font-16"></i></a>
                                     </td>
                                 </tr><!--end tr-->

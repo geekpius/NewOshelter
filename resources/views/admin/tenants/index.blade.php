@@ -44,29 +44,22 @@
                             </thead>
 
                             <tbody>
-                                <tr>
-                                    <td>0123456789</td>
-                                    <td><img src="../assets/images/user.jpg" alt="" class="thumb-sm rounded-circle mr-2">Donald Gardner<small class="badge badge-soft-pink ml-1">New</small></td>
-                                    <td>xyx@gmail.com</td>
-                                    <td>+123456789</td>
-                                    <td>68</td>
-                                    <td>                                                       
-                                        <a href="{{route('tenant.rented', 1)}}" class="mr-3" title="Properties Rented"><i class="fas fa-home text-primary font-16"></i></a>
-                                        <a href="#" title="Send Email"><i class="fas fa-envelope text-pink font-16"></i></a>
-                                    </td>
-                                </tr><!--end tr-->
-                                <tr>
-                                    <td>0123456789</td>
-                                    <td><img src="../assets/images/users.jpg" alt="" class="thumb-sm rounded-circle mr-2">Matt Rosales</td>
-                                    <td>xyx@gmail.com</td>
-                                    <td>+123456789</td>
-                                    <td>112</td>
-                                    <td>                                                       
-                                        <a href="{{route('tenant.rented', 2)}}" class="mr-3" title="Properties Rented"><i class="fas fa-home text-primary font-16"></i></a>
-                                        <a href="#" title="Send Email"><i class="fas fa-envelope text-pink font-16"></i></a>
-                                    </td>
-                                </tr><!--end tr-->
-                                                                            
+                                @foreach ($tenants as $tenant)
+                                    @foreach ($tenant->userVisits as $visit)
+                                    <tr>
+                                        <td>{{ $visit->user->membership }}</td>
+                                        @php $image = (empty($visit->user->image))? 'user.svg':'users/'.$visit->user->image; @endphp
+                                        <td><img src="{{ asset('assets/images/'.$image) }}" alt="" class="thumb-sm rounded-circle mr-2">{{ $visit->user->name }}</td>
+                                        <td>{{ $visit->user->email }}</td>
+                                        <td>{{ $visit->user->phone }}</td>
+                                        <td>{{ $visit->user->digital_address }}</td>
+                                        <td>                                                       
+                                            <a href="{{route('tenant.visited', $visit->user_id)}}" class="mr-3" title="Properties Visited"><i class="fas fa-home text-primary font-16"></i></a>
+                                            <a href="#" title="Send Email"><i class="fas fa-envelope text-pink font-16"></i></a>
+                                        </td>
+                                    </tr><!--end tr-->
+                                    @endforeach
+                                @endforeach                                        
                             </tbody>
                         </table>                    
 

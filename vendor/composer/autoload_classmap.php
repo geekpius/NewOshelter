@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\BookingModel\\Booking' => $baseDir . '/app/BookingModel/Booking.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\AmenityController' => $baseDir . '/app/Http/Controllers/AmenityController.php',
@@ -54,7 +53,7 @@ return array(
     'App\\Http\\Controllers\\UserSavedPropertyController' => $baseDir . '/app/Http/Controllers/UserSavedPropertyController.php',
     'App\\Http\\Controllers\\UserWalletController' => $baseDir . '/app/Http/Controllers/UserWalletController.php',
     'App\\Http\\Controllers\\VatController' => $baseDir . '/app/Http/Controllers/VatController.php',
-    'App\\Http\\Controllers\\VisitorsController' => $baseDir . '/app/Http/Controllers/VisitorsController.php',
+    'App\\Http\\Controllers\\VisitorController' => $baseDir . '/app/Http/Controllers/VisitorController.php',
     'App\\Http\\Controllers\\WebsiteController' => $baseDir . '/app/Http/Controllers/WebsiteController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\CheckForMaintenanceMode' => $baseDir . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -103,6 +102,7 @@ return array(
     'App\\UserModel\\UserNotification' => $baseDir . '/app/UserModel/UserNotification.php',
     'App\\UserModel\\UserProfile' => $baseDir . '/app/UserModel/UserProfile.php',
     'App\\UserModel\\UserSavedProperty' => $baseDir . '/app/UserModel/UserSavedProperty.php',
+    'App\\UserModel\\UserVisit' => $baseDir . '/app/UserModel/UserVisit.php',
     'App\\UserModel\\UserWallet' => $baseDir . '/app/UserModel/UserWallet.php',
     'App\\UserModel\\UserWalletTransaction' => $baseDir . '/app/UserModel/UserWalletTransaction.php',
     'App\\UserModel\\Vat' => $baseDir . '/app/UserModel/Vat.php',
