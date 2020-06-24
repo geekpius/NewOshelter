@@ -99,17 +99,14 @@
                                         <th>Value</th>
                                     </tr><!--end tr-->
                                     </thead>
-
                                     <tbody>
-                                        @foreach (Auth::user()->userWallet->userWalletTransactions as $trans)
-                                        @if ($trans->status)
+                                        @foreach (Auth::user()->userWallet->userWalletTransactions->where('status',true) as $trans)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($trans->created_at)->diffForHumans() }}</td>
                                             <td>{{ $trans->transaction_id }}</td>
                                             <td><span class="badge badge-md badge-soft-success">{{ $trans->type }}</span></td>
                                             <td>{{Auth::user()->userWallet->currency}} {{ number_format($trans->amount,2) }}</td>
                                         </tr><!--end tr-->
-                                        @endif
                                         @endforeach                                                                                 
                                     </tbody>
                                 </table>                    
@@ -126,17 +123,14 @@
                                         <th>Value</th>
                                     </tr><!--end tr-->
                                     </thead>
-
                                     <tbody>
-                                        @foreach (Auth::user()->userWallet->userWalletTransactions as $trans)
-                                        @if (!$trans->status)
+                                        @foreach (Auth::user()->userWallet->userWalletTransactions->where('status',false) as $trans)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($trans->created_at)->diffForHumans() }}</td>
                                             <td>{{ $trans->transaction_id }}</td>
                                             <td><span class="badge badge-md badge-soft-success">{{ $trans->type }}</span></td>
                                             <td>{{Auth::user()->userWallet->currency}} {{ number_format($trans->amount,2) }}</td>
                                         </tr><!--end tr-->
-                                        @endif
                                         @endforeach                                                                                     
                                     </tbody>
                                 </table>                    

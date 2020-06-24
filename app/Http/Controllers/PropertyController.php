@@ -720,7 +720,7 @@ class PropertyController extends Controller
     public function manageProperty()
     {
         $data['page_title'] = 'Manage rented properties';
-        return view('admin.properties.properties.manage-property', $data);
+        return view('admin.properties.manage-property', $data);
     }
     
 

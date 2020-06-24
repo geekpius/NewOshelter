@@ -13,10 +13,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">My Visitors</li>
+                        <li class="breadcrumb-item active">My Visits</li>
                     </ol>
                 </div>
-                <h4 class="page-title">My Visitors</h4>
+                <h4 class="page-title">My Visits</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>
@@ -30,7 +30,7 @@
 
                 <div class="card-body pt-12">
 
-                    <h4 class="header-title mt-lg-12 mb-3">Visitors History</h4> 
+                    <h4 class="header-title mt-lg-12 mb-3">Visits History</h4> 
 
                     <!-- Nav tabs -->
                     <ul class="nav nav-pills nav-justified" role="tablist">
@@ -38,10 +38,10 @@
                             <a class="nav-link active" data-toggle="tab" href="#all" role="tab">All</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" data-toggle="tab" href="#received" role="tab">Recieved</a>
+                            <a class="nav-link" data-toggle="tab" href="#received" role="tab">Upcoming</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" data-toggle="tab" href="#withdrawn" role="tab">Withdrawn</a>
+                            <a class="nav-link" data-toggle="tab" href="#withdrawn" role="tab">Past</a>
                         </li>
                     </ul>
 
@@ -51,27 +51,27 @@
                             <div class="table-responsive dash-social">
                                 <table id="datatable" class="table table-bordered">
                                     <thead class="thead-light">
-                                    <tr>
-                                        <th>Date</th>                                               
-                                        <th>Transaction ID</th>
-                                        <th>Type</th>
-                                        <th>Value</th>
+                                    <tr>                                        
+                                        <th>Booked At</th>
+                                        <th>Property</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Guest</th>
+                                        <th>Status</th>
                                     </tr><!--end tr-->
                                     </thead>
 
                                     <tbody>
+                                        @foreach (Auth::user()->userVisits as $visit)
                                         <tr>
-                                            <td>13 Jan 2019-10:15am</td>
-                                            <td>0012369584712458</td>
-                                            <td><span class="badge badge-md badge-soft-success">Received</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
+                                            <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
+                                            <td>{{ $visit->property->title }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($visit->check_out)->format('d-M-Y') }}</td>
+                                            <td>{{ ($visit->adult+$visit->children) }}</td>
+                                            <td><span class="badge badge-md badge-soft-{{ ($visit->status)? 'success':'danger' }}">{{ $visit->checkInOrOut() }}</span></td>
                                         </tr><!--end tr-->
-                                        <tr>
-                                            <td>14 Jan 2019-12:05pm</td>
-                                            <td>0001245368452136</td>
-                                            <td><span class="badge badge-md badge-soft-danger">Withdrawn</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
-                                        </tr><!--end tr-->                                                                                    
+                                        @endforeach                                                                                   
                                     </tbody>
                                 </table>                    
                             </div>     
@@ -80,46 +80,58 @@
                             <div class="table-responsive dash-social">
                                 <table id="datatable1" class="table table-bordered">
                                     <thead class="thead-light">
-                                    <tr>
-                                        <th>Date</th>                                               
-                                        <th>Transaction ID</th>
-                                        <th>Type</th>
-                                        <th>Value</th>
+                                    <tr>                                        
+                                        <th>Booked At</th>
+                                        <th>Property</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Guest</th>
+                                        <th>Status</th>
                                     </tr><!--end tr-->
                                     </thead>
 
                                     <tbody>
+                                        @foreach (Auth::user()->userVisits->where('check_in','>',\Carbon\Carbon::today()) as $visit)
                                         <tr>
-                                            <td>13 Jan 2019-10:15am</td>
-                                            <td>0012369584712458</td>
-                                            <td><span class="badge badge-md badge-soft-success">Received</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
-                                        </tr><!--end tr-->                                                                                 
+                                            <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
+                                            <td>{{ $visit->property->title }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($visit->check_out)->format('d-M-Y') }}</td>
+                                            <td>{{ ($visit->adult+$visit->children) }}</td>
+                                            <td><span class="badge badge-md badge-soft-{{ ($visit->status)? 'success':'danger' }}">{{ $visit->checkInOrOut() }}</span></td>
+                                        </tr><!--end tr-->
+                                        @endforeach                                                                                   
                                     </tbody>
-                                </table>                    
+                                </table>                         
                             </div>                             
                         </div>
                         <div class="tab-pane p-3" id="withdrawn" role="tabpanel">
                             <div class="table-responsive dash-social">
                                 <table id="datatable2" class="table table-bordered">
                                     <thead class="thead-light">
-                                    <tr>
-                                        <th>Date</th>                                               
-                                        <th>Transaction ID</th>
-                                        <th>Type</th>
-                                        <th>Value</th>
+                                    <tr>                                        
+                                        <th>Booked At</th>
+                                        <th>Property</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Guest</th>
+                                        <th>Status</th>
                                     </tr><!--end tr-->
                                     </thead>
 
                                     <tbody>
+                                        @foreach (Auth::user()->userVisits->where('check_in','<',\Carbon\Carbon::today()) as $visit)
                                         <tr>
-                                            <td>14 Jan 2019-12:05pm</td>
-                                            <td>0001245368452136</td>
-                                            <td><span class="badge badge-md badge-soft-danger">Withdrawn</span></td>
-                                            <td>{{Auth::user()->userWallet->currency}} 990.00</td>
-                                        </tr><!--end tr-->                                                                                    
+                                            <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
+                                            <td>{{ $visit->property->title }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($visit->check_out)->format('d-M-Y') }}</td>
+                                            <td>{{ ($visit->adult+$visit->children) }}</td>
+                                            <td><span class="badge badge-md badge-soft-{{ ($visit->status)? 'success':'danger' }}">{{ $visit->checkInOrOut() }}</span></td>
+                                        </tr><!--end tr-->
+                                        @endforeach                                                                                   
                                     </tbody>
-                                </table>                    
+                                </table>                      
                             </div>                             
                         </div>
                     </div>    

@@ -103,9 +103,9 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="{{ route('account') }}"><i class="dripicons-user text-muted mr-2"></i> My Account</a>
                             <a class="dropdown-item" href="{{route('saved')}}"><i class="dripicons-heart text-muted mr-2"></i> Wishlist</a>
-                            <a class="dropdown-item" href="{{ route('Visitors.index') }}"><i class="dripicons-user text-muted mr-2"></i> Visits</a>
-                            <a class="dropdown-item" href="{{route('wallet')}}"><i class="dripicons-wallet text-muted mr-2"></i> My Wallet</a>
-                            <a class="dropdown-item" href="{{route('activities')}}"><i class="dripicons-view-list text-muted mr-2"></i> My Activities</a>
+                            <a class="dropdown-item" href="{{ route('visits') }}"><i class="dripicons-user text-muted mr-2"></i> Visits</a>
+                            <a class="dropdown-item" href="{{route('wallet')}}"><i class="dripicons-wallet text-muted mr-2"></i> Wallet</a>
+                            <a class="dropdown-item" href="{{route('activities')}}"><i class="dripicons-view-list text-muted mr-2"></i> Activities</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"  href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="dripicons-exit text-muted mr-2"></i> Logout</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -191,9 +191,9 @@
                                 <h6 class="menu-title">Guests</h6>        
                             </div>
                             <ul class="nav">
-                                <li class="nav-item"><a class="nav-link" href="{{route('tenants.index')}}"><i class="dripicons-user-id"></i>List Tenants</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('buyer')}}"><i class="dripicons-user-id"></i>List Buyers</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('bidder')}}"><i class="dripicons-user-id"></i>List Bidders</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('tenants')}}"><i class="dripicons-user-id"></i>List Tenants</a></li>
+                                {{-- <li class="nav-item"><a class="nav-link" href="{{route('buyers')}}"><i class="dripicons-user-id"></i>List Buyers</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('bidders')}}"><i class="dripicons-user-id"></i>List Bidders</a></li> --}}
                             </ul>
                         </div><!-- end  Project-->
                         <div id="MetricaMessage" class="main-icon-menu-pane">

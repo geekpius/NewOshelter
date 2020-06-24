@@ -135,13 +135,17 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
     Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
     Route::post('/properties/bookings/verify', 'BookingController@verify')->name('property.bookings.verify');
+    
+
+    /*------- Visitors Visit ------- */
+    Route::get('/visits', 'VisitorController@index')->name('visits');
    
     
-    /*------- Listing tenants ------- */
-    Route::resource('/tenants', 'TenantsController');
-    Route::get('/tenants/{user}/properties-rented', 'TenantsController@tenantRentedProperty')->name('tenant.rented');
-    Route::get('/buyers', 'TenantsController@buyer')->name('buyer');
-    Route::get('/bidders', 'TenantsController@bidder')->name('bidder');
+    /*------- Listing Guests ------- */
+    Route::get('/tenants', 'TenantController@index')->name('tenants');
+    Route::get('/tenants/{user}/visited-properties', 'TenantController@showVisitedProperty')->name('tenant.visited');
+    Route::get('/buyers', 'TenantsController@buyer')->name('buyers');
+    Route::get('/bidders', 'TenantsController@bidder')->name('bidders');
 
     /*------- Messages ------- */
     Route::get('/messages/{user}/compose', 'MessageController@composeMessage')->name('messages.compose');
@@ -159,9 +163,6 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/view-tickets/{ticket}/read', 'TicketController@read')->name('ticket.read');
     Route::post('/ticket/reply', 'TicketController@reply')->name('ticket.reply');
     Route::get('/ticket/{ticket}/close', 'TicketController@close')->name('ticket.close');
-
-    // vistors
-    Route::resource('/Visitors', 'VisitorsController');
 
     /*------- Activities ------- */
 

@@ -63,7 +63,7 @@
                                 <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> Listings</a>
                                 <a class="dropdown-item" href="{{ route('messages') }}"><span class="fa fa-envelope"></span> Messages</a>
                                 <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
-                                <a class="dropdown-item" href="#"><span class="fa fa-user"></span> Visits</a>
+                                <a class="dropdown-item" href="{{ route('visits') }}"><span class="fa fa-user"></span> Visits</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> Logout</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf

@@ -406,7 +406,6 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
     );
 
     public static $classMap = array (
-        'App\\BookingModel\\Booking' => __DIR__ . '/../..' . '/app/BookingModel/Booking.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AmenityController' => __DIR__ . '/../..' . '/app/Http/Controllers/AmenityController.php',
@@ -454,7 +453,7 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
         'App\\Http\\Controllers\\UserSavedPropertyController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserSavedPropertyController.php',
         'App\\Http\\Controllers\\UserWalletController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserWalletController.php',
         'App\\Http\\Controllers\\VatController' => __DIR__ . '/../..' . '/app/Http/Controllers/VatController.php',
-        'App\\Http\\Controllers\\VisitorsController' => __DIR__ . '/../..' . '/app/Http/Controllers/VisitorsController.php',
+        'App\\Http\\Controllers\\VisitorController' => __DIR__ . '/../..' . '/app/Http/Controllers/VisitorController.php',
         'App\\Http\\Controllers\\WebsiteController' => __DIR__ . '/../..' . '/app/Http/Controllers/WebsiteController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -503,6 +502,7 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
         'App\\UserModel\\UserNotification' => __DIR__ . '/../..' . '/app/UserModel/UserNotification.php',
         'App\\UserModel\\UserProfile' => __DIR__ . '/../..' . '/app/UserModel/UserProfile.php',
         'App\\UserModel\\UserSavedProperty' => __DIR__ . '/../..' . '/app/UserModel/UserSavedProperty.php',
+        'App\\UserModel\\UserVisit' => __DIR__ . '/../..' . '/app/UserModel/UserVisit.php',
         'App\\UserModel\\UserWallet' => __DIR__ . '/../..' . '/app/UserModel/UserWallet.php',
         'App\\UserModel\\UserWalletTransaction' => __DIR__ . '/../..' . '/app/UserModel/UserWalletTransaction.php',
         'App\\UserModel\\Vat' => __DIR__ . '/../..' . '/app/UserModel/Vat.php',

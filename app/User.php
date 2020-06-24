@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\UserModel\Vat;
 use Illuminate\Support\Str;
 use App\UserModel\UserLogin;
+use App\UserModel\UserVisit;
 use App\BookingModel\Booking;
 use App\UserModel\UserTicket;
 use App\UserModel\UserWallet;
@@ -159,8 +160,8 @@ class User extends Authenticatable
         return $this->hasMany(UserSavedProperty::class);
     }
 
-    public function bookings(){
-        return $this->hasMany(Booking::class);
+    public function userVisits(){
+        return $this->hasMany(UserVisit::class);
     }
 
 
