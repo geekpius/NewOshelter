@@ -54,7 +54,7 @@
                                         <td>{{ $visit->user->phone }}</td>
                                         <td>{{ $visit->user->digital_address }}</td>
                                         <td>                                                       
-                                            <a href="{{route('tenant.visited', $visit->user_id)}}" class="mr-3" title="Properties Visited"><i class="fas fa-home text-primary font-16"></i></a>
+                                            <a href="{{route('tenant.visited', $visit->user_id)}}" class="mr-3" title="Properties Rented"><i class="fas fa-home text-primary font-16"></i></a>
                                             <a href="#" title="Send Email"><i class="fas fa-envelope text-pink font-16"></i></a>
                                         </td>
                                     </tr><!--end tr-->

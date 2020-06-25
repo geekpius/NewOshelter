@@ -34,8 +34,9 @@ class TenantController extends Controller
 
     public function showVisitedProperty(User $user)
     {
-        $data['page_title'] =  $user->name.' visited properties';
+        $data['page_title'] =  $user->name.' rented properties';
         $data['visits'] = $user->userVisits->where('status',true);
+        $data['user'] = $user;
         return view('admin.tenants.visited-properties', $data);
     }
 

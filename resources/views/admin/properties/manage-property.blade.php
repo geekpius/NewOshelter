@@ -38,32 +38,27 @@
                                 <th>Type</th>
                                 <th>Status</th>
                                 <th>Location</th>   
+                                <th>Rent Times</th>   
                                 <th>Action</th>
                             </tr><!--end tr-->
                             </thead>
 
                             <tbody>
+                                @foreach ($properties as $property)
                                 <tr>
-                                    <td>0123456789</td>
-                                    <td>xyx@gmail.com</td>
-                                    <td>+123456789</td>
-                                    <td>68</td>
+                                    <td  data-toggle="popover" data-trigger="hover" data-placement="left" data-html=true data-title='<img src="{{ asset('assets/images/properties/'.$property->propertyImages->first()->image) }}" alt="{{ $property->title }}" class="img-responsive img-thumbnail" height="400" width="400">'>
+                                        {{ $property->title }}
+                                    </td>
+                                    <td>{{ ucwords($property->type) }}</td>
+                                    <td>{{ ucwords($property->type_status) }}</td>
+                                    <td>{{ $property->propertyLocation->location }}</td>
+                                    <td>{{ $property->userVisits->count() }}</td>
                                     <td>                                                       
-                                        <a href="{{route('tenant.visited', 1)}}" class="mr-3" title="Utilities"><i class="fa fa-money-bill-wave text-primary font-16"></i></a>
+                                        <a href="{{route('property.utilities', $property->id)}}" class="mr-3" title="Utilities"><i class="fa fa-money-bill-wave text-primary font-16"></i></a>
                                         <a href="#" title="Send Email to Tenants"><i class="fas fa-envelope text-pink font-16"></i></a>
                                     </td>
                                 </tr><!--end tr-->
-                                <tr>
-                                    <td>0123456789</td>
-                                    <td>xyx@gmail.com</td>
-                                    <td>+123456789</td>
-                                    <td>112</td>
-                                    <td>                                                       
-                                        <a href="{{route('tenant.visited', 2)}}" class="mr-3" title="Utilities"><i class="fa fa-money-bill-wave text-primary font-16"></i></a>
-                                        <a href="#" title="Send Email to Tenants"><i class="fas fa-envelope text-pink font-16"></i></a>
-                                    </td>
-                                </tr><!--end tr-->
-                                                                            
+                                @endforeach                       
                             </tbody>
                         </table>                    
 

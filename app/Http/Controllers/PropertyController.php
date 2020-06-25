@@ -720,6 +720,7 @@ class PropertyController extends Controller
     public function manageProperty()
     {
         $data['page_title'] = 'Manage rented properties';
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereVacant(false)->get();
         return view('admin.properties.manage-property', $data);
     }
     
