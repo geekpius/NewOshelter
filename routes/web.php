@@ -125,6 +125,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/properties/{property}/delete', 'PropertyController@deleteListing')->name('property.delete');
 
     Route::get('/manage-properties', 'PropertyController@manageProperty')->name('property.manage');
+    Route::get('/manage-properties/{property}/utilities', 'PropertyUtilityController@index')->name('property.utilities');
 
     
     /*------- Booking a Properties ------- */

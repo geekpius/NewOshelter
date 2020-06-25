@@ -17,6 +17,7 @@ use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\PropertyAmenity;
 use App\PropertyModel\PropertyContain;
 use App\PropertyModel\PropertyOwnRule;
+use App\PropertyModel\PropertyUtility;
 use App\PropertyModel\PropertyLocation;
 use Illuminate\Database\Eloquent\Model;
 use App\PropertyModel\PropertyDescription;
@@ -40,8 +41,7 @@ class Property extends Model
     const NOT_DONE_STEP = false;
 
     protected $fillable = [
-        'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children', 
-        'infant',
+        'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children', 'infant',
     ];
 
     public function isPublish() : bool
@@ -127,6 +127,10 @@ class Property extends Model
     
     public function userVisits(){
         return $this->hasMany(UserVisit::class);
+    }
+
+    public function propertyUtilities(){
+        return $this->hasMany(PropertyUtility::class);
     }
 
 
