@@ -65,42 +65,9 @@
                         <div class="col-lg-6 offset-lg-1">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5>Choose utilities for this property - <small class="text-pink">Click on amount to change prices</small></h5>
-                                    <table class="table mt-3">
-                                        <tr>
-                                            <td>
-                                                <div class="checkbox checkbox-primary">
-                                                    <input id="light" type="checkbox">
-                                                    <label for="light">
-                                                        Light Bill
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td class="text-right"><a href="/utilities" data-name="Light Bill" class="text-primary onUpdate">GHC 15.00/month</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no-border">
-                                                <div class="checkbox checkbox-primary">
-                                                    <input id="water" type="checkbox">
-                                                    <label for="water">
-                                                        Water Bill
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td class="no-border text-right"><a href="/utilities" data-name="Water Bill" class="text-primary onUpdate">GHC 20.00/month</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="no-border">
-                                                <div class="checkbox checkbox-primary">
-                                                    <input id="sanitation" type="checkbox">
-                                                    <label for="sanitation">
-                                                        Sanitation
-                                                    </label>
-                                                </div>
-                                            </td>
-                                            <td class="no-border text-right"><a href="/utilities" data-name="Sanitation Bill" class="text-primary onUpdate">GHC 30.00/month</a></td>
-                                        </tr>
-                                    </table>
+                                    <h5>Set utilities/Bills for this property - <small class="text-pink">Click on amount to change prices</small></h5>
+                                    <button class="btn btn-primary btn-sm px-4" id="btnAddBill"><i class="fa fa-plus-circle"></i> Add Bill</button>
+                                    <div id="getBillContent"></div>
                                 </div>
                             </div><!--end card-body-->
                         </div>
@@ -112,16 +79,40 @@
     </div> 
 
 
-    <!-- extend modal -->
-    <div id="utilityModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="utilityModalLabel" aria-hidden="true">
+      <!-- extend modal -->
+      <div id="addUtilityModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="addUtilityModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title mt-0" id="utilityModalLabel">Update Amount</h5>
+                    <h5 class="modal-title mt-0" id="addUtilityModalLabel">Add New Bill</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
-                                       
+                    <form class="form-horizontal form-material mb-0" id="formAddBill">
+                        <input type="hidden" name="property_id" id="property_id" value="{{ $property->id }}" readonly />
+                        <div class="form-group validate">
+                            <select name="bill" id="bill" class="form-control">
+                                <option value="">--Select bill--</option>
+                                <option value="light">Light</option>
+                                <option value="water">Water</option>
+                                <option value="sanitation">Sanitation</option>
+                            </select>
+                            <span class="text-danger small mySpan" role="alert"></span>                                  
+                        </div>
+                        <div class="form-group validate">
+                            <input type="text" name="amount" id="amount" placeholder="Enter Amount" class="form-control">
+                            <span class="text-danger small mySpan" role="alert"></span>                                  
+                        </div>
+                        <div class="form-group validate">
+                            <select name="currency" id="currency" class="form-control">
+                                <option value="GHC">Ghana(GHC)</option>
+                            </select>
+                            <span class="text-danger small mySpan" role="alert"></span>                                  
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-gradient-primary btn-sm text-light px-4 mt-3 float-right btnAddBill"><i class="mdi mdi-plus-circle fa-lg"></i> Add Bill</button>
+                        </div>
+                    </form>                     
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -133,34 +124,82 @@
 
 @section('scripts')
 <script>
-$(".onUpdate").on("click", function(e){
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+    }
+})
+
+function getBillContent()
+{
+    $.ajax({
+        url: "{{ route('property.utilities.list', $property->id) }}",
+        type: "GET",
+        success: function(resp){
+            $("#getBillContent").html(resp);
+        },
+        error: function(resp){
+            console.log('something went wrong with request');
+        }
+    });
+}
+getBillContent();
+
+$("#btnAddBill").on("click", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this = $(this);
-    $("#utilityModalLabel").text("Update "+$this.data('name')+ " amount");
-    $('#utilityModal').modal('show');
+    $('#addUtilityModal').modal('show');
     return false;
 });
 
-$(".btnEvict").on("click", function(e){
+$("#formAddBill").on("submit", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this = $(this);
-    swal({
-        title: "Are you sure?",
-        text: "You are about evict tenant. This action is irreversible.",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-danger btn-sm",
-        cancelButtonClass: "btn-sm",
-        confirmButtonText: "Yes, Evict",
-        closeOnConfirm: false
-        },
-    function(){
-        //window.location = $href;
+    var valid = true;
+    $('#formAddBill input, #formAddBill select').each(function() {
+        let $this = $(this);
+        
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
     });
-    //swal("Exceed", "You can not upload more than 10 photos.", "warning");
+
+    if(valid){
+        $(".btnAddBill").html('<i class="fa fa-spin fa-spinner"></i> Adding Bill...').attr('disabled',true);
+        let data = $this.serialize();
+        $.ajax({
+            url: "{{ route('property.utilities.submit') }}",
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    getBillContent();
+                    $("#formAddBill #amount, #formAddBill #bill").val('');
+                    $('#addUtilityModal').modal('hide');
+                }else{
+                    swal("Error", resp, "error");
+                }
+                $(".btnAddBill").html('<i class="mdi mdi-plus-circle fa-lg"></i> Add Bill').attr('disabled',false);
+            },
+            error: function(resp){
+                console.log('something went wrong with request');
+            }
+
+        });
+    }
     return false;
+});
+
+$('#amount').keypress(function(event) {
+    if (((event.which != 46 || (event.which == 46 && $(this).val() == '')) ||
+            $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+        event.preventDefault();
+    }
+}).on('paste', function(event) {
+    event.preventDefault();
 });
 </script>
 @endsection
