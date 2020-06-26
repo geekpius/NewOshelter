@@ -22,69 +22,97 @@ class PropertyUtilityController extends Controller
         return view('admin.properties.property-utilities', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function show(Property $property)
     {
-        //
+        $data['property'] = $property;
+        $data['utilities'] = $property->propertyUtilities;
+        return view('admin.properties.show-utilities', $data)->render();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request): string
     {
-        //
+        $validator = \Validator::make($request->all(), [
+            'bill' => 'required|string',
+            'amount' => 'required|numeric',
+            'currency' => 'required|string',
+        ]);
+        
+        (string) $message= '';
+        if ($validator->fails()){
+            $message = 'Wrong input fields.';
+        }else{
+            if(PropertyUtility::whereProperty_id($request->property_id)->whereName($request->bill)->exists()){
+                $message = 'Utility already added';
+            }else{
+                $util = new PropertyUtility;
+                $util->property_id = $request->property_id;
+                $util->name = $request->bill;
+                $util->amount = $request->amount;
+                $util->currency = $request->currency;
+                $util->save();
+                $message = 'success';
+            }
+        }
+
+        return $message;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\PropertyModel\PropertyUtility  $propertyUtility
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PropertyUtility $propertyUtility)
+    public function switch(Request $request): string
     {
-        //
+        (string) $message= '';
+        $util = PropertyUtility::findOrFail($request->property_id);
+        (bool) $switch = ($request->switch=='on')? PropertyUtility::ON : PropertyUtility::OFF;
+        $util->status = $switch;
+        $update = $util->update();
+        if($update){
+            $message = 'success';
+        }else{
+            $message = 'something went wrong';
+        }
+
+        return $message;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\PropertyModel\PropertyUtility  $propertyUtility
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PropertyUtility $propertyUtility)
+    public function update(Request $request): string
     {
-        //
+        $validator = \Validator::make($request->all(), [
+            'utility_id' => 'required|string',
+            'amount' => 'required|numeric',
+        ]);
+        
+        (string) $message= '';
+        if ($validator->fails()){
+            $message = 'Wrong input fields.';
+        }else{
+            $util = PropertyUtility::findOrFail($request->utility_id);
+            $util->amount = $request->amount;
+            if($util->isDirty()){
+                $util->update();
+                $message = 'success';
+            }else{
+                $message = 'Change amount value.';
+            }
+        }
+
+        return $message;
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PropertyModel\PropertyUtility  $propertyUtility
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, PropertyUtility $propertyUtility)
+    public function remove(PropertyUtility $propertyUtility): string
     {
-        //
+        $propertyUtility->delete();
+        return 'success';
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\PropertyModel\PropertyUtility  $propertyUtility
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PropertyUtility $propertyUtility)
-    {
-        //
-    }
+
+
+
+
+
+
+
+
+
+
+    
 }

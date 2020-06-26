@@ -126,6 +126,11 @@ Route::group(['prefix' => 'user'], function () {
 
     Route::get('/manage-properties', 'PropertyController@manageProperty')->name('property.manage');
     Route::get('/manage-properties/{property}/utilities', 'PropertyUtilityController@index')->name('property.utilities');
+    Route::get('/manage-properties/{property}/utilities-list', 'PropertyUtilityController@show')->name('property.utilities.list');
+    Route::post('/manage-properties/create/utilities', 'PropertyUtilityController@store')->name('property.utilities.submit');
+    Route::post('/manage-properties/switch/utilities', 'PropertyUtilityController@switch')->name('property.utilities.switch');
+    Route::post('/manage-properties/update/utilities', 'PropertyUtilityController@update')->name('property.utilities.update');
+    Route::get('/manage-properties/{propertyUtility}/remove', 'PropertyUtilityController@remove')->name('property.utilities.remove');
 
     
     /*------- Booking a Properties ------- */
