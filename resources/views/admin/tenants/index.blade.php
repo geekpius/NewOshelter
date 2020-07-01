@@ -31,7 +31,7 @@
                 <div class="card-body">
 
                     <div class="table-responsive dash-social">
-                        <table id="datatable" class="table">
+                        <table id="tenantDatatable" class="table">
                             <thead>
                             <tr>
                                 <th>Membership</th>
@@ -76,8 +76,5 @@
 
 <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
-<script>
-    $('#datatable').DataTable();
-</script>
+<script src="{{ asset('assets/pages/tenant.js') }}"></script>
 @endsection

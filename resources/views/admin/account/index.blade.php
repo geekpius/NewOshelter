@@ -31,10 +31,10 @@
                             <div class="col-lg-8 align-self-center mb-3 mb-lg-0">
                                 <div class="met-profile-main">
                                     <div class="met-profile-main-pic">
-                                        <img src="{{ (empty(Auth::user()->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ Auth::user()->name }}" width="130" height="130" class="rounded-circle img_preview">
+                                        <img src="{{ (empty(Auth::user()->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ Auth::user()->name }}" width="130" height="130" class="rounded-circle img_preview" />
                                         <span class="fro-profile_main-pic-change" onclick="getFile();">
                                             <i class="fas fa-camera">
-                                                <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" name="photo" /></div></i>
+                                                <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" name="photo" data-href="{{ route('profile.photo') }}" /></div></i>
                                         </span>
                                     </div>
                                     <div class="met-profile_user-detail ml-3">
@@ -199,7 +199,7 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <h5 class="text-primary">Change Password</h5>
-                                            <form class="form-horizontal form-material mb-0" id="formChangePassword">
+                                            <form class="form-horizontal form-material mb-0" id="formChangePassword" data-action="{{ route('password.change') }}">
                                                 @csrf
                                                 <div class="form-group validate">
                                                     <input type="password" name="current_password" id="currrent_password" placeholder="Enter Current Password" class="form-control">
@@ -316,7 +316,7 @@
                                                 
                                                 <button class="btn btn-primary btn-sm text-light px-4 mt-5 float-right mb-5 btnVatModal" data-toggle="modal" data-target="#VatModal"><i class="fa fa-plus-circle"></i> Add TIN / VAT ID</button>
                                                 
-                                                <div style="display: none" class="mt-4 myTableDiv">
+                                                <div style="display: none" class="mt-4 myTableDiv" data-href="{{ route('profile.vat') }}">
                                                     <table class="table table-responsive">        
                                                         <tr class="text-primary">
                                                             <td class="no-border">VAT ID/TIN</td>
@@ -346,9 +346,7 @@
                                                 <strong class="text-primary">SMS messages and Email messages are sent here.</strong><br>
                                                 By checking SMS box or Email box, you agree to receive autodialed promotional texts and email messages from OShelter respectively.
                                             </p>
-                                            @php
-                                                $myPhone = substr(Auth::user()->phone, -4);
-                                            @endphp
+                                            @php $myPhone = substr(Auth::user()->phone, -4); @endphp
                                             <p>{{ '******'.$myPhone }} &nbsp; &nbsp; <small class="{{ Auth::user()->verify_sms? 'text-success':'text-danger' }}">{{ Auth::user()->verify_sms? 'Verified':'Not Verified' }}</small></p>
                                             <p>{{ Auth::user()->email }} &nbsp; &nbsp; <small class="{{ Auth::user()->verify_email? 'text-success':'text-danger' }}">{{ Auth::user()->verify_email? 'Verified':'Not Verified' }}</small></p>
                                         </div>
@@ -368,13 +366,13 @@
                                                     </td>
                                                     <td class="no-border">
                                                         <div class="checkbox checkbox-primary">
-                                                            <input id="checkbox1" type="checkbox" class="checkMessage" data-value="email" {{ (Auth::user()->userNotification->message_email)? 'checked':'' }} name="message_email">
+                                                            <input id="checkbox1" type="checkbox" class="checkMessage" data-value="email" {{ (Auth::user()->userNotification->message_email)? 'checked':'' }} name="message_email" data-href="{{ route('profile.message.notify') }}" />
                                                             <label for="checkbox1"></label>
                                                         </div>
                                                     </td>
                                                     <td class="no-border">
                                                         <div class="checkbox checkbox-primary">
-                                                            <input id="checkbox2" type="checkbox" class="checkMessage" data-value="sms" {{ (Auth::user()->userNotification->message_sms)? 'checked':'' }} name="message_sms">
+                                                            <input id="checkbox2" type="checkbox" class="checkMessage" data-value="sms" {{ (Auth::user()->userNotification->message_sms)? 'checked':'' }} name="message_sms" data-href="{{ route('profile.message.notify') }}" />
                                                             <label for="checkbox2"></label>
                                                         </div>
                                                     </td>
@@ -386,13 +384,13 @@
                                                     </td>
                                                     <td class="">
                                                         <div class="checkbox checkbox-primary">
-                                                            <input id="checkbox3" type="checkbox" class="checkSupport" data-value="email" {{ (Auth::user()->userNotification->support_email)? 'checked':'' }} name="account_email">
+                                                            <input id="checkbox3" type="checkbox" class="checkSupport" data-value="email" {{ (Auth::user()->userNotification->support_email)? 'checked':'' }} name="account_email" data-href="{{ route('profile.support.notify') }}" />
                                                             <label for="checkbox3"></label>
                                                         </div>
                                                     </td>
                                                     <td class="">
                                                         <div class="checkbox checkbox-primary">
-                                                            <input id="checkbox4" type="checkbox" class="checkSupport" data-value="sms" {{ (Auth::user()->userNotification->support_sms)? 'checked':'' }} name="account_sms">
+                                                            <input id="checkbox4" type="checkbox" class="checkSupport" data-value="sms" {{ (Auth::user()->userNotification->support_sms)? 'checked':'' }} name="account_sms" data-href="{{ route('profile.support.notify') }}" />
                                                             <label for="checkbox4"></label>
                                                         </div>
                                                     </td>
@@ -405,13 +403,13 @@
                                                     </td>
                                                     <td class="">
                                                         <div class="checkbox checkbox-primary">
-                                                            <input id="checkbox5" type="checkbox" class="checkReminder" data-value="email" {{ (Auth::user()->userNotification->reminder_email)? 'checked':'' }} name="reminder_email">
+                                                            <input id="checkbox5" type="checkbox" class="checkReminder" data-value="email" {{ (Auth::user()->userNotification->reminder_email)? 'checked':'' }} name="reminder_email" data-href="{{ route('profile.reminder.notify') }}" />
                                                             <label for="checkbox5"></label>
                                                         </div>
                                                     </td>
                                                     <td class="">
                                                         <div class="checkbox checkbox-primary">
-                                                            <input id="checkbox6" type="checkbox" class="checkReminder" data-value="sms" {{ (Auth::user()->userNotification->reminder_sms)? 'checked':'' }} name="reminder_sms">
+                                                            <input id="checkbox6" type="checkbox" class="checkReminder" data-value="sms" {{ (Auth::user()->userNotification->reminder_sms)? 'checked':'' }} name="reminder_sms" data-href="{{ route('profile.reminder.notify') }}" />
                                                             <label for="checkbox6"></label>
                                                         </div>
                                                     </td>
@@ -423,13 +421,13 @@
                                                     </td>
                                                     <td class="">
                                                         <div class="checkbox checkbox-primary">
-                                                            <input id="checkbox7" type="checkbox" class="checkPolicy" data-value="email" {{ (Auth::user()->userNotification->policy_email)? 'checked':'' }} name="policy_email">
+                                                            <input id="checkbox7" type="checkbox" class="checkPolicy" data-value="email" {{ (Auth::user()->userNotification->policy_email)? 'checked':'' }} name="policy_email" data-href="{{ route('profile.policy.notify') }}" />
                                                             <label for="checkbox7"></label>
                                                         </div>
                                                     </td>
                                                     <td class="">
                                                         <div class="checkbox checkbox-primary">
-                                                            <input id="checkbox8" type="checkbox" class="checkPolicy" data-value="sms" {{ (Auth::user()->userNotification->policy_sms)? 'checked':'' }} name="policy_sms">
+                                                            <input id="checkbox8" type="checkbox" class="checkPolicy" data-value="sms" {{ (Auth::user()->userNotification->policy_sms)? 'checked':'' }} name="policy_sms" data-href="{{ route('profile.policy.notify') }}" />
                                                             <label for="checkbox8"></label>
                                                         </div>
                                                     </td>
@@ -442,7 +440,7 @@
                                                     </td>
                                                     <td colspan="2">
                                                         <div class="custom-control custom-switch">
-                                                            <input type="checkbox" class="custom-control-input checkUnsubscribe" {{ (Auth::user()->userNotification->unsubscribe_email)? 'checked':'' }} id="customSwitch1">
+                                                            <input type="checkbox" class="custom-control-input checkUnsubscribe" {{ (Auth::user()->userNotification->unsubscribe_email)? 'checked':'' }} id="customSwitch1" data-href="{{ route('profile.unsubscribe.notify') }}" />
                                                             <label class="custom-control-label" for="customSwitch1"></label>
                                                         </div>
                                                     </td>
@@ -530,7 +528,7 @@
                     </div>
                     <div>
                         <a href="javascript:void(0);"> <span id="msgStatus">Click upload ID front</span>
-                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="front_file" type="file" name="front_file" /></div>
+                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="front_file" type="file" name="front_file" data-href="{{ route('profile.front.card') }}" /></div>
                         </a>
                     </div>
                 </div>
@@ -540,7 +538,7 @@
                     </div>
                     <div>
                         <a href="javascript:void(0);"> <span id="msgStatus2">Click to upload ID back</span>
-                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="back_file" type="file" name="back_file" /></div>
+                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="back_file" type="file" name="back_file" data-href="{{ route('profile.back.card') }}" /></div>
                         </a>
                     </div>
                 </div>             
@@ -560,7 +558,7 @@
             </div>
             <div class="modal-body">
                 <p class="text-primary">Confirmation takes 48 hours. Email will be sent when its confirmed.</p>
-                <form class="form-horizontal form-material mb-0" id="formVat">
+                <form class="form-horizontal form-material mb-0" id="formVat" data-action="{{ route('profile.vat.submit') }}">
                     <div class="form-group validate">
                         <select name="country" id="country" class="form-control">
                             <option value="">Country</option>
@@ -777,480 +775,6 @@ $(function () {
 
 });
 
-$(".btnAddNewID").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    $("#idModal").modal("show");
-    return false;
-});
-
-
-function getLegalName(name) { 
-    document.getElementById('myLegalName').innerText = name;
-}
-
-function getAge(dob) { 
-    var diff_ms = Date.now() - dob.getTime();
-    var age_dt = new Date(diff_ms); 
-  
-    var result =  Math.abs(age_dt.getUTCFullYear() - 1970);
-    document.getElementById('myAge').innerHTML = "("+result+")";
-}
-
-function getCity(city) { 
-    document.getElementById('myCity').innerText = city;
-}
-
-function getOccupation(occupation) { 
-    document.getElementById('myOccupation').innerText = occupation;
-}
-
-$("#formChangePassword").on("submit", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var valid = true;
-    $('#formChangePassword input').each(function() {
-        var $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('span:last').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        }
-    });
-    if(valid) {
-        $('.btnChangePassword').html('<i class="fa fa-spinner fa-spin"></i> Changing Password...').attr('disabled', true);
-        var data = $("#formChangePassword").serialize();
-        $.ajax({
-            url: "{{ route('password.change') }}",
-            type: "POST",
-            data: data,
-            success: function(resp){
-                if(resp=='success'){
-                    swal({
-                        title: "Changed",
-                        text: "Password is changed",
-                        type: "success",
-                        confirmButtonClass: "btn-primary btn-sm",
-                        confirmButtonText: "OKAY",
-                        closeOnConfirm: true
-                    });
-                }
-                else{
-                    swal({
-                        title: "Opps",
-                        text: resp,
-                        type: "error",
-                        confirmButtonClass: "btn-primary btn-sm",
-                        confirmButtonText: "OKAY",
-                        closeOnConfirm: true
-                    });
-                }
-                
-                $("#formChangePassword")[0].reset();
-                $('.btnChangePassword').html('<i class="fa fa-refresh"></i> Change Password').attr('disabled', false);
-                $("#currrent_password").focus();
-            },
-            error: function(resp){
-                alert("Something went wrong.");
-                $('.btnChangePassword').html('<i class="fa fa-refresh"></i> Change Password').attr('disabled', false);
-            }
-        });
-    }
-    return false;
-});
-
-$("#formChangePassword input").on('input', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('span:last').text('');
-    }else{ $(this).parents('.validate').find('span:last').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
-});
-
-function getFile(){
-    document.getElementById("upfile").click();
-}
-
-$("#upfile").on("change", function(){
-    var form_data = new FormData();
-    var size = document.getElementById('upfile').files[0].size;
-    var selectedFile = document.getElementById('upfile').files[0].name;
-    var ext = selectedFile.replace(/^.*\./, '');
-    ext= ext.toLowerCase();
-    if(size>1000141){
-        swal("Opps", "Uploaded file is greater than 1mb.", "error");
-        document.getElementById("upfile").value = null;
-    }
-    else if(ext!='jpg' && ext!='jpeg' && ext!='png'){
-        swal("Opps", "Unknown file types.", "error");
-        document.getElementById("upfile").value = null;
-    }
-    else{
-        form_data.append("photo", document.getElementById('upfile').files[0]);
-        $.ajax({
-            url: "{{ route('profile.photo') }}", 
-            type: 'POST',
-            data: form_data,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if(response=='fail'){
-                    swal("Opps", "Something went wrong with your inputs. Try again.", "warning");
-                }
-                else if(response=='error'){
-                    swal("Opps", "Something went wrong.", "warning");
-                }
-                else if(response=='nophoto'){
-                    swal("Opps", "No photo is selected.", "warning");
-                }
-                else{
-                    $(".img_preview").attr("src", "{{ asset('assets/images/users') }}/"+response); 
-                }
-                document.getElementById("upfile").value = null;
-            },
-            error: function(response){
-                alert('Something went wrong.');
-                document.getElementById("upfile").value = null;
-            }
-            
-        });
-    }
-    
-    return false;
-});
-
-function getFrontFile(){
-    document.getElementById("front_file").click();
-}
-
-function getBackFile(){
-    document.getElementById("back_file").click();
-}
-
-$("#front_file").on("change", function(){
-    var form_data = new FormData();
-    var size = document.getElementById('front_file').files[0].size;
-    var selectedFile = document.getElementById('front_file').files[0].name;
-    var ext = selectedFile.replace(/^.*\./, '');
-    ext= ext.toLowerCase();
-    if(size>1000141){
-        swal("Opps", "Uploaded file is greater than 1mb.", "error");
-        document.getElementById("front_file").value = null;
-    }
-    else if(ext!='jpg' && ext!='jpeg' && ext!='png'){
-        swal("Opps", "Unknown file types.", "error");
-        document.getElementById("front_file").value = null;
-    }
-    else{
-        form_data.append("front_file", document.getElementById('front_file').files[0]);
-        $.ajax({
-            url: "{{ route('profile.front.card') }}", 
-            type: 'POST',
-            data: form_data,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if(response=='fail'){
-                    swal("Opps", "Something went wrong with your inputs. Try again.", "warning");
-                }
-                else if(response=='error'){
-                    swal("Opps", "Something went wrong.", "warning");
-                }
-                else if(response=='nophoto'){
-                    swal("Opps", "No photo is selected.", "warning");
-                }
-                else{
-                    $("#msgStatus").addClass('text-success').text("Uploaded Successfully");
-                    $(".front_card").attr("src", "{{ asset('assets/images/cards') }}/"+response); 
-                }
-                document.getElementById("front_file").value = null;
-            },
-            error: function(response){
-                alert('Something went wrong.');
-                document.getElementById("front_file").value = null;
-            }
-            
-        });
-    }
-    
-    return false;
-});
-
-$("#back_file").on("change", function(){
-    var form_data = new FormData();
-    var size = document.getElementById('back_file').files[0].size;
-    var selectedFile = document.getElementById('back_file').files[0].name;
-    var ext = selectedFile.replace(/^.*\./, '');
-    ext= ext.toLowerCase();
-    if(size>1000141){
-        swal("Opps", "Uploaded file is greater than 1mb.", "error");
-        document.getElementById("back_file").value = null;
-    }
-    else if(ext!='jpg' && ext!='jpeg' && ext!='png'){
-        swal("Opps", "Unknown file types.", "error");
-        document.getElementById("back_file").value = null;
-    }
-    else{
-        form_data.append("back_file", document.getElementById('back_file').files[0]);
-        $.ajax({
-            url: "{{ route('profile.back.card') }}", 
-            type: 'POST',
-            data: form_data,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if(response=='fail'){
-                    swal("Opps", "Something went wrong with your inputs. Try again.", "warning");
-                }
-                else if(response=='error'){
-                    swal("Opps", "Something went wrong.", "warning");
-                }
-                else if(response=='nophoto'){
-                    swal("Opps", "No photo is selected.", "warning");
-                }
-                else{
-                    $("#msgStatus2").addClass('text-success').text("Uploaded Successfully");
-                    $(".back_card").attr("src", "{{ asset('assets/images/cards') }}/"+response); 
-                }
-                document.getElementById("back_file").value = null;
-            },
-            error: function(response){
-                alert('Something went wrong.');
-                document.getElementById("back_file").value = null;
-            }
-            
-        });
-    }
-    
-    return false;
-});
-
-
-//coupon
-$(".btnAddCoupon").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    $(this).hide();
-    $("#formCoupon").fadeIn('slow');
-    return false;
-});
-
-$("#formCoupon").on("submit", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var valid = true;
-    $('#formCoupon input').each(function() {
-        var $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        }
-    });
-    if(valid){
-        alert('saved');
-    }
-    return false;
-});
-
-$(".btnSaveCouponCancel").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    $("#formCoupon").hide();
-    $('.btnAddCoupon').fadeIn('slow');
-    return false;
-});
-
-///vat/tin
-$("#formVat").on("submit", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var valid = true;
-    $('#formVat input, #formVat select').each(function() {
-        var $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        }
-    });
-    if(valid){
-        var data = $('#formVat').serialize();
-        $(".btnStoreVat").html('<i class="fa fa-spin fa-spinner"></i> Submitting..').attr('disabled', true);
-        $.ajax({
-            url: "{{ route('profile.vat.submit') }}", 
-            type: 'POST',
-            data: data,
-            success: function (resp) {
-                if(resp=='success'){
-                    swal("Submitted", "Submitted successful. Wait for confirmation.", "success");
-                    getVatInfo();
-                }else if(resp=='confirm'){
-                    swal("Exists", "Already have a confirmed VAT/TIN.", "success");
-                }
-                else{
-                    swal("Opps", resp, "error");
-                }
-
-                $("#formVat")[0].reset();
-                $(".btnStoreVat").html('Submit').attr('disabled', false);
-            },
-            error: function(resp){
-                alert('Something went wrong.');
-                $(".btnStoreVat").html('Submit').attr('disabled', false);
-            }
-            
-        });
-    }
-    return false;
-});
-
-$("#formVat input, #formCoupon input").on('input', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-    }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
-});
-
-$("#formVat select").on('input', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-    }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
-});
-
-function getVatInfo(){
-    $.ajax({
-        url: "{{ route('profile.vat') }}", 
-        type: 'GET',
-        dataType: 'json',
-        success: function (resp) {
-            if(resp.msg=='empty'){
-                console.log('Empty');
-            }else{
-                var confirm = (resp.confirm==1)? 'Cofirmed':'Not confirmed';
-                $(".myTableRow").append('<td>'+resp.vat_id+'</td><td>'+resp.name+'</td><td>'+confirm+'</td>');
-                $(".myTableDiv").show('fast');
-                $(".btnVatModal").hide('fast');
-            }
-        },
-        error: function(resp){
-            alert('Something went wrong.');
-        }
-        
-    });
-}
-
-getVatInfo();
-
-
-//check notifications
-$(".checkMessage").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var data = {
-        message : $this.data('value')
-    }
-
-    $.ajax({
-        url: "{{ route('profile.message.notify') }}", 
-        type: 'POST',
-        data: data,
-        success: function (resp) {
-            
-        },
-        error: function(resp){
-            console.log('Request error.');
-        }
-        
-    });
-    return false;
-});
-
-$(".checkSupport").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var data = {
-        support : $this.data('value')
-    }
-
-    $.ajax({
-        url: "{{ route('profile.support.notify') }}", 
-        type: 'POST',
-        data: data,
-        success: function (resp) {
-            
-        },
-        error: function(resp){
-            console.log('Request error.');
-        }
-        
-    });
-    return false;
-});
-
-$(".checkReminder").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var data = {
-        reminder : $this.data('value')
-    }
-
-    $.ajax({
-        url: "{{ route('profile.reminder.notify') }}", 
-        type: 'POST',
-        data: data,
-        success: function (resp) {
-            
-        },
-        error: function(resp){
-            console.log('Request error.');
-        }
-        
-    });
-    return false;
-});
-
-$(".checkPolicy").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var data = {
-        policy : $this.data('value')
-    }
-
-    $.ajax({
-        url: "{{ route('profile.policy.notify') }}", 
-        type: 'POST',
-        data: data,
-        success: function (resp) {
-            
-        },
-        error: function(resp){
-            console.log('Request error.');
-        }
-        
-    });
-    return false;
-});
-
-$(".checkUnsubscribe").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    $.ajax({
-        url: "{{ route('profile.unsubscribe.notify') }}", 
-        type: 'POST',
-        success: function (resp) {
-            
-        },
-        error: function(resp){
-            console.log('Request error.');
-        }
-        
-    });
-    return false;
-});
-
 </script>
+<script src="{{ asset('assets/pages/account.js') }}"></script>
 @endsection

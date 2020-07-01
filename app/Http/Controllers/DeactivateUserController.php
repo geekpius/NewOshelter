@@ -22,7 +22,7 @@ class DeactivateUserController extends Controller
     public function index()
     {
         $data['page_title'] = 'Deactivate account';
-        return view('admin.accounts.deactivate', $data);
+        return view('admin.account.deactivate', $data);
     }
 
     //submit for deactivation

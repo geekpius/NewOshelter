@@ -94,29 +94,5 @@
 @endsection
 
 @section('scripts')
-<script>
-$("#formSignIn").on("submit", function(e){
-    e.stopPropagation();
-    var valid = true;
-    $('#formSignIn input').each(function() {
-        var $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        }
-    });
-    if(valid) {
-        $('.btn_sign_in').html('<i class="fa fa-spinner fa-spin"></i> Signing In...').attr('disabled', true);
-        return true;
-    }
-    return false;
-});
-
-$("#formSignIn input").on('input', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-    }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
-});
-</script>
+<script src="{{ asset('assets/pages/auth.js') }}"></script>
 @endsection

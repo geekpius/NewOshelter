@@ -105,7 +105,6 @@
 
 
 @endsection
-
 @section('scripts')
 <script>
 $.ajaxSetup({
@@ -113,7 +112,6 @@ $.ajaxSetup({
         'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
     }
 })
-
 
 $("#formDeactivate").on("submit", function(e){
     e.preventDefault();
@@ -171,7 +169,6 @@ $("#formDeactivate select").on('change', function(){
     }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
 });
 
-
 $("#reason").on("change", function(e){
     e.preventDefault();
     e.stopPropagation();
@@ -188,7 +185,5 @@ $("#reason").on("change", function(e){
     }
     return false;
 });
-
-
 </script>
 @endsection
