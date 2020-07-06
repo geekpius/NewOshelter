@@ -67,7 +67,7 @@
                                 <div class="card-body">
                                     <h5>Set utilities/Bills for this property - <small class="text-pink">Click on amount to change prices</small></h5>
                                     <button class="btn btn-primary btn-sm px-4" id="btnAddBill"><i class="fa fa-plus-circle"></i> Add Bill</button>
-                                    <div id="getBillContent"></div>
+                                    <div id="getBillContent" data-href="{{ route('property.utilities.list', $property->id) }}"></div>
                                 </div>
                             </div><!--end card-body-->
                         </div>
@@ -88,7 +88,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal form-material mb-0" id="formAddBill">
+                    <form class="form-horizontal form-material mb-0" id="formAddBill" data-href="{{ route('property.utilities.submit') }}">
                         <input type="hidden" name="property_id" id="property_id" value="{{ $property->id }}" readonly />
                         <div class="form-group validate">
                             <select name="bill" id="bill" class="form-control">
@@ -123,83 +123,5 @@
 @endsection
 
 @section('scripts')
-<script>
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-    }
-})
-
-function getBillContent()
-{
-    $.ajax({
-        url: "{{ route('property.utilities.list', $property->id) }}",
-        type: "GET",
-        success: function(resp){
-            $("#getBillContent").html(resp);
-        },
-        error: function(resp){
-            console.log('something went wrong with request');
-        }
-    });
-}
-getBillContent();
-
-$("#btnAddBill").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    $('#addUtilityModal').modal('show');
-    return false;
-});
-
-$("#formAddBill").on("submit", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var valid = true;
-    $('#formAddBill input, #formAddBill select').each(function() {
-        let $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        }
-    });
-
-    if(valid){
-        $(".btnAddBill").html('<i class="fa fa-spin fa-spinner"></i> Adding Bill...').attr('disabled',true);
-        let data = $this.serialize();
-        $.ajax({
-            url: "{{ route('property.utilities.submit') }}",
-            type: "POST",
-            data: data,
-            success: function(resp){
-                if(resp=='success'){
-                    getBillContent();
-                    $("#formAddBill #amount, #formAddBill #bill").val('');
-                    $('#addUtilityModal').modal('hide');
-                }else{
-                    swal("Error", resp, "error");
-                }
-                $(".btnAddBill").html('<i class="mdi mdi-plus-circle fa-lg"></i> Add Bill').attr('disabled',false);
-            },
-            error: function(resp){
-                console.log('something went wrong with request');
-            }
-
-        });
-    }
-    return false;
-});
-
-$('#amount').keypress(function(event) {
-    if (((event.which != 46 || (event.which == 46 && $(this).val() == '')) ||
-            $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-        event.preventDefault();
-    }
-}).on('paste', function(event) {
-    event.preventDefault();
-});
-</script>
+<script src="{{ asset('assets/pages/property-utilities.js') }}"></script>
 @endsection

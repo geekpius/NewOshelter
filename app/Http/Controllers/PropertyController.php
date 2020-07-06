@@ -427,7 +427,6 @@ class PropertyController extends Controller
             if($request->property_type!='hostel'){
                 $property->adult = $request->adult;
                 $property->children = $request->children;
-                $property->infant = $request->infant;
             }
             $property->step = ($request->step+1);
             $property->save();
@@ -656,7 +655,6 @@ class PropertyController extends Controller
             $property->type_status = $request->property_type_status;
             $property->adult = $request->adult;
             $property->children = $request->children;
-            $property->infant = $request->infant;
             $property->step = 1;
             $property->done_step = false;
             $property->publish = false;

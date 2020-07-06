@@ -111,52 +111,5 @@
 @endsection
 
 @section('scripts')
-<script>
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-    }
-})
-
-$(".btnVisibility").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    swal({
-        title: "Are you sure?",
-        text: "You are about "+$this.text().toLowerCase()+" "+$this.data("title")+" listing.",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: ((jQuery.trim($this.text().toLowerCase())=="hide")? "btn-danger":"btn-success")+" btn-sm",
-        cancelButtonClass: "btn-sm",
-        confirmButtonText: "Yes, "+$this.text(),
-        closeOnConfirm: false
-        },
-    function(){
-        $.ajax({
-            url: $this.data('href'),
-            type: "POST",
-            success: function(resp){
-                if(resp=='success'){
-                    swal(((jQuery.trim($this.text().toLowerCase())=="hide")? "Hidden":"Published"), "Property "+((jQuery.trim($this.text().toLowerCase())=="hide")? "hidden":"published")+" successful", "success");
-                    $this.parents(".myParent").find(".blog-card .publishStatus").html(((jQuery.trim($this.text().toLowerCase())=="hide")? '<i class="fa fa-eye-slash"></i> Hidden':'<i class="fa fa-check"></i> Published'));
-                    $this.html(((jQuery.trim($this.text().toLowerCase())=="hide")? '<i class="fa fa-check"></i> Publish':'<i class="fa fa-eye-slash"></i> Hide'));
-                    if(jQuery.trim($this.text().toLowerCase())=="hide"){
-                        $this.removeClass('text-success').addClass('text-pink');
-                    }else{
-                        $this.removeClass('text-pink').addClass('text-success');
-                    }
-                }
-                else{
-                    alert("Something went wrong");
-                }
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-            }
-        });
-    });
-    return false;
-});
-</script>
+<script src="{{ asset('assets/pages/property.js') }}"></script>
 @endsection

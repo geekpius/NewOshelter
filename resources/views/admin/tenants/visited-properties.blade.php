@@ -44,8 +44,23 @@
                                                 @php
                                                     $checkIn = \Carbon\Carbon::parse($visit->check_in);
                                                     $checkOut = \Carbon\Carbon::parse($visit->check_out);
+                                                    $today = \Carbon\Carbon::today();
                                                 @endphp
-                                                <li class="list-inline-item text-danger text-lowercase">{{  ($checkIn->diffInDays($checkOut, false)>1)? $checkIn->diffInDays($checkOut, false).' days left':$checkIn->diffInDays($checkOut, false).' day left'  }}</li>
+                                                <li class="list-inline-item text-danger">
+                                                @if ($visit->status)
+                                                    @if ($checkIn>$today)
+                                                        {{ ucfirst('not checked in') }}
+                                                    @elseif($checkIn<=$today)
+                                                        @if ($checkOut<$today)
+                                                            {{ ucfirst('check out') }}
+                                                        @else
+                                                            {{ ($today->diffInDays($checkOut, false)>1)? $today->diffInDays($checkOut, false).' days left':$today->diffInDays($checkOut, false).' day left' }}
+                                                        @endif
+                                                    @endif
+                                                @else
+                                                    {{ ucfirst('Checked out') }}
+                                                @endif
+                                                </li>
                                            </ul>
                                         </div><!--end meta-box-->            
                                         <h5 class="mt-2 text-primary">{{ $visit->property->title }}</h5>

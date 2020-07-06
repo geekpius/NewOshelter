@@ -1503,6 +1503,7 @@
 <script src="{{ asset('assets/plugins/gmaps/gmaps.min.js') }}"></script>
 <!-- demo codes -->
 <script src="{{ asset('assets/pages/jquery.gmaps.init.js') }}"></script>
+<script src="{{ asset('assets/pages/property-create.js') }}"></script>
 
 <script>
 $.ajaxSetup({

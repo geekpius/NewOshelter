@@ -184,6 +184,9 @@
                                 @if (Route::currentRouteNamed('property.confirmdelete'))
                                 <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-wallet"></i></a></li>
                                 @endif
+                                @if (Route::currentRouteNamed('property.utilities'))
+                                <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-wallet"></i></a></li>
+                                @endif
                             </ul>
                         </div><!-- end Crypto -->
                         <div id="MetricaTenant" class="main-icon-menu-pane">
@@ -194,6 +197,10 @@
                                 <li class="nav-item"><a class="nav-link" href="{{route('tenants')}}"><i class="dripicons-user-id"></i>List Tenants</a></li>
                                 {{-- <li class="nav-item"><a class="nav-link" href="{{route('buyers')}}"><i class="dripicons-user-id"></i>List Buyers</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{route('bidders')}}"><i class="dripicons-user-id"></i>List Bidders</a></li> --}}
+
+                                @if (Route::currentRouteNamed('tenant.visited'))
+                                <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-wallet"></i></a></li>
+                                @endif
                             </ul>
                         </div><!-- end  Project-->
                         <div id="MetricaMessage" class="main-icon-menu-pane">

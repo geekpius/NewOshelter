@@ -59,33 +59,5 @@
 @endsection
 
 @section('scripts')
-<script>
-    $("#formConfirm").on("submit", function(e){
-        e.stopPropagation();
-        var valid = true;
-        $('#formConfirm input').each(function() {
-            var $this = $(this);
-            
-            if(!$this.val()) {
-                valid = false;
-                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-            }
-        });
-    
-        if(valid){
-            $(".btnConfirm").html('<i class="fa fa-spin fa-spinner"></i> Deleting...').attr('disabled',true);
-            return true;
-        }
-        return false;
-    });
-    
-    
-    //remove error message if inputs are filled
-    $("input").on('input', function(){
-        if($(this).val()!=''){
-            $(this).parents('.validate').find('.mySpan').text('');
-        }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
-    });
-    
-</script>
+<script src="{{ asset('assets/pages/property.js') }}"></script>
 @endsection
