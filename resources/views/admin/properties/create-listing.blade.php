@@ -1185,7 +1185,7 @@
                                                         <div class="col-sm-7">
                                                             <div class="form-group validate">
                                                                 <label for="">This will be your default booking price</label>
-                                                                <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                                <input type="number" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
@@ -1239,7 +1239,7 @@
                                                         <div class="col-sm-7">
                                                             <div class="form-group validate">
                                                                 <label for="">This will be your default booking price</label>
-                                                                <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                                <input type="number" name="property_price" min="1" class="form-control" id="property_price" placeholder="Tip: 300.00">
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
@@ -1257,7 +1257,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="form-group validate">
                                                                 <label for="" class="text-primary">Smart price will set in when market demand is low.</label>
-                                                                <input type="text" name="smart_price" class="form-control" id="smart_price" placeholder="Enter smart price">
+                                                                <input type="number" name="smart_price" min="1" class="form-control" id="smart_price" placeholder="Enter smart price">
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
@@ -1268,7 +1268,7 @@
                                                         <label for="">This will be your {{ $property->type_status=='sell'? 'default':'initial' }} {{ $property->type_status }} price <span id="myPriceCal"></span></label>
                                                         @if($property->type_status=='sell')
                                                         @endif
-                                                        <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                        <input type="number" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                     </div>
                                                     @if ($property->type_status=='sell')
@@ -1296,18 +1296,17 @@
                                         <div class="col-lg-1"></div>
                                         <div class="col-lg-5">
                                             @if ($property->type_status=='rent')
-                                                <p class="mt-5">You can set set-in price later when market is down.</p>
                                                 <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Eviction notice will start from 3months before due date.</h5>
                                                 <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Eviction notification will be sent to tenants every two weeks till due date.</h5>
                                                 <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> It's tenants choice to extend his/her stay or to evict.</h5>
                                             @elseif ($property->type_status=='sell')
                                                 <p class="mt-5">You can set set-in price later when market is down.</p>
-                                                <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Set price which has value for your property.</h5>
+                                                <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Set price which has value for your property.</h5>
                                                 <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Don't set your price too high or too low to scare buyers.</h5>
                                             @elseif ($property->type_status=='short_stay')
                                                 <p class="mt-5">You can set set-in price later when market is down.</p>
                                                 <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Eviction notice will start from 3days before due date.</h5>
-                                                <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Set price which has value for your property.</h5>
+                                                <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Set price which has value for your property.</h5>
                                                 <h5 class="mt-2"><i class="fa fa-square text-pink" style="font-size:10px"></i> Don't set your price too high or too low to scare travellers.</h5>
                                             @else
                                                 <h5 class="mt-5"><i class="fa fa-square text-pink" style="font-size:10px"></i> Have a price range that values your property in mind.</h5>
@@ -2196,6 +2195,7 @@ $("#price_calendar").on("change", function(){
             $("#formRentSchedule #minimum_stay").val("{{ empty($property->propertyPrice->minimum_stay)? '':$property->propertyPrice->minimum_stay }}");
             $("#formRentSchedule #maximum_stay").val("{{ empty($property->propertyPrice->maximum_stay)? '':$property->propertyPrice->maximum_stay }}");
             $("#formRentSchedule #price_calendar").val("{{ empty($property->propertyPrice->price_calendar)? 'night':$property->propertyPrice->price_calendar }}");
+            $("#formRentSchedule #smart_price").val("{{ empty($property->propertyPrice->smart_price)? '':$property->propertyPrice->smart_price }}");
         @elseif($property->type_status=='sell')
             @if(!empty($property->propertyPrice->negotiable))
                 $("#formRentSchedule #negotiable").prop("checked", true);

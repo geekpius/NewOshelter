@@ -33,8 +33,14 @@
                         </div>  
                         <div class="btn-group ml-1">  
                             <button type="button" class="btn btn-gradient-secondary waves-light waves-effect" id="chkParent1">
-                                <input type="checkbox" id="chkParent">
-                                <label for="chkParent" class="toggle"></label>
+                                <!-- <input type="checkbox" id="chkParent">
+                                <label for="chkParent" class="toggle"></label> -->
+                                <div class="checkbox my-2" style="margin: 0% !important;">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="chkParent" />
+                                        <label class="custom-control-label toggle" for="chkParent"></label>
+                                    </div>
+                                </div>
                             </button>
                         </div>  
                         <div class="btn-group ml-1">

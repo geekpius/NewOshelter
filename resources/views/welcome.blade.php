@@ -23,8 +23,8 @@
                                 <select class="custom-select" name="status" id="status">
                                     <option value="short_stay" selected>Short Stay</option>
                                     <option value="rent">Rent</option>
-                                    <option value="sell">Sell</option>
-                                    <option value="auction">Auction</option>
+                                    {{-- <option value="sell">Sell</option>
+                                    <option value="auction">Auction</option> --}}
                                 </select>
                             </div>
                         </div>

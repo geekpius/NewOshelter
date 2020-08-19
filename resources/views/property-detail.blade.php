@@ -27,12 +27,14 @@
                                 <span class="fa fa-share-alt"></span> Share
                             </a>
                             
+                            @php
+                                $actual_link = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+                                $message = current(explode(' ',$property->user->name)).' has hosted an affordable '.$property->title. ' on Oshelter platform for '.str_replace('_', ' ',$property->type_status).'. Do check it out for your preferences and enjoy stay.'."\r\n";
+                            @endphp
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#"><span class="fa fa-facebook text-primary"></span> Facebook</a>
-                                <a class="dropdown-item" href="#"><span class="fa fa-twitter text-primary"></span> Twitter</a>
-                                <a class="dropdown-item" href="#"><span class="fa fa-whatsapp text-success"></span> WhatsApp</a>
-                                <a class="dropdown-item" href="#"><span class="fa fa-linkedin text-primary"></span> LinkedIn</a>
-                                <a class="dropdown-item" href="#"><span class="fa fa-instagram text-danger"></span> Instagram</a>
+                                <a class="dropdown-item" href="https://www.facebook.com/sharer.php?u={{ $actual_link }}&quote={{ urlencode($message) }}" target="_blank"><span class="fa fa-facebook text-primary"></span> Facebook</a>
+                                <a class="dropdown-item" href="https://twitter.com/intent/tweet?text={{ urlencode($message) }}{{ $actual_link }}&hashtags=Oshelter,Vibtech" target="_blank"><span class="fa fa-twitter text-primary"></span> Twitter</a>
+                                <a class="dropdown-item" href="https://wa.me/{{ '233'.substr($property->user->phone, 1) }}?text={{ urlencode($message) }}" target="_blank"><span class="fa fa-whatsapp text-success"></span> WhatsApp</a>
                             </div>
                         </div>
                     </div>

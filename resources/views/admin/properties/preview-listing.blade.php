@@ -101,7 +101,7 @@
                 <div class="card-body">
                     <div class="text-center">
                         <a href="javascript:void(0);" onclick="window.location='{{ route('property.create', $property->id) }}';" class="mr-2 text-pink"><i class="fa fa-heart"></i> Save</a>
-                        <a href="#shareModal" data-toggle="modal" data-backdrop="static" class="ml-2 text-pink"><i class="fa fa-share"></i> Share</a>
+                        {{-- <a href="#shareModal" data-toggle="modal" data-backdrop="static" class="ml-2 text-pink"><i class="fa fa-share"></i> Share</a> --}}
                     </div>
                     <div class="row">
                         <div class="col-sm-1"></div>
