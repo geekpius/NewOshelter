@@ -53,7 +53,7 @@
             <div class="owl-carousel pxp-props-carousel-right-stage">
                 <div>
                     <a href="{{ route('status.property', 'short-stay') }}" class="pxp-areas-1-item rounded-lg">
-                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
+                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('https://cdn.pixabay.com/photo/2017/12/10/03/18/beautiful-3009151__340.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
                             <div class="pxp-areas-1-item-details-area">Short Stay</div>
                         </div>
@@ -66,7 +66,7 @@
                 </div>
                 <div>
                     <a href="{{ route('status.property', 'rent') }}" class="pxp-areas-1-item rounded-lg">
-                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
+                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('https://cdn.pixabay.com/photo/2016/05/21/21/52/house-1407562__340.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
                             <div class="pxp-areas-1-item-details-area">Rent</div>
                         </div>
@@ -77,7 +77,7 @@
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
                     </a>
                 </div>
-                <div>
+                {{-- <div>
                     <a href="{{ route('status.property', 'sell') }}" class="pxp-areas-1-item rounded-lg">
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
@@ -102,7 +102,7 @@
                         </span></div>
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
                     </a>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

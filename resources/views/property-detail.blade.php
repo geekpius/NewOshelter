@@ -90,7 +90,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <hr>                
+                <hr>       
+                {{-- Key details          --}}
                 <div class="pxp-single-property-section">
                     <h3>Key Details</h3>
                 
@@ -157,6 +158,7 @@
                     @endif 
                 </div>
 
+                {{-- Overview --}}
                 <div class="pxp-single-property-section mt-4">
                     <h3>Overview</h3>
                     @if (count($property->propertyReviews))
@@ -208,6 +210,7 @@
                 @endif
                 
                 <hr>
+                {{-- Availability --}}
                 <div class="pxp-single-property-section">
                     <h3>Availability</h3>                    
                     <!-- Vacancies -->
@@ -382,6 +385,7 @@
                 </div>
 
                 <hr>
+                {{-- Reviews --}}
                 <div class="pxp-single-property-section">
                     <h3>Reviews</h3>                    
                     <!-- Reviews -->
@@ -492,6 +496,7 @@
                 </div>
 
                 <hr>
+                {{-- Contacts --}}
                 <div class="pxp-single-property-section">
                     <!-- Contact -->
                     <div class="img-right mr-lg-5 mr-sm-5 text-center">
@@ -515,6 +520,7 @@
                 </div>
 
                 <hr>
+                {{-- Maps --}}
                 <div class="pxp-single-property-section">
                     <h3>Explore the Area</h3>
                     <!-- The descriptions and directions --> 
@@ -537,6 +543,7 @@
                 </div>
                 
                 <hr>
+                {{-- Cancellation --}}
                 <div class="pxp-single-property-section">
                     <h3>Cancellation {{ $property->type_status=='rent'? 'and Eviction':'' }}</h3>
                     <p>
@@ -558,6 +565,7 @@
 
                 @if ($property->type_status=='rent')
                 <hr>
+                {{-- property rules --}}
                 <div class="pxp-single-property-section">
                     <h3>Property Rules</h3>
                     <div class="row mt-3 mt-md-4">
@@ -590,6 +598,7 @@
                 @endif
             </div>
             
+            {{-- Booking form --}}
             <div class="col-lg-4">
                 <div class="pxp-single-property-section pxp-sp-agent-section mt-4 mt-md-5 mt-lg-0">
                 @if ($property->type=='hostel')
@@ -667,19 +676,25 @@
                     <div class="card card-bordered-pink">
                         <div class="card-body" style="padding-left:10px !important; padding-right:10px !important;">
                             <div class="card-heading">
-                                <h6><strong><span class="font-20">{{ $property->propertyPrice->currency }}</span> <span id="initialAmount">{{ number_format($property->propertyPrice->property_price,2) }}</span>/<small>{{ $property->propertyPrice->price_calendar }}</small></strong></h6>
+                                <h6>
+                                    <strong>
+                                        <span class="font-20" id="initialCurrency" data-currency="{{ $property->propertyPrice->currency }}">{{ $property->propertyPrice->currency }}</span> 
+                                        <span id="initialAmount" data-amount="{{ $property->propertyPrice->property_price }}" data-duration="{{ $property->propertyPrice->payment_duration }}">{{ number_format($property->propertyPrice->property_price,2) }}</span>/<small>{{ $property->propertyPrice->price_calendar }}</small>
+                                    </strong>
+                                </h6>
                                 <span class="font-12"><i class="fa fa-star text-warning"></i> <b>0.1</b> (1 Review)</span>
                             </div>
                             <hr>
                             <span class="small text-primary">You're charged after booking is confirmed.</span>
                             <hr>
-        
-                            <form class="form-horizontal form-material mb-0" id="formBooking" method="POST" action="{{ route('property.bookings.submit') }}">
+                            {{-- for rent --}}
+                            @if ($property->type_status=='rent')
+                            <form class="form-horizontal form-material mb-0" id="formRentBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <div class="input-group input-group-sm validate" id="dateRanger">
+                                        <div class="input-group input-group-sm validate" id="dateRanger" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}">
                                             <input type="text" name="check_in" value="" class="form-control" placeholder="Check In" readonly />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text fa fa-arrow-right small" id="inputGroup-sizing-sm"></span>
@@ -689,7 +704,7 @@
                                     </div>
                                     <div class="col-sm-12 mt-3">
                                         <div class="form-group input-group-sm validate">
-                                            <select name="adult" id="adult" class="form-control">
+                                            <select name="adult" id="adult" class="form-control" data-number="{{ $property->adult }}">
                                                 <option value="1">1 Adult</option>
                                                 <option value="2">2 Adults</option>
                                                 <option value="3">3 Adults</option>
@@ -705,7 +720,7 @@
                                     </div>
                                     <div class="col-sm-6 mt-3">
                                         <div class="form-group input-group-sm validate">
-                                            <select name="children" id="children" class="form-control">
+                                            <select name="children" id="children" class="form-control" data-number="{{ $property->children }}">
                                                 <option value="0">No Children</option>
                                                 <option value="1">1 Child</option>
                                                 <option value="2">2 Children</option>
@@ -738,8 +753,8 @@
                                 <div class="row" id="showCalculations">
                                     <div class="col-sm-12">
                                         <div>
-                                            <span id="dateCalculator">Night Cal</span>
-                                            <span class="pull-right" id="dateCalculatorResult">Total Night Fee</span>
+                                            <span id="dateCalculator">Month Cal</span>
+                                            <span class="pull-right" id="dateCalculatorResult">Total Month Fee</span>
                                         </div>
                                         {{-- <div>
                                             <span>Discount Cal</span>
@@ -759,12 +774,11 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnBook"><i class="fa fa-check-circle"></i> Book this {{ $property->type }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnRentBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            @if ($property->type_status=='rent')
                             <hr>
                             <div class="">
                                 <span class="small text-primary">
@@ -779,6 +793,9 @@
                                     @endif
                                 </span>
                             </div>
+
+                            @else
+                            {{-- for short stay --}}
                             @endif
                         </div><!--end card-body-->
                     </div><!--end card-->
@@ -806,191 +823,16 @@
 <script src="{{ asset('assets/light/js/gallery.js') }}"></script>
 <script src="{{ asset('assets/light/js/infobox.js') }}"></script>
 <script src="{{ asset('assets/light/js/single-map.js') }}"></script>
-<script src="{{ asset('assets/light/js/Chart.min.js') }}"></script>
 {{-- date range --}}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script>
 @if($property->type=='hostel')
-$("#formBookHostel #block_name").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this= $(this);
-    $("#formBookHostel #room_type").find('.after').nextAll().remove();
-    $("#formBookHostel #room_number").find('.after').nextAll().remove();
-    $("#hostelAvailabilityChecker").text('');
-    $("#myHostelPriceHeading").fadeOut('slow',function(){
-        $("#myHostelSwitch").fadeIn('fast');
-    });
-    if($this.val()!=''){
-        var data={ block_name:$this.val() }
-        $("#formBookHostel #room_type").find('.after').nextAll().remove();
-        $.ajax({
-            url: "{{ route('property.get.roomtype') }}",
-            type: "POST",
-            data: data,
-            dataType: 'json',
-            success: function(resp){
-                let options = '';
-                $.each( resp, function( key, value ) {
-                    options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
-                });
-                $("#formBookHostel #room_type").find('.after').after(options);
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-            }
-        });
-    }
-    else{
-        $("#formBookHostel #room_type").find('.after').nextAll().remove();
-    }
-    return false;
-});
-
-$("#formBookHostel #room_type").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this= $(this);
-    $("#hostelAvailabilityChecker").text('');
-    $("#myHostelPriceHeading").fadeOut('slow',function(){
-        $("#myHostelSwitch").fadeIn('fast');
-    });
-    if($this.val()!=''){
-        var data={ room_type:$this.val() }
-        $("#formBookHostel #room_number").find('.after').nextAll().remove();
-        $.ajax({
-            url: "{{ route('property.get.roomnumber') }}",
-            type: "POST",
-            data: data,
-            dataType: 'json',
-            success: function(resp){
-                let options = '';
-                $.each( resp, function( key, value ) {
-                    options+='<option value='+value.room_no+'>'+value.room_no +'</option>';
-                });
-                $("#formBookHostel #room_number").find('.after').after(options);
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-            }
-        });
-    }
-    else{
-        $("#formBookHostel #room_number").find('.after').nextAll().remove();
-    }
-    return false;
-});
-
-$("#formBookHostel #room_number").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this= $(this);
-    if($this.val()!=''){
-        var data={ room_number:$this.val(), room_type:$("#formBookHostel #room_type").val() }
-        $.ajax({
-            url: "{{ route('property.check.roomtype') }}",
-            type: "POST",
-            data: data,
-            dataType: 'json',
-            success: function(resp){
-                $("#hostelAvailabilityChecker").text(resp.data);
-                $("#myHostelCurrency").text(resp.currency);
-                $("#initialHostelAmount").text(resp.price+'/');
-                $("#myHostelPriceCal").text(resp.calendar+' per person');
-                $("#myHostelAdvance").text(resp.advance);
-                $("#myHostelSwitch").fadeOut('slow',function(){
-                    $("#myHostelPriceHeading").fadeIn('fast');
-                });
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-            }
-        });
-    }
-    else{
-        $("#hostelAvailabilityChecker").text('');
-        $("#myHostelPriceHeading").fadeOut('slow',function(){
-            $("#myHostelSwitch").fadeIn('fast');
-        });
-    }
-    return false;
-});
+<script type="text/javascript" src="{{ asset('assets/pages/website/hotel-property-detail.js') }}"></script>
 @else
-$(function() {
-    $('#dateRanger').daterangepicker({
-        opens: 'left',
-        autoApply: true,
-        minDate: "{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}", 
-    });
-});
-
-$('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
-    var checkIn = picker.startDate;
-    var checkOut =picker.endDate;
-    if(checkOut){
-        let checkInDate = new Date(checkIn).getTime();
-        let checkOutDate = new Date(checkOut).getTime();
-        let distance = checkOutDate - checkInDate;
-        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        let result = days*parseFloat("{{ $property->propertyPrice->property_price }}");
-        let nights = (days>1)? days.toString()+" nights":days.toString()+" night";
-        $('#dateCalculator').text("{{ $property->propertyPrice->property_price }} x " + nights);
-        $('#dateCalculatorResult').text("{{ $property->propertyPrice->currency }} "+result.toFixed(2));
-        // service
-        $("#serviceFeeResult").text("{{ $property->propertyPrice->currency }} "+(0.12*result).toFixed(2));
-        // total
-        let totalPrice = (0.12*result)+result;
-        $("#totalFeeResult").text("{{ $property->propertyPrice->currency }} "+totalPrice.toFixed(2));
-    }
-
-    $("#dateRanger input[name='check_in']").val(picker.startDate.format('DD-MM-YYYY').toString());
-    $("#dateRanger input[name='check_out']").val(picker.endDate.format('DD-MM-YYYY').toString());
-    $("#formBooking #showCalculations").hide().slideDown('slow');
-});
-
-$("#formBooking #adult").on("change", function(){
-    $this = $(this);
-    if($this.val()!=""){
-        if(parseInt($this.val())>parseInt("{{ $property->adult }}")){
-            let noOfAdult = (parseInt("{{ $property->adult }}")>1)? "{{ $property->adult }} adults":"{{ $property->adult }} adult";
-            alert("Property require "+noOfAdult);
-            $this.val('1');
-        }
-    }
-});
-
-$("#formBooking #children").on("change", function(){
-    $this = $(this);
-    if($this.val()!=""){
-        if(parseInt($this.val())>parseInt("{{ $property->children }}")){
-            let noOfChild = (parseInt("{{ $property->children }}")>1)? "{{ $property->children }} children":"{{ $property->children }} child";
-            alert("Property require "+noOfChild);
-            $this.val('0');
-        }
-    }
-});
-
-$("#formBooking").on('submit', function(e){
-    e.stopPropagation();
-    var $this = $(this);
-    var valid = true;
-    $('#formBooking input, #formBooking select').each(function() {
-        var $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            //$this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-            $this.addClass('is-invalid');
-        }
-    });
-    if(valid){
-        $(".btnBook").html('<i class="fa fa-spin fa-spinner"></i> Reserving..').attr('disabled', true);
-        return true;
-    }
-    return false;
-});
-
+    @if ($property->type_status=='rent')
+    <script type="text/javascript" src="{{ asset('assets/pages/website/rent-property-detail.js') }}"></script>
+    @else
+    <script type="text/javascript" src="{{ asset('assets/pages/website/short-stay-property-detail.js') }}"></script>
+    @endif
 @endif
-</script>
 @endsection

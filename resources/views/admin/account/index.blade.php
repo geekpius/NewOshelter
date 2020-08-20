@@ -220,7 +220,7 @@
                                         </div>
 
                                         <div class="col-sm-4 pb-5 pl-3 pr-3">
-                                            <h5 class="text-primary mb-3">Social Account</h5>
+                                            {{-- <h5 class="text-primary mb-3">Social Account</h5>
                                             <div>
                                                 <h6><strong>Facebook</strong></h6>
                                                 <a href="javascript:void(0);" class="float-right text-primary mr-5">Connect</a>
@@ -232,7 +232,7 @@
                                                 <a href="javascript:void(0);" class="float-right text-primary mr-5">Connect</a>
                                                 <p>Not Connected</p>
                                                 <hr>
-                                            </div>
+                                            </div> --}}
                                         </div>
 
                                         <div class="col-sm-4">
