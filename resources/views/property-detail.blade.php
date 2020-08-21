@@ -263,16 +263,7 @@
                                             @else
                                             {{ $property->children.' Children' }}
                                             @endif
-                                            </span> |
-                                            <span>
-                                                @if($property->infant==0)
-                                                No Infant
-                                                @elseif($property->infant==1)
-                                                {{ $property->infant.' Infant' }}
-                                                @else
-                                                {{ $property->infant.' Infants' }}
-                                                @endif
-                                            </span>
+                                            </span> 
                                         </p>
                                     </div>
                                 </div>
@@ -333,15 +324,6 @@
                                             @else
                                             {{ $property->children.' Children' }}
                                             @endif
-                                            </span> |
-                                            <span>
-                                                @if($property->infant==0)
-                                                No Infant
-                                                @elseif($property->infant==1)
-                                                {{ $property->infant.' Infant' }}
-                                                @else
-                                                {{ $property->infant.' Infants' }}
-                                                @endif
                                             </span>
                                         </p>
                                     </div>
@@ -510,7 +492,7 @@
                     @endif
                     <span><i class="fa fa-check-circle {{ $property->user->verify_email? 'text-success':'text-danger' }}"></i> <b>{{ $property->user->verify_email? 'Verified':'Not Verified' }}</b></span>
                     <br>   <br> 
-                    <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</button>     
+                    <a href="{{ route('messages.compose', $property->user->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</a>     
                     <hr>
                     <div>
                         <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make  
@@ -794,8 +776,108 @@
                                 </span>
                             </div>
 
-                            @else
+                            @elseif ($property->type_status=='short_stay')
                             {{-- for short stay --}}
+                            <form class="form-horizontal form-material mb-0" id="formStayBooking" method="POST" action="{{ route('property.bookings.submit') }}">
+                                @csrf
+                                <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
+                                <div class="row">
+                                    <div class="col-sm-12" id="dateMaxMin" data-min="{{ $property->propertyPrice->minimum_stay }}" data-max="{{ $property->propertyPrice->maximum_stay }}">
+                                        <div class="input-group input-group-sm validate" id="dateRanger" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}">
+                                            <input type="text" name="check_in" value="" class="form-control" placeholder="Check In" readonly />
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fa fa-arrow-right small" id="inputGroup-sizing-sm"></span>
+                                            </div>
+                                            <input type="text" name="check_out" value="" class="form-control" placeholder="Check Out" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 mt-3">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="adult" id="adult" class="form-control" data-number="{{ $property->adult }}">
+                                                <option value="1">1 Adult</option>
+                                                <option value="2">2 Adults</option>
+                                                <option value="3">3 Adults</option>
+                                                <option value="4">4 Adults</option>
+                                                <option value="5">5 Adults</option>
+                                                <option value="6">6 Adults</option>
+                                                <option value="7">7 Adults</option>
+                                                <option value="8">8 Adults</option>
+                                                <option value="9">9 Adults</option>
+                                                <option value="10">10 Adults</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mt-3">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="children" id="children" class="form-control" data-number="{{ $property->children }}">
+                                                <option value="0">No Children</option>
+                                                <option value="1">1 Child</option>
+                                                <option value="2">2 Children</option>
+                                                <option value="3">3 Children</option>
+                                                <option value="4">4 Children</option>
+                                                <option value="5">5 Children</option>
+                                                <option value="6">6 Children</option>
+                                                <option value="7">7 Children</option>
+                                                <option value="8">8 Children</option>
+                                                <option value="9">9 Children</option>
+                                                <option value="10">10 Children</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 mt-3">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="infant" id="infant" class="form-control">
+                                                <option value="0">No Infant</option>
+                                                <option value="1">1 Infant</option>
+                                                <option value="2">2 Infants</option>
+                                                <option value="3">3 Infants</option>
+                                                <option value="4">4 Infants</option>
+                                                <option value="5">5 Infants</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="showCalculations">
+                                    <div class="col-sm-12">
+                                        <div>
+                                            <span id="dateCalculator">Month Cal</span>
+                                            <span class="pull-right" id="dateCalculatorResult">Total Month Fee</span>
+                                        </div>
+                                        <div>
+                                            <span>Service Fee</span>
+                                            <span class="pull-right" id="serviceFeeResult">Total Service Fee</span>
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <span><strong>Total</strong></span>
+                                            <span class="pull-right"><strong id="totalFeeResult">Total Fee</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnStayBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr>
+                            <div class="">
+                                <span class="small text-primary">
+                                    @if ($property->propertyPrice->payment_duration==3)
+                                        3 months advance payment
+                                    @elseif ($property->propertyPrice->payment_duration==6)
+                                        6 months advance payment
+                                    @elseif ($property->propertyPrice->payment_duration==12)
+                                        1 year advance payment
+                                    @elseif ($property->propertyPrice->payment_duration==24)
+                                        2 years advance payment
+                                    @endif
+                                </span>
+                            </div>
                             @endif
                         </div><!--end card-body-->
                     </div><!--end card-->

@@ -1,8 +1,9 @@
+// Date pickers //
 $(function() {
     $('#dateRanger').daterangepicker({
         opens: 'left',
         autoApply: true,
-        minDate: "{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}", 
+        minDate: $('#dateRanger').data('date'), 
     });
 });
 
@@ -14,49 +15,77 @@ $('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
         let checkOutDate = new Date(checkOut).getTime();
         let distance = checkOutDate - checkInDate;
         let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        let result = days*parseFloat("{{ $property->propertyPrice->property_price }}");
+
+        // checking max and min stays
+        maxStay = $("#dateMaxMin").data('max');
+        minStay = $("#dateMaxMin").data('min');
+        let months;
+        let numberOfMonth;
+        let checkInDate1 = new Date(checkIn);
+        let checkOutDate1 = new Date(checkOut);
+        months = (checkOutDate1.getFullYear() - checkInDate1.getFullYear()) * 12;
+        months -= checkInDate1.getMonth();
+        months += checkOutDate1.getMonth();
+        numberOfMonth = (months <= 0)? 0 : months;
+        if (days < minStay){
+            alert("Check in and check out with owners minimum and maximum stay.");
+            return;
+        }
+        
+        if (numberOfMonth > maxStay){
+            alert("Check in and check out with owners minimum and maximum stay.");
+            return;
+        }
+
+        // get the total selected days price
+        let totalPrice = days*parseFloat($("#initialAmount").data('amount'));
         let nights = (days>1)? days.toString()+" nights":days.toString()+" night";
-        $('#dateCalculator').text("{{ $property->propertyPrice->property_price }} x " + nights);
-        $('#dateCalculatorResult').text("{{ $property->propertyPrice->currency }} "+result.toFixed(2));
-        // service
-        $("#serviceFeeResult").text("{{ $property->propertyPrice->currency }} "+(0.12*result).toFixed(2));
-        // total
-        let totalPrice = (0.12*result)+result;
-        $("#totalFeeResult").text("{{ $property->propertyPrice->currency }} "+totalPrice.toFixed(2));
+        $('#dateCalculator').text($("#initialAmount").data('amount')+" x " + nights);
+        $('#dateCalculatorResult').text($("#initialCurrency").data('currency')+" "+totalPrice.toFixed(2));
+        // getting service fee
+        let serviceFee = (12/100)*totalPrice;
+        let totalAmount = totalPrice+serviceFee;
+        $("#serviceFeeResult").text($("#initialCurrency").data('currency')+" "+serviceFee.toFixed(2));
+        $("#totalFeeResult").text($("#initialCurrency").data('currency')+" "+totalAmount.toFixed(2));
     }
 
-    $("#dateRanger input[name='check_in']").val(picker.startDate.format('DD-MM-YYYY').toString());
-    $("#dateRanger input[name='check_out']").val(picker.endDate.format('DD-MM-YYYY').toString());
-    $("#formBooking #showCalculations").hide().slideDown('slow');
+    $("#dateRanger input[name='check_in']").val(picker.startDate.format('DD-MM-YYYY').toString()).removeClass('is-invalid');
+    $("#dateRanger input[name='check_out']").val(picker.endDate.format('DD-MM-YYYY').toString()).removeClass('is-invalid');
+    $("#formStayBooking #showCalculations").hide().slideDown('slow');
 });
 
-$("#formBooking #adult").on("change", function(){
+
+$("#formStayBooking #adult").on("change", function(){
     $this = $(this);
     if($this.val()!=""){
-        if(parseInt($this.val())>parseInt("{{ $property->adult }}")){
-            let noOfAdult = (parseInt("{{ $property->adult }}")>1)? "{{ $property->adult }} adults":"{{ $property->adult }} adult";
+        let setAdult = $this.data('number');
+        if(parseInt($this.val())>parseInt(setAdult)){
+            let noOfAdult = (parseInt(setAdult)>1)? setAdult+" adults":setAdult+" adult";
             alert("Property require "+noOfAdult);
             $this.val('1');
+            return;
         }
     }
 });
 
-$("#formBooking #children").on("change", function(){
+$("#formStayBooking #children").on("change", function(){
     $this = $(this);
     if($this.val()!=""){
-        if(parseInt($this.val())>parseInt("{{ $property->children }}")){
-            let noOfChild = (parseInt("{{ $property->children }}")>1)? "{{ $property->children }} children":"{{ $property->children }} child";
+        let setChildren = $this.data('number');
+        if(parseInt($this.val())>parseInt(setChildren)){
+            let noOfChild = (parseInt(setChildren)>1)? setChildren+" children":setChildren+" child";
             alert("Property require "+noOfChild);
             $this.val('0');
+            return;
         }
     }
 });
 
-$("#formBooking").on('submit', function(e){
+$("#formStayBooking").on('submit', function(e){
     e.stopPropagation();
     var $this = $(this);
     var valid = true;
-    $('#formBooking input, #formBooking select').each(function() {
+    $('#formStayBooking input, #formStayBooking select').each(function() {
         var $this = $(this);
         
         if(!$this.val()) {
@@ -66,7 +95,7 @@ $("#formBooking").on('submit', function(e){
         }
     });
     if(valid){
-        $(".btnBook").html('<i class="fa fa-spin fa-spinner"></i> Reserving..').attr('disabled', true);
+        $(".btnStayBook").html('<i class="fa fa-spin fa-spinner"></i> Booking..').attr('disabled', true);
         return true;
     }
     return false;

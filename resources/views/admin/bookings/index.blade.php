@@ -24,7 +24,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                   @if (!Auth::user()->verify_email)
+                    @if (!Auth::user()->verify_email)
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-4">
@@ -64,7 +64,7 @@
                         <div class="col-sm-7"></div>
                         <div class="col-sm-6">
                            <div class="mt-5 text-center ml-sm-5 ml-lg-4">
-                                @if (empty(Auth::user()->profile->id_front) && empty(Auth::user()->profile->id_back))
+                                @if (empty(Auth::user()->profile->id_front) || empty(Auth::user()->profile->id_back))
                                 <a href="javascript:void(0);" class="text-primary btnAddNewID">Add New Government ID Approve</a>
                                 @else
                                 <i class="fa fa-check text-success"></i> ID is checked
@@ -93,25 +93,35 @@
                                                 </div>
                                             </div>
                                             @php
-                                                $date1=date_create($check_in);
-                                                $date2=date_create($check_out);
-                                                $diff=date_diff($date1,$date2);
-                                                $days = $diff->format("%a");
+                                                if ($property->type_status=='rent') {
+                                                    $from = \Carbon\Carbon::createFromFormat('d-m-Y', $check_in);
+                                                    $to = \Carbon\Carbon::createFromFormat('d-m-Y', $check_out);
+                                                    $dateDiff = $to->diffInMonths($from);
+                                                }else{
+                                                    $from=date_create($check_in);
+                                                    $to=date_create($check_out);
+                                                    $diff=date_diff($from,$to);
+                                                    $dateDiff = $diff->format("%a");
+                                                }
                                             @endphp
                                             <div class="mt-5">
-                                                <h3>{{ $days }}  {{ str_plural('Day', $days) }}</h3>
+                                                @if ($property->type_status=='rent')
+                                                <h3>{{ $dateDiff }}  {{ str_plural('Month', $dateDiff) }} <small>@if ($dateDiff==12) (1 Year) @elseif($dateDiff==24) (2 Years) @endif</small></h3>
+                                                @else
+                                                <h3>{{ $dateDiff }}  {{ str_plural('Day', $dateDiff) }}</h3>
+                                                @endif
                                                 <div class="row">
-                                                    <div class="col-sm-12 col-lg-6">
+                                                    <div class="col-sm-12 col-lg-4">
                                                         Check In
-                                                        <div class="card card-purple" style="width:40% !important">
+                                                        <div class="card card-purple">
                                                             <div class="card-body text-center text-white">
                                                                 <strong class="font-16">{{ \Carbon\Carbon::parse($check_in)->format('d-M-Y') }}</strong>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-12 col-lg-6">
+                                                    <div class="col-sm-12 col-lg-4 offset-lg-2">
                                                         Check Out
-                                                        <div class="card card-purple" style="width:40% !important">
+                                                        <div class="card card-purple">
                                                             <div class="card-body text-center text-white">
                                                                 <strong class="font-16">{{ \Carbon\Carbon::parse($check_out)->format('d-M-Y') }}</strong>
                                                             </div>
@@ -140,7 +150,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12 mt-5 ml-sm-4">
-                                        <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="1"><i class="fa fa-arrow-right"></i> Agree and continue</button>
+                                        <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="1" data-url="{{ route('property.bookings.movenext') }}"><i class="fa fa-arrow-right"></i> Agree and continue</button>
                                     </div>
                                 </div> 
                             </div>  
@@ -149,7 +159,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <a href="javascript:void(0);" class="text-primary moveBack" data-step="2">Back</a>
-                                        <h3>Verify to boost owner/OShelter early feedback</h3>
+                                        <h3>Verify to boost owner and OShelter early feedback</h3>
                                         <div class="col-sm-12 mt-5">
                                             <div class="card card-bordered-pink">
                                                 <div class="card-body">
@@ -182,14 +192,14 @@
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text">233</span>
                                                                     </div>
-                                                                    <input type="text" name="phone_number" id="phone_number" onkeypress="return isNumber(event);" class="form-control" value="{{ Auth::user()->phone }}" placeholder="eg: 0542398441">
+                                                                    <input type="tel" name="phone_number" id="phone_number" maxlength="10" onkeypress="return isNumber(event);" title="Enter your valid phone number" class="form-control" value="{{ Auth::user()->phone }}" placeholder="eg: 0542398441">
                                                                 </div>
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
     
                                                             <div class="form-group validate verifyCodeField" style="display: {{ empty(Auth::user()->sms_verification_token)? 'none':'block' }}">
                                                                 <label for="">Enter verification code</label>
-                                                                <input type="text" name="verify_code" id="verify_code" onkeypress="return isNumber(event);" maxlength="4" class="form-control" placeholder="eg: xxxx">
+                                                                <input type="number" name="verify_code" id="verify_code" onkeypress="return isNumber(event);" min="1" class="form-control" placeholder="eg: xxxx" data-url="{{ route('property.bookings.verify') }}" />
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                             
@@ -210,8 +220,8 @@
                                     </div>  
 
                                     <div class="col-sm-12 mt-5 ml-sm-4">
-                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}"><i class="fa fa-arrow-right"></i> Verify</button>
-                                        <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="2" style="display: {{ (!Auth::user()->verify_sms)? 'none':'block' }}"><i class="fa fa-arrow-right"></i> Continue</button>
+                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}"><i class="fa fa-arrow-right"></i> Verify</button>
+                                        <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="2" data-url="{{ route('property.bookings.movenext') }}" style="display: {{ (!Auth::user()->verify_sms)? 'none':'block' }}"><i class="fa fa-arrow-right"></i> Continue</button>
                                     </div>
                                 </div> 
                             </div> 
@@ -244,6 +254,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-sm-12">
                                         <h5>Choose Payment Methods</h5>
                                         <div class="col-sm-12">
@@ -326,29 +337,47 @@
                                                     <h4><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($adult+$children+$infant) }} {{ str_plural('Guest', ($adult+$children+$infant)) }}</h4>
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
+                                                @if ($property->type_status=='rent')
                                                 <div class="col-sm-12">
                                                     <div>
-                                                        <p class="font-18">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}/night</p>
+                                                        <p class="font-18">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
                                                     </div>
                                                     <div class="font-18">
-                                                        <span id="dateCalculator">{{ $days }} x {{ number_format($property->propertyPrice->property_price,2) }}</span>
-                                                        <span class="float-right" id="dateCalculatorResult">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price* $days,2) }}</span>
+                                                        <span id="dateCalculator">{{ $dateDiff }} x {{ number_format($property->propertyPrice->property_price,2) }}</span>
+                                                        <span class="float-right" id="dateCalculatorResult">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price* $dateDiff,2) }}</span>
                                                     </div>
-                                                    <!-- <div class="font-18">
-                                                        <span>Discount Cal</span>
-                                                        <span class="float-right">Total Discount Fee</span>
-                                                    </div> -->
                                                     <div class="font-18">
                                                         <span>Service Fee</span>
-                                                        <span class="float-right" id="serviceFeeResult">{{ $property->propertyPrice->currency }} {{ number_format(($property->propertyPrice->property_price* $days)*0.12,2) }}</span>
+                                                        <span class="float-right" id="serviceFeeResult">{{ $property->propertyPrice->currency }} {{ number_format(($property->propertyPrice->property_price* $dateDiff)*0.12,2) }}</span>
                                                     </div>
                                                     <hr>
                                                     <div class="font-18">
                                                         <span><strong>Total</strong></span>
                                                         <span class="float-right"><strong id="totalFeeResult">
-                                                            {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $days)*0.12)+$property->propertyPrice->property_price* $days,2) }}</strong></span>
+                                                            {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+$property->propertyPrice->property_price* $dateDiff,2) }}</strong></span>
                                                     </div>
                                                 </div>
+                                                @elseif($property->type_status == 'short_stay')
+                                                <div class="col-sm-12">
+                                                    <div>
+                                                        <p class="font-18">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
+                                                    </div>
+                                                    <div class="font-18">
+                                                        <span id="dateCalculator">{{ $dateDiff }} {{ str_plural('Day', $dateDiff) }} x {{ number_format($property->propertyPrice->property_price,2) }}</span>
+                                                        <span class="float-right" id="dateCalculatorResult">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price* $dateDiff,2) }}</span>
+                                                    </div>
+                                                    <div class="font-18">
+                                                        <span>Service Fee</span>
+                                                        <span class="float-right" id="serviceFeeResult">{{ $property->propertyPrice->currency }} {{ number_format(($property->propertyPrice->property_price* $dateDiff)*0.12,2) }}</span>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="font-18">
+                                                        <span><strong>Total</strong></span>
+                                                        <span class="float-right"><strong id="totalFeeResult">
+                                                            {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+$property->propertyPrice->property_price* $dateDiff,2) }}</strong></span>
+                                                    </div>
+                                                </div>
+                                                @endif
                                                 <div class="col-sm-12"><hr></div>
                                                 <div class="col-sm-12">
                                                     <p class="font-16"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
@@ -386,7 +415,7 @@
                     </div>
                     <div>
                         <a href="javascript:void(0);"> <span id="msgStatus">Click upload ID front</span>
-                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="front_file" type="file" name="front_file" /></div>
+                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="front_file" type="file" name="front_file" data-url="{{ route('profile.front.card') }}" data-path="{{ asset('assets/images/cards') }}" /></div>
                         </a>
                     </div>
                 </div>
@@ -396,7 +425,7 @@
                     </div>
                     <div>
                         <a href="javascript:void(0);"> <span id="msgStatus2">Click to upload ID back</span>
-                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="back_file" type="file" name="back_file" /></div>
+                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="back_file" type="file" name="back_file" data-url="{{ route('profile.back.card') }}" data-path="{{ asset('assets/images/cards') }}" /></div>
                         </a>
                     </div>
                 </div>             
@@ -408,325 +437,5 @@
 @endsection
 
 @section('scripts')
-
-<script>
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-    }
-})
-
-$(".btnAddNewID").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    $("#idModal").modal("show");
-    return false;
-});
-
-function getFrontFile(){
-    document.getElementById("front_file").click();
-}
-
-function getBackFile(){
-    document.getElementById("back_file").click();
-}
-
-$("#front_file").on("change", function(){
-    var form_data = new FormData();
-    var size = document.getElementById('front_file').files[0].size;
-    var selectedFile = document.getElementById('front_file').files[0].name;
-    var ext = selectedFile.replace(/^.*\./, '');
-    ext= ext.toLowerCase();
-    if(size>1000141){
-        swal("Opps", "Uploaded file is greater than 1mb.", "error");
-        document.getElementById("front_file").value = null;
-    }
-    else if(ext!='jpg' && ext!='jpeg' && ext!='png'){
-        swal("Opps", "Unknown file types.", "error");
-        document.getElementById("front_file").value = null;
-    }
-    else{
-        form_data.append("front_file", document.getElementById('front_file').files[0]);
-        $.ajax({
-            url: "{{ route('profile.front.card') }}", 
-            type: 'POST',
-            data: form_data,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if(response=='fail'){
-                    swal("Opps", "Something went wrong with your inputs. Try again.", "warning");
-                }
-                else if(response=='error'){
-                    swal("Opps", "Something went wrong.", "warning");
-                }
-                else if(response=='nophoto'){
-                    swal("Opps", "No photo is selected.", "warning");
-                }
-                else{
-                    $("#msgStatus").addClass('text-success').text("Uploaded Successfully");
-                    $(".front_card").attr("src", "{{ asset('assets/images/cards') }}/"+response); 
-                }
-                document.getElementById("front_file").value = null;
-            },
-            error: function(response){
-                alert('Something went wrong.');
-                document.getElementById("front_file").value = null;
-            }
-            
-        });
-    }
-    
-    return false;
-});
-
-$("#back_file").on("change", function(){
-    var form_data = new FormData();
-    var size = document.getElementById('back_file').files[0].size;
-    var selectedFile = document.getElementById('back_file').files[0].name;
-    var ext = selectedFile.replace(/^.*\./, '');
-    ext= ext.toLowerCase();
-    if(size>1000141){
-        swal("Opps", "Uploaded file is greater than 1mb.", "error");
-        document.getElementById("back_file").value = null;
-    }
-    else if(ext!='jpg' && ext!='jpeg' && ext!='png'){
-        swal("Opps", "Unknown file types.", "error");
-        document.getElementById("back_file").value = null;
-    }
-    else{
-        form_data.append("back_file", document.getElementById('back_file').files[0]);
-        $.ajax({
-            url: "{{ route('profile.back.card') }}", 
-            type: 'POST',
-            data: form_data,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if(response=='fail'){
-                    swal("Opps", "Something went wrong with your inputs. Try again.", "warning");
-                }
-                else if(response=='error'){
-                    swal("Opps", "Something went wrong.", "warning");
-                }
-                else if(response=='nophoto'){
-                    swal("Opps", "No photo is selected.", "warning");
-                }
-                else{
-                    $("#msgStatus2").addClass('text-success').text("Uploaded Successfully");
-                    $(".back_card").attr("src", "{{ asset('assets/images/cards') }}/"+response); 
-                }
-                document.getElementById("back_file").value = null;
-            },
-            error: function(response){
-                alert('Something went wrong.');
-                document.getElementById("back_file").value = null;
-            }
-            
-        });
-    }
-    
-    return false;
-});
-
-$(".btnContinue").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    if($this.data('step')=='1'){
-        var data = {
-            "step": $this.data('step'),
-        }
-
-        $.ajax({
-            url: "{{ route('property.bookings.movenext') }}",
-            type: "POST",
-            data: data,
-            success: function(resp){
-                if(resp=='success'){
-                    $("#propertyReview").slideUp('fast', function(){
-                        $("#verifyContact").slideDown('fast');
-                    });
-                }else{
-                    console.log(resp+ '. try again.');
-                }
-            },
-            error: function(resp){
-                console.log('something went wrong with request');
-            }
-        });
-    }
-    else if($this.data('step')=='2'){
-        if($("#owner_message").val()==''){
-            $("#owner_message").addClass('is-invalid');
-            $("#owner_message").parents('.validate').find('.mySpan').text('owner message field is required');
-        }else{
-            var data = {
-                "step": $this.data('step'),
-                "owner_message": $("#owner_message").val(),
-            }
-
-            $.ajax({
-                url: "{{ route('property.bookings.movenext') }}",
-                type: "POST",
-                data: data,
-                success: function(resp){
-                    if(resp=='success'){
-                        $("#verifyContact").slideUp('fast', function(){
-                            $("#paymentDiv").slideDown('fast');
-                        });
-                    }else{
-                        console.log(resp+ '. try again.');
-                    }
-                },
-                error: function(resp){
-                    console.log('something went wrong with request');
-                }
-            });
-        }
-    }
-
-    return false;
-});
-
-$(".btnVerify").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    if($("#phone_number").val()==''){
-        $("#phone_number").addClass('is-invalid').focus();
-    }else{
-        $("#phone_number").removeClass('is-invalid');
-        var data = $("#phone_number").serialize();
-        $.ajax({
-            url: "{{ route('property.bookings.smsverification') }}",
-            type: "POST",
-            data: data,
-            success: function(resp){
-                if(resp=='success'){
-                    $(".phoneNumberField").slideUp('fast', function(){
-                        $(".verifyCodeField").slideDown('fast');
-                    });
-                }else{
-                    console.log(resp+'. try again.');
-                }
-            },
-            error: function(resp){
-                console.log('something went wrong with request');
-            }
-        });
-    }
-    
-    return false;
-});
-
-$("#verify_code").on("keyup", function(e){
-    e.stopPropagation();
-    var $this = $(this);
-    if($this.val()!='' && $this.val().length==4){
-        var data = $this.serialize();
-        $.ajax({
-            url: "{{ route('property.bookings.verify') }}",
-            type: "POST",
-            data: data,
-            success: function(resp){
-                if(resp=='success'){
-                    $("#phoneNumberCover").slideUp('fast', function(){
-                        $("#verifyNumberCover").slideDown('fast');
-                        $(".btnVerify").hide();
-                        $(".btnContinue").show();
-                    });
-                }else if(resp=='fail'){
-                    console.log(resp+'. try again.');
-                }else{
-                    $this.parents('.validate').find('.mySpan').text(resp);
-                }
-            },
-            error: function(resp){
-                console.log('something went wrong with request');
-            }
-        });
-    }else{
-        $this.parents('.validate').find('.mySpan').text('');
-    }
-    return false;
-});
-
-$("#totalPayment").text($("#totalFeeResult").text());
-$(".makePayment").text("PAY NOW: "+$("#totalFeeResult").text());
-
-$("#mobile_money").on("change", function(){
-    var $this = $(this);
-    if($this.prop("checked", true)){
-        $("#momoExpand").slideDown('fast');
-    }
-});
-
-$(".makePayment").on('click', function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var valid = true;
-    if(document.getElementById('mobile_money').checked){
-        $('#formMobileMobile input, #formMobileMobile select').each(function() {
-            var $this = $(this);
-            
-            if(!$this.val()) {
-                valid = false;
-                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                $this.addClass('is-invalid');
-            }
-        });
-        if(valid){
-            return false;
-        }
-    }
-    return false;
-});
-
-$("input, textarea").on('input', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-        $(this).removeClass('is-invalid');
-    }else{ 
-        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); 
-        $(this).addClass('is-invalid');
-    }
-});
-
-$("select").on('change', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-        $(this).removeClass('is-invalid');
-    }else{ 
-        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        $(this).addClass('is-invalid');
-    }
-});
-
-$(".moveBack").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this=$(this);
-    if($this.data('step')=='3'){
-        $("#paymentDiv").slideUp('fast', function(){
-            $("#verifyContact").slideDown('fast');
-        });
-    }
-    else if($this.data('step')=='2'){
-        $("#verifyContact").slideUp('fast', function(){
-            $("#propertyReview").slideDown('fast');
-        });
-    }
-    return false;
-});
-function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-    }
-    return true;
-}
-</script>
+<script src="{{ asset('assets/pages/booking/booking.js') }}"></script>
 @endsection
