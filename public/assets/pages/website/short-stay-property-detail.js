@@ -54,7 +54,7 @@ $('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
     $("#formStayBooking #showCalculations").hide().slideDown('slow');
 });
 
-
+// checking select adults and owner's
 $("#formStayBooking #adult").on("change", function(){
     $this = $(this);
     if($this.val()!=""){
@@ -68,6 +68,7 @@ $("#formStayBooking #adult").on("change", function(){
     }
 });
 
+// checking select children and owner's
 $("#formStayBooking #children").on("change", function(){
     $this = $(this);
     if($this.val()!=""){
@@ -81,6 +82,7 @@ $("#formStayBooking #children").on("change", function(){
     }
 });
 
+// proceed booking
 $("#formStayBooking").on('submit', function(e){
     e.stopPropagation();
     var $this = $(this);

@@ -194,7 +194,7 @@
                                                 <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                 <div class="form-group mt-4 validate">
                                                     <label for="">Block name</label>
-                                                    <input type="text" name="block_name" class="form-control" placeholder="eg: Opoku Ware">
+                                                    <input type="text" name="block_name" class="form-control" placeholder="eg: Kofi Annan">
                                                     <span class="text-danger small mySpan" role="alert"></span>
                                                 </div>
                                                 <button type="submit" class="btn btnAddBlock btn-gradient-primary btn-sm mt-4"><i class="fa fa-plus-circle"></i> Add Block</button>
@@ -262,9 +262,9 @@
                                                     <div class="row">
                                                         <div class="col-sm-6 pr-lg-5">
                                                             <div class="form-group mb-4 validate">
-                                                                <label class="mb-2">Create how many rooms on block?</label>
+                                                                <label class="mb-2">How many rooms on block?</label>
                                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                                    <input id="rooms_on_block" type="text" value="0" onkeypress="return isNumber(event)" name="rooms_on_block" class="form-control">
+                                                                    <input id="rooms_on_block" type="text" value="1" onkeypress="return isNumber(event)" name="rooms_on_block" class="form-control">
                                                                 </div>
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
@@ -274,7 +274,7 @@
                                                             <div class="form-group mb-4 validate">
                                                                 <label class="mb-2">Room no.# start from</label>
                                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                                    <input id="room_start" type="text" value="0" onkeypress="return isNumber(event)" name="room_start" class="form-control">
+                                                                    <input id="room_start" type="text" value="1" onkeypress="return isNumber(event)" name="room_start" class="form-control">
                                                                 </div>
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
@@ -284,19 +284,25 @@
                                                     <div class="row">
                                                         <div class="col-sm-6 pr-lg-5">
                                                             <div class="form-group validate">
-                                                                <label class="mb-2">How many beds per room?</label>
-                                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                                    <input id="beds" type="text" value="0" onkeypress="return isNumber(event)" name="beds" class="form-control">
-                                                                </div>
+                                                                <label class="mb-2 mt-2">How many beds per room?</label>
+                                                                <select name="beds" class="form-control" id="beds">
+                                                                    <option value="">--Select--</option>
+                                                                    @for ($i = 1; $i <= $count=10; $i++)
+                                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                                    @endfor
+                                                                </select>
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6 pl-lg-5">
                                                             <div class="form-group validate">
-                                                                <label class="mb-2">How many people per room?</label>
-                                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                                    <input id="person_per_room" type="text" value="0" onkeypress="return isNumber(event)" name="person_per_room" class="form-control">
-                                                                </div>
+                                                                <label class="mb-2 mt-2">How many people per room?</label>
+                                                                <select name="person_per_room" class="form-control" id="person_per_room">
+                                                                    <option value="">--Select--</option>
+                                                                    @for ($i = 1; $i <= $count=10; $i++)
+                                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                                    @endfor
+                                                                </select>
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
@@ -333,9 +339,12 @@
                                                         <div class="col-sm-12">
                                                             <div class="form-group mb-0 validate">
                                                                 <label class="mb-2">How many bathrooms?</label>
-                                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                                    <input id="baths" type="text" value="0" onkeypress="return isNumber(event)" name="baths" class="form-control">
-                                                                </div>
+                                                                <select name="baths" class="form-control" id="baths">
+                                                                    <option value="">--Select--</option>
+                                                                    @for ($i = 1; $i <= $count=20; $i++)
+                                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                                    @endfor
+                                                                </select>
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
@@ -354,11 +363,14 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
-                                                            <div class="form-group mb-0 validate">
+                                                            <div class="form-group mt-2 validate">
                                                                 <label class="mb-2">How many toilet? </label>
-                                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                                    <input id="toilet" type="text" value="0" onkeypress="return isNumber(event)" name="toilet" class="form-control">
-                                                                </div>
+                                                                <select name="toilet" class="form-control" id="toilet">
+                                                                    <option value="">--Select--</option>
+                                                                    @for ($i = 1; $i <= $count=20; $i++)
+                                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                                    @endfor
+                                                                </select>
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
@@ -418,6 +430,18 @@
                                                         </div>
 
                                                         <div class="col-sm-6">
+                                                            <div class="form-group mt-4 validate">
+                                                                <label for="">Gender on block</label>
+                                                                <select name="gender" class="form-control" id="gender">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="male">Male</option>
+                                                                    <option value="female">Female</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-12">
                                                             <div class="form-group mt-4 validate">
                                                                 <label for="">Block room type</label>
                                                                 <select name="room_type" class="form-control" id="room_type">
@@ -646,6 +670,18 @@
 
                                                         <div class="col-sm-6">
                                                             <div class="form-group validate">
+                                                                <label for="">Gender on block</label>
+                                                                <select name="gender" class="form-control" id="gender">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="male">Male</option>
+                                                                    <option value="female">Female</option>
+                                                                </select>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group validate">
                                                                 <label for="">Block room type</label>
                                                                 <select name="block_room" class="form-control" id="block_room">
                                                                     <option class="after" value="">--Select--</option>
@@ -666,6 +702,7 @@
                                                                     <option value="4">4 months in advance</option>
                                                                     <option value="6">6 months in advance</option>
                                                                     <option value="8">8 months in advance</option>
+                                                                    <option value="9">9 months in advance</option>
                                                                     <option value="12">1 year in advance</option>
                                                                 </select>
                                                                 <span class="text-danger small mySpan" role="alert"></span>
@@ -1502,7 +1539,6 @@
 <script src="{{ asset('assets/plugins/gmaps/gmaps.min.js') }}"></script>
 <!-- demo codes -->
 <script src="{{ asset('assets/pages/jquery.gmaps.init.js') }}"></script>
-<script src="{{ asset('assets/pages/property-create.js') }}"></script>
 
 <script>
 $.ajaxSetup({
@@ -1797,7 +1833,7 @@ $("#formCreateRooms").on("submit", function(e){
                     $("#formCreateRooms select").val('');
                 }                
                 else{
-                    console.log(resp);
+                    alert(resp);
                 }
                 $(".btnCreateRoom").html('<i class="fa fa-plus-circle"></i> Create Room').attr('disabled', false);
             },
@@ -1814,12 +1850,12 @@ $("#formCreateRooms").on("submit", function(e){
 $("#getMyCreatedRooms").load("{{ route('property.blockroom.show', $property->id) }}");
 
 ///select to get room type
-$("#formHostelRoomAmenity #hostel_block_name").on("change", function(e){
+$("#formHostelRoomAmenity #gender").on("change", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this= $(this);
     if($this.val()!=''){
-        var data={ block_name:$this.val() }
+        var data={ block_name:$('#hostel_block_name').val(), gender:$this.val() }
         $("#formHostelRoomAmenity #room_type").find('.after').nextAll().remove();
         $.ajax({
             url: "{{ route('property.get.roomtype') }}",
@@ -2015,13 +2051,23 @@ $("#formPropertyOtherRules input[name='add_rule']").on('keypress', function(e){
 
 
 @if($property->type=='hostel')
-///select to get room type
+// clear  gender
 $("#formRentSchedule #block").on("change", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this= $(this);
+    $("#formRentSchedule #gender").val('');
+    $("#formRentSchedule #block_room").find('.after').nextAll().remove();
+    return false;
+});
+
+///select to get room type
+$("#formRentSchedule #gender").on("change", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this= $(this);
     if($this.val()!=''){
-        var data={ block_name:$this.val() }
+        var data={ block_name:$('#block').val(), gender:$this.val() }
         $("#formRentSchedule #block_room").find('.after').nextAll().remove();
         $.ajax({
             url: "{{ route('property.get.roomtype') }}",

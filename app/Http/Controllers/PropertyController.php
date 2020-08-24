@@ -100,7 +100,7 @@ class PropertyController extends Controller
         }else{
             try{
                 DB::beginTransaction();
-                if(PropertyHostelBlock::whereBlock_name(strtolower($request->block_name))->exists()){
+                if(PropertyHostelBlock::whereProperty_id($request->property_id)->whereBlock_name(strtolower($request->block_name))->exists()){
                     $message='Block name already exist.';
                 }
                 else{
@@ -157,32 +157,37 @@ class PropertyController extends Controller
         }else{
             try{
                 DB::beginTransaction();
-                $room = new HostelBlockRoom;
-                $room->property_hostel_block_id = $request->hostel_block;
-                $room->block_room_type = $request->block_room_type;
-                $room->gender = $request->room_gender;
-                $room->block_no_room = $request->rooms_on_block;
-                $room->start_room_no = $request->room_start;
-                $room->bed_person = $request->beds;
-                $room->person_per_room = $request->person_per_room;
-                $room->furnish = $request->furnish;
-                $room->kitchen = $request->kitchen;
-                $room->bathroom = $request->baths;
-                $room->bath_private = $request->bath_private;
-                $room->toilet = $request->toilet;
-                $room->toilet_private = $request->toilet_private;
-                $room->save();
-                //create rooom numbers
-                $endNumber = $request->room_start + $request->rooms_on_block;
-                for($i=$request->room_start; $i<$endNumber; $i++){
-                    $number = new HostelBlockRoomNumber;
-                    $number->hostel_block_room_id = $room->id;
-                    $number->room_no = $i;
-                    $number->person_per_room = $request->person_per_room;
-                    $number->save();
+                if(HostelBlockRoom::whereProperty_hostel_block_id($request->hostel_block)->whereBlock_room_type($request->block_room_type)->whereGender($request->room_gender)->exists()){
+                    $message = 'Block rooms for '.ucfirst($request->room_gender).' '.str_replace('_', ' ', $request->block_room_type).' already exist';
+                }
+                else{
+                    $room = new HostelBlockRoom;
+                    $room->property_hostel_block_id = $request->hostel_block;
+                    $room->block_room_type = $request->block_room_type;
+                    $room->gender = $request->room_gender;
+                    $room->block_no_room = $request->rooms_on_block;
+                    $room->start_room_no = $request->room_start;
+                    $room->bed_person = $request->beds;
+                    $room->person_per_room = $request->person_per_room;
+                    $room->furnish = $request->furnish;
+                    $room->kitchen = $request->kitchen;
+                    $room->bathroom = $request->baths;
+                    $room->bath_private = $request->bath_private;
+                    $room->toilet = $request->toilet;
+                    $room->toilet_private = $request->toilet_private;
+                    $room->save();
+                    //create rooom numbers
+                    $endNumber = $request->room_start + $request->rooms_on_block;
+                    for($i=$request->room_start; $i<$endNumber; $i++){
+                        $number = new HostelBlockRoomNumber;
+                        $number->hostel_block_room_id = $room->id;
+                        $number->room_no = $i;
+                        $number->person_per_room = $request->person_per_room;
+                        $number->save();
+                    }
+                    $message="success";
                 }
                 DB::commit();
-                $message="success";
             }catch(\Exception $e){
                 DB::rollback();
                 $message = 'Something went wrong';
@@ -209,7 +214,7 @@ class PropertyController extends Controller
     //get room type base on block name
     public function getRoomType(Request $request)
     {
-        $rooms = HostelBlockRoom::whereProperty_hostel_block_id($request->block_name)->get(['id','block_room_type']);
+        $rooms = HostelBlockRoom::whereProperty_hostel_block_id($request->block_name)->whereGender($request->gender)->get(['id','block_room_type']);
         return response()->json($rooms);
     }
 

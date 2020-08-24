@@ -137,7 +137,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/properties/get/block-room-number', 'BookingController@getRoomTypeNumber')->name('property.get.roomnumber');
     Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
     Route::post('/properties/bookings', 'BookingController@book')->name('property.bookings.submit');
+    Route::post('/properties/hostel/bookings', 'BookingController@hostelBook')->name('property.bookings.hostel.submit');
     Route::get('/properties/{property}/{checkin}/{checkout}/{guest}/{children}/{infant}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
+    Route::get('/properties/{property}/{checkin}/{checkout}/{block_id}/{gender}/{room_type}/{room_number}/{filter_id}/bookings', 'BookingController@hostelIndex')->name('property.bookings.hostel.index');
     Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
     Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
     Route::post('/properties/bookings/verify', 'BookingController@verify')->name('property.bookings.verify');
@@ -169,6 +171,11 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/view-tickets/{ticket}/read', 'TicketController@read')->name('ticket.read');
     Route::post('/ticket/reply', 'TicketController@reply')->name('ticket.reply');
     Route::get('/ticket/{ticket}/close', 'TicketController@close')->name('ticket.close');
+
+    /*------- Report Listing ------- */
+    Route::get('/listing/{property}/report', 'TicketController@create')->name('report-listing');
+    Route::post('/report-listing', 'TicketController@store')->name('report-listing.submit');
+
 
     /*------- Activities ------- */
 

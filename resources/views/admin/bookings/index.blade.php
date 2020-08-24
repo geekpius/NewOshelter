@@ -35,9 +35,6 @@
                             </div> 
                         </div>
 
-                        <div class="col-sm-12 mt-4">
-                            <button class="btn btn-primary pl-5 pr-5"><i class="fa fa-arrow-right"></i> Next</button>
-                        </div>
                     </div><!-- end row --> 
                     @elseif(empty(Auth::user()->profile->id_front) || empty(Auth::user()->profile->id_back))
                     <div class="row mb-5">
@@ -73,9 +70,296 @@
                         </div>
 
                         <div class="col-sm-12 mt-4">
-                            <button class="btn btn-primary pl-5 pr-5"><i class="fa fa-arrow-right"></i> Next</button>
+                            <button class="btn btn-primary pl-5 pr-5 btnNext"><i class="fa fa-arrow-right"></i> Next</button>
                         </div>
                     </div><!-- end row --> 
+                    @else
+                    @if ($property->type=='hostel')
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div id="propertyReview" style="display: {{ (Session::get('step')==1)? 'block':'none' }}">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h3>Review {{ $property->type }} rules</h3>
+                                        <div class="col-sm-12 mt-5">
+                                            <div class="card card-bordered-pink">
+                                                <div class="card-body">
+                                                    <p class="font-14">
+                                                        <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                        This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            @php
+                                                $from = \Carbon\Carbon::createFromFormat('d-m-Y', $check_in);
+                                                $to = \Carbon\Carbon::createFromFormat('d-m-Y', $check_out);
+                                                $dateDiff = $to->diffInMonths($from);
+                                            @endphp
+                                            <div class="mt-5">
+                                                <h3>{{ $dateDiff }}  {{ str_plural('Month', $dateDiff) }} <small>@if ($dateDiff==12) (1 Year) @elseif($dateDiff==24) (2 Years) @endif</small></h3>
+                                                <div class="row">
+                                                    <div class="col-sm-12 col-lg-4">
+                                                        Check In
+                                                        <div class="card card-purple">
+                                                            <div class="card-body text-center text-white">
+                                                                <strong class="font-16">{{ \Carbon\Carbon::parse($check_in)->format('d-M-Y') }}</strong>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-4 offset-lg-2">
+                                                        Check Out
+                                                        <div class="card card-purple">
+                                                            <div class="card-body text-center text-white">
+                                                                <strong class="font-16">{{ \Carbon\Carbon::parse($check_out)->format('d-M-Y') }}</strong>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-5">
+                                                <h3>Take note of the rules</h3>
+                                                <div class="col-sm-12">
+                                                    @if (count($property->propertyOwnRules))
+                                                        @foreach ($property->propertyOwnRules as $own_rule)
+                                                        <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $own_rule->rule }}</h4>
+                                                        @endforeach
+                                                        
+                                                        @foreach ($property->propertyRules as $rule)
+                                                        <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</h4>
+                                                        @endforeach
+                                                    @else
+                                                        @foreach ($property->propertyRules as $rule)
+                                                        <h4><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</h4>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 mt-5 ml-sm-4">
+                                        <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="1" data-url="{{ route('property.bookings.movenext') }}"><i class="fa fa-arrow-right"></i> Agree and continue</button>
+                                    </div>
+                                </div> 
+                            </div>  
+
+                            {{-- <div id="verifyContact" style="display: {{ (Session::get('step')==2)? 'block':'none' }}">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a href="javascript:void(0);" class="text-primary moveBack" data-step="2">Back</a>
+                                        <h3>Verify to boost owner and OShelter early feedback</h3>
+                                        <div class="col-sm-12 mt-5">
+                                            <div class="card card-bordered-pink">
+                                                <div class="card-body">
+                                                    <p class="font-14">
+                                                        <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                        This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="mt-5">
+                                                <h4>Click with your property owner</h4>
+                                                <p>Say hi to {{ current(explode(' ',$property->user->name))}} to kickstart before you arrive.</p>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group validate">
+                                                            <textarea name="owner_message" id="owner_message" cols="10" rows="4" class="form-control" placeholder="Hi {{ current(explode(' ',$property->user->name))}}, i'm excited to lodge in your property">{{ (empty(Session::get('owner_message')))? '':Session::get('owner_message') }}</textarea>
+                                                            <span class="text-danger small mySpan" role="alert"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-5">
+                                                <div id="phoneNumberCover" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}">
+                                                    <h4>Verify your phone number</h4>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="form-group validate phoneNumberField" style="display: {{ empty(Auth::user()->sms_verification_token)? 'block':'none' }}">
+                                                                <label for="">Phone Number</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                        <span class="input-group-text">233</span>
+                                                                    </div>
+                                                                    <input type="tel" name="phone_number" id="phone_number" maxlength="10" onkeypress="return isNumber(event);" title="Enter your valid phone number" class="form-control" value="{{ Auth::user()->phone }}" placeholder="eg: 0542398441">
+                                                                </div>
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+    
+                                                            <div class="form-group validate verifyCodeField" style="display: {{ empty(Auth::user()->sms_verification_token)? 'none':'block' }}">
+                                                                <label for="">Enter verification code</label>
+                                                                <input type="number" name="verify_code" id="verify_code" onkeypress="return isNumber(event);" min="1" class="form-control" placeholder="eg: xxxx" data-url="{{ route('property.bookings.verify') }}" />
+                                                                <span class="text-danger small mySpan" role="alert"></span>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="verifyNumberCover" style="display: {{ (!Auth::user()->verify_sms)? 'none':'block' }}">
+                                                    <h4>Phone number is verified</h4>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <p class="font-18"><i class="fa fa-check text-success"></i>  {{ Auth::user()->phone }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+
+                                    <div class="col-sm-12 mt-5 ml-sm-4">
+                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}"><i class="fa fa-arrow-right"></i> Verify</button>
+                                        <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="2" data-url="{{ route('property.bookings.movenext') }}" style="display: {{ (!Auth::user()->verify_sms)? 'none':'block' }}"><i class="fa fa-arrow-right"></i> Continue</button>
+                                    </div>
+                                </div> 
+                            </div> 
+                            
+                            <div id="paymentDiv" style="display: {{ (Session::get('step')==3)? 'block':'none' }}">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a href="javascript:void(0);" class="text-primary moveBack" data-step="3">Back</a>
+                                        <h3>Confirm and make payment</h3>
+                                        <div class="col-sm-12 mt-5">
+                                            <div class="card card-bordered-pink">
+                                                <div class="card-body">
+                                                    <p class="font-14">
+                                                        <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                        This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    
+                                    <div class="col-sm-12">
+                                        <h5>Payment Summary</h5>
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <span class="font-weight-500">TOTAL PAYMENT</span>
+                                                    <span id="totalPayment" class="font-weight-500 text-primary float-right"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <h5>Choose Payment Methods</h5>
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="radio radio-success">
+                                                        <input type="radio" name="payment_method" id="mobile_money" value="Mobile Money" />
+                                                        <label for="mobile_money" class="font-weight-600 text-black">
+                                                            Mobile Money
+                                                        </label>
+                                                    </div>
+                                                    <div id="momoExpand" style="display: none">
+                                                        <hr>
+                                                        <form class="mt-4" id="formMobileMobile">
+                                                            @csrf
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group validate">
+                                                                        <select name="mobile_operator" id="mobile_operator" class="form-control">
+                                                                            <option value="">Select your operator</option>
+                                                                            <option value="MTN">MTN</option>
+                                                                            <option value="TIGO">AirtelTigo</option>
+                                                                            <option value="VODAFONE">Vodafone</option>
+                                                                        </select>
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group validate">
+                                                                        <input type="text" name="country_code" id="country_code" value="+233" class="form-control" readonly placeholder="Code" />
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                    <div class="form-group validate">
+                                                                        <input type="number" name="mobile_number" id="mobile_number" min="0" maxlength="10" class="form-control" placeholder="eg: 0542398441">
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                        
+                                    <div class="col-sm-12 mt-2 ml-sm-4">
+                                        <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600" data-step="3">PAY NOW</button>
+                                    </div>
+                                </div> 
+                            </div>  --}}
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="col-sm-12">
+                                <div class="col-sm-12 mt-5">
+                                    <div class="card card-bordered-pink">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    @php $image = $property->propertyImages->first(); @endphp
+                                                    <img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-thumbnail" width="200" height="200" />
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <h4>{{ $property->title }}</h4>
+                                                    <p>{{ ucfirst($property->type) }} in {{ strtolower($property->base) }}</p>
+                                                    <p>
+                                                        <i class="fa fa-star"></i> 
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        &nbsp;&nbsp;
+                                                        {{ $property->propertyReviews->count() }} Reviews
+                                                    </p>
+                                                </div>
+                                                <div class="col-sm-12"><hr></div>
+                                                <div class="col-sm-12">
+                                                    <h4><i class="fa fa-school"></i> &nbsp;&nbsp; Choosen Room Block: {{ $my_room->propertyHostelBlock->block_name }}</h4>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <h4><i class="fa fa-building"></i> &nbsp;&nbsp; Choosen Room Type: {{ $my_room->block_room_type }}</h4>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <h4><i class="fa fa-bed"></i> &nbsp;&nbsp; Choosen Room No: {{ $room_number }}</h4>
+                                                </div>
+                                                <div class="col-sm-12"><hr></div>
+                                                <div class="col-sm-12">
+                                                    <div>
+                                                        <p class="font-18">{{ $my_room->propertyHostelPrice->currency }} {{ number_format($my_room->propertyHostelPrice->property_price,2) }}/{{ $my_room->propertyHostelPrice->price_calendar }}</p>
+                                                    </div>
+                                                    <div class="font-18">
+                                                        <span id="dateCalculator">{{ $dateDiff }} x {{ number_format($my_room->propertyHostelPrice->property_price,2) }}</span>
+                                                        <span class="float-right" id="dateCalculatorResult">{{ $my_room->propertyHostelPrice->currency }} {{ number_format($my_room->propertyHostelPrice->property_price* $dateDiff,2) }}</span>
+                                                    </div>
+                                                    <div class="font-18">
+                                                        <span>Service Fee</span>
+                                                        <span class="float-right" id="serviceFeeResult">{{ $my_room->propertyHostelPrice->currency }} {{ number_format(($my_room->propertyHostelPrice->property_price* $dateDiff)*0.12,2) }}</span>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="font-18">
+                                                        <span><strong>Total</strong></span>
+                                                        <span class="float-right"><strong id="totalFeeResult">
+                                                            {{ $my_room->propertyHostelPrice->currency }} {{ number_format((($my_room->propertyHostelPrice->property_price* $dateDiff)*0.12)+$my_room->propertyHostelPrice->property_price* $dateDiff,2) }}</strong></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12"><hr></div>
+                                                <div class="col-sm-12">
+                                                    <p class="font-16"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>                        
+                    </div>
                     @else
                     <div class="row">
                         <div class="col-sm-6">
@@ -390,6 +674,7 @@
                         </div>                        
                     </div>
                     @endif
+                    @endif
 
 
                 </div><!--end card-body-->
@@ -437,5 +722,9 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/pages/booking/booking.js') }}"></script>
+@if ($property->type=='hostel')
+<script src="{{ asset('assets/pages/booking/hostelbooking.js') }}"></script>
+@else
+<script src="{{ asset('assets/pages/booking/booking.js') }}"></script>   
+@endif
 @endsection

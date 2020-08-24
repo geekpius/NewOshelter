@@ -41,5 +41,11 @@
             <label for="checkboxs6">Car Park</label>
         </div>
     </div>
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
+            <input id="checkboxs7" type="checkbox" value="Fire Extinguisher" name="shared_amenities[]">
+            <label for="checkboxs7">Fire Extinguisher</label>
+        </div>
+    </div>
 
 </div>

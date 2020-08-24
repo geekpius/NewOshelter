@@ -23,4 +23,10 @@
             <label for="laundary">No washing outside laundary</label>
         </div>
     </div>
+    <div class="form-group col-sm-6">
+        <div class="checkbox checkbox-primary">
+            <input id="visitor" type="checkbox" value="Dont host visitors more than 2 weeks" name="property_rules[]">
+            <label for="visitor">Dont host visitors more than 2 weeks</label>
+        </div>
+    </div>
 </div>

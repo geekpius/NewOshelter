@@ -1,6 +1,12 @@
 <div class="row mt-4 validate">
     <div class="form-group col-sm-4">
         <div class="checkbox checkbox-primary">
+            <input id="checkboxa9" type="checkbox" value="Bed" name="amenities[]">
+            <label for="checkboxa9">Bed</label>
+        </div>
+    </div>
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
             <input id="checkboxa0" type="checkbox" value="TV" name="amenities[]">
             <label for="checkboxa0">TV</label>
         </div>
@@ -51,6 +57,18 @@
         <div class="checkbox checkbox-primary">
             <input id="checkboxa8" type="checkbox" value="Ceiling Fan" name="amenities[]">
             <label for="checkboxa8">Ceiling Fan</label>
+        </div>
+    </div>
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
+            <input id="checkboxa10" type="checkbox" value="Learning Light" name="amenities[]">
+            <label for="checkboxa10">Learning Light</label>
+        </div>
+    </div>
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
+            <input id="checkboxa11" type="checkbox" value="Wardrobe" name="amenities[]">
+            <label for="checkboxa11">Wardrobe</label>
         </div>
     </div>
 

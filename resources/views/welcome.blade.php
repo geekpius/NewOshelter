@@ -13,7 +13,7 @@
         <div class="pxp-hero-opacity"></div>
         <div class="pxp-hero-caption">
             <div class="container">
-                <h1 class="text-white">Find your future home</h1>
+                <h1 class="text-white text-capitalize">Find your future home</h1>
 
                 <form class="pxp-hero-search mt-4" autocomplete="off" action="{{ route('browse.property.search') }}" method="GET" id="formSearch">
                     <input type="hidden" name="query_id" value="{{ str_random(32) }}" readonly>

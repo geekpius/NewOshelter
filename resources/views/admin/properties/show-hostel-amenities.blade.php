@@ -1,6 +1,6 @@
 @if (count($rooms))
 <hr class="mt-sm-5">
-<h4 class="header-title mt-0 mb-3">Hostel Room Types Amenities. <small class="text-danger text-lowercase">Uncheck to remove amenity</small></h4>
+<h4 class="header-title mt-0 mb-3">Hostel Room Types Amenities. <small class="text-danger text-lowercase font-weight-500">< Uncheck to remove amenity ></small></h4>
 <hr>
 <div style="position: relative;  height: 460px; overflow-y:scroll; overflow-x:hidden;">
     <div class="activity">

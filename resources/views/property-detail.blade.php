@@ -107,10 +107,10 @@
                                         <div class="time-item">
                                             <div class="item-info">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <h6 class="m-0">{{ $block->propertyHostelBlock->block_name }}</h6>
+                                                    <h6 class="m-0"><i class="fa fa-arrow-right font-14"></i> {{ $block->propertyHostelBlock->block_name }}</h6>
                                                 </div>
                                                 <p class="mt-2">
-                                                <span class="text-primary">{{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms with {{ $block->person_per_room }} person per room. 
+                                                <span class="text-primary">{{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms for {{ $block->person_per_room }} person per room. 
                                                 </p>
                                                 <div>
                                                     <span class="badge badge-soft-primary">{{$block->bed_person}} {{ $block->bed_person==1? 'bed':'beds' }} per room </span>                                                  
@@ -221,14 +221,21 @@
                         @if (count($property->propertyHostelBlockRooms))
                             @foreach ($property->propertyHostelBlockRooms as $block)
                                 <div class="parentDiv mb-3">
-                                    <h6><i class="fa fa-square text-success" style="font-size:9px"></i> {{  $block->propertyHostelBlock->block_name  }}  | <span class="font-15 text-primary">{{  $block->block_room_type  }}</span> - <b> {{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>/{{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
+                                    <h6><i class="fa fa-arrow-right font-14"></i> {{  $block->propertyHostelBlock->block_name  }}  | <span class="font-15 text-primary">{{  $block->block_room_type  }}</span> - <b> {{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>/{{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
                                     @foreach ($block->hostelBlockRoomNumbers as $item) 
-                                        <img src="{{ asset('assets/light/images/service-icon-1.svg') }}" alt="{{ $item->room_no }}" width="70" height="70" class="mr-4"> 
+                                        @if ($item->full)
+                                        <span class="font-13 font-weight-500 text-danger">R{{ $item->room_no }}</span>
+                                        <img src="{{ asset('assets/light/images/service-icon-1.svg') }}" alt="{{ $item->room_no }}" width="70" height="70" class="mr-4" />                                             
+                                        @else
+                                        <span class="font-13 font-weight-500 text-success">R{{ $item->room_no }}</span>
+                                        <img src="{{ asset('assets/light/images/service-icon-1.svg') }}" alt="{{ $item->room_no }}" width="70" height="70" class="mr-4" /> 
+                                        @endif
                                         {{-- <span class="badge {{ ($item->full)? 'badge-danger':'badge-success' }} mb-1 mr-1">
                                             <span>Room {{ $item->room_no }} {{ ($item->full)?'Not Available':'Available' }}</span><br><br>
                                             <span>({{ ($item->person_per_room-$item->occupant)}} {{ ($item->person_per_room-$item->occupant)>1? 'spaces':'space' }})</span>
                                         </span>                                                                                       --}}
                                     @endforeach
+                                    <hr>
                                 </div> 
                             @endforeach       
                         @endif  
@@ -363,10 +370,9 @@
                                 </div>
                             @endif
                         </div>
+                        <hr>
                     @endif 
                 </div>
-
-                <hr>
                 {{-- Reviews --}}
                 <div class="pxp-single-property-section">
                     <h3>Reviews</h3>                    
@@ -584,23 +590,25 @@
             <div class="col-lg-4">
                 <div class="pxp-single-property-section pxp-sp-agent-section mt-4 mt-md-5 mt-lg-0">
                 @if ($property->type=='hostel')
-                    <div class="card">
+                    <div class="card card-bordered-pink">
                         <div class="card-body" style="padding-left:10px !important; padding-right:10px !important">
                             <div class="card-heading">
-                                <h6 id="myHostelPriceHeading"><strong><span id="myHostelCurrency" class="font-20"></span> <span id="initialHostelAmount"></span><small id="myHostelPriceCal"></small></strong></h6>
-                                <div id="myHostelSwitch" style="display:none"><img src="{{ asset('assets/images/gif/Bars-1s-200px.gif') }}" alt="load" width="30" height="30"></div>
+                                <h6 id="myHostelPriceHeading"><strong><span id="myHostelCurrency" class="font-20"></span> <span id="initialHostelAmount"></span><span id="hyphen" style="display: none">/</span><small id="myHostelPriceCal"></small></strong></h6>
+                                <div id="myHostelSwitch"><img src="{{ asset('assets/images/gif/Bars-1s-200px.gif') }}" alt="load" width="30" height="30" title="Waiting for price"></div>
                                 <span class="font-12"><i class="fa fa-star text-warning"></i> <b>0.1</b> (1 Review)</span>
                             </div>
                             <hr>
                             <span class="small text-primary">You're charged after booking is confirmed.</span>
                             <hr>
         
-                            <form class="form-horizontal form-material mb-0" id="formBookHostel">
+                            <form class="form-horizontal form-material mb-0" id="formBookHostel" method="POST" action="{{ route('property.bookings.hostel.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <span id="hostelAvailabilityChecker" class="small text-success"></span>
+                                    </div>
+                                    <div class="col-sm-7">
                                         <div class="form-group input-group-sm validate">
                                             <select name="block_name" id="block_name" class="form-control">
                                                 <option value="">-Block-</option>
@@ -610,36 +618,65 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-5">
                                         <div class="form-group input-group-sm validate">
-                                            <select name="room_type" id="room_type" class="form-control">
+                                            <select name="gender" id="gender" class="form-control" data-url="{{ route('property.get.roomtype') }}">
+                                                <option value="">-Gender-</option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="room_type" id="room_type" class="form-control" data-url="{{ route('property.get.roomnumber') }}">
                                                 <option value="" class="after">-Room Type-</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-5">
                                         <div class="form-group input-group-sm validate">
-                                            <select name="room_number" id="room_number" class="form-control">
+                                            <select name="room_number" id="room_number" class="form-control" data-url="{{ route('property.check.roomtype') }}">
                                                 <option value="" class="after">-Room Number-</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <span id="dateCalculator" class="small text-danger"></span>
-                                        <div class="input-group input-group-sm validate">
-                                            <input type="date" name="check_in" value="{{ date('Y-m-d') }}" class="form-control">
+                                        <div class="input-group input-group-sm validate" id="dateRanger" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}">
+                                            <input type="text" name="check_in" value="" class="form-control" placeholder="Check In" readonly />
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text fa fa-arrow-right small" id="inputGroup-sizing-sm"></span>
                                             </div>
-                                            <input type="date" name="check_out" value="{{ date('Y-m-d') }}" class="form-control">
+                                            <input type="text" name="check_out" value="" class="form-control" placeholder="Check Out" readonly />
                                         </div>
                                     </div>
                                 </div>
 
+                                <div class="row mt-2" id="showCalculations">
+                                    <div class="col-sm-12">
+                                        <div>
+                                            <span id="dateCalculator">Month Cal</span>
+                                            <span class="pull-right" id="dateCalculatorResult">Total Month Fee</span>
+                                        </div>
+                                        {{-- <div>
+                                            <span>Discount Cal</span>
+                                            <span class="pull-right">Total Discount Fee</span>
+                                        </div> --}}
+                                        <div>
+                                            <span>Service Fee</span>
+                                            <span class="pull-right" id="serviceFeeResult">Total Service Fee</span>
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <span><strong>Total</strong></span>
+                                            <span class="pull-right"><strong id="totalFeeResult">Total Fee</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnBook"><i class="fa fa-check-circle"></i> Book this {{ $property->type }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnHostelBook"><i class="fa fa-check-circle"></i> Book this {{ $property->type }}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -648,12 +685,10 @@
                             <hr>
                             <div class="">
                                 <span class="small text-primary" id="myHostelAdvance"></span>
+                                <span class="small text-primary" id="myHostelAdvanceMonth" style="display: none"></span>
                             </div>
                         </div><!--end card-body-->
                     </div><!--end card-->
-                    <div class="text-center">
-                        <a href="javascript:void(0);" class="text-danger small"><i class="fa fa-flag"></i> Report this listing</a>
-                    </div>
                 @else
                     <div class="card card-bordered-pink">
                         <div class="card-body" style="padding-left:10px !important; padding-right:10px !important;">
@@ -881,10 +916,11 @@
                             @endif
                         </div><!--end card-body-->
                     </div><!--end card-->
-                    <div class="text-center">
-                        <a href="javascript:void(0);" class="text-danger small"><i class="fa fa-flag"></i> Report this listing</a>
-                    </div>
                 @endif
+
+                <div class="text-center">
+                    <a href="{{ route('report-listing', $property->id) }}" class="text-danger small"><i class="fa fa-flag"></i> Report this listing</a>
+                </div>
                 </div>
             </div>
         </div>
@@ -909,7 +945,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 @if($property->type=='hostel')
-<script type="text/javascript" src="{{ asset('assets/pages/website/hotel-property-detail.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/pages/website/hostel-property-detail.js') }}"></script>
 @else
     @if ($property->type_status=='rent')
     <script type="text/javascript" src="{{ asset('assets/pages/website/rent-property-detail.js') }}"></script>
