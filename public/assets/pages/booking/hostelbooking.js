@@ -133,213 +133,214 @@ $(".btnNext").on("click", function(e){
     return false;
 });
 
-// // continue steps in booking
-// $(".btnContinue").on("click", function(e){
-//     e.preventDefault();
-//     e.stopPropagation();
-//     var $this = $(this);
-//     if($this.data('step')=='1'){
-//         var data = {
-//             "step": $this.data('step'),
-//         }
+// continue steps in booking
+$(".btnContinue").on("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this = $(this);
+    if($this.data('step')=='1'){
+        var data = {
+            "step": $this.data('step'),
+        }
 
-//         $.ajax({
-//             url: $this.data('url'),
-//             type: "POST",
-//             data: data,
-//             success: function(resp){
-//                 if(resp=='success'){
-//                     $("#propertyReview").slideUp('fast', function(){
-//                         $("#verifyContact").slideDown('fast');
-//                     });
-//                 }else{
-//                     console.log(resp+ '. try again.');
-//                 }
-//             },
-//             error: function(resp){
-//                 console.log('something went wrong with request');
-//             }
-//         });
-//     }
-//     else if($this.data('step')=='2'){
-//         if($("#owner_message").val()==''){
-//             $("#owner_message").addClass('is-invalid');
-//             $("#owner_message").parents('.validate').find('.mySpan').text('owner message field is required');
-//         }else{
-//             var data = {
-//                 "step": $this.data('step'),
-//                 "owner_message": $("#owner_message").val(),
-//             }
+        $.ajax({
+            url: $this.data('url'),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    $("#propertyReview").slideUp('fast', function(){
+                        $("#verifyContact").slideDown('fast');
+                    });
+                }else{
+                    console.log(resp+ '. try again.');
+                }
+            },
+            error: function(resp){
+                console.log('something went wrong with request');
+            }
+        });
+    }
+    else if($this.data('step')=='2'){
+        if($("#owner_message").val()==''){
+            $("#owner_message").addClass('is-invalid');
+            $("#owner_message").parents('.validate').find('.mySpan').text('owner message field is required');
+        }else{
+            var data = {
+                "step": $this.data('step'),
+                "owner_message": $("#owner_message").val(),
+            }
 
-//             $.ajax({
-//                 url: $this.data('url'),
-//                 type: "POST",
-//                 data: data,
-//                 success: function(resp){
-//                     if(resp=='success'){
-//                         $("#verifyContact").slideUp('fast', function(){
-//                             $("#paymentDiv").slideDown('fast');
-//                         });
-//                     }else{
-//                         console.log(resp+ '. try again.');
-//                     }
-//                 },
-//                 error: function(resp){
-//                     console.log('something went wrong with request');
-//                 }
-//             });
-//         }
-//     }
+            $.ajax({
+                url: $this.data('url'),
+                type: "POST",
+                data: data,
+                success: function(resp){
+                    if(resp=='success'){
+                        $("#verifyContact").slideUp('fast', function(){
+                            $("#paymentDiv").slideDown('fast');
+                        });
+                    }else{
+                        console.log(resp+ '. try again.');
+                    }
+                },
+                error: function(resp){
+                    console.log('something went wrong with request');
+                }
+            });
+        }
+    }
 
-//     return false;
-// });
+    return false;
+});
 
-// // moving backward step
-// $(".moveBack").on("click", function(e){
-//     e.preventDefault();
-//     e.stopPropagation();
-//     var $this=$(this);
-//     if($this.data('step')=='3'){
-//         $("#paymentDiv").slideUp('fast', function(){
-//             $("#verifyContact").slideDown('fast');
-//         });
-//     }
-//     else if($this.data('step')=='2'){
-//         $("#verifyContact").slideUp('fast', function(){
-//             $("#propertyReview").slideDown('fast');
-//         });
-//     }
-//     return false;
-// });
+// moving backward step
+$(".moveBack").on("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this=$(this);
+    if($this.data('step')=='3'){
+        $("#paymentDiv").slideUp('fast', function(){
+            $("#verifyContact").slideDown('fast');
+        });
+    }
+    else if($this.data('step')=='2'){
+        $("#verifyContact").slideUp('fast', function(){
+            $("#propertyReview").slideDown('fast');
+        });
+    }
+    return false;
+});
 
-// // verify phone number
-// $(".btnVerify").on("click", function(e){
-//     e.preventDefault();
-//     e.stopPropagation();
-//     var $this = $(this);
-//     if($("#phone_number").val()==''){
-//         $("#phone_number").addClass('is-invalid').focus();
-//     }else{
-//         $("#phone_number").removeClass('is-invalid');
-//         var data = $("#phone_number").serialize();
-//         $.ajax({
-//             url: $this.data('url'),
-//             type: "POST",
-//             data: data,
-//             success: function(resp){
-//                 if(resp=='success'){
-//                     $(".phoneNumberField").slideUp('fast', function(){
-//                         $(".verifyCodeField").slideDown('fast');
-//                     });
-//                 }else{
-//                     console.log(resp+'. try again.');
-//                 }
-//             },
-//             error: function(resp){
-//                 console.log('something went wrong with request');
-//             }
-//         });
-//     }
+// verify phone number
+$(".btnVerify").on("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this = $(this);
+    if($("#phone_number").val()==''){
+        $("#phone_number").addClass('is-invalid').focus();
+    }else{
+        $("#phone_number").removeClass('is-invalid');
+        var data = $("#phone_number").serialize();
+        $.ajax({
+            url: $this.data('url'),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    $(".phoneNumberField").slideUp('fast', function(){
+                        $(".verifyCodeField").slideDown('fast');
+                        $this.html('<i class="fa fa-arrow-right"></i> Resend Verification');
+                    });
+                }else{
+                    console.log(resp+'. try again.');
+                }
+            },
+            error: function(resp){
+                console.log('something went wrong with request');
+            }
+        });
+    }
     
-//     return false;
-// });
+    return false;
+});
 
-// // verify phone number with verification code
-// $("#verify_code").on("keyup", function(e){
-//     e.stopPropagation();
-//     var $this = $(this);
-//     if($this.val()!='' && $this.val().length==4){
-//         var data = $this.serialize();
-//         $.ajax({
-//             url: $this.data('url'),
-//             type: "POST",
-//             data: data,
-//             success: function(resp){
-//                 if(resp=='success'){
-//                     $("#phoneNumberCover").slideUp('fast', function(){
-//                         $("#verifyNumberCover").slideDown('fast');
-//                         $(".btnVerify").hide();
-//                         $(".btnContinue").show();
-//                     });
-//                 }else if(resp=='fail'){
-//                     console.log(resp+'. try again.');
-//                 }else{
-//                     $this.parents('.validate').find('.mySpan').text(resp);
-//                 }
-//             },
-//             error: function(resp){
-//                 console.log('something went wrong with request');
-//             }
-//         });
-//     }else{
-//         $this.parents('.validate').find('.mySpan').text('');
-//     }
-//     return false;
-// });
+// verify phone number with verification code
+$("#verify_code").on("keyup", function(e){
+    e.stopPropagation();
+    var $this = $(this);
+    if($this.val()!='' && $this.val().length==4){
+        var data = $this.serialize();
+        $.ajax({
+            url: $this.data('url'),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    $("#phoneNumberCover").slideUp('fast', function(){
+                        $("#verifyNumberCover").slideDown('fast');
+                        $(".btnVerify").hide();
+                        $(".btnContinue").show();
+                    });
+                }else if(resp=='fail'){
+                    console.log(resp+'. try again.');
+                }else{
+                    $this.parents('.validate').find('.mySpan').text(resp);
+                }
+            },
+            error: function(resp){
+                console.log('something went wrong with request');
+            }
+        });
+    }else{
+        $this.parents('.validate').find('.mySpan').text('');
+    }
+    return false;
+});
 
-// // get total amount on payment summary
-// $("#totalPayment").text($("#totalFeeResult").text());
-// $(".makePayment").text("PAY NOW: "+$("#totalFeeResult").text());
+// get total amount on payment summary
+$("#totalPayment").text($("#totalFeeResult").text());
+$(".makePayment").text("PAY NOW: "+$("#totalFeeResult").text());
 
-// // select momo
-// $("#mobile_money").on("change", function(){
-//     var $this = $(this);
-//     if($this.prop("checked", true)){
-//         $("#momoExpand").slideDown('fast');
-//     }
-// });
+// select momo
+$("#mobile_money").on("change", function(){
+    var $this = $(this);
+    if($this.prop("checked", true)){
+        $("#momoExpand").slideDown('fast');
+    }
+});
 
-// // make payment
-// $(".makePayment").on('click', function(e){
-//     e.preventDefault();
-//     e.stopPropagation();
-//     var $this = $(this);
-//     var valid = true;
-//     if(document.getElementById('mobile_money').checked){
-//         $('#formMobileMobile input, #formMobileMobile select').each(function() {
-//             var $this = $(this);
+// make payment
+$(".makePayment").on('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this = $(this);
+    var valid = true;
+    if(document.getElementById('mobile_money').checked){
+        $('#formMobileMobile input, #formMobileMobile select').each(function() {
+            var $this = $(this);
             
-//             if(!$this.val()) {
-//                 valid = false;
-//                 $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-//                 $this.addClass('is-invalid');
-//             }
-//         });
-//         if(valid){
-//             return false;
-//         }
-//     }
-//     return false;
-// });
+            if(!$this.val()) {
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                $this.addClass('is-invalid');
+            }
+        });
+        if(valid){
+            return false;
+        }
+    }
+    return false;
+});
 
-// // toggle input field error messages
-// $("input, textarea").on('input', function(){
-//     if($(this).val()!=''){
-//         $(this).parents('.validate').find('.mySpan').text('');
-//         $(this).removeClass('is-invalid');
-//     }else{ 
-//         $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); 
-//         $(this).addClass('is-invalid');
-//     }
-// });
+// toggle input field error messages
+$("input, textarea").on('input', function(){
+    if($(this).val()!=''){
+        $(this).parents('.validate').find('.mySpan').text('');
+        $(this).removeClass('is-invalid');
+    }else{ 
+        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); 
+        $(this).addClass('is-invalid');
+    }
+});
 
-// // toggle select field error messages
-// $("select").on('change', function(){
-//     if($(this).val()!=''){
-//         $(this).parents('.validate').find('.mySpan').text('');
-//         $(this).removeClass('is-invalid');
-//     }else{ 
-//         $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
-//         $(this).addClass('is-invalid');
-//     }
-// });
+// toggle select field error messages
+$("select").on('change', function(){
+    if($(this).val()!=''){
+        $(this).parents('.validate').find('.mySpan').text('');
+        $(this).removeClass('is-invalid');
+    }else{ 
+        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        $(this).addClass('is-invalid');
+    }
+});
 
 
-// function isNumber(evt) {
-//     evt = (evt) ? evt : window.event;
-//     var charCode = (evt.which) ? evt.which : evt.keyCode;
-//     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-//         return false;
-//     }
-//     return true;
-// }
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}

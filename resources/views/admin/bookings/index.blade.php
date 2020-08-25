@@ -142,7 +142,7 @@
                                 </div> 
                             </div>  
 
-                            {{-- <div id="verifyContact" style="display: {{ (Session::get('step')==2)? 'block':'none' }}">
+                            <div id="verifyContact" style="display: {{ (Session::get('step')==2)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <a href="javascript:void(0);" class="text-primary moveBack" data-step="2">Back</a>
@@ -207,7 +207,7 @@
                                     </div>  
 
                                     <div class="col-sm-12 mt-5 ml-sm-4">
-                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}"><i class="fa fa-arrow-right"></i> Verify</button>
+                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}"><i class="fa fa-arrow-right"></i> {{ empty(Auth::user()->sms_verification_token)? 'Send Verification':'Resend Verification' }}</button>
                                         <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="2" data-url="{{ route('property.bookings.movenext') }}" style="display: {{ (!Auth::user()->verify_sms)? 'none':'block' }}"><i class="fa fa-arrow-right"></i> Continue</button>
                                     </div>
                                 </div> 
@@ -293,7 +293,7 @@
                                         <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600" data-step="3">PAY NOW</button>
                                     </div>
                                 </div> 
-                            </div>  --}}
+                            </div> 
                         </div>
 
                         <div class="col-sm-6">
@@ -504,7 +504,7 @@
                                     </div>  
 
                                     <div class="col-sm-12 mt-5 ml-sm-4">
-                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}"><i class="fa fa-arrow-right"></i> Verify</button>
+                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}"><i class="fa fa-arrow-right"></i> {{ empty(Auth::user()->sms_verification_token)? 'Send Verification':'Resend Verification' }}</button>
                                         <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="2" data-url="{{ route('property.bookings.movenext') }}" style="display: {{ (!Auth::user()->verify_sms)? 'none':'block' }}"><i class="fa fa-arrow-right"></i> Continue</button>
                                     </div>
                                 </div> 

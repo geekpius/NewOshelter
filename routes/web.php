@@ -37,9 +37,6 @@ Auth::routes();
 Route::group(['prefix' => 'user'], function () {
     /*------- Dashboard ------- */
     Route::get('/dashboard', 'UserController@index')->name('dashboard');
-    Route::get('/guest-statistics', 'UserController@guest')->name('guest.statistics');
-    Route::get('/property-statistics', 'UserController@property')->name('property.statistics');
-    Route::get('/payment-statistics', 'UserController@payment')->name('payment.statistics');
 
     /*------- Notifications ------- */
     Route::get('/message-count', 'UserController@messageCount')->name('message.count');
@@ -51,7 +48,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/wishlist', 'UserSavedPropertyController@wishList')->name('saved');
     Route::post('/wishlist', 'UserSavedPropertyController@store')->name('saved.submit');
     Route::get('/wishlist/{userSavedProperty}/remove', 'UserSavedPropertyController@removeWishList')->name('saved.remove');
-    Route::get('/wallet', 'UserWalletController@index')->name('wallet');
+    // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
     Route::get('/activities', 'UserActivityController@index')->name('activities');
 
     /*------- Account and Profile ------- */

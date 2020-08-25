@@ -222,6 +222,7 @@ $(".btnVerify").on("click", function(e){
                 if(resp=='success'){
                     $(".phoneNumberField").slideUp('fast', function(){
                         $(".verifyCodeField").slideDown('fast');
+                        $this.html('<i class="fa fa-arrow-right"></i> Resend Verification');
                     });
                 }else{
                     console.log(resp+'. try again.');
@@ -237,7 +238,7 @@ $(".btnVerify").on("click", function(e){
 });
 
 // verify phone number with verification code
-$("#verify_code").on("keyup", function(e){
+$("#verify_code").on("keyup blur", function(e){
     e.stopPropagation();
     var $this = $(this);
     if($this.val()!='' && $this.val().length==4){

@@ -12,10 +12,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">Read Ticket</li>
+                        <li class="breadcrumb-item active">Read Support</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Read Ticket</h4>
+                <h4 class="page-title">Read Support</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>

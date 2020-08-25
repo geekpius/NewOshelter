@@ -104,7 +104,7 @@
                             <a class="dropdown-item" href="{{ route('account') }}"><i class="dripicons-user text-muted mr-2"></i> My Account</a>
                             <a class="dropdown-item" href="{{route('saved')}}"><i class="dripicons-heart text-muted mr-2"></i> Wishlist</a>
                             <a class="dropdown-item" href="{{ route('visits') }}"><i class="dripicons-user text-muted mr-2"></i> Visits</a>
-                            <a class="dropdown-item" href="{{route('wallet')}}"><i class="dripicons-wallet text-muted mr-2"></i> Wallet</a>
+                            {{-- <a class="dropdown-item" href="{{route('wallet')}}"><i class="dripicons-wallet text-muted mr-2"></i> Wallet</a> --}}
                             <a class="dropdown-item" href="{{route('activities')}}"><i class="dripicons-view-list text-muted mr-2"></i> Activities</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"  href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="dripicons-exit text-muted mr-2"></i> Logout</a>
@@ -132,23 +132,23 @@
             <div class="left-sidenav">
                 <div class="main-icon-menu">
                     <nav class="nav">
-                        <a href="#MetricaDashboard" class="nav-link leftmenu-sm-item bg-pink shadow-pink" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Home">
+                        <a href="{{ route('dashboard') }}" class="nav-link bg-pink shadow-pink" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Home">
                             <i class="dripicons-meter text-white"></i>
                         </a>
                             
-                        <a href="#MetricaProperty" class="nav-link leftmenu-sm-item bg-warning shadow-warning" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Properties">
+                        <a href="{{ route('property') }}" class="nav-link bg-warning shadow-warning" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Properties">
                             <i class="fa fa-home text-white"></i>
                         </a><!--end MetricaCrypto-->
         
-                        <a href="#MetricaTenant" class="nav-link leftmenu-sm-item bg-success shadow-success" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Guests">
+                        <a href="{{route('tenants')}}" class="nav-link bg-success shadow-success" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Guests">
                             <i class="fa fa-users text-white"></i>
                         </a><!--end MetricaProject-->
         
-                        <a href="#MetricaMessage" class="nav-link leftmenu-sm-item bg-purple shadow-purple" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Messages">
+                        <a href="{{route('messages')}}" class="nav-link bg-purple shadow-purple" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Messages">
                             <i class="fa fa-inbox text-white"></i>
                         </a> <!--end MetricaEcommerce-->   
         
-                        <a href="#MetricaSupport" class="nav-link leftmenu-sm-item bg-secondary shadow-secondary" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Support">
+                        <a href="{{route('ticket')}}" class="nav-link bg-secondary shadow-secondary" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Support">
                             <i class="typcn typcn-support text-white font-24"></i>
                         </a><!--end MetricaCRM-->
                     </nav><!--end nav-->
@@ -156,15 +156,12 @@
         
                 <div class="main-menu-inner">
                     <div class="menu-body slimscroll">
-                        <div id="MetricaDashboard" class="main-icon-menu-pane">
+                        <div id="" class="main-icon-menu-pane">
                             <div class="title-box">
                                 <h6 class="menu-title">Statistics</h6>       
                             </div>
                             <ul class="nav">
                                 <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}"><i class="dripicons-meter"></i>Dashboard</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route('guest.statistics') }}"><i class="dripicons-user-group"></i>Guests</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{ route('property.statistics') }}"><i class="dripicons-document"></i>Properties</a></li> 
-                                <li class="nav-item"><a class="nav-link" href="{{ route('payment.statistics') }}"><i class="fa fa-money-bill-alt font-11"></i>Payments</a></li> 
                             </ul>
                         </div><!-- end Analytic -->
                         <div id="MetricaProperty" class="main-icon-menu-pane">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\MessageModel\Message;
 use Illuminate\Support\Facades\Auth;
+use App\PropertyModel\PropertyType;
 
 class UserController extends Controller
 {
@@ -24,30 +25,12 @@ class UserController extends Controller
     public function index()
     {
         $data['page_title'] = 'Dashboard';
+        $data['count_properties'] = Auth::user()->properties->count();
         $data['count_short_stay'] = Auth::user()->properties->where('type_status','short_stay')->count();
         $data['count_rent'] = Auth::user()->properties->where('type_status','rent')->count();
-        $data['count_sell'] = Auth::user()->properties->where('type_status','sell')->count();
-        $data['count_auction'] = Auth::user()->properties->where('type_status','auction')->count();
+        $data['count_visited'] = Auth::user()->userVisits->count();
+        $data['property_types'] = PropertyType::get(['name']);
         return view('admin.dashboard.index', $data);
-    }
-
-
-    public function guest()
-    {
-        $data['page_title'] = 'Guest statistics';
-        return view('admin.dashboard.guest-statistics', $data);
-    }
-
-    public function property()
-    {
-        $data['page_title'] = 'Property statistics';
-        return view('admin.dashboard.property-statistics', $data);
-    }
-
-    public function payment()
-    {
-        $data['page_title'] = 'Payment statistics';
-        return view('admin.dashboard.payment-statistics', $data);
     }
 
      

@@ -118,6 +118,8 @@ class BookingController extends Controller
                 'children'  => 'required|integer',
                 'infant'    => 'required|integer',
             ]);    
+
+            Session::put('owner_message', '');
             $token = Str::random(32);
             (int) $step = 1;
             Session::put('step', $step);
@@ -140,6 +142,8 @@ class BookingController extends Controller
                 'room_type'    => 'required|string',
                 'room_number'    => 'required|string',
             ]);    
+            
+            Session::put('owner_message', '');
             $token = Str::random(32);
             (int) $step = 1;
             Session::put('step', $step);
