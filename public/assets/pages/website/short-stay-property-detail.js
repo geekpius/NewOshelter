@@ -3,6 +3,7 @@ $(function() {
     $('#dateRanger').daterangepicker({
         opens: 'left',
         autoApply: true,
+        showDropdowns: true,
         minDate: $('#dateRanger').data('date'), 
     });
 });

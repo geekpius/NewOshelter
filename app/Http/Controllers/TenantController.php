@@ -25,17 +25,26 @@ class TenantController extends Controller
      */
     public function index()
     {
-        $data['page_title'] = 'List tenants';
+        $data['page_title'] = 'List all tenants';
         $data['tenants'] = Property::whereUser_id(Auth::user()->id)->with(['userVisits' => function ($query) {
-            $query->whereStatus(true)->orderBy('created_at','DESC');
+            $query->orderBy('created_at','DESC');
         }])->get();
         return view('admin.tenants.index', $data);
     }
 
+    public function currentTenant()
+    {
+        $data['page_title'] = 'List current tenants';
+        $data['tenants'] = Property::whereUser_id(Auth::user()->id)->with(['userVisits' => function ($query) {
+            $query->whereStatus(true)->orderBy('created_at','DESC');
+        }])->get();
+        return view('admin.tenants.current-tenants', $data);
+    }
+
     public function showVisitedProperty(User $user)
     {
-        $data['page_title'] =  $user->name.' rented properties';
-        $data['visits'] = $user->userVisits->where('status',true);
+        $data['page_title'] =  $user->name.' visited properties';
+        $data['visits'] = $user->userVisits;
         $data['user'] = $user;
         return view('admin.tenants.visited-properties', $data);
     }

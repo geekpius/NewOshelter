@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use DB;
 use App\User;
 use Carbon\Carbon;
-use App\UserModel\UserWallet;
+// use App\UserModel\UserWallet;
 use App\UserModel\UserNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -90,10 +90,10 @@ class RegisterController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
             
-            UserWallet::create([
-                'user_id' => $user->id,
-                'balance' => 0,
-            ]);
+            // UserWallet::create([
+            //     'user_id' => $user->id,
+            //     'balance' => 0,
+            // ]);
             UserNotification::create([
                 'user_id' => $user->id,
             ]);

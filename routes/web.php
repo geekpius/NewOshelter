@@ -144,10 +144,15 @@ Route::group(['prefix' => 'user'], function () {
 
     /*------- Visitors Visit ------- */
     Route::get('/visits', 'VisitorController@index')->name('visits');
+    Route::get('/visits/upcoming', 'VisitorController@upcoming')->name('visits.upcoming');
+    Route::get('/visits/current', 'VisitorController@current')->name('visits.current');
+    Route::get('/visits/past', 'VisitorController@past')->name('visits.past');
+    Route::get('/visits/{property}/detail', 'VisitorController@showVisitedProperty')->name('visits.property');
    
     
     /*------- Listing Guests ------- */
     Route::get('/tenants', 'TenantController@index')->name('tenants');
+    Route::get('/tenants/current', 'TenantController@currentTenant')->name('tenants.current');
     Route::get('/tenants/{user}/visited-properties', 'TenantController@showVisitedProperty')->name('tenant.visited');
     Route::get('/buyers', 'TenantsController@buyer')->name('buyers');
     Route::get('/bidders', 'TenantsController@bidder')->name('bidders');

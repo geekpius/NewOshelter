@@ -16,10 +16,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">Manage Rented Properties</li>
+                        <li class="breadcrumb-item active">Manage Properties</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Manage Rented Properties</h4>
+                <h4 class="page-title">Manage Properties</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>

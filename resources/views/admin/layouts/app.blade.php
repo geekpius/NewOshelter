@@ -192,6 +192,9 @@
                             </div>
                             <ul class="nav">
                                 <li class="nav-item"><a class="nav-link" href="{{route('tenants')}}"><i class="dripicons-user-id"></i>List Tenants</a></li>
+                                @if (Route::currentRouteNamed('tenants.current'))
+                                <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-user-id"></i></a></li>
+                                @endif
                                 {{-- <li class="nav-item"><a class="nav-link" href="{{route('buyers')}}"><i class="dripicons-user-id"></i>List Buyers</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{route('bidders')}}"><i class="dripicons-user-id"></i>List Bidders</a></li> --}}
 
@@ -266,7 +269,7 @@
                     }
                 });
                 
-                setTimeout(getMessageCount, 1000);
+                setTimeout(getMessageCount, 10000);
             }
 
             function getMessageNotification(){
@@ -281,7 +284,7 @@
                     }
                 });
 
-                setTimeout(getMessageNotification, 1000);
+                setTimeout(getMessageNotification, 10000);
             }
             getMessageCount();
             getMessageNotification();

@@ -11,10 +11,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">Rented Properties</li>
+                        <li class="breadcrumb-item active">Visited Properties</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Rented Properties</h4>
+                <h4 class="page-title">Visited Properties</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>
@@ -26,7 +26,7 @@
 
                 <div class="ml-2 mt-1"> 
                     <a href="{{ route('tenants') }}" class="text-primary mr-4"><i class="fa fa-backward"></i> Go Back</a>
-                    <a href="javascript:void(0);" class="ml-4"><strong class="font-weight-bold">{{ $user->name }}</strong> Rented Properties </a>
+                    <a href="javascript:void(0);" class="ml-4"><strong class="font-weight-bold">{{ $user->name }}</strong> Visited Properties </a>
                 </div>
                 <div class="card-body">
                     @if (count($visits))

@@ -722,8 +722,8 @@ class PropertyController extends Controller
     //manage property
     public function manageProperty()
     {
-        $data['page_title'] = 'Manage rented properties';
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereVacant(false)->get();
+        $data['page_title'] = 'Manage properties';
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->get();
         return view('admin.properties.manage-property', $data);
     }
     

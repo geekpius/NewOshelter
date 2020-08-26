@@ -16,10 +16,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">List All Tenants</li>
+                        <li class="breadcrumb-item active">List Current Tenants</li>
                     </ol>
                 </div>
-                <h4 class="page-title">List All Tenants</h4>
+                <h4 class="page-title">List Current Tenants</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>
@@ -32,10 +32,10 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active text-primary font-weight-500" href="{{ route('tenants') }}" role="tab" aria-selected="true">All Tenants</a>
+                            <a class="nav-link font-weight-500" href="{{ route('tenants') }}" role="tab" aria-selected="true">All Tenants</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link font-weight-500" href="{{ route('tenants.current') }}" role="tab" aria-selected="false">Current Tenants</a>
+                            <a class="nav-link active text-primary font-weight-500" href="{{ route('tenants.current') }}" role="tab" aria-selected="false">Current Tenants</a>
                         </li>     
                     </ul>
                     <br>
@@ -64,6 +64,7 @@
                                         <td>{{ $visit->user->digital_address }}</td>
                                         <td>                                                       
                                             <a href="{{route('tenant.visited', $visit->user_id)}}" class="mr-3" title="Properties Visited"><i class="fas fa-home text-primary font-16"></i></a>
+                                            <a href="#" title="Send Email"><i class="fas fa-envelope text-pink font-16"></i></a>
                                         </td>
                                     </tr><!--end tr-->
                                     @endforeach
