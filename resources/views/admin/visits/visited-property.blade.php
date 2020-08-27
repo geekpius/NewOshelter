@@ -62,6 +62,10 @@
                                     </div>
                                 </div>
                             </div><!--end blog-card-->
+
+                            <div class="text-center">
+                                {{ $property->title }} in {{ $property->base }}
+                            </div>
                         </div>
 
                         <div class="col-lg-6 offset-lg-1">

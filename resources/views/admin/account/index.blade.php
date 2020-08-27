@@ -237,7 +237,8 @@
 
                                         <div class="col-sm-4">
                                             <h5 class="text-primary">Device History</h5>
-                                            @foreach (Auth::user()->userLogins as $log)
+                                            @php $userLogs = Auth::user()->userLogins()->orderBy('id', 'DESC')->paginate(5); @endphp
+                                            @foreach ($userLogs as $log)
                                                 <div>
                                                     <div class="float-left mr-3">
                                                         <i class="fa fa-desktop fa-2x"></i>
@@ -250,6 +251,7 @@
                                                     <hr>
                                                 </div>
                                             @endforeach
+                                            {{ $userLogs->links() }}
                                         </div>
                                     </div>
                                 </div>                                            

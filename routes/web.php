@@ -49,7 +49,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/wishlist', 'UserSavedPropertyController@store')->name('saved.submit');
     Route::get('/wishlist/{userSavedProperty}/remove', 'UserSavedPropertyController@removeWishList')->name('saved.remove');
     // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
-    Route::get('/activities', 'UserActivityController@index')->name('activities');
+    // Route::get('/activities', 'UserActivityController@index')->name('activities');
 
     /*------- Account and Profile ------- */
     Route::get('/account', 'UserProfileController@index')->name('account');
@@ -112,6 +112,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/properties/block-price/{propertyHostelPrice}/delete', 'PropertyController@deleteHostelBlockPrice')->name('property.blockprice.delete');
     
     Route::post('/properties/new/store', 'PropertyController@store')->name('property.store');
+    Route::post('/properties/new/prev', 'PropertyController@goPrevious')->name('property.back');
 
     Route::get('/properties/{property}/edit', 'PropertyController@editListing')->name('property.edit');
     Route::post('/properties/{property}/edit', 'PropertyController@updateListing')->name('property.update');
@@ -146,6 +147,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/visits', 'VisitorController@index')->name('visits');
     Route::get('/visits/upcoming', 'VisitorController@upcoming')->name('visits.upcoming');
     Route::get('/visits/current', 'VisitorController@current')->name('visits.current');
+    Route::post('/visits/current/extend', 'VisitorController@extendStay')->name('visits.current.extend');
     Route::get('/visits/past', 'VisitorController@past')->name('visits.past');
     Route::get('/visits/{property}/detail', 'VisitorController@showVisitedProperty')->name('visits.property');
    

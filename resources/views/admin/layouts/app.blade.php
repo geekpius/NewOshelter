@@ -105,7 +105,7 @@
                             <a class="dropdown-item" href="{{route('saved')}}"><i class="dripicons-heart text-muted mr-2"></i> Wishlist</a>
                             <a class="dropdown-item" href="{{ route('visits') }}"><i class="dripicons-user text-muted mr-2"></i> Visits</a>
                             {{-- <a class="dropdown-item" href="{{route('wallet')}}"><i class="dripicons-wallet text-muted mr-2"></i> Wallet</a> --}}
-                            <a class="dropdown-item" href="{{route('activities')}}"><i class="dripicons-view-list text-muted mr-2"></i> Activities</a>
+                            {{-- <a class="dropdown-item" href="{{route('activities')}}"><i class="dripicons-view-list text-muted mr-2"></i> Activities</a> --}}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item"  href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="dripicons-exit text-muted mr-2"></i> Logout</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

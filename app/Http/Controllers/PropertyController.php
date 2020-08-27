@@ -723,7 +723,7 @@ class PropertyController extends Controller
     public function manageProperty()
     {
         $data['page_title'] = 'Manage properties';
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->get();
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereDone_step(true)->get();
         return view('admin.properties.manage-property', $data);
     }
     

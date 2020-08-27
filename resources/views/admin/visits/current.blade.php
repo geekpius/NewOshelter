@@ -78,7 +78,9 @@
                                             <td><span class="badge badge-md badge-{{ ($visit->status)? 'success':'danger' }}">{{ $visit->checkInOrOut() }}</span></td>
                                             <td>
                                                 <a href="{{ route('visits.property', $visit->property_id) }}" class="mr-3" title="View Property"><i class="fas fa-home text-primary font-16"></i></a>
-                                                <a href="#" class="btnExtend" data-id="{{ $visit->id }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay"><i class="fas fa-clock text-purple font-16"></i></a>
+                                                <a href="/user/visits/current/extend" class="btnExtend" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
+                                                    <i class="fas fa-clock text-purple font-16"></i>
+                                                </a>
                                             </td>
                                         </tr><!--end tr-->
                                         @endforeach                                                                                   
@@ -106,13 +108,15 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
-                    <form id="formExtend">
+                    <form id="formExtend" action="{{ route('visits.current.extend') }}">
                         @csrf
                         <input type="hidden" name="visit_id" id="visit_id" readonly>
                         <input type="hidden" name="checkin" id="checkin" readonly>
+                        <input type="hidden" name="type" id="type" readonly>
+                        <input type="hidden" name="status" id="status" readonly>
                         <div class="form-group validate">
                             <label for="extended_date">Extended Date</label>
-                            <input type="text" class="form-control" name="extended_date" id="extended_date" title="Select date" />
+                            <input type="text" class="form-control" name="extended_date" id="extended_date" title="Select date" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}" />
                             <span class="text-danger mySpan"></span>
                         </div>
                         <div class="form-group text-right">
@@ -134,61 +138,5 @@
 {{-- date range --}}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script>
-    $('#datatable').DataTable();
-    
-    $("#datatable tbody tr").on('click', '.btnExtend', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var $this = $(this);
-        $("#formExtend input[name='visit_id']").val($this.data('id'));
-        $("#formExtend input[name='checkin']").val($this.data('checkin'));
-        $("#extendModal").modal('show');
-        return false;
-    });
-
-
-    $(function() {
-        $('input[name="extended_date"]').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            autoApply: true,
-            minDate: "{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}",
-        });
-    });
-
-    $('input[name="extended_date"]').on('apply.daterangepicker', function(ev, picker) {
-        var checkIn = $("#formExtend input[name='checkin']").val();
-        var checkOut = picker.startDate;
-        // if(checkOut){
-        //     // checking max and min stays
-        //     let months;
-        //     let numberOfMonth;
-        //     let checkInDate1 = new Date(checkIn);
-        //     let checkOutDate1 = new Date(checkOut);
-        //     months = (checkOutDate1.getFullYear() - checkInDate1.getFullYear()) * 12;
-        //     months -= checkInDate1.getMonth();
-        //     months += checkOutDate1.getMonth();
-        //     numberOfMonth = (months <= 0)? 0 : months;
-            
-        //     // check if select months is not less
-        //     let advanceDuration = $("#initialAmount").data('duration');
-        //     // if (advanceDuration == ''){
-        //     //     alert("Do your room selection to proceed check in and check out.");
-        //     //     return;
-        //     // }
-        //     if (numberOfMonth < parseInt(advanceDuration)){
-        //         alert("Number of months selected is less than advance payment months.\nSelect same or more than the advance payment duration.");
-        //         return;
-        //     }
-        // }
-    });
-
-    $("#formExtend").on('submit', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var $this = $(this);
-        return false;
-    });
-</script>
+<script src="{{ asset('assets/pages/visits/current.js') }}"></script>
 @endsection

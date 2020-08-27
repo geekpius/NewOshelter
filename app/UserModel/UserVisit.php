@@ -5,6 +5,7 @@ namespace App\UserModel;
 use App\User;
 use App\UserModel\UserVisit;
 use App\PropertyModel\Property;
+use App\UserModel\UserExtensionRequest;
 use Illuminate\Database\Eloquent\Model;
 
 class UserVisit extends Model
@@ -31,7 +32,10 @@ class UserVisit extends Model
     public function property(){
         return $this->belongsTo(Property::class, 'property_id');
     }
-
+    
+    public function userExtensionRequests(){
+        return $this->hasMany(UserExtensionRequest::class);
+    }
 
 
 
