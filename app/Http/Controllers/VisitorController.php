@@ -53,18 +53,20 @@ class VisitorController extends Controller
         $validator = \Validator::make($request->all(), [
             'extended_date' => 'required|string',
             'visit_id' => 'required|string',
+            'owner' => 'required|string',
         ]);
         (string) $message= '';
         if ($validator->fails()){
             $message = 'Some inputs are missing.';
         }else{
-            if(UserExtensionRequest::whereUser_id(Auth::user()->id)->whereVisit_id($request->visit_id)->whereIs_confirm(false)->exists()){
+            if(UserExtensionRequest::whereUser_id(Auth::user()->id)->whereVisit_id($request->visit_id)->whereIs_confirm(0)->exists()){
                 $message = "Already have pending extension request with this property visit.";
             }
             else{
                 $extension = new UserExtensionRequest;
                 $extension->user_id = Auth::user()->id;
                 $extension->visit_id = $request->visit_id;
+                $extension->owner_id = $request->owner;
                 $extension->extension_date = Carbon::parse($request->extended_date)->format('Y-m-d');
                 $extension->save();
                 $message="success";
@@ -73,6 +75,47 @@ class VisitorController extends Controller
         return $message;
     }
 
+    public function extensionRequest(UserExtensionRequest $userExtensionRequest)
+    {
+        $data['page_title'] = 'Extension date request from '.$userExtensionRequest->user->name;
+        $data['extension'] = $userExtensionRequest;
+        return view('admin.visits.extension-request', $data);
+    }
+
+
+    public function approveExtendStay(Request $request, UserExtensionRequest $userExtensionRequest)
+    {
+        (string) $message= '';
+        if($userExtensionRequest->is_confirm==0){
+            $userExtensionRequest->is_confirm = 1;
+            $userExtensionRequest->update();
+            $message = 'success';
+        }
+        else if($userExtensionRequest->is_confirm==2){
+            $message = 'Already declined';
+        }
+        else{
+            $message = 'Already approved';
+        }
+        return $message;
+    }
+
+    public function declineExtendStay(Request $request, UserExtensionRequest $userExtensionRequest)
+    {
+        (string) $message= '';
+        if($userExtensionRequest->is_confirm==0){
+            $userExtensionRequest->is_confirm = 2;
+            $userExtensionRequest->update();
+            $message = 'success';
+        }
+        else if($userExtensionRequest->is_confirm==1){
+            $message = 'Already approved';
+        }
+        else{
+            $message = 'Already declined';
+        }
+        return $message;
+    }
 
 
 

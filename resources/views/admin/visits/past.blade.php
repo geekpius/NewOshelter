@@ -57,6 +57,7 @@
                                     <tr>                                        
                                         <th>Booked At</th>
                                         <th>Property</th>
+                                        <th>Owner</th>
                                         <th>Check In</th>
                                         <th>Check Out</th>
                                         <th>Guest</th>
@@ -70,6 +71,7 @@
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
                                             <td>{{ $visit->property->title }}</td>
+                                            <td>{{ $visit->property->user->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_out)->format('d-M-Y') }}</td>
                                             <td>{{ ($visit->adult+$visit->children) }}</td>

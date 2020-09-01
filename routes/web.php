@@ -148,6 +148,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/visits/upcoming', 'VisitorController@upcoming')->name('visits.upcoming');
     Route::get('/visits/current', 'VisitorController@current')->name('visits.current');
     Route::post('/visits/current/extend', 'VisitorController@extendStay')->name('visits.current.extend');
+    Route::get('/visits/extension/{userExtensionRequest}/request', 'VisitorController@extensionRequest')->name('visits.extension.request');
+    Route::post('/visits/extension/{userExtensionRequest}/approve', 'VisitorController@approveExtendStay')->name('visits.extension.request.approve');
+    Route::post('/visits/extension/{userExtensionRequest}/decline', 'VisitorController@declineExtendStay')->name('visits.extension.request.decline');
     Route::get('/visits/past', 'VisitorController@past')->name('visits.past');
     Route::get('/visits/{property}/detail', 'VisitorController@showVisitedProperty')->name('visits.property');
    

@@ -59,6 +59,7 @@
                                     <tr>                                        
                                         <th>Booked At</th>
                                         <th>Property</th>
+                                        <th>Owner</th>
                                         <th>Check In</th>
                                         <th>Check Out</th>
                                         <th>Guest</th>
@@ -72,13 +73,14 @@
                                         <tr class="record">
                                             <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
                                             <td>{{ $visit->property->title }}</td>
+                                            <td>{{ $visit->property->user->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_out)->format('d-M-Y') }}</td>
                                             <td>{{ ($visit->adult+$visit->children) }}</td>
                                             <td><span class="badge badge-md badge-{{ ($visit->status)? 'success':'danger' }}">{{ $visit->checkInOrOut() }}</span></td>
                                             <td>
                                                 <a href="{{ route('visits.property', $visit->property_id) }}" class="mr-3" title="View Property"><i class="fas fa-home text-primary font-16"></i></a>
-                                                <a href="/user/visits/current/extend" class="btnExtend" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
+                                                <a href="/user/visits/current/extend" class="btnExtend" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
                                                     <i class="fas fa-clock text-purple font-16"></i>
                                                 </a>
                                             </td>
@@ -114,6 +116,7 @@
                         <input type="hidden" name="checkin" id="checkin" readonly>
                         <input type="hidden" name="type" id="type" readonly>
                         <input type="hidden" name="status" id="status" readonly>
+                        <input type="hidden" name="owner" id="owner" readonly>
                         <div class="form-group validate">
                             <label for="extended_date">Extended Date</label>
                             <input type="text" class="form-control" name="extended_date" id="extended_date" title="Select date" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}" />

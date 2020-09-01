@@ -9,6 +9,7 @@ $("#datatable tbody tr").on('click', '.btnExtend', function(e){
     $("#formExtend input[name='checkin']").val($this.data('checkin'));
     $("#formExtend input[name='type']").val($this.data('type'));
     $("#formExtend input[name='status']").val($this.data('status'));
+    $("#formExtend input[name='owner']").val($this.data('owner'));
     $("#extendModal").modal('show');
     return false;
 });

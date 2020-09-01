@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\MessageModel\Message;
 use Illuminate\Support\Facades\Auth;
 use App\PropertyModel\PropertyType;
+use App\UserModel\UserExtensionRequest;
 
 class UserController extends Controller
 {
@@ -51,15 +52,16 @@ class UserController extends Controller
     //notification count
     public function notificationCount()
     {
-        return Message::whereUser_id(Auth::user()->id)->whereStatus(0)->count();
+        return UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(0)->count();
     }
 
     //notification content
     public function notification()
     {
-        $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->get();
-        return view('admin.notifications.message-notification', $data)->render();
+        $data['notifications'] = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(0)->get();
+        return view('admin.notifications.notification', $data)->render();
     }
+
 
 
 

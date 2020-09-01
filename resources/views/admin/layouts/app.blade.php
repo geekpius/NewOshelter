@@ -51,9 +51,9 @@
                         <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="false" aria-expanded="false">
                             <i class="dripicons-inbox noti-icon text-white"></i>
-                            <span class="badge badge-danger badge-pill noti-icon-badge myMessageCount"></span>
+                            <span class="badge badge-danger badge-pill noti-icon-badge myMessageCount" data-url="{{ route('message.count') }}"></span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-lg myMessages">
+                        <div class="dropdown-menu dropdown-menu-right dropdown-lg myMessages" data-url="{{ route('message.notification') }}">
                             
                         </div>
                     </li>
@@ -62,34 +62,10 @@
                         <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown" href="#" role="button"
                             aria-haspopup="false" aria-expanded="false">
                             <i class="dripicons-bell noti-icon text-white"></i>
-                            <span class="badge badge-danger badge-pill noti-icon-badge">18</span>
+                            <span class="badge badge-danger badge-pill noti-icon-badge myNotificationCount" data-url="{{ route('notification.count') }}"></span>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-lg">
-                            <!-- item-->
-                            <h6 class="dropdown-item-text">
-                                Notifications (18)
-                            </h6>
-                            <div class="slimscroll notification-list">
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                    <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
-                                    <p class="notify-details">Your order is placed<small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>
-                                </a>
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <div class="notify-icon bg-primary"><i class="mdi mdi-cart-outline"></i></div>
-                                    <p class="notify-details">Your order is placed<small class="text-muted">Dummy text of the printing and typesetting industry.</small></p>
-                                </a>
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <div class="notify-icon bg-danger"><i class="mdi mdi-message"></i></div>
-                                    <p class="notify-details">New Message received<small class="text-muted">You have 87 unread messages</small></p>
-                                </a>
-                            </div>
-                            <!-- All-->
-                            <a href="javascript:void(0);" class="dropdown-item text-center text-primary">
-                                View all <i class="fi-arrow-right"></i>
-                            </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-lg myNotifications" data-url="{{ route('notifications') }}">
+                            
                         </div>
                     </li>
 
@@ -256,38 +232,6 @@
         <!-- App js -->
         <script src="{{ asset('assets/js/jquery.core.js') }}"></script>
         <script src="{{ asset('assets/js/app.js') }}"></script>
-        <script>
-            function getMessageCount(){
-                $.ajax({
-                    url: "{{ route('message.count') }}",
-                    type: "GET",
-                    success: function(resp){
-                        $(".myMessageCount").text(resp);
-                    },
-                    error: function(resp){
-                        console.log("Something went wrong with request");
-                    }
-                });
-                
-                setTimeout(getMessageCount, 10000);
-            }
-
-            function getMessageNotification(){
-                $.ajax({                   
-                    url: "{{ route('message.notification') }}",
-                    type: "GET",
-                    success: function(resp){
-                        $(".myMessages").html(resp);
-                    },
-                    error: function(resp){
-                        console.log("Something went wrong with request");
-                    }
-                });
-
-                setTimeout(getMessageNotification, 10000);
-            }
-            getMessageCount();
-            getMessageNotification();
-        </script>
+        <script src="{{ asset('assets/pages/layout.js') }}"></script>
     </body>
 </html>
