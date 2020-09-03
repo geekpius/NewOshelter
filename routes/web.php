@@ -14,6 +14,7 @@
 
 /*----------------Website Route List----------------------------- */
 Route::get('/', 'WebsiteController@index')->name('index');
+Route::get('/oshelter/callback', 'WebsiteController@callback')->name('callback');
 Route::get('/own-property', 'WebsiteController@ownProperty')->name('own.property');
 Route::get('/property-status/{status}', 'WebsiteController@propertyStatus')->name('status.property');
 Route::get('/property-types/{type}', 'WebsiteController@propertyType')->name('type.property');
@@ -48,6 +49,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/wishlist', 'UserSavedPropertyController@wishList')->name('saved');
     Route::post('/wishlist', 'UserSavedPropertyController@store')->name('saved.submit');
     Route::get('/wishlist/{userSavedProperty}/remove', 'UserSavedPropertyController@removeWishList')->name('saved.remove');
+    Route::get('/requests', 'UserController@requests')->name('requests');
     // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
     // Route::get('/activities', 'UserActivityController@index')->name('activities');
 
@@ -141,6 +143,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
     Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
     Route::post('/properties/bookings/verify', 'BookingController@verify')->name('property.bookings.verify');
+    Route::post('/properties/bookings/payment/mobile', 'BookingController@mobilePayment')->name('property.bookings.mobilepayment');
     
 
     /*------- Visitors Visit ------- */

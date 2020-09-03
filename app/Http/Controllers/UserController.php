@@ -62,6 +62,14 @@ class UserController extends Controller
         return view('admin.notifications.notification', $data)->render();
     }
 
+    // requests
+    public function requests()
+    {
+        $data['page_title'] = 'My requests';
+        $data['extensions'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIn('is_confirm', [1,2])->get();
+        return view('admin.requests.index', $data)->render();
+    }
+
 
 
 

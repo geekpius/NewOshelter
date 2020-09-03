@@ -82,7 +82,6 @@ class VisitorController extends Controller
         return view('admin.visits.extension-request', $data);
     }
 
-
     public function approveExtendStay(Request $request, UserExtensionRequest $userExtensionRequest)
     {
         (string) $message= '';

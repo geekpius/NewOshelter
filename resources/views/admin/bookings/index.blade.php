@@ -544,7 +544,42 @@
                                         <div class="col-sm-12">
                                             <div class="card">
                                                 <div class="card-body">
+                                                    {{-- visa --}}
                                                     <div class="radio radio-success">
+                                                        <input type="radio" name="payment_method" id="visa" value="Mobile Money" />
+                                                        <label for="visa" class="font-weight-600 text-black">
+                                                            VISA
+                                                        </label>
+                                                    </div>
+                                                    <div id="visaExpand" style="display: none">
+                                                        <hr>
+                                                        <form class="mt-4" id="formVisa">
+                                                            @csrf
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group validate">
+                                                                        <input type="number" min="1" name="visa_number" placeholder="VISA Number(**************)" onkeypress="return isNumber(event)" class="form-control" />
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group validate">
+                                                                        <input type="text" name="expire" id="expire" maxlength="5" onkeypress="return isMonthAndYear(event)" class="form-control" placeholder="mm/yy" />
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group validate">
+                                                                        <input type="password" name="ccv" id="ccv" min="0" maxlength="3" class="form-control" placeholder="CCV(***)">
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                    {{-- momo --}}
+                                                    <div class="radio radio-success mt-3">
                                                         <input type="radio" name="payment_method" id="mobile_money" value="Mobile Money" />
                                                         <label for="mobile_money" class="font-weight-600 text-black">
                                                             Mobile Money
@@ -552,16 +587,16 @@
                                                     </div>
                                                     <div id="momoExpand" style="display: none">
                                                         <hr>
-                                                        <form class="mt-4" id="formMobileMobile">
+                                                        <form class="mt-4" id="formMobileMobile" action="{{ route('property.bookings.mobilepayment') }}">
                                                             @csrf
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group validate">
                                                                         <select name="mobile_operator" id="mobile_operator" class="form-control">
                                                                             <option value="">Select your operator</option>
-                                                                            <option value="MTN">MTN</option>
-                                                                            <option value="TIGO">AirtelTigo</option>
-                                                                            <option value="VODAFONE">Vodafone</option>
+                                                                            <option value="MTN_MONEY">MTN Mobile Money</option>
+                                                                            <option value="AIRTEL_MONEY">AirtelTigo Money</option>
+                                                                            <option value="VODAFONE_CASH_PROMPT">Vodafone Cash</option>
                                                                         </select>
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
@@ -574,7 +609,7 @@
                                                                 </div>
                                                                 <div class="col-sm-9">
                                                                     <div class="form-group validate">
-                                                                        <input type="number" name="mobile_number" id="mobile_number" min="0" maxlength="10" class="form-control" placeholder="eg: 0542398441">
+                                                                        <input type="number" name="mobile_number" id="mobile_number" min="1" maxlength="9" class="form-control" placeholder="eg: 542398441">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
@@ -587,7 +622,16 @@
                                     </div>
                                                                         
                                     <div class="col-sm-12 mt-2 ml-sm-4">
-                                        <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600" data-step="3">PAY NOW</button>
+                                        <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600" data-step="3">PAY NOW {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff),2) }}
+                                        <span id="payAmount" style="display: none !important">{{ (($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff) }}</span>
+                                        </button>
+                                        <br>
+                                        <p class="text-danger mt-4 font-weight-bold">
+                                            <i class="fa fa-info-circle"></i> Make sure you have enough money in your wallet to cover {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff),2) }} in your invoice.
+                                         </p>
+                                        <p class="text-danger mt-3 font-weight-bold">
+                                            <i class="fa fa-info-circle"></i> For MTN users, mobile bill prompt will only be sent if you have enough money in your wallet to cover {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff),2) }} in your invoice
+                                        </p>
                                     </div>
                                 </div> 
                             </div> 
@@ -638,7 +682,7 @@
                                                     <div class="font-18">
                                                         <span><strong>Total</strong></span>
                                                         <span class="float-right"><strong id="totalFeeResult">
-                                                            {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+$property->propertyPrice->property_price* $dateDiff,2) }}</strong></span>
+                                                            {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff),2) }}</strong></span>
                                                     </div>
                                                 </div>
                                                 @elseif($property->type_status == 'short_stay')
@@ -658,7 +702,7 @@
                                                     <div class="font-18">
                                                         <span><strong>Total</strong></span>
                                                         <span class="float-right"><strong id="totalFeeResult">
-                                                            {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+$property->propertyPrice->property_price* $dateDiff,2) }}</strong></span>
+                                                            {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff),2) }}</strong></span>
                                                     </div>
                                                 </div>
                                                 @endif

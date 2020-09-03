@@ -12,7 +12,7 @@ class UserExtensionRequest extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id', 'visit_id', 'extension_date', 'status',
+        'user_id', 'visit_id', 'owner_id', 'extension_date', 'is_confirm',
     ];
 
     public function user(){
@@ -21,6 +21,26 @@ class UserExtensionRequest extends Model
 
     public function visit(){
         return $this->belongsTo(UserVisit::class, 'visit_id');
+    }
+
+    public function getConfirmation(){
+        if($this->is_confirm == 0){
+            return 'Pending';
+        }
+        else if($this->is_confirm == 1){
+            return 'Confirmed';
+        }else if($this->is_confirm == 2){
+            return 'Declined';
+        }
+    }
+
+    public function getPaid(){
+        if($this->is_paid){
+            return 'Paid';
+        }
+        else{
+            return 'Not Paid';
+        }
     }
 
 

@@ -272,13 +272,26 @@ $("#verify_code").on("keyup blur", function(e){
 
 // get total amount on payment summary
 $("#totalPayment").text($("#totalFeeResult").text());
-$(".makePayment").text("PAY NOW: "+$("#totalFeeResult").text());
+
+// select visa
+$("#visa").on("change", function(){
+    var $this = $(this);
+    if($this.prop("checked", true)){
+        $("#momoExpand").slideUp('fast');
+        $("#visaExpand").slideDown('fast', function(){
+            $("#formMobileMobile")[0].reset();
+        });
+    }
+});
 
 // select momo
 $("#mobile_money").on("change", function(){
     var $this = $(this);
     if($this.prop("checked", true)){
-        $("#momoExpand").slideDown('fast');
+        $("#visaExpand").slideUp('fast');
+        $("#momoExpand").slideDown('fast', function(){
+            $("#formVisa")[0].reset();
+        });
     }
 });
 
@@ -287,9 +300,53 @@ $(".makePayment").on('click', function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this = $(this);
-    var valid = true;
     if(document.getElementById('mobile_money').checked){
+        var valid = true;
         $('#formMobileMobile input, #formMobileMobile select').each(function() {
+            var $this = $(this);
+            
+            if(!$this.val()) {
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                $this.addClass('is-invalid');
+            }
+        });
+        if(valid){
+            let data = {
+                mobile_operator: $('#formMobileMobile #mobile_operator').val(),
+                country_code: $('#formMobileMobile input[name="country_code"]').val(),
+                mobile_number: $('#formMobileMobile input[name="mobile_number"]').val(),
+                amount: parseFloat($(".makePayment #payAmount").text()),
+            }
+            $.ajax({
+                url: $("#formMobileMobile").attr('action'),
+                type: "POST",
+                data: data,
+                success: function(resp){
+                    // alert(resp);
+                    if(resp == 'success'){
+                        swal({
+                            title: "Success",
+                            text: "Check your phone to enter your pin.",
+                            type: "success",
+                            confirmButtonClass: "btn-primary btn-sm",
+                            confirmButtonText: "OKAY",
+                            closeOnConfirm: true
+                        });
+                    }
+                    else{
+                        swal("Error", resp, "warning");
+                    }
+                },
+                error: function(resp){
+                    console.log('something went wrong with request');
+                }
+            });
+            return false;
+        }
+    }else if(document.getElementById('visa').checked){
+        var valid = true;
+        $('#formVisa input, #formVisa select').each(function() {
             var $this = $(this);
             
             if(!$this.val()) {
@@ -301,6 +358,8 @@ $(".makePayment").on('click', function(e){
         if(valid){
             return false;
         }
+    }else{
+        swal("Select", "Select payment option.", "warning");
     }
     return false;
 });
@@ -332,6 +391,16 @@ function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+
+function isMonthAndYear(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 47) 
+    {
         return false;
     }
     return true;

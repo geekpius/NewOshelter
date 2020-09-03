@@ -31,6 +31,12 @@ class WebsiteController extends Controller
         return view('welcome', $data);
     }
 
+    // payment call back 
+    public function callback()
+    {
+        return view('callback');
+    }
+
     //property listing status
     public function propertyStatus($status)
     {
