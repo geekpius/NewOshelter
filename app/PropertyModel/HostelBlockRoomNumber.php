@@ -3,6 +3,7 @@
 namespace App\PropertyModel;
 
 use App\PropertyModel\HostelBlockRoom;
+use App\UserModel\UserHostelVisit;
 use Illuminate\Database\Eloquent\Model;
 
 class HostelBlockRoomNumber extends Model
@@ -16,6 +17,10 @@ class HostelBlockRoomNumber extends Model
 
     public function hostelBlockRoom(){
         return $this->belongsTo(HostelBlockRoom::class, 'hostel_block_room_id');
+    }
+
+    public function userHostelVisits(){
+        return $this->hasMany(UserHostelVisit::class);
     }
 
 }

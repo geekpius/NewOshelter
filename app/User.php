@@ -8,6 +8,7 @@ use App\UserModel\Vat;
 use Illuminate\Support\Str;
 use App\UserModel\UserLogin;
 use App\UserModel\UserVisit;
+use App\UserModel\UserHostelVisit;
 use App\BookingModel\Booking;
 use App\UserModel\UserTicket;
 use App\UserModel\UserWallet;
@@ -162,6 +163,10 @@ class User extends Authenticatable
 
     public function userVisits(){
         return $this->hasMany(UserVisit::class);
+    }
+
+    public function userHostelVisits(){
+        return $this->hasMany(UserHostelVisit::class);
     }
 
 

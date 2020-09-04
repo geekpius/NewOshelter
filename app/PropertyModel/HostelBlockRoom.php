@@ -7,6 +7,7 @@ use App\PropertyModel\HostelRoomAmenity;
 use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
+use App\UserModel\UserHostelVisit;
 
 class HostelBlockRoom extends Model
 {
@@ -32,6 +33,11 @@ class HostelBlockRoom extends Model
     public function propertyHostelPrice(){
         return $this->hasOne(PropertyHostelPrice::class);
     }
+
+    public function userHostelVisits(){
+        return $this->hasMany(UserHostelVisit::class);
+    }
+
 
     public function getBlockRoomTypeAttribute($value)
     {

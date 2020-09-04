@@ -26,7 +26,7 @@
                 <div class="card-body">
 
                     <div class="ml-2 mt-1"> 
-                        <a href="{{ route('visits') }}" class="text-primary mr-4"><i class="fa fa-backward"></i> Go Back</a>
+                        <a href="{{ (strtolower($property->type)=='hostel')? route('visits.hostel'):route('visits.all') }}" class="text-primary mr-4"><i class="fa fa-backward"></i> Go Back</a>
                         <a href="javascript:void(0);" class="ml-4"><strong class="font-weight-bold">{{ $property->user->name }}</strong> is the owner</a>
                     </div>
                     <br>

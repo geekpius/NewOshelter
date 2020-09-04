@@ -13,10 +13,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">My Past Visits</li>
+                        <li class="breadcrumb-item active">My Visits</li>
                     </ol>
                 </div>
-                <h4 class="page-title">My Past Visits</h4>
+                <h4 class="page-title">My Visits</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>
@@ -35,7 +35,7 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav-justified" role="tablist">
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.all') }}" role="tab">All</a>
+                            <a class="nav-link active text-primary font-weight-500" href="{{ route('visits.all') }}" role="tab">All</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
                             <a class="nav-link" href="{{ route('visits.upcoming') }}" role="tab">Upcoming</a>
@@ -44,13 +44,13 @@
                             <a class="nav-link" href="{{ route('visits.current') }}" role="tab">Current</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link active text-primary font-weight-500" href="{{ route('visits.past') }}" role="tab">Past</a>
+                            <a class="nav-link" href="{{ route('visits.past') }}" role="tab">Past</a>
                         </li>
                     </ul>
                     <br>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane active p-3" id="withdrawn" role="tabpanel">
+                        <div class="tab-pane active p-3" id="all" role="tabpanel">
                             <div class="table-responsive dash-social">
                                 <table id="datatable" class="table table-bordered">
                                     <thead class="thead-light">
@@ -67,7 +67,7 @@
                                     </thead>
 
                                     <tbody>
-                                        @foreach (Auth::user()->userVisits->where('check_out','<',\Carbon\Carbon::today()) as $visit)
+                                        @foreach (Auth::user()->userVisits as $visit)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
                                             <td>{{ $visit->property->title }}</td>
@@ -82,8 +82,8 @@
                                         </tr><!--end tr-->
                                         @endforeach                                                                                   
                                     </tbody>
-                                </table>                      
-                            </div>                             
+                                </table>                    
+                            </div>     
                         </div>
                     </div>    
 
@@ -94,7 +94,6 @@
             <div class="col-sm-3"></div>                    
         </div><!-- End row -->
     </div>
-
 </div><!-- container -->
 
 @endsection

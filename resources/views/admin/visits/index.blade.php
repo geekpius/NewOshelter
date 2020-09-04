@@ -1,8 +1,6 @@
 @extends('admin.layouts.app')
 
 @section('styles') 
-<!-- DataTables -->
-<link href="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 
@@ -35,55 +33,39 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav-justified" role="tablist">
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link active text-primary font-weight-500" href="{{ route('visits') }}" role="tab">All</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.upcoming') }}" role="tab">Upcoming</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.current') }}" role="tab">Current</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.past') }}" role="tab">Past</a>
+                            <a class="nav-link active text-primary font-weight-500" href="{{ route('visits') }}" role="tab">Choose from below</a>
                         </li>
                     </ul>
                     <br>
                     <!-- Tab panes -->
                     <div class="tab-content">
                         <div class="tab-pane active p-3" id="all" role="tabpanel">
-                            <div class="table-responsive dash-social">
-                                <table id="datatable" class="table table-bordered">
-                                    <thead class="thead-light">
-                                    <tr>                                        
-                                        <th>Booked At</th>
-                                        <th>Property</th>
-                                        <th>Owner</th>
-                                        <th>Check In</th>
-                                        <th>Check Out</th>
-                                        <th>Guest</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr><!--end tr-->
-                                    </thead>
-
-                                    <tbody>
-                                        @foreach (Auth::user()->userVisits as $visit)
-                                        <tr>
-                                            <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
-                                            <td>{{ $visit->property->title }}</td>
-                                            <td>{{ $visit->property->user->name }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($visit->check_out)->format('d-M-Y') }}</td>
-                                            <td>{{ ($visit->adult+$visit->children) }}</td>
-                                            <td><span class="badge badge-md badge-{{ ($visit->status)? 'success':'danger' }}">{{ $visit->checkInOrOut() }}</span></td>
-                                            <td>
-                                                <a href="{{ route('visits.property', $visit->property_id) }}" class="mr-3" title="View Property"><i class="fas fa-home text-primary font-16"></i></a>
-                                            </td>
-                                        </tr><!--end tr-->
-                                        @endforeach                                                                                   
-                                    </tbody>
-                                </table>                    
-                            </div>     
+                            <div class="row">
+                            @if (count($types))
+                            @foreach($types as $type)
+                                <div class="col-sm-4 col-lg-3">
+                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                        </ol>
+                                        <div class="carousel-inner" role="listbox">
+                                            <a href="{{ (strtolower($type->name)=='hostel')? route('visits.hostel'):route('visits.all') }}">
+                                                <div class="carousel-item active">
+                                                    <img class="d-block img-fluid" src="{{ asset('assets/images/types/'.$type->image) }}" alt="{{ $type->name }}" style="display: block; position: relative; overflow: hidden; 
+                                                    height: 320px; margin-bottom: 10px;background-size: cover; background-position: center center; background-repeat: no-repeat; border-top-left-radius: 2%; border-top-right-radius: 2%" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <h4>
+                                        <a href="{{ (strtolower($type->name)=='hostel')? route('visits.hostel'):route('visits.all') }}">{{ $type->name }}</a>
+                                    </h4>
+                                </div>
+                            @endforeach
+                            @else
+                                
+                            @endif
+                            </div> 
                         </div>
                     </div>    
 
@@ -99,9 +81,4 @@
 @endsection
 
 @section('scripts')
-<script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
-<script>
-$('#datatable').DataTable();
-</script>
 @endsection

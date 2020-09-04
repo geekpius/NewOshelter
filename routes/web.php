@@ -148,6 +148,7 @@ Route::group(['prefix' => 'user'], function () {
 
     /*------- Visitors Visit ------- */
     Route::get('/visits', 'VisitorController@index')->name('visits');
+    Route::get('/visits/all', 'VisitorController@all')->name('visits.all');
     Route::get('/visits/upcoming', 'VisitorController@upcoming')->name('visits.upcoming');
     Route::get('/visits/current', 'VisitorController@current')->name('visits.current');
     Route::post('/visits/current/extend', 'VisitorController@extendStay')->name('visits.current.extend');
@@ -156,6 +157,11 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/visits/extension/{userExtensionRequest}/decline', 'VisitorController@declineExtendStay')->name('visits.extension.request.decline');
     Route::get('/visits/past', 'VisitorController@past')->name('visits.past');
     Route::get('/visits/{property}/detail', 'VisitorController@showVisitedProperty')->name('visits.property');
+    Route::get('/visits/hostel', 'VisitorController@hostel')->name('visits.hostel');
+    Route::get('/visits/hostel/upcoming', 'VisitorController@hostelUpcoming')->name('visits.hostel.upcoming');
+    Route::get('/visits/hostel/current', 'VisitorController@hostelCurrent')->name('visits.hostel.current');
+    Route::get('/visits/hostel/past', 'VisitorController@hostelPast')->name('visits.hostel.past');
+    // Route::get('/visits/{name}/types', 'VisitorController@types')->name('visits.types');
    
     
     /*------- Listing Guests ------- */

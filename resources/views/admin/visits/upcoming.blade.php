@@ -35,7 +35,7 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav-justified" role="tablist">
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits') }}" role="tab">All</a>
+                            <a class="nav-link" href="{{ route('visits.all') }}" role="tab">All</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
                             <a class="nav-link active text-primary font-weight-500" href="{{ route('visits.upcoming') }}" role="tab">Upcoming</a>
@@ -74,7 +74,7 @@
                                             <td>{{ $visit->property->user->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_out)->format('d-M-Y') }}</td>
-                                            <td>{{ ($visit->adult+$visit->children) }}</td>
+                                            <td>{{ ($visit->adult+$visit->children+$visit->infant) }}</td>
                                             <td><span class="badge badge-md badge-{{ ($visit->status)? 'success':'danger' }}">{{ $visit->checkInOrOut() }}</span></td>
                                             <td>
                                                 <a href="{{ route('visits.property', $visit->property_id) }}" class="mr-3" title="View Property"><i class="fas fa-home text-primary font-16"></i></a>

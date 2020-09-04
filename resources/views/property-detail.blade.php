@@ -167,7 +167,7 @@
                         @endif
                     @endif
                     <div class="mt-3 mt-md-4">
-                        <p>{{ ucfirst(strtolower($property->propertyContain->furnish)) }}. Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. 
+                        <p>@if ($property->type!='hostel') {{ ucfirst(strtolower($property->propertyContain->furnish)) }}. @endif Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. 
                             This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every 
                             room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is
                             <span class="pxp-dots">...</span><span class="pxp-dots-more"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features 

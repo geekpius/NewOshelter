@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyImage;
+use App\PropertyModel\PropertyType;
 use App\UserModel\UserExtensionRequest;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -19,7 +20,14 @@ class VisitorController extends Controller
     public function index()
     {
         $data['page_title'] = 'My visits';
+        $data['types'] = PropertyType::all();
         return view('admin.visits.index', $data);
+    }
+
+    public function all()
+    {
+        $data['page_title'] = 'All my visits';
+        return view('admin.visits.all', $data);
     }
 
     public function upcoming()
@@ -38,6 +46,30 @@ class VisitorController extends Controller
     {
         $data['page_title'] = 'My past visits';
         return view('admin.visits.past', $data);
+    }
+
+    public function hostel()
+    {
+        $data['page_title'] = 'My hostel visits';
+        return view('admin.visits.hostels.hostel', $data);
+    }
+
+    public function hostelUpcoming()
+    {
+        $data['page_title'] = 'My hostel upcoming visits';
+        return view('admin.visits.hostels.upcoming', $data);
+    }
+
+    public function hostelCurrent()
+    {
+        $data['page_title'] = 'My hostel current visits';
+        return view('admin.visits.hostels.current', $data);
+    }
+
+    public function hostelPast()
+    {
+        $data['page_title'] = 'My hostel past visits';
+        return view('admin.visits.hostels.past', $data);
     }
 
     public function showVisitedProperty(Property $property)
