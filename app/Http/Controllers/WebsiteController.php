@@ -25,7 +25,7 @@ class WebsiteController extends Controller
     public function index()
     {
         $data['page_title'] = null;
-        $data['types'] = PropertyType::all();
+        $data['types'] = PropertyType::whereIs_public(true)->get();
         $data['properties'] = Property::wherePublish(true)->whereVacant(true)->take(50)->orderBy('id', 'DESC')->get();
         $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         return view('welcome', $data);

@@ -52,7 +52,7 @@ class PropertyController extends Controller
             return view('admin.properties.duplicate-listing', $data);
         }else{
             $data['page_title'] = 'Add new listing';
-            $data['property_types'] = PropertyType::all();
+            $data['property_types'] = PropertyType::whereIs_public(true)->get();
             return view('admin.properties.add-listing', $data);
         }
     }
@@ -61,7 +61,7 @@ class PropertyController extends Controller
     public function startNew()
     {
         $data['page_title'] = 'Add new listing';
-        $data['property_types'] = PropertyType::all();
+        $data['property_types'] = PropertyType::whereIs_public(true)->get();
         return view('admin.properties.add-listing', $data);
     }
 
@@ -644,7 +644,7 @@ class PropertyController extends Controller
     {
         $data['page_title'] = 'Edit '.$property->title.' listing';
         $data['property'] = $property;
-        $data['property_types'] = PropertyType::all();
+        $data['property_types'] = PropertyType::whereIs_public(true)->get();
         return view('admin.properties.edit-listing', $data);
     }
     
