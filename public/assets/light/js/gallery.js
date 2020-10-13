@@ -13,6 +13,7 @@
                 size,
                 item;
 
+
             for (var i = 0; i < numNodes; i++) {
                 figureEl = thumbElements[i]; // <figure> element
 
@@ -20,6 +21,11 @@
                 if (figureEl.nodeType !== 1) {
                     continue;
                 }
+
+                // include only element nodes that are `<figure>`s
+                // if(figureEl.nodeType !== 1 || figureEl.nodeName !== 'FIGURE') {
+                //     continue;
+                // }
 
                 linkEl = figureEl.children[0]; // <a> element
 

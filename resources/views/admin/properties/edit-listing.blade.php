@@ -59,7 +59,7 @@
                                 <div class="form-group validate">
                                     <label for="">What do you want to do with your property?</label>
                                     <select name="property_type_status" class="form-control" id="property_type_status">   
-                                        <option value="short_stay">For short stay</option>                                  
+                                        {{-- <option value="short_stay">For short stay</option> --}}
                                         <option value="rent">I want to rent out</option>                                        
                                         <!-- <option value="sell">I want to sell</option>
                                         <option value="auction">I want to auction</option>-->

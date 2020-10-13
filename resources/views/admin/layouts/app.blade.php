@@ -9,7 +9,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>OShelter - {{$page_title}} </title>
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
 
         @yield('styles')
 
@@ -35,13 +35,11 @@
                         <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-small" class="logo-sm">
                     </span>
                     <span>
-                        <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo-large" class="logo-lg">
-                    </span>
-                    <span>
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="logo-large" class="logo-light">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="logo-large" class="text-logo">
                     </span>                    
                 </a>
             </div>
+
             <!--end logo-->
             <!-- Navbar -->
             <nav class="navbar-custom">    

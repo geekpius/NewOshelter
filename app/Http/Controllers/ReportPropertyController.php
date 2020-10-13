@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\MessageModel\Reply;
+use App\PropertyModel\ReportProperty;
 use Illuminate\Http\Request;
+use App\PropertyModel\Property;
 
-class ReplyController extends Controller
+class ReportPropertyController extends Controller
 {
     public function __construct()
     {
@@ -15,10 +16,10 @@ class ReplyController extends Controller
 
 
     //show all messages
-    public function index()
+    public function index(Property $property)
     {
-        $data['page_title'] = 'Messages';
-        return view('host.messages', $data);
+        $data['page_title'] = 'Report '.$property->title;
+        return view('admin.reports.index', $data);
     }
 
     /**
@@ -45,10 +46,10 @@ class ReplyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\MessageModel\Reply  $reply
+     * @param  \App\PropertyModel\ReportProperty  $reportProperty
      * @return \Illuminate\Http\Response
      */
-    public function show(Reply $reply)
+    public function show(ReportProperty $reportProperty)
     {
         //
     }
@@ -56,10 +57,10 @@ class ReplyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\MessageModel\Reply  $reply
+     * @param  \App\PropertyModel\ReportProperty  $reportProperty
      * @return \Illuminate\Http\Response
      */
-    public function edit(Reply $reply)
+    public function edit(ReportProperty $reportProperty)
     {
         //
     }
@@ -68,10 +69,10 @@ class ReplyController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MessageModel\Reply  $reply
+     * @param  \App\PropertyModel\ReportProperty  $reportProperty
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reply $reply)
+    public function update(Request $request, ReportProperty $reportProperty)
     {
         //
     }
@@ -79,10 +80,10 @@ class ReplyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\MessageModel\Reply  $reply
+     * @param  \App\PropertyModel\ReportProperty  $reportProperty
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reply $reply)
+    public function destroy(ReportProperty $reportProperty)
     {
         //
     }

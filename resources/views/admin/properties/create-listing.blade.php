@@ -604,8 +604,8 @@
                                                 </div>
                                                 <div class="form-group validate">
                                                     <label for="description"><span class="text-primary">A short description of your property</span></label>
-                                                    <textarea class="form-control" name="description" rows="5" maxlength="500" id="description" placeholder="Write descriptions about room decor, furniture, nearby things. Just make it simple">{{ empty($property->propertyDescription->description)? '':$property->propertyDescription->description }}</textarea>
-                                                    <small id="myDescriptionCharacters" class="form-text text-muted">500 characters remaining</small>
+                                                    <textarea class="form-control" name="description" rows="5" maxlength="1000" id="description" placeholder="Write descriptions about room decor, furniture, nearby things, how conducive the environment is. Just make it simple">{{ empty($property->propertyDescription->description)? '':$property->propertyDescription->description }}</textarea>
+                                                    <small id="myDescriptionCharacters" class="form-text text-muted">1000 characters remaining</small>
                                                     <span class="text-danger small mySpan" role="alert"></span>
                                                 </div>
                                                 <p class="mt-5"><strong>Let's narrow down the complexity</strong> <i class="fa fa-arrow-down"></i></p>
@@ -1140,9 +1140,9 @@
                                                     <span class="text-danger small mySpan" role="alert"></span>
                                                 </div>
                                                 <div class="form-group validate">
-                                                    <label for="description"><span class="text-primary">A short description of your property</span></label>
-                                                    <textarea class="form-control" name="description" rows="5" maxlength="500" id="description" placeholder="Write descriptions about room decor, furniture, nearby things. Just make it simple">{{ empty($property->propertyDescription->description)? '':$property->propertyDescription->description }}</textarea>
-                                                    <small id="myDescriptionCharacters" class="form-text text-muted">500 characters remaining</small>
+                                                    <label for="description"><span class="text-primary">A description of your property</span></label>
+                                                    <textarea class="form-control" name="description" rows="5" maxlength="1000" id="description" placeholder="Write descriptions about room decor, furniture, nearby things, how conducive the environment is. Just make it simple">{{ empty($property->propertyDescription->description)? '':$property->propertyDescription->description }}</textarea>
+                                                    <small id="myDescriptionCharacters" class="form-text text-muted">1000 characters remaining</small>
                                                     <span class="text-danger small mySpan" role="alert"></span>
                                                 </div>
                                                 <p class="mt-5"><strong>Let's narrow down the complexity</strong> <i class="fa fa-arrow-down"></i></p>
@@ -2154,13 +2154,13 @@ $("select").on('change', function(){
 
 
 //check remaining characters
-var maxNumber = 500;
+var maxNumber = 1000;
 var counter = $("#description").val().length;
 maxNumber=maxNumber-counter;
 $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
 
 $("#description").on("input", function(){
-    var maxNumber = 500;
+    var maxNumber = 1000;
     var $this = $(this);
     if($this.val()!=""){
         var counter = $this.val().length;

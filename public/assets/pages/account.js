@@ -288,85 +288,85 @@ $(".btnSaveCouponCancel").on("click", function(e){
 });
 
 ///vat/tin
-$("#formVat").on("submit", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var valid = true;
-    $('#formVat input, #formVat select').each(function() {
-        var $this = $(this);
+// $("#formVat").on("submit", function(e){
+//     e.preventDefault();
+//     e.stopPropagation();
+//     var $this = $(this);
+//     var valid = true;
+//     $('#formVat input, #formVat select').each(function() {
+//         var $this = $(this);
         
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        }
-    });
-    if(valid){
-        var data = $('#formVat').serialize();
-        $(".btnStoreVat").html('<i class="fa fa-spin fa-spinner"></i> Submitting..').attr('disabled', true);
-        $.ajax({
-            url: $("#formVat").data('action'), 
-            type: 'POST',
-            data: data,
-            success: function (resp) {
-                if(resp=='success'){
-                    swal("Submitted", "Submitted successful. Wait for confirmation.", "success");
-                    getVatInfo();
-                }else if(resp=='confirm'){
-                    swal("Exists", "Already have a confirmed VAT/TIN.", "success");
-                }
-                else{
-                    swal("Opps", resp, "error");
-                }
+//         if(!$this.val()) {
+//             valid = false;
+//             $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+//         }
+//     });
+//     if(valid){
+//         var data = $('#formVat').serialize();
+//         $(".btnStoreVat").html('<i class="fa fa-spin fa-spinner"></i> Submitting..').attr('disabled', true);
+//         $.ajax({
+//             url: $("#formVat").data('action'), 
+//             type: 'POST',
+//             data: data,
+//             success: function (resp) {
+//                 if(resp=='success'){
+//                     swal("Submitted", "Submitted successful. Wait for confirmation.", "success");
+//                     getVatInfo();
+//                 }else if(resp=='confirm'){
+//                     swal("Exists", "Already have a confirmed VAT/TIN.", "success");
+//                 }
+//                 else{
+//                     swal("Opps", resp, "error");
+//                 }
 
-                $("#formVat")[0].reset();
-                $(".btnStoreVat").html('Submit').attr('disabled', false);
-            },
-            error: function(resp){
-                alert('Something went wrong.');
-                $(".btnStoreVat").html('Submit').attr('disabled', false);
-            }
+//                 $("#formVat")[0].reset();
+//                 $(".btnStoreVat").html('Submit').attr('disabled', false);
+//             },
+//             error: function(resp){
+//                 alert('Something went wrong.');
+//                 $(".btnStoreVat").html('Submit').attr('disabled', false);
+//             }
             
-        });
-    }
-    return false;
-});
+//         });
+//     }
+//     return false;
+// });
 
-$("#formVat input, #formCoupon input").on('input', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-    }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
-});
+// $("#formVat input, #formCoupon input").on('input', function(){
+//     if($(this).val()!=''){
+//         $(this).parents('.validate').find('.mySpan').text('');
+//     }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
+// });
 
-$("#formVat select").on('input', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-    }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
-});
+// $("#formVat select").on('input', function(){
+//     if($(this).val()!=''){
+//         $(this).parents('.validate').find('.mySpan').text('');
+//     }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
+// });
 
-function getVatInfo(){
-    $.ajax({
-        url: $(".myTableDiv").data('href'), 
-        type: 'GET',
-        dataType: 'json',
-        success: function (resp) {
-            if(resp.msg=='empty'){
-                console.log('Empty');
-            }else{
-                var confirm = (resp.confirm==1)? 'Cofirmed':'Not confirmed';
-                $(".myTableRow").append('<td>'+resp.vat_id+'</td><td>'+resp.name+'</td><td>'+confirm+'</td>');
-                $(".myTableDiv").show('fast');
-                $(".btnVatModal").hide('fast');
-            }
-        },
-        error: function(resp){
-            alert('Something went wrong.');
-        }
+// function getVatInfo(){
+//     $.ajax({
+//         url: $(".myTableDiv").data('href'), 
+//         type: 'GET',
+//         dataType: 'json',
+//         success: function (resp) {
+//             if(resp.msg=='empty'){
+//                 console.log('Empty');
+//             }else{
+//                 var confirm = (resp.confirm==1)? 'Cofirmed':'Not confirmed';
+//                 $(".myTableRow").append('<td>'+resp.vat_id+'</td><td>'+resp.name+'</td><td>'+confirm+'</td>');
+//                 $(".myTableDiv").show('fast');
+//                 $(".btnVatModal").hide('fast');
+//             }
+//         },
+//         error: function(resp){
+//             alert('Something went wrong.');
+//         }
         
-    });
-}
+//     });
+// }
 
-getVatInfo();
+// getVatInfo();
 
 
 //check notifications

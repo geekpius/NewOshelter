@@ -21,8 +21,8 @@
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                                 <select class="custom-select" name="status" id="status">
-                                    <option value="short_stay" selected>Short Stay</option>
-                                    <option value="rent">Rent</option>
+                                    {{-- <option value="short_stay" selected>Short Stay</option> --}}
+                                    <option value="rent" selected>Rent</option>
                                     {{-- <option value="sell">Sell</option>
                                     <option value="auction">Auction</option> --}}
                                 </select>
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="container-fluid pxp-props-carousel-right mt-100">
+    {{-- <div class="container-fluid pxp-props-carousel-right mt-100">
         <h2 class="pxp-section-h2">We've made it simple</h2>
         <p class="pxp-text-light">Narrow down your filtering complexity</p>
         <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
@@ -77,7 +77,7 @@
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
                     </a>
                 </div>
-                {{-- <div>
+                 <div>
                     <a href="{{ route('status.property', 'sell') }}" class="pxp-areas-1-item rounded-lg">
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/area-1.jpg') }});"></div>
                         <div class="pxp-areas-1-item-details">
@@ -102,10 +102,10 @@
                         </span></div>
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
                     </a>
-                </div> --}}
+                </div> 
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="container-fluid pxp-props-carousel-right mt-100">
         <h2 class="pxp-section-h2">Explore Your Curiosity</h2>

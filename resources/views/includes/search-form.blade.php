@@ -5,10 +5,10 @@
             <div class="row pxp-content-side-search-form-row">
                 <div class="col-5 col-sm-5 col-md-4 col-lg-3 pxp-content-side-search-form-col">
                     <select class="custom-select" id="pxp-p-search-status" name="status">
-                        <option value="short_stay" selected>Short Stay</option>
-                        <option value="rent">Rent</option>
-                        <option value="sell">Sell</option>
-                        <option value="auction">Auction</option>
+                        {{-- <option value="short_stay" selected>Short Stay</option> --}}
+                        <option value="rent" selected>Rent</option>
+                        {{-- <option value="sell">Sell</option>
+                        <option value="auction">Auction</option> --}}
                     </select>
                 </div>
                 <div class="col-7 col-sm-7 col-md-8 col-lg-9 pxp-content-side-search-form-col autocomplete">
@@ -24,7 +24,7 @@
     <div class="pxp-content-side-search-form-adv mb-3">
         <div class="row pxp-content-side-search-form-row">
 
-            <div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+            <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
                 <div class="form-group">
                     <label for="type">Type</label>
                     <select class="custom-select" name="type" id="type">
@@ -36,19 +36,19 @@
                 </div>
             </div>
 
-            <div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+            <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
                 <div class="form-group">
                     <label for="min_price">Price</label>
                     <input type="text" class="form-control" name="min_price" value="{{ request()->input('min_price') }}" placeholder="Min" id="min_price">
                 </div>
             </div>
-            <div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+            <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
                 <div class="form-group">
                     <label for="max_price" class="d-none d-sm-inline-block">&nbsp;</label>
                     <input type="text" class="form-control" name="max_price" value="{{ request()->input('max_price') }}" placeholder="Max" id="max_price">
                 </div>
             </div>
-            <div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+            <div class="col-sm-6 col-md-6 pxp-content-side-search-form-col">
                 <div class="form-group">
                     <label for="bedroom">Bedroom</label>
                     <select class="custom-select" name="bedroom" id="bedroom">
@@ -62,7 +62,7 @@
                 </div>
             </div>       
 
-            <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+            <div class="col-sm-6 col-md-6 pxp-content-side-search-form-col">
                 <div class="form-group">
                     <label for="furnish">Furnish</label>
                     <select class="custom-select" name="furnish" id="furnish">
@@ -73,7 +73,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+            {{-- <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
                 <div class="form-group">
                     <label for="min_size">Size (sq ft)</label>
                     <input type="text" class="form-control" name="min_size" value="{{ request()->input('min_size') }}" id="min_size" placeholder="Min">
@@ -84,9 +84,9 @@
                     <label for="max_size" class="d-none d-sm-inline-block">&nbsp;</label>
                     <input type="text" class="form-control" name="max_size" value="{{ request()->input('max_size') }}" id="max_size" placeholder="Max">
                 </div>
-            </div>
+            </div> --}}
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label class="mb-2">Amenities</label>
             <div class="row pxp-content-side-search-form-row">
                 <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
@@ -153,9 +153,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label class="mb-2">Shared Amenities</label>
             <div class="row pxp-content-side-search-form-row">
                 <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
@@ -208,9 +208,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label class="mb-2">Property Rules</label>
             <div class="row pxp-content-side-search-form-row">
                 <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
@@ -242,7 +242,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <input type="hidden" name="query_param" value="complex" readonly>
         <button type="submit" class="pxp-filter-btn">Apply Filters</button>
     </div>
@@ -258,7 +258,7 @@
         </div>
         <div class="col-sm-6">
             <div class="pxp-sort-form form-inline float-right">
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <select class="custom-select" id="pxp-sort-results">
                         <option value="" selected="selected">Default Sort</option>
                         <option value="">Price (Lo-Hi)</option>
@@ -267,7 +267,7 @@
                         <option value="">Baths</option>
                         <option value="">Size</option>
                     </select>
-                </div>
+                </div> --}}
                 <div class="form-group d-flex">
                     <a role="button" class="pxp-map-toggle"><span class="fa fa-map-o"></span></a>
                 </div>

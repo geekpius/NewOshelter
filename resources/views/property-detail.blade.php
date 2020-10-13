@@ -71,6 +71,7 @@
         <a href="javascript:void(0);" class="pxp-sp-gallery-btn"><i class="fa fa-photo text-pink"></i> View all {{ count($images)+1 }} photos </a>
         <div class="clearfix"></div>
     </div>
+    
     <hr>
     
     <div class="container mt-4">
@@ -167,7 +168,7 @@
                         @endif
                     @endif
                     <div class="mt-3 mt-md-4">
-                        <p>@if ($property->type!='hostel') {{ ucfirst(strtolower($property->propertyContain->furnish)) }}. @endif Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. 
+                        {{-- <p>@if ($property->type!='hostel') {{ ucfirst(strtolower($property->propertyContain->furnish)) }}. @endif Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. 
                             This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every 
                             room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is
                             <span class="pxp-dots">...</span><span class="pxp-dots-more"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features 
@@ -176,7 +177,10 @@
                             Conveniently located close to several trendy fitness centers like Equinox, New York Sports Clubs & Crunch. Fine restaurants around the area, as well as top-ranked schools. 2% Flip tax paid by buyer to 
                             the condominium. Building just put an assessment for 18 months of approximately $500 per month.</span>
                         </p>
-                            <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1 text-primary">Continue Reading <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2 text-primary">Show Less <span class="fa fa-angle-up"></span></span></a>     
+                            <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1 text-primary">Continue Reading <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2 text-primary">Show Less <span class="fa fa-angle-up"></span></span></a>      --}}
+                        <p>
+                            {{ $property->propertyDescription->description }}
+                        </p>
                     </div>
 
                     <p class="mt-4">
@@ -929,6 +933,41 @@
 
 </div>
 
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 

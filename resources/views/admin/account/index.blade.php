@@ -64,14 +64,14 @@
                             <a class="nav-link" id="login_detail_tab" data-toggle="pill" href="#login_detail">Logins & Password</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="payment_detail_tab" data-toggle="pill" href="#payment_detail">Payments & Taxes</a>
+                            <a class="nav-link" id="payment_detail_tab" data-toggle="pill" href="#payment_detail">Payments</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="notification_detail_tab" data-toggle="pill" href="#notification_detail">Notifications</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" id="privacy_sharing_tab" data-toggle="pill" href="#privacy_sharing">Privacy & Sharing</a>
-                        </li>
+                        </li> --}}
                     </ul>        
                 </div><!--end card-body-->
             </div><!--end card-->
@@ -266,7 +266,8 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-1"></div>
+                                        <div class="col-sm-4">
                                             <p>
                                                 <strong class="text-primary">Make all payments through OShelter</strong><br>
                                                 Always pay and communicate through OShelter to ensure you're protected under our Terms of Service, 
@@ -280,6 +281,7 @@
                                                 check-in time. The time it takes for the funds to appear in your account depends on your payment method. <a href="javascript:void(0);" class="text-primary">Learn more</a>
                                             </p>
                                         </div>
+                                        <div class="col-sm-1"></div>
                                         <div class="col-sm-4 pl-3 pr-3">
                                             <h5 class="text-primary mb-3">Payments</h5>
                                             <div class="p-4">
@@ -309,7 +311,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-5 pb-5 pl-3 pr-3">
+                                        <!-- <div class="col-sm-5 pb-5 pl-3 pr-3">
                                             <h5 class="text-primary mb-3">Taxes</h5>
                                             <div class="p-4">
                                                 <strong class="">VAT / TIN</strong><br>
@@ -329,7 +331,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>                                            
                             </div>
@@ -358,7 +360,7 @@
                                                 <tr>
                                                     <td class="no-border" width="400"></td>
                                                     <td class="no-border" width="100">Email</td>
-                                                    <td class="no-border" width="100">SMS</td>
+                                                    {{-- <td class="no-border" width="100">SMS</td> --}}
                                                 </tr>
 
                                                 <tr>
@@ -372,12 +374,12 @@
                                                             <label for="checkbox1"></label>
                                                         </div>
                                                     </td>
-                                                    <td class="no-border">
+                                                    {{-- <td class="no-border">
                                                         <div class="checkbox checkbox-primary">
                                                             <input id="checkbox2" type="checkbox" class="checkMessage" data-value="sms" {{ (Auth::user()->userNotification->message_sms)? 'checked':'' }} name="message_sms" data-href="{{ route('profile.message.notify') }}" />
                                                             <label for="checkbox2"></label>
                                                         </div>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                                 <tr>
                                                     <td class="">
@@ -390,12 +392,12 @@
                                                             <label for="checkbox3"></label>
                                                         </div>
                                                     </td>
-                                                    <td class="">
+                                                    {{-- <td class="">
                                                         <div class="checkbox checkbox-primary">
                                                             <input id="checkbox4" type="checkbox" class="checkSupport" data-value="sms" {{ (Auth::user()->userNotification->support_sms)? 'checked':'' }} name="account_sms" data-href="{{ route('profile.support.notify') }}" />
                                                             <label for="checkbox4"></label>
                                                         </div>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                                 <tr>
                                                     <td class="">
@@ -409,12 +411,12 @@
                                                             <label for="checkbox5"></label>
                                                         </div>
                                                     </td>
-                                                    <td class="">
+                                                    {{-- <td class="">
                                                         <div class="checkbox checkbox-primary">
                                                             <input id="checkbox6" type="checkbox" class="checkReminder" data-value="sms" {{ (Auth::user()->userNotification->reminder_sms)? 'checked':'' }} name="reminder_sms" data-href="{{ route('profile.reminder.notify') }}" />
                                                             <label for="checkbox6"></label>
                                                         </div>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                                 <tr>
                                                     <td class="">
@@ -427,12 +429,12 @@
                                                             <label for="checkbox7"></label>
                                                         </div>
                                                     </td>
-                                                    <td class="">
+                                                    {{-- <td class="">
                                                         <div class="checkbox checkbox-primary">
                                                             <input id="checkbox8" type="checkbox" class="checkPolicy" data-value="sms" {{ (Auth::user()->userNotification->policy_sms)? 'checked':'' }} name="policy_sms" data-href="{{ route('profile.policy.notify') }}" />
                                                             <label for="checkbox8"></label>
                                                         </div>
-                                                    </td>
+                                                    </td> --}}
                                                 </tr>
                                                 <tr>
                                                     <td class="">
@@ -456,7 +458,7 @@
                     </div><!--end row-->
                 </div><!--end activity detail-->
 
-                <div class="tab-pane fade" id="privacy_sharing">
+                {{-- <div class="tab-pane fade" id="privacy_sharing">
                     <div class="row">
                         <div class="col-lg-2"></div>
                         <div class="col-lg-8">
@@ -504,7 +506,7 @@
                             </div>
                         </div> <!--end col-->                                          
                     </div><!--end row-->
-                </div><!--end activity detail-->
+                </div><!--end activity detail--> --}}
 
 
             </div><!--end tab-content--> 

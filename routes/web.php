@@ -189,8 +189,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/ticket/{ticket}/close', 'TicketController@close')->name('ticket.close');
 
     /*------- Report Listing ------- */
-    Route::get('/listing/{property}/report', 'TicketController@create')->name('report-listing');
-    Route::post('/report-listing', 'TicketController@store')->name('report-listing.submit');
+    Route::get('/listing/{property}/report', 'ReportPropertyController@index')->name('report-listing');
+    Route::post('/report-listing', 'ReportPropertyController@store')->name('report-listing.submit');
 
 
     /*------- Activities ------- */
