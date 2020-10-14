@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\PropertyModel\ReportProperty;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
+use Illuminate\Support\Facades\Auth;
 
 class ReportPropertyController extends Controller
 {
@@ -19,72 +20,33 @@ class ReportPropertyController extends Controller
     public function index(Property $property)
     {
         $data['page_title'] = 'Report '.$property->title;
+        $data['property'] = $property;
         return view('admin.reports.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
-        //
+        $validator = \Validator::make($request->all(), [
+            'subject' => 'required|string',
+            'complain' => 'required|string',
+        ]);
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            $report = new ReportProperty;
+            $report->user_id = Auth::user()->id;
+            $report->property_id = $request->property_id;
+            $report->subject = $request->subject;
+            $report->complain = $request->complain;
+            $report->save();
+            $message="success";
+        }
+        return $message;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\PropertyModel\ReportProperty  $reportProperty
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ReportProperty $reportProperty)
-    {
-        //
-    }
+   
+    
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\PropertyModel\ReportProperty  $reportProperty
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ReportProperty $reportProperty)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PropertyModel\ReportProperty  $reportProperty
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ReportProperty $reportProperty)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\PropertyModel\ReportProperty  $reportProperty
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ReportProperty $reportProperty)
-    {
-        //
-    }
 }

@@ -176,8 +176,11 @@ $('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
         $('#dateCalculator').text($("#initialHostelAmount").text()+" x " + month);
         $('#dateCalculatorResult').text($("#myHostelCurrency").text()+" "+totalPrice.toFixed(2));
         // getting service fee
-        let serviceFee = (12/100)*totalPrice;
-        let totalAmount = totalPrice+serviceFee;
+        let serviceCharge = parseFloat($("#formBookHostel input[name='charge']").val());
+        let serviceDiscount = parseFloat($("#formBookHostel input[name='discount']").val());
+        let serviceFee = (serviceCharge/100)*totalPrice;
+        let discountFee = (serviceDiscount/100)*totalPrice;
+        let totalAmount = (totalPrice+serviceFee)-discountFee;
         $("#serviceFeeResult").text($("#myHostelCurrency").text()+" "+serviceFee.toFixed(2));
         $("#totalFeeResult").text($("#myHostelCurrency").text()+" "+totalAmount.toFixed(2));
     }

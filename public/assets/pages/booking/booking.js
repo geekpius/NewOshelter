@@ -312,6 +312,7 @@ $(".makePayment").on('click', function(e){
             }
         });
         if(valid){
+            $this.attr('disabled', true);
             let data = {
                 mobile_operator: $('#formMobileMobile #mobile_operator').val(),
                 country_code: $('#formMobileMobile input[name="country_code"]').val(),

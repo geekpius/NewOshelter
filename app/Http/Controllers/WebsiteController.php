@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Route;
 use App\User;
+use App\ServiceCharge;
 use App\UserModel\Amenity;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -68,6 +69,7 @@ class WebsiteController extends Controller
             $data['page_title'] = 'Detailing '.$property->title.' property for you. Have all the overviews of property to make decisions.';
             $data['menu'] = 'pxp-no-bg';
             $data['property'] = $property;
+            $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
             $countImages = PropertyImage::whereProperty_id($property->id)->count();
             $data['image'] = PropertyImage::whereProperty_id($property->id)->orderBy('id')->first();
             $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take($countImages-1)->get();

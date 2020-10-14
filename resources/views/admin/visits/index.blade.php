@@ -41,30 +41,44 @@
                     <div class="tab-content">
                         <div class="tab-pane active p-3" id="all" role="tabpanel">
                             <div class="row">
-                            @if (count($types))
-                            @foreach($types as $type)
-                                <div class="col-sm-4 col-lg-3">
+                          
+                                <div class="col-sm-4 offset-sm-4 col-lg-3 offset-lg-3">
                                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                                         <ol class="carousel-indicators">
                                             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                                         </ol>
                                         <div class="carousel-inner" role="listbox">
-                                            <a href="{{ (strtolower($type->name)=='hostel')? route('visits.hostel'):route('visits.all') }}">
+                                            <a href="{{ route('visits.hostel') }}">
                                                 <div class="carousel-item active">
-                                                    <img class="d-block img-fluid" src="{{ asset('assets/images/types/'.$type->image) }}" alt="{{ $type->name }}" style="display: block; position: relative; overflow: hidden; 
+                                                    <img class="d-block img-fluid" src="{{ asset('assets/images/hostel.jpg') }}" alt="hostel" style="display: block; position: relative; overflow: hidden; 
                                                     height: 320px; margin-bottom: 10px;background-size: cover; background-position: center center; background-repeat: no-repeat; border-top-left-radius: 2%; border-top-right-radius: 2%" />
                                                 </div>
                                             </a>
                                         </div>
                                     </div>
                                     <h4>
-                                        <a href="{{ (strtolower($type->name)=='hostel')? route('visits.hostel'):route('visits.all') }}">{{ $type->name }}</a>
+                                        <a href="{{ route('visits.hostel') }}">Hostel Rents</a>
                                     </h4>
                                 </div>
-                            @endforeach
-                            @else
-                                
-                            @endif
+
+                                <div class="col-sm-4 col-lg-3">
+                                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                        </ol>
+                                        <div class="carousel-inner" role="listbox">
+                                            <a href="{{ route('visits.all') }}">
+                                                <div class="carousel-item active">
+                                                    <img class="d-block img-fluid" src="{{ asset('assets/images/other.jpg') }}" alt="other" style="display: block; position: relative; overflow: hidden; 
+                                                    height: 320px; margin-bottom: 10px;background-size: cover; background-position: center center; background-repeat: no-repeat; border-top-left-radius: 2%; border-top-right-radius: 2%" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <h4>
+                                        <a href="{{ route('visits.all') }}">Other Rents</a>
+                                    </h4>
+                                </div>
                             </div> 
                         </div>
                     </div>    

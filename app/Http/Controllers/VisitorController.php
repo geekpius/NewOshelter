@@ -20,7 +20,6 @@ class VisitorController extends Controller
     public function index()
     {
         $data['page_title'] = 'My visits';
-        $data['types'] = PropertyType::whereIs_public(true)->get();
         return view('admin.visits.index', $data);
     }
 

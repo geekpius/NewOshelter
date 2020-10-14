@@ -26,6 +26,7 @@
         @yield('style')
         <link rel="stylesheet" href="{{ asset('assets/light/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/light/css/my-style.css') }}">
+        <link href="{{ asset('assets/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     </head>
     <body>
         <div class="pxp-header fixed-top pxp-animate {{ empty($menu)? '':$menu }}">
@@ -136,6 +137,7 @@
         <script src="{{ asset('assets/light/js/jquery-3.4.1.min.js') }}"></script>
         <script src="{{ asset('assets/light/js/popper.min.js') }}"></script>
         <script src="{{ asset('assets/light/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/sweetalert/sweetalert.min.js') }}"></script>
         <script>
             $.ajaxSetup({
                 headers: {
@@ -160,7 +162,8 @@
                     data: data,
                     statusCode: {
                         401: function() {
-                            alert("Login to save favourite.");
+                            // alert("Login to save favourite.");
+                            swal("Login Required","Login to save favourite","warning");
                         }
                     },
                     success: function (resp) {

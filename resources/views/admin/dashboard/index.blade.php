@@ -42,9 +42,9 @@
                         <div class="float-right">
                             <i class="dripicons-clock report-main-icon bg-icon-danger"></i>
                         </div> 
-                        <span class="badge badge-light text-danger">Short Stays</span>
-                        <h3 class="my-3">{{ $count_short_stay }}</h3>
-                        <p class="mb-0 text-truncate font-weight-600"> For Short Stays</p>
+                        <span class="badge badge-light text-danger">WishList</span>
+                        <h3 class="my-3">{{ $count_wishlist }}</h3>
+                        <p class="mb-0 text-truncate font-weight-600"> WishList</p>
                     </div><!--end card-body--> 
                 </div><!--end card--> 
             </div> <!--end col--> 
@@ -66,9 +66,9 @@
                         <div class="float-right">
                             <i class="fa fa-building report-main-icon bg-icon-warning"></i>
                         </div> 
-                        <span class="badge badge-light text-warning">Visited</span>
+                        <span class="badge badge-light text-warning">Visits</span>
                         <h3 class="my-3">{{ $count_visited }}</h3>
-                        <p class="mb-0 text-truncate font-weight-600"> Visited</p>
+                        <p class="mb-0 text-truncate font-weight-600"> Visits</p>
                     </div><!--end card-body--> 
                 </div><!--end card--> 
             </div> <!--end col-->                               
@@ -244,7 +244,11 @@
         enabled: false,
         },
  
-    series: [10, 65, 25,],
+    series: [
+        @foreach($property_types as $pt)
+        {{ Auth::user()->properties->where('type', strtolower($pt->name))->count() }},
+        @endforeach
+        ],
     legend: {
         show: true,
         position: 'bottom',
@@ -260,7 +264,7 @@
         "{{ $pt->name }}",
         @endforeach
         ],
-    colors: ["#34bfa3", "#5d78ff", "#fd3c97", "#483d45"],
+    colors: ["#34bfa3", "#5d78ff", "#fd3c97", "#483d45", "#2B3B91", "#EFC13F", "#000000", "#FFFFFF", "#FC7A8B"],
  
     responsive: [{
         breakpoint: 600,

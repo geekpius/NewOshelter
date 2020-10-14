@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\ServiceCharge;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -70,6 +71,7 @@ class BookingController extends Controller
         $data['adult'] = $adult;
         $data['children'] = $children;
         $data['infant'] = $infant;
+        $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
         return view('admin.bookings.index', $data);
     }  
     
@@ -84,6 +86,7 @@ class BookingController extends Controller
         $data['room_type'] = $room_type;
         $data['room_number'] = $room_number;
         $data['my_room'] = HostelBlockRoom::whereProperty_hostel_block_id($block_id)->whereBlock_room_type($room_type)->whereGender($gender)->first();
+        $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
         return view('admin.bookings.index', $data);
     }  
 

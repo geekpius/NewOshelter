@@ -325,16 +325,23 @@
                                     </div>
 
                                             
+                                    @php
+                                        $price = $my_room->propertyHostelPrice->property_price;
+                                        $totalPrice = ($my_room->propertyHostelPrice->property_price* $dateDiff);
+                                        $serviceFee = ($my_room->propertyHostelPrice->property_price* $dateDiff)*($charge->charge/100);
+                                        $discountFee = ($my_room->propertyHostelPrice->property_price* $dateDiff)*($charge->discount/100);
+                                        $totalFee = ($totalPrice+$serviceFee)-$discountFee;
+                                    @endphp
                                     <div class="col-sm-12 mt-2 ml-sm-4">
-                                        <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600" data-step="3">PAY NOW {{ $my_room->propertyHostelPrice->currency }} {{ number_format((($my_room->propertyHostelPrice->property_price* $dateDiff)*0.12)+($my_room->propertyHostelPrice->property_price* $dateDiff),2) }}
-                                        <span id="payAmount" style="display: none !important">{{ (($my_room->propertyHostelPrice->property_price* $dateDiff)*0.12)+($my_room->propertyHostelPrice->property_price* $dateDiff) }}</span>
+                                        <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600" data-step="3">PAY NOW {{ $my_room->propertyHostelPrice->currency }} {{ number_format($totalFee,2) }}
+                                        <span id="payAmount" style="display: none !important">{{ $totalFee }}</span>
                                         </button>
                                         <br>
                                         <p class="text-danger mt-4 font-weight-bold">
-                                            <i class="fa fa-info-circle"></i> Make sure you have enough money in your wallet to cover {{ $my_room->propertyHostelPrice->currency }} {{ number_format((($my_room->propertyHostelPrice->property_price* $dateDiff)*0.12)+($my_room->propertyHostelPrice->property_price* $dateDiff),2) }} in your invoice.
+                                            <i class="fa fa-info-circle"></i> Make sure you have enough money in your wallet to cover {{ $my_room->propertyHostelPrice->currency }} {{ number_format($totalFee,2) }} in your invoice.
                                          </p>
                                         <p class="text-danger mt-3 font-weight-bold">
-                                            <i class="fa fa-info-circle"></i> For MTN users, mobile bill prompt will only be sent if you have enough money in your wallet to cover {{ $my_room->propertyHostelPrice->currency }} {{ number_format((($my_room->propertyHostelPrice->property_price* $dateDiff)*0.12)+($my_room->propertyHostelPrice->property_price* $dateDiff),2) }} in your invoice
+                                            <i class="fa fa-info-circle"></i> For MTN users, mobile bill prompt will only be sent if you have enough money in your wallet to cover {{ $my_room->propertyHostelPrice->currency }} {{ number_format($totalFee,2) }} in your invoice
                                         </p>
                                     </div>
                                 </div> 
@@ -377,21 +384,25 @@
                                                 <div class="col-sm-12"><hr></div>
                                                 <div class="col-sm-12">
                                                     <div>
-                                                        <p class="font-18">{{ $my_room->propertyHostelPrice->currency }} {{ number_format($my_room->propertyHostelPrice->property_price,2) }}/{{ $my_room->propertyHostelPrice->price_calendar }}</p>
+                                                        <p class="font-18">{{ $my_room->propertyHostelPrice->currency }} {{ number_format($price,2) }}/{{ $my_room->propertyHostelPrice->price_calendar }}</p>
                                                     </div>
                                                     <div class="font-18">
-                                                        <span id="dateCalculator">{{ $dateDiff }} x {{ number_format($my_room->propertyHostelPrice->property_price,2) }}</span>
-                                                        <span class="float-right" id="dateCalculatorResult">{{ $my_room->propertyHostelPrice->currency }} {{ number_format($my_room->propertyHostelPrice->property_price* $dateDiff,2) }}</span>
+                                                        <span id="dateCalculator">{{ $dateDiff }} x {{ number_format($price,2) }}</span>
+                                                        <span class="float-right" id="dateCalculatorResult">{{ $my_room->propertyHostelPrice->currency }} {{ number_format($totalPrice,2) }}</span>
                                                     </div>
                                                     <div class="font-18">
                                                         <span>Service Fee</span>
-                                                        <span class="float-right" id="serviceFeeResult">{{ $my_room->propertyHostelPrice->currency }} {{ number_format(($my_room->propertyHostelPrice->property_price* $dateDiff)*0.12,2) }}</span>
+                                                        <span class="float-right" id="serviceFeeResult">{{ $my_room->propertyHostelPrice->currency }} {{ number_format($serviceFee,2) }}</span>
+                                                    </div>
+                                                    <div class="font-18" style="display: none !important">
+                                                        <span>Discount Fee</span>
+                                                        <span class="float-right" id="serviceDiscountResult">{{ $my_room->propertyHostelPrice->currency }} {{ number_format($discountFee,2) }}</span>
                                                     </div>
                                                     <hr>
                                                     <div class="font-18">
                                                         <span><strong>Total</strong></span>
                                                         <span class="float-right"><strong id="totalFeeResult">
-                                                            {{ $my_room->propertyHostelPrice->currency }} {{ number_format((($my_room->propertyHostelPrice->property_price* $dateDiff)*0.12)+($my_room->propertyHostelPrice->property_price* $dateDiff),2) }}</strong></span>
+                                                            {{ $my_room->propertyHostelPrice->currency }} {{ number_format($totalFee,2) }}</strong></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
@@ -666,16 +677,23 @@
                                         </div>
                                     </div>
                                                                         
+                                    @php
+                                        $price = $property->propertyPrice->property_price;
+                                        $totalPrice = ($property->propertyPrice->property_price* $dateDiff);
+                                        $serviceFee = ($property->propertyPrice->property_price* $dateDiff)*($charge->charge/100);
+                                        $discountFee = ($property->propertyPrice->property_price* $dateDiff)*($charge->discount/100);
+                                        $totalFee = ($totalPrice+$serviceFee)-$discountFee;
+                                    @endphp
                                     <div class="col-sm-12 mt-2 ml-sm-4">
-                                        <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600" data-step="3">PAY NOW {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff),2) }}
-                                        <span id="payAmount" style="display: none !important">{{ (($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff) }}</span>
+                                        <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600" data-step="3">PAY NOW {{ $property->propertyPrice->currency }} {{ number_format(($totalFee),2) }}
+                                        <span id="payAmount" style="display: none !important">{{ ($totalFee) }}</span>
                                         </button>
                                         <br>
                                         <p class="text-danger mt-4 font-weight-bold">
-                                            <i class="fa fa-info-circle"></i> Make sure you have enough money in your wallet to cover {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff),2) }} in your invoice.
+                                            <i class="fa fa-info-circle"></i> Make sure you have enough money in your wallet to cover {{ $property->propertyPrice->currency }} {{ number_format(($totalFee),2) }} in your invoice.
                                          </p>
                                         <p class="text-danger mt-3 font-weight-bold">
-                                            <i class="fa fa-info-circle"></i> For MTN users, mobile bill prompt will only be sent if you have enough money in your wallet to cover {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff),2) }} in your invoice
+                                            <i class="fa fa-info-circle"></i> For MTN users, mobile bill prompt will only be sent if you have enough money in your wallet to cover {{ $property->propertyPrice->currency }} {{ number_format(($totalFee),2) }} in your invoice
                                         </p>
                                     </div>
                                 </div> 
@@ -713,21 +731,25 @@
                                                 @if ($property->type_status=='rent')
                                                 <div class="col-sm-12">
                                                     <div>
-                                                        <p class="font-18">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
+                                                        <p class="font-18">{{ $property->propertyPrice->currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
                                                     </div>
                                                     <div class="font-18">
-                                                        <span id="dateCalculator">{{ $dateDiff }} x {{ number_format($property->propertyPrice->property_price,2) }}</span>
-                                                        <span class="float-right" id="dateCalculatorResult">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price* $dateDiff,2) }}</span>
+                                                        <span id="dateCalculator">{{ $dateDiff }} x {{ number_format($price,2) }}</span>
+                                                        <span class="float-right" id="dateCalculatorResult">{{ $property->propertyPrice->currency }} {{ number_format($totalPrice,2) }}</span>
                                                     </div>
                                                     <div class="font-18">
                                                         <span>Service Fee</span>
-                                                        <span class="float-right" id="serviceFeeResult">{{ $property->propertyPrice->currency }} {{ number_format(($property->propertyPrice->property_price* $dateDiff)*0.12,2) }}</span>
+                                                        <span class="float-right" id="serviceFeeResult">{{ $property->propertyPrice->currency }} {{ number_format($serviceFee,2) }}</span>
+                                                    </div>
+                                                    <div class="font-18" style="display: none !important">
+                                                        <span>Discount Fee</span>
+                                                        <span class="float-right" id="serviceDiscountResult">{{ $property->propertyPrice->currency }} {{ number_format($discountFee,2) }}</span>
                                                     </div>
                                                     <hr>
                                                     <div class="font-18">
                                                         <span><strong>Total</strong></span>
                                                         <span class="float-right"><strong id="totalFeeResult">
-                                                            {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff),2) }}</strong></span>
+                                                            {{ $property->propertyPrice->currency }} {{ number_format($totalFee,2) }}</strong></span>
                                                     </div>
                                                 </div>
                                                 @elseif($property->type_status == 'short_stay')

@@ -27,9 +27,9 @@ class UserController extends Controller
     {
         $data['page_title'] = 'Dashboard';
         $data['count_properties'] = Auth::user()->properties->count();
-        $data['count_short_stay'] = Auth::user()->properties->where('type_status','short_stay')->count();
+        $data['count_wishlist'] = Auth::user()->userSavedProperties->count();
         $data['count_rent'] = Auth::user()->properties->where('type_status','rent')->count();
-        $data['count_visited'] = Auth::user()->userVisits->count();
+        $data['count_visited'] = Auth::user()->userVisits->count() + Auth::user()->userHostelVisits->count();
         $data['property_types'] = PropertyType::get(['name']);
         return view('admin.dashboard.index', $data);
     }

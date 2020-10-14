@@ -118,9 +118,9 @@
                                                     @if($block->kitchen==0)
                                                     <span class="badge badge-soft-primary">No kitchen</span>                                                
                                                     @elseif($block->kitchen==1)
-                                                    <span class="badge badge-soft-primary">Has a private kitchen</span> 
+                                                    <span class="badge badge-soft-primary">Private kitchen</span> 
                                                     @else
-                                                    <span class="badge badge-soft-primary">Has a shared kitchen</span> 
+                                                    <span class="badge badge-soft-primary">Shared kitchen</span> 
                                                     @endif        
                                                     <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }} {{ ($block->bathroom==1)? 'bathroom':'bathrooms' }}</span>                                          
                                                     <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} {{ ($block->toilet==1)? 'toilet':'toilets' }}</span>                              
@@ -607,6 +607,8 @@
                             <form class="form-horizontal form-material mb-0" id="formBookHostel" method="POST" action="{{ route('property.bookings.hostel.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
+                                <input type="hidden" name="charge" readonly value="{{ $charge->charge }}">
+                                <input type="hidden" name="discount" readonly value="{{ $charge->discount }}">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <span id="hostelAvailabilityChecker" class="small text-success"></span>
@@ -712,6 +714,8 @@
                             <form class="form-horizontal form-material mb-0" id="formRentBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
+                                <input type="hidden" name="charge" readonly value="{{ $charge->charge }}">
+                                <input type="hidden" name="discount" readonly value="{{ $charge->discount }}">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="input-group input-group-sm validate" id="dateRanger" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}">
