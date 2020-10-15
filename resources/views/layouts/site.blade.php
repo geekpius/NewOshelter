@@ -37,13 +37,16 @@
                     </div>
                     <div class="col-2 col-md-8 text-right">
                         <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item"><a href="{{ route('own.property') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Own a Property</a></li>
+                            {{-- <li class="list-inline-item"><a href="{{ route('own.property') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Own a Property</a></li> --}}
+                            <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">Own a Property</a></li>
                             <li class="list-inline-item"><a href="{{ route('property.start') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Become an Owner</a></li>
                             <li class="list-inline-item">
                                 <a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop"><i class="fa fa-question-circle"></i> Help</a>
                                 <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="{{ route('help.owner') }}" class="font-13 sub-menu-item">Property Owners</a></li>
-                                    <li><a href="{{ route('help.booking') }}" class="font-13 sub-menu-item">Booking And Travellers</a></li>
+                                    {{-- <li><a href="{{ route('help.owner') }}" class="font-13 sub-menu-item">Property Owners</a></li> --}}
+                                    <li><a href="#" class="font-13 sub-menu-item">Property Owners</a></li>
+                                    {{-- <li><a href="{{ route('help.booking') }}" class="font-13 sub-menu-item">Booking And Travellers</a></li> --}}
+                                    <li><a href="#" class="font-13 sub-menu-item">Booking And Travellers</a></li>
                                 </ul>
                             </li>
                             @guest

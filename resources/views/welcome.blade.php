@@ -116,7 +116,7 @@
                 <div>
                     <a href="{{ route('type.property', strtolower(str_replace(' ','-',$type->name))) }}" class="pxp-areas-1-item rounded-lg">
                         @php $image = empty($type->image)? 'area-1.jpg':'types/'.$type->image; @endphp
-                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ asset('assets/images/'.$image) }});"></div>
+                        <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ 'https://portal.oshelter.com/assets/images/'.$image }});"></div>
                         <div class="pxp-areas-1-item-details">
                             <div class="pxp-areas-1-item-details-area">{{ $type->name }}</div>
                         </div>
@@ -131,7 +131,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="container-fluid pxp-props-carousel-right mt-100">
         <h2 class="pxp-section-h2">Featured Properties</h2>
