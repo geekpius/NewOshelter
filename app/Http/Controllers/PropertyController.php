@@ -569,7 +569,7 @@ class PropertyController extends Controller
             }
             elseif($request->step==4){
                 $location = PropertyLocation::updateOrCreate(
-                    ['property_id'=>$request->property_id], ['digital_address'=>$request->digital_address, 'location'=>$request->location, 'location_slug'=>Str::slug($request->location, '-')]
+                    ['property_id'=>$request->property_id], ['location'=>$request->location, 'location_slug'=>Str::slug($request->location, '-'), 'latitude'=>$request->latitude, 'longitude'=>$request->longitude]
                 );
                 $property->step = ($request->step+1);
                 $property->update();

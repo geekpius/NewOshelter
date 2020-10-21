@@ -19,6 +19,8 @@ class CreatePropertyLocationsTable extends Migration
             $table->string('digital_address')->nullable();
             $table->string('location')->nullable();
             $table->string('location_slug')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
         });

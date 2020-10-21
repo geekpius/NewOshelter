@@ -172,12 +172,12 @@
                                 <p>{{ current(explode(' ',$property->user->name)) }}</p>
                             </div>
                             <h3>
-                                <b>{{ $property->title }}</b>
+                                <b id="propertyTitle" data-image="{{ asset('assets/images/svg/home.png') }}">{{ $property->title }}</b>
                                 @if (!$property->done_step) 
                                 (<a href="{{ route('property.edit', $property->id) }}" class="text-primary"><i class="fa fa-edit"></i> Edit Listing</a>)
                                 @endif
                             </h3>
-                            <p><i class="fa fa-map-marker-alt text-success"></i> {{  $property->propertyLocation->location  }} - {{ $property->propertyLocation->digital_address }} </p>
+                            <p><i class="fa fa-map-marker-alt text-success"></i> {{  $property->propertyLocation->location  }} {{ ($property->propertyLocation->digital_address)? '- '.$property->propertyLocation->digital_address:'' }} </p>
                             
                             <hr>
                             <!-- Contained amenities -->
@@ -580,7 +580,7 @@
                             <div class="card mt-4">
                                 <div class="card-body">        
                                     <h6 class="mt-0">{{ current(explode(' ',$property->user->name)) }}'s property is located @ {{ $property->propertyLocation->location }}</h6>     
-                                    <div id="gmaps-markers" class="gmaps"></div>
+                                    <div id="gmaps-markers" class="gmaps" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"></div>
                                 </div><!--end card-body-->
                             </div>                    
                             <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  
@@ -643,41 +643,18 @@
         </div><!--end col-->
     </div> 
 
-     <!-- share modal -->
-     <div id="shareModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title mt-0" id="shareModalLabel">Share with</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body pl-5">
-                    <p>
-                        <a href="javascript:void(0);" class="text-primary"><i class="mdi mdi-facebook-box"></i> Facebook</a>
-                    </p>
-                    <p>
-                        <a href="javascript:void(0);" class="text-primary"><i class="mdi mdi-twitter-box"></i> Twitter</a>
-                    </p>
-                    <p>
-                        <a href="javascript:void(0);" class="text-primary"><i class="mdi mdi-facebook-messenger"></i> Messenger</a>
-                    </p>
-                    <p>
-                        <a href="javascript:void(0);" class="text-success"><i class="mdi mdi-whatsapp"></i> WhatsApp</a>
-                    </p>
-                    <p>
-                        <a href="javascript:void(0);" class="text-primary"><i class="mdi mdi-telegram"></i> Telegram</a>
-                    </p>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->  
-
 </div><!-- container -->
 
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/plugins/filter/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/filter/jquery.magnific-popup.min.js') }}"></script> 
+<!-- google maps api -->
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyDTTmu7TKO3YhnpFYLdWY2g4ngzmpOj8Kg&amp;libraries=places"></script>
+<!-- Gmaps file -->
+<script src="{{ asset('assets/plugins/gmaps/gmaps.min.js') }}"></script>
+<!-- demo codes -->
+<script src="{{ asset('assets/pages/preview.gmap.init.js') }}"></script>
 <script>
 $('.mfp-image').magnificPopup({
   type: 'image',

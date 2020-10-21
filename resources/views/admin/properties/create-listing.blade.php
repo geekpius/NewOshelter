@@ -96,7 +96,7 @@
                     @endphp
 
                     <div id="registrationWizard">
-                        <div class="steps-container">
+                        <div class="steps-container" data-name="{{ $property->title }}">
                             <ul class="steps">
                                 @if($property->type=='hostel')
                                     <li data-step="1">
@@ -1059,15 +1059,17 @@
                                                 @csrf
                                                 <input type="hidden" name="step" value="4" readonly>
                                                 <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                <div class="form-group validate">
+                                                {{-- <div class="form-group validate">
                                                     <label for="">Digital Address</label>
                                                     <input type="text" name="digital_address" class="form-control" placeholder="eg: GL-050-6789">
                                                     <span class="text-danger small mySpan" role="alert"></span>
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group validate">
                                                     <label for="">Where is your property located?</label>
-                                                    <input type="text" name="location" class="form-control" placeholder="eg: Labadi, Joy Lane, Accra">
+                                                    <input type="text" name="location" id="search_input" class="form-control" placeholder="eg: Joy Lane, Accra, Ghana">
                                                     <span class="text-danger small mySpan" role="alert"></span>
+                                                    <input type="hidden" name="latitude" id="latitude_input" value="{{ empty($property->propertyLocation->latitude)? '':$property->propertyLocation->latitude }}" readonly>
+                                                    <input type="hidden" name="longitude" id="longitude_input" value="{{ empty($property->propertyLocation->longitude)? '':$property->propertyLocation->longitude }}" readonly>
                                                 </div>
                                             </form>
                                         </div>
@@ -1087,7 +1089,9 @@
                                         <div class="col-lg-1"></div>
                                         <div class="col-lg-6">
                                             <h4>Lets take a tour on your property</h4>
-                                            <p class="mb-4"><i class="fa fa-dot-circle" style="font-size:9px"></i> Property photo with captions will best help us with the tour.</p>
+                                            <p class="mb-4"><i class="fa fa-dot-circle" style="font-size:9px"></i> Property photo with captions will best help us with the tour.
+                                                <br>
+                                            <i class="fa fa-dot-circle" style="font-size:9px"></i> You can upload maximum of 10 photos at a time.</p>
     
                                             <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
                                                 
@@ -1534,11 +1538,12 @@
 <script src="{{ asset('assets/wizard/wizard.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js') }}"></script> 
 <!-- google maps api -->
-<script src="https://maps.google.com/maps/api/js?key=AIzaSyCtSAR45TFgZjOs4nBFFZnII-6mMHLfSYI"></script>
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyDTTmu7TKO3YhnpFYLdWY2g4ngzmpOj8Kg&amp;libraries=places"></script>
 <!-- Gmaps file -->
 <script src="{{ asset('assets/plugins/gmaps/gmaps.min.js') }}"></script>
 <!-- demo codes -->
-<script src="{{ asset('assets/pages/jquery.gmaps.init.js') }}"></script>
+<script src="{{ asset('assets/pages/gmap.init.js') }}"></script>
+
 
 <script>
 $.ajaxSetup({
@@ -2249,7 +2254,7 @@ $("#price_calendar").on("change", function(){
         @endif
         $("#formRentSchedule #property_price").val("{{ empty($property->propertyPrice->property_price)? '':$property->propertyPrice->property_price }}");
     @endif
-    $("#formLocationLandmark input[name='digital_address']").val("{{ empty($property->propertyLocation->digital_address)? '':$property->propertyLocation->digital_address }}");
+    // $("#formLocationLandmark input[name='digital_address']").val("{{ empty($property->propertyLocation->digital_address)? '':$property->propertyLocation->digital_address }}");
     $("#formLocationLandmark input[name='location']").val("{{ empty($property->propertyLocation->location)? '':$property->propertyLocation->location }}");
     $("#formDescriptions #gate").val("{{ empty($property->propertyDescription->gate)? '0':$property->propertyDescription->gate }}");
     $("#formDescriptions #size_unit").val("{{ empty($property->propertyDescription->unit)? '':$property->propertyDescription->unit }}");

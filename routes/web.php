@@ -20,6 +20,7 @@ Route::get('/property-status/{status}', 'WebsiteController@propertyStatus')->nam
 Route::get('/property-types/{type}', 'WebsiteController@propertyType')->name('type.property');
 Route::get('/single-property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
 Route::get('/properties', 'WebsiteController@property')->name('browse.property');
+Route::get('/map-properties', 'WebsiteController@mapProperty')->name('browse.property_map');
 
 Route::get('/properties/search', 'WebsiteController@searchProperty')->name('browse.property.search');
 Route::get('/property-status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');

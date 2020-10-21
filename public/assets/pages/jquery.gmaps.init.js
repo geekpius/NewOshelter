@@ -4,7 +4,7 @@
  * Gmaps Js
  */
 
- 
+
 !function($) {
   "use strict";
 
@@ -18,13 +18,18 @@
         lng: -77.028333
       });
   },
+
+  
+ 
   //creates map with markers
   GoogleMap.prototype.createMarkers = function($container) {
       var map = new GMaps({
         div: $container,
-        lat: -12.043333,
-        lng: -77.028333
+        lat: 5.5739466,
+        lng: -0.1428917
       });
+
+      
 
       //sample markers, but you can pass actual marker data as function parameter
       /* map.addMarker({
@@ -42,11 +47,12 @@
         }
       }); */
       map.addMarker({
-        lat: -12.042,
-        lng: -77.028333,
-        title: 'Marker with InfoWindow',
+        lat: 5.5739466,
+        lng: -0.1428917,
+        title: 'Oshelter Office',
         infoWindow: {
-          content: '<p>Somewhere in Ghana</p>'
+          content: '<p>Oshelter Office</p>'+
+          '<p>Behind Ghana Int. Trade Fair</p>'
         }
       });
 
@@ -192,14 +198,14 @@
       //with sample markers
       $this.createMarkers('#gmaps-markers');
 
-      //overlay
-      $this.createWithOverlay('#gmaps-overlay');
+      // //overlay
+      // $this.createWithOverlay('#gmaps-overlay');
 
-      //street view
-      $this.createWithStreetview('#panorama',  42.3455, -71.0983);
+      // //street view
+      // $this.createWithStreetview('#panorama',  42.3455, -71.0983);
 
-      //types
-      $this.createMapByType('#gmaps-types', -12.043333, -77.028333);
+      // //types
+      // $this.createMapByType('#gmaps-types', -12.043333, -77.028333);
     });
   },
   //init
@@ -211,3 +217,4 @@ function($) {
   "use strict";
   $.GoogleMap.init()
 }(window.jQuery);
+

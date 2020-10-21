@@ -28,7 +28,6 @@ class WebsiteController extends Controller
         $data['page_title'] = null;
         $data['types'] = PropertyType::whereIs_public(true)->get();
         $data['properties'] = Property::wherePublish(true)->whereVacant(true)->take(50)->orderBy('id', 'DESC')->get();
-        $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         return view('welcome', $data);
     }
 
@@ -86,9 +85,15 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Browse all properties of any kind';
         $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->paginate(9);
-        $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
         return view('properties', $data);
+    }
+
+    // get all properties to the map
+    public function mapProperty()
+    {
+        $properties = Property::wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->get();
+        return response()->json($properties);
     }
 
     //property search
