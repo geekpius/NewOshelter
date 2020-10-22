@@ -252,7 +252,7 @@
                 @if (empty(request()->input('location')))
                 {{ ($properties->total()>1)? number_format($properties->total()).' results':number_format($properties->total()).' result' }}
                 @else
-                {{ ($properties->total()>1)? number_format($properties->total()).' results':number_format($properties->total()).' result' }} for {{ request()->input('location') }}
+                {{ ($properties->total()>1)? number_format($properties->total()).' results':number_format($properties->total()).' result' }} for {{ ucwords(request()->input('location')) }}
                 @endif
             </h2>
         </div>

@@ -23,8 +23,10 @@ Route::get('/properties', 'WebsiteController@property')->name('browse.property')
 Route::get('/map-properties', 'WebsiteController@mapProperty')->name('browse.property_map');
 
 Route::get('/properties/search', 'WebsiteController@searchProperty')->name('browse.property.search');
+Route::get('/map-search-properties', 'WebsiteController@mapSearchProperty')->name('browse.search_property_map');
 Route::get('/property-status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');
 Route::get('/property-types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
+Route::get('/map-property-types', 'WebsiteController@mapPropertyType')->name('browse.property_types_map');
 
 Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
 Route::get('/help/property-owners', 'WebsiteController@ownerHelp')->name('help.owner');

@@ -83,7 +83,7 @@
                     <p>{{ current(explode(' ',$property->user->name)) }}</p>
                 </div>
                 <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
-                <p class="pxp-sp-top-address pxp-text-light"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }}</p>
+                <p class="pxp-sp-top-address pxp-text-light" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }}</p>
             </div>
         </div>
     </div>
@@ -514,22 +514,24 @@
                 {{-- Maps --}}
                 <div class="pxp-single-property-section">
                     <h3>Explore the Area</h3>
-                    <!-- The descriptions and directions --> 
                     <div>
                         <p>{{ $property->propertyDescription->neighbourhood }}</p>   
                     </div> 
+                    <!-- The descriptions and directions --> 
+                    <div class="pxp-sp-pois-nav mt-3 mt-md-4">
+                        <div class="pxp-sp-pois-nav-transportation text-uppercase">Transportation</div>
+                        <div class="pxp-sp-pois-nav-restaurants text-uppercase">Restaurants</div>
+                        <div class="pxp-sp-pois-nav-shopping text-uppercase">Shopping</div>
+                        <div class="pxp-sp-pois-nav-cafes text-uppercase">Cafes & Bars</div>
+                        <div class="pxp-sp-pois-nav-arts text-uppercase">Arts & Entertainment</div>
+                        <div class="pxp-sp-pois-nav-fitness text-uppercase">Fitness</div>
+                    </div>
                     <p class="mt-0">{{ current(explode(' ',$property->user->name)) }}'s property is located @ {{ $property->propertyLocation->location }}</p>     
                             
                     <div id="pxp-sp-map" class="mt-3"></div>
                     
-                    <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  Directions 
-                        @if($property->type_status=='rent')
-                        are given out to tenant after renting is confirmed.
-                        @elseif($property->type_status=='sell')
-                        are given out to buyer after buying is confirmed.
-                        @else
-                        are given out to highest bidder after auctioning is won.
-                        @endif
+                    <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  
+                        Exact location is provided after booking
                     </p>   
                 </div>
                 
@@ -976,14 +978,13 @@
 @endsection
 
 @section('scripts')
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_KEY_HERE&amp;libraries=geometry&amp;libraries=places"></script> --}}
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTmu7TKO3YhnpFYLdWY2g4ngzmpOj8Kg&amp;libraries=geometry&amp;libraries=places"></script>
 <script src="{{ asset('assets/light/js/photoswipe.min.js') }}"></script> 
 <script src="{{ asset('assets/light/js/photoswipe-ui-default.min.js') }}"></script>
 <script src="{{ asset('assets/light/js/jquery.sticky.js') }}"></script>
 <script src="{{ asset('assets/light/js/gallery.js') }}"></script>
 <script src="{{ asset('assets/light/js/infobox.js') }}"></script>
-<script src="{{ asset('assets/light/js/single-map.js') }}"></script>
+<script src="{{ asset('assets/pages/website/single-map.js') }}"></script>
 {{-- date range --}}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>

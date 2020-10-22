@@ -522,15 +522,17 @@
                                                 @csrf
                                                 <input type="hidden" name="step" value="5" readonly>
                                                 <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                <div class="form-group validate">
+                                                {{-- <div class="form-group validate">
                                                     <label for="">Digital Address</label>
                                                     <input type="text" name="digital_address" class="form-control" placeholder="eg: GL-050-6789">
                                                     <span class="text-danger small mySpan" role="alert"></span>
-                                                </div>
+                                                </div> --}}
                                                 <div class="form-group validate">
                                                     <label for="">Where is your property located?</label>
-                                                    <input type="text" name="location" class="form-control" placeholder="eg: Labadi, Joy Lane, Accra">
+                                                    <input type="text" name="location" id="search_input" class="form-control" placeholder="eg: Joy Lane, Accra, Ghana">
                                                     <span class="text-danger small mySpan" role="alert"></span>
+                                                    <input type="hidden" name="latitude" id="latitude_input" value="{{ empty($property->propertyLocation->latitude)? '':$property->propertyLocation->latitude }}" readonly>
+                                                    <input type="hidden" name="longitude" id="longitude_input" value="{{ empty($property->propertyLocation->longitude)? '':$property->propertyLocation->longitude }}" readonly>
                                                 </div>
                                             </form>
                                         </div>

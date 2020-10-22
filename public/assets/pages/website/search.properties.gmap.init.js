@@ -33,28 +33,28 @@
       async: false
   }).responseText);
   
-  // alert(JSON.stringify(propertiesList.data))
+//   alert(JSON.stringify(propertiesList.data))
 
 
-  // propertiesList = [{
-  //     id: 1,
-  //     title: 'Chic Apartment in Downtown',
-  //     photo: 'images/ph-thmb.jpg',
-  //     position: {
-  //         lat: '5.5739466',
-  //         lng: '-0.1428917'
-  //     },
-  //     price: {
-  //         long: '$890,000',
-  //         short: '$890k'
-  //     },
-  //     link: 'single-property.html',
-  //     features: {
-  //         beds: 2,
-  //         baths: 2,
-  //         size: '920 SF'
-  //     }
-  // }];
+//   propertiesList = [{
+//       id: 1,
+//       title: 'Chic Apartment in Downtown',
+//       photo: 'images/ph-thmb.jpg',
+//       position: {
+//           lat: '5.5739466',
+//           lng: '-0.1428917'
+//       },
+//       price: {
+//           long: '$890,000',
+//           short: '$890k'
+//       },
+//       link: 'single-property.html',
+//       features: {
+//           beds: 2,
+//           baths: 2,
+//           size: '920 SF'
+//       }
+//   }];
 
   function CustomMarker(id, latlng, map, classname, html) {
       this.id        = id;

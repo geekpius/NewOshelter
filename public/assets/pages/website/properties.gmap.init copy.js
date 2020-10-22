@@ -1,4 +1,18 @@
-
+// var ajaxResult=[];
+// $(document).ready(function(){
+//     $.ajax({
+//         url: $("#propertyMainRow").data('href'),
+//         type: "GET",
+//         dataType: "json",
+//         success: function(resp){
+//             // alert(JSON.stringify(resp))
+//             ajaxResult.push(resp);
+//         },
+//         error: function(resp){
+//             alert("Error");
+//         }
+//     });
+// });
 (function($) {
   "use strict";
 
@@ -53,6 +67,96 @@
   //         beds: 2,
   //         baths: 2,
   //         size: '920 SF'
+  //     }
+  // }, {
+  //     id: 2,
+  //     title: 'Colorful Little Apartment',
+  //     photo: 'images/ph-thmb.jpg',
+  //     position: {
+  //         lat: '37.75347110977809',
+  //         lng: '-122.46686778459474'
+  //     },
+  //     price: {
+  //         long: '$2,675',
+  //         short: '$2.6k'
+  //     },
+  //     link: 'single-property.html',
+  //     features: {
+  //         beds: 1,
+  //         baths: 1,
+  //         size: '500 SF'
+  //     }
+  // }, {
+  //     id: 3,
+  //     title: 'Cozy Two Bedroom Apartment',
+  //     photo: 'images/ph-thmb.jpg',
+  //     position: {
+  //         lat: '37.7487769',
+  //         lng: '-122.424534'
+  //     },
+  //     price: {
+  //         long: '$960,000',
+  //         short: '$960k'
+  //     },
+  //     link: 'single-property.html',
+  //     features: {
+  //         beds: 2,
+  //         baths: 2,
+  //         size: '870 SF'
+  //     }
+  // }, {
+  //     id: 4,
+  //     title: 'Beautiful House in Marina',
+  //     photo: 'images/ph-thmb.jpg',
+  //     position: {
+  //         lat: '37.748134',
+  //         lng: '-122.437206'
+  //     },
+  //     price: {
+  //         long: '$5,198,000',
+  //         short: '$5.2m'
+  //     },
+  //     link: 'single-property.html',
+  //     features: {
+  //         beds: 5,
+  //         baths: 4.5,
+  //         size: '3,945 SF'
+  //     }
+  // }, {
+  //     id: 5,
+  //     title: 'Modern Residence',
+  //     photo: 'images/ph-thmb.jpg',
+  //     position: {
+  //         lat: '37.7883186',
+  //         lng: '-122.4897848'
+  //     },
+  //     price: {
+  //         long: '$7,995',
+  //         short: '$8k'
+  //     },
+  //     link: 'single-property.html',
+  //     features: {
+  //         beds: 4,
+  //         baths: 1.5,
+  //         size: '2,240 SF'
+  //     }
+  // }, {
+  //     id: 6,
+  //     title: 'Luxury Mansion',
+  //     photo: 'images/ph-thmb.jpg',
+  //     position: {
+  //         lat: '37.7985699',
+  //         lng: '-122.4446982'
+  //     },
+  //     price: {
+  //         long: '$5,430,000',
+  //         short: '$5.4m'
+  //     },
+  //     link: 'single-property.html',
+  //     features: {
+  //         beds: 4,
+  //         baths: 5,
+  //         size: '5,200 SF'
   //     }
   // }];
 
@@ -119,14 +223,14 @@
   function addMarkers(props, map) {
       $.each(props, function(i, prop) {
           var latlng = new google.maps.LatLng(prop.position.lat, prop.position.lng);
-          let price = (prop.price=='')? prop.rooms:prop.price;
-          var html = '<div class="pxp-marker-short-price">' + prop.currency + price + '</div>' + 
+
+          var html = '<div class="pxp-marker-short-price">' + prop.price.short + '</div>' + 
                       '<a href="' + prop.link + '" class="pxp-marker-details">' + 
                           '<div class="pxp-marker-details-fig pxp-cover" style="background-image: url(' + prop.photo + ');"></div>' + 
                           '<div class="pxp-marker-details-info">' + 
                               '<div class="pxp-marker-details-info-title">' + prop.title + '</div>' + 
-                              '<div class="pxp-marker-details-info-price">' + prop.currency + price + '<small>'+prop.calendar+'</small></div>' + 
-                              '<div class="pxp-marker-details-info-feat">' + prop.position.location + '</div>' + 
+                              '<div class="pxp-marker-details-info-price">' + prop.price.long + '</div>' + 
+                              '<div class="pxp-marker-details-info-feat">' + prop.features.beds + ' BD<span>|</span>' + prop.features.baths + ' BA<span>|</span>' + prop.features.size + '</div>' + 
                           '</div>' + 
                       '</a>';
 

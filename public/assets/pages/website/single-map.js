@@ -13,8 +13,8 @@
     var fitnessMarkers        = [];
 
     // Property map marker position
-    var propLat = '37.75347110977809';
-    var propLng = '-122.46686778459474';
+    var propLat = $(".pxp-sp-top-address").data('latitude');
+    var propLng = $(".pxp-sp-top-address").data('longitude');
 
     var options = {
         zoom : 14,
@@ -36,42 +36,42 @@
     styles = [{"featureType": "water","elementType": "geometry","stylers": [{"color": "#e9e9e9"},{"lightness": 17}]},{"featureType": "landscape","elementType": "geometry","stylers": [{"color": "#f5f5f5"},{"lightness": 20}]},{"featureType": "road.highway","elementType": "geometry.fill","stylers": [{"color": "#ffffff"},{"lightness": 17}]},{"featureType": "road.highway","elementType": "geometry.stroke","stylers": [{"color": "#ffffff"},{"lightness": 29},{"weight": 0.2}]},{"featureType": "road.arterial","elementType": "geometry","stylers": [{"color": "#ffffff"},{"lightness": 18}]},{"featureType": "road.local","elementType": "geometry","stylers": [{"color": "#ffffff"},{"lightness": 16}]},{"featureType": "poi","elementType": "geometry","stylers": [{"color": "#f5f5f5"},{"lightness": 21}]},{"featureType": "poi.park","elementType": "geometry","stylers": [{"color": "#dedede"},{"lightness": 21}]},{"elementType": "labels.text.stroke","stylers": [{"visibility": "on"},{"color": "#ffffff"},{"lightness": 16}]},{"elementType": "labels.text.fill","stylers": [{"saturation": 36},{"color": "#333333"},{"lightness": 40}]},{"elementType": "labels.icon","stylers": [{"visibility": "off"}]},{"featureType": "transit","elementType": "geometry","stylers": [{"color": "#f2f2f2"},{"lightness": 19}]},{"featureType": "administrative","elementType": "geometry.fill","stylers": [{"color": "#fefefe"},{"lightness": 20}]},{"featureType": "administrative","elementType": "geometry.stroke","stylers": [{"color": "#fefefe"},{"lightness": 17},{"weight": 1.2}]}];
 
     var transportationMarkerImage = {
-        url: 'images/transportation-marker.png',
+        url: '../../assets/images/transportation-marker.png',
         size: new google.maps.Size(47, 47),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(24, 21),
         scaledSize: { width: 47, height: 47 }
     };
     var restaurantsMarkerImage = {
-        url: 'images/restaurants-marker.png',
+        url: '../../assets/images/restaurants-marker.png',
         size: new google.maps.Size(47, 47),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(24, 21),
         scaledSize: { width: 47, height: 47 }
     };
     var shoppingMarkerImage = {
-        url: 'images/shopping-marker.png',
+        url: '../../assets/images/shopping-marker.png',
         size: new google.maps.Size(47, 47),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(24, 21),
         scaledSize: { width: 47, height: 47 }
     };
     var cafesMarkerImage = {
-        url: 'images/cafes-marker.png',
+        url: '../../assets/images/cafes-marker.png',
         size: new google.maps.Size(47, 47),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(24, 21),
         scaledSize: { width: 47, height: 47 }
     };
     var artsMarkerImage = {
-        url: 'images/arts-marker.png',
+        url: '../../assets/images/arts-marker.png',
         size: new google.maps.Size(47, 47),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(24, 21),
         scaledSize: { width: 47, height: 47 }
     };
     var fitnessMarkerImage = {
-        url: 'images/fitness-marker.png',
+        url: '../../assets/images/fitness-marker.png',
         size: new google.maps.Size(47, 47),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(24, 21),

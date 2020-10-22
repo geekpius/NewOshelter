@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Crypt;
 use App\PropertyModel\PropertyCategory;
 use App\PropertyModel\PropertyLocation;
 
+use App\Http\Resources\PropertyCollection;
+
 class WebsiteController extends Controller
 {
     
@@ -55,10 +57,22 @@ class WebsiteController extends Controller
         $type = str_replace('-',' ',$type);
         $data['page_title'] = 'Explore your curiosity on '.$type;
         $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->orderBy('id', 'DESC')->paginate(9);
-        $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
+        $props = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->orderBy('id', 'DESC');
         $data['property_types'] = PropertyType::get(['name']);
+        $data['properties'] = $props->paginate(9);
+        if(session()->has('properties'))
+        {
+            session()->forget('properties');
+        }
+        session(['properties' => $props->get()]);
         return view('property-types', $data);
+    }
+
+    // property type results to map
+    public function mapPropertyType()
+    {
+        $properties = session('properties');
+        return PropertyCollection::collection($properties);
     }
 
     //single property details
@@ -93,7 +107,7 @@ class WebsiteController extends Controller
     public function mapProperty()
     {
         $properties = Property::wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->get();
-        return response()->json($properties);
+        return PropertyCollection::collection($properties);
     }
 
     //property search
@@ -103,12 +117,18 @@ class WebsiteController extends Controller
             $location = $request->get('location');
             $data['page_title'] = $location;
             $data['menu'] = 'pxp-no-bg';
-            $data['properties'] = Property::whereType_status($request->get('status'))->whereVacant(true)->wherePublish(true)
+            $props = Property::whereType_status($request->get('status'))->whereVacant(true)->wherePublish(true)
                 ->whereHas('propertyLocation', function($query) use($location){
-                $query->whereLocation($location);
-            })->paginate(9);
-            $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
+                    $query->where('location', 'like', '%'.$location.'%');
+            });
+            $data['properties'] = $props->orderBy('id','desc')->paginate(9);
             $data['property_types'] = PropertyType::get(['name']);
+            if(session()->has('properties'))
+            {
+                session()->forget('properties');
+            }
+            session(['properties' => $props->orderBy('id','desc')->get()]);
+
             return view('search-properties', $data);
         }
         else{
@@ -119,7 +139,7 @@ class WebsiteController extends Controller
             $props = Property::whereType_status($request->get('status'))->whereVacant(true)->wherePublish(true);
             if(empty($request->get('type'))){
                 $props->whereHas('propertyLocation', function($query) use($location){
-                    $query->whereLocation($location);
+                    $query->where('location', 'like', '%'.$location.'%');
                 })->whereHas('propertyPrice', function($query) use($request){
                     $min = empty($request->get('min_price'))? 0:$request->get('min_price');
                     $max = empty($request->get('max_price'))? 0:$request->get('max_price');
@@ -138,7 +158,7 @@ class WebsiteController extends Controller
             }else{
                 $props->whereType($request->get('type'));
                 $props->whereHas('propertyLocation', function($query) use($location){
-                    $query->whereLocation($location);
+                    $query->where('location', 'like', '%'.$location.'%');
                 })->whereHas('propertyPrice', function($query) use($request){
                     $min = empty($request->get('min_price'))? 0:$request->get('min_price');
                     $max = empty($request->get('max_price'))? 0:$request->get('max_price');
@@ -157,11 +177,21 @@ class WebsiteController extends Controller
             }
 
             $data['properties'] = $props->orderBy('id','desc')->paginate(9);
-
-            $data['locations'] = PropertyLocation::distinct()->orderBy('location')->get(['location']);
+            if(session()->has('properties'))
+            {
+                session()->forget('properties');
+            }
+            session(['properties' => $props->orderBy('id','desc')->get()]);
             $data['property_types'] = PropertyType::get(['name']);
             return view('search-properties', $data);
         }
+    }
+
+    // property search results to map
+    public function mapSearchProperty()
+    {
+        $properties = session('properties');
+        return PropertyCollection::collection($properties);
     }
 
 
