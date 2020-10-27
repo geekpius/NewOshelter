@@ -6,6 +6,8 @@ use DB;
 use Route;
 use App\User;
 use App\ServiceCharge;
+use App\Help;
+use App\HelpType;
 use App\UserModel\Amenity;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -252,6 +254,8 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Property owner help';
         $data['menu'] = 'pxp-no-bg';
+        $data['types'] = HelpType::whereHelp_type('owner')->get();
+        $data['helps'] = Help::all();
         return view('ownerhelp', $data);
     }
 

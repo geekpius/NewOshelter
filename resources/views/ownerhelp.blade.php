@@ -20,105 +20,37 @@
                                 </div>
                             </div>
                             <div class="col-sm-3">
-                                <ul class="ul-style myUL">
-                                    <li><span class="caret"><strong>Listing Properties</strong></span>
+                                @foreach ($types as $type)
+                                <ul class="ul-style myUL mb-2">
+                                    <li><span class="caret"><strong>{{ $type->document_title }}</strong></span>
                                         <ul class="nested ul-style">
-                                            <li><a href="#water" class="non-underline text-dark move-to-faq" data-target="#water">Water</a></li>
-                                            <li><a href="#coffee" class="non-underline text-dark move-to-faq" data-target="#coffee">Coffee</a></li>
+                                            @foreach ($type->helps as $help)
+                                            <li><a href="#{{ $help->id }}" class="non-underline text-dark move-to-faq" data-target="#{{ $help->id }}">{{ $help->document_name }}</a></li>
+                                            @endforeach
                                         </ul>
                                     </li>
                                 </ul>
-                                <ul class="ul-style mt-2 myUL">
-                                    <li><span class="caret"><strong>Booking Properties</strong></span>
-                                        <ul class="nested ul-style">
-                                            <li>Water</li>
-                                            <li>Coffee</li> 
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <ul class="ul-style mt-2 myUL">
-                                    <li><span class="caret"><strong>Payments</strong></span>
-                                        <ul class="nested ul-style">
-                                            <li>Water</li>
-                                            <li>Coffee</li> 
-                                        </ul>
-                                    </li>
-                                </ul>
+                                @endforeach
                             </div>
                             <div class="col-sm-9 mt-4 mt-sm-0" title="Toggle on the questions to display on/off answers">
-                                <div class="parentDiv" id="water">
-                                    <p>First</p>
+                                @php $i = 0; @endphp
+                                @foreach ($helps as $help)
+                                @php $i++; @endphp
+                                <div class="parentDiv" id="{{ $help->id }}" style="display: {{ ($i==1)? '':'none' }}">
+                                    <p class="text-primary">{{ $help->document_name }}</p>
                                     <div class="faq">
                                         <h6 class="text-danger show-answer">
                                             <strong>
                                             <i class="fa fa-square font-12"></i>
-                                            What should I do if someone ask me to accept payment outside OShelter's website?
+                                            {{ $help->question }}
                                             </strong>
                                         </h6>
-                                        <p class="answer" style="display: none">
-                                            Answer
-                                        </p>
-                                    </div>
-                                    <div class="faq mt-4" title="Toggle on the questions to display on/off answers">
-                                        <h6 class="text-danger show-answer">
-                                            <strong>
-                                            <i class="fa fa-square font-12"></i>
-                                            What should I do if someone ask me to accept payment outside OShelter's website?
-                                            </strong>
-                                        </h6>
-                                        <p class="answer" style="display: none">
-                                            Answer
-                                        </p>
-                                    </div>
-                                    <div class="faq mt-4" title="Toggle on the questions to display on/off answers">
-                                        <h6 class="text-danger show-answer">
-                                            <strong>
-                                            <i class="fa fa-square font-12"></i>
-                                            What should I do if someone ask me to accept payment outside OShelter's website?
-                                            </strong>
-                                        </h6>
-                                        <p class="answer" style="display: none">
-                                            Answer
-                                        </p>
+                                        <div class="answer" style="display: none">
+                                            {!! $help->answer !!}
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="parentDiv" id="coffee" style="display: none">
-                                    <p>Second</p>
-                                    <div class="faq">
-                                        <h6 class="text-danger show-answer">
-                                            <strong>
-                                            <i class="fa fa-square font-12"></i>
-                                            What should I do if someone ask me to accept payment outside OShelter's website?
-                                            </strong>
-                                        </h6>
-                                        <p class="answer" style="display: none">
-                                            Answer
-                                        </p>
-                                    </div>
-                                    <div class="faq mt-4" title="Toggle on the questions to display on/off answers">
-                                        <h6 class="text-danger show-answer">
-                                            <strong>
-                                            <i class="fa fa-square font-12"></i>
-                                            What should I do if someone ask me to accept payment outside OShelter's website?
-                                            </strong>
-                                        </h6>
-                                        <p class="answer" style="display: none">
-                                            Answer
-                                        </p>
-                                    </div>
-                                    <div class="faq mt-4" title="Toggle on the questions to display on/off answers">
-                                        <h6 class="text-danger show-answer">
-                                            <strong>
-                                            <i class="fa fa-square font-12"></i>
-                                            What should I do if someone ask me to accept payment outside OShelter's website?
-                                            </strong>
-                                        </h6>
-                                        <p class="answer" style="display: none">
-                                            Answer
-                                        </p>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

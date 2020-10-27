@@ -43,8 +43,7 @@
                             <li class="list-inline-item">
                                 <a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop"><i class="fa fa-question-circle"></i> Help</a>
                                 <ul class="pxp-nav-sub rounded-lg">
-                                    {{-- <li><a href="{{ route('help.owner') }}" class="font-13 sub-menu-item">Property Owners</a></li> --}}
-                                    <li><a href="#" class="font-13 sub-menu-item">Property Owners</a></li>
+                                    <li><a href="{{ route('help.owner') }}" class="font-13 sub-menu-item">Property Owners</a></li>
                                     {{-- <li><a href="{{ route('help.booking') }}" class="font-13 sub-menu-item">Booking And Travellers</a></li> --}}
                                     <li><a href="#" class="font-13 sub-menu-item">Booking And Travellers</a></li>
                                 </ul>
