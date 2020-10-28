@@ -255,7 +255,6 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Property owner help';
         $data['menu'] = 'pxp-no-bg';
         $data['types'] = HelpType::whereHelp_type('owner')->get();
-        $data['helps'] = Help::all();
         return view('ownerhelp', $data);
     }
 
@@ -264,6 +263,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Booking and travellers help';
         $data['menu'] = 'pxp-no-bg';
+        $data['types'] = HelpType::whereHelp_type('traveller')->get();
         return view('bookinghelp', $data);
     }
 

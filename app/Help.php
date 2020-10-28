@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use App\HelpType;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,9 +16,12 @@ class Help extends Model
      * @var array
      */
     protected $fillable = [
-        'help_type', 'document_title', 'document_name', 'question', 'answer',
+        'help_type_id', 'document_name', 'question', 'answer',
     ];
 
 
+    public function helpType(){
+        return $this->belongsTo(HelpType::class, 'help_type_id');
+    }
 
 }

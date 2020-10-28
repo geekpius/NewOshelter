@@ -33,23 +33,25 @@
                                 @endforeach
                             </div>
                             <div class="col-sm-9 mt-4 mt-sm-0" title="Toggle on the questions to display on/off answers">
-                                @php $i = 0; @endphp
-                                @foreach ($helps as $help)
-                                @php $i++; @endphp
-                                <div class="parentDiv" id="{{ $help->id }}" style="display: {{ ($i==1)? '':'none' }}">
-                                    <p class="text-primary">{{ $help->document_name }}</p>
-                                    <div class="faq">
-                                        <h6 class="text-danger show-answer">
-                                            <strong>
-                                            <i class="fa fa-square font-12"></i>
-                                            {{ $help->question }}
-                                            </strong>
-                                        </h6>
-                                        <div class="answer" style="display: none">
-                                            {!! $help->answer !!}
+                                @foreach ($types as $type)
+                                    @php $i = 0; @endphp
+                                    @foreach ($type->helps as $help)
+                                    @php $i++; @endphp
+                                    <div class="parentDiv" id="{{ $help->id }}" style="display: {{ ($i==1)? '':'none' }}">
+                                        <p class="text-primary">{{ $help->document_name }}</p>
+                                        <div class="faq">
+                                            <h6 class="text-danger show-answer">
+                                                <strong>
+                                                <i class="fa fa-square font-12"></i>
+                                                {{ $help->question }}
+                                                </strong>
+                                            </h6>
+                                            <div class="answer" style="display: none">
+                                                {!! $help->answer !!}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    @endforeach
                                 @endforeach
                             </div>
                         </div>
