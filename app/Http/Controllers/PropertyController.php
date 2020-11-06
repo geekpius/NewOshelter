@@ -39,16 +39,16 @@ class PropertyController extends Controller
     public function index()
     {
         $data['page_title'] = 'List properties';
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereDone_step(true)->get(); 
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->get(); 
         return view('admin.properties.index', $data);
     }
 
     ///check if uncompleted found
     public function addNewListing()
     {
-        if(Property::whereUser_id(Auth::user()->id)->whereDone_step(false)->count()>0){
+        if(Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(false)->count()>0){
             $data['page_title'] = 'Found something';
-            $data['property']= Property::whereUser_id(Auth::user()->id)->whereDone_step(false)->get(); 
+            $data['property']= Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(false)->get(); 
             return view('admin.properties.duplicate-listing', $data);
         }else{
             $data['page_title'] = 'Add new listing';
@@ -263,16 +263,17 @@ class PropertyController extends Controller
     }
 
     ///upload property photos
-    public function uploadPropertyPhoto(Request $request)
+    public function uploadPropertyPhoto(Request $request, Property $property)
     {
-        $property= Property::whereUser_id(Auth::user()->id)->orderBy('id','DESC')->first(); 
+        // $property= Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->orderBy('id','DESC')->first(); 
         try{
             DB::beginTransaction();
                 $photos = $request->file('photos');
                 if(count($photos)>10){
                     $message = 'exceed';
                 }else{
-                    if(PropertyImage::whereProperty_id($property->id)->count() > 10){
+                    // if(PropertyImage::whereProperty_id($property->id)->count() > 10){
+                    if($property->propertyImages->count() > 10){
                         $message='exceed';
                     }else{
                         for($i = 0; $i < count($photos); $i++)
@@ -296,7 +297,7 @@ class PropertyController extends Controller
             DB::commit();
         }catch(\Exception $e){
             DB::rollback();
-            $message = 'error'.$e->getMessage();
+            $message = 'error';
         }
 
         /* if($message=='success'){
@@ -705,12 +706,8 @@ class PropertyController extends Controller
         if(auth()->check()){
             if(Hash::check($request->password, Auth::user()->password)) 
             {
-                if (count($property->propertyImages)){
-                    foreach($property->propertyImages as $i){
-                        \File::delete("assets/images/properties/".$i->image);
-                    }
-                }
-                $property->delete();
+                $property->is_active = false;
+                $property->update();
             }
             else
             {
@@ -724,7 +721,7 @@ class PropertyController extends Controller
     public function manageProperty()
     {
         $data['page_title'] = 'Manage properties';
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereDone_step(true)->get();
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->get();
         return view('admin.properties.manage-property', $data);
     }
     

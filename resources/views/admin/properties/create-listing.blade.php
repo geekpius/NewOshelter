@@ -1942,7 +1942,7 @@ function getFile(){
     document.getElementById("upfile").click();
 }
 
-///uploading
+///uploading property images
 $("#upfile").on("change", function(){
     $("#uploadMsg").html('<i class="fa fa-spin fa-spinner"></i> Uploading...');
     var form_data = new FormData();
@@ -1972,7 +1972,7 @@ $("#upfile").on("change", function(){
         }
 
         $.ajax({
-            url: "{{ route('property.photos.submit') }}", 
+            url: "{{ route('property.photos.submit', $property->id) }}", 
             type: 'POST',
             data: form_data,
             contentType: false,

@@ -124,7 +124,6 @@
 @endsection
 
 @section('scripts')
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTmu7TKO3YhnpFYLdWY2g4ngzmpOj8Kg&amp;libraries=geometry&amp;libraries=places"></script>
 <script src="{{ asset('assets/light/js/markerclusterer.js') }}"></script> 
 <script src="{{ asset('assets/pages/website/properties.gmap.init.js') }}"></script>
 @endsection

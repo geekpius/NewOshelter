@@ -35,8 +35,6 @@ class Property extends Model
     protected $dates = ['deleted_at'];
     const PUBLISH = true;
     const NOT_PUBLISH = false;
-    const VACANT = true;
-    const NOT_VACANT = false;
     const DONE_STEP = true;
     const NOT_DONE_STEP = false;
 
@@ -49,9 +47,9 @@ class Property extends Model
         return $this->publish == Property::PUBLISH;
     }
 
-    public function isVacant() : bool
+    public function isActive() : bool
     {
-        return $this->vacant == Property::VACANT;
+        return $this->is_active == true;
     }
 
     public function isDoneStep() : bool

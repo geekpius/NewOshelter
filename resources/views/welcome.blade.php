@@ -396,7 +396,6 @@
 
 @section('scripts')
 <script src="{{ asset('assets/light/js/owl.carousel.min.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTmu7TKO3YhnpFYLdWY2g4ngzmpOj8Kg&amp;libraries=places"></script>
 <script src="{{ asset('assets/pages/website/gmap.init.js') }}"></script> 
 
 <script type="text/javascript" id="cookieinfo"

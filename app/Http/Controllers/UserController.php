@@ -7,6 +7,7 @@ use App\MessageModel\Message;
 use Illuminate\Support\Facades\Auth;
 use App\PropertyModel\PropertyType;
 use App\UserModel\UserExtensionRequest;
+use App\UserModel\UserVisit;
 
 class UserController extends Controller
 {
@@ -66,7 +67,8 @@ class UserController extends Controller
     public function requests()
     {
         $data['page_title'] = 'My requests';
-        $data['extensions'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIn('is_confirm', [1,2])->get();
+        $data['bookings'] = UserVisit::whereUser_id(Auth::user()->id)->whereStatus(1)->get();
+        // $data['extensions'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIn('is_confirm', [1,2])->get();
         return view('admin.requests.index', $data)->render();
     }
 

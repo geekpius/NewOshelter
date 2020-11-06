@@ -311,7 +311,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- <div class="col-sm-5 pb-5 pl-3 pr-3">
+                                        {{-- <!-- <div class="col-sm-5 pb-5 pl-3 pr-3">
                                             <h5 class="text-primary mb-3">Taxes</h5>
                                             <div class="p-4">
                                                 <strong class="">VAT / TIN</strong><br>
@@ -331,7 +331,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div> --> --}}
                                     </div>
                                 </div>                                            
                             </div>
@@ -552,7 +552,7 @@
 </div><!-- /.modal -->  
 
 
-<!-- payment modal -->
+{{-- <!-- payment modal -->
 <div id="VatModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="VatModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -602,7 +602,7 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal --> 
+</div><!-- /.modal -->  --}}
 
 
 @endsection

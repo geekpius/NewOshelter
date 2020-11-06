@@ -71,8 +71,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/change-front-card', 'UserProfileController@uploadFrontCard')->name('profile.front.card');
     Route::post('/change-back-card', 'UserProfileController@uploadBackCard')->name('profile.back.card');
         
-    Route::get('/get-vat', 'VatController@getVat')->name('profile.vat');
-    Route::post('/vat', 'VatController@store')->name('profile.vat.submit');
+    // Route::get('/get-vat', 'VatController@getVat')->name('profile.vat');
+    // Route::post('/vat', 'VatController@store')->name('profile.vat.submit');
 
     Route::post('/check-message-notify', 'UserNotificationController@checkMessage')->name('profile.message.notify');
     Route::post('/check-support-notify', 'UserNotificationController@checkSupport')->name('profile.support.notify');
@@ -103,7 +103,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/properties/room-amenities/{property}/show', 'PropertyController@showBlockRoomAmenities')->name('property.room.amenities.show');
     Route::get('/properties/room-amenities/{hostelRoomAmenity}/delete', 'PropertyController@deleteBlockRoomAmenities')->name('property.room.amenities.delete');
 
-    Route::post('/properties/photos/upload', 'PropertyController@uploadPropertyPhoto')->name('property.photos.submit');
+    Route::post('/properties/photos/{property}/upload', 'PropertyController@uploadPropertyPhoto')->name('property.photos.submit');
     Route::get('/properties/photos/{property}/show', 'PropertyController@showPropertyPhoto')->name('property.photos.show');
     Route::get('/properties/photos/{propertyImage}/delete', 'PropertyController@deletePropertyPhoto')->name('property.photos.delete');
     Route::post('/properties/photos/caption', 'PropertyController@propertyPhotoCaption')->name('property.caption.submit');
@@ -128,12 +128,12 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/properties/{property}/delete', 'PropertyController@deleteListing')->name('property.delete');
 
     Route::get('/manage-properties', 'PropertyController@manageProperty')->name('property.manage');
-    Route::get('/manage-properties/{property}/utilities', 'PropertyUtilityController@index')->name('property.utilities');
-    Route::get('/manage-properties/{property}/utilities-list', 'PropertyUtilityController@show')->name('property.utilities.list');
-    Route::post('/manage-properties/create/utilities', 'PropertyUtilityController@store')->name('property.utilities.submit');
-    Route::post('/manage-properties/switch/utilities', 'PropertyUtilityController@switch')->name('property.utilities.switch');
-    Route::post('/manage-properties/update/utilities', 'PropertyUtilityController@update')->name('property.utilities.update');
-    Route::get('/manage-properties/{propertyUtility}/remove', 'PropertyUtilityController@remove')->name('property.utilities.remove');
+    // Route::get('/manage-properties/{property}/utilities', 'PropertyUtilityController@index')->name('property.utilities');
+    // Route::get('/manage-properties/{property}/utilities-list', 'PropertyUtilityController@show')->name('property.utilities.list');
+    // Route::post('/manage-properties/create/utilities', 'PropertyUtilityController@store')->name('property.utilities.submit');
+    // Route::post('/manage-properties/switch/utilities', 'PropertyUtilityController@switch')->name('property.utilities.switch');
+    // Route::post('/manage-properties/update/utilities', 'PropertyUtilityController@update')->name('property.utilities.update');
+    // Route::get('/manage-properties/{propertyUtility}/remove', 'PropertyUtilityController@remove')->name('property.utilities.remove');
 
     
     /*------- Booking a Properties ------- */
@@ -146,6 +146,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
     Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
     Route::post('/properties/bookings/verify', 'BookingController@verify')->name('property.bookings.verify');
+    Route::post('/properties/bookings/request', 'BookingController@bookingRequest')->name('property.bookings.request');
+
+
     Route::post('/properties/bookings/payment/mobile', 'BookingController@mobilePayment')->name('property.bookings.mobilepayment');
     
 

@@ -39,7 +39,7 @@ class DeactivateUserController extends Controller
             try{
                 DB::beginTransaction();
                 $user = User::findOrFail(Auth::user()->id);
-                $user->active=0;
+                $user->is_active=false;
                 $user->update();
                 $deactivate = new DeactivateUser;
                 $deactivate->user_id  = Auth::user()->id;

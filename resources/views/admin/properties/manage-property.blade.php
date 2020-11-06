@@ -54,7 +54,7 @@
                                     <td>{{ $property->propertyLocation->location }}</td>
                                     <td>{{ $property->userVisits->count() }}</td>
                                     <td>                                                       
-                                        <a href="{{route('property.utilities', $property->id)}}" class="mr-3" title="Utilities"><i class="fa fa-money-bill-wave text-primary font-16"></i></a>
+                                        {{-- <a href="{{route('property.utilities', $property->id)}}" class="mr-3" title="Utilities"><i class="fa fa-money-bill-wave text-primary font-16"></i></a> --}}
                                         <a href="#" title="Send Email to Tenants"><i class="fas fa-envelope text-pink font-16"></i></a>
                                     </td>
                                 </tr><!--end tr-->

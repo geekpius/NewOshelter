@@ -247,7 +247,7 @@
                             @if ($property->type_status=='rent')
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <h6 class="header-title {{ $property->vacant? 'text-primary':'text-danger' }}">{{ $property->vacant? 'Available, ready for renting':'Rented, too late' }}</h6>
+                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for renting':'Rented, too late' }}</h6>
                                         <p class=""><i class="fa fa-check text-success font-12"></i>
                                             @if ($property->propertyPrice->payment_duration==6)
                                                 <span>6 months advance payment</span>
@@ -800,7 +800,11 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
+                                            @if (!$property->userVisits->where('status','!=',0)->count())
                                             <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnRentBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
+                                            @else
+                                            <span class="btn btn-default disabled btn-sm btn-block pl-5 pr-5 mt-3"><i class="fa fa-check"></i> {{ ucwords(str_replace('_', ' ', $property->type)) }} is booked</span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

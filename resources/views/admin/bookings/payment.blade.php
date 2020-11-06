@@ -570,7 +570,7 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <a href="javascript:void(0);" class="text-primary moveBack" data-step="3">Back</a>
-                                        <h3>Make a request and wait for confirmation</h3>
+                                        <h3>Confirm and make payment</h3>
                                         <div class="col-sm-12 mt-5">
                                             <div class="card card-bordered-pink">
                                                 <div class="card-body">
@@ -584,17 +584,94 @@
                                     </div>  
                                     
                                     <div class="col-sm-12">
-                                        <h5>Request Summary</h5>
+                                        <h5>Payment Summary</h5>
                                         <div class="col-sm-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <p class="text-primary">Your booking request will be sent to the owner. As soon as owner confirms, you will be requested to make payment.</p>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi iure perspiciatis autem reiciendis quo voluptates animi? Vitae sit non dolorem illo, esse quasi pariatur, 
-                                                        voluptatibus necessitatibus quis quo praesentium mollitia.
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo excepturi ipsa doloribus, nostrum quibusdam dicta, mollitia praesentium ea eum dolore quod et veritatis deleniti 
-                                                        commodi error ipsam cumque facere nihil?
-                                                    </p>
+                                                    <span class="font-weight-500">TOTAL PAYMENT</span>
+                                                    <span id="totalPayment" class="font-weight-500 text-primary float-right"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                    <div class="col-sm-12">
+                                        <h5>Choose Payment Methods</h5>
+                                        <div class="col-sm-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    {{-- visa --}}
+                                                    <div class="radio radio-success">
+                                                        <input type="radio" name="payment_method" id="visa" value="Mobile Money" />
+                                                        <label for="visa" class="font-weight-600 text-black">
+                                                            VISA
+                                                        </label>
+                                                    </div>
+                                                    <div id="visaExpand" style="display: none">
+                                                        <hr>
+                                                        <form class="mt-4" id="formVisa">
+                                                            @csrf
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group validate">
+                                                                        <input type="number" min="1" name="visa_number" placeholder="VISA Number(**************)" onkeypress="return isNumber(event)" class="form-control" />
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group validate">
+                                                                        <input type="text" name="expire" id="expire" maxlength="5" onkeypress="return isMonthAndYear(event)" class="form-control" placeholder="mm/yy" />
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group validate">
+                                                                        <input type="password" name="ccv" id="ccv" min="0" maxlength="3" class="form-control" placeholder="CCV(***)">
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                    {{-- momo --}}
+                                                    <div class="radio radio-success mt-3">
+                                                        <input type="radio" name="payment_method" id="mobile_money" value="Mobile Money" />
+                                                        <label for="mobile_money" class="font-weight-600 text-black">
+                                                            Mobile Money
+                                                        </label>
+                                                    </div>
+                                                    <div id="momoExpand" style="display: none">
+                                                        <hr>
+                                                        <form class="mt-4" id="formMobileMobile" action="{{ route('property.bookings.mobilepayment') }}">
+                                                            @csrf
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="form-group validate">
+                                                                        <select name="mobile_operator" id="mobile_operator" class="form-control">
+                                                                            <option value="">Select your operator</option>
+                                                                            <option value="MTN_MONEY">MTN Mobile Money</option>
+                                                                            <option value="AIRTEL_MONEY">AirtelTigo Money</option>
+                                                                            <option value="VODAFONE_CASH_PROMPT">Vodafone Cash</option>
+                                                                        </select>
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-3">
+                                                                    <div class="form-group validate">
+                                                                        <input type="text" name="country_code" id="country_code" value="+233" class="form-control" readonly placeholder="Code" />
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                    <div class="form-group validate">
+                                                                        <input type="number" name="mobile_number" id="mobile_number" min="1" maxlength="9" class="form-control" placeholder="eg: 542398441">
+                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -607,41 +684,17 @@
                                         $discountFee = ($property->propertyPrice->property_price* $dateDiff)*($charge->discount/100);
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
-                                    <div class="col-sm-12 mt-5 ml-sm-4">
-                                        @php $userVisit = Auth::user()->userVisits->where('property_id',$property->id)->where('status','!=', 0)->first(); @endphp
-                                        @if (empty($userVisit))
-                                        <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
-                                            @csrf
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                            <input type="hidden" name="checkin" value="{{ $check_in }}" readonly>
-                                            <input type="hidden" name="checkout" value="{{ $check_out }}" readonly>
-                                            <input type="hidden" name="adult" value="{{ $adult }}" readonly>
-                                            <input type="hidden" name="child" value="{{ $children }}" readonly>
-                                            <input type="hidden" name="infant" value="{{ $infant }}" readonly>
-                                            <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('requests') }}">CONFIRM BOOKING REQUEST</button>
-                                        </form>
-                                        @else
-                                            @if ($userVisit->status == 1)
-                                                <span class="text-primary">WAITING FOR CONFIRMATION...</span>
-                                            @elseif ($userVisit->status == 2)
-                                                <span class="text-primary">WAITING FOR PAYMENT...</span>
-                                            @elseif ($userVisit->status == 3)
-                                                <span class="text-danger">YOUR REQUEST WAS CANCELLED BY OWNER</span>
-                                                <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}" class="mt-2">
-                                                    @csrf
-                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    <input type="hidden" name="checkin" value="{{ $check_in }}" readonly>
-                                                    <input type="hidden" name="checkout" value="{{ $check_out }}" readonly>
-                                                    <input type="hidden" name="adult" value="{{ $adult }}" readonly>
-                                                    <input type="hidden" name="child" value="{{ $children }}" readonly>
-                                                    <input type="hidden" name="infant" value="{{ $infant }}" readonly>
-                                                    <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('requests') }}">RE-APPLY BOOKING REQUEST</button>
-                                                </form>
-                                            @elseif ($userVisit->status == 4)
-                                                <span class="text-success">YOUR ARE CURRENTLY LIVING IN THE PROPERTY</span>
-                                            @endif
-                                        @endif
-                                        
+                                    <div class="col-sm-12 mt-2 ml-sm-4">
+                                        <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600" data-step="3">PAY NOW {{ $property->propertyPrice->currency }} {{ number_format(($totalFee),2) }}
+                                        <span id="payAmount" style="display: none !important">{{ ($totalFee) }}</span>
+                                        </button>
+                                        <br>
+                                        <p class="text-danger mt-4 font-weight-bold">
+                                            <i class="fa fa-info-circle"></i> Make sure you have enough money in your wallet to cover {{ $property->propertyPrice->currency }} {{ number_format(($totalFee),2) }} in your invoice.
+                                         </p>
+                                        <p class="text-danger mt-3 font-weight-bold">
+                                            <i class="fa fa-info-circle"></i> For MTN users, mobile bill prompt will only be sent if you have enough money in your wallet to cover {{ $property->propertyPrice->currency }} {{ number_format(($totalFee),2) }} in your invoice
+                                        </p>
                                     </div>
                                 </div> 
                             </div> 

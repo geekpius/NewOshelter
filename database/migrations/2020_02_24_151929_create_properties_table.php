@@ -24,9 +24,9 @@ class CreatePropertiesTable extends Migration
             $table->integer('adult')->nullable();
             $table->integer('children')->nullable();
             $table->boolean('publish')->default(Property::NOT_PUBLISH);
-            $table->boolean('vacant')->default(Property::VACANT);
             $table->integer('step')->default(1);
             $table->boolean('done_step')->default(Property::NOT_DONE_STEP);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

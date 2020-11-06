@@ -139,6 +139,7 @@
         <script src="{{ asset('assets/light/js/popper.min.js') }}"></script>
         <script src="{{ asset('assets/light/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/sweetalert/sweetalert.min.js') }}"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTmu7TKO3YhnpFYLdWY2g4ngzmpOj8Kg&amp;libraries=places"></script>
         <script>
             $.ajaxSetup({
                 headers: {

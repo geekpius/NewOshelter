@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Session;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\HostelBlockRoomNumber;
+use App\UserModel\UserVisit;
 
 class BookingController extends Controller
 {
@@ -64,30 +65,38 @@ class BookingController extends Controller
  
     public function index(Property $property,$checkin,$checkout,$adult,$children,$infant,$filter_id)
     {
-        $data['page_title'] = 'Booking '.$property->title;
-        $data['property'] = $property;
-        $data['check_in'] = $checkin;
-        $data['check_out'] = $checkout;
-        $data['adult'] = $adult;
-        $data['children'] = $children;
-        $data['infant'] = $infant;
-        $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
-        return view('admin.bookings.index', $data);
+        if($property->is_active && $property->user_id != Auth::user()->id){
+            $data['page_title'] = 'Booking '.$property->title;
+            $data['property'] = $property;
+            $data['check_in'] = $checkin;
+            $data['check_out'] = $checkout;
+            $data['adult'] = $adult;
+            $data['children'] = $children;
+            $data['infant'] = $infant;
+            $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+            return view('admin.bookings.index', $data);
+        }else{
+            return view('errors.404');
+        }
     }  
     
     public function hostelIndex(Property $property,$checkin,$checkout,$block_id,$gender,$room_type,$room_number,$filter_id)
     {
-        $data['page_title'] = 'Booking '.$property->title;
-        $data['property'] = $property;
-        $data['check_in'] = $checkin;
-        $data['check_out'] = $checkout;
-        $data['block_id'] = $block_id;
-        $data['gender'] = $gender;
-        $data['room_type'] = $room_type;
-        $data['room_number'] = $room_number;
-        $data['my_room'] = HostelBlockRoom::whereProperty_hostel_block_id($block_id)->whereBlock_room_type($room_type)->whereGender($gender)->first();
-        $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
-        return view('admin.bookings.index', $data);
+        if($property->is_active && $property->user_id != Auth::user()->id){
+            $data['page_title'] = 'Booking '.$property->title;
+            $data['property'] = $property;
+            $data['check_in'] = $checkin;
+            $data['check_out'] = $checkout;
+            $data['block_id'] = $block_id;
+            $data['gender'] = $gender;
+            $data['room_type'] = $room_type;
+            $data['room_number'] = $room_number;
+            $data['my_room'] = HostelBlockRoom::whereProperty_hostel_block_id($block_id)->whereBlock_room_type($room_type)->whereGender($gender)->first();
+            $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+            return view('admin.bookings.index', $data);
+        }else{
+            return view('errors.404');
+        }
     }  
 
     //move from review, verify and payment
@@ -209,6 +218,49 @@ class BookingController extends Controller
                 $message = 'success';
             } else {
                 $message = 'Invalid phone verification code.';
+            }
+        }
+
+        return $message;        
+    }
+
+    // confirm booking request
+    public function bookingRequest(Request $request) :string
+    {
+        $validator = \Validator::make($request->all(), [
+            'property_id' => 'required',
+            'checkin' => 'required',
+            'checkout' => 'required',
+            'adult' => 'required',
+            'child' => 'required',
+            'infant' => 'required',
+        ]);
+        
+        (string)$message ='';
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            $visit = Auth::user()->userVisits->where('property_id',$request->property_id)->where('status', 3)->first();
+            if(empty($visit)){
+                $userVisit = new UserVisit;
+                $userVisit->user_id  = Auth::user()->id;
+                $userVisit->property_id  = $request->property_id;
+                $userVisit->check_in  = date("Y-m-d",strtotime($request->checkin));
+                $userVisit->check_out  = date("Y-m-d",strtotime($request->checkout));
+                $userVisit->adult  = $request->adult;
+                $userVisit->children  = $request->child;
+                $userVisit->infant  = $request->infant;
+                $userVisit->save();
+                $message = "success";
+            }else{
+                $visit->check_in  = date("Y-m-d",strtotime($request->checkin));
+                $visit->check_out  = date("Y-m-d",strtotime($request->checkout));
+                $visit->adult  = $request->adult;
+                $visit->children  = $request->child;
+                $visit->infant  = $request->infant;
+                $visit->status = 1;
+                $visit->update();
+                $message = "success";
             }
         }
 

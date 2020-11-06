@@ -23,7 +23,7 @@ class CreateUserVisitsTable extends Migration
             $table->integer('adult');
             $table->integer('children');
             $table->integer('infant');
-            $table->boolean('status')->default(UserVisit::IN);
+            $table->integer('status')->default(1);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');

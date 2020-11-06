@@ -31,7 +31,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = null;
         $data['types'] = PropertyType::whereIs_public(true)->get();
-        $data['properties'] = Property::wherePublish(true)->whereVacant(true)->take(50)->orderBy('id', 'DESC')->get();
+        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->take(50)->orderBy('id', 'DESC')->get();
         return view('welcome', $data);
     }
 
@@ -47,7 +47,7 @@ class WebsiteController extends Controller
         $status = str_replace('-',' ',$status);
         $data['page_title'] = 'Narrow down '.$status.' filter complexity';
         $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->whereDone_step(true)->orderBy('id', 'DESC')->paginate(9);
+        $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->whereDone_step(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(9);
         $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
         return view('property-status', $data);
@@ -59,7 +59,7 @@ class WebsiteController extends Controller
         $type = str_replace('-',' ',$type);
         $data['page_title'] = 'Explore your curiosity on '.$type;
         $data['menu'] = 'pxp-no-bg';
-        $props = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->orderBy('id', 'DESC');
+        $props = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->whereIs_active(true)->orderBy('id', 'DESC');
         $data['property_types'] = PropertyType::get(['name']);
         $data['properties'] = $props->paginate(9);
         if(session()->has('properties'))
@@ -85,8 +85,8 @@ class WebsiteController extends Controller
             $data['menu'] = 'pxp-no-bg';
             $data['property'] = $property;
             $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
-            $countImages = PropertyImage::whereProperty_id($property->id)->count();
-            $data['image'] = PropertyImage::whereProperty_id($property->id)->orderBy('id')->first();
+            $countImages = $property->propertyImages->count();
+            $data['image'] = $property->propertyImages->first();
             $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take($countImages-1)->get();
             return view('property-detail', $data);
         }
@@ -100,7 +100,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Browse all properties of any kind';
         $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->paginate(9);
+        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(9);
         $data['property_types'] = PropertyType::get(['name']);
         return view('properties', $data);
     }
@@ -108,7 +108,7 @@ class WebsiteController extends Controller
     // get all properties to the map
     public function mapProperty()
     {
-        $properties = Property::wherePublish(true)->whereVacant(true)->orderBy('id', 'DESC')->get();
+        $properties = Property::wherePublish(true)->whereIs_active(true)->orderBy('id', 'DESC')->get();
         return PropertyCollection::collection($properties);
     }
 
@@ -119,7 +119,7 @@ class WebsiteController extends Controller
             $location = $request->get('location');
             $data['page_title'] = $location;
             $data['menu'] = 'pxp-no-bg';
-            $props = Property::whereType_status($request->get('status'))->whereVacant(true)->wherePublish(true)
+            $props = Property::whereType_status($request->get('status'))->whereIs_active(true)->wherePublish(true)
                 ->whereHas('propertyLocation', function($query) use($location){
                     $query->where('location', 'like', '%'.$location.'%');
             });
@@ -138,7 +138,7 @@ class WebsiteController extends Controller
             $data['page_title'] = $location;
             $data['menu'] = 'pxp-no-bg';
 
-            $props = Property::whereType_status($request->get('status'))->whereVacant(true)->wherePublish(true);
+            $props = Property::whereType_status($request->get('status'))->whereIs_active(true)->wherePublish(true);
             if(empty($request->get('type'))){
                 $props->whereHas('propertyLocation', function($query) use($location){
                     $query->where('location', 'like', '%'.$location.'%');

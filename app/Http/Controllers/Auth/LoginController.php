@@ -161,7 +161,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if($user->active==2){
+        if($user->is_active){
             $this->updateLoginTime($user->id);
             $this->trackUserOnLogin($user->id);
         } 

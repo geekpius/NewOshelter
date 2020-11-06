@@ -61,8 +61,9 @@
                                         <th>Owner</th>
                                         <th>Check In</th>
                                         <th>Check Out</th>
-                                        <th>Guests</th>
+                                        <th class="text-primary">Extended Date</th>
                                         <th>Confirm</th>
+                                        <th>Paid</th>
                                     </tr><!--end tr-->
                                     </thead>
 
@@ -71,17 +72,21 @@
                                         <tr class="record">
                                             <td>{{ \Carbon\Carbon::parse($book->created_at)->diffForHumans() }}</td>
                                             <td>{{ $book->property->title }}</td>
-                                            <td><img src="{{ asset('assets/images/users/'.$book->property->user->image) }}" alt="" class="thumb-sm rounded-circle mr-2">{{ $book->property->user->name }}</td>
+                                            <td>{{ $book->property->user->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($book->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($book->check_out)->format('d-M-Y') }}</td>
-                                            <td>{{ $book->adult + $book->children + $book->infant }}</td>
-                                            <td>
-                                                @if ($book->property->user_id == Auth::user()->id)
-                                                <a href="#"><i class="fa fa-check"></i></a>
-                                                @else
-                                                <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> Waiting...</span>
+                                            <td class="text-primary">{{ \Carbon\Carbon::parse($book->extension_date)->format('d-M-Y') }}</td>
+                                            <td><span class="badge badge-md badge-{{ ($ext->is_confirm==1)? 'success':'danger' }}">{{ $ext->getConfirmation() }}</span></td>
+                                            <td>@if ($ext->is_confirm == 1)
+                                                {{ $ext->getPaid() }}
+                                                @if (!$ext->is_paid)
+                                                <a href="" class="ml-3"><i class="fa fa-money-bill fa-lg text-primary"></i></a>
                                                 @endif
-                                            </td>
+                                            @elseif($ext->is_confirm == 2)
+                                                Can't Pay
+                                            @else
+                                                Pending
+                                            @endif</td>
                                         </tr><!--end tr-->
                                         @endforeach                                                                                   
                                     </tbody>
