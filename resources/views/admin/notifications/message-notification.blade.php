@@ -1,6 +1,6 @@
 <!-- item-->
 <h6 class="dropdown-item-text">
-    Messages ({{ count($notifications) }})
+    Messages ({{ count($notifications)+count($bookings) }})
 </h6>
 <div class="slimscroll notification-list">
     @if (count($notifications))
@@ -11,12 +11,15 @@
             <p class="notify-details">New Message<small class="text-muted">{{ \Illuminate\Support\Str::limit($item->message, 60, '...') }}</small></p>
         </a> 
     @endforeach
-    @else
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
-            <div class="notify-icon bg-primary"><i class="fa fa-envelope-open"></i></div>
-            <p class="notify-details">No message found</p>
-        </a>
+    @endif
+    @if (count($bookings))
+    @foreach ($bookings as $item)
+       <!-- item-->
+       <a href="{{ route('requests.detail', $item->id) }}" class="dropdown-item notify-item active">
+            <div class="notify-icon bg-success"><i class="fa fa-exchange-alt"></i></div>
+            <p class="notify-details">Booking Request<small class="text-muted">Pending</small></p>
+        </a> 
+    @endforeach
     @endif
 </div>
 <!-- All-->

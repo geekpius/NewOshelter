@@ -13,12 +13,6 @@ class UserVisit extends Model
     protected $table = 'user_visits';
     protected $primaryKey = 'id';
 
-    CONST PENDING = 1;
-    CONST CONFIRM = 2;
-    CONST REJECT = 3;
-    CONST IN = 4;
-    CONST OUT = 0;
-
     protected $fillable = [
         'user_id', 'property_id', 'check_in', 'check_out', 'adult', 'children', 'infant', 'status',
     ];

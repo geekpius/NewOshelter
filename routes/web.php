@@ -53,6 +53,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/wishlist', 'UserSavedPropertyController@store')->name('saved.submit');
     Route::get('/wishlist/{userSavedProperty}/remove', 'UserSavedPropertyController@removeWishList')->name('saved.remove');
     Route::get('/requests', 'UserController@requests')->name('requests');
+    Route::get('/requests/{booking}/detail', 'UserController@requestDetail')->name('requests.detail');
+    Route::get('/requests/{booking}/confirm', 'UserController@requestConfirm')->name('requests.comfirm');
+    Route::get('/requests/{booking}/cancel', 'UserController@requestCancel')->name('requests.cancel');
     // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
     // Route::get('/activities', 'UserActivityController@index')->name('activities');
 

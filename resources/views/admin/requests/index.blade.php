@@ -71,15 +71,19 @@
                                         <tr class="record">
                                             <td>{{ \Carbon\Carbon::parse($book->created_at)->diffForHumans() }}</td>
                                             <td>{{ $book->property->title }}</td>
-                                            <td><img src="{{ asset('assets/images/users/'.$book->property->user->image) }}" alt="" class="thumb-sm rounded-circle mr-2">{{ $book->property->user->name }}</td>
+                                            <td><img src="{{ asset('assets/images/users/'.$book->owner->image) }}" alt="" class="thumb-sm rounded-circle mr-2">{{ $book->owner->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($book->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($book->check_out)->format('d-M-Y') }}</td>
                                             <td>{{ $book->adult + $book->children + $book->infant }}</td>
                                             <td>
-                                                @if ($book->property->user_id == Auth::user()->id)
-                                                <a href="#"><i class="fa fa-check"></i></a>
-                                                @else
+                                                @if ($book->isPendingAttribute())
                                                 <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> Waiting...</span>
+                                                @elseif ($book->isConfirmAttribute())
+                                                <span class="text-success"><i class="fa fa-check"></i> Confirmed</span>
+                                                @elseif ($book->isRejectAttribute())
+                                                <span class="text-danger"><i class="fa fa-times"></i> Rejected</span>
+                                                @elseif ($book->isDoneAttribute())
+                                                <span class="text-success"><i class="fa fa-times"></i> Paid</span>
                                                 @endif
                                             </td>
                                         </tr><!--end tr-->

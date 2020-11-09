@@ -25,7 +25,8 @@ $('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
         // check if select months is not less
         let advanceDuration = $("#initialAmount").data('duration');
         if (numberOfMonth < advanceDuration){
-            alert("Number of months selected is less than advance payment months.\nSelect same or more than the advance payment duration");
+            // alert("Number of months selected is less than advance payment months.\nSelect same or more than the advance payment duration");
+            swal("Warning","Number of months selected is less than advance payment months.\nSelect same or more than the advance payment duration", "warning");
             return;
         }
 
@@ -57,7 +58,8 @@ $("#formRentBooking #adult").on("change", function(){
         let setAdult = $this.data('number');
         if(parseInt($this.val())>parseInt(setAdult)){
             let noOfAdult = (parseInt(setAdult)>1)? setAdult+" adults":setAdult+" adult";
-            alert("Property require "+noOfAdult);
+            // alert("Property require "+noOfAdult);
+            swal("Warning","Property requires "+noOfAdult, "warning");
             $this.val('1');
             return;
         }
@@ -71,7 +73,8 @@ $("#formRentBooking #children").on("change", function(){
         let setChildren = $this.data('number');
         if(parseInt($this.val())>parseInt(setChildren)){
             let noOfChild = (parseInt(setChildren)>1)? setChildren+" children":setChildren+" child";
-            alert("Property require "+noOfChild);
+            // alert("Property require "+noOfChild);
+            swal("Warning","Property requires "+noOfChild, "warning");
             $this.val('0');
             return;
         }

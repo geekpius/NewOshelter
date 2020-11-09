@@ -982,7 +982,6 @@
 @endsection
 
 @section('scripts')
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTmu7TKO3YhnpFYLdWY2g4ngzmpOj8Kg&amp;libraries=geometry&amp;libraries=places"></script>
 <script src="{{ asset('assets/light/js/photoswipe.min.js') }}"></script> 
 <script src="{{ asset('assets/light/js/photoswipe-ui-default.min.js') }}"></script>
 <script src="{{ asset('assets/light/js/jquery.sticky.js') }}"></script>

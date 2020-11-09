@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Session;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\HostelBlockRoomNumber;
-use App\UserModel\UserVisit;
+use App\BookModel\Booking;
 
 class BookingController extends Controller
 {
@@ -65,7 +65,7 @@ class BookingController extends Controller
  
     public function index(Property $property,$checkin,$checkout,$adult,$children,$infant,$filter_id)
     {
-        if($property->is_active && $property->user_id != Auth::user()->id){
+        if($property->is_active && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count()){
             $data['page_title'] = 'Booking '.$property->title;
             $data['property'] = $property;
             $data['check_in'] = $checkin;
@@ -229,6 +229,7 @@ class BookingController extends Controller
     {
         $validator = \Validator::make($request->all(), [
             'property_id' => 'required',
+            'owner' => 'required',
             'checkin' => 'required',
             'checkout' => 'required',
             'adult' => 'required',
@@ -240,28 +241,42 @@ class BookingController extends Controller
         if ($validator->fails()){
             $message = 'fail';
         }else{
-            $visit = Auth::user()->userVisits->where('property_id',$request->property_id)->where('status', 3)->first();
-            if(empty($visit)){
-                $userVisit = new UserVisit;
-                $userVisit->user_id  = Auth::user()->id;
-                $userVisit->property_id  = $request->property_id;
-                $userVisit->check_in  = date("Y-m-d",strtotime($request->checkin));
-                $userVisit->check_out  = date("Y-m-d",strtotime($request->checkout));
-                $userVisit->adult  = $request->adult;
-                $userVisit->children  = $request->child;
-                $userVisit->infant  = $request->infant;
-                $userVisit->save();
-                $message = "success";
-            }else{
-                $visit->check_in  = date("Y-m-d",strtotime($request->checkin));
-                $visit->check_out  = date("Y-m-d",strtotime($request->checkout));
-                $visit->adult  = $request->adult;
-                $visit->children  = $request->child;
-                $visit->infant  = $request->infant;
-                $visit->status = 1;
-                $visit->update();
-                $message = "success";
-            }
+            // $booking = Auth::user()->userBookings->where('property_id', $request->property_id);
+
+            $book = new Booking;
+            $book->user_id = Auth::user()->id;
+            $book->property_id  = $request->property_id;
+            $book->owner_id  = $request->owner;
+            $book->check_in  = date("Y-m-d",strtotime($request->checkin));
+            $book->check_out  = date("Y-m-d",strtotime($request->checkout));
+            $book->adult  = $request->adult;
+            $book->children  = $request->child;
+            $book->infant  = $request->infant;
+            $book->save();
+            $message = "success";
+
+            // $visit = Auth::user()->userVisits->where('property_id',$request->property_id)->where('status', 3)->first();
+            // if(empty($visit)){
+            //     $userVisit = new UserVisit;
+            //     $userVisit->user_id  = Auth::user()->id;
+            //     $userVisit->property_id  = $request->property_id;
+            //     $userVisit->check_in  = date("Y-m-d",strtotime($request->checkin));
+            //     $userVisit->check_out  = date("Y-m-d",strtotime($request->checkout));
+            //     $userVisit->adult  = $request->adult;
+            //     $userVisit->children  = $request->child;
+            //     $userVisit->infant  = $request->infant;
+            //     $userVisit->save();
+            //     $message = "success";
+            // }else{
+            //     $visit->check_in  = date("Y-m-d",strtotime($request->checkin));
+            //     $visit->check_out  = date("Y-m-d",strtotime($request->checkout));
+            //     $visit->adult  = $request->adult;
+            //     $visit->children  = $request->child;
+            //     $visit->infant  = $request->infant;
+            //     $visit->status = 1;
+            //     $visit->update();
+            //     $message = "success";
+            // }
         }
 
         return $message;        

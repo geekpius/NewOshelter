@@ -7,7 +7,7 @@ use App\MessageModel\Message;
 use Illuminate\Support\Facades\Auth;
 use App\PropertyModel\PropertyType;
 use App\UserModel\UserExtensionRequest;
-use App\UserModel\UserVisit;
+use App\BookModel\Booking;
 
 class UserController extends Controller
 {
@@ -40,13 +40,16 @@ class UserController extends Controller
     //notification message count
     public function messageCount()
     {
-        return Message::whereUser_id(Auth::user()->id)->whereStatus(0)->count();
+        $countMessage = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->count();
+        $countBooking = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->count();
+        return $countMessage+$countBooking;
     }
 
     //notification messages
     public function messageNotification()
     {
         $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->get();
+        $data['bookings'] = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->get();
         return view('admin.notifications.message-notification', $data)->render();
     }
 
@@ -67,10 +70,40 @@ class UserController extends Controller
     public function requests()
     {
         $data['page_title'] = 'My requests';
-        $data['bookings'] = UserVisit::whereUser_id(Auth::user()->id)->whereStatus(1)->get();
+        $data['bookings'] = Booking::whereUser_id(Auth::user()->id)->get();
         // $data['extensions'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIn('is_confirm', [1,2])->get();
         return view('admin.requests.index', $data)->render();
     }
+
+    public function requestDetail(Booking $booking)
+    {
+        $data['page_title'] = 'Booking requests';
+        $data['booking'] = $booking;
+        return view('admin.requests.confirm', $data)->render();
+    }
+
+    public function requestConfirm(Booking $booking)
+    {
+        $message = '';
+        if($booking->status == 1){
+            $booking->status = 2;
+            $booking->update();
+            $message = 'success';
+        }
+        return $message;
+    }
+
+    public function requestCancel(Booking $booking)
+    {
+        $message = '';
+        if($booking->status == 1){
+            $booking->status = 0;
+            $booking->update();
+            $message = 'success';
+        }
+        return $message;
+    }
+
 
 
 

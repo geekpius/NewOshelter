@@ -708,6 +708,7 @@ class PropertyController extends Controller
             {
                 $property->is_active = false;
                 $property->update();
+                return redirect()->route('property');
             }
             else
             {

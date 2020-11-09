@@ -211,7 +211,7 @@
             <div class="page-content">
                 @yield('content')
                 <footer class="footer text-center text-sm-left">
-                    OShelta &copy; <script>document.write(new Date().getFullYear());</script> Copyrights <span class="text-muted d-none d-sm-inline-block float-right">Designed with <i class="mdi mdi-heart text-danger"></i> by VibTech Ghana</span>
+                    OShelter &copy; <script>document.write(new Date().getFullYear());</script> Copyrights <span class="text-muted d-none d-sm-inline-block float-right">Designed with <i class="mdi mdi-heart text-danger"></i> by VibTech Ghana</span>
                 </footer><!--end footer-->
             </div>
             <!-- end page content -->

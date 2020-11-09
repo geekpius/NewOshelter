@@ -588,13 +588,10 @@
                                         <div class="col-sm-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <p class="text-primary">Your booking request will be sent to the owner. As soon as owner confirms, you will be requested to make payment.</p>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi iure perspiciatis autem reiciendis quo voluptates animi? Vitae sit non dolorem illo, esse quasi pariatur, 
-                                                        voluptatibus necessitatibus quis quo praesentium mollitia.
-                                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo excepturi ipsa doloribus, nostrum quibusdam dicta, mollitia praesentium ea eum dolore quod et veritatis deleniti 
-                                                        commodi error ipsam cumque facere nihil?
-                                                    </p>
-
+                                                    <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> Your booking request will be sent to the owner.</p>
+                                                    <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> As soon as owner confirms, you will be requested to make payment.</p>
+                                                    <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If owner is taking too long(more than 24hours) to response create a new support ticket.</p>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -608,11 +605,12 @@
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
                                     <div class="col-sm-12 mt-5 ml-sm-4">
-                                        @php $userVisit = Auth::user()->userVisits->where('property_id',$property->id)->where('status','!=', 0)->first(); @endphp
-                                        @if (empty($userVisit))
+                                        @php $booking = Auth::user()->userBookings->where('property_id',$property->id)->sortByDesc('id')->first(); @endphp
+                                        @if (empty($booking))
                                         <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
                                             @csrf
                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                            <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
                                             <input type="hidden" name="checkin" value="{{ $check_in }}" readonly>
                                             <input type="hidden" name="checkout" value="{{ $check_out }}" readonly>
                                             <input type="hidden" name="adult" value="{{ $adult }}" readonly>
@@ -621,15 +619,16 @@
                                             <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('requests') }}">CONFIRM BOOKING REQUEST</button>
                                         </form>
                                         @else
-                                            @if ($userVisit->status == 1)
-                                                <span class="text-primary">WAITING FOR CONFIRMATION...</span>
-                                            @elseif ($userVisit->status == 2)
-                                                <span class="text-primary">WAITING FOR PAYMENT...</span>
-                                            @elseif ($userVisit->status == 3)
+                                            @if ($booking->isPendingAttribute())
+                                                <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> WAITING FOR CONFIRMATION...</span>
+                                            @elseif ($booking->isConfirmAttribute())
+                                                <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> WAITING FOR PAYMENT...</span>
+                                            @elseif ($booking->isRejectAttribute())
                                                 <span class="text-danger">YOUR REQUEST WAS CANCELLED BY OWNER</span>
                                                 <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}" class="mt-2">
                                                     @csrf
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                    <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
                                                     <input type="hidden" name="checkin" value="{{ $check_in }}" readonly>
                                                     <input type="hidden" name="checkout" value="{{ $check_out }}" readonly>
                                                     <input type="hidden" name="adult" value="{{ $adult }}" readonly>
@@ -637,8 +636,8 @@
                                                     <input type="hidden" name="infant" value="{{ $infant }}" readonly>
                                                     <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('requests') }}">RE-APPLY BOOKING REQUEST</button>
                                                 </form>
-                                            @elseif ($userVisit->status == 4)
-                                                <span class="text-success">YOUR ARE CURRENTLY LIVING IN THE PROPERTY</span>
+                                            @elseif ($booking->isDoneAttribute() && !$booking->isCheckoutAttribute())
+                                                <span class="text-success"><i class="fa fa-home"></i> YOU ARE CURRENTLY LIVING IN THE PROPERTY</span>
                                             @endif
                                         @endif
                                         
