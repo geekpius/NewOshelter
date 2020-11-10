@@ -44,26 +44,14 @@
 
                                 <span class="fa fa-tag text-white pull-right"> 
                                     <strong>
-                                    @if ($property->vacant)
-                                        @if ($property->type_status=='rent')
-                                            Rent
-                                        @elseif($property->type_status=='sell')
-                                            Sell
-                                        @elseif($property->type_status=='auction')
-                                            Auction
-                                        @else
-                                            Short Stay
-                                        @endif
+                                    @if ($property->type_status=='rent')
+                                        Rent
+                                    @elseif($property->type_status=='sell')
+                                        Sell
+                                    @elseif($property->type_status=='auction')
+                                        Auction
                                     @else
-                                        @if ($property->type_status=='rent')
-                                            Rented
-                                        @elseif($property->type_status=='sell')
-                                            Sold
-                                        @elseif($property->type_status=='auction')
-                                            Auctioned
-                                        @else
-                                            Booked
-                                        @endif
+                                        Short Stay
                                     @endif
                                     </strong>
                                 </span>
@@ -78,26 +66,14 @@
 
                                 <span class="fa fa-tag text-white pull-right"> 
                                     <strong>
-                                    @if ($property->vacant)
-                                        @if ($property->type_status=='rent')
-                                            Rent
-                                        @elseif($property->type_status=='sell')
-                                            Sell
-                                        @elseif($property->type_status=='auction')
-                                            Auction
-                                        @else
-                                            Short Stay
-                                        @endif
+                                    @if ($property->type_status=='rent')
+                                        Rent
+                                    @elseif($property->type_status=='sell')
+                                        Sell
+                                    @elseif($property->type_status=='auction')
+                                        Auction
                                     @else
-                                        @if ($property->type_status=='rent')
-                                            Rented
-                                        @elseif($property->type_status=='sell')
-                                            Sold
-                                        @elseif($property->type_status=='auction')
-                                            Auctioned
-                                        @else
-                                            Booked
-                                        @endif
+                                        Short Stay
                                     @endif
                                     </strong>
                                 </span>

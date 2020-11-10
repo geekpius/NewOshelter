@@ -280,7 +280,7 @@
                             @elseif ($property->type_status=='short_stay')
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <h6 class="header-title {{ $property->vacant? 'text-primary':'text-danger' }}">{{ $property->vacant? 'Available, ready for renting':'Rented, too late' }}</h6>
+                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for renting':'Rented, too late' }}</h6>
                                         <p class=""><i class="fa fa-check text-success font-12"></i>
                                             <span>
                                                 @if ($property->propertyPrice->minimum_stay==3)
@@ -342,7 +342,7 @@
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
                                         <i class="fa fa-user-circle text-primary"></i>
-                                        <h4 class="header-title">{{ $property->vacant? 'Available for selling':'Sold, too late' }}</h4>
+                                        <h4 class="header-title">Some Title</h4>
                                         <p class="">
                                             <i class="fa fa-check text-success" style="font-size:9px"></i>
                                             <span>
@@ -360,7 +360,7 @@
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
                                         <i class="fa fa-user-circle text-primary"></i>
-                                        <h4 class="header-title">{{ $property->vacant? 'Available for auctioning':'Auctioned, highest bidder confirmed' }}</h4>
+                                        <h4 class="header-title">Some Title</h4>
                                         <p class="">
                                             <span>Bidding initial price</span>
                                             <br>
