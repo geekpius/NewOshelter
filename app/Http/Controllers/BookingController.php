@@ -16,6 +16,7 @@ use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\HostelBlockRoomNumber;
 use App\BookModel\Booking;
+use App\PaymentModel\Transaction;
 
 class BookingController extends Controller
 {
@@ -241,55 +242,43 @@ class BookingController extends Controller
         if ($validator->fails()){
             $message = 'fail';
         }else{
-            // $booking = Auth::user()->userBookings->where('property_id', $request->property_id);
-
-            $book = new Booking;
-            $book->user_id = Auth::user()->id;
-            $book->property_id  = $request->property_id;
-            $book->owner_id  = $request->owner;
-            $book->check_in  = date("Y-m-d",strtotime($request->checkin));
-            $book->check_out  = date("Y-m-d",strtotime($request->checkout));
-            $book->adult  = $request->adult;
-            $book->children  = $request->child;
-            $book->infant  = $request->infant;
-            $book->save();
-            $message = "success";
-
-            // $visit = Auth::user()->userVisits->where('property_id',$request->property_id)->where('status', 3)->first();
-            // if(empty($visit)){
-            //     $userVisit = new UserVisit;
-            //     $userVisit->user_id  = Auth::user()->id;
-            //     $userVisit->property_id  = $request->property_id;
-            //     $userVisit->check_in  = date("Y-m-d",strtotime($request->checkin));
-            //     $userVisit->check_out  = date("Y-m-d",strtotime($request->checkout));
-            //     $userVisit->adult  = $request->adult;
-            //     $userVisit->children  = $request->child;
-            //     $userVisit->infant  = $request->infant;
-            //     $userVisit->save();
-            //     $message = "success";
-            // }else{
-            //     $visit->check_in  = date("Y-m-d",strtotime($request->checkin));
-            //     $visit->check_out  = date("Y-m-d",strtotime($request->checkout));
-            //     $visit->adult  = $request->adult;
-            //     $visit->children  = $request->child;
-            //     $visit->infant  = $request->infant;
-            //     $visit->status = 1;
-            //     $visit->update();
-            //     $message = "success";
-            // }
+            if($request->book_status == 'rebook'){
+                $book = Auth::user()->userBookings->where('property_id',$request->property_id)->where('status', 0)->sortByDesc('id')->first();
+                $book->check_in  = date("Y-m-d",strtotime($request->checkin));
+                $book->check_out  = date("Y-m-d",strtotime($request->checkout));
+                $book->adult  = $request->adult;
+                $book->children  = $request->child;
+                $book->infant  = $request->infant;
+                $book->status  = 1;
+                $book->update();
+                $message = "success";
+            }else{
+                $book = new Booking;
+                $book->user_id = Auth::user()->id;
+                $book->property_id  = $request->property_id;
+                $book->owner_id  = $request->owner;
+                $book->check_in  = date("Y-m-d",strtotime($request->checkin));
+                $book->check_out  = date("Y-m-d",strtotime($request->checkout));
+                $book->adult  = $request->adult;
+                $book->children  = $request->child;
+                $book->infant  = $request->infant;
+                $book->save();
+                $message = "success";
+            }
         }
 
         return $message;        
     }
 
     // mobile payment
-    public function mobilePayment(Request $request) :string
+    public function mobilePayment(Request $request, Booking $booking) :string
     {
         $validator = \Validator::make($request->all(), [
             'mobile_operator' => 'required|string',
             'country_code' => 'required|string',
             'mobile_number' => 'required|numeric',
-            'amount' => 'required|numeric',
+            'payable_amount' => 'required|numeric',
+            'currency' => 'required|string',
         ]);
         
         (string) $message = '';
@@ -321,13 +310,14 @@ class BookingController extends Controller
             }
 
             $phone_number = $country_code.$mobile_number;
-            $orderId = Carbon::now()->timestamp;
+            $orderId = $booking->generateOrderID();
+            $payId = $booking->generatePaymentID();
 
             $url = 'https://app.slydepay.com.gh/api/merchant/invoice/create';
             $params = [
                 "emailOrMobileNumber" => "vibtechbusiness@gmail.com",
                 "merchantKey" => "1593792958329",
-                "amount" => $request->amount,
+                "amount" => $request->payable_amount,
                 "description" => "Property payment",
                 "orderCode" => $orderId,
                 "sendInvoice" => true,
@@ -350,24 +340,30 @@ class BookingController extends Controller
             // return  $json->success;
             // return $json->errorMessage;
             if($json->success == 1){
-                return 'success';
+                $trans = new Transaction;
+                $trans->user_id = Auth::user()->id;
+                $trans->booking_id = $booking->id;
+                $trans->transaction_id = $orderId;
+                $trans->payment_id = $payId;
+                $trans->amount = $request->payable_amount;
+                $trans->currency = $request->currency;
+                $trans->operator = $request->mobile_operator;
+                $trans->phone = $phone_number;
+                $trans->save();
+                return redirect()->route('payment.mobile.response', ['transactionId' => $orderId, 'user' => Auth::user()->id, 'operator' => strtolower($request->mobile_operator)]);
             }else{
                 return $json->errorMessage;
             }
-
-
-
-
-
-
-
-
-
-
-
-
         }      
     }
+
+    public function mobileResponse($transactionId, User $user, $operator)
+    {
+        $data['page_title'] = 'Payment';
+        $data['transaction'] = Transaction::whereTransaction_id($transactionId)->whereUser_id($user->id)->whereStatus(false)->orderBy('id', 'Desc')->first();
+        return view('admin.requests.payment_response', $data)->render();
+    }
+
 
     
 

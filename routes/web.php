@@ -56,6 +56,12 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/requests/{booking}/detail', 'UserController@requestDetail')->name('requests.detail');
     Route::get('/requests/{booking}/confirm', 'UserController@requestConfirm')->name('requests.comfirm');
     Route::get('/requests/{booking}/cancel', 'UserController@requestCancel')->name('requests.cancel');
+    Route::get('/requests/{booking}/payment', 'UserController@requestPayment')->name('requests.payment');
+
+    /*------- Payments ------- */
+    Route::post('/requests/{booking}/payment/mobile', 'BookingController@mobilePayment')->name('requests.payment.mobile');
+    Route::get('/payments/mobile/{transactionId}/{user}/{operator}', 'BookingController@mobileResponse')->name('payment.mobile.response');
+    // Route::post('/properties/bookings/payment/mobile', 'BookingController@mobilePayment')->name('property.bookings.mobilepayment');
     // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
     // Route::get('/activities', 'UserActivityController@index')->name('activities');
 
@@ -150,10 +156,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
     Route::post('/properties/bookings/verify', 'BookingController@verify')->name('property.bookings.verify');
     Route::post('/properties/bookings/request', 'BookingController@bookingRequest')->name('property.bookings.request');
-
-
-    Route::post('/properties/bookings/payment/mobile', 'BookingController@mobilePayment')->name('property.bookings.mobilepayment');
-    
+   
 
     /*------- Visitors Visit ------- */
     Route::get('/visits', 'VisitorController@index')->name('visits');

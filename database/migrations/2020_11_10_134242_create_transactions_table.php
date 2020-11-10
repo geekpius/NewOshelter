@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePropertyBuysTable extends Migration
+class CreateTransactionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,20 @@ class CreatePropertyBuysTable extends Migration
      */
     public function up()
     {
-        Schema::create('property_buys', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('property_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
+            $table->integer('booking_id')->unsigned()->index();
+            $table->string('transaction_id');
+            $table->string('payment_id');
             $table->double('amount');
+            $table->string('currency');
+            $table->string('operator');
+            $table->string('phone');
+            $table->boolean('status')->default(false);
             $table->timestamps();
-            $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
         });
     }
 
@@ -31,6 +37,6 @@ class CreatePropertyBuysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('property_buys');
+        Schema::dropIfExists('transactions');
     }
 }

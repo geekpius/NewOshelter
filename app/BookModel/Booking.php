@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\BookModel\Booking;
 use App\PropertyModel\Property;
 use App\User;
+use Illuminate\Support\Str;
 
 class Booking extends Model
 {
@@ -45,6 +46,22 @@ class Booking extends Model
     public function isCheckoutAttribute() : bool
     {
         return $this->check_out < \Carbon\Carbon::today();
+    }
+
+    public function generateOrderID() : string
+    {
+        return Str::random(16);
+    }
+
+    public function generatePaymentID(int $length=10) : string
+    {
+        (string) $characters = '0123456789';
+        (int) $charactersLength = strlen($characters);
+        (string) $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
 

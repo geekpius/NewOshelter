@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\PropertyModel\PropertyType;
 use App\UserModel\UserExtensionRequest;
 use App\BookModel\Booking;
+use App\ServiceCharge;
 
 class UserController extends Controller
 {
@@ -41,27 +42,30 @@ class UserController extends Controller
     public function messageCount()
     {
         $countMessage = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->count();
-        $countBooking = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->count();
-        return $countMessage+$countBooking;
+        return $countMessage;
     }
 
     //notification messages
     public function messageNotification()
     {
         $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->get();
-        $data['bookings'] = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->get();
         return view('admin.notifications.message-notification', $data)->render();
     }
 
     //notification count
     public function notificationCount()
     {
-        return UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(0)->count();
+        $countBooking = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->count();
+        $countConfirm = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->count();
+        $countExtension = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(0)->count();
+        return $countBooking+$countConfirm+$countExtension;
     }
 
     //notification content
     public function notification()
     {
+        $data['bookings'] = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->get();
+        $data['confirms'] = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->get();
         $data['notifications'] = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(0)->get();
         return view('admin.notifications.notification', $data)->render();
     }
@@ -102,6 +106,14 @@ class UserController extends Controller
             $message = 'success';
         }
         return $message;
+    }
+
+    public function requestPayment(Booking $booking)
+    {
+        $data['page_title'] = 'Payment requests';
+        $data['booking'] = $booking;
+        $data['charge'] = ServiceCharge::whereProperty_type($booking->property->type)->first();
+        return view('admin.requests.payment', $data)->render();
     }
 
 

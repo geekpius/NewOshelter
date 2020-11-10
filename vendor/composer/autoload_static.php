@@ -458,6 +458,7 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
         'App\\Http\\Resources\\PropertyCollection' => __DIR__ . '/../..' . '/app/Http/Resources/PropertyCollection.php',
         'App\\MessageModel\\Message' => __DIR__ . '/../..' . '/app/MessageModel/Message.php',
         'App\\MessageModel\\Reply' => __DIR__ . '/../..' . '/app/MessageModel/Reply.php',
+        'App\\PaymentModel\\Transaction' => __DIR__ . '/../..' . '/app/PaymentModel/Transaction.php',
         'App\\PropertyModel\\HostelBlockRoom' => __DIR__ . '/../..' . '/app/PropertyModel/HostelBlockRoom.php',
         'App\\PropertyModel\\HostelBlockRoomNumber' => __DIR__ . '/../..' . '/app/PropertyModel/HostelBlockRoomNumber.php',
         'App\\PropertyModel\\HostelRoomAmenity' => __DIR__ . '/../..' . '/app/PropertyModel/HostelRoomAmenity.php',

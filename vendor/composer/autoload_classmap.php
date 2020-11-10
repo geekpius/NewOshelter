@@ -58,6 +58,7 @@ return array(
     'App\\Http\\Resources\\PropertyCollection' => $baseDir . '/app/Http/Resources/PropertyCollection.php',
     'App\\MessageModel\\Message' => $baseDir . '/app/MessageModel/Message.php',
     'App\\MessageModel\\Reply' => $baseDir . '/app/MessageModel/Reply.php',
+    'App\\PaymentModel\\Transaction' => $baseDir . '/app/PaymentModel/Transaction.php',
     'App\\PropertyModel\\HostelBlockRoom' => $baseDir . '/app/PropertyModel/HostelBlockRoom.php',
     'App\\PropertyModel\\HostelBlockRoomNumber' => $baseDir . '/app/PropertyModel/HostelBlockRoomNumber.php',
     'App\\PropertyModel\\HostelRoomAmenity' => $baseDir . '/app/PropertyModel/HostelRoomAmenity.php',

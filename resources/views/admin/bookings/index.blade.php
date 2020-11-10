@@ -600,8 +600,10 @@
                                     @php
                                         $price = $property->propertyPrice->property_price;
                                         $totalPrice = ($property->propertyPrice->property_price* $dateDiff);
-                                        $serviceFee = ($property->propertyPrice->property_price* $dateDiff)*($charge->charge/100);
-                                        $discountFee = ($property->propertyPrice->property_price* $dateDiff)*($charge->discount/100);
+                                        $fee = empty($charge->charge)? 1:$charge->charge;
+                                        $serviceFee = ($property->propertyPrice->property_price* $dateDiff)*($fee/100);
+                                        $discount = empty($charge->discount)? 1:$charge->discount;
+                                        $discountFee = ($property->propertyPrice->property_price* $dateDiff)*($discount/100);
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
                                     <div class="col-sm-12 mt-5 ml-sm-4">
@@ -609,6 +611,7 @@
                                         @if (empty($booking))
                                         <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
                                             @csrf
+                                            <input type="hidden" name="book_status" value="freshbook" readonly>
                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                             <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
                                             <input type="hidden" name="checkin" value="{{ $check_in }}" readonly>
@@ -627,6 +630,7 @@
                                                 <span class="text-danger">YOUR REQUEST WAS CANCELLED BY OWNER</span>
                                                 <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}" class="mt-2">
                                                     @csrf
+                                                    <input type="hidden" name="book_status" value="rebook" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                     <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
                                                     <input type="hidden" name="checkin" value="{{ $check_in }}" readonly>

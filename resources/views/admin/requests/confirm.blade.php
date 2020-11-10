@@ -39,6 +39,27 @@
                                     <img src="{{ asset('assets/images/users/'.$booking->user->image) }}" alt="{{ $booking->user->name }}" class="thumb-sm rounded-circle mr-1" />
                                     This booking request is from {{ current(explode(' ',$booking->user->name))}}.
                                 </p>
+                                @php
+                                    if ($booking->property->type_status == 'rent') {
+                                        $from = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_in);
+                                        $to = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_out);
+                                        $dateDiff = $to->diffInMonths($from);
+                                    }
+                                    $years = '';
+                                    if($dateDiff >= 12){
+                                        $y = $dateDiff/12;
+                                        $m = $dateDiff%12;
+                                        $year = ($y==1)? $y." year":$y." years";
+                                        $month = ($m==1)? $m." month":$m." months";
+                                        $years = $year.(($m==0)? '':$month);
+                                    }else{
+                                        $years = $dateDiff." months";
+                                    }
+                                @endphp
+                                <span class="font-weight-500 ml-1">
+                                    {{ $booking->property->propertyPrice->currency }}&nbsp;{{ number_format(($booking->property->propertyPrice->property_price*$dateDiff),2) }} 
+                                    for {{ $years }}
+                                </span>
                             </div>    
                         </div>
                         <h5 class="text-primary">{{ $booking->property->title }}</h5>

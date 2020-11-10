@@ -62,7 +62,8 @@
                                         <th>Check In</th>
                                         <th>Check Out</th>
                                         <th>Guests</th>
-                                        <th>Confirm</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
                                     </tr><!--end tr-->
                                     </thead>
 
@@ -81,9 +82,20 @@
                                                 @elseif ($book->isConfirmAttribute())
                                                 <span class="text-success"><i class="fa fa-check"></i> Confirmed</span>
                                                 @elseif ($book->isRejectAttribute())
-                                                <span class="text-danger"><i class="fa fa-times"></i> Rejected</span>
+                                                <span class="text-danger"><i class="fa fa-times"></i> Cancelled</span>
                                                 @elseif ($book->isDoneAttribute())
-                                                <span class="text-success"><i class="fa fa-times"></i> Paid</span>
+                                                <span class="text-success"><i class="fa fa-money-bill"></i> Paid</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($book->isPendingAttribute())
+                                                <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> Waiting...</span>
+                                                @elseif ($book->isConfirmAttribute())
+                                                <a href="{{ route('requests.payment', $book->id) }}" class="btn btn-sm btn-primary">Make Payment</a>
+                                                @elseif ($book->isRejectAttribute())
+                                                <span class="text-danger"><i class="fa fa-times"></i> Cancelled</span>
+                                                @elseif ($book->isDoneAttribute())
+                                                <a href="" class="btn btn-sm btn-primary">View Invoice</a>
                                                 @endif
                                             </td>
                                         </tr><!--end tr-->
