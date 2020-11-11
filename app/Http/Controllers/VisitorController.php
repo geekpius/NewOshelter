@@ -79,6 +79,16 @@ class VisitorController extends Controller
         return view('admin.visits.visited-property', $data);
     }
 
+
+
+    /************ Extension Requests  **************/
+    public function extensionRequests()
+    {
+        $data['page_title'] = 'Extension requestss';
+        $data['extensions'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->get();
+        return view('admin.requests.date_extension', $data);
+    }
+
     public function extendStay(Request $request)
     {
         $validator = \Validator::make($request->all(), [

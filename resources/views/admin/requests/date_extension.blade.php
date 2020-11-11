@@ -35,10 +35,10 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs nav-justified" role="tablist">
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link active text-primary font-weight-500" href="{{ route('requests') }}" role="tab">Booking Requests</a>
+                            <a class="nav-link" href="{{ route('requests') }}" role="tab">Booking Requests</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.upcoming') }}" role="tab">Date Extension Requests</a>
+                            <a class="nav-link active text-primary font-weight-500" href="{{ route('requests.extension') }}" role="tab">Date Extension Requests</a>
                         </li>
                         {{-- 
                         <li class="nav-item waves-effect waves-light">
@@ -62,31 +62,38 @@
                                         <th>Check In</th>
                                         <th>Check Out</th>
                                         <th class="text-primary">Extended Date</th>
-                                        <th>Confirm</th>
                                         <th>Paid</th>
+                                        <th>Confirm</th>
                                     </tr><!--end tr-->
                                     </thead>
 
                                     <tbody>
-                                        @foreach ($bookings as $book)
+                                        @foreach ($extensions as $ext)
                                         <tr class="record">
-                                            <td>{{ \Carbon\Carbon::parse($book->created_at)->diffForHumans() }}</td>
-                                            <td>{{ $book->property->title }}</td>
-                                            <td>{{ $book->property->user->name }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($book->check_in)->format('d-M-Y') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($book->check_out)->format('d-M-Y') }}</td>
-                                            <td class="text-primary">{{ \Carbon\Carbon::parse($book->extension_date)->format('d-M-Y') }}</td>
-                                            <td><span class="badge badge-md badge-{{ ($ext->is_confirm==1)? 'success':'danger' }}">{{ $ext->getConfirmation() }}</span></td>
-                                            <td>@if ($ext->is_confirm == 1)
-                                                {{ $ext->getPaid() }}
-                                                @if (!$ext->is_paid)
-                                                <a href="" class="ml-3"><i class="fa fa-money-bill fa-lg text-primary"></i></a>
+                                            <td>{{ \Carbon\Carbon::parse($ext->created_at)->diffForHumans() }}</td>
+                                            <td>{{ $ext->visit->property->title }}</td>
+                                            <td><img src="{{ asset('assets/images/users/'.$ext->owner->image) }}" alt="" class="thumb-sm rounded-circle mr-2">{{ $ext->owner->name }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($ext->visit->check_in)->format('d-M-Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($ext->visit->check_out)->format('d-M-Y') }}</td>
+                                            <td class="text-primary">{{ \Carbon\Carbon::parse($ext->extension_date)->format('d-M-Y') }}</td>
+                                            <td>
+                                                @if ($ext->isPaidAttribute())
+                                                <span class="text-success">Paid</span>
+                                                @else
+                                                <span class="text-danger">Not Paid</span>
                                                 @endif
-                                            @elseif($ext->is_confirm == 2)
-                                                Can't Pay
-                                            @else
-                                                Pending
-                                            @endif</td>
+                                            </td>
+                                            <td>
+                                                @if ($ext->isPendingAttribute())
+                                                <span class="badge badge-md badge-primary"><i class="fa fa-spin fa-spinner"></i> Pending</span>
+                                                @elseif ($ext->isConfirmAttribute())
+                                                <a href="{{ route('requests.payment', $ext->id) }}"><span class="badge badge-md badge-primary">Make Payment</span></a>
+                                                @elseif ($ext->isRejectAttribute())
+                                                <span class="badge badge-md badge-danger"><i class="fa fa-times"></i> Cancelled</span>
+                                                @elseif ($ext->isDoneAttribute())
+                                                <a href="{{ route('requests.invoice', $ext->id) }}"><span class="badge badge-md badge-primary">View Invoice</span></a>
+                                                @endif
+                                            </td>
                                         </tr><!--end tr-->
                                         @endforeach                                                                                   
                                     </tbody>

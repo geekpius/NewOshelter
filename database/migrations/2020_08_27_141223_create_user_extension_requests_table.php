@@ -19,7 +19,7 @@ class CreateUserExtensionRequestsTable extends Migration
             $table->integer('visit_id')->unsigned()->index();
             $table->integer('owner_id');
             $table->date('extension_date');
-            $table->integer('is_confirm')->default(0);
+            $table->integer('is_confirm')->default(1);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('visit_id')->references('id')->on('user_visits')->onDelete('cascade');

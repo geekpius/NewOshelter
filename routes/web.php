@@ -52,15 +52,20 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/wishlist', 'UserSavedPropertyController@wishList')->name('saved');
     Route::post('/wishlist', 'UserSavedPropertyController@store')->name('saved.submit');
     Route::get('/wishlist/{userSavedProperty}/remove', 'UserSavedPropertyController@removeWishList')->name('saved.remove');
+
+     /*------- Requests ------- */
     Route::get('/requests', 'UserController@requests')->name('requests');
     Route::get('/requests/{booking}/detail', 'UserController@requestDetail')->name('requests.detail');
     Route::get('/requests/{booking}/confirm', 'UserController@requestConfirm')->name('requests.comfirm');
     Route::get('/requests/{booking}/cancel', 'UserController@requestCancel')->name('requests.cancel');
     Route::get('/requests/{booking}/payment', 'UserController@requestPayment')->name('requests.payment');
+    Route::get('/requests/{booking}/invoice', 'UserController@requestInvoice')->name('requests.invoice');
+
+    Route::get('/requests/extensions', 'VisitorController@extensionRequests')->name('requests.extension');
 
     /*------- Payments ------- */
     Route::post('/requests/{booking}/payment/mobile', 'BookingController@mobilePayment')->name('requests.payment.mobile');
-    Route::get('/payments/mobile/{transactionId}/{user}/{operator}', 'BookingController@mobileResponse')->name('payment.mobile.response');
+    Route::get('/payments/mobile/{booking}/{transactionId}/{user}/{operator}', 'BookingController@mobileResponse')->name('payment.mobile.response');
     // Route::post('/properties/bookings/payment/mobile', 'BookingController@mobilePayment')->name('property.bookings.mobilepayment');
     // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
     // Route::get('/activities', 'UserActivityController@index')->name('activities');

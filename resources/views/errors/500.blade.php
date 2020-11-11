@@ -29,7 +29,7 @@
                             <div class="card-body">
                                 <div class="px-3">
                                     <div class="auth-logo-box">
-                                        <a href="{{ route('index') }}" class="logo logo-admin"><img src="{{ asset('assets/images/logo-sm.png') }}" height="55" alt="logo" class="auth-logo"></a>
+                                        <a href="{{ route('index') }}" class="logo logo-admin"><img src="{{ asset('assets/images/form-logo.png') }}" height="55" alt="logo" class="auth-logo"></a>
                                     </div><!--end auth-logo-box-->
                                     <img src="{{ asset('assets/images/500.jpg') }}" alt="" class="d-block mx-auto mt-4" height="250">
                                     <div class="text-center auth-logo-text mb-4">

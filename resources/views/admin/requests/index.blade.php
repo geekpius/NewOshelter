@@ -38,7 +38,7 @@
                             <a class="nav-link active text-primary font-weight-500" href="{{ route('requests') }}" role="tab">Booking Requests</a>
                         </li>
                         <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.upcoming') }}" role="tab">Date Extension Requests</a>
+                            <a class="nav-link" href="{{ route('requests.extension') }}" role="tab">Date Extension Requests</a>
                         </li>
                         {{-- 
                         <li class="nav-item waves-effect waves-light">
@@ -91,11 +91,11 @@
                                                 @if ($book->isPendingAttribute())
                                                 <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> Waiting...</span>
                                                 @elseif ($book->isConfirmAttribute())
-                                                <a href="{{ route('requests.payment', $book->id) }}" class="btn btn-sm btn-primary">Make Payment</a>
+                                                <a href="{{ route('requests.payment', $book->id) }}"><span class="badge badge-md badge-primary">Make Payment</span></a>
                                                 @elseif ($book->isRejectAttribute())
-                                                <span class="text-danger"><i class="fa fa-times"></i> Cancelled</span>
+                                                <span class="badge badge-md badge-danger"><i class="fa fa-times"></i> Cancelled</span>
                                                 @elseif ($book->isDoneAttribute())
-                                                <a href="" class="btn btn-sm btn-primary">View Invoice</a>
+                                                <a href="{{ route('requests.invoice', $book->id) }}"><span class="badge badge-md badge-primary">View Invoice</span></a>
                                                 @endif
                                             </td>
                                         </tr><!--end tr-->

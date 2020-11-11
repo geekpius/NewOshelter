@@ -57,7 +57,7 @@ class UserController extends Controller
     {
         $countBooking = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->count();
         $countConfirm = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->count();
-        $countExtension = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(0)->count();
+        $countExtension = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(1)->count();
         return $countBooking+$countConfirm+$countExtension;
     }
 
@@ -66,16 +66,15 @@ class UserController extends Controller
     {
         $data['bookings'] = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->get();
         $data['confirms'] = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->get();
-        $data['notifications'] = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(0)->get();
+        $data['notifications'] = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(1)->get();
         return view('admin.notifications.notification', $data)->render();
     }
 
-    // requests
+    // booking requests
     public function requests()
     {
-        $data['page_title'] = 'My requests';
+        $data['page_title'] = 'Booking requests';
         $data['bookings'] = Booking::whereUser_id(Auth::user()->id)->get();
-        // $data['extensions'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIn('is_confirm', [1,2])->get();
         return view('admin.requests.index', $data)->render();
     }
 
@@ -110,15 +109,14 @@ class UserController extends Controller
 
     public function requestPayment(Booking $booking)
     {
-        $data['page_title'] = 'Payment requests';
-        $data['booking'] = $booking;
-        $data['charge'] = ServiceCharge::whereProperty_type($booking->property->type)->first();
-        return view('admin.requests.payment', $data)->render();
+        if($booking->status == 2){
+            $data['page_title'] = 'Payment requests';
+            $data['booking'] = $booking;
+            $data['charge'] = ServiceCharge::whereProperty_type($booking->property->type)->first();
+            return view('admin.requests.payment', $data)->render();
+        }else{
+            return view('errors.404');
+        }
     }
-
-
-
-
-
     
 }
