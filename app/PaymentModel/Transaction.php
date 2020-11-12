@@ -5,6 +5,7 @@ namespace App\PaymentModel;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\BookModel\Booking;
+use App\UserModel\UserExtensionRequest;
 
 class Transaction extends Model
 {
@@ -12,7 +13,7 @@ class Transaction extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id', 'booking_id', 'transaction_id', 'payment_id', 'amount', 'status',
+        'user_id', 'booking_id', 'extension_id', 'transaction_id', 'payment_id', 'amount', 'status', 'type',
     ];
 
     public function user(){
@@ -21,6 +22,10 @@ class Transaction extends Model
 
     public function booking(){
         return $this->belongsTo(Booking::class, 'booking_id');
+    }
+
+    public function extensionRequest(){
+        return $this->belongsTo(UserExtensionRequest::class, 'extension_id');
     }
 
 }

@@ -1,17 +1,28 @@
 <!-- item-->
 <h6 class="dropdown-item-text">
-    Notifications ({{ count($notifications)+count($bookings)+count($confirms) }})
+    Notifications ({{ count($notifications)+count($noti_confirms)+count($bookings)+count($confirms) }})
 </h6>
 <div class="slimscroll notification-list">
     @if (count($notifications))
         @foreach ($notifications as $item)
             <!-- item-->
-            <a href="{{ route('visits.extension.request', $item->id) }}" class="dropdown-item notify-item active">
+            <a href="{{ route('requests.extension.detail', $item->id) }}" class="dropdown-item notify-item active">
                 <div class="notify-icon bg-success"><i class="fa fa-bell"></i></div>
                 <p class="notify-details">Extension Request<small class="text-muted">{{ $item->user->name }} wants to extend stay to {{ \Carbon\Carbon::parse($item->extension_date)->format('d-M-Y') }}</small></p>
             </a>
         @endforeach
     @endif
+
+    @if (count($noti_confirms))
+        @foreach ($noti_confirms as $item)
+            <!-- item-->
+            <a href="{{ route('requests.extension.payment', $item->id) }}" class="dropdown-item notify-item active">
+                <div class="notify-icon bg-success"><i class="fa fa-bell"></i></div>
+                <p class="notify-details">Extension Payment Request<small class="text-muted">Pending</small></p>
+            </a>
+        @endforeach
+    @endif
+
 
     @if (count($bookings))
     @foreach ($bookings as $item)

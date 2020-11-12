@@ -349,6 +349,7 @@ class BookingController extends Controller
                 $trans->currency = $request->currency;
                 $trans->operator = $request->mobile_operator;
                 $trans->phone = $phone_number;
+                $trans->type = $request->type;
                 $trans->save();
                 return redirect()->route('payment.mobile.response', ['transactionId' => $orderId, 'user' => Auth::user()->id, 'operator' => strtolower($request->mobile_operator)]);
             }else{
@@ -361,7 +362,7 @@ class BookingController extends Controller
     {
         $data['page_title'] = 'Payment';
         $data['transaction'] = Transaction::whereTransaction_id($transactionId)->whereUser_id($user->id)->whereStatus(false)->orderBy('id', 'Desc')->first();
-        return view('admin.requests.payment_response', $data)->render();
+        return view('admin.requests.payment_response', $data);
     }
 
 

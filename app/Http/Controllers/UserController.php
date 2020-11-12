@@ -58,7 +58,8 @@ class UserController extends Controller
         $countBooking = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->count();
         $countConfirm = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->count();
         $countExtension = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(1)->count();
-        return $countBooking+$countConfirm+$countExtension;
+        $countExtensionConfirm = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIs_confirm(2)->count();
+        return $countBooking+$countConfirm+$countExtension+$countExtensionConfirm;
     }
 
     //notification content
@@ -67,6 +68,7 @@ class UserController extends Controller
         $data['bookings'] = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->get();
         $data['confirms'] = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->get();
         $data['notifications'] = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(1)->get();
+        $data['noti_confirms'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIs_confirm(2)->get();
         return view('admin.notifications.notification', $data)->render();
     }
 
@@ -75,14 +77,14 @@ class UserController extends Controller
     {
         $data['page_title'] = 'Booking requests';
         $data['bookings'] = Booking::whereUser_id(Auth::user()->id)->get();
-        return view('admin.requests.index', $data)->render();
+        return view('admin.requests.index', $data);
     }
 
     public function requestDetail(Booking $booking)
     {
         $data['page_title'] = 'Booking requests';
         $data['booking'] = $booking;
-        return view('admin.requests.confirm', $data)->render();
+        return view('admin.requests.confirm', $data);
     }
 
     public function requestConfirm(Booking $booking)
@@ -113,7 +115,7 @@ class UserController extends Controller
             $data['page_title'] = 'Payment requests';
             $data['booking'] = $booking;
             $data['charge'] = ServiceCharge::whereProperty_type($booking->property->type)->first();
-            return view('admin.requests.payment', $data)->render();
+            return view('admin.requests.payment', $data);
         }else{
             return view('errors.404');
         }

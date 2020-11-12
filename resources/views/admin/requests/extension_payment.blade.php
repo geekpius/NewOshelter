@@ -12,10 +12,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">Payment Requests</li>
+                        <li class="breadcrumb-item active">Extension Payment Requests</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Payment Requests</h4>
+                <h4 class="page-title">Extension Payment Requests</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>
@@ -29,22 +29,22 @@
 
                 <div class="card-body pt-12">
 
-                    <h4 class="header-title mt-lg-12 mb-3">Payment Requests</h4> 
+                    <h4 class="header-title mt-lg-12 mb-3">Extension Payment Requests</h4> 
                     
                     <br>
-                    @if ($booking->property->type == 'hostel')
+                    @if ($extension->visit->property->type == 'hostel')
                     @else
                         <div class="col-sm-6">
                             <div class="card">
                                 <div class="card-body">
                                     <p class="font-14">
-                                        <img src="{{ asset('assets/images/users/'.$booking->owner->image) }}" alt="{{ $booking->owner->name }}" class="thumb-sm rounded-circle mr-1" />
-                                        This {{ $booking->property->type }} belongs to {{ current(explode(' ',$booking->owner->name))}}. Other people like it.
+                                        <img src="{{ asset('assets/images/users/'.$extension->owner->image) }}" alt="{{ $extension->owner->name }}" class="thumb-sm rounded-circle mr-1" />
+                                        This {{ $extension->visit->property->type }} belongs to {{ current(explode(' ',$extension->owner->name))}}. Other people like it.
                                     </p>
                                     @php
-                                        if ($booking->property->type_status == 'rent') {
-                                            $from = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_in);
-                                            $to = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_out);
+                                        if ($extension->visit->property->type_status == 'rent') {
+                                            $from = \Carbon\Carbon::createFromFormat('Y-m-d', $extension->visit->check_out);
+                                            $to = \Carbon\Carbon::createFromFormat('Y-m-d', $extension->extension_date);
                                             $dateDiff = $to->diffInMonths($from);
                                         }
                                         $years = '';
@@ -58,13 +58,13 @@
                                             $years = $dateDiff." months";
                                         }
                                         
-                                        $currency = $booking->property->propertyPrice->currency;
-                                        $price = $booking->property->propertyPrice->property_price;
-                                        $totalPrice = ($booking->property->propertyPrice->property_price* $dateDiff);
+                                        $currency = $extension->visit->property->propertyPrice->currency;
+                                        $price = $extension->visit->property->propertyPrice->property_price;
+                                        $totalPrice = ($extension->visit->property->propertyPrice->property_price* $dateDiff);
                                         $fee = empty($charge->charge)? 1:$charge->charge;
-                                        $serviceFee = ($booking->property->propertyPrice->property_price* $dateDiff)*($fee/100);
+                                        $serviceFee = ($extension->visit->property->propertyPrice->property_price* $dateDiff)*($fee/100);
                                         $discount = empty($charge->discount)? 0:$charge->discount;
-                                        $discountFee = ($booking->property->propertyPrice->property_price* $dateDiff)*($discount/100);
+                                        $discountFee = ($extension->visit->property->propertyPrice->property_price* $dateDiff)*($discount/100);
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
                                 </div>    
@@ -134,9 +134,9 @@
                                     </div>
                                     <div id="momoExpand" style="display: none">
                                         <hr>
-                                        <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.payment.mobile', $booking->id) }}">
+                                        <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.extension.payment.mobile', $extension->id) }}">
                                             @csrf
-                                            <input type="hidden" name="type" value="rent" readonly>
+                                            <input type="hidden" name="type" value="extension" readonly>
                                             <input type="hidden" name="currency" value="{{ $currency }}" readonly>
                                             <input type="hidden" name="payable_amount" value="{{ $totalFee }}" readonly>
                                             <div class="row">
@@ -197,7 +197,7 @@
 @endsection
 
 @section('scripts')
-@if ($booking->property->type=='hostel')
+@if ($extension->visit->property->type=='hostel')
 @else
 <script src="{{ asset('assets/pages/booking/payment.js') }}"></script>   
 @endif

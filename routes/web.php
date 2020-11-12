@@ -62,10 +62,15 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/requests/{booking}/invoice', 'UserController@requestInvoice')->name('requests.invoice');
 
     Route::get('/requests/extensions', 'VisitorController@extensionRequests')->name('requests.extension');
+    Route::get('/requests/extensions/{userExtensionRequest}/detail', 'VisitorController@extensionDetail')->name('requests.extension.detail');
+    Route::get('/requests/extensions/{userExtensionRequest}/confirm', 'VisitorController@confirmExtendStay')->name('requests.extension.confirm');
+    Route::get('/requests/extensions/{userExtensionRequest}/cancel', 'VisitorController@cancelExtendStay')->name('requests.extension.cancel');
+    Route::get('/requests/extensions/{userExtensionRequest}/payment', 'VisitorController@extensionPayment')->name('requests.extension.payment');
 
     /*------- Payments ------- */
     Route::post('/requests/{booking}/payment/mobile', 'BookingController@mobilePayment')->name('requests.payment.mobile');
-    Route::get('/payments/mobile/{booking}/{transactionId}/{user}/{operator}', 'BookingController@mobileResponse')->name('payment.mobile.response');
+    Route::post('/requests/extensions/{userExtensionRequest}/payment/mobile', 'VisitorController@mobilePayment')->name('requests.extension.payment.mobile');
+    Route::get('/payments/mobile/{transactionId}/{user}/{operator}', 'BookingController@mobileResponse')->name('payment.mobile.response');
     // Route::post('/properties/bookings/payment/mobile', 'BookingController@mobilePayment')->name('property.bookings.mobilepayment');
     // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
     // Route::get('/activities', 'UserActivityController@index')->name('activities');
@@ -169,9 +174,6 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/visits/upcoming', 'VisitorController@upcoming')->name('visits.upcoming');
     Route::get('/visits/current', 'VisitorController@current')->name('visits.current');
     Route::post('/visits/current/extend', 'VisitorController@extendStay')->name('visits.current.extend');
-    Route::get('/visits/extension/{userExtensionRequest}/request', 'VisitorController@extensionRequest')->name('visits.extension.request');
-    Route::post('/visits/extension/{userExtensionRequest}/approve', 'VisitorController@approveExtendStay')->name('visits.extension.request.approve');
-    Route::post('/visits/extension/{userExtensionRequest}/decline', 'VisitorController@declineExtendStay')->name('visits.extension.request.decline');
     Route::get('/visits/past', 'VisitorController@past')->name('visits.past');
     Route::get('/visits/{property}/detail', 'VisitorController@showVisitedProperty')->name('visits.property');
     Route::get('/visits/hostel', 'VisitorController@hostel')->name('visits.hostel');

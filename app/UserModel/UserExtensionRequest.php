@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\UserModel\UserVisit;
 use App\UserModel\UserExtensionRequest;
-
+use Illuminate\Support\Str;
 class UserExtensionRequest extends Model
 {
     protected $table = 'user_extension_requests';
@@ -70,6 +70,24 @@ class UserExtensionRequest extends Model
     {
         return $this->is_paid == UserExtensionRequest::UNPAID;
     }
+
+
+    public function generateOrderID() : string
+    {
+        return Str::random(16);
+    }
+
+    public function generatePaymentID(int $length=10) : string
+    {
+        (string) $characters = '0123456789';
+        (int) $charactersLength = strlen($characters);
+        (string) $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
 
 
     
