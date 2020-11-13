@@ -75,7 +75,7 @@
                                             <td><img src="{{ asset('assets/images/users/'.$book->owner->image) }}" alt="" class="thumb-sm rounded-circle mr-2">{{ $book->owner->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($book->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($book->check_out)->format('d-M-Y') }}</td>
-                                            <td>{{ $book->adult + $book->children + $book->infant }}</td>
+                                            <td>{{ $book->getGuestAttribute() }}</td>
                                             <td>
                                                 @if ($book->isPendingAttribute())
                                                 <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> Waiting...</span>

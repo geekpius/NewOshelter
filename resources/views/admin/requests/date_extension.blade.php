@@ -87,7 +87,7 @@
                                                 @if ($ext->isPendingAttribute())
                                                 <span class="badge badge-md badge-primary"><i class="fa fa-spin fa-spinner"></i> Pending</span>
                                                 @elseif ($ext->isConfirmAttribute())
-                                                <a href="{{ route('requests.payment', $ext->id) }}"><span class="badge badge-md badge-primary">Make Payment</span></a>
+                                                <a href="{{ route('requests.extension.payment', $ext->id) }}"><span class="badge badge-md badge-primary">Make Payment</span></a>
                                                 @elseif ($ext->isRejectAttribute())
                                                 <span class="badge badge-md badge-danger"><i class="fa fa-times"></i> Cancelled</span>
                                                 @elseif ($ext->isDoneAttribute())

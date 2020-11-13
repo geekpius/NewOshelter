@@ -73,11 +73,17 @@
                                         <tr class="record">
                                             <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
                                             <td>{{ $visit->property->title }}</td>
-                                            <td>{{ $visit->property->user->name }}</td>
+                                            <td><img src="{{ asset('assets/images/users/'.$visit->property->user->image) }}" alt="" class="thumb-sm rounded-circle mr-2">{{ $visit->property->user->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_out)->format('d-M-Y') }}</td>
-                                            <td>{{ ($visit->adult+$visit->children+$visit->infant) }}</td>
-                                            <td><span class="badge badge-md badge-{{ ($visit->status)? 'success':'danger' }}">{{ $visit->checkInOrOut() }}</span></td>
+                                            <td>{{ $visit->getGuestAttribute() }}</td>
+                                            <td>
+                                                @if ($visit->isInAttribute())
+                                                <span class="badge badge-md badge-success">IN</span>
+                                                @else
+                                                <span class="badge badge-md badge-success">OUT</span>                                                    
+                                                @endif
+                                            </td>
                                             <td>
                                                 <a href="{{ route('visits.property', $visit->property_id) }}" class="mr-3" title="View Property"><i class="fas fa-home text-primary font-16"></i></a>
                                                 <a href="/user/visits/current/extend" class="btnExtend" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">

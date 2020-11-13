@@ -39,7 +39,8 @@ $('input[name="extended_date"]').on('apply.daterangepicker', function(ev, picker
             let numberOfMonth = (months <= 0)? 0 : months;
             // check if select months is not less
             if (numberOfMonth < 6){
-                alert("Extension date should be 6 months or more.");
+                // alert("Extension date should be 6 months or more.");
+                swal("Warning", "Extension date should be 6 months or more", "warning");
                 return;
             }
         }else{
@@ -52,7 +53,8 @@ $('input[name="extended_date"]').on('apply.daterangepicker', function(ev, picker
                 let numberOfMonth = (months <= 0)? 0 : months;
                 // check if select months is not less
                 if (numberOfMonth < 12){
-                    alert("Extension date should be 12 months or more.");
+                    // alert("Extension date should be 12 months or more.");
+                    swal("Warning", "Extension date should be 12 months or more", "warning");
                     return;
                 }
             }else if(status == 'short_stay'){
@@ -63,7 +65,8 @@ $('input[name="extended_date"]').on('apply.daterangepicker', function(ev, picker
 
                 // checking max and min stays
                 if (days < 3){
-                    alert("Extension date should be 3 days or more.");
+                    // alert("Extension date should be 3 days or more.");
+                    swal("Warning", "Extension date should be 3 days or more", "warning");
                     return;
                 }
             }
@@ -88,7 +91,8 @@ $("#formExtend").on('submit', function(e){
         let numberOfMonth = (months <= 0)? 0 : months;
         // check if select months is not less
         if (numberOfMonth < 6){
-            alert("Extension date should be 6 months or more.");
+            // alert("Extension date should be 6 months or more.");
+            swal("Warning", "Extension date should be 6 months or more", "warning");
             return;
         }
     }else{
@@ -101,7 +105,8 @@ $("#formExtend").on('submit', function(e){
             let numberOfMonth = (months <= 0)? 0 : months;
             // check if select months is not less
             if (numberOfMonth < 12){
-                alert("Extension date should be 12 months or more.");
+                // alert("Extension date should be 12 months or more.");
+                swal("Warning", "Extension date should be 12 months or more", "warning");
                 return;
             }
         }else if(status == 'short_stay'){
@@ -112,7 +117,8 @@ $("#formExtend").on('submit', function(e){
 
             // checking max and min stays
             if (days < 3){
-                alert("Extension date should be 3 days or more.");
+                // alert("Extension date should be 3 days or more.");
+                swal("Warning", "Extension date should be 3 days or more", "warning");
                 return;
             }
         }
@@ -133,11 +139,13 @@ $("#formExtend").on('submit', function(e){
             data: data,
             success: function(resp){
                 if(resp=='success'){
-                    alert('Request sent to property owner.\nWait for confirmation.')
+                    // alert('Request sent to property owner.\nWait for confirmation.')
+                    swal("Success", "Request sent to property owner.\nWait for confirmation.", "success");
                     $("#extendModal").modal('hide');
                 }
                 else{
-                    alert(resp);
+                    // alert(resp);
+                    swal("Warning", resp, "warning");
                 }
                 $(".btnExtendSubmit").text('Submit').attr('disabled', false);
             },

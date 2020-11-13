@@ -13,6 +13,9 @@ class UserVisit extends Model
     protected $table = 'user_visits';
     protected $primaryKey = 'id';
 
+    CONST IN = 1;
+    CONST OUT = 0;
+
     protected $fillable = [
         'user_id', 'property_id', 'check_in', 'check_out', 'adult', 'children', 'infant', 'status',
     ];
@@ -27,6 +30,22 @@ class UserVisit extends Model
     
     public function userExtensionRequests(){
         return $this->hasMany(UserExtensionRequest::class);
+    }
+
+    /*********** METHODS ATTRIBUTES *************/
+    public function isInAttribute() : bool
+    {
+        return $this->status == UserVisit::IN;
+    }
+
+    public function isOutAttribute() : bool
+    {
+        return $this->status == UserVisit::OUT;
+    }
+
+    public function getGuestAttribute()
+    {
+        return $this->adult+$this->children+$this->infant;
     }
 
 

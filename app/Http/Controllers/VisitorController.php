@@ -103,7 +103,7 @@ class VisitorController extends Controller
         if ($validator->fails()){
             $message = 'Some inputs are missing.';
         }else{
-            if(UserExtensionRequest::whereUser_id(Auth::user()->id)->whereVisit_id($request->visit_id)->whereIs_confirm(0)->exists()){
+            if(UserExtensionRequest::whereUser_id(Auth::user()->id)->whereVisit_id($request->visit_id)->whereIn('is_confirm', [1,2])->exists()){
                 $message = "Already have pending extension request with this property visit.";
             }
             else{

@@ -23,6 +23,8 @@ class Booking extends Model
         'user_id', 'property_id', 'owner_id', 'check_in', 'check_out', 'adult', 'children', 'infant', 'status',
     ];
 
+
+    /*********** METHODS ATTRIBUTES *************/
     public function isPendingAttribute() : bool
     {
         return $this->status == Booking::PENDING;
@@ -48,6 +50,12 @@ class Booking extends Model
         return $this->check_out < \Carbon\Carbon::today();
     }
 
+
+    public function getGuestAttribute()
+    {
+        return $this->adult+$this->children+$this->infant;
+    }
+
     public function generateOrderID() : string
     {
         return Str::random(16);
@@ -65,6 +73,7 @@ class Booking extends Model
     }
 
 
+    /*********** METHODS RELATIONSHIP *************/
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
