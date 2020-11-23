@@ -135,6 +135,27 @@ class UserProfileController extends Controller
         }
     }
 
+    ///update digital address profiles
+    public function updateDigitalAddress(Request $request)
+    {
+        if(empty($request->value))
+        {
+            return 'error';
+        }
+        else{
+            $profile = User::FindorFail(Auth::user()->id);
+            $profile->digital_address= $request->value;
+            $profile->update();
+            
+            if($profile){
+                return 'updated';
+            }
+            else{
+                return 'error';
+            }
+        }
+    }
+
     ///update city profiles
     public function updateCity(Request $request)
     {
@@ -156,6 +177,7 @@ class UserProfileController extends Controller
             }
         }
     }
+
 
     ///update occupation profiles
     public function updateOccupation(Request $request)

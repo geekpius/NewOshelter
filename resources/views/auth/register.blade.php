@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <div class="px-3">
                         <div class="auth-logo-box">
-                            <a href="{{ route('index') }}" class="logo logo-admin"><img src="{{ asset('assets/images/logo-sm.png') }}" height="55" alt="logo" class="auth-logo"></a>
+                            <a href="{{ route('index') }}" class="logo logo-admin"><img src="{{ asset('assets/images/form-logo.png') }}" height="55" alt="logo" class="auth-logo"></a>
                         </div><!--end auth-logo-box-->
                         
                         <div class="text-center auth-logo-text">
@@ -51,16 +51,7 @@
                                 <span class="text-danger small mySpan" role="alert">{{ $errors->has('phone') ? $errors->first('phone') : '' }}</span>                                  
                             </div><!--end form-group--> 
 
-                            <div class="form-group validate">
-                                <div class="input-group mb-3">
-                                    <span class="auth-form-icon">
-                                        <i class="fa fa-map-marker"></i> 
-                                    </span>                                                                                                              
-                                    <input type="phone" class="form-control" name="digital_address" id="digital_address" oninput="getUpperCase('digital_address')" placeholder="Enter your digital address">
-                                </div>  
-                                <span class="text-danger small mySpan" role="alert">{{ $errors->has('digital_address') ? $errors->first('digital_address') : '' }}</span>                                  
-                            </div><!--end form-group--> 
-
+                           
                             <div class="form-group validate">                                           
                                 <div class="input-group mb-3"> 
                                     <span class="auth-form-icon">

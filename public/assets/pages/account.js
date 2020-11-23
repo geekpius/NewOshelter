@@ -11,6 +11,10 @@ function getAge(dob) {
     document.getElementById('myAge').innerHTML = "("+result+")";
 }
 
+function getDigital(address) { 
+    document.getElementById('myDigitalAddress').innerText = address;
+}
+
 function getCity(city) { 
     document.getElementById('myCity').innerText = city;
 }

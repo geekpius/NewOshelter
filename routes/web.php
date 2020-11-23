@@ -83,6 +83,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/account/marital-status', 'UserProfileController@updateMaritalStatus')->name('account.marital');
     Route::post('/account/children', 'UserProfileController@updateChildren')->name('account.children');
     Route::post('/account/city', 'UserProfileController@updateCity')->name('account.city');
+    Route::post('/account/digital-address', 'UserProfileController@updateDigitalAddress')->name('account.digital_address');
     Route::post('/account/occupation', 'UserProfileController@updateOccupation')->name('account.occupation');
     Route::post('/account/emergency', 'UserProfileController@updateEmergency')->name('account.emergency');
     Route::post('/change-password', 'UserProfileController@updatePassword')->name('password.change');
