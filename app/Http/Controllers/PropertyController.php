@@ -25,6 +25,7 @@ use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
 use App\PropertyModel\PropertySharedAmenity;
+use App\PropertyModel\IncludeUtility;
 
 class PropertyController extends Controller
 {
@@ -265,14 +266,12 @@ class PropertyController extends Controller
     ///upload property photos
     public function uploadPropertyPhoto(Request $request, Property $property)
     {
-        // $property= Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->orderBy('id','DESC')->first(); 
         try{
             DB::beginTransaction();
                 $photos = $request->file('photos');
                 if(count($photos)>10){
                     $message = 'exceed';
                 }else{
-                    // if(PropertyImage::whereProperty_id($property->id)->count() > 10){
                     if($property->propertyImages->count() > 10){
                         $message='exceed';
                     }else{
@@ -289,7 +288,6 @@ class PropertyController extends Controller
                             $files->image = $new_name;
                             $files->save();
                         }
-                        //$data['images'] = PropertyImage::whereProperty_id($property->id)->get();
                         $message="success";
                     }
                 }
@@ -601,6 +599,14 @@ class PropertyController extends Controller
                         ['property_id'=>$request->property_id],['payment_duration'=>$request->advance_duration, 'price_calendar'=>$request->price_calendar, 
                         'property_price'=>$request->property_price, 'currency'=>$request->currency]
                     );
+
+                    if(!empty($request->includes)){
+                        foreach($request->includes as $include){
+                            $utility = IncludeUtility::updateOrCreate(
+                                ['property_id'=>$request->property_id,'name'=>$include]
+                            );
+                        }
+                    }
                 }
                 elseif($property->type_status=='short_stay'){
                     $price = PropertyPrice::updateOrCreate(

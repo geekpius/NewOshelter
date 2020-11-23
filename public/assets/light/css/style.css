@@ -2924,18 +2924,18 @@ a.pxp-list-toggle.pxp-active {
     display: block;
 }
 .pxp-marker-details-fig {
-    width: 72px;
-    height: 72px;
+    width: 120px;
+    height: 120px;
     border-radius: .3rem 0 0 .3rem;
     float: left;
 }
 .pxp-marker-details-info {
     float: left;
-    font-size: 14px;
+    font-size: 15px;
 }
 .pxp-marker-details-info-title {
-    font-size: 12px;
-    padding: 10px 10px 2px 10px;
+    font-size: 14px;
+    padding: 10px 10px 10px 10px;
     color: #333;
     font-weight: normal;
 }
@@ -2944,7 +2944,7 @@ a.pxp-list-toggle.pxp-active {
 }
 .pxp-marker-details-info-price {
     font-size: 14px;
-    padding: 0 10px 5px 10px;
+    padding: 0 10px 10px 10px;
     color: #333;
 }
 .pxp-dark-mode .pxp-marker-details-info-price {
@@ -2954,7 +2954,7 @@ a.pxp-list-toggle.pxp-active {
     font-weight: normal;
     padding: 0 10px;
     color: #333;
-    font-size: 11px;
+    font-size: 13px;
     opacity: .7;
 }
 .pxp-dark-mode .pxp-marker-details-info-feat {

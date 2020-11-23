@@ -172,7 +172,7 @@
                             @if($property->type=='hostel')
                             <div class="pxp-prop-card-1-details-features text-uppercase"> <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i> <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</span></div>
                             @else
-                            <div class="pxp-prop-card-1-details-features text-uppercase">{{ $property->propertyContain->bedroom }} BD <span>|</span> {{ $property->propertyContain->bathroom }} BA <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</div>
+                            <div class="pxp-prop-card-1-details-features text-uppercase">{{ $property->propertyContain->bedroom }} <i class="fa fa-home"></i> <span>|</span> {{ $property->propertyContain->bathroom }} <i class="fas fa-bath"></i> <span>|</span> {{ $property->propertyContain->toilet }} <i class="fas fa-toilet"></i> <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</div>
                             @endif
                         </div>
                         <div class="pxp-prop-card-1-details-cta text-uppercase">View Details</div>

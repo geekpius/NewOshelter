@@ -1210,6 +1210,24 @@
                                                 <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                 @if($property->type_status=='rent')
                                                     <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <div class="checkbox checkbox-primary">
+                                                                    <input id="utility1" type="checkbox" value="water bill" name="includes[]">
+                                                                    <label for="utility1">Include water bill</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <div class="checkbox checkbox-primary">
+                                                                    <input id="utility2" type="checkbox" value="sanitation fee" name="includes[]">
+                                                                    <label for="utility2">Include sanitation fee</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group validate">
                                                                 <label for="">Advance payment duration</label>
@@ -1242,6 +1260,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
                                                 @elseif($property->type_status=='short_stay')
                                                     <div class="row">
                                                         <div class="col-sm-6">
@@ -1622,7 +1641,7 @@ $('#registrationWizard')
     @else
         if(info.step == 1) {
             var valid = true;
-            if($("#formContainAmenities #beds").val()=="0" || $("#formContainAmenities #beds").val()==""){
+            if($("#formContainAmenities #beds").val()==""){
                 valid = false;
                 $("#formContainAmenities #beds").parents('.validate').find('.mySpan').text('The beds field is required');
             }

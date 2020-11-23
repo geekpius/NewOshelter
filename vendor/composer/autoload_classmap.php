@@ -62,6 +62,7 @@ return array(
     'App\\PropertyModel\\HostelBlockRoom' => $baseDir . '/app/PropertyModel/HostelBlockRoom.php',
     'App\\PropertyModel\\HostelBlockRoomNumber' => $baseDir . '/app/PropertyModel/HostelBlockRoomNumber.php',
     'App\\PropertyModel\\HostelRoomAmenity' => $baseDir . '/app/PropertyModel/HostelRoomAmenity.php',
+    'App\\PropertyModel\\IncludeUtility' => $baseDir . '/app/PropertyModel/IncludeUtility.php',
     'App\\PropertyModel\\LandlordPropertyList' => $baseDir . '/app/PropertyModel/LandlordPropertyList.php',
     'App\\PropertyModel\\Property' => $baseDir . '/app/PropertyModel/Property.php',
     'App\\PropertyModel\\PropertyAmenity' => $baseDir . '/app/PropertyModel/PropertyAmenity.php',

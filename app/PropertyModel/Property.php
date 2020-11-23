@@ -24,6 +24,7 @@ use App\PropertyModel\PropertyDescription;
 use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\PropertySharedAmenity;
+use App\PropertyModel\IncludeUtility;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Property extends Model
@@ -129,6 +130,10 @@ class Property extends Model
 
     public function propertyUtilities(){
         return $this->hasMany(PropertyUtility::class);
+    }
+
+    public function includeUtilities(){
+        return $this->hasMany(IncludeUtility::class);
     }
 
 

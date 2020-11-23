@@ -54,7 +54,7 @@
                                         <div class="meta-box">
                                             <ul class="p-0 mt-4 list-inline">
                                                 <li class="list-inline-item">
-                                                    @if ($property->vacant)
+                                                    @if (!$property->userVisits->count())
                                                         <span class="badge badge-secondary px-3">Available for {{ str_replace('_',' ',$property->type_status) }}</span>
                                                     @else
                                                         <span class="badge badge-danger px-3">

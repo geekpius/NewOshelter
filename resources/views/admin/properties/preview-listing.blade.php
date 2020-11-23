@@ -177,7 +177,7 @@
                                 (<a href="{{ route('property.edit', $property->id) }}" class="text-primary"><i class="fa fa-edit"></i> Edit Listing</a>)
                                 @endif
                             </h3>
-                            <p><i class="fa fa-map-marker-alt text-success"></i> {{  $property->propertyLocation->location  }} {{ ($property->propertyLocation->digital_address)? '- '.$property->propertyLocation->digital_address:'' }} </p>
+                            <p><i class="fa fa-map-marker-alt text-success"></i> {{ $property->propertyLocation->location }} {{ ($property->propertyLocation->digital_address)? '- '.$property->propertyLocation->digital_address:'' }} </p>
                             
                             <hr>
                             <!-- Contained amenities -->
@@ -228,17 +228,17 @@
                                     </div>        
                                 @endif  
                             @else
-                                <span>{{ $property->propertyContain->bedroom }} {{ $property->propertyContain->bedroom==1? 'bedroom':'bedrooms' }} </span>
-                                <span class="ml-3">{{ $property->propertyContain->no_bed }} {{ $property->propertyContain->no_bed==1? 'bed':'beds' }} per room</span>
+                                <span>{{ $property->propertyContain->bedroom }}&nbsp;<i class="fa fa-home" title="Bedroom"></i></span>
+                                <span class="ml-3">{{ $property->propertyContain->no_bed }} &nbsp;<i class="fa fa-bed" title="Bed per room"></i></span>
                                 @if ($property->propertyContain->kitchen==1)
-                                <span class="ml-3">Private kitchen</span>
+                                <span class="ml-3">Private <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Private Kitchen"></span>
                                 @elseif ($property->propertyContain->kitchen==2)
-                                <span class="ml-3">Shared kitchen</span>
+                                <span class="ml-3">Shared <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Shared Kitchen"></span>
                                 @else
-                                <span class="ml-3">No kitchen</span>
+                                <span class="ml-3">0  <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="No Kitchen"></span>
                                 @endif
-                                <span class="ml-3">{{ $property->propertyContain->bathroom }} {{ $property->propertyContain->bath_private? "private":"shared" }} {{ $property->propertyContain->bathroom==1? 'bathroom':'bathrooms' }}</span>
-                                <span class="ml-3">{{ $property->propertyContain->toilet }} {{ $property->propertyContain->toilet_private? "private":"shared" }} {{ $property->propertyContain->toilet==1? 'toilet':'toilets' }}</span>
+                                <span class="ml-3">{{ $property->propertyContain->bathroom }} {{ $property->propertyContain->bath_private? "private":"shared" }}  <i class="fas fa-bath"></i></span>
+                                <span class="ml-3">{{ $property->propertyContain->toilet }} {{ $property->propertyContain->toilet_private? "private":"shared" }}  <i class="fas fa-toilet"></i></span>
                                 
                             @endif 
 
@@ -293,7 +293,7 @@
                                     @if ($property->type_status=='rent')
                                         <div class="col-sm-12 col-lg-6">
                                             <div class="pro-order-box">
-                                                <h4 class="header-title {{ $property->vacant? 'text-primary':'text-danger' }}">{{ $property->vacant? 'Available, ready for renting':'Rented, too late' }}</h4>
+                                                <h4 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for renting':'Rented, too late' }}</h4>
                                                 <p class=""><i class="fa fa-check text-success" style="font-size:9px"></i>
                                                     @if ($property->propertyPrice->payment_duration==6)
                                                         <span>6 months advance payment</span>
@@ -538,11 +538,11 @@
                                 </div>
                             @else
                                 <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> No reviews yet</p>
-                                <p>Give the star {{ current(explode(' ',$property->user->name)) }}'s property deserve</p> <hr>
+                                <p>Give the star {{ current(explode(' ',$property->user->name)) }}'s property deserves</p> <hr>
                             @endif
                             <!-- Refund policy -->
                             <div class="mt-5">
-                                <img src="{{ asset('assets/images/logo-sm.png') }}" alt="Logo" class="thumb-xs rounded-circle img-left mr-3" /> 
+                                <img src="{{ asset('assets/images/form-logo.png') }}" alt="Logo" class="thumb-xs rounded-circle img-left mr-3" /> 
                                 <p>We never rest because we care. OShelter is here to protect both interest. All rent, sell and auction is covered 
                                     by OShelter's <a href="javascript:void(0)" class="text-primary">Refund Policy</a>.
                                 </p>
@@ -554,7 +554,7 @@
                                 <img src="{{ (empty($property->user->image))? asset('assets/images/user.jpg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->membership }}" class="thumb-lg rounded-circle" /> 
                             </div>
                             <h4><b>Owned by {{ current(explode(' ',$property->user->name)) }}</b></h4>                           
-                            <p>{{ empty($property->user->profile->city)? '':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>                           
+                            <p>{{ empty($property->user->profile->city)? 'City':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>                           
                             
                             @if (count($property->propertyReviews))
                                 <span class="mr-5"><i class="fa fa-star text-warning"></i> <b>Overall Reviews</b></span>
@@ -564,8 +564,8 @@
                             <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</button>     
                             <hr>
                             <div>
-                                <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make  
-                                payments outside OShelter's website and app.</p>    
+                                <p><b>Communication always happens on OShelter's platform. For the protection of your payments, never make  
+                                payments outside OShelter's website and app.</b></p>    
                             </div>     
 
                             <hr>
