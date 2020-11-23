@@ -144,18 +144,17 @@
                             </div>        
                         @endif  
                     @else
-                        <span>{{ $property->propertyContain->bedroom }} {{ $property->propertyContain->bedroom==1? 'bedroom':'bedrooms' }} </span>
-                        <span class="ml-3">{{ $property->propertyContain->no_bed }} {{ $property->propertyContain->no_bed==1? 'bed':'beds' }} per room</span>
+                        <span>{{ $property->propertyContain->bedroom }}&nbsp;<i class="fa fa-home" title="Bedroom"></i></span>
+                        <span class="ml-3">{{ $property->propertyContain->no_bed }} &nbsp;<i class="fa fa-bed" title="Bed per room"></i></span>
                         @if ($property->propertyContain->kitchen==1)
-                        <span class="ml-3">Private kitchen</span>
+                        <span class="ml-3">Private <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Private Kitchen"></span>
                         @elseif ($property->propertyContain->kitchen==2)
-                        <span class="ml-3">Shared kitchen</span>
+                        <span class="ml-3">Shared <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Shared Kitchen"></span>
                         @else
-                        <span class="ml-3">No kitchen</span>
+                        <span class="ml-3">0  <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="No Kitchen"></span>
                         @endif
-                        <span class="ml-3">{{ $property->propertyContain->bathroom }} {{ $property->propertyContain->bath_private? "private":"shared" }} {{ $property->propertyContain->bathroom==1? 'bathroom':'bathrooms' }}</span>
-                        <span class="ml-3">{{ $property->propertyContain->toilet }} {{ $property->propertyContain->toilet_private? "private":"shared" }} {{ $property->propertyContain->toilet==1? 'toilet':'toilets' }}</span>
-                        
+                        <span class="ml-3">{{ $property->propertyContain->bathroom }} {{ $property->propertyContain->bath_private? "private":"shared" }}  <i class="fas fa-bath"></i></span>
+                        <span class="ml-3">{{ $property->propertyContain->toilet }} {{ $property->propertyContain->toilet_private? "private":"shared" }}  <i class="fas fa-toilet"></i></span>
                     @endif 
                 </div>
 
@@ -479,7 +478,7 @@
                     @endif
                     <!-- Refund policy -->
                     <div class="">
-                        <img src="{{ asset('assets/images/logo-sm.png') }}" alt="Logo" class="thumb-xs rounded-circle img-left mr-3" /> 
+                        <img src="{{ asset('assets/images/form-logo.png') }}" alt="Logo" class="thumb-xs rounded-circle img-left mr-3" /> 
                         <p>We never rest because we care. OShelter is here to protect both interest. All rent, sell and auction is covered 
                             by OShelter's <a href="javascript:void(0)" class="text-primary">Refund Policy</a>.
                         </p>
@@ -494,14 +493,14 @@
                         <img src="{{ (empty($property->user->image))? asset('assets/images/user.jpg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->membership }}" class="thumb-lg rounded-circle" /> 
                     </div>
                     <h4><b>Owned by {{ current(explode(' ',$property->user->name)) }}</b></h4>                           
-                    <p>{{ empty($property->user->profile->city)? '':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>                           
+                    <p>{{ empty($property->user->profile->city)? 'City':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>                           
                     
                     @if (count($property->propertyReviews))
                         <span class="mr-5"><i class="fa fa-star text-warning"></i> <b>Overall Reviews</b></span>
                     @endif
                     <span><i class="fa fa-check-circle {{ $property->user->verify_email? 'text-success':'text-danger' }}"></i> <b>{{ $property->user->verify_email? 'Verified':'Not Verified' }}</b></span>
                     <br>   <br> 
-                    <a href="{{ route('messages.compose', $property->user->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</a>     
+                    <a href="{{ $property->user->verify_email? route('messages.compose', $property->user->id):'#' }}" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</a>     
                     <hr>
                     <div>
                         <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make  
@@ -609,8 +608,8 @@
                             <form class="form-horizontal form-material mb-0" id="formBookHostel" method="POST" action="{{ route('property.bookings.hostel.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
-                                <input type="hidden" name="charge" readonly value="{{ $charge->charge }}">
-                                <input type="hidden" name="discount" readonly value="{{ $charge->discount }}">
+                                <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
+                                <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <span id="hostelAvailabilityChecker" class="small text-success"></span>
@@ -716,8 +715,8 @@
                             <form class="form-horizontal form-material mb-0" id="formRentBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
-                                <input type="hidden" name="charge" readonly value="{{ $charge->charge }}">
-                                <input type="hidden" name="discount" readonly value="{{ $charge->discount }}">
+                                <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
+                                <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="input-group input-group-sm validate" id="dateRanger" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}">
