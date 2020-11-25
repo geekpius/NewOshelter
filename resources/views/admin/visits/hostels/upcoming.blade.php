@@ -32,21 +32,17 @@
 
                     <h4 class="header-title mt-lg-12 mb-3">Hostel Visits History</h4> 
 
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs nav-justified" role="tablist">
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.hostel') }}" role="tab">All</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link active text-primary font-weight-500" href="{{ route('visits.hostel.upcoming') }}" role="tab">Upcoming</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.hostel.current') }}" role="tab">Current</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.hostel.past') }}" role="tab">Past</a>
-                        </li>
-                    </ul>
+                    <div class="col-sm-3">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-justified" role="tablist">
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link active text-primary font-weight-500" href="{{ route('visits.hostel.upcoming') }}" role="tab">Upcoming</a>
+                            </li>
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link" href="{{ route('visits.hostel.past') }}" role="tab">Past</a>
+                            </li>
+                        </ul>
+                    </div>
                     <br>
                     <!-- Tab panes -->
                     <div class="tab-content">
@@ -63,7 +59,7 @@
                                         <th>Check In</th>
                                         <th>Check Out</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        {{-- <th>Action</th> --}}
                                     </tr><!--end tr-->
                                     </thead>
 
@@ -78,9 +74,9 @@
                                             <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_out)->format('d-M-Y') }}</td>
                                             <td><span class="badge badge-md badge-{{ ($visit->is_in)? 'success':'danger' }}">{{ $visit->checkInOrOut() }}</span></td>
-                                            <td>
+                                            {{-- <td>
                                                 <a href="{{ route('visits.property', $visit->property_id) }}" class="mr-3" title="View Property"><i class="fas fa-home text-primary font-16"></i></a>
-                                            </td>
+                                            </td> --}}
                                         </tr><!--end tr-->
                                         @endforeach                                                                                   
                                     </tbody>

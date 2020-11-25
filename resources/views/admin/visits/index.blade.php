@@ -48,7 +48,7 @@
                                             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                                         </ol>
                                         <div class="carousel-inner" role="listbox">
-                                            <a href="{{ route('visits.hostel') }}">
+                                            <a href="{{ route('visits.hostel.upcoming') }}">
                                                 <div class="carousel-item active">
                                                     <img class="d-block img-fluid" src="{{ asset('assets/images/hostel.jpg') }}" alt="hostel" style="display: block; position: relative; overflow: hidden; 
                                                     height: 320px; margin-bottom: 10px;background-size: cover; background-position: center center; background-repeat: no-repeat; border-top-left-radius: 2%; border-top-right-radius: 2%" />
@@ -57,7 +57,7 @@
                                         </div>
                                     </div>
                                     <h4>
-                                        <a href="{{ route('visits.hostel') }}">Hostel Rents</a>
+                                        <a href="{{ route('visits.hostel.upcoming') }}">Hostel Rents</a>
                                     </h4>
                                 </div>
 
@@ -67,7 +67,7 @@
                                             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                                         </ol>
                                         <div class="carousel-inner" role="listbox">
-                                            <a href="{{ route('visits.all') }}">
+                                            <a href="{{ route('visits.upcoming') }}">
                                                 <div class="carousel-item active">
                                                     <img class="d-block img-fluid" src="{{ asset('assets/images/other.jpg') }}" alt="other" style="display: block; position: relative; overflow: hidden; 
                                                     height: 320px; margin-bottom: 10px;background-size: cover; background-position: center center; background-repeat: no-repeat; border-top-left-radius: 2%; border-top-right-radius: 2%" />
@@ -76,7 +76,7 @@
                                         </div>
                                     </div>
                                     <h4>
-                                        <a href="{{ route('visits.all') }}">Other Rents</a>
+                                        <a href="{{ route('visits.upcoming') }}">Other Rents</a>
                                     </h4>
                                 </div>
                             </div> 

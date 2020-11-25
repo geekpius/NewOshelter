@@ -26,22 +26,10 @@ class VisitorController extends Controller
         return view('admin.visits.index', $data);
     }
 
-    public function all()
-    {
-        $data['page_title'] = 'All my visits';
-        return view('admin.visits.all', $data);
-    }
-
     public function upcoming()
     {
         $data['page_title'] = 'My upcoming visits';
         return view('admin.visits.upcoming', $data);
-    }
-
-    public function current()
-    {
-        $data['page_title'] = 'My current visits';
-        return view('admin.visits.current', $data);
     }
 
     public function past()
@@ -50,36 +38,16 @@ class VisitorController extends Controller
         return view('admin.visits.past', $data);
     }
 
-    public function hostel()
-    {
-        $data['page_title'] = 'My hostel visits';
-        return view('admin.visits.hostels.hostel', $data);
-    }
-
     public function hostelUpcoming()
     {
         $data['page_title'] = 'My hostel upcoming visits';
         return view('admin.visits.hostels.upcoming', $data);
     }
 
-    public function hostelCurrent()
-    {
-        $data['page_title'] = 'My hostel current visits';
-        return view('admin.visits.hostels.current', $data);
-    }
-
     public function hostelPast()
     {
         $data['page_title'] = 'My hostel past visits';
         return view('admin.visits.hostels.past', $data);
-    }
-
-    public function showVisitedProperty(Property $property)
-    {
-        $data['page_title'] =  'My visited property';
-        $data['property'] = $property;
-        $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take(4)->get(['caption', 'image']);
-        return view('admin.visits.visited-property', $data);
     }
 
 

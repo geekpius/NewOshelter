@@ -39,7 +39,7 @@
                                 <th>Status</th>
                                 <th>Location</th>   
                                 <th>Rent Times</th>   
-                                <th>Action</th>
+                                {{-- <th>Action</th> --}}
                             </tr><!--end tr-->
                             </thead>
 
@@ -53,9 +53,9 @@
                                     <td>{{ ucwords($property->type_status) }}</td>
                                     <td>{{ $property->propertyLocation->location }}</td>
                                     <td>{{ $property->userVisits->count() }}</td>
-                                    <td>                                                       
+                                    {{-- <td>                                                       
                                        <a href="{{ route('property.manage.detail', $property->id) }}" title="View {{ $property->title }}"><i class="fas fa-eye text-primary font-16"></i></a>
-                                    </td>
+                                    </td> --}}
                                 </tr><!--end tr-->
                                 @endforeach                       
                             </tbody>

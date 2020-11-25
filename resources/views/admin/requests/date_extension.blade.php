@@ -32,22 +32,24 @@
 
                     <h4 class="header-title mt-lg-12 mb-3">Request History</h4> 
 
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs nav-justified" role="tablist">
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('requests') }}" role="tab">Booking Requests</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link active text-primary font-weight-500" href="{{ route('requests.extension') }}" role="tab">Date Extension Requests</a>
-                        </li>
-                        {{-- 
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.current') }}" role="tab">Current</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.past') }}" role="tab">Past</a>
-                        </li> --}}
-                    </ul>
+                   <div class="col-sm-4">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-justified" role="tablist">
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link" href="{{ route('requests') }}" role="tab">Booking Requests</a>
+                            </li>
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link active text-primary font-weight-500" href="{{ route('requests.extension') }}" role="tab">Date Extension Requests</a>
+                            </li>
+                            {{-- 
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link" href="{{ route('visits.current') }}" role="tab">Current</a>
+                            </li>
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link" href="{{ route('visits.past') }}" role="tab">Past</a>
+                            </li> --}}
+                        </ul>
+                   </div>
                     <br>
                     <!-- Tab panes -->
                     <div class="tab-content">

@@ -53,6 +53,13 @@
                                         </a>
                                         <div class="meta-box">
                                             <ul class="p-0 mt-4 list-inline">
+                                                <li class="list-inline-item" style="text-transform: none"><i class="fa fa-star text-warning"></i>
+                                                    No reviews yet
+                                                </li>
+                                                <li class="list-inline-item" style="text-transform: none">
+                                                    {{ $property->userVisits->count() }} visits
+                                                </li>
+                                                <br>
                                                 <li class="list-inline-item">
                                                     @if (!$property->userVisits->count())
                                                         <span class="badge badge-secondary px-3">Available for {{ str_replace('_',' ',$property->type_status) }}</span>

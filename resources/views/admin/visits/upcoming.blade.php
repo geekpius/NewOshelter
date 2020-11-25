@@ -32,21 +32,17 @@
 
                     <h4 class="header-title mt-lg-12 mb-3">Visits History</h4> 
 
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs nav-justified" role="tablist">
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.all') }}" role="tab">All</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link active text-primary font-weight-500" href="{{ route('visits.upcoming') }}" role="tab">Upcoming</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.current') }}" role="tab">Current</a>
-                        </li>
-                        <li class="nav-item waves-effect waves-light">
-                            <a class="nav-link" href="{{ route('visits.past') }}" role="tab">Past</a>
-                        </li>
-                    </ul>
+                    <div class="col-sm-3">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-justified" role="tablist">
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link active text-primary font-weight-500" href="{{ route('visits.upcoming') }}" role="tab">Upcoming</a>
+                            </li>
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link" href="{{ route('visits.past') }}" role="tab">Past</a>
+                            </li>
+                        </ul>
+                    </div>
                     <br>
                     <!-- Tab panes -->
                     <div class="tab-content">
@@ -62,7 +58,7 @@
                                         <th>Check Out</th>
                                         <th>Guest</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        {{-- <th>Action</th> --}}
                                     </tr><!--end tr-->
                                     </thead>
 
@@ -82,9 +78,9 @@
                                                 <span class="badge badge-md badge-success">OUT</span>                                                    
                                                 @endif
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 <a href="{{ route('visits.property', $visit->property_id) }}" class="mr-3" title="View Property"><i class="fas fa-home text-primary font-16"></i></a>
-                                            </td>
+                                            </td> --}}
                                         </tr><!--end tr-->
                                         @endforeach                                                                                   
                                     </tbody>

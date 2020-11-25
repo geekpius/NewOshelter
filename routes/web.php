@@ -147,8 +147,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/properties/{property}/delete', 'PropertyController@confirmDelete')->name('property.confirmdelete');
     Route::post('/properties/{property}/delete', 'PropertyController@deleteListing')->name('property.delete');
 
-    Route::get('/my-properties', 'PropertyController@manageProperty')->name('property.manage');
-    Route::get('/my-properties/{property}/details', 'PropertyController@managePropertyDetail')->name('property.manage.detail');
+    // Route::get('/my-properties', 'PropertyController@manageProperty')->name('property.manage');
+    // Route::get('/my-properties/{property}/details', 'PropertyController@managePropertyDetail')->name('property.manage.detail');
     // Route::get('/manage-properties/{property}/utilities', 'PropertyUtilityController@index')->name('property.utilities');
     // Route::get('/manage-properties/{property}/utilities-list', 'PropertyUtilityController@show')->name('property.utilities.list');
     // Route::post('/manage-properties/create/utilities', 'PropertyUtilityController@store')->name('property.utilities.submit');
@@ -172,25 +172,20 @@ Route::group(['prefix' => 'user'], function () {
 
     /*------- Visitors Visit ------- */
     Route::get('/visits', 'VisitorController@index')->name('visits');
-    Route::get('/visits/all', 'VisitorController@all')->name('visits.all');
     Route::get('/visits/upcoming', 'VisitorController@upcoming')->name('visits.upcoming');
-    Route::get('/visits/current', 'VisitorController@current')->name('visits.current');
-    Route::post('/visits/current/extend', 'VisitorController@extendStay')->name('visits.current.extend');
     Route::get('/visits/past', 'VisitorController@past')->name('visits.past');
-    Route::get('/visits/{property}/detail', 'VisitorController@showVisitedProperty')->name('visits.property');
-    Route::get('/visits/hostel', 'VisitorController@hostel')->name('visits.hostel');
+    Route::post('/visits/past/extend', 'VisitorController@extendStay')->name('visits.past.extend');
     Route::get('/visits/hostel/upcoming', 'VisitorController@hostelUpcoming')->name('visits.hostel.upcoming');
-    Route::get('/visits/hostel/current', 'VisitorController@hostelCurrent')->name('visits.hostel.current');
     Route::get('/visits/hostel/past', 'VisitorController@hostelPast')->name('visits.hostel.past');
     // Route::get('/visits/{name}/types', 'VisitorController@types')->name('visits.types');
    
     
     /*------- Listing Guests ------- */
-    Route::get('/tenants', 'TenantController@index')->name('tenants');
-    Route::get('/tenants/current', 'TenantController@currentTenant')->name('tenants.current');
-    Route::get('/tenants/{user}/visited-properties', 'TenantController@showVisitedProperty')->name('tenant.visited');
-    Route::get('/buyers', 'TenantsController@buyer')->name('buyers');
-    Route::get('/bidders', 'TenantsController@bidder')->name('bidders');
+    // Route::get('/tenants', 'TenantController@index')->name('tenants');
+    // Route::get('/tenants/current', 'TenantController@currentTenant')->name('tenants.current');
+    // Route::get('/tenants/{user}/visited-properties', 'TenantController@showVisitedProperty')->name('tenant.visited');
+    // Route::get('/buyers', 'TenantsController@buyer')->name('buyers');
+    // Route::get('/bidders', 'TenantsController@bidder')->name('bidders');
 
     /*------- Messages ------- */
     Route::get('/messages/{user}/compose', 'MessageController@composeMessage')->name('messages.compose');

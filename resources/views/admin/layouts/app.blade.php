@@ -115,9 +115,9 @@
                             <i class="fa fa-home text-white"></i>
                         </a><!--end MetricaCrypto-->
         
-                        <a href="{{route('tenants')}}" class="nav-link bg-success shadow-success" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Guests">
+                        {{-- <a href="{{route('tenants')}}" class="nav-link bg-success shadow-success" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Guests">
                             <i class="fa fa-users text-white"></i>
-                        </a><!--end MetricaProject-->
+                        </a><!--end MetricaProject--> --}}
         
                         <a href="{{route('messages')}}" class="nav-link bg-purple shadow-purple" data-toggle="tooltip-custom" data-placement="right" title="" data-original-title="Messages">
                             <i class="fa fa-inbox text-white"></i>
@@ -146,7 +146,7 @@
                             <ul class="nav">
                                 <li class="nav-item"><a class="nav-link" href="{{ route('property') }}"><i class="fa fa-list-alt"></i>List Properties</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('property.add') }}"><i class="fa fa-plus-square"></i>New Listing</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('property.manage')}}"><i class="dripicons-wallet"></i>My Properties</a></li>
+                                {{-- <li class="nav-item"><a class="nav-link" href="{{route('property.manage')}}"><i class="dripicons-wallet"></i>My Properties</a></li> --}}
                                 @if (Route::currentRouteNamed('property.start'))
                                 <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-wallet"></i></a></li>
                                 @endif
@@ -161,7 +161,7 @@
                                 @endif
                             </ul>
                         </div><!-- end Crypto -->
-                        <div id="MetricaTenant" class="main-icon-menu-pane">
+                        {{-- <div id="MetricaTenant" class="main-icon-menu-pane">
                             <div class="title-box">
                                 <h6 class="menu-title">Guests</h6>        
                             </div>
@@ -170,14 +170,14 @@
                                 @if (Route::currentRouteNamed('tenants.current'))
                                 <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-user-id"></i></a></li>
                                 @endif
-                                {{-- <li class="nav-item"><a class="nav-link" href="{{route('buyers')}}"><i class="dripicons-user-id"></i>List Buyers</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('bidders')}}"><i class="dripicons-user-id"></i>List Bidders</a></li> --}}
+                                <li class="nav-item"><a class="nav-link" href="{{route('buyers')}}"><i class="dripicons-user-id"></i>List Buyers</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('bidders')}}"><i class="dripicons-user-id"></i>List Bidders</a></li>
 
                                 @if (Route::currentRouteNamed('tenant.visited'))
                                 <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-wallet"></i></a></li>
                                 @endif
                             </ul>
-                        </div><!-- end  Project-->
+                        </div><!-- end  Project--> --}}
                         <div id="MetricaMessage" class="main-icon-menu-pane">
                             <div class="title-box">
                                 <h6 class="menu-title">Messages</h6>           

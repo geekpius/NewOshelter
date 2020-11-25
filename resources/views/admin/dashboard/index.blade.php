@@ -176,36 +176,6 @@
             </div><!--end col-->
         </div><!--end row-->
         
-        <div class="row">
-            <div class="col-md-12">                                                        
-                <div class="card">
-                    <div class="card-body">                                
-                        <div class="table-responsive dash-social">
-                            <table id="datatable" class="table table-bordered">
-                                <thead class="thead-light">
-                                <tr>
-                                    <th>Date</th>                                               
-                                    <th>Transaction ID</th>
-                                    <th>Type</th>
-                                    <th>Value</th>
-                                </tr><!--end tr-->
-                                </thead>
-
-                                <tbody>
-                                    <tr>
-                                        <td>0000</td>
-                                        <td>0000</td>
-                                        <td>0000</td>
-                                        <td>0000</td>
-                                    </tr><!--end tr-->                                                                                 
-                                </tbody>
-                            </table>                    
-                        </div>   
-                    </div><!--end card-body-->                                
-                </div><!--end card-->
-            </div><!--end col-->
-        </div><!--end row-->
-        
         
     </div><!-- container -->
 
