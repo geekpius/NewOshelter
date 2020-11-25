@@ -78,6 +78,7 @@ return array(
     'App\\PropertyModel\\PropertyPrice' => $baseDir . '/app/PropertyModel/PropertyPrice.php',
     'App\\PropertyModel\\PropertyRent' => $baseDir . '/app/PropertyModel/PropertyRent.php',
     'App\\PropertyModel\\PropertyReview' => $baseDir . '/app/PropertyModel/PropertyReview.php',
+    'App\\PropertyModel\\PropertyReviewStar' => $baseDir . '/app/PropertyModel/PropertyReviewStar.php',
     'App\\PropertyModel\\PropertyRule' => $baseDir . '/app/PropertyModel/PropertyRule.php',
     'App\\PropertyModel\\PropertySharedAmenity' => $baseDir . '/app/PropertyModel/PropertySharedAmenity.php',
     'App\\PropertyModel\\PropertyType' => $baseDir . '/app/PropertyModel/PropertyType.php',

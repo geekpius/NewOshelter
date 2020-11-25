@@ -478,6 +478,7 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
         'App\\PropertyModel\\PropertyPrice' => __DIR__ . '/../..' . '/app/PropertyModel/PropertyPrice.php',
         'App\\PropertyModel\\PropertyRent' => __DIR__ . '/../..' . '/app/PropertyModel/PropertyRent.php',
         'App\\PropertyModel\\PropertyReview' => __DIR__ . '/../..' . '/app/PropertyModel/PropertyReview.php',
+        'App\\PropertyModel\\PropertyReviewStar' => __DIR__ . '/../..' . '/app/PropertyModel/PropertyReviewStar.php',
         'App\\PropertyModel\\PropertyRule' => __DIR__ . '/../..' . '/app/PropertyModel/PropertyRule.php',
         'App\\PropertyModel\\PropertySharedAmenity' => __DIR__ . '/../..' . '/app/PropertyModel/PropertySharedAmenity.php',
         'App\\PropertyModel\\PropertyType' => __DIR__ . '/../..' . '/app/PropertyModel/PropertyType.php',
