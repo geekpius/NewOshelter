@@ -727,9 +727,19 @@ class PropertyController extends Controller
     //manage property
     public function manageProperty()
     {
-        $data['page_title'] = 'Manage properties';
+        $data['page_title'] = 'My properties';
         $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->get();
         return view('admin.properties.manage-property', $data);
+    }
+
+    //manage property
+    public function managePropertyDetail(Property $property)
+    {
+        $data['page_title'] = $property->title.' details';
+        $data['property'] = $property;
+        $countImages = PropertyImage::whereProperty_id($property->id)->count();
+        $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take(($countImages==0)? 0:$countImages-1)->get();
+        return view('admin.properties.show-detail-property', $data);
     }
     
 

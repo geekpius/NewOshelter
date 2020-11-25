@@ -146,7 +146,7 @@
                             <ul class="nav">
                                 <li class="nav-item"><a class="nav-link" href="{{ route('property') }}"><i class="fa fa-list-alt"></i>List Properties</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ route('property.add') }}"><i class="fa fa-plus-square"></i>New Listing</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('property.manage')}}"><i class="dripicons-wallet"></i>Manage Properties</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{route('property.manage')}}"><i class="dripicons-wallet"></i>My Properties</a></li>
                                 @if (Route::currentRouteNamed('property.start'))
                                 <li class="nav-item" style="display:none !important"><a class="nav-link" href=""><i class="dripicons-wallet"></i></a></li>
                                 @endif

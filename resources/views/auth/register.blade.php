@@ -21,6 +21,19 @@
                         
                         <form class="form-horizontal auth-form my-4" id="formSignup" method="POST" action="{{ url('register') }}">
                             @csrf
+                            {{-- <div class="form-group validate">
+                                <div class="input-group mb-3">
+                                    <span class="auth-form-icon">
+                                        <i class="fa fa-dollar-sign"></i> 
+                                    </span>                                                                                                              
+                                   <select name="type" id="type" class="form-control">
+                                       <option value="normal">Normal Use</option>
+                                       <option value="management">Management Use</option>
+                                   </select>
+                                </div>  
+                                <span class="text-primary small mySpan" id="typeDescription" role="alert"></span>                                  
+                            </div><!--end form-group-->  --}}
+
                             <div class="form-group validate">
                                 <div class="input-group mb-3">
                                     <span class="auth-form-icon">
@@ -63,6 +76,14 @@
                                 <span class="text-danger small mySpan" role="alert" id="msg">{{ $errors->has('password') ? $errors->first('password') : '' }}</span>                           
                             </div><!--end form-group--> 
 
+                            <div class="form-group validate">                                            
+                                <div class="checkbox checkbox-primary">
+                                    <input id="agreement" type="checkbox" name="agreement">
+                                    <label for="agreement">By checking this, you have agreed to the <a href="#" class="text-primary">terms and conditions</a> of this platform.</label>
+                                </div>   
+                                <span class="text-danger small mySpan" role="alert"></span>                                   
+                            </div><!--end form-group--> 
+
                             <div class="form-group mb-0 row">
                                 <div class="col-12 mt-2">
                                     <button class="btn btn-gradient-danger btn-round btn-block waves-effect waves-light btn_sign_up" type="submit">Sign Up <i class="fas fa-sign-in-alt ml-1"></i></button>
@@ -85,4 +106,13 @@
 
 @section('scripts')
 <script src="{{ asset('assets/pages/auth.js') }}"></script>
+<script>
+    $("#type").on("change", function(){
+        if($("#type").val() == 'normal'){
+            $("#typeDescription").html("");
+        }else{
+            $("#typeDescription").html('You will have full access to management rights which will cost you <span class="font-13 font-weight-800">GHC 20.00/month.</span>');
+        }
+    });
+</script>
 @endsection

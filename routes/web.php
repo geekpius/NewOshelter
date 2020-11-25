@@ -147,7 +147,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/properties/{property}/delete', 'PropertyController@confirmDelete')->name('property.confirmdelete');
     Route::post('/properties/{property}/delete', 'PropertyController@deleteListing')->name('property.delete');
 
-    Route::get('/manage-properties', 'PropertyController@manageProperty')->name('property.manage');
+    Route::get('/my-properties', 'PropertyController@manageProperty')->name('property.manage');
+    Route::get('/my-properties/{property}/details', 'PropertyController@managePropertyDetail')->name('property.manage.detail');
     // Route::get('/manage-properties/{property}/utilities', 'PropertyUtilityController@index')->name('property.utilities');
     // Route::get('/manage-properties/{property}/utilities-list', 'PropertyUtilityController@show')->name('property.utilities.list');
     // Route::post('/manage-properties/create/utilities', 'PropertyUtilityController@store')->name('property.utilities.submit');

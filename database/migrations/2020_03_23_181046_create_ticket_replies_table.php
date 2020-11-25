@@ -18,6 +18,7 @@ class CreateTicketRepliesTable extends Migration
             $table->integer('ticket_id')->unsigned()->index();
             $table->mediumText('message');
             $table->boolean('owner');
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
             $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
         });

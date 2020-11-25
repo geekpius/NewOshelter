@@ -35,6 +35,12 @@ $("#formSignup").on("submit", function(e){
             valid = false;
             $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
         }
+        if($this.attr('name')=='agreement'){
+            if(!$('#agreement').is(":checked")){
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            }
+        }
     });
     if(valid) {
         $('.btn_sign_up').html('<i class="fa fa-spinner fa-spin"></i> Signing Up...').attr('disabled', true);

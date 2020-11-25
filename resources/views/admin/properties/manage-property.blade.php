@@ -16,10 +16,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">Manage Properties</li>
+                        <li class="breadcrumb-item active">My Properties</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Manage Properties</h4>
+                <h4 class="page-title">My Properties</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>
@@ -54,8 +54,7 @@
                                     <td>{{ $property->propertyLocation->location }}</td>
                                     <td>{{ $property->userVisits->count() }}</td>
                                     <td>                                                       
-                                        {{-- <a href="{{route('property.utilities', $property->id)}}" class="mr-3" title="Utilities"><i class="fa fa-money-bill-wave text-primary font-16"></i></a> --}}
-                                        <a href="#" title="Send Email to Tenants"><i class="fas fa-envelope text-pink font-16"></i></a>
+                                       <a href="{{ route('property.manage.detail', $property->id) }}" title="View {{ $property->title }}"><i class="fas fa-eye text-primary font-16"></i></a>
                                     </td>
                                 </tr><!--end tr-->
                                 @endforeach                       

@@ -22,8 +22,8 @@
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('assets/light/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/light/css/font-awesome.min.css') }}">
         <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="{{ asset('assets/light/css/font-awesome.min.css') }}">
         @yield('style')
         <link rel="stylesheet" href="{{ asset('assets/light/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/light/css/my-style.css') }}">

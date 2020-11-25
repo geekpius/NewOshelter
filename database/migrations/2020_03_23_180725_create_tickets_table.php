@@ -20,6 +20,7 @@ class CreateTicketsTable extends Migration
             $table->string('subject');
             $table->mediumText('message');
             $table->boolean('status')->default(false);
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

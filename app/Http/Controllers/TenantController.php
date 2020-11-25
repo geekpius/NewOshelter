@@ -36,7 +36,7 @@ class TenantController extends Controller
     {
         $data['page_title'] = 'List current tenants';
         $data['tenants'] = Property::whereUser_id(Auth::user()->id)->with(['userVisits' => function ($query) {
-            $query->whereStatus(true)->orderBy('created_at','DESC');
+            $query->whereStatus(1)->orderBy('created_at','DESC');
         }])->get();
         return view('admin.tenants.current-tenants', $data);
     }
