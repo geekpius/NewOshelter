@@ -79,8 +79,13 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="/user/visits/past/extend" class="btnExtend" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
+                                                @if ($visit->isInAttribute())
+                                                <a href="/user/visits/past/extend" class="btnExtend mr-2" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
                                                     <i class="fas fa-clock text-purple font-16"></i>
+                                                </a>
+                                                @endif
+                                                <a href="{{ route('visits.property.rating', $visit->property_id) }}" class="" title="Rate Property">
+                                                    <i class="fas fa-clock text-primary font-16"></i>
                                                 </a>
                                             </td>
                                         </tr><!--end tr-->

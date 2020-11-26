@@ -12,7 +12,7 @@ class PropertyReview extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'property_id', 'user_id', 'location_star', 'comm_star', 'value_star', 'accuracy_star', 'tidy_star', 'comment',
+        'property_id', 'user_id', 'comment',
     ];
 
     public function property(){

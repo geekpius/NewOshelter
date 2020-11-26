@@ -161,11 +161,6 @@
                 {{-- Overview --}}
                 <div class="pxp-single-property-section mt-4">
                     <h3>Overview</h3>
-                    @if (count($property->propertyReviews))
-                        @if ($property->type=='hostel')
-                        @else
-                        @endif
-                    @endif
                     <div class="mt-3 mt-md-4">
                         {{-- <p>@if ($property->type!='hostel') {{ ucfirst(strtolower($property->propertyContain->furnish)) }}. @endif Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. 
                             This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every 
@@ -379,98 +374,89 @@
                 <div class="pxp-single-property-section">
                     <h3>Reviews</h3>                    
                     <!-- Reviews -->
-                    @if (count($property->propertyReviews))
+                    @if (!count($property->propertyReviews))
                         @php
-                            $accuracyStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('accuracy_star')/$property->propertyReviews->count();
-                            $locationStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('location_star')/$property->propertyReviews->count();
-                            $securityStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('security_star')/$property->propertyReviews->count();
-                            $valueStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('value_star')/$property->propertyReviews->count();
-                            $commStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('comm_star')/$property->propertyReviews->count();
-                            $tidyStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('tidy_star')/$property->propertyReviews->count();
+                            $accuracyStar = (!$property->propertyReviewStars->count())? 0: \App\PropertyModel\PropertyReviewStar::whereProperty_id($property->id)->sum('accuracy_star')/$property->propertyReviewStars->count();
+                            $locationStar = (!$property->propertyReviewStars->count())? 0: \App\PropertyModel\PropertyReviewStar::whereProperty_id($property->id)->sum('location_star')/$property->propertyReviewStars->count();
+                            $securityStar = (!$property->propertyReviewStars->count())? 0: \App\PropertyModel\PropertyReviewStar::whereProperty_id($property->id)->sum('security_star')/$property->propertyReviewStars->count();
+                            $valueStar = (!$property->propertyReviewStars->count())? 0: \App\PropertyModel\PropertyReviewStar::whereProperty_id($property->id)->sum('value_star')/$property->propertyReviewStars->count();
+                            $commStar = (!$property->propertyReviewStars->count())? 0: \App\PropertyModel\PropertyReviewStar::whereProperty_id($property->id)->sum('comm_star')/$property->propertyReviewStars->count();
+                            $tidyStar = (!$property->propertyReviewStars->count())? 0: \App\PropertyModel\PropertyReviewStar::whereProperty_id($property->id)->sum('tidy_star')/$property->propertyReviewStars->count();
                             $sumReviews = $accuracyStar+$locationStar+$securityStar+$valueStar+$commStar+$tidyStar;
                         @endphp
-                        <div>
+                        <div class="row">
                             <span><i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b></span>
-                            <span class="ml-5"><i class="fa fa-eye text-primary"></i> <b>{{ $property->propertyReviews->count() }} Reviews</b></span>
+                            <span class="ml-5"><i class="fa fa-eye text-primary"></i> <b>{{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }}</b></span>
                             <hr>
+                            
                             <table class="table table-responsive">
                                 <tr>
-                                    <td class="no-border"><i class="fa fa-thumbs-up text-primary"></i> <b>Accuracy</b></td>
-                                    <td class="no-border" width="200">
-                                        {{-- <small class="float-right ml-2 pt-1 font-10">92%</small>
-                                        <div class="progress mt-2" style="height:5px;">
-                                            <div class="progress-bar bg-secondary" role="progressbar" style="width: 92%;" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div> --}}
-
+                                    <td class="no-border"><i class="fa fa-thumbs-up text-primary"></i> <b class="small">Accuracy</b></td>
+                                    <td class="no-border" width="120" style="padding-top: 4%!important">
                                         <div class="progress" style="height: 3px;">
                                             <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($accuracyStar/5)*100,1) }}%;"></div>
                                         </div>
                                     </td>
-                                    <td class="no-border" style="padding-left:0px !important">{{ number_format($accuracyStar,1) }}</td>
-                                    <td class="no-border"><i class="fa fa-map-marked text-primary"></i> <b>Location</b></td>
-                                    <td class="no-border" width="200">
+                                    <td class="no-border small" style="padding-left:0px !important">{{ number_format($accuracyStar,1) }}</td>
+                                    
+                                    <td class="no-border"><i class="fas fa-map-marked text-primary"></i> <b class="small">Location</b></td>
+                                    <td class="no-border" width="120" style="padding-top: 4%!important">
                                         <div class="progress" style="height: 3px;">
                                             <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($locationStar/5)*100,1) }}%;"></div>
                                         </div>
                                     </td>
-                                    <td class="no-border" style="padding-left:0px !important">{{ number_format($locationStar,1) }}</td>
+                                    <td class="no-border small" style="padding-left:0px !important">{{ number_format($locationStar,1) }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="no-border"><i class="mdi mdi-security text-primary"></i> <b>Security</b></td>
-                                    <td class="no-border">
+                                    <td class="no-border"><i class="mdi mdi-security text-primary"></i> <b class="small">Security</b></td>
+                                    <td class="no-border" style="padding-top: 4%!important">
                                         <div class="progress" style="height: 3px;">
                                             <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($securityStar/5)*100,1) }}%;"></div>
                                         </div>
                                     </td>
-                                    <td class="no-border" style="padding-left:0px !important">{{ number_format($securityStar,1) }}</td>
-                                    <td class="no-border"><i class="mdi mdi-currency-usd text-primary"></i> <b>Value</b></td>
-                                    <td class="no-border">
+                                    <td class="no-border small" style="padding-left:0px !important">{{ number_format($securityStar,1) }}</td>
+                                    <td class="no-border"><i class="mdi mdi-currency-usd text-primary"></i> <b class="small">Value</b></td>
+                                    <td class="no-border" style="padding-top: 4%!important">
                                         <div class="progress" style="height: 3px;">
                                             <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($valueStar/5)*100,1) }}%;"></div>
                                         </div>
                                     </td>
-                                    <td class="no-border" style="padding-left:0px !important">{{ number_format($valueStar,1) }}</td>
+                                    <td class="no-border small" style="padding-left:0px !important">{{ number_format($valueStar,1) }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="no-border"><i class="mdi mdi-comment text-primary"></i> <b>Communication</b></td>
-                                    <td class="no-border">
+                                    <td class="no-border"><i class="mdi mdi-comment text-primary"></i> <b class="small">Communication</b></td>
+                                    <td class="no-border" style="padding-top: 4%!important">
                                         <div class="progress" style="height: 3px;">
                                             <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($commStar/5)*100,1) }}%;"></div>
                                         </div>
                                     </td>
-                                    <td class="no-border" style="padding-left:0px !important">{{ number_format($commStar,1) }}</td>
-                                    <td class="no-border"><i class="fa fa-dumpster text-primary"></i> <b>Cleanliness</b></td>
-                                    <td class="no-border">
+                                    <td class="no-border small" style="padding-left:0px !important">{{ number_format($commStar,1) }}</td>
+                                    <td class="no-border"><i class="fas fa-dumpster text-primary"></i> <b class="small">Cleanliness</b></td>
+                                    <td class="no-border" style="padding-top: 4%!important">
                                         <div class="progress" style="height: 3px;">
                                             <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($tidyStar/5)*100,1) }}%;"></div>
                                         </div>
                                     </td>
-                                    <td class="no-border" style="padding-left:0px !important">{{ number_format($tidyStar,1) }}</td>
+                                    <td class="no-border small" style="padding-left:0px !important">{{ number_format($tidyStar,1) }}</td>
                                 </tr>
                             </table>
                             @foreach ($property->propertyReviews as $review)
-                            <img src="{{ (empty($review->user->image))? asset('assets/images/tenants/user-4.jpg'):asset('assets/images/tenants/'.$review->user->image) }}" alt="{{ current(explode(' ',$review->user->name)) }}" width="60" height="60"  class="rounded-circle img-left mr-3" /> 
-                            <p>
-                                <b>{{ current(explode(' ',$review->user->name)) }}</b><br>
-                                {{ \Carbon\Carbon::parse($review->created_at)->format('F, Y') }}
-                            </p>
-                            <br>
-                            <p>
-                                {{ $review->comment }}
-                            </p>
-                            <hr>
+                            <div class="col-sm-6">
+                                <img src="{{ (empty($review->user->image))? asset('assets/images/tenants/user-4.jpg'):asset('assets/images/tenants/'.$review->user->image) }}" alt="{{ current(explode(' ',$review->user->name)) }}" width="60" height="60"  class="rounded-circle img-left mr-3" /> 
+                                <p>
+                                    <b>{{ current(explode(' ',$review->user->name)) }}</b><br>
+                                    {{ \Carbon\Carbon::parse($review->created_at)->format('F, Y') }}
+                                </p>
+                                <br>
+                                <p>
+                                    {{ $review->comment }}
+                                </p>
+                            </div>
+                            <div class="col-sm-12"><hr></div>
                             @endforeach
                         </div>
-                        <div class="small">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                </ul><!--end pagination-->
-                            </nav>
+                        <div class="small mb-5">
+                            <a href="#" class="btn btn-primary btn-sm">View all {{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count()<=1) ? 'review':'reviews' }}</a>     
                         </div>
                     @else
                         <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> No reviews yet</p>

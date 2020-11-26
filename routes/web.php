@@ -177,6 +177,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/visits/past/extend', 'VisitorController@extendStay')->name('visits.past.extend');
     Route::get('/visits/hostel/upcoming', 'VisitorController@hostelUpcoming')->name('visits.hostel.upcoming');
     Route::get('/visits/hostel/past', 'VisitorController@hostelPast')->name('visits.hostel.past');
+    Route::get('/visits/{property}/rates', 'VisitorController@rateProperty')->name('visits.property.rating');
+    Route::post('/visits/{property}/rates', 'VisitorController@submitRating')->name('visits.property.rating.submit');
     // Route::get('/visits/{name}/types', 'VisitorController@types')->name('visits.types');
    
     

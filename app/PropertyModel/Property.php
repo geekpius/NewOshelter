@@ -13,6 +13,7 @@ use App\PropertyModel\PropertyImage;
 use App\PropertyModel\PropertyPrice;
 use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
+use App\PropertyModel\PropertyReviewStar;
 use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\PropertyAmenity;
 use App\PropertyModel\PropertyContain;
@@ -114,6 +115,10 @@ class Property extends Model
 
     public function propertyReviews(){
         return $this->hasMany(PropertyReview::class);
+    }
+
+    public function propertyReviewStars(){
+        return $this->hasMany(PropertyReviewStar::class);
     }
 
     public function propertyRents(){
