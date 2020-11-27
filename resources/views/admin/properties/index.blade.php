@@ -54,7 +54,21 @@
                                         <div class="meta-box">
                                             <ul class="p-0 mt-4 list-inline">
                                                 <li class="list-inline-item" style="text-transform: none"><i class="fa fa-star text-warning"></i>
+                                                    @php
+                                                        $countReview = $property->propertyReviews->count();
+                                                        $accuracyStar = (!$countReview)? 0: $property->sumAccuracyStar()/$countReview;
+                                                        $locationStar = (!$countReview)? 0: $property->sumLocationStar()/$countReview;
+                                                        $securityStar = (!$countReview)? 0: $property->sumSecurityStar()/$countReview;
+                                                        $valueStar = (!$countReview)? 0: $property->sumValueStar()/$countReview;
+                                                        $commStar = (!$countReview)? 0: $property->sumCommunicationStar()/$countReview;
+                                                        $tidyStar = (!$countReview)? 0: $property->sumCleanStar()/$countReview;
+                                                        $sumReviews = $accuracyStar+$locationStar+$securityStar+$valueStar+$commStar+$tidyStar;
+                                                    @endphp
+                                                    @if (count($property->propertyReviews))
+                                                    {{ number_format($sumReviews/6,2) }}
+                                                    @else
                                                     No reviews yet
+                                                    @endif
                                                 </li>
                                                 <li class="list-inline-item" style="text-transform: none">
                                                     {{ $property->userVisits->count() }} visits

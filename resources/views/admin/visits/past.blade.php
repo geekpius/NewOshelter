@@ -63,7 +63,7 @@
                                     </thead>
 
                                     <tbody>
-                                        @foreach (Auth::user()->userVisits->where('check_out','<=',\Carbon\Carbon::today()) as $visit)
+                                        @foreach (Auth::user()->userVisits->where('check_in','<=',\Carbon\Carbon::today()) as $visit)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
                                             <td>{{ $visit->property->title }}</td>
@@ -84,8 +84,8 @@
                                                     <i class="fas fa-clock text-purple font-16"></i>
                                                 </a>
                                                 @endif
-                                                <a href="{{ route('visits.property.rating', $visit->property_id) }}" class="" title="Rate Property">
-                                                    <i class="fas fa-clock text-primary font-16"></i>
+                                                <a href="{{ route('visits.property.rating', $visit->id) }}" class="" title="Rate Property">
+                                                    <i class="fas fa-star text-warning font-16"></i>
                                                 </a>
                                             </td>
                                         </tr><!--end tr-->

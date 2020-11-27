@@ -7,11 +7,11 @@ use App\PropertyModel\Property;
 use App\PropertyModel\PropertyImage;
 use App\PropertyModel\PropertyType;
 use App\PropertyModel\PropertyReview;
-use App\PropertyModel\PropertyReviewStar;
 use App\UserModel\UserExtensionRequest;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\ServiceCharge;
+use App\UserModel\UserVisit;
 use App\PaymentModel\Transaction;
 use DB;
 
@@ -230,17 +230,27 @@ class VisitorController extends Controller
         }      
     }
  
-    public function rateProperty(Property $property)
+    public function rateProperty(UserVisit $visit)
     {
-        $data['page_title'] = $property->title.' Ratings';
-        $data['property'] = $property;
-        return view('admin.visits.rate', $data);
+        if($visit->user_id == $visit->property->user_id){
+            return view('errors.404');
+        }else{
+            $data['page_title'] = $visit->property->title.' Ratings';
+            $data['visit'] = $visit;
+            return view('admin.visits.rate', $data);
+        }
     }
 
-    public function submitRating(Request $request, Property $property)
+    public function submitRating(Request $request, UserVisit $visit)
     {
         $validator = \Validator::make($request->all(), [
-            'comment' => 'required|string',
+            'accuracy' => 'nullable|integer',
+            'location' => 'nullable|integer',
+            'security' => 'nullable|integer',
+            'value' => 'nullable|integer',
+            'communication' => 'nullable|integer',
+            'cleanliness' => 'nullable|integer',
+            'comment' => 'nullable|string',
         ]);
         (string) $message= '';
         if ($validator->fails()){
@@ -249,23 +259,16 @@ class VisitorController extends Controller
             try {
                 DB::beginTransaction();
                 $review = new PropertyReview;
-                $review->property_id = $property->id;
-                $review->user_id = Auth::user()->id;
+                $review->property_id = $visit->property_id;
+                $review->user_id = Auth::user()->id; 
+                $review->location_star = empty($request->location)? 0: $request->location;
+                $review->security_star = empty($request->security)? 0: $request->security;
+                $review->comm_star = empty($request->communication)? 0: $request->communication;
+                $review->value_star = empty($request->value)? 0: $request->value;
+                $review->accuracy_star = empty($request->accuracy)? 0: $request->accuracy;
+                $review->tidy_star = empty($request->cleanliness)? 0: $request->cleanliness;
                 $review->comment = $request->comment;
                 $review->save();
-
-                if(!empty($request->stars)){
-                    foreach($request->stars as $star){
-                        $review_star = new PropertyReviewStar;
-                        $review_star->property_id = $property->id;
-                        $review_star->location_star = $star;
-                        $review_star->comm_star = $star;
-                        $review_star->value_star = $star;
-                        $review_star->accuracy_star = $star;
-                        $review_star->tidy_star = $star;
-                        $review_star->save();
-                    }
-                }
                 DB::commit();
                 $message = "success";
             } catch (\Exception $e) {

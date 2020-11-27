@@ -13,7 +13,6 @@ use App\PropertyModel\PropertyImage;
 use App\PropertyModel\PropertyPrice;
 use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
-use App\PropertyModel\PropertyReviewStar;
 use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\PropertyAmenity;
 use App\PropertyModel\PropertyContain;
@@ -49,6 +48,7 @@ class Property extends Model
         return $this->publish == Property::PUBLISH;
     }
 
+    /******************************  ATTRIBUTES ******************************/
     public function isActive() : bool
     {
         return $this->is_active == true;
@@ -64,6 +64,62 @@ class Property extends Model
         return ucwords(str_replace('_',' ',$value));
     }
 
+    public function isAmenityChecked($value)
+    {
+        return PropertyAmenity::whereProperty_id($this->id)->whereName($value)->exists();
+    }
+
+    public function isSharedAmenityChecked($value)
+    {
+        return PropertySharedAmenity::whereProperty_id($this->id)->whereName($value)->exists();
+    }
+
+    public function isRuleChecked($value)
+    {
+        return PropertyRule::whereProperty_id($this->id)->whereRule($value)->exists();
+    }
+
+    public function isIncludeUtilityChecked($value)
+    {
+        return IncludeUtility::whereProperty_id($this->id)->whereName($value)->exists();
+    }
+
+
+
+    /******************************  STARS ******************************/
+    public function sumAccuracyStar()
+    {
+        return PropertyReview::whereProperty_id($this->id)->sum('accuracy_star');
+    }
+
+    public function sumSecurityStar()
+    {
+        return PropertyReview::whereProperty_id($this->id)->sum('security_star');
+    }
+
+    public function sumCommunicationStar()
+    {
+        return PropertyReview::whereProperty_id($this->id)->sum('comm_star');
+    }
+
+    public function sumLocationStar()
+    {
+        return PropertyReview::whereProperty_id($this->id)->sum('location_star');
+    }
+
+    public function sumValueStar()
+    {
+        return PropertyReview::whereProperty_id($this->id)->sum('value_star');
+    }
+
+    public function sumCleanStar()
+    {
+        return PropertyReview::whereProperty_id($this->id)->sum('tidy_star');
+    }
+
+
+
+    /******************************  RELATIONSHIP ******************************/
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -115,10 +171,6 @@ class Property extends Model
 
     public function propertyReviews(){
         return $this->hasMany(PropertyReview::class);
-    }
-
-    public function propertyReviewStars(){
-        return $this->hasMany(PropertyReviewStar::class);
     }
 
     public function propertyRents(){

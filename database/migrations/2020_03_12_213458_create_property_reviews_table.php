@@ -17,7 +17,13 @@ class CreatePropertyReviewsTable extends Migration
             $table->increments('id');
             $table->integer('property_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
-            $table->string('comment');
+            $table->integer('location_star');
+            $table->integer('security_star');
+            $table->integer('comm_star');
+            $table->integer('value_star');
+            $table->integer('accuracy_star');
+            $table->integer('tidy_star');
+            $table->string('comment')->nullable();
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -445,12 +445,13 @@
                             <h5><b>Reviews</b></h5>
                             @if (count($property->propertyReviews))
                                 @php
-                                    $accuracyStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('accuracy_star')/$property->propertyReviews->count();
-                                    $locationStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('location_star')/$property->propertyReviews->count();
-                                    $securityStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('security_star')/$property->propertyReviews->count();
-                                    $valueStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('value_star')/$property->propertyReviews->count();
-                                    $commStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('comm_star')/$property->propertyReviews->count();
-                                    $tidyStar = \App\PropertyModel\PropertyReview::whereProperty_id($property->id)->sum('tidy_star')/$property->propertyReviews->count();
+                                    $countReview = $property->propertyReviews->count();
+                                    $accuracyStar = (!$countReview)? 0: $property->sumAccuracyStar()/$countReview;
+                                    $locationStar = (!$countReview)? 0: $property->sumLocationStar()/$countReview;
+                                    $securityStar = (!$countReview)? 0: $property->sumSecurityStar()/$countReview;
+                                    $valueStar = (!$countReview)? 0: $property->sumValueStar()/$countReview;
+                                    $commStar = (!$countReview)? 0: $property->sumCommunicationStar()/$countReview;
+                                    $tidyStar = (!$countReview)? 0: $property->sumCleanStar()/$countReview;
                                     $sumReviews = $accuracyStar+$locationStar+$securityStar+$valueStar+$commStar+$tidyStar;
                                 @endphp
                                 <div>
@@ -470,14 +471,14 @@
                                                     <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($accuracyStar/5)*100,1) }}%;"></div>
                                                 </div>
                                             </td>
-                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($accuracyStar,1) }}</td>
+                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($accuracyStar/5,1) }}</td>
                                             <td class="no-border"><i class="fa fa-map-marked text-primary"></i> <b>Location</b></td>
                                             <td class="no-border" width="200">
                                                 <div class="progress" style="height: 3px;">
                                                     <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($locationStar/5)*100,1) }}%;"></div>
                                                 </div>
                                             </td>
-                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($locationStar,1) }}</td>
+                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($locationStar/5,1) }}</td>
                                         </tr>
                                         <tr>
                                             <td class="no-border"><i class="mdi mdi-security text-primary"></i> <b>Security</b></td>
@@ -486,14 +487,14 @@
                                                     <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($securityStar/5)*100,1) }}%;"></div>
                                                 </div>
                                             </td>
-                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($securityStar,1) }}</td>
+                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($securityStar/5,1) }}</td>
                                             <td class="no-border"><i class="mdi mdi-currency-usd text-primary"></i> <b>Value</b></td>
                                             <td class="no-border">
                                                 <div class="progress" style="height: 3px;">
                                                     <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($valueStar/5)*100,1) }}%;"></div>
                                                 </div>
                                             </td>
-                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($valueStar,1) }}</td>
+                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($valueStar/5,1) }}</td>
                                         </tr>
                                         <tr>
                                             <td class="no-border"><i class="mdi mdi-comment text-primary"></i> <b>Communication</b></td>
@@ -502,39 +503,27 @@
                                                     <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($commStar/5)*100,1) }}%;"></div>
                                                 </div>
                                             </td>
-                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($commStar,1) }}</td>
+                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($commStar/5,1) }}</td>
                                             <td class="no-border"><i class="fa fa-dumpster text-primary"></i> <b>Cleanliness</b></td>
                                             <td class="no-border">
                                                 <div class="progress" style="height: 3px;">
                                                     <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($tidyStar/5)*100,1) }}%;"></div>
                                                 </div>
                                             </td>
-                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($tidyStar,1) }}</td>
+                                            <td class="no-border" style="padding-left:0px !important">{{ number_format($tidyStar/5,1) }}</td>
                                         </tr>
                                     </table>
-                                    @foreach ($property->propertyReviews as $review)
-                                    <img src="{{ (empty($review->user->image))? asset('assets/images/tenants/user-4.jpg'):asset('assets/images/tenants/'.$review->user->image) }}" alt="{{ current(explode(' ',$review->user->name)) }}" width="60" height="60"  class="rounded-circle img-left mr-3" /> 
+                                    @foreach ($property->propertyReviews->sortByDesc('created_at')->take(6) as $review)
+                                    <img src="{{ (empty($review->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$review->user->image) }}" alt="{{ current(explode(' ',$review->user->name)) }}" width="60" height="60"  class="rounded-circle thumb-md img-left mr-3" /> 
                                     <p>
                                         <b>{{ current(explode(' ',$review->user->name)) }}</b><br>
                                         {{ \Carbon\Carbon::parse($review->created_at)->format('F, Y') }}
                                     </p>
-                                    <br>
                                     <p>
                                         {{ $review->comment }}
                                     </p>
                                     <hr>
                                     @endforeach
-                                </div>
-                                <div class="small">
-                                    <nav aria-label="Page navigation example">
-                                        <ul class="pagination">
-                                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                        </ul><!--end pagination-->
-                                    </nav>
                                 </div>
                             @else
                                 <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> No reviews yet</p>
@@ -579,7 +568,6 @@
                             </p>    
                             <div class="card mt-4">
                                 <div class="card-body">        
-                                    <h6 class="mt-0">{{ current(explode(' ',$property->user->name)) }}'s property is located @ {{ $property->propertyLocation->location }}</h6>     
                                     <div id="gmaps-markers" class="gmaps" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"></div>
                                 </div><!--end card-body-->
                             </div>                    
