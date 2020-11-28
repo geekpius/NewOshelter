@@ -234,7 +234,7 @@ class WebsiteController extends Controller
     public function email()
     {
         $data['menu'] = 'pxp-no-bg';
-        return view('emails.register_user', $data);
+        return view('vendor.notifications.email', $data);
     }
 
 

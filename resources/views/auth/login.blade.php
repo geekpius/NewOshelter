@@ -50,7 +50,7 @@
                                     </div>
                                 </div><!--end col--> 
                                 <div class="col-sm-6 text-right">
-                                    <a href="#" class="text-muted font-13"><i class="dripicons-lock"></i> Forgot password?</a>                                    
+                                    <a href="{{ route('password.request') }}" class="text-muted font-13"><i class="dripicons-lock"></i> Forgot password?</a>                                    
                                 </div><!--end col--> 
                             </div><!--end form-group--> 
 

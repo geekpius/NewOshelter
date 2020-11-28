@@ -25,7 +25,7 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/user/dashboard';
 
     /**
      * Create a new controller instance.
@@ -36,4 +36,16 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+
+    public function showResetForm(Request $request, $token = null)
+    {
+        $data = 'Reset password';
+        return view('auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email, 'page_title'=>$data]
+        );
+    }
+
+
+
 }
