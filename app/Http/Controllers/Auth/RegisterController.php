@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
+use App\Mail\VerifyEmailMail;
+use Illuminate\Support\Facades\Mail;
+
 class RegisterController extends Controller
 {
     /*
@@ -68,6 +71,18 @@ class RegisterController extends Controller
     }
 
 
+
+    public function generateEmailVerificationCode(int $length=8) : string
+    {
+        (string) $characters = '0123456789';
+        (int) $charactersLength = strlen($characters);
+        (string) $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -85,16 +100,20 @@ class RegisterController extends Controller
                 'phone' => $data['phone'],
                 'membership' => $membership,
                 'login_time' => Carbon::now(),
+                'email_verification_token' => $this->generateEmailVerificationCode(),
+                'verify_email_time' => Carbon::now()->addHour(),
                 'password' => Hash::make($data['password']),
             ]);
             
-            // UserWallet::create([
+            // UserNotification::create([
             //     'user_id' => $user->id,
-            //     'balance' => 0,
             // ]);
-            UserNotification::create([
-                'user_id' => $user->id,
-            ]);
+            $data = array(
+                "name" => current(explode(' ',$user->name)),
+                "code" => $user->email_verification_token,
+                "expire" => $user->verify_email_time,
+            );
+            Mail::to($user->email)->send(new VerifyEmailMail($data));
             DB::commit();
 
             return $user;

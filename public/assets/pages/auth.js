@@ -49,6 +49,26 @@ $("#formSignup").on("submit", function(e){
     return false;
 });
 
+
+// verify email
+$("#formVerify").on("submit", function(e){
+    e.stopPropagation();
+    var valid = true;
+    $('#formVerify input').each(function() {
+        var $this = $(this);
+        
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
+    });
+    if(valid) {
+        $('.btn_verify_code').html('<i class="fa fa-spinner fa-spin"></i> Verifying Code...').attr('disabled', true);
+        return true;
+    }
+    return false;
+});
+
 function getUpperCase(field){
     var set_field = document.getElementById(field).value;
     document.getElementById(field).value=set_field.toUpperCase();

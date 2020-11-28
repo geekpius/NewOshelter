@@ -73,6 +73,7 @@
     var toggler = document.getElementsByClassName("caret");
     var i;
 
+    // toggler[0].parentElement.querySelector(".nested").classList.toggle("active");
     toggler[0].parentElement.querySelector(".nested").classList.toggle("active");
     toggler[0].classList.toggle("caret-down");
 

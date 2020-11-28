@@ -45,7 +45,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password', 'membership', 'phone', 'digital_address', 
-        'verify_email', 'verify_sms', 'login_time',
+        'email_verification_token', 'verify_email_time', 'verify_email', 'verify_sms', 'login_time',
     ];
 
     /**
@@ -68,10 +68,6 @@ class User extends Authenticatable
         return $this->verify_sms == User::VERIFY_SMS;
     }
 
-    public function generateEmailVerificationCode() : string
-    {
-        return Str::random(32);
-    }
 
     public function generateSmsVerificationCode(int $length=4) : string
     {

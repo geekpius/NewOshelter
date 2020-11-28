@@ -231,6 +231,12 @@ class WebsiteController extends Controller
         return view('deactivated', $data);
     }
 
+    public function email()
+    {
+        $data['menu'] = 'pxp-no-bg';
+        return view('emails.register_user', $data);
+    }
+
 
 
     //own property

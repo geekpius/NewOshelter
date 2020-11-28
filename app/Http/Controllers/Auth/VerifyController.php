@@ -9,91 +9,79 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Mail\VerifyEmailMail;
+use Illuminate\Support\Facades\Mail;
 
 class VerifyController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('verify-user');
         $this->middleware('auth');
     }
-    /* public function getEmailVerification()
+
+
+    public function verfiyEmail()
     {
-        if (Auth::user()->email_verify != 1){
-            $data['general'] = GeneralSetting::first();
-            $data['page_title'] = "Email Verification";
-            $data['basic'] = BasicSetting::first();
-            $data['menu'] = Menu::all();
-            return view('home.email-verify',$data);
+        if (!Auth::user()->verify_email){
+            $data['page_title'] = 'Email verification';
+            return view('auth.verify_email',$data);
         }else{
-            return redirect('user/dashboard');
+            return redirect()->route('dashboard');
         }
 
     }
-    public function emailVerifySubmit(Request $request)
+
+    public function verify(Request $request)
     {
-        $this->validate($request,[
-           'code' => 'required',
+        $this->validate($request, [
+            'verification_code' => 'required|string',
         ]);
 
-        $user = User::findOrFail(Auth::user()->id);
-
-        if ($user->ev_code == $request->code)
-        {
-            $useOwner = User::whereOwner_id($user->owner_id)->get();
-            foreach ($useOwner as $uw)
-            {
-                $uw->email_verify = 1;
-                $uw->save();
-            }
-
-            $basic = BasicSetting::first();
-            if ($basic->phone_status == 0)
-            {
-                return redirect('user/dashboard');
+        $user = User::findorFail(Auth::user()->id);
+        if($user->email_verification_token == $request->verification_code){
+            $user->verify_email = true;
+            $user->update();
+            return redirect()->route('dashboard');
+        }else{
+            if ($user->verify_email_time < Carbon::now()){
+                session()->flash('error', 'Verification code is expired');
             }else{
-                $code = strtoupper(Str::random(10));
-                $user->pv_code = $code;
-                $user->pv_time = Carbon::parse()->addMinutes(5);
-                /*$this->sendSms($to,$txt);*
-                return redirect()->route('phone-verify');
-
+                session()->flash('error', 'Verification code is invalid');
             }
-        }else{
-            session()->flash('message','Verification Code in Invalid');
-            return redirect()->route('email-verify');
+            return redirect()->back();
         }
 
     }
 
-    public function resendEmail(Request $request)
+    public function resendCode(Request $request, User $user)
     {
-        $user = User::findOrFail(Auth::user()->id);
-        if ($user->ev_time > Carbon::now())
-        {
-            $tt = Carbon::parse($user->ev_time)->diffInSeconds();
-            session()->flash('message',"Please Try Again. After $tt - second.");
-            return redirect()->route('email-verify');
-        }else{
-
-            $email_code = strtoupper(Str::random(12));
-            $text = "Your Verification Code Is: <b>".$email_code."</b>";
-            $this->sendMail($user->email,$user->name,'Email verification',$text);
-            //$this->sendInvoice($user->email);
-            $useOwner = User::whereOwner_id($user->owner_id)->get();
-            foreach ($useOwner as $uw)
-            {
-                $uw->ev_code = $email_code;
-                $uw->ev_time = Carbon::parse()->addMinutes(5);
-                $uw->save();
-            }
-
-
-            session()->flash('message',"New Email Verification Code Send Your Email Address.");
-            return redirect()->route('email-verify');
-        }
-
+        $user->email_verification_token = $this->generateEmailVerificationCode();
+        $user->verify_email_time = Carbon::now()->addHour();
+        $user->update();
+        $data = array(
+            "name" => current(explode(' ',$user->name)),
+            "code" => $user->email_verification_token,
+            "expire" => $user->verify_email_time,
+        );
+        Mail::to($user->email)->send(new VerifyEmailMail($data));
+        session()->flash('success', 'Verification code is sent to you email');
+        return redirect()->back();
     }
-     */
+
+    public function generateEmailVerificationCode(int $length=8) : string
+    {
+        (string) $characters = '0123456789';
+        (int) $charactersLength = strlen($characters);
+        (string) $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
+     
+     
 
 
 
