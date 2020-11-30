@@ -56,7 +56,6 @@ class MessageController extends Controller
         }
         return $message;
     }
-
     
     //reply message
     public function reply(Request $request)
@@ -80,10 +79,15 @@ class MessageController extends Controller
     //delete message
     public function read(Message $message)
     {
-        if($message->status==0){
-            $message->status = 1;
-            $message->update();
-            return 'success';
+        if(Auth::user()->id == $message->user->id){
+            if($message->status==0){
+                $message->status = 1;
+                $message->update();
+                return 'success';
+            }
+        }
+        else{
+            return view('errors.404');
         }
     }
 
