@@ -92,9 +92,11 @@
                             (+233) 030-279-5111
                         </div>
                         <div class="pxp-footer-social mt-2">
-                            <a href="#"><span class="fa fa-instagram"></span></a>
-                            <a href="#"><span class="fa fa-facebook-square"></span></a>
-                            <a href="#"><span class="fa fa-twitter"></span></a>
+                            <a href="https://www.facebook.com/Oshelter"><span class="fa fa-facebook-square text-primary"></span></a>
+                            <a href="https://twitter.com/Oshelter1"><span class="fa fa-twitter text-primary"></span></a>
+                            <a href="https://www.linkedin.com/in/oshelter-42296b200/"><span class="fa fa-linkedin-square text-primary"></span></a>
+                            <a href="https://www.instagram.com/osheltergh/"><span class="fa fa-instagram text-pink"></span></a>
+                            <a href="#"><span class="fa fa-youtube-square text-danger"></span></a>
                         </div>
                     </div>
                     <div class="col-sm-12 col-lg-8">

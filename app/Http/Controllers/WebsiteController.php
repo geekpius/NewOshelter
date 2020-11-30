@@ -48,7 +48,6 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Narrow down '.$status.' filter complexity';
         $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->whereDone_step(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(9);
-        $data['locations'] = PropertyLocation::orderBy('location')->get(['location']);
         $data['property_types'] = PropertyType::get(['name']);
         return view('property-status', $data);
     }
@@ -87,7 +86,7 @@ class WebsiteController extends Controller
             $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
             $countImages = $property->propertyImages->count();
             $data['image'] = $property->propertyImages->first();
-            $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take($countImages-1)->get();
+            $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
             return view('property-detail', $data);
         }
         else{
