@@ -23,8 +23,12 @@ class UserSavedPropertyController extends Controller
 
     public function removeWishList(UserSavedProperty $userSavedProperty)
     {
-        $userSavedProperty->delete();
-        return redirect()->back();
+        if(Auth::user()->id == $userSavedProperty->user_id){
+            $userSavedProperty->delete();
+            return redirect()->back();
+        }else{
+            return view('errors.404');
+        }
     }
 
     //save property
