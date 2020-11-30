@@ -69,10 +69,14 @@ class PropertyController extends Controller
     ///create from the steps
     public function createNewListing(Property $property)
     {
-        if(!$property->done_step){
-            $data['page_title'] = 'Creating new listing';
-            $data['property']= $property; 
-            return view('admin.properties.create-listing', $data);
+        if(Auth::user()->id == $property->user_id){
+            if(!$property->done_step){
+                $data['page_title'] = 'Creating new listing';
+                $data['property']= $property; 
+                return view('admin.properties.create-listing', $data);
+            }else{
+                return view('errors.404');
+            }
         }else{
             return view('errors.404');
         }
@@ -83,9 +87,9 @@ class PropertyController extends Controller
     {
         $data['page_title'] = 'Preview '.$property->title. ' listing';
         $data['property']= $property; 
-        $countImages = PropertyImage::whereProperty_id($property->id)->count();
-        $data['image'] = PropertyImage::whereProperty_id($property->id)->orderBy('id')->first();
-        $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take($countImages-1)->get();
+        $countImages = $property->propertyImages->count();
+        $data['image'] = $property->propertyImages->sortBy('id')->first();
+        $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
         return view('admin.properties.preview-listing', $data);
     }
 
@@ -131,8 +135,10 @@ class PropertyController extends Controller
     ///show delete blocks
     public function deleteBlock(PropertyHostelBlock $propertyHostelBlock)
     {
-        $propertyHostelBlock->delete();
-        return 'success';
+        if(Auth::user()->id == $propertyHostelBlock->property->user_id){
+            $propertyHostelBlock->delete();
+            return 'success';
+        }
     }
 
     //create hostel block rooms
@@ -309,9 +315,9 @@ class PropertyController extends Controller
     ///show property uploaded photos
     public function showPropertyPhoto(Property $property)
     {
-        $countImages = PropertyImage::whereProperty_id($property->id)->count();
-        $data['image'] = PropertyImage::whereProperty_id($property->id)->orderBy('id')->first();
-        $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take(($countImages==0)? 0:$countImages-1)->get();
+        $countImages = $property->propertyImages->count();
+        $data['image'] = $property->propertyImages->sortBy('id')->first();
+        $data['images'] = $property->propertyImages->slice(1)->take(($countImages==0)? 0:$countImages-1);
         return view('admin.properties.show-property-photos', $data)->render();        
     }
 
@@ -326,9 +332,11 @@ class PropertyController extends Controller
     ////deleted property uploaded photo
     public function deletePropertyPhoto(PropertyImage $propertyImage)
     {
-        \File::delete("assets/images/properties/".$propertyImage->image);
-        $propertyImage->delete();
-        return 'success'; 
+        if(Auth::user()->id == $propertyImage->property->user_id){
+            \File::delete("assets/images/properties/".$propertyImage->image);
+            $propertyImage->delete();
+            return 'success'; 
+        }
     }
 
     ///add own property rule
@@ -368,8 +376,10 @@ class PropertyController extends Controller
     ///delete own property rule
     public function deleteOwnRule(PropertyOwnRule $propertyOwnRule)
     {
-        $propertyOwnRule->delete();
-        return 'success'; 
+        if(Auth::user()->id == $propertyOwnRule->property->user_id){
+            $propertyOwnRule->delete();
+            return 'success'; 
+        }
     }
 
     ///add Hostel block prices
@@ -679,18 +689,22 @@ class PropertyController extends Controller
     ///toggle publish visibility
     public function togglePublishVisibility(Request $request, Property $property)
     {
-        $message = '';
-        if($property->publish){
-            $property->publish = false;
-            $property->update();
-            $message="success";
+        if(Auth::user()->id == $property->user_id){
+            $message = '';
+            if($property->publish){
+                $property->publish = false;
+                $property->update();
+                $message="success";
+            }
+            else{
+                $property->publish = true;
+                $property->update();
+                $message="success";
+            }
+            return $message;
+        }else{
+            return 'Page not found';
         }
-        else{
-            $property->publish = true;
-            $property->update();
-            $message="success";
-        }
-        return $message;
     }
     
 
@@ -724,23 +738,24 @@ class PropertyController extends Controller
     }
 
 
-    //manage property
-    public function manageProperty()
-    {
-        $data['page_title'] = 'My properties';
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->get();
-        return view('admin.properties.manage-property', $data);
-    }
+    // //manage property
+    // public function manageProperty()
+    // {
+    //     $data['page_title'] = 'My properties';
+    //     $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->get();
+    //     return view('admin.properties.manage-property', $data);
+    // }
 
-    //manage property
-    public function managePropertyDetail(Property $property)
-    {
-        $data['page_title'] = $property->title.' details';
-        $data['property'] = $property;
-        $countImages = PropertyImage::whereProperty_id($property->id)->count();
-        $data['images'] = PropertyImage::whereProperty_id($property->id)->skip(1)->take(($countImages==0)? 0:$countImages-1)->get();
-        return view('admin.properties.show-detail-property', $data);
-    }
+    // //manage property
+    // public function managePropertyDetail(Property $property)
+    // {
+    //     $data['page_title'] = $property->title.' details';
+    //     $data['property'] = $property;
+    //     $countImages = PropertyImage::whereProperty_id($property->id)->count();
+    //     $countImages = $property->propertyImages->count();
+    //     $data['images'] = $property->propertyImages->slice(1)->take(($countImages==0)? 0:$countImages-1);
+    //     return view('admin.properties.show-detail-property', $data);
+    // }
     
 
    
