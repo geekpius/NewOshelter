@@ -56,9 +56,13 @@ class TicketController extends Controller
     //read ticket and replies
     public function read(Ticket $ticket)
     {
-        $data['page_title'] = 'Read ticket #'.$ticket->id;
-        $data['ticket'] = $ticket;
-        return view('admin.tickets.read', $data);
+        if(Auth::user()->id == $ticket->user->id){
+            $data['page_title'] = 'Read ticket #'.$ticket->id;
+            $data['ticket'] = $ticket;
+            return view('admin.tickets.read', $data);
+        }else{
+            return view('errors.404');
+        }
     }
 
     //reply ticket
@@ -84,9 +88,13 @@ class TicketController extends Controller
     ///close ticket
     public function close(Ticket $ticket)
     {
-        $ticket->status=true;
-        $ticket->update();
-        return 'success';
+        if(Auth::user()->id == $ticket->user->id){
+            $ticket->status=true;
+            $ticket->update();
+            return 'success';
+        }else{
+            return view('errors.404');
+        }
     }
 
 
