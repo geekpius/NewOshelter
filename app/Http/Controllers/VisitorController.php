@@ -103,40 +103,56 @@ class VisitorController extends Controller
 
     public function extensionDetail(UserExtensionRequest $userExtensionRequest)
     {
-        $data['page_title'] = 'Extension date request from '.$userExtensionRequest->user->name;
-        $data['extension'] = $userExtensionRequest;
-        return view('admin.requests.extension-request', $data);
+        if(Auth::user()->id == $userExtensionRequest->user->id){
+            $data['page_title'] = 'Extension date request from '.$userExtensionRequest->user->name;
+            $data['extension'] = $userExtensionRequest;
+            return view('admin.requests.extension-request', $data);
+        }else{
+            return view('errors.404');
+        }
     }
 
     public function confirmExtendStay(UserExtensionRequest $userExtensionRequest)
     {
-        $message = '';
-        if($userExtensionRequest->is_confirm == 1){
-            $userExtensionRequest->is_confirm = 2;
-            $userExtensionRequest->update();
-            $message = 'success';
+        if(Auth::user()->id == $userExtensionRequest->user->id){
+            $message = '';
+            if($userExtensionRequest->is_confirm == 1){
+                $userExtensionRequest->is_confirm = 2;
+                $userExtensionRequest->update();
+                $message = 'success';
+            }
+            return $message;
+        }else{
+            return view('errors.404');
         }
-        return $message;
     }
 
     public function cancelExtendStay(UserExtensionRequest $userExtensionRequest)
     {
-        $message = '';
-        if($userExtensionRequest->is_confirm == 1){
-            $userExtensionRequest->is_confirm = 0;
-            $userExtensionRequest->update();
-            $message = 'success';
+        if(Auth::user()->id == $userExtensionRequest->user->id){
+            $message = '';
+            if($userExtensionRequest->is_confirm == 1){
+                $userExtensionRequest->is_confirm = 0;
+                $userExtensionRequest->update();
+                $message = 'success';
+            }
+            return $message;
+        }else{
+            return view('errors.404');
         }
-        return $message;
     }
 
     public function extensionPayment(UserExtensionRequest $userExtensionRequest)
     {
-        if($userExtensionRequest->is_confirm == 2){
-            $data['page_title'] = 'Extension payment requests';
-            $data['extension'] = $userExtensionRequest;
-            $data['charge'] = ServiceCharge::whereProperty_type($userExtensionRequest->visit->property->type)->first();
-            return view('admin.requests.extension_payment', $data);
+        if(Auth::user()->id == $userExtensionRequest->user->id){
+            if($userExtensionRequest->is_confirm == 2){
+                $data['page_title'] = 'Extension payment requests';
+                $data['extension'] = $userExtensionRequest;
+                $data['charge'] = ServiceCharge::whereProperty_type($userExtensionRequest->visit->property->type)->first();
+                return view('admin.requests.extension_payment', $data);
+            }else{
+                return view('errors.404');
+            }
         }else{
             return view('errors.404');
         }
