@@ -125,6 +125,17 @@ $("#back_file").on("change", function(){
     return false;
 });
 
+
+// go next
+$(".btnNext").on("click", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    window.location.reload();
+    return false;
+});
+
+
+
 // continue steps in booking
 $(".btnContinue").on("click", function(e){
     e.preventDefault();

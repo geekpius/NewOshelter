@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-use App\Mail\VerifyEmailMail;
+use App\Mail\EmailSender;
 use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
@@ -105,15 +105,15 @@ class RegisterController extends Controller
                 'password' => Hash::make($data['password']),
             ]);
             
-            // UserNotification::create([
-            //     'user_id' => $user->id,
-            // ]);
+            UserNotification::create([
+                'user_id' => $user->id,
+            ]);
             $data = array(
                 "name" => current(explode(' ',$user->name)),
                 "code" => $user->email_verification_token,
                 "expire" => $user->verify_email_time,
             );
-            Mail::to($user->email)->send(new VerifyEmailMail($data));
+            Mail::to($user->email)->send(new EmailSender($data, "Verify Email", "emails.verify_email"));
             DB::commit();
 
             return $user;

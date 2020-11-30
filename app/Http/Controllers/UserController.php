@@ -10,6 +10,10 @@ use App\UserModel\UserExtensionRequest;
 use App\BookModel\Booking;
 use App\ServiceCharge;
 
+
+use App\Mail\EmailSender;
+use Illuminate\Support\Facades\Mail;
+
 class UserController extends Controller
 {
     /**
@@ -82,40 +86,74 @@ class UserController extends Controller
 
     public function requestDetail(Booking $booking)
     {
+       if(Auth::user()->id == $booking->owner_id){
         $data['page_title'] = 'Booking requests';
         $data['booking'] = $booking;
         return view('admin.requests.confirm', $data);
+       }else{
+        return view('errors.404');
+       }
     }
 
     public function requestConfirm(Booking $booking)
     {
-        $message = '';
-        if($booking->status == 1){
-            $booking->status = 2;
-            $booking->update();
-            $message = 'success';
+        if(Auth::user()->id == $booking->owner_id){
+            $message = '';
+            if($booking->status == 1){
+                $booking->status = 2;
+                $booking->update();
+                $message = 'success';
+                $data = array(
+                    "title" => "BOOKING CONFIRMATION",
+                    "property" => $booking->property->title,
+                    "link" => route('requests.payment', $booking->id),
+                    "status" => "confirmed",
+                    "name" => current(explode(' ',$booking->user->name)),
+                    "owner" => current(explode(' ',Auth::user()->name)),
+                );
+                Mail::to($booking->user->email)->send(new EmailSender($data, 'Booking Response', 'emails.booking_response'));
+            }
+            return $message;
+        }else{
+            return view('errors.404');
         }
-        return $message;
     }
 
     public function requestCancel(Booking $booking)
     {
-        $message = '';
-        if($booking->status == 1){
-            $booking->status = 0;
-            $booking->update();
-            $message = 'success';
+        if(Auth::user()->id == $booking->owner_id){
+            $message = '';
+            if($booking->status == 1){
+                $booking->status = 0;
+                $booking->update();
+                $message = 'success';
+                $data = array(
+                    "title" => "BOOKING CANCELLATION",
+                    "property" => $booking->property->title,
+                    "link" => "",
+                    "status" => "cancelled",
+                    "name" => current(explode(' ',$booking->user->name)),
+                    "owner" => current(explode(' ',Auth::user()->name)),
+                );
+                Mail::to($booking->user->email)->send(new EmailSender($data, 'Booking Response', 'emails.booking_response'));
+            }
+            return $message;
+        }else{
+            return view('errors.404');
         }
-        return $message;
     }
 
     public function requestPayment(Booking $booking)
     {
-        if($booking->status == 2){
-            $data['page_title'] = 'Payment requests';
-            $data['booking'] = $booking;
-            $data['charge'] = ServiceCharge::whereProperty_type($booking->property->type)->first();
-            return view('admin.requests.payment', $data);
+        if(Auth::user()->id == $booking->user_id){
+            if($booking->status == 2){
+                $data['page_title'] = 'Payment requests';
+                $data['booking'] = $booking;
+                $data['charge'] = ServiceCharge::whereProperty_type($booking->property->type)->first();
+                return view('admin.requests.payment', $data);
+            }else{
+                return view('errors.404');
+            }
         }else{
             return view('errors.404');
         }

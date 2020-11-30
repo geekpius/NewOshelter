@@ -233,8 +233,13 @@ class WebsiteController extends Controller
 
     public function email()
     {
-        $data['menu'] = 'pxp-no-bg';
-        return view('vendor.notifications.email', $data);
+        $data = array(
+            "property" => "Single room self contain",
+            "link" => route('requests.detail', 1),
+            "name" => current(explode(' ','Fiifi Pius')),
+            "guest" => current(explode(' ',"Pius Geek")),
+        );
+        return view('emails.booking_request')->with('data', $data);
     }
 
 

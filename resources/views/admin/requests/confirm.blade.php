@@ -34,33 +34,52 @@
                     <br>
                     <div class="col-sm-6">
                         <div class="card">
-                            <div class="card-body">
-                                <p class="font-14">
-                                    <img src="{{ asset('assets/images/users/'.$booking->user->image) }}" alt="{{ $booking->user->name }}" class="thumb-sm rounded-circle mr-1" />
-                                    This booking request is from {{ current(explode(' ',$booking->user->name))}}.
-                                </p>
-                                @php
-                                    if ($booking->property->type_status == 'rent') {
-                                        $from = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_in);
-                                        $to = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_out);
-                                        $dateDiff = $to->diffInMonths($from);
-                                    }
-                                    $years = '';
-                                    if($dateDiff >= 12){
-                                        $y = $dateDiff/12;
-                                        $m = $dateDiff%12;
-                                        $year = ($y==1)? $y." year":$y." years";
-                                        $month = ($m==1)? $m." month":$m." months";
-                                        $years = $year.(($m==0)? '':$month);
-                                    }else{
-                                        $years = $dateDiff." months";
-                                    }
-                                @endphp
-                                <span class="font-weight-500 ml-1">
-                                    {{ $booking->property->propertyPrice->currency }}&nbsp;{{ number_format(($booking->property->propertyPrice->property_price*$dateDiff),2) }} 
-                                    for {{ $years }}
-                                </span>
-                            </div>    
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="card-body">
+                                        <p class="font-14">
+                                            @php $image = empty($booking->user->image)? 'user.svg': 'users/'.$booking->user->image; @endphp
+                                            <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                            This booking request is from {{ current(explode(' ',$booking->user->name))}}.
+                                        </p>
+                                        @php
+                                            if ($booking->property->type_status == 'rent') {
+                                                $from = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_in);
+                                                $to = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_out);
+                                                $dateDiff = $to->diffInMonths($from);
+                                            }
+                                            $years = '';
+                                            if($dateDiff >= 12){
+                                                $y = $dateDiff/12;
+                                                $m = $dateDiff%12;
+                                                $year = ($y==1)? $y." year":$y." years";
+                                                $month = ($m==1)? $m." month":$m." months";
+                                                $years = $year.(($m==0)? '':$month);
+                                            }else{
+                                                $years = $dateDiff." months";
+                                            }
+                                        @endphp
+                                        <span class="font-weight-500 ml-1">
+                                            {{ $booking->property->propertyPrice->currency }}&nbsp;{{ number_format(($booking->property->propertyPrice->property_price*$dateDiff),2) }} 
+                                            for {{ $years }}
+                                        </span>
+                                    </div>       
+                                </div> 
+                                <div class="col-sm-4">
+                                    <div class="text-center">ID CARD</div>
+                                    <div class="flip-box" style="height: 80px !important; width: 130px !important">
+                                        <div class="flip-box-inner">
+                                            <div class="text-center mt-2 flip-box-front">
+                                                <img src="{{ asset('assets/images/cards/'.$booking->user->profile->id_front) }}" alt="ID Card Front" class="front_card" style="width:130px; height:80px; border-radius:2%" />
+                                            </div>
+                                            <div class="flip-box-back">
+                                                <img src="{{ asset('assets/images/cards/'.$booking->user->profile->id_back) }}" alt="ID Card Front" class="back_card" style="width:130px; height:80px; border-radius:2%" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
                         </div>
                         <h5 class="text-primary">{{ $booking->property->title }}</h5>
                         <div class="card">

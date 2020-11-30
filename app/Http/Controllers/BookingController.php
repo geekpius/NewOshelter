@@ -18,6 +18,9 @@ use App\PropertyModel\HostelBlockRoomNumber;
 use App\BookModel\Booking;
 use App\PaymentModel\Transaction;
 
+use App\Mail\EmailSender;
+use Illuminate\Support\Facades\Mail;
+
 class BookingController extends Controller
 {
     public function __construct()
@@ -252,6 +255,14 @@ class BookingController extends Controller
                 $book->status  = 1;
                 $book->update();
                 $message = "success";
+                //emailing
+                $data = array(
+                    "property" => $book->property->title,
+                    "link" => route('requests.detail', $book->id),
+                    "name" => current(explode(' ',$book->property->user->name)),
+                    "guest" => current(explode(' ',Auth::user()->name)),
+                );
+                Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
             }else{
                 $book = new Booking;
                 $book->user_id = Auth::user()->id;
@@ -264,6 +275,14 @@ class BookingController extends Controller
                 $book->infant  = $request->infant;
                 $book->save();
                 $message = "success";
+                //emailing
+                $data = array(
+                    "property" => $book->property->title,
+                    "link" => route('requests.detail', $book->id),
+                    "name" => current(explode(' ',$book->property->user->name)),
+                    "guest" => current(explode(' ',Auth::user()->name)),
+                );
+                Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
             }
         }
 

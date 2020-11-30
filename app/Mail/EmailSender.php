@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class VerifyEmailMail extends Mailable
+class EmailSender extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,9 +17,11 @@ class VerifyEmailMail extends Mailable
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data, $subject, $view)
     {
         $this->data = $data;
+        $this->subject = $subject;
+        $this->view = $view;
     }
 
     /**
@@ -29,7 +31,7 @@ class VerifyEmailMail extends Mailable
      */
     public function build()
     {
-        return $this->subject("Verify Email")->view('emails.verify_email')->with('data', $this->data);
+        return $this->subject($this->subject)->view($this->view)->with('data', $this->data);
     }
 
 
