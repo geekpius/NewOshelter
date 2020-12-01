@@ -452,7 +452,7 @@
                                                         </div>
                                                     </div>
 
-                                                    @include('includes.amenities')
+                                                    @include('includes.hostel_amenities')
 
                                                     <div class="row">
                                                         <div class="col-sm-12">
@@ -462,7 +462,7 @@
                                                 </form>
 
                                                 <hr class="mt-5">
-                                                <h4 class="ml-4">If there are shared amenities offered to your guests in your hostel, let them know.</h4>
+                                                <h4 class="">If there are shared amenities offered to your guests in your hostel, let them know.</h4>
                                                 <form id="formRoomAmenities" method="POST" action="{{ route("property.store") }}">
                                                     @csrf
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -552,7 +552,9 @@
                                         <div class="col-lg-1"></div>
                                         <div class="col-lg-6">
                                             <h4>Lets take a tour on your hostel</h4>
-                                            <p class="mb-4"><i class="fa fa-dot-circle" style="font-size:9px"></i> Property photo with captions will best help us with the tour.</p>
+                                            <p class="mb-4"><i class="fa fa-dot-circle" style="font-size:9px"></i> Property photo with captions will best help us with the tour.
+                                            <br>
+                                            <i class="fa fa-dot-circle" style="font-size:9px"></i> You can upload maximum of 10 photos at a time.</p>
     
                                             <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
                                                 
@@ -653,7 +655,15 @@
                                                 <h4>Provide guests with your rent schedule</h4>
                                                 <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Guests must know advance payment and price calendar</p>
                                                 
+                                                <form id="formHostelRoomPrices" method="POST" action="{{ route('property.store') }}">
+                                                    @csrf
+                                                    @include('includes.include_utilities')
+                                                    <input type="hidden" name="step" value="8" readonly>
+                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                </form>
+
                                                 <form class="mt-4" id="formRentSchedule">
+                                                
                                                     <div class="row">
                                                         <div class="col-sm-6">
                                                             <div class="form-group validate">
@@ -673,7 +683,7 @@
                                                         <div class="col-sm-6">
                                                             <div class="form-group validate">
                                                                 <label for="">Gender on block</label>
-                                                                <select name="gender" class="form-control" id="gender">
+                                                                <select name="gender" class="form-control" id="gender1">
                                                                     <option value="">--Select--</option>
                                                                     <option value="male">Male</option>
                                                                     <option value="female">Female</option>
@@ -750,12 +760,6 @@
                                                     </div>
 
                                                 </form>
-
-                                                <form id="formHostelRoomPrices" method="POST" action="{{ route('property.store') }}" style="diplay:none !important;">
-                                                    @csrf
-                                                    <input type="hidden" name="step" value="8" readonly>
-                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                </form>
                                             </div>                                            
                                         </div>
                                         
@@ -770,7 +774,7 @@
                                 </div><!-- end step eight --> 
 
                                 <div class="step-pane" data-step="9">
-                                    <div class="pr-5 pl-5 mt-5">
+                                    {{-- <div class="pr-5 pl-5 mt-5">
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="card">
@@ -840,7 +844,7 @@
                                                 </p>
                                             </div>
                                         </div> 
-                                    </div>
+                                    </div> --}}
 
                                     <div class="row">
                                         <div class="col-lg-1"></div>
@@ -996,136 +1000,9 @@
                                                 @csrf
                                                 <input type="hidden" name="step" value="2" readonly>
                                                 <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                <div class="row mt-4 validate">
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa9" type="checkbox" {{ ($property->isAmenityChecked('Bed'))? 'checked':'' }} value="Bed" name="amenities[]">
-                                                            <label for="checkboxa9">Bed</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa0" type="checkbox" {{ ($property->isAmenityChecked('TV'))? 'checked':'' }} value="TV" name="amenities[]">
-                                                            <label for="checkboxa0">TV</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa1" type="checkbox" {{ ($property->isAmenityChecked('Fridge'))? 'checked':'' }} value="Fridge" name="amenities[]">
-                                                            <label for="checkboxa1">Fridge</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa2" type="checkbox" {{ ($property->isAmenityChecked('Fiber Broadband Modem'))? 'checked':'' }} value="Fiber Broadband Modem" name="amenities[]">
-                                                            <label for="checkboxa2">Fiber Broadband Modem</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa3" type="checkbox" {{ ($property->isAmenityChecked('Telephone'))? 'checked':'' }} value="Telephone" name="amenities[]">
-                                                            <label for="checkboxa3">Telephone</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa4" type="checkbox" {{ ($property->isAmenityChecked('Towel,Soap'))? 'checked':'' }} value="Towel,Soap" name="amenities[]">
-                                                            <label for="checkboxa4">Towel,Soap</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa5" type="checkbox" {{ ($property->isAmenityChecked('Fire Extinguisher'))? 'checked':'' }} value="Fire Extinguisher" name="amenities[]">
-                                                            <label for="checkboxa5">Fire Extinguisher</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa6" type="checkbox" {{ ($property->isAmenityChecked('Smoke Detector'))? 'checked':'' }} value="Smoke Detector" name="amenities[]">
-                                                            <label for="checkboxa6">Smoke Detector</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa7" type="checkbox" {{ ($property->isAmenityChecked('Air Conditioning'))? 'checked':'' }} value="Air Conditioning" name="amenities[]">
-                                                            <label for="checkboxa7">Air Conditioning</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa8" type="checkbox" {{ ($property->isAmenityChecked('ceiling Fan'))? 'checked':'' }} value="Ceiling Fan" name="amenities[]">
-                                                            <label for="checkboxa8">Ceiling Fan</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa10" type="checkbox" {{ ($property->isAmenityChecked('Learning Light'))? 'checked':'' }} value="Learning Light" name="amenities[]">
-                                                            <label for="checkboxa10">Learning Light</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxa11" type="checkbox" {{ ($property->isAmenityChecked('Wardrobe'))? 'checked':'' }} value="Wardrobe" name="amenities[]">
-                                                            <label for="checkboxa11">Wardrobe</label>
-                                                        </div>
-                                                    </div>
-                                                
-                                                
-                                                    <span class="text-danger small" id="selectMsg" style="display:none" role="alert">Select at least one amenity</span>
-                                                </div>
-                                               <h4 class="mt-4">If there are shared amenities offered to your {{ $guest.'s' }} in your property, let them know.</h4>
-                                               <div class="row mt-4">
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxs0" type="checkbox" {{ ($property->isSharedAmenityChecked('Swimming Pool'))? 'checked':'' }} value="Swimming Pool" name="shared_amenities[]">
-                                                            <label for="checkboxs0">Swimming Pool</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxs1" type="checkbox" {{ ($property->isSharedAmenityChecked('Laundary'))? 'checked':'' }} value="Laundary" name="shared_amenities[]">
-                                                            <label for="checkboxs1">Laundary</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxs2" type="checkbox" {{ ($property->isSharedAmenityChecked('Emergency Bell'))? 'checked':'' }} value="Emergency Bell" name="shared_amenities[]">
-                                                            <label for="checkboxs2">Emergency Bell</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxs3" type="checkbox" {{ ($property->isSharedAmenityChecked('Garden'))? 'checked':'' }} value="Garden" name="shared_amenities[]">
-                                                            <label for="checkboxs3">Garden</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxs4" type="checkbox" {{ ($property->isSharedAmenityChecked('Basketball Court'))? 'checked':'' }} value="Basketball Court" name="shared_amenities[]">
-                                                            <label for="checkboxs4">Basketball Court</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxs5" type="checkbox" {{ ($property->isSharedAmenityChecked('Tennis Court'))? 'checked':'' }} value="Tennis Court" name="shared_amenities[]">
-                                                            <label for="checkboxs5">Tennis Court</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxs6" type="checkbox" {{ ($property->isSharedAmenityChecked('Car Park'))? 'checked':'' }} value="Car Park" name="shared_amenities[]">
-                                                            <label for="checkboxs6">Car Park</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-4">
-                                                        <div class="checkbox checkbox-primary">
-                                                            <input id="checkboxs7" type="checkbox" {{ ($property->isSharedAmenityChecked('Fire Extinguisher'))? 'checked':'' }} value="Fire Extinguisher" name="shared_amenities[]">
-                                                            <label for="checkboxs7">Fire Extinguisher</label>
-                                                        </div>
-                                                    </div>
-                                            
-                                                </div>
-
+                                                @include('includes.amenities')
+                                                <h4 class="mt-4">If there are shared amenities offered to your {{ $guest.'s' }} in your property, let them know.</h4>
+                                                @include('includes.shared-amenities')
                                             </form>
                                         </div>
                                     </div><!-- end row --> 
@@ -1146,38 +1023,7 @@
                                                     @csrf
                                                     <input type="hidden" name="step" value="3" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    <div class="row">
-                                                        <div class="form-group col-sm-6">
-                                                            <div class="checkbox checkbox-primary">
-                                                                <input id="smoking" type="checkbox" {{ ($property->isRuleChecked('No smoking'))? 'checked':'' }} value="No smoking" name="property_rules[]">
-                                                                <label for="smoking">No smoking</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-sm-6">
-                                                            <div class="checkbox checkbox-primary">
-                                                                <input id="weapon" type="checkbox" {{ ($property->isRuleChecked('No deadly weapons'))? 'checked':'' }}  value="No deadly weapons" name="property_rules[]">
-                                                                <label for="weapon">No deadly weapons</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-sm-6">
-                                                            <div class="checkbox checkbox-primary">
-                                                                <input id="pool" type="checkbox" {{ ($property->isRuleChecked('Dont urinate in pool'))? 'checked':'' }}  value="Dont urinate in pool" name="property_rules[]">
-                                                                <label for="pool">Dont urinate in pool</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-sm-6">
-                                                            <div class="checkbox checkbox-primary">
-                                                                <input id="laundary" type="checkbox" {{ ($property->isRuleChecked('No washing outside laundary'))? 'checked':'' }}  value="No washing outside laundary" name="property_rules[]">
-                                                                <label for="laundary">No washing outside laundary</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group col-sm-6">
-                                                            <div class="checkbox checkbox-primary">
-                                                                <input id="visitor" type="checkbox" {{ ($property->isRuleChecked('Dont host visitors more than 2 weeks'))? 'checked':'' }}  value="Dont host visitors more than 2 weeks" name="property_rules[]">
-                                                                <label for="visitor">Dont host visitors more than 2 weeks</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    @include('includes.rules')
                                                 </form>                                            
                                             </div>
                                             <div class="col-lg-1"></div>
@@ -1367,24 +1213,7 @@
                                                 <input type="hidden" name="step" value="7" readonly>
                                                 <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                 @if($property->type_status=='rent')
-                                                    <div class="row">
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                                <div class="checkbox checkbox-primary">
-                                                                    <input id="utility1" type="checkbox" {{ ($property->isIncludeUtilityChecked('water bill'))? 'checked':'' }} value="water bill" name="includes[]">
-                                                                    <label for="utility1">Include water bill</label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="form-group">
-                                                                <div class="checkbox checkbox-primary">
-                                                                    <input id="utility2" type="checkbox" {{ ($property->isIncludeUtilityChecked('sanitation fee'))? 'checked':'' }} value="sanitation fee" name="includes[]">
-                                                                    <label for="utility2">Include sanitation fee</label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    @include('includes.include_utilities')
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group validate">
@@ -2246,7 +2075,7 @@ $("#formRentSchedule #block").on("change", function(e){
 });
 
 ///select to get room type
-$("#formRentSchedule #gender").on("change", function(e){
+$("#formRentSchedule #gender1").on("change", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this= $(this);

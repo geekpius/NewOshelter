@@ -40,7 +40,7 @@ class PropertyController extends Controller
     public function index()
     {
         $data['page_title'] = 'List properties';
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->get(); 
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->get(); 
         return view('admin.properties.index', $data);
     }
 
@@ -118,7 +118,7 @@ class PropertyController extends Controller
                 DB::commit();
             }catch(\Exception $e){
                 DB::rollback();
-                $message = 'Something went wrong.'.$e->getMessage();
+                $message = 'Something went wrong.';
             }
         }
 
@@ -315,10 +315,14 @@ class PropertyController extends Controller
     ///show property uploaded photos
     public function showPropertyPhoto(Property $property)
     {
-        $countImages = $property->propertyImages->count();
-        $data['image'] = $property->propertyImages->sortBy('id')->first();
-        $data['images'] = $property->propertyImages->slice(1)->take(($countImages==0)? 0:$countImages-1);
-        return view('admin.properties.show-property-photos', $data)->render();        
+        if(Auth::user()->id == $property->user->id){
+            $countImages = $property->propertyImages->count();
+            $data['image'] = $property->propertyImages->sortBy('id')->first();
+            $data['images'] = $property->propertyImages->slice(1)->take(($countImages==0)? 0:$countImages-1);
+            return view('admin.properties.show-property-photos', $data)->render(); 
+        }else{
+            return view('errors.404');
+        }
     }
 
     ///update property caption
@@ -369,8 +373,12 @@ class PropertyController extends Controller
     ///show own property rule
     public function showOwnRule(Property $property)
     {
-        $data['rules'] = $property->propertyOwnRules;
-        return view("admin.properties.show-own-rule", $data)->render();
+        if(Auth::user()->id == $property->user->id){
+            $data['rules'] = $property->propertyOwnRules;
+            return view("admin.properties.show-own-rule", $data)->render();
+        }else{
+            return view('errors.404');
+        }
     }
 
     ///delete own property rule
@@ -518,6 +526,13 @@ class PropertyController extends Controller
             }
             elseif($request->step==8){
                 ///update step to move forward
+                if(!empty($request->includes)){
+                    foreach($request->includes as $include){
+                        $utility = IncludeUtility::updateOrCreate(
+                            ['property_id'=>$request->property_id,'name'=>$include]
+                        );
+                    }
+                }
                 $property->step = ($request->step+1);
                 $property->update();
                 return redirect()->back();

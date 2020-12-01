@@ -198,16 +198,16 @@
                                                             <span class="text-primary font-13">{{ $block->block_room_type }} ({{ $block->gender }})</span> with {{ $block->block_no_room }} rooms of {{ ($block->person_per_room==1)? $block->person_per_room.' person':$block->person_per_room.' persons' }} per room. 
                                                         </p>
                                                         <div>
-                                                            <span class="badge badge-soft-primary">{{$block->bed_person}} {{ $block->bed_person==1? 'bed':'beds' }} per room </span>                                                  
+                                                            <span class="badge badge-soft-primary">{{$block->bed_person}} <span class="fa fa-bed" title="Bed"></span> per room </span>                                                  
                                                             @if($block->kitchen==0)
-                                                            <span class="badge badge-soft-primary">No kitchen</span>                                                
+                                                            <span class="badge badge-soft-primary">0 <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="No Kitchen"></span>                                                
                                                             @elseif($block->kitchen==1)
                                                             <span class="badge badge-soft-primary">Has a private kitchen</span> 
                                                             @else
                                                             <span class="badge badge-soft-primary">Has a shared kitchen</span> 
                                                             @endif        
-                                                            <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }} {{ ($block->bathroom==1)? 'bathroom':'bathrooms' }}</span>                                          
-                                                            <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} {{ ($block->toilet==1)? 'toilet':'toilets' }}</span>                              
+                                                            <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }} <span class="fas fa-bath"></span></span>                                          
+                                                            <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} <span class="fas fa-toilet"></span></span>                              
                                                         </div>
                                                         <div class="mt-3">
                                                             <h6><strong>Amenities</strong></h6>
@@ -274,20 +274,35 @@
                                 <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> You will get to know your room mate when booking is 
                                     confirmed. Click on vacant block room type to book.
                                 </p>
+                                <div class="row">
                                 @if (count($property->propertyHostelBlockRooms))
                                     @foreach ($property->propertyHostelBlockRooms as $block)
-                                    <hr>
-                                        <div class="parentDiv mb-3">
-                                            <h6><i class="fa fa-home text-success font-12"></i> {{  $block->propertyHostelBlock->block_name  }} | <span class="font-12 text-primary">{{  $block->block_room_type  }} ({{ $block->gender }})</span> - <b>{{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>/{{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
-                                            @foreach ($block->hostelBlockRoomNumbers as $item)  
-                                                <span class="badge {{ ($item->full)? 'badge-danger':'badge-success' }} mb-1 mr-1">
-                                                    <span>Room {{ $item->room_no }} {{ ($item->full)?'Not Available':'Available' }}</span><br><br>
-                                                    <span>({{ ($item->person_per_room-$item->occupant)}} {{ ($item->person_per_room-$item->occupant)>1? 'spaces':'space' }})</span>
-                                                </span>                                                                                      
-                                            @endforeach
-                                        </div> 
+                                    <div class="col-md-6 col-lg-3">
+                                        <div class="pro-order-box">
+                                            <h4 class="header-title text-primary">
+                                                <i class="fa fa-home text-success font-12"></i>
+                                                {{  $block->propertyHostelBlock->block_name  }}
+                                            </h4>
+                                            <p class="">
+                                                <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                <span>{{  $block->block_room_type  }}</span>
+                                                <br>
+                                                <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                <span>{{ $block->gender }}</span><br>
+                                                <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                <span class="font-weight-bold">{{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}/{{ $block->propertyHostelPrice->price_calendar }}</span><br>
+                                                <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                                @if ($block->hostelBlockRoomNumbers->where('full', false)->count()>0)
+                                                <span class="font-weight-bold">{{ $block->hostelBlockRoomNumbers->where('full', false)->count() }} room(s) available </span>
+                                                @else
+                                                <span class="font-weight-bold">No room available on this block </span>
+                                                @endif
+                                            </p>
+                                        </div>
+                                    </div>
                                     @endforeach       
                                 @endif  
+                            </div> 
                             @else
                                 <div class="row">
                                     @if ($property->type_status=='rent')
@@ -462,11 +477,6 @@
                                         <tr>
                                             <td class="no-border"><i class="fa fa-thumbs-up text-primary"></i> <b>Accuracy</b></td>
                                             <td class="no-border" width="200">
-                                                {{-- <small class="float-right ml-2 pt-1 font-10">92%</small>
-                                                <div class="progress mt-2" style="height:5px;">
-                                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 92%;" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div> --}}
-
                                                 <div class="progress" style="height: 3px;">
                                                     <div class="progress-bar bg-warning" role="progressbar" style="width: {{ round(($accuracyStar/5)*100,1) }}%;"></div>
                                                 </div>

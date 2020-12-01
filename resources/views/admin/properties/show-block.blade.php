@@ -10,7 +10,7 @@
         <tr class="records">
             <td>{{ $item->block_name }}</td>
             <td class="">
-                <a href="javascript:void(0);" title="Remove" data-href="{{ route('property.block.delete', $item->id) }}" class="btnRemoveBlock"><i class="fa fa-times text-danger"></i></a>
+                <a href="{{ route('property.block.delete', $item->id) }}" title="Remove {{ $item->block_name }}" class="btnRemoveBlock"><i class="fa fa-times-circle text-danger"></i></a>
             </td>
         </tr>    
         @endforeach
@@ -20,7 +20,7 @@
 $(".btnRemoveBlock").on("click", function(){
     var $this = $(this);
     $.ajax({
-        url: $this.data('href'),
+        url: $this.attr('href'),
         type: "GET",
         success: function(resp){
             if(resp=='success'){
