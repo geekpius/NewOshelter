@@ -4,6 +4,7 @@ namespace App\PropertyModel;
 
 use App\User;
 use App\UserModel\UserVisit;
+use App\UserModel\UserHostelVisit;
 use App\BookingModel\Booking;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyList;
@@ -183,6 +184,10 @@ class Property extends Model
     
     public function userVisits(){
         return $this->hasMany(UserVisit::class);
+    }
+
+    public function userHostelVisits(){
+        return $this->hasMany(UserHostelVisit::class);
     }
 
     public function propertyUtilities(){

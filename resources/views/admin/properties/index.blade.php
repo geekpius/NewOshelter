@@ -71,7 +71,11 @@
                                                     @endif
                                                 </li>
                                                 <li class="list-inline-item" style="text-transform: none">
-                                                    {{ $property->userVisits->count() }} visits
+                                                    @if ($property->type=='hostel')
+                                                    {{ $property->userHostelVisits->count() }} visits
+                                                    @else
+                                                        {{ $property->userVisits->count() }} visits
+                                                    @endif
                                                 </li>
                                                 <br>
                                                 <li class="list-inline-item">
