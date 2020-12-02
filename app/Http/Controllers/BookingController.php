@@ -16,6 +16,7 @@ use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\HostelBlockRoomNumber;
 use App\BookModel\Booking;
+use App\BookModel\HostelBooking;
 use App\PaymentModel\Transaction;
 
 use App\Mail\EmailSender;
@@ -94,10 +95,17 @@ class BookingController extends Controller
             $data['block_id'] = $block_id;
             $data['gender'] = $gender;
             $data['room_type'] = $room_type;
-            $data['room_number'] = $room_number;
             $data['my_room'] = HostelBlockRoom::whereProperty_hostel_block_id($block_id)->whereBlock_room_type($room_type)->whereGender($gender)->first();
             $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
-            return view('admin.bookings.index', $data);
+
+            $data['room_number'] = $data['my_room']->hostelBlockRoomNumbers->where('room_no', $room_number)->first();
+            if(empty($data['room_number'])){
+                return view('errors.404');
+            }elseif($data['room_number']->full){
+                return view('errors.404');
+            }else{
+                return view('admin.bookings.index', $data);
+            }
         }else{
             return view('errors.404');
         }
@@ -233,56 +241,93 @@ class BookingController extends Controller
     {
         $validator = \Validator::make($request->all(), [
             'property_id' => 'required',
+            'type' => 'required',
             'owner' => 'required',
             'checkin' => 'required',
             'checkout' => 'required',
-            'adult' => 'required',
-            'child' => 'required',
-            'infant' => 'required',
         ]);
         
         (string)$message ='';
         if ($validator->fails()){
             $message = 'fail';
         }else{
-            if($request->book_status == 'rebook'){
-                $book = Auth::user()->userBookings->where('property_id',$request->property_id)->where('status', 0)->sortByDesc('id')->first();
-                $book->check_in  = date("Y-m-d",strtotime($request->checkin));
-                $book->check_out  = date("Y-m-d",strtotime($request->checkout));
-                $book->adult  = $request->adult;
-                $book->children  = $request->child;
-                $book->infant  = $request->infant;
-                $book->status  = 1;
-                $book->update();
-                $message = "success";
-                //emailing
-                $data = array(
-                    "property" => $book->property->title,
-                    "link" => route('requests.detail', $book->id),
-                    "name" => current(explode(' ',$book->property->user->name)),
-                    "guest" => current(explode(' ',Auth::user()->name)),
-                );
-                Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
+            if($request->type == 'hostel'){
+                if($request->book_status == 'rebook'){
+                    $book = Auth::user()->userHostelBookings->where('property_id',$request->property_id)->where('hostel_block_room_number_id', $request->room_number_id)->where('room_number', $request->room_number)->where('status', 0)->sortByDesc('id')->first();
+                    $book->check_in  = date("Y-m-d",strtotime($request->checkin));
+                    $book->check_out  = date("Y-m-d",strtotime($request->checkout));
+                    $book->room_number = $request->room_number;
+                    $book->status  = 1;
+                    $book->update();
+                    $message = "success";
+                    //emailing
+                    $data = array(
+                        "property" => $book->property->title,
+                        "link" => route('requests.detail.hostel', $book->id),
+                        "name" => current(explode(' ',$book->property->user->name)),
+                        "guest" => current(explode(' ',Auth::user()->name)),
+                    );
+                    Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
+                }else{
+                    $book = new HostelBooking;
+                    $book->user_id = Auth::user()->id;
+                    $book->property_id  = $request->property_id;
+                    $book->owner_id  = $request->owner;
+                    $book->hostel_block_room_number_id  = $request->room_number_id;
+                    $book->room_number  = $request->room_number;
+                    $book->check_in  = date("Y-m-d",strtotime($request->checkin));
+                    $book->check_out  = date("Y-m-d",strtotime($request->checkout));
+                    $book->save();
+                    $message = "success";
+                    //emailing
+                    $data = array(
+                        "property" => $book->property->title,
+                        "link" => route('requests.detail.hostel', $book->id),
+                        "name" => current(explode(' ',$book->property->user->name)),
+                        "guest" => current(explode(' ',Auth::user()->name)),
+                    );
+                    Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
+                }
             }else{
-                $book = new Booking;
-                $book->user_id = Auth::user()->id;
-                $book->property_id  = $request->property_id;
-                $book->owner_id  = $request->owner;
-                $book->check_in  = date("Y-m-d",strtotime($request->checkin));
-                $book->check_out  = date("Y-m-d",strtotime($request->checkout));
-                $book->adult  = $request->adult;
-                $book->children  = $request->child;
-                $book->infant  = $request->infant;
-                $book->save();
-                $message = "success";
-                //emailing
-                $data = array(
-                    "property" => $book->property->title,
-                    "link" => route('requests.detail', $book->id),
-                    "name" => current(explode(' ',$book->property->user->name)),
-                    "guest" => current(explode(' ',Auth::user()->name)),
-                );
-                Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
+                if($request->book_status == 'rebook'){
+                    $book = Auth::user()->userBookings->where('property_id',$request->property_id)->where('status', 0)->sortByDesc('id')->first();
+                    $book->check_in  = date("Y-m-d",strtotime($request->checkin));
+                    $book->check_out  = date("Y-m-d",strtotime($request->checkout));
+                    $book->adult  = $request->adult;
+                    $book->children  = $request->child;
+                    $book->infant  = $request->infant;
+                    $book->status  = 1;
+                    $book->update();
+                    $message = "success";
+                    //emailing
+                    $data = array(
+                        "property" => $book->property->title,
+                        "link" => route('requests.detail', $book->id),
+                        "name" => current(explode(' ',$book->property->user->name)),
+                        "guest" => current(explode(' ',Auth::user()->name)),
+                    );
+                    Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
+                }else{
+                    $book = new Booking;
+                    $book->user_id = Auth::user()->id;
+                    $book->property_id  = $request->property_id;
+                    $book->owner_id  = $request->owner;
+                    $book->check_in  = date("Y-m-d",strtotime($request->checkin));
+                    $book->check_out  = date("Y-m-d",strtotime($request->checkout));
+                    $book->adult  = $request->adult;
+                    $book->children  = $request->child;
+                    $book->infant  = $request->infant;
+                    $book->save();
+                    $message = "success";
+                    //emailing
+                    $data = array(
+                        "property" => $book->property->title,
+                        "link" => route('requests.detail', $book->id),
+                        "name" => current(explode(' ',$book->property->user->name)),
+                        "guest" => current(explode(' ',Auth::user()->name)),
+                    );
+                    Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
+                }
             }
         }
 
@@ -368,6 +413,7 @@ class BookingController extends Controller
                 $trans->currency = $request->currency;
                 $trans->operator = $request->mobile_operator;
                 $trans->phone = $phone_number;
+                $trans->property_type = $request->property_type;
                 $trans->type = $request->type;
                 $trans->save();
                 return redirect()->route('payment.mobile.response', ['transactionId' => $orderId, 'user' => Auth::user()->id, 'operator' => strtolower($request->mobile_operator)]);

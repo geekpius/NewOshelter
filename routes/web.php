@@ -67,6 +67,14 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         Route::get('/requests/{booking}/payment', 'UserController@requestPayment')->name('requests.payment');
         Route::get('/requests/{booking}/invoice', 'UserController@requestInvoice')->name('requests.invoice');
 
+        /*------- Hostel Requests ------- */
+        Route::get('/requests/hostel', 'UserController@hostelRequests')->name('requests.hostel');
+        Route::get('/requests/{hostelBooking}/hostel/detail', 'UserController@hostelRequestDetail')->name('requests.detail.hostel');
+        Route::get('/requests/{hostelBooking}/hostel/confirm', 'UserController@hostelRequestConfirm')->name('requests.comfirm.hostel');
+        Route::get('/requests/{hostelBooking}/hostel/cancel', 'UserController@hostelRequestCancel')->name('requests.cancel.hostel');
+        Route::get('/requests/{hostelBooking}/hostel/payment', 'UserController@hostelRequestPayment')->name('requests.payment.hostel');
+        Route::get('/requests/{booking}/invoice', 'UserController@hostelRequestInvoice')->name('requests.invoice.hostel');
+
         Route::get('/requests/extensions', 'VisitorController@extensionRequests')->name('requests.extension');
         Route::get('/requests/extensions/{userExtensionRequest}/detail', 'VisitorController@extensionDetail')->name('requests.extension.detail');
         Route::get('/requests/extensions/{userExtensionRequest}/confirm', 'VisitorController@confirmExtendStay')->name('requests.extension.confirm');

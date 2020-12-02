@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\PropertyModel\PropertyType;
 use App\UserModel\UserExtensionRequest;
 use App\BookModel\Booking;
+use App\BookModel\HostelBooking;
 use App\ServiceCharge;
 
 
@@ -59,20 +60,34 @@ class UserController extends Controller
     //notification count
     public function notificationCount()
     {
+        // room, apartment, house
         $countBooking = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->count();
         $countConfirm = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->count();
+        $normal = $countBooking+$countConfirm;
+        //extensions
         $countExtension = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(1)->count();
         $countExtensionConfirm = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIs_confirm(2)->count();
-        return $countBooking+$countConfirm+$countExtension+$countExtensionConfirm;
+        $extension = $countExtension+$countExtensionConfirm;
+
+        // hostel
+        $countHostelBooking = HostelBooking::whereOwner_id(Auth::user()->id)->whereStatus(1)->count();
+        $countHostelConfirm = HostelBooking::whereUser_id(Auth::user()->id)->whereStatus(2)->count();
+        $hostel = $countHostelBooking+$countHostelConfirm;
+        return $normal+$extension+$hostel;
     }
 
     //notification content
     public function notification()
     {
+        // room, apartment, house
         $data['bookings'] = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->get();
         $data['confirms'] = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->get();
+        // extension request
         $data['notifications'] = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(1)->get();
         $data['noti_confirms'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIs_confirm(2)->get();
+        // hostel
+        $data['hostels'] = HostelBooking::whereOwner_id(Auth::user()->id)->whereStatus(1)->get();
+        $data['hostels_confirms'] = HostelBooking::whereUser_id(Auth::user()->id)->whereStatus(2)->get();
         return view('admin.notifications.notification', $data)->render();
     }
 
@@ -159,4 +174,89 @@ class UserController extends Controller
         }
     }
     
+
+    // hostel booking requests
+    public function hostelRequests()
+    {
+        $data['page_title'] = 'Hostel booking requests';
+        $data['bookings'] = HostelBooking::whereUser_id(Auth::user()->id)->get();
+        return view('admin.requests.hostel_bookings', $data);
+    }
+
+    public function hostelRequestDetail(HostelBooking $hostelBooking)
+    {
+       if(Auth::user()->id == $hostelBooking->owner_id){
+        $data['page_title'] = 'Hostel booking requests';
+        $data['booking'] = $hostelBooking;
+        return view('admin.requests.hostel_confirm', $data);
+       }else{
+        return view('errors.404');
+       }
+    }
+
+    public function hostelRequestConfirm(HostelBooking $hostelBooking)
+    {
+        if(Auth::user()->id == $hostelBooking->owner_id){
+            $message = '';
+            if($hostelBooking->status == 1){
+                $hostelBooking->status = 2;
+                $hostelBooking->update();
+                $message = 'success';
+                $data = array(
+                    "title" => "BOOKING CONFIRMATION",
+                    "property" => $hostelBooking->property->title,
+                    "link" => route('requests.payment', $hostelBooking->id),
+                    "status" => "confirmed",
+                    "name" => current(explode(' ',$hostelBooking->user->name)),
+                    "owner" => current(explode(' ',Auth::user()->name)),
+                );
+                Mail::to($hostelBooking->user->email)->send(new EmailSender($data, 'Booking Response', 'emails.booking_response'));
+            }
+            return $message;
+        }else{
+            return view('errors.404');
+        }
+    }
+
+    public function hostelRequestCancel(HostelBooking $hostelBooking)
+    {
+        if(Auth::user()->id == $hostelBooking->owner_id){
+            $message = '';
+            if($hostelBooking->status == 1){
+                $hostelBooking->status = 0;
+                $hostelBooking->update();
+                $message = 'success';
+                $data = array(
+                    "title" => "BOOKING CANCELLATION",
+                    "property" => $hostelBooking->property->title,
+                    "link" => "",
+                    "status" => "cancelled",
+                    "name" => current(explode(' ',$hostelBooking->user->name)),
+                    "owner" => current(explode(' ',Auth::user()->name)),
+                );
+                Mail::to($hostelBooking->user->email)->send(new EmailSender($data, 'Booking Response', 'emails.booking_response'));
+            }
+            return $message;
+        }else{
+            return view('errors.404');
+        }
+    }
+
+    public function hostelRequestPayment(HostelBooking $hostelBooking)
+    {
+        if(Auth::user()->id == $hostelBooking->user_id){
+            if($hostelBooking->status == 2){
+                $data['page_title'] = 'Payment requests';
+                $data['booking'] = $hostelBooking;
+                $data['charge'] = ServiceCharge::whereProperty_type($hostelBooking->property->type)->first();
+                return view('admin.requests.payment', $data);
+            }else{
+                return view('errors.404');
+            }
+        }else{
+            return view('errors.404');
+        }
+    }
+
+
 }

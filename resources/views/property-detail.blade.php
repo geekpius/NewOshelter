@@ -104,7 +104,6 @@
                                 <div class="activity">
                                 @foreach ($property->propertyHostelBlockRooms as $block)
                                     <div class="parentDiv">
-                                        <i class="mdi mdi-checkbox-marked-circle-outline icon-success"></i>
                                         <div class="time-item">
                                             <div class="item-info">
                                                 <div class="d-flex justify-content-between align-items-center">
@@ -114,16 +113,16 @@
                                                 <span class="text-primary">{{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms for {{ $block->person_per_room }} person per room. 
                                                 </p>
                                                 <div>
-                                                    <span class="badge badge-soft-primary">{{$block->bed_person}} {{ $block->bed_person==1? 'bed':'beds' }} per room </span>                                                  
+                                                    <span class="badge badge-soft-primary">{{$block->bed_person}} <i class="fa fa-bed" title="Bed per room"></i> </span>                                                  
                                                     @if($block->kitchen==0)
-                                                    <span class="badge badge-soft-primary">No kitchen</span>                                                
+                                                    <span class="badge badge-soft-primary">0  <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="No Kitchen"></span>                                                
                                                     @elseif($block->kitchen==1)
-                                                    <span class="badge badge-soft-primary">Private kitchen</span> 
+                                                    <span class="badge badge-soft-primary">Private <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Private Kitchen"></span> 
                                                     @else
-                                                    <span class="badge badge-soft-primary">Shared kitchen</span> 
+                                                    <span class="badge badge-soft-primary">Shared <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Shared Kitchen"></span> 
                                                     @endif        
-                                                    <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }} {{ ($block->bathroom==1)? 'bathroom':'bathrooms' }}</span>                                          
-                                                    <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} {{ ($block->toilet==1)? 'toilet':'toilets' }}</span>                              
+                                                    <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }}  <i class="fas fa-bath"></i></span>                                          
+                                                    <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} <i class="fas fa-toilet"></i></span>                              
                                                 </div>
                                                 <div class="mt-3">
                                                     <h6><strong>Amenities</strong></h6>
@@ -215,27 +214,35 @@
                         <p><i class="fa fa-square font-12"></i> You will get to know your room mate when renting is 
                             confirmed. Click on vacant block room to book.
                         </p>
-                        @if (count($property->propertyHostelBlockRooms))
-                            @foreach ($property->propertyHostelBlockRooms as $block)
-                                <div class="parentDiv mb-3">
-                                    <h6><i class="fa fa-arrow-right font-14"></i> {{  $block->propertyHostelBlock->block_name  }}  | <span class="font-15 text-primary">{{  $block->block_room_type  }}</span> - <b> {{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}</b>  <small><b>/{{ $block->propertyHostelPrice->price_calendar }}</b></small></h6>
-                                    @foreach ($block->hostelBlockRoomNumbers as $item) 
-                                        @if ($item->full)
-                                        <span class="font-13 font-weight-500 text-danger">R{{ $item->room_no }}</span>
-                                        <img src="{{ asset('assets/light/images/service-icon-1.svg') }}" alt="{{ $item->room_no }}" width="70" height="70" class="mr-4" />                                             
-                                        @else
-                                        <span class="font-13 font-weight-500 text-success">R{{ $item->room_no }}</span>
-                                        <img src="{{ asset('assets/light/images/service-icon-1.svg') }}" alt="{{ $item->room_no }}" width="70" height="70" class="mr-4" /> 
-                                        @endif
-                                        {{-- <span class="badge {{ ($item->full)? 'badge-danger':'badge-success' }} mb-1 mr-1">
-                                            <span>Room {{ $item->room_no }} {{ ($item->full)?'Not Available':'Available' }}</span><br><br>
-                                            <span>({{ ($item->person_per_room-$item->occupant)}} {{ ($item->person_per_room-$item->occupant)>1? 'spaces':'space' }})</span>
-                                        </span>                                                                                       --}}
-                                    @endforeach
-                                    <hr>
-                                </div> 
-                            @endforeach       
-                        @endif  
+                        <div class="row">
+                            @if (count($property->propertyHostelBlockRooms))
+                                @foreach ($property->propertyHostelBlockRooms as $block)
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="pro-order-box">
+                                        <h4 class="header-title text-primary">
+                                            <i class="fa fa-home text-success font-12"></i>
+                                            {{  $block->propertyHostelBlock->block_name  }}
+                                        </h4>
+                                        <p class="">
+                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            <span>{{  $block->block_room_type  }}</span>
+                                            <br>
+                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            <span>{{ $block->gender }}</span><br>
+                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            <span class="font-weight-bold">{{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}/{{ $block->propertyHostelPrice->price_calendar }}</span><br>
+                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            @if ($block->hostelBlockRoomNumbers->where('full', false)->count()>0)
+                                            <span class="font-weight-bold">{{ $block->hostelBlockRoomNumbers->where('full', false)->count() }} room(s) available </span>
+                                            @else
+                                            <span class="font-weight-bold">No room available on this block </span>
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+                                @endforeach       
+                            @endif  
+                        </div> 
                     @else
                         <div class="row">
                             @if ($property->type_status=='rent')
@@ -370,21 +377,22 @@
                         <hr>
                     @endif 
                 </div>
+                <hr>
                 {{-- Reviews --}}
                 <div class="pxp-single-property-section">
                     <h3>Reviews</h3>                    
                     <!-- Reviews -->
+                    @php
+                        $countReview = $property->propertyReviews->count();
+                        $accuracyStar = (!$countReview)? 0: $property->sumAccuracyStar()/$countReview;
+                        $locationStar = (!$countReview)? 0: $property->sumLocationStar()/$countReview;
+                        $securityStar = (!$countReview)? 0: $property->sumSecurityStar()/$countReview;
+                        $valueStar = (!$countReview)? 0: $property->sumValueStar()/$countReview;
+                        $commStar = (!$countReview)? 0: $property->sumCommunicationStar()/$countReview;
+                        $tidyStar = (!$countReview)? 0: $property->sumCleanStar()/$countReview;
+                        $sumReviews = $accuracyStar+$locationStar+$securityStar+$valueStar+$commStar+$tidyStar;
+                    @endphp
                     @if (count($property->propertyReviews))
-                        @php
-                            $countReview = $property->propertyReviews->count();
-                            $accuracyStar = (!$countReview)? 0: $property->sumAccuracyStar()/$countReview;
-                            $locationStar = (!$countReview)? 0: $property->sumLocationStar()/$countReview;
-                            $securityStar = (!$countReview)? 0: $property->sumSecurityStar()/$countReview;
-                            $valueStar = (!$countReview)? 0: $property->sumValueStar()/$countReview;
-                            $commStar = (!$countReview)? 0: $property->sumCommunicationStar()/$countReview;
-                            $tidyStar = (!$countReview)? 0: $property->sumCleanStar()/$countReview;
-                            $sumReviews = $accuracyStar+$locationStar+$securityStar+$valueStar+$commStar+$tidyStar;
-                        @endphp
                         <div class="row">
                             <span class="ml-3"><i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b></span>
                             <span class="ml-5"><i class="fa fa-eye text-primary"></i> <b>{{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }}</b></span>
@@ -585,7 +593,7 @@
                             <div class="card-heading">
                                 <h6 id="myHostelPriceHeading"><strong><span id="myHostelCurrency" class="font-20"></span> <span id="initialHostelAmount"></span><span id="hyphen" style="display: none">/</span><small id="myHostelPriceCal"></small></strong></h6>
                                 <div id="myHostelSwitch"><img src="{{ asset('assets/images/gif/Bars-1s-200px.gif') }}" alt="load" width="30" height="30" title="Waiting for price"></div>
-                                <span class="font-12"><i class="fa fa-star text-warning"></i> <b>0.1</b> (1 Review)</span>
+                                <span class="font-12"><i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b> ({{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }})</span>
                             </div>
                             <hr>
                             <span class="small text-primary">You're charged after booking is confirmed.</span>
@@ -691,7 +699,7 @@
                                         <span id="initialAmount" data-amount="{{ $property->propertyPrice->property_price }}" data-duration="{{ $property->propertyPrice->payment_duration }}">{{ number_format($property->propertyPrice->property_price,2) }}</span>/<small>{{ $property->propertyPrice->price_calendar }}</small>
                                     </strong>
                                 </h6>
-                                <span class="font-12"><i class="fa fa-star text-warning"></i> <b>0.1</b> (1 Review)</span>
+                                <span class="font-12"><i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b> ({{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }})</span>
                             </div>
                             <hr>
                             <span class="small text-primary">You're charged after booking is confirmed.</span>

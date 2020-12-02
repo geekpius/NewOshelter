@@ -36,21 +36,14 @@
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs nav-justified" role="tablist">
                             <li class="nav-item waves-effect waves-light">
-                                <a class="nav-link active text-primary font-weight-500" href="{{ route('requests') }}" role="tab">Booking Requests</a>
+                                <a class="nav-link" href="{{ route('requests') }}" role="tab">Booking Requests</a>
                             </li>
                             <li class="nav-item waves-effect waves-light">
-                                <a class="nav-link" href="{{ route('requests.hostel') }}" role="tab">Hostel Booking Requests</a>
+                                <a class="nav-link active text-primary font-weight-500" href="{{ route('requests.hostel') }}" role="tab">Hostel Booking Requests</a>
                             </li>
                             <li class="nav-item waves-effect waves-light">
                                 <a class="nav-link" href="{{ route('requests.extension') }}" role="tab">Date Extension Requests</a>
                             </li>
-                            {{-- 
-                            <li class="nav-item waves-effect waves-light">
-                                <a class="nav-link" href="{{ route('visits.current') }}" role="tab">Current</a>
-                            </li>
-                            <li class="nav-item waves-effect waves-light">
-                                <a class="nav-link" href="{{ route('visits.past') }}" role="tab">Past</a>
-                            </li> --}}
                         </ul>
                    </div>
                     <br>
@@ -66,7 +59,7 @@
                                         <th>Owner</th>
                                         <th>Check In</th>
                                         <th>Check Out</th>
-                                        <th>Guests</th>
+                                        <th>Room Number</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr><!--end tr-->
@@ -80,7 +73,7 @@
                                             <td><img src="{{ asset('assets/images/users/'.$book->owner->image) }}" alt="" class="thumb-sm rounded-circle mr-2">{{ $book->owner->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($book->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($book->check_out)->format('d-M-Y') }}</td>
-                                            <td>{{ $book->getGuestAttribute() }}</td>
+                                            <td>{{ $book->room_number }}</td>
                                             <td>
                                                 @if ($book->isPendingAttribute())
                                                 <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> Waiting...</span>
@@ -96,11 +89,11 @@
                                                 @if ($book->isPendingAttribute())
                                                 <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> Waiting...</span>
                                                 @elseif ($book->isConfirmAttribute())
-                                                <a href="{{ route('requests.payment', $book->id) }}"><span class="badge badge-md badge-primary">Make Payment</span></a>
+                                                <a href="{{ route('requests.payment.hostel', $book->id) }}"><span class="badge badge-md badge-primary">Make Payment</span></a>
                                                 @elseif ($book->isRejectAttribute())
                                                 <span class="badge badge-md badge-danger"><i class="fa fa-times"></i> Cancelled</span>
                                                 @elseif ($book->isDoneAttribute())
-                                                <a href="{{ route('requests.invoice', $book->id) }}"><span class="badge badge-md badge-primary">View Invoice</span></a>
+                                                <a href="{{ route('requests.invoice.hostel', $book->id) }}"><span class="badge badge-md badge-primary">View Invoice</span></a>
                                                 @endif
                                             </td>
                                         </tr><!--end tr-->

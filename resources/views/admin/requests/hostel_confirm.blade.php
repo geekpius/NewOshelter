@@ -12,10 +12,10 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">Booking Requests</li>
+                        <li class="breadcrumb-item active">Hostel Booking Requests</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Booking Requests</h4>
+                <h4 class="page-title">Hostel Booking Requests</h4>
             </div><!--end page-title-box-->
         </div><!--end col-->
     </div>
@@ -29,7 +29,7 @@
 
                 <div class="card-body pt-12">
 
-                    <h4 class="header-title mt-lg-12 mb-3">Booking Requests</h4> 
+                    <h4 class="header-title mt-lg-12 mb-3">Hostel Booking Requests</h4> 
                     
                     <br>
                     <div class="col-sm-6">
@@ -58,7 +58,7 @@
                                     }
                                 @endphp
                                 <span class="font-weight-500 ml-1">
-                                    {{ $booking->property->propertyPrice->currency }}&nbsp;{{ number_format(($booking->property->propertyPrice->property_price*$dateDiff),2) }} 
+                                    {{ $booking->hostelBlockRoomNumber->hostelBlockRoom->propertyHostelPrice->currency }}&nbsp;{{ number_format(($booking->hostelBlockRoomNumber->hostelBlockRoom->propertyHostelPrice->property_price*$dateDiff),2) }} 
                                     for {{ $years }}
                                 </span>
                             </div>  
@@ -72,21 +72,19 @@
                                 <span class="font-weight-500">Check Out</span>
                                 <span class="font-weight-500 text-primary float-right">{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</span>
                                 <hr>
-                                <span class="text-primary">Guests</span>
+                                <span class="font-weight-500">Block Name</span>
+                                <span class="font-weight-500 text-primary float-right">{{ $booking->hostelBlockRoomNumber->hostelBlockRoom->propertyHostelBlock->block_name }}</span>
                                 <hr>
-                                <span class="font-weight-500">Adult</span>
-                                <span class="font-weight-500 text-primary float-right">{{ $booking->adult }}</span>
+                                <span class="font-weight-500">Room Type</span>
+                                <span class="font-weight-500 text-primary float-right">{{ $booking->hostelBlockRoomNumber->hostelBlockRoom->block_room_type }}</span>
                                 <hr>
-                                <span class="font-weight-500">Children</span>
-                                <span class="font-weight-500 text-primary float-right">{{ $booking->children }}</span>
-                                <hr>
-                                <span class="font-weight-500">Infant</span>
-                                <span class="font-weight-500 text-primary float-right">{{ $booking->infant }}</span>
+                                <span class="font-weight-500">Room Number</span>
+                                <span class="font-weight-500 text-primary float-right">{{ $booking->room_number }}</span>
                             </div>
                             @if ($booking->isPendingAttribute())
                             <div class="card-body text-center" id="actionBtn">
-                                <button class="btn btn-success mr-2 btnConfirm" data-href="{{ route('requests.comfirm', $booking->id) }}"><i class="fa fa-check"></i> Confirm</button>
-                                <button class="btn btn-danger ml-2 btnCancel" data-href="{{ route('requests.cancel', $booking->id) }}"><i class="fa fa-times"></i> Cancel</button>
+                                <button class="btn btn-success mr-2 btnConfirm" data-href="{{ route('requests.comfirm.hostel', $booking->id) }}"><i class="fa fa-check"></i> Confirm</button>
+                                <button class="btn btn-danger ml-2 btnCancel" data-href="{{ route('requests.cancel.hostel', $booking->id) }}"><i class="fa fa-times"></i> Cancel</button>
                             </div>
                             @elseif($booking->isConfirmAttribute())
                             <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> WAITING FOR PAYMENT...</span>

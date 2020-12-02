@@ -19,6 +19,8 @@
           @if ($data['status']=='confirmed')
           You can now make payment through Oshelter platform using this <a target="_blank" href="{{ $data['link'] }}">link</a>. Or go to your Oshelter account and make payment if you want to have a pleasant 
           stay in <b>{{ $data['owner'] }}</b> property.
+          @else
+          Please keep trying other available properties.
           @endif
         </p>
       </td> 

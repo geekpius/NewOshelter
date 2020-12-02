@@ -10,6 +10,7 @@ use App\UserModel\UserLogin;
 use App\UserModel\UserVisit;
 use App\UserModel\UserHostelVisit;
 use App\BookModel\Booking;
+use App\BookModel\HostelBooking;
 use App\UserModel\UserTicket;
 use App\UserModel\UserWallet;
 use App\UserModel\UserProfile;
@@ -167,6 +168,10 @@ class User extends Authenticatable
 
     public function userBookings(){
         return $this->hasMany(Booking::class);
+    }
+
+    public function userHostelBookings(){
+        return $this->hasMany(HostelBooking::class);
     }
 
 

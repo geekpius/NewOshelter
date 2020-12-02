@@ -25,6 +25,7 @@ class CreateTransactionsTable extends Migration
             $table->string('operator');
             $table->string('phone');
             $table->string('type');
+            $table->string('property_type');
             $table->boolean('status')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

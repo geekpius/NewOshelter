@@ -278,102 +278,55 @@ $("#verify_code").on("keyup", function(e){
     return false;
 });
 
-// get total amount on payment summary
-$("#totalPayment").text($("#totalFeeResult").text());
 
-
-// select visa
-$("#visa").on("change", function(){
-    var $this = $(this);
-    if($this.prop("checked", true)){
-        $("#momoExpand").slideUp('fast');
-        $("#visaExpand").slideDown('fast', function(){
-            $("#formMobileMobile")[0].reset();
-        });
-    }
-});
-
-// select momo
-$("#mobile_money").on("change", function(){
-    var $this = $(this);
-    if($this.prop("checked", true)){
-        $("#visaExpand").slideUp('fast');
-        $("#momoExpand").slideDown('fast', function(){
-            $("#formVisa")[0].reset();
-        });
-    }
-});
-
-// make payment
-$(".makePayment").on('click', function(e){
+//confirm booking
+$("#formConfirmBooking").on("submit", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this = $(this);
-    if(document.getElementById('mobile_money').checked){
-        var valid = true;
-        $('#formMobileMobile input, #formMobileMobile select').each(function() {
-            var $this = $(this);
-            
-            if(!$this.val()) {
-                valid = false;
-                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                $this.addClass('is-invalid');
-            }
-        });
-        if(valid){
-            $this.attr('disabled', true);
-            let data = {
-                mobile_operator: $('#formMobileMobile #mobile_operator').val(),
-                country_code: $('#formMobileMobile input[name="country_code"]').val(),
-                mobile_number: $('#formMobileMobile input[name="mobile_number"]').val(),
-                amount: parseFloat($(".makePayment #payAmount").text()),
-            }
-            
-            $.ajax({
-                url: $("#formMobileMobile").attr('action'),
-                type: "POST",
-                data: data,
-                success: function(resp){
-                    // alert(resp);
-                    if(resp == 'success'){
-                        swal({
-                            title: "Success",
-                            text: "Check your phone to enter your pin.",
-                            type: "success",
-                            confirmButtonClass: "btn-primary btn-sm",
-                            confirmButtonText: "OKAY",
-                            closeOnConfirm: true
-                        });
-                    }
-                    else{
-                        swal("Error", resp, "warning");
-                    }
-                },
-                error: function(resp){
-                    console.log('something went wrong with request');
+    swal({
+        title: "Confirm",
+        text: "You are about to confirm your booking",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-primary btn-sm",
+        cancelButtonClass: "btn-danger btn-sm",
+        confirmButtonText: "Confirm",
+        closeOnConfirm: false
+        },
+    function(){
+        let data = $this.serialize();
+        $(".confirmBooking").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING...').attr('disabled', true);
+        $.ajax({
+            url: $this.attr('action'),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    swal({
+                        title: "Confirmed",
+                        text: "You have sent a booking request to owner\nWait for owner confirmation.",
+                        type: "success",
+                        confirmButtonClass: "btn-primary btn-sm",
+                        confirmButtonText: "Okay",
+                        closeOnConfirm: true
+                        },
+                    function(){
+                        window.location.href = $(".confirmBooking").data('href');
+                    });
+                }else{
+                    swal("Warning", resp, "warning");
+                    $(".confirmBooking").text('<i class="fa fa-spinner fa-spin"></i> CONFIRM BOOKING REQUEST').attr('disabled', false);
                 }
-            });
-            return false;
-        }
-    }else if(document.getElementById('visa').checked){
-        var valid = true;
-        $('#formVisa input, #formVisa select').each(function() {
-            var $this = $(this);
-            
-            if(!$this.val()) {
-                valid = false;
-                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                $this.addClass('is-invalid');
+            },
+            error: function(resp){
+                alert("Something went wrong with request");
             }
         });
-        if(valid){
-            return false;
-        }
-    }else{
-        swal("Select", "Select payment option.", "warning");
-    }
+    });
     return false;
 });
+
 
 // toggle input field error messages
 $("input, textarea").on('input', function(){

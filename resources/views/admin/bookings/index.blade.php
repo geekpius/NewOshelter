@@ -24,6 +24,17 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
+                    @php
+                        $countReview = $property->propertyReviews->count();
+                        $accuracyStar = (!$countReview)? 0: $property->sumAccuracyStar()/$countReview;
+                        $locationStar = (!$countReview)? 0: $property->sumLocationStar()/$countReview;
+                        $securityStar = (!$countReview)? 0: $property->sumSecurityStar()/$countReview;
+                        $valueStar = (!$countReview)? 0: $property->sumValueStar()/$countReview;
+                        $commStar = (!$countReview)? 0: $property->sumCommunicationStar()/$countReview;
+                        $tidyStar = (!$countReview)? 0: $property->sumCleanStar()/$countReview;
+                        $sumReviews = $accuracyStar+$locationStar+$securityStar+$valueStar+$commStar+$tidyStar;
+                    @endphp
+
                     @if (!Auth::user()->verify_email)
                     <div class="row">
                         <div class="col-sm-1"></div>
@@ -229,121 +240,70 @@
                                             </div>
                                         </div>
                                     </div>  
-                                    
                                     <div class="col-sm-12">
-                                        <h5>Payment Summary</h5>
+                                        <h5>Request Summary</h5>
                                         <div class="col-sm-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <span class="font-weight-500">TOTAL PAYMENT</span>
-                                                    <span id="totalPayment" class="font-weight-500 text-primary float-right"></span>
+                                                    <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> Your booking request will be sent to the owner.</p>
+                                                    <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> As soon as owner confirms, you will be requested to make payment.</p>
+                                                    <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If owner is taking too long(more than 24hours) to response create a new support ticket.</p>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-sm-12">
-                                        <h5>Choose Payment Methods</h5>
-                                        <div class="col-sm-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    {{-- visa --}}
-                                                    <div class="radio radio-success">
-                                                        <input type="radio" name="payment_method" id="visa" value="Mobile Money" />
-                                                        <label for="visa" class="font-weight-600 text-black">
-                                                            VISA
-                                                        </label>
-                                                    </div>
-                                                    <div id="visaExpand" style="display: none">
-                                                        <hr>
-                                                        <form class="mt-4" id="formVisa">
-                                                            @csrf
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group validate">
-                                                                        <input type="number" min="1" name="visa_number" placeholder="VISA Number(**************)" onkeypress="return isNumber(event)" class="form-control" />
-                                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group validate">
-                                                                        <input type="text" name="expire" id="expire" maxlength="5" onkeypress="return isMonthAndYear(event)" class="form-control" placeholder="mm/yy" />
-                                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group validate">
-                                                                        <input type="password" name="ccv" id="ccv" min="0" maxlength="3" class="form-control" placeholder="CCV(***)">
-                                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-
-                                                    {{-- momo --}}
-                                                    <div class="radio radio-success mt-3">
-                                                        <input type="radio" name="payment_method" id="mobile_money" value="Mobile Money" />
-                                                        <label for="mobile_money" class="font-weight-600 text-black">
-                                                            Mobile Money
-                                                        </label>
-                                                    </div>
-                                                    <div id="momoExpand" style="display: none">
-                                                        <hr>
-                                                        <form class="mt-4" id="formMobileMobile" action="{{ route('property.bookings.mobilepayment') }}">
-                                                            @csrf
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="form-group validate">
-                                                                        <select name="mobile_operator" id="mobile_operator" class="form-control">
-                                                                            <option value="">Select your operator</option>
-                                                                            <option value="MTN_MONEY">MTN Mobile Money</option>
-                                                                            <option value="AIRTEL_MONEY">AirtelTigo Money</option>
-                                                                            <option value="VODAFONE_CASH_PROMPT">Vodafone Cash</option>
-                                                                        </select>
-                                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <div class="form-group validate">
-                                                                        <input type="text" name="country_code" id="country_code" value="+233" class="form-control" readonly placeholder="Code" />
-                                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-9">
-                                                                    <div class="form-group validate">
-                                                                        <input type="number" name="mobile_number" id="mobile_number" min="1" maxlength="9" class="form-control" placeholder="eg: 542398441">
-                                                                        <span class="text-danger small mySpan" role="alert"></span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                            
                                     @php
                                         $price = $my_room->propertyHostelPrice->property_price;
                                         $totalPrice = ($my_room->propertyHostelPrice->property_price* $dateDiff);
-                                        $serviceFee = ($my_room->propertyHostelPrice->property_price* $dateDiff)*($charge->charge/100);
-                                        $discountFee = ($my_room->propertyHostelPrice->property_price* $dateDiff)*($charge->discount/100);
+                                        $fee = empty($charge->charge)? 1:$charge->charge;
+                                        $serviceFee = ($my_room->propertyHostelPrice->property_price* $dateDiff)*($fee/100);
+                                        $discount = empty($charge->discount)? 0:$charge->discount;
+                                        $discountFee = ($my_room->propertyHostelPrice->property_price* $dateDiff)*($discount/100);
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
-                                    <div class="col-sm-12 mt-2 ml-sm-4">
-                                        <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600" data-step="3">PAY NOW {{ $my_room->propertyHostelPrice->currency }} {{ number_format($totalFee,2) }}
-                                        <span id="payAmount" style="display: none !important">{{ $totalFee }}</span>
-                                        </button>
-                                        <br>
-                                        <p class="text-danger mt-4 font-weight-bold">
-                                            <i class="fa fa-info-circle"></i> Make sure you have enough money in your wallet to cover {{ $my_room->propertyHostelPrice->currency }} {{ number_format($totalFee,2) }} in your invoice.
-                                         </p>
-                                        <p class="text-danger mt-3 font-weight-bold">
-                                            <i class="fa fa-info-circle"></i> For MTN users, mobile bill prompt will only be sent if you have enough money in your wallet to cover {{ $my_room->propertyHostelPrice->currency }} {{ number_format($totalFee,2) }} in your invoice
-                                        </p>
+                                     <div class="col-sm-12 mt-5 ml-sm-4">
+                                        @php $booking = Auth::user()->userHostelBookings->where('property_id',$property->id)->where('hostel_block_room_number_id', $room_number->id)->where('room_number',$room_number->room_no)->sortByDesc('id')->first(); @endphp
+                                        @if (empty($booking))
+                                        <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
+                                            @csrf
+                                            <input type="hidden" name="book_status" value="freshbook" readonly>
+                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                            <input type="hidden" name="type" value="{{ $property->type }}" readonly>
+                                            <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
+                                            <input type="hidden" name="room_number_id" value="{{ $room_number->id }}" readonly>
+                                            <input type="hidden" name="room_number" value="{{ $room_number->room_no }}" readonly>
+                                            <input type="hidden" name="checkin" value="{{ $check_in }}" readonly>
+                                            <input type="hidden" name="checkout" value="{{ $check_out }}" readonly>
+                                            <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('requests.hostel') }}">CONFIRM BOOKING REQUEST</button>
+                                        </form>
+                                        @else
+                                            @if ($booking->isPendingAttribute())
+                                                <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> WAITING FOR CONFIRMATION...</span>
+                                            @elseif ($booking->isConfirmAttribute())
+                                                <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> WAITING FOR PAYMENT...</span>
+                                            @elseif ($booking->isRejectAttribute())
+                                                <span class="text-danger">YOUR REQUEST WAS CANCELLED BY OWNER</span>
+                                                <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}" class="mt-2">
+                                                    @csrf
+                                                    <input type="hidden" name="book_status" value="rebook" readonly>
+                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                    <input type="hidden" name="type" value="{{ $property->type }}" readonly>
+                                                    <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
+                                                    <input type="hidden" name="room_number_id" value="{{ $room_number->id }}" readonly>
+                                                    <input type="hidden" name="room_number" value="{{ $room_number->room_no }}" readonly>
+                                                    <input type="hidden" name="checkin" value="{{ $check_in }}" readonly>
+                                                    <input type="hidden" name="checkout" value="{{ $check_out }}" readonly>
+                                                    <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('requests.hostel') }}">RE-APPLY BOOKING REQUEST</button>
+                                                </form>
+                                            @elseif ($booking->isDoneAttribute() && !$booking->isCheckoutAttribute())
+                                                <span class="text-success"><i class="fa fa-home"></i> YOU ARE CURRENTLY LIVING IN THE PROPERTY</span>
+                                            @endif
+                                        @endif
+                                        
                                     </div>
+
+
                                 </div> 
                             </div> 
                         </div>
@@ -362,24 +322,20 @@
                                                     <h4>{{ $property->title }}</h4>
                                                     <p>{{ ucfirst($property->type) }} in {{ strtolower($property->base) }}</p>
                                                     <p>
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b>
                                                         &nbsp;&nbsp;
-                                                        {{ $property->propertyReviews->count() }} Reviews
+                                                        {{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }}
                                                     </p>
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
                                                 <div class="col-sm-12">
-                                                    <h4><i class="fa fa-school"></i> &nbsp;&nbsp; Choosen Room Block: {{ $my_room->propertyHostelBlock->block_name }}</h4>
+                                                    <h5><i class="fa fa-school"></i> &nbsp;&nbsp; Choosen Room Block: {{ $my_room->propertyHostelBlock->block_name }}</h5>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                    <h4><i class="fa fa-building"></i> &nbsp;&nbsp; Choosen Room Type: {{ $my_room->block_room_type }}</h4>
+                                                    <h5><i class="fa fa-building"></i> &nbsp;&nbsp; Choosen Room Type: {{ $my_room->block_room_type }}</h5>
                                                 </div>
                                                 <div class="col-sm-12">
-                                                    <h4><i class="fa fa-bed"></i> &nbsp;&nbsp; Choosen Room No: {{ $room_number }}</h4>
+                                                    <h5><i class="fa fa-bed"></i> &nbsp;&nbsp; Choosen Room No: {{ $room_number->room_no }}</h5>
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
                                                 <div class="col-sm-12">
@@ -602,7 +558,7 @@
                                         $totalPrice = ($property->propertyPrice->property_price* $dateDiff);
                                         $fee = empty($charge->charge)? 1:$charge->charge;
                                         $serviceFee = ($property->propertyPrice->property_price* $dateDiff)*($fee/100);
-                                        $discount = empty($charge->discount)? 1:$charge->discount;
+                                        $discount = empty($charge->discount)? 0:$charge->discount;
                                         $discountFee = ($property->propertyPrice->property_price* $dateDiff)*($discount/100);
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
@@ -613,6 +569,7 @@
                                             @csrf
                                             <input type="hidden" name="book_status" value="freshbook" readonly>
                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                            <input type="hidden" name="type" value="{{ $property->type }}" readonly>
                                             <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
                                             <input type="hidden" name="checkin" value="{{ $check_in }}" readonly>
                                             <input type="hidden" name="checkout" value="{{ $check_out }}" readonly>
@@ -632,6 +589,7 @@
                                                     @csrf
                                                     <input type="hidden" name="book_status" value="rebook" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                    <input type="hidden" name="type" value="{{ $property->type }}" readonly>
                                                     <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
                                                     <input type="hidden" name="checkin" value="{{ $check_in }}" readonly>
                                                     <input type="hidden" name="checkout" value="{{ $check_out }}" readonly>
@@ -664,13 +622,9 @@
                                                     <h4>{{ $property->title }}</h4>
                                                     <p>{{ ucfirst($property->type) }} in {{ strtolower($property->base) }}</p>
                                                     <p>
-                                                        <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b>
                                                         &nbsp;&nbsp;
-                                                        {{ $property->propertyReviews->count() }} Reviews
+                                                        {{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }}
                                                     </p>
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
