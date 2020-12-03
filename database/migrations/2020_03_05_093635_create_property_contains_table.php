@@ -17,7 +17,7 @@ class CreatePropertyContainsTable extends Migration
             $table->increments('id');
             $table->integer('property_id')->unsigned()->index();
             $table->string('bedroom');
-            $table->integer('no_bed');
+            $table->integer('no_bed')->default(0);
             $table->integer('kitchen');
             $table->integer('bathroom');
             $table->boolean('bath_private');

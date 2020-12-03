@@ -918,6 +918,9 @@
                                                     </select>
                                                     <span class="text-danger small mySpan" role="alert"></span>
                                                 </div>
+                                                @if ($property->type_status=='rent')
+                                                <input type="hidden" value="0" name="beds" readonly>
+                                                @else
                                                 <div class="form-group mb-0 validate">
                                                     <label class="mb-2">Beds per room</label>
                                                     <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
@@ -925,6 +928,7 @@
                                                     </div>
                                                     <span class="text-danger small mySpan" role="alert"></span>
                                                 </div>
+                                                @endif
 
                                                 <div class="form-group mt-4 validate">
                                                     <label for="">Furnished?</label>
@@ -2185,7 +2189,7 @@ $("#description").on("input", function(){
 });
 
 
-$("input[name='beds']").TouchSpin({
+$("#beds").TouchSpin({
     initval: 0,
     buttondown_class: 'btn btn-gradient-primary',
     buttonup_class: 'btn btn-gradient-primary'

@@ -229,7 +229,9 @@
                                 @endif  
                             @else
                                 <span>{{ $property->propertyContain->bedroom }}&nbsp;<i class="fa fa-home" title="Bedroom"></i></span>
+                                @if ($property->type_status=='short_stay')
                                 <span class="ml-3">{{ $property->propertyContain->no_bed }} &nbsp;<i class="fa fa-bed" title="Bed per room"></i></span>
+                                @endif
                                 @if ($property->propertyContain->kitchen==1)
                                 <span class="ml-3">Private <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Private Kitchen"></span>
                                 @elseif ($property->propertyContain->kitchen==2)
