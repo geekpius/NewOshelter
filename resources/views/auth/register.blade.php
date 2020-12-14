@@ -77,7 +77,7 @@
                             </div><!--end form-group--> 
 
                             <div class="form-group validate">                                            
-                                <div class="checkbox checkbox-primary">
+                                <div class="checkbox checkbox-primary pl-3">
                                     <input id="agreement" type="checkbox" name="agreement">
                                     <label for="agreement">By checking this, you have agreed to the <a href="#" class="text-primary">terms and conditions</a> of this platform.</label>
                                 </div>   
