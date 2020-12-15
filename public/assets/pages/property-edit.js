@@ -35,14 +35,19 @@ $("select").on('change', function(){
 });
 
 
+// check if property type is hostel on document load
+if($("#property_type").val()=='hostel'){
+    $('#property_type_status option:first').nextAll().hide();
+    $("#myGuests").hide();
+}
+
 $("#property_type").on("change", function(){
     var $this = $(this);
-    $("#property_type_status").val('');
     if($this.val()=='hostel'){
-        // $('#property_type_status option:first').nextAll().hide();
+        $('#property_type_status option:first').nextAll().hide();
         $("#myGuests").hide();
     }else{
-        // $('#property_type_status option:first').nextAll().show();
+        $('#property_type_status option:first').nextAll().show();
         $("#myGuests").fadeIn('fast');
     }
     return false;

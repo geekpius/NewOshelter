@@ -1,6 +1,11 @@
 @extends('admin.layouts.app')
 
 @section('styles')
+<style>
+.strike-through{
+    text-decoration: line-through !important;
+}
+</style>
 @endsection
 @section('content')
 
@@ -46,7 +51,7 @@
                                     <label for="">Now choose your property type</label>
                                     <select name="property_type" class="form-control" id="property_type">
                                         @foreach ($property_types as $type)
-                                        <option value="{{ strtolower(str_replace(' ','_',$type->name))  }}">{{ $type->name }}</option>    
+                                        <option class="{{ strtolower(str_replace(' ','_',$type->name))  }}" value="{{ strtolower(str_replace(' ','_',$type->name))  }}">{{ $type->name }}</option>    
                                         @endforeach
                                     </select>
                                     <span class="text-danger small mySpan" role="alert"></span>
@@ -59,8 +64,8 @@
                                 <div class="form-group validate">
                                     <label for="">What do you want to do with your property?</label>
                                     <select name="property_type_status" class="form-control" id="property_type_status">   
-                                        {{-- <option value="short_stay">For short stay</option> --}}
-                                        <option value="rent">I want to rent out</option>                                        
+                                        <option value="rent">I want to rent out</option>     
+                                        <option value="short_stay">For short stay</option>                                   
                                         <!-- <option value="sell">I want to sell</option>
                                         <option value="auction">I want to auction</option>-->
                                     </select>
@@ -145,7 +150,6 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/pages/property-edit.js') }}"></script>
 <script>
 $('#base_property').val("{{ strtolower(str_replace(' ','_',$property->base)) }}");
 $('#property_type').val("{{ $property->type }}");
@@ -155,10 +159,10 @@ $('#property_type_status').val("{{ $property->type_status }}");
 $('#adult').val("{{ $property->adult }}");
 $('#children').val("{{ $property->children }}");
 $('#infant').val("{{ $property->infant }}");
+$("#property_type option:selected").siblings(".hostel").attr('disabled', 'disabled').addClass("text-danger");
+@else
+$("#property_type option:selected").siblings().attr('disabled', 'disabled').addClass("text-danger");
 @endif
-if($('#property_type').val()=='hostel'){
-    $('#property_type_status option:first').nextAll().hide();  
-    $("#myGuests").hide();
-}
 </script>
+<script src="{{ asset('assets/pages/property-edit.js') }}"></script>
 @endsection
