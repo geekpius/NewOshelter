@@ -5,8 +5,8 @@
             <div class="row pxp-content-side-search-form-row">
                 <div class="col-5 col-sm-5 col-md-4 col-lg-3 pxp-content-side-search-form-col">
                     <select class="custom-select" id="pxp-p-search-status" name="status">
-                        {{-- <option value="short_stay" selected>Short Stay</option> --}}
                         <option value="rent" selected>Rent</option>
+                        <option value="short_stay">Short Stay</option>
                         {{-- <option value="sell">Sell</option>
                         <option value="auction">Auction</option> --}}
                     </select>

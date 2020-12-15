@@ -21,8 +21,8 @@
                         <div class="col-sm-12 col-md-3">
                             <div class="form-group">
                                 <select class="custom-select" name="status" id="status">
-                                    {{-- <option value="short_stay" selected>Short Stay</option> --}}
                                     <option value="rent" selected>Rent</option>
+                                    <option value="short_stay">Short Stay</option>
                                     {{-- <option value="sell">Sell</option>
                                     <option value="auction">Auction</option> --}}
                                 </select>
