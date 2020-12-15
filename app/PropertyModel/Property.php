@@ -41,7 +41,7 @@ class Property extends Model
     const NOT_DONE_STEP = false;
 
     protected $fillable = [
-        'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children', 'infant',
+        'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children',
     ];
 
     public function isPublish() : bool
@@ -63,6 +63,11 @@ class Property extends Model
     public function getBaseAttribute($value)
     {
         return ucwords(str_replace('_',' ',$value));
+    }
+
+    public function getNumberOfGuest()
+    {
+        return $this->adult+$this->children;
     }
 
     public function isAmenityChecked($value)

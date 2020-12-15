@@ -326,7 +326,7 @@
                                                         /{{ $property->propertyPrice->price_calendar }}
                                                     </span><br>
                                                     <i class="fa fa-check text-success" style="font-size:9px"></i>
-                                                    <span>{{ $property->adult+$property->children+$property->infant }} Guests</span><br>
+                                                    <span>{{ $property->getNumberOfGuest() }} Guests</span><br>
                                                     <i class="fa fa-check text-success" style="font-size:9px"></i>
                                                     <span>{{ $property->adult==1? $property->adult.' Adult':$property->adult.' Adults' }}</span> |
                                                     <span>
@@ -337,15 +337,6 @@
                                                     @else
                                                     {{ $property->children.' Children' }}
                                                     @endif
-                                                    </span> |
-                                                    <span>
-                                                        @if($property->infant==0)
-                                                        No Infant
-                                                        @elseif($property->infant==1)
-                                                        {{ $property->infant.' Infant' }}
-                                                        @else
-                                                        {{ $property->infant.' Infants' }}
-                                                        @endif
                                                     </span>
                                                 </p>
                                             </div>
@@ -353,50 +344,19 @@
                                     @elseif ($property->type_status=='short_stay')
                                         <div class="col-sm-12 col-lg-6">
                                             <div class="pro-order-box">
-                                                <h4 class="header-title {{ $property->vacant? 'text-primary':'text-danger' }}">{{ $property->vacant? 'Available, ready for booking':'Booked, too late' }}</h4>
+                                                <h4 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for short stay':'Booked, too late' }}</h4>
                                                 <p class=""><i class="fa fa-check text-success" style="font-size:9px"></i>
                                                     <span>
-                                                        @if ($property->propertyPrice->minimum_stay==3)
-                                                            3 days minimum stay
-                                                        @elseif ($property->propertyPrice->minimum_stay==4)
-                                                            4 days minimum stay
-                                                        @elseif ($property->propertyPrice->minimum_stay==5)
-                                                            5 days minimum stay
-                                                        @elseif ($property->propertyPrice->minimum_stay==6)
-                                                            6 days minimum stay
-                                                        @elseif ($property->propertyPrice->minimum_stay==7)
-                                                            1 week minimum stay
-                                                        @endif
-                                                    </span><br>
+                                                        {{ $property->propertyPrice->getMinimumStay() }}</span><br>
                                                     <i class="fa fa-check text-success" style="font-size:9px"></i>
-                                                    <span>
-                                                        @if ($property->propertyPrice->maximum_stay==1)
-                                                            1 month maximum stay
-                                                        @elseif ($property->propertyPrice->maximum_stay==1.1)
-                                                            1 month, 1 week maximum stay
-                                                        @elseif ($property->propertyPrice->maximum_stay==1.2)
-                                                            1 month, 2 weeks maximum stay
-                                                        @elseif ($property->propertyPrice->maximum_stay==1.3)
-                                                            1 month, 3 weeks maximum stay
-                                                        @elseif ($property->propertyPrice->maximum_stay==2)
-                                                            2 months maximum stay
-                                                        @elseif ($property->propertyPrice->maximum_stay==2.1)
-                                                            2 months, 1 week maximum stay
-                                                        @elseif ($property->propertyPrice->maximum_stay==2.2)
-                                                            2 months, 2 weeks maximum stay
-                                                        @elseif ($property->propertyPrice->maximum_stay==2.3)
-                                                            2 months, 3 weeks maximum stay
-                                                        @elseif ($property->propertyPrice->maximum_stay==3)
-                                                            3 months maximum stay
-                                                        @endif
-                                                    </span><br>
+                                                    <span>{{ $property->propertyPrice->getMaximumStay() }}</span><br>
                                                     <i class="fa fa-check text-success" style="font-size:9px"></i>
                                                     <span>
                                                         <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>
                                                         /{{ $property->propertyPrice->price_calendar }}
                                                     </span><br>
                                                     <i class="fa fa-check text-success" style="font-size:9px"></i>
-                                                    <span>{{ $property->adult+$property->children+$property->infant }} Guests</span><br>
+                                                    <span>{{ $property->getNumberOfGuest() }} Guests</span><br>
                                                     <i class="fa fa-check text-success" style="font-size:9px"></i>
                                                     <span>{{ $property->adult==1? $property->adult.' Adult':$property->adult.' Adults' }}</span> |
                                                     <span>
@@ -407,15 +367,6 @@
                                                     @else
                                                     {{ $property->children.' Children' }}
                                                     @endif
-                                                    </span> |
-                                                    <span>
-                                                        @if($property->infant==0)
-                                                        No Infant
-                                                        @elseif($property->infant==1)
-                                                        {{ $property->infant.' Infant' }}
-                                                        @else
-                                                        {{ $property->infant.' Infants' }}
-                                                        @endif
                                                     </span>
                                                 </p>
                                             </div>
