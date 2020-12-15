@@ -50,7 +50,6 @@ function initMap(latitude, longitude) {
     position: myLatLng,
     draggable: true,
     map,
-    animation: google.maps.Animation.DROP,
     title: $(".steps-container").data('name'),
   });
 

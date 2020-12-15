@@ -179,7 +179,6 @@
                                         <span class="title text-primary"><small>Ready to Publish</small></span>
                                     </li>
                                 @endif 
-
                             </ul>
                         </div>  
     
@@ -2212,11 +2211,13 @@ $("input[name='rooms_on_block']").TouchSpin({
     buttondown_class: 'btn btn-gradient-primary',
     buttonup_class: 'btn btn-gradient-primary'
 });
+
 $("input[name='room_start']").TouchSpin({
     initval: 0,
     buttondown_class: 'btn btn-gradient-primary',
     buttonup_class: 'btn btn-gradient-primary'
 });
+
 $("input[name='person_per_room']").TouchSpin({
     initval: 0,
     buttondown_class: 'btn btn-gradient-primary',
