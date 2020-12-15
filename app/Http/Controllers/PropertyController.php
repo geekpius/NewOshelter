@@ -317,8 +317,7 @@ class PropertyController extends Controller
     {
         if(Auth::user()->id == $property->user->id){
             $countImages = $property->propertyImages->count();
-            $data['image'] = $property->propertyImages->sortBy('id')->first();
-            $data['images'] = $property->propertyImages->slice(1)->take(($countImages==0)? 0:$countImages-1);
+            $data['images'] = $property->propertyImages->sortBy('id');
             return view('admin.properties.show-property-photos', $data)->render(); 
         }else{
             return view('errors.404');

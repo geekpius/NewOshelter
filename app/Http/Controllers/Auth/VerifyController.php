@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use App\Mail\VerifyEmailMail;
+use App\Mail\EmailSender;
 use Illuminate\Support\Facades\Mail;
 
 class VerifyController extends Controller
@@ -64,7 +64,7 @@ class VerifyController extends Controller
             "code" => $user->email_verification_token,
             "expire" => $user->verify_email_time,
         );
-        Mail::to($user->email)->send(new VerifyEmailMail($data));
+        Mail::to($user->email)->send(new EmailSender($data), "Verify Email", "emails.verify_email");
         session()->flash('success', 'Verification code is sent to you email');
         return redirect()->back();
     }

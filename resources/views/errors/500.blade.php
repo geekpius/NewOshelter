@@ -33,7 +33,7 @@
                                     </div><!--end auth-logo-box-->
                                     <img src="{{ asset('assets/images/500.jpg') }}" alt="" class="d-block mx-auto mt-4" height="250">
                                     <div class="text-center auth-logo-text mb-4">
-                                        <h4 class="mt-0 mb-3 mt-5">Somthing went wrong</h4>
+                                        <h4 class="mt-0 mb-3 mt-5">Something went wrong</h4>
                                         <a href="javascript:history.back();" class="btn btn-sm btn-gradient-primary"><i class="fa fa-caret-left"></i> Go Back</a> 
                                     </div> <!--end auth-logo-text-->
                                 </div><!--end /div-->                               

@@ -1,11 +1,4 @@
-@if(!empty($image))
-<div class="col-lg-12 img-thumbnail mb-3 propertyImage">
-    <i class="fa fa-trash text-danger float-left clearfix remove-property-image btnDelete" data-href="{{ route('property.photos.delete',$image->id) }}"> Remove</i>
-    <img src="{{ asset('assets/images/properties/'.$image->image) }}" class="property-image-width" height="250" alt="property_photo1">
-    <input type="text" data-id="{{ $image->id }}" name="caption" value="{{ $image->caption }}"  class="form-control inputCaption" placeholder="Caption">
-</div>
-@endif
-@php $i = 1; @endphp
+@php $i = 0; @endphp
 @foreach ($images as $item)
 @php $i++; @endphp
 <div class="col-lg-6 col-sm-4 col-xs-4 img-thumbnail mb-2 p-2 propertyImage">

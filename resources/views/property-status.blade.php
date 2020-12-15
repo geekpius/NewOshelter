@@ -101,7 +101,6 @@
 @endsection
 
 @section('scripts')
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_KEY_HERE&amp;libraries=geometry&amp;libraries=places"></script>
 <script src="{{ asset('assets/light/js/markerclusterer.js') }}"></script> 
 <script src="{{ asset('assets/light/js/map.js') }}"></script>
 <script>

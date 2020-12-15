@@ -21,6 +21,19 @@ class PropertyPrice extends Model
 
 
     /******************************  ATTRIBUTES ******************************/
+    public function getPaymentDuration()
+    {
+        if ($this->payment_duration==6){
+            return "6 months advance payment";
+        }
+        elseif ($this->payment_duration==12){
+            return "1 year advance payment";
+        }
+        elseif ($this->payment_duration==24){
+            return "2 years advance payment";
+        }
+    }
+
     public function getMinimumStay()
     {
         if ($this->minimum_stay==3){

@@ -100,7 +100,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="text-center">
-                        <a href="javascript:void(0);" onclick="window.location='{{ route('property.create', $property->id) }}';" class="mr-2 text-pink"><i class="fa fa-heart"></i> Save</a>
+                        <a href="javascript:void(0);" onclick="window.location='{{ route('property.create', $property->id) }}';" class="mr-4 text-pink"><i class="fa fa-heart"></i> Save</a>
+                        <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('formFinishListing').submit();" class="ml-4 text-success"><i class="fa fa-arrow-right"></i> Finish & Publish</a>
+                        <form id="formFinishListing" method="POST" action="{{ route('property.store') }}" style="display:none !important">
+                            @csrf
+                            <input type="hidden" name="step" value="9" readonly>
+                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                        </form> 
                         {{-- <a href="#shareModal" data-toggle="modal" data-backdrop="static" class="ml-2 text-pink"><i class="fa fa-share"></i> Share</a> --}}
                     </div>
                     <div class="row">
