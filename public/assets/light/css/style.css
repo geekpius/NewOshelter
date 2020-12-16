@@ -580,7 +580,7 @@ h1.pxp-page-header {
 .pxp-header-nav-trigger {
     color: #fff;
     text-decoration: none;
-    border-radius: 50%;
+    border-radius: 30%;
     display: inline-block;
     font-size: .8rem;
     -webkit-transition: all .2s ease-in-out;

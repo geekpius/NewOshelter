@@ -48,7 +48,6 @@
                                     <li class=""><i class="dripicons-phone mr-2 text-info font-18"></i> <b> Phone </b> : {{ Auth::user()->phone }}</li>
                                     <li class="mt-2"><i class="dripicons-mail text-info font-18 mt-2 mr-2"></i> <b> Email </b> : {{ Auth::user()->email }}</li>
                                     <li class="mt-2"><i class="dripicons-location text-info font-18 mt-2 mr-2"></i> <b>Location</b> : <span id="myCity">{{ empty(Auth::user()->profile->city)? 'N/A':Auth::user()->profile->city }}</span></li>
-                                    <li class="mt-2"><i class="fas fa-map-pin text-info font-18 mt-2 mr-2"></i> <b>Digital Address</b> : <span class="text-white" id="myDigitalAddress">{{ empty(Auth::user()->digital_address)? 'N/A':Auth::user()->digital_address }}</span></li>
                                     <li class="mt-2"><i class="fa fa-clock text-info font-18 mt-2 mr-2"></i> <b>Login Time</b> : {{ Auth::user()->login_time }}</li>
                                 </ul>
                             </div><!--end col-->
@@ -117,18 +116,6 @@
                                                         <td>Marital Status</td>
                                                         <td>
                                                             <a href="#" id="inline-marital" data-type="select" data-value="{{ empty(Auth::user()->profile->marital_status)? '':Auth::user()->profile->marital_status }}" data-placement="right" data-placeholder="Required" data-title="Select your marital status" data-pk="1"></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>No of Children</td>
-                                                        <td>
-                                                            <a href="#" id="inline-children" data-type="select" data-value="{{ empty(Auth::user()->profile->children)? '':Auth::user()->profile->children }}" data-placement="right" data-placeholder="Required" data-title="Select number of children" data-pk="1"></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Digital Address</td>
-                                                        <td>
-                                                            <a href="#" id="inline-digital" data-emptytext="Your digital address" data-type="text" data-value="{{ empty(Auth::user()->digital_address)? '':Auth::user()->digital_address }}" data-placement="right" data-placeholder="Required" data-title="Enter you digital address" data-pk="1"></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -707,48 +694,6 @@ $(function () {
         }
     });
 
-    $('#inline-children').editable({
-        prepend: "-No of Children-",
-        mode: 'inline',
-        inputclass: 'form-control-sm',
-        source: [
-            {value: "none", text: 'None'},
-            {value: "1 child", text: '1 Child'},
-            {value: "2 children", text: '2 Children'},
-            {value: "3 children", text: '3 Children'},
-            {value: "4 children", text: '4 Children'},
-            {value: "5 children", text: '5 Children'},
-            {value: "6 children", text: '6 Children'},
-            {value: "7 children", text: '7 Children'},
-            {value: "8 children", text: '8 Children'},
-            {value: "9 children", text: '9 Children'},
-            {value: "10 children", text: '10 Children'},
-        ],
-        url: "{{ route('account.children') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
-            }
-        }
-    });
-
-
-    $('#inline-digital').editable({
-        validate: function (value) {
-            if ($.trim(value) == '') return 'This field is required';
-        },
-        mode: 'inline',
-        inputclass: 'form-control-sm',
-        url: "{{ route('account.digital_address') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
-            }
-            else{
-                getDigital(newValue);
-            }
-        }
-    });
 
     $('#inline-city').editable({
         validate: function (value) {

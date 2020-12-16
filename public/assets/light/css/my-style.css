@@ -8,6 +8,16 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
  * 1.0 - General
  */
 
+ .profile-avatar-container{
+    box-sizing: border-box;  
+    -webkit-box-sizing: border-box;
+    border: 0.5% solid #eff2f9;
+    background-color: #fff !important;
+    border-radius: 30%;
+    -webkit-border-radius: 30%;
+    -moz-border-radius: 30%;
+ }
+
  .thumb-xxs {
     height: 24px !important;
     width: 24px !important;
@@ -392,6 +402,7 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       }
 
 
+    
 
 
 

@@ -9,7 +9,7 @@
 
 <div class="pxp-content">
     <div class="pxp-hero vh-100">
-        <div class="pxp-hero-bg pxp-cover pxp-cover-bottom" style="background-image: url({{ asset('assets/light/images/hero-1.jpg') }});"></div>
+        <div class="pxp-hero-bg pxp-cover pxp-cover-bottom" style="background-image: url({{ asset('assets/light/images/bg.jpg') }});"></div>
         <div class="pxp-hero-opacity"></div>
         <div class="pxp-hero-caption">
             <div class="container">

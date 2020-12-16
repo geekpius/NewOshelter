@@ -59,7 +59,10 @@
                         @auth
                         <div class="dropdown">
                             <a href="javascript:void(0);" class="pxp-header-user" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset('assets/images/'.(empty(Auth::user()->image)? 'user.svg':'users/'.Auth::user()->image)) }}" alt="Avatar" class="rounded-circle thumb-md">
+                                <div class="profile-avatar-container p-1">
+                                    <i class="fa fa-bars text-dark ml-2"></i>
+                                    <img src="{{ asset('assets/images/'.(empty(Auth::user()->image)? 'user.svg':'users/'.Auth::user()->image)) }}" alt="Avatar" class="rounded-circle thumb-sm ml-3" />
+                                </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="{{ route('dashboard') }}"><span class="fa fa-dashboard"></span> Dashboard</a>
