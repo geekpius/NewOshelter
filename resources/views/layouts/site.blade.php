@@ -48,7 +48,7 @@
                                 <a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop"><i class="fa fa-question-circle"></i> Help</a>
                                 <ul class="pxp-nav-sub rounded-lg">
                                     <li><a href="{{ route('help.owner') }}" class="font-13 sub-menu-item">Property Owners</a></li>
-                                    <li><a href="{{ route('help.booking') }}" class="font-13 sub-menu-item">Guests and Tenants</a></li>
+                                    <li><a href="#" class="font-13 sub-menu-item">Guests and Tenants</a></li>
                                 </ul>
                             </li>
                             @guest
@@ -67,12 +67,14 @@
                                     <img src="{{ asset('assets/images/'.(empty(Auth::user()->image)? 'user.svg':'users/'.Auth::user()->image)) }}" alt="Avatar" class="rounded-circle thumb-sm ml-3" />
                                 </div>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="{{ route('dashboard') }}"><span class="fa fa-dashboard"></span> Dashboard</a>
-                                <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> Listings</a>
-                                <a class="dropdown-item" href="{{ route('messages') }}"><span class="fa fa-envelope"></span> Messages</a>
-                                <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width: 200px">
+                                <a class="dropdown-item" href="#"><span class="fa fa-envelope"></span> Message</a>
                                 <a class="dropdown-item" href="{{ route('visits') }}"><span class="fa fa-user"></span> Visits</a>
+                                <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
+                                <hr>
+                                <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> List a property</a>
+                                <a class="dropdown-item" href="#"><span class="fa fa-user-circle"></span> Account</a>
+                                <hr>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> Logout</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf

@@ -14,7 +14,7 @@
     <div class="form-group col-sm-6">
         <div class="checkbox checkbox-primary">
             <input id="pool" type="checkbox" {{ ($property->isRuleChecked('Dont urinate in pool'))? 'checked':'' }}  value="Dont urinate in pool" name="property_rules[]">
-            <label for="pool">Dont urinate in pool</label>
+            <label for="pool">Don't urinate in pool</label>
         </div>
     </div>
     <div class="form-group col-sm-6">
@@ -26,7 +26,7 @@
     <div class="form-group col-sm-6">
         <div class="checkbox checkbox-primary">
             <input id="visitor" type="checkbox" {{ ($property->isRuleChecked('Dont host visitors more than 2 weeks'))? 'checked':'' }}  value="Dont host visitors more than 2 weeks" name="property_rules[]">
-            <label for="visitor">Dont host visitors more than 2 weeks</label>
+            <label for="visitor">Don't host visitors more than 2 weeks</label>
         </div>
     </div>
 </div>

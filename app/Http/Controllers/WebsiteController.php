@@ -32,13 +32,13 @@ class WebsiteController extends Controller
         $data['page_title'] = null;
         $data['types'] = PropertyType::whereIs_public(true)->get();
         $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->take(50)->orderBy('id', 'DESC')->get();
-        return view('welcome', $data);
+        return view('website.welcome', $data);
     }
 
     // payment call back 
     public function callback()
     {
-        return view('callback');
+        return view('website.callback');
     }
 
     //property listing status
@@ -49,7 +49,7 @@ class WebsiteController extends Controller
         $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->whereDone_step(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(9);
         $data['property_types'] = PropertyType::get(['name']);
-        return view('property-status', $data);
+        return view('website.property-status', $data);
     }
 
     //property listing types
@@ -66,7 +66,7 @@ class WebsiteController extends Controller
             session()->forget('properties');
         }
         session(['properties' => $props->get()]);
-        return view('property-types', $data);
+        return view('website.property-types', $data);
     }
 
     // property type results to map
@@ -101,7 +101,7 @@ class WebsiteController extends Controller
         $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(9);
         $data['property_types'] = PropertyType::get(['name']);
-        return view('properties', $data);
+        return view('website.properties', $data);
     }
 
     // get all properties to the map
@@ -130,7 +130,7 @@ class WebsiteController extends Controller
             }
             session(['properties' => $props->orderBy('id','desc')->get()]);
 
-            return view('search-properties', $data);
+            return view('website.search-properties', $data);
         }
         else{
             $location = $request->get('location');
@@ -184,7 +184,7 @@ class WebsiteController extends Controller
             }
             session(['properties' => $props->orderBy('id','desc')->get()]);
             $data['property_types'] = PropertyType::get(['name']);
-            return view('search-properties', $data);
+            return view('website.search-properties', $data);
         }
     }
 
@@ -218,7 +218,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Why choose us. '.ucfirst(str_replace('-',' ',$title));
         $data['menu'] = 'pxp-no-bg';
-        return view('choose-us', $data);
+        return view('website.choose-us', $data);
     }
 
 
@@ -227,7 +227,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Account deactivated';
         $data['menu'] = 'pxp-no-bg';
-        return view('deactivated', $data);
+        return view('website.deactivated', $data);
     }
 
     public function email()
@@ -248,7 +248,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Own a property of any kind for rent, sell and auction on OShelter';
         $data['menu'] = 'pxp-no-bg';
-        return view('ownproperty', $data);
+        return view('website.ownproperty', $data);
     }
 
     //host an event
@@ -256,7 +256,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Host an event, make it know to the world on OShelter';
         $data['menu'] = 'pxp-no-bg';
-        return view('hostevent', $data);
+        return view('website.hostevent', $data);
     }
     
     //owner help page
@@ -265,7 +265,7 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Property owner help';
         $data['menu'] = 'pxp-no-bg';
         $data['types'] = HelpType::whereHelp_type('owner')->get();
-        return view('ownerhelp', $data);
+        return view('website.ownerhelp', $data);
     }
 
     //booking help page
@@ -274,7 +274,7 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Booking and travellers help';
         $data['menu'] = 'pxp-no-bg';
         $data['types'] = HelpType::whereHelp_type('traveller')->get();
-        return view('bookinghelp', $data);
+        return view('website.bookinghelp', $data);
     }
 
     //contact page
@@ -282,7 +282,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Contact us';
         $data['menu'] = 'pxp-no-bg';
-        return view('contact', $data);
+        return view('website.contact', $data);
     }
 
     
