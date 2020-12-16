@@ -23,7 +23,7 @@ class UserProfileController extends Controller
     public function index()
     {
         $data['page_title'] = 'My account';
-        return view('admin.account.index', $data);
+        return view('user.account.index', $data);
     }
 
 

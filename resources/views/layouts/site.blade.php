@@ -36,6 +36,7 @@
                     <div class="col-5 col-md-2">
                         <a href="{{ route('index') }}" class="pxp-logo text-decoration-none">
                             <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-small" class="thumb-md nav-logo-sm">
+                            <img src="{{ asset('assets/images/form-logo.png') }}" alt="logo-small" class="thumb-md hide-logo-on-scroll">
                             <span class="font-14-large">OShelter</span>
                         </a>
                     </div>
@@ -51,15 +52,11 @@
                                     <li><a href="#" class="font-13 sub-menu-item">Guests and Tenants</a></li>
                                 </ul>
                             </li>
-                            @guest
-                            <li class="list-inline-item ml-lg-5"><a class="font-14 font-14-sm-laptop font-14-lg-laptop" href="{{ route('login') }}" id="signIn">sign In</a></li>
-                            <li class="list-inline-item"><a class="font-14 font-14-sm-laptop font-14-lg-laptop" href="{{ route('register') }}" id="signUp">sign Up</a></li>
-                            @endguest
                         </ul>
                     </div>
                     <div class="col-5 col-md-2 text-right">
                         <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars fa-lg"></span></a>
-                        @auth
+                        
                         <div class="dropdown">
                             <a href="javascript:void(0);" class="pxp-header-user" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="profile-avatar-container p-1">
@@ -68,20 +65,27 @@
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width: 200px">
+                                @auth
                                 <a class="dropdown-item" href="#"><span class="fa fa-envelope"></span> Message</a>
                                 <a class="dropdown-item" href="{{ route('visits') }}"><span class="fa fa-user"></span> Visits</a>
                                 <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
                                 <hr>
                                 <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> List a property</a>
-                                <a class="dropdown-item" href="#"><span class="fa fa-user-circle"></span> Account</a>
+                                <a class="dropdown-item" href="{{ route('account') }}"><span class="fa fa-user-circle"></span> Account</a>
                                 <hr>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> Logout</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
+                                @endauth
+                                @guest
+                                <a class="dropdown-item" href="{{ route('login') }}"><span class="fas fa-sign-in-alt"></span> Log in</a>
+                                <a class="dropdown-item" href="{{ route('register') }}"><span class="fa fa-user-circle"></span> Sign up</a>
+                                <hr>
+                                <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> List a property</a>
+                                @endguest
                             </div>
                         </div>
-                        @endauth
                     </div>
                 </div>
             </div>

@@ -14,7 +14,7 @@
                         
                         <div class="text-center auth-logo-text">
                             <h4 class="mt-0 mb-3 mt-5">Let's Get Started</h4>
-                            <p class="text-muted mb-0">Sign in to continue to OShelter.</p>  
+                            <p class="text-muted mb-0">Log in to continue to OShelter.</p>  
                         </div> <!--end auth-logo-text-->  
 
                         
@@ -56,7 +56,7 @@
 
                             <div class="form-group mb-0 row">
                                 <div class="col-12 mt-2">
-                                    <button class="btn btn-gradient-primary btn-round btn-block waves-effect waves-light btn_sign_in" type="submit">Sign In <i class="fas fa-sign-in-alt ml-1"></i></button>
+                                    <button class="btn btn-gradient-primary btn-round btn-block waves-effect waves-light btn_sign_in" type="submit">Log In <i class="fas fa-sign-in-alt ml-1"></i></button>
                                 </div><!--end col--> 
                             </div> <!--end form-group-->                           
                         </form><!--end form-->

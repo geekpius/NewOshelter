@@ -31,12 +31,12 @@
     function onContentScroll() {
         if (window.pageYOffset > 93) {
             $('.pxp-header').addClass('pxp-is-sticky');
-            $("#signUp").addClass('text-danger');
-            $("#signIn").addClass('text-primary');
+            $(".hide-logo-on-scroll").show();
+            $(".nav-logo-sm").hide().siblings('span').css("color", "#2b3b91");
         } else {
             $('.pxp-header').removeClass('pxp-is-sticky');
-            $("#signUp").removeClass('text-danger');
-            $("#signIn").removeClass('text-primary');
+            $(".hide-logo-on-scroll").hide();
+            $(".nav-logo-sm").show().siblings('span').css("color", "#ffffff");
         }
     }
 

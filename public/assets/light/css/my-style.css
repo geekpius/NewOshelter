@@ -421,6 +421,10 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         display: none;
       }
 
+    .hide-logo-on-scroll {
+      display: none;
+    }
+
 
     
 
