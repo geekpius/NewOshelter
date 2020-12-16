@@ -85,70 +85,85 @@
                             <div class="card">
                                 <div class="card-body">
                                    <div class="row">
-                                       <div class="col-md-8 table-responsive">
+                                       <div class="col-md-8">
                                            <span class="ml-2 text-primary">OShelter cares for your privacy. Therefore we releases contact information of owners and guests after booking is confirmed.</span>
-                                            <table class="table mb-0" id="profileTable">
-                                                <thead>
-                                                <tr>
-                                                    <th colspan="2" class="text-uppercase text-primary">Update Profile</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Legal Name</td>
-                                                        <td>
-                                                            <a href="#" id="inline-name" data-type="text" data-emptytext="Your legal name" data-value="{{ Auth::user()->name }}" data-placement="right" data-placeholder="Required" data-title="Enter your legal name" data-pk="1"></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Gender</td>
-                                                        <td>
-                                                            <a href="#" id="inline-gender" data-type="select" data-value="{{ empty(Auth::user()->profile->gender)? '':Auth::user()->profile->gender }}" data-placement="right" data-placeholder="Required" data-title="Select your gender" data-pk="1"></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Date of Birth</td>
-                                                        <td>
-                                                            <a href="#" id="inline-dob" data-emptytext="Your legal date of birth" data-type="combodate" data-value="{{ empty(Auth::user()->profile->dob)? '':Auth::user()->profile->dob }}" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Select Date of birth"></a> &nbsp; <span id="myAge">({{ Auth::user()->getAgeAttribute() }})</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Marital Status</td>
-                                                        <td>
-                                                            <a href="#" id="inline-marital" data-type="select" data-value="{{ empty(Auth::user()->profile->marital_status)? '':Auth::user()->profile->marital_status }}" data-placement="right" data-placeholder="Required" data-title="Select your marital status" data-pk="1"></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>City</td>
-                                                        <td>
-                                                            <a href="#" id="inline-city" data-emptytext="Your current city" data-type="text" data-value="{{ empty(Auth::user()->profile->city)? '':Auth::user()->profile->city }}" data-placement="right" data-placeholder="Required" data-title="Enter your city" data-pk="1"></a>  <strong>{{ empty(Auth::user()->profile->country)? '':' - '.Auth::user()->profile->country }}</strong>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Occupation/Profession</td>
-                                                        <td>
-                                                            <a href="#" id="inline-occupation" data-emptytext="Your current occupation" data-type="text" data-pk="1" data-value="{{ empty(Auth::user()->profile->occupation)? '':Auth::user()->profile->occupation }}" data-placement="right" data-placeholder="Required" data-title="Enter your occupation"></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Emergency Contact</td>
-                                                        <td>
-                                                            <a href="#" id="inline-emergency" data-emptytext="Your emergency contact" data-type="text" data-pk="1" data-value="{{ empty(Auth::user()->profile->emergency)? '':Auth::user()->profile->emergency }}" data-placement="right" data-placeholder="Required" data-title="Enter your emergency contact"></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Valid ID</td>
-                                                        <td>
-                                                            @if (empty(Auth::user()->profile->id_front) && empty(Auth::user()->profile->id_back))
-                                                            <a href="javascript:void(0);" class="text-primary btnAddNewID">Add New Government ID Approve</a>
-                                                            @else
-                                                            <i class="fa fa-check text-success"></i> ID is checked
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table><!--end table-->                                             
+                                           <hr>
+                                           <form class="form-horizontal form-material mb-0" id="formProfileUpdate" data-action="{{ route('account.update') }}">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group validate">
+                                                        <label for="">Legal Name</label>
+                                                        <input type="text" name="legal_name" id="legal_name" value="{{ Auth::user()->name }}" placeholder="Enter legal name" class="form-control">
+                                                        <span class="text-danger small mySpan" role="alert"></span>                                  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group validate">
+                                                        <label for="">Gender</label>
+                                                        <select name="gender" id="gender" class="form-control">
+                                                            <option value="">--Select gender--</option>
+                                                            <option value="male">Male</option>
+                                                            <option value="female">Female</option>
+                                                        </select>
+                                                        <span class="text-danger small mySpan" role="alert"></span>                                  
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group validate">
+                                                        <label for="">Date of Birth</label>
+                                                        <input type="date" name="dob" id="dob" value="{{ empty(Auth::user()->profile->dob)? '':Auth::user()->profile->dob }}" placeholder="Select dob" class="form-control">
+                                                        <span class="text-danger small mySpan" role="alert"></span>                                  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group validate">
+                                                        <label for="">Marital status</label>
+                                                        <select name="marital_status" id="marital_status" class="form-control">
+                                                            <option value="">--Select status--</option>
+                                                            <option value="single">Single</option>
+                                                            <option value="married">Married</option>
+                                                            <option value="divorce">Divorce</option>
+                                                            <option value="widow">Widow</option>
+                                                            <option value="widower">Widower</option>
+                                                        </select>
+                                                        <span class="text-danger small mySpan" role="alert"></span>                                  
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group validate">
+                                                        <label for="">City</label>
+                                                        <input type="text" name="city" id="city" value="{{ empty(Auth::user()->profile->city)? '':Auth::user()->profile->city }}" placeholder="Enter city location" class="form-control">
+                                                        <span class="text-danger small mySpan" role="alert"></span>                                  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group validate">
+                                                        <label for="">Profession/Occupation</label>
+                                                        <input type="text" name="profession" id="profession" value="{{ empty(Auth::user()->profile->occupation)? '':Auth::user()->profile->occupation }}" placeholder="Enter your profession/occupation" class="form-control">
+                                                        <span class="text-danger small mySpan" role="alert"></span>                                  
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group validate">
+                                                        <label for="">Emergency Contact</label>
+                                                        <input type="text" name="emergency_contact" id="emergency_contact" value="{{ empty(Auth::user()->profile->emergency)? '':Auth::user()->profile->emergency }}" placeholder="Enter emergency contact" class="form-control">
+                                                        <span class="text-danger small mySpan" role="alert"></span>                                  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-gradient-primary btn-sm text-light px-4 mt-3 mb-5 btnProfileUpdate"><i class="mdi mdi-refresh fa-lg"></i> Update Profile</button>
+                                            </div>
+                                        </form>                                    
                                        </div>
+
                                        <div class="col-md-4">
                                             <div class="text-center mt-4">
                                                 <h6 class="text-primary">ID CARD</h6>
@@ -167,11 +182,19 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="text-center mt-5">
+                                                @if (empty(Auth::user()->profile->id_front) && empty(Auth::user()->profile->id_back))
+                                                <a href="javascript:void(0);" class="text-primary btnAddNewID">Add New Government ID Approve</a>
+                                                @else
+                                                <i class="fa fa-check text-success"></i> ID is checked
+                                                @endif
+                                            </div>
                                        </div>
 
 
                                        <div class="col-md-12">
-                                           <div class="text-center mt-5">
+                                           <div class="text-center mt-2">
                                                Would you like to deactivate your account?
                                                <a href="{{ route('profile.deactivate') }}" class="text-danger ml-2">Deactivate Account</a>
                                            </div>
@@ -286,7 +309,7 @@
                                                 {{-- <button class="btn btn-primary btn-sm text-light px-4" data-toggle="modal" data-target="#PaymentMethodModal"><i class="fa fa-plus-circle"></i> Payment Method</button> --}}
                                             </div>
                                             
-                                            <div class="p-4">
+                                            {{-- <div class="p-4">
                                                 <strong class="">Coupons</strong><br>
                                                 <p>Add a coupon and save on your next trip.</p>
                                                 <p>Your coupon <span class="ml-5">0</span></p>
@@ -301,7 +324,7 @@
                                                     </div>
                                                 </form>
                                                 <button class="btn btn-primary btn-sm text-light px-4 mb-5 btnAddCoupon"><i class="fa fa-plus-circle"></i> Add Coupon</button>
-                                            </div>
+                                            </div> --}}
                                         </div>
 
                                         {{-- <!-- <div class="col-sm-5 pb-5 pl-3 pr-3">
@@ -601,152 +624,9 @@
 @endsection
 
 @section('scripts')
-<!-- XEditable Plugin -->
-<script src="{{ asset('assets/plugins/moment/moment.js') }}"></script>
-<script src="{{ asset('assets/plugins/x-editable/js/bootstrap-editable.min.js') }}"></script>
-<script>
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-    }
-})
-
-$(function () {
-
-    //modify buttons style
-    $.fn.editableform.buttons =
-        '<button type="submit" class="btn btn-success editable-submit btn-xs waves-effect waves-light"><i class="mdi mdi-check"></i></button>' +
-        '<button type="button" class="btn btn-danger editable-cancel btn-xs waves-effect waves-light"><i class="mdi mdi-close"></i></button>';
-
-
-    $('#inline-name').editable({
-        validate: function (value) {
-            if ($.trim(value) == '') return 'This field is required';
-        },
-        mode: 'inline',
-        inputclass: 'form-control-sm',
-        url: "{{ route('account.name') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
-            }
-            else{
-                getLegalName(newValue);
-            }
-        }
-    });
-
-
-    $('#inline-gender').editable({
-        prepend: "-Select Gender-",
-        mode: 'inline',
-        inputclass: 'form-control-sm',
-        source: [
-            {value: "male", text: 'Male'},
-            {value: "female", text: 'Female'}
-        ],
-        url: "{{ route('account.gender') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
-            }
-        }
-    });
-
-
-    @php $today = \Carbon\Carbon::today(); $lastYear = $today->subYears(80); @endphp
-    //inline
-    $('#inline-dob').editable({
-        mode: 'inline',
-        combodate: {
-            minYear: {{ $lastYear->year }},
-            maxYear: {{ \Carbon\Carbon::now()->year }},
-            minuteStep: 1
-        },
-        inputclass: 'form-control-sm',
-        url: "{{ route('account.dob') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
-            }else{
-                getAge(new Date(newValue));
-            }
-        }
-    });
-
-
-    $('#inline-marital').editable({
-        prepend: "-Marital Status-",
-        mode: 'inline',
-        inputclass: 'form-control-sm',
-        source: [
-            {value: "single", text: 'Single'},
-            {value: "married", text: 'Married'},
-            {value: "divorce", text: 'Divorce'},
-            {value: "widow", text: 'Widow'},
-            {value: "widower", text: 'Widower'}
-        ],
-        url: "{{ route('account.marital') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
-            }
-        }
-    });
-
-
-    $('#inline-city').editable({
-        validate: function (value) {
-            if ($.trim(value) == '') return 'This field is required';
-        },
-        mode: 'inline',
-        inputclass: 'form-control-sm',
-        url: "{{ route('account.city') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
-            }
-            else{
-                getCity(newValue);
-            }
-        }
-    });
-
-    $('#inline-occupation').editable({
-        validate: function (value) {
-            if ($.trim(value) == '') return 'This field is required';
-        },
-        mode: 'inline',
-        inputclass: 'form-control-sm',
-        url: "{{ route('account.occupation') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
-            }else{
-                getOccupation(newValue);
-            }
-        }
-    });
-
-    $('#inline-emergency').editable({
-        validate: function (value) {
-            if ($.trim(value) == '') return 'This field is required';
-        },
-        mode: 'inline',
-        inputclass: 'form-control-sm',
-        url: "{{ route('account.emergency') }}",
-        success: function(response, newValue) {
-            if(response=='error') {
-                return 'Something went wrong. Please try later.';
-            }
-            else if(response=='fail'){
-                alert("Enter emergency phone number");
-            }
-        }
-    });
-
-});
-
-</script>
 <script src="{{ asset('assets/pages/account.js') }}"></script>
+<script>
+$("#formProfileUpdate select[name='gender']").val("{{ empty(Auth::user()->profile->gender)? '':Auth::user()->profile->gender }}");
+$("#formProfileUpdate select[name='marital_status']").val("{{ empty(Auth::user()->profile->marital_status)? '':Auth::user()->profile->marital_status }}");
+</script>
 @endsection

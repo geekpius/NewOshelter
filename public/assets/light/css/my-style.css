@@ -106,11 +106,17 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   }
 
   @media (min-width: 1024px){
+    .font-12-sm-laptop {
+      font-size: 10px !important;
+    }
     .font-14-sm-laptop {
       font-size: 10px !important;
     }
   }
   @media (min-width: 1440px){
+    .font-12-lg-laptop {
+      font-size: 12px !important;
+    }
     .font-14-lg-laptop {
       font-size: 14px !important;
     }
@@ -119,6 +125,20 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   @media (max-width: 768px){
     .sub-menu-item {
       margin-left: 3%;
+    }
+    
+    .nav-logo-sm {
+      display: none;
+    }
+
+    .font-14-large {
+      font-size: 20px;
+    }
+  }
+
+  @media (min-width: 768px){
+    .font-14-large {
+      font-size: 16px;
     }
   }
   

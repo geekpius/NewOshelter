@@ -26,159 +26,36 @@ class UserProfileController extends Controller
         return view('admin.account.index', $data);
     }
 
-    //update name profiles
-    public function updateName(Request $request)
-    {
-        if(empty($request->value))
-        {
-            return 'error';
-        }
-        else{
-            $profile = User::FindorFail(Auth::user()->id);
-            $profile->name= $request->value;
-            $profile->update();
-            
-            if($profile){
-                return 'updated';
-            }
-            else{
-                return 'error';
-            }
-        }
-    }
 
-    //update gender profiles
-    public function updateGender(Request $request)
-    {
-        if(empty($request->value))
-        {
-            return 'error';
-        }
-        else{
-            $profile = UserProfile::updateOrCreate(
-                ['user_id'=>Auth::user()->id],
-                ['gender'=>$request->value]
-            );
-            
-            if($profile){
-                return 'updated';
-            }
-            else{
-                return 'error';
-            }
-        }
-    }
-
-    //update dob profiles
-    public function updateDob(Request $request)
-    {
-        if(empty($request->value))
-        {
-            return 'error';
-        }
-        else{
-            $profile = UserProfile::updateOrCreate(
-                ['user_id'=>Auth::user()->id],
-                ['dob'=>$request->value]
-            );
-            
-            if($profile){
-                return 'updated';
-            }
-            else{
-                return 'error';
-            }
-        }
-    }
-
-    //update marital status profiles
-    public function updateMaritalStatus(Request $request)
-    {
-        if(empty($request->value))
-        {
-            return 'error';
-        }
-        else{
-            $profile = UserProfile::updateOrCreate(
-                ['user_id'=>Auth::user()->id],
-                ['marital_status'=>$request->value]
-            );
-            
-            if($profile){
-                return 'updated';
-            }
-            else{
-                return 'error';
-            }
-        }
-    }
-
-    ///update city profiles
-    public function updateCity(Request $request)
-    {
-        if(empty($request->value))
-        {
-            return 'error';
-        }
-        else{
-            $profile = UserProfile::updateOrCreate(
-                ['user_id'=>Auth::user()->id],
-                ['city'=>$request->value]
-            );
-            
-            if($profile){
-                return 'updated';
-            }
-            else{
-                return 'error';
-            }
-        }
-    }
-
-
-    ///update occupation profiles
-    public function updateOccupation(Request $request)
-    {
-        if(empty($request->value))
-        {
-            return 'error';
-        }
-        else{
-            $profile = UserProfile::updateOrCreate(
-                ['user_id'=>Auth::user()->id],
-                ['occupation'=>$request->value]
-            );
-            
-            if($profile){
-                return 'updated';
-            }
-            else{
-                return 'error';
-            }
-        }
-    }
-
-    ///update emergency contact profiles
-    public function updateEmergency(Request $request)
+    //update 
+    public function update(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'value' => 'required|numeric',
+            'legal_name' => 'required|string',
+            'gender' => 'required|string',
+            'dob' => 'required|date',
+            'marital_status' => 'required|string',
+            'city' => 'required|string',
+            'profession' => 'required|string',
+            'emergency_contact' => 'required|string',
         ]);
-
+        
         if ($validator->fails()){
             return 'fail';
+            exit();
         }else{
+            $pro = User::FindorFail(Auth::user()->id);
+            $pro->name= $request->legal_name;
+            $pro->update();
+
             $profile = UserProfile::updateOrCreate(
                 ['user_id'=>Auth::user()->id],
-                ['emergency'=>$request->value]
+                [
+                    'gender'=>$request->gender, 'dob'=>$request->dob, 'marital_status'=>$request->marital_status,
+                    'city'=>$request->city, 'occupation'=>$request->profession, 'emergency'=>$request->emergency_contact
+                ]
             );
-            
-            if($profile){
-                return 'updated';
-            }
-            else{
-                return 'error';
-            }
+            return "success";
         }
     }
 

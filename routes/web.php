@@ -91,15 +91,7 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
 
         /*------- Account and Profile ------- */
         Route::get('/account', 'UserProfileController@index')->name('account');
-        Route::post('/account/name', 'UserProfileController@updateName')->name('account.name');
-        Route::post('/account/gender', 'UserProfileController@updateGender')->name('account.gender');
-        Route::post('/account/dob', 'UserProfileController@updateDob')->name('account.dob');
-        Route::post('/account/marital-status', 'UserProfileController@updateMaritalStatus')->name('account.marital');
-        Route::post('/account/children', 'UserProfileController@updateChildren')->name('account.children');
-        Route::post('/account/city', 'UserProfileController@updateCity')->name('account.city');
-        Route::post('/account/digital-address', 'UserProfileController@updateDigitalAddress')->name('account.digital_address');
-        Route::post('/account/occupation', 'UserProfileController@updateOccupation')->name('account.occupation');
-        Route::post('/account/emergency', 'UserProfileController@updateEmergency')->name('account.emergency');
+        Route::post('/account/update', 'UserProfileController@update')->name('account.update');
         Route::post('/change-password', 'UserProfileController@updatePassword')->name('password.change');
         Route::post('/change-photo', 'UserProfileController@uploadProfilePhoto')->name('profile.photo');
         Route::post('/change-front-card', 'UserProfileController@uploadFrontCard')->name('profile.front.card');

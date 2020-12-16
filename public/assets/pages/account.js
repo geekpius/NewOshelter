@@ -1,3 +1,10 @@
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+    }
+})
+
 // getting legal info on update
 function getLegalName(name) { 
     document.getElementById('myLegalName').innerText = name;
@@ -19,6 +26,45 @@ function getCity(city) {
 function getOccupation(occupation) { 
     document.getElementById('myOccupation').innerText = occupation;
 }
+
+// update profile
+$("#formProfileUpdate").on("submit", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this = $(this);
+    var valid = true;
+    $('#formProfileUpdate input, #formProfileUpdate select').each(function() {
+        var $this = $(this);
+        
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
+    });
+    if(valid){
+        $(".btnProfileUpdate").html('<i class="fa fa-spin fa-spinner"></i> Updating Profile...').attr('disabled', true);
+        var data  = $this.serialize();
+        $.ajax({
+            url: $this.data("action"),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    swal("Updated", "Profile update successful", "success");
+                }
+                else{
+                    alert("Something went wrong");
+                }
+                $(".btnProfileUpdate").html('<i class="fa fa-refresh"></i> Update Profile').attr('disabled', false);
+            },
+            error: function(resp){
+                alert("Something went wrong with your request");
+                $(".btnProfileUpdate").html('<i class="fa fa-refresh"></i> Update Profile').attr('disabled', false);
+            }
+        });
+    }
+    return false;
+});
 
 
 // profile photo

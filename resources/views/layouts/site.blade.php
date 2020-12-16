@@ -34,18 +34,21 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-5 col-md-2">
-                        <a href="{{ route('index') }}" class="pxp-logo text-decoration-none">OShelter</a>
+                        <a href="{{ route('index') }}" class="pxp-logo text-decoration-none">
+                            <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-small" class="thumb-md nav-logo-sm">
+                            <span class="font-14-large">OShelter</span>
+                        </a>
                     </div>
                     <div class="col-2 col-md-8 text-right">
                         <ul class="pxp-nav list-inline">
                             {{-- <li class="list-inline-item"><a href="{{ route('own.property') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Own a Property</a></li> --}}
-                            <li class="list-inline-item"><a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop">Own a Property</a></li>
-                            <li class="list-inline-item"><a href="{{ route('property.start') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Become an Owner</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Own a Property</a></li>
+                            <li class="list-inline-item"><a href="{{ route('property.start') }}" class="font-12 font-14-sm-laptop font-12-lg-laptop">Become an Owner</a></li>
                             <li class="list-inline-item">
-                                <a href="#" class="font-14 font-14-sm-laptop font-14-lg-laptop"><i class="fa fa-question-circle"></i> Help</a>
+                                <a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop"><i class="fa fa-question-circle"></i> Help</a>
                                 <ul class="pxp-nav-sub rounded-lg">
                                     <li><a href="{{ route('help.owner') }}" class="font-13 sub-menu-item">Property Owners</a></li>
-                                    <li><a href="{{ route('help.booking') }}" class="font-13 sub-menu-item">Booking And Travellers</a></li>
+                                    <li><a href="{{ route('help.booking') }}" class="font-13 sub-menu-item">Guests and Tenants</a></li>
                                 </ul>
                             </li>
                             @guest
