@@ -8,6 +8,9 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
  * 1.0 - General
  */
 
+  .nav-blue-background {
+    background-color: #1C2765;
+  }
  .profile-avatar-container{
     box-sizing: border-box;  
     -webkit-box-sizing: border-box;
@@ -17,6 +20,101 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     -webkit-border-radius: 30%;
     -moz-border-radius: 30%;
  }
+
+ .pull-content-down {
+   margin-top: 150px !important;
+ }
+
+ /* Notification */
+.noti-icon-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 9px;
+}
+
+.notification-list {
+  max-height: 220px;
+}
+
+.notification-list {
+  margin-left: 0;
+}
+
+.notification-list .noti-title {
+  border-radius: 0.25rem 0.25rem 0 0;
+  margin: -4px 0px 0px 0px;
+  width: auto;
+  padding: 12px 20px;
+}
+
+.notification-list .noti-title h5 {
+  margin: 0;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.notification-list .noti-icon {
+  font-size: 22px;
+  vertical-align: middle;
+  color: #a4abc5;
+}
+
+.notification-list .noti-icon-badge {
+  display: inline-block;
+  position: absolute;
+  top: 1px;
+  right: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  padding: 2px 4px 2px;
+}
+
+.notification-list .notify-item {
+  padding: 10px 20px;
+}
+
+.notification-list .notify-item .notify-icon {
+  float: left;
+  height: 36px;
+  width: 36px;
+  line-height: 36px;
+  text-align: center;
+  margin-right: 10px;
+  border-radius: 50%;
+  color: #ffffff;
+}
+
+.notification-list .notify-item .notify-icon img {
+  margin-top: 4px;
+}
+
+.notification-list .notify-item .notify-details {
+  margin-bottom: 0;
+  overflow: hidden;
+  margin-left: 45px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.notification-list .notify-item .notify-details b {
+  font-weight: 500;
+}
+
+.notification-list .notify-item .notify-details small {
+  display: block;
+  white-space: normal;
+}
+
+.notification-list .notify-item .notify-details span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+ 
 
  .thumb-xxs {
     height: 24px !important;
@@ -141,6 +239,10 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       font-size: 16px;
     }
   }
+
+  .text-light-dark {
+    color:#484848 !important
+  }
   
 
   .img-right{
@@ -249,6 +351,13 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         border-radius: 10px; 
         border-width: 1px !important;
       }
+
+      .card-bordered-blue{
+        border: solid #0656ff !important; 
+        border-radius: 10px; 
+        border-width: 1px !important;
+      }
+      
       .on-top{
         position: absolute;
         z-index: 1;
@@ -261,6 +370,10 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
 
       .heart-hover:hover {
           font-size: 16px;
+      }
+
+      .text-decoration-none{
+        text-decoration: none !important;
       }
 
       .on-top-save{
@@ -459,3 +572,11 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
           margin-bottom: 500px;
         }
       }
+
+      /* ACCOUNT */
+      @media (max-width: 767px){
+        .account-details {
+          display: none;
+        }
+      }
+      

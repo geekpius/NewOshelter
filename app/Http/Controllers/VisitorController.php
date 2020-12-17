@@ -37,7 +37,7 @@ class VisitorController extends Controller
     public function index()
     {
         $data['page_title'] = 'My visits';
-        return view('admin.visits.index', $data);
+        return view('user.visits.index', $data);
     }
 
     public function upcoming()

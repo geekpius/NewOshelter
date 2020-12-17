@@ -30,17 +30,18 @@
         <link href="{{ asset('assets/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <div class="pxp-header fixed-top pxp-animate {{ empty($menu)? '':$menu }}">
+        <div class="pxp-header fixed-top pxp-animate nav-blue-background {{ empty($menu)? '':$menu }}">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-5 col-md-2">
                         <a href="{{ route('index') }}" class="pxp-logo text-decoration-none">
                             <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-small" class="thumb-md nav-logo-sm">
-                            <img src="{{ asset('assets/images/form-logo.png') }}" alt="logo-small" class="thumb-md hide-logo-on-scroll">
+                            <img src="{{ asset('assets/images/form-logo.png') }}" alt="logo-small" class="thumb-md nav-logo-sm2 hide-logo-on-scroll">
                             <span class="font-14-large">OShelter</span>
                         </a>
                     </div>
-                    <div class="col-2 col-md-8 text-right">
+                    
+                    <div class="col-2 col-md-7 text-right">
                         <ul class="pxp-nav list-inline">
                             {{-- <li class="list-inline-item"><a href="{{ route('own.property') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Own a Property</a></li> --}}
                             <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Own a Property</a></li>
@@ -54,9 +55,38 @@
                             </li>
                         </ul>
                     </div>
+
+                    {{-- @auth
+                    <div class="col-2 col-md-1 text-right">
+                        <div class="dropdown notification-list">
+                            <a class="nav-link" data-toggle="dropdown" href="#" role="button"
+                                aria-haspopup="false" aria-expanded="false">
+                                <i class="fa fa-bell fa-lg text-white noti-bell"></i>
+                                <span class="badge badge-danger badge-pill noti-icon-badge myNotificationCount" data-url="">3</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right myNotifications" data-url=""  style="width: 200px">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    @endauth --}}
+
                     <div class="col-5 col-md-2 text-right">
                         <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars fa-lg"></span></a>
                         
+                        @auth
+                        <div class="dropdown notification-list float-left">
+                            <a class="nav-link" data-toggle="dropdown" href="#" role="button"
+                                aria-haspopup="false" aria-expanded="false">
+                                <i class="fa fa-bell fa-lg text-white noti-bell"></i>
+                                <span class="badge badge-danger badge-pill noti-icon-badge myNotificationCount" data-url="{{ route('notification.count') }}"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right myNotifications" data-url=""  style="width: 200px">
+                                
+                            </div>
+                        </div>
+                        @endauth
+
                         <div class="dropdown">
                             <a href="javascript:void(0);" class="pxp-header-user" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="profile-avatar-container p-1">
@@ -165,43 +195,6 @@
         </script>
         @yield('scripts')
         <script src="{{ asset('assets/light/js/main.js') }}"></script>
-        <script>
-            $(".btnHeart").on("click", function(e){
-                e.preventDefault();
-                e.stopPropagation();
-                var $this = $(this);
-                //login before saving
-                var data={
-                    property_id : $this.data('id')
-                }
-                $.ajax({
-                    url: "{{ route('saved.submit') }}", 
-                    type: 'POST',
-                    data: data,
-                    statusCode: {
-                        401: function() {
-                            // alert("Login to save favourite.");
-                            swal("Login Required","Login to save favourite","warning");
-                        }
-                    },
-                    success: function (resp) {
-                        if(resp=='success'){
-                            $this.children().removeClass('text-primary').addClass('text-pink');
-                        }else if(resp=='exist'){
-                            $this.children().removeClass('text-pink').addClass('text-primary');
-                        }else{
-                            console.log('Something went wrong');
-                        }
-                    },
-                    error: function(resp){
-                        console.log('Something went wrong with request');
-                    }
-                    
-                });
-                return false;
-            });
-
-            
-        </script>
+        <script src="{{ asset('assets/light/js/layout.js') }}"></script>
     </body>
 </html>

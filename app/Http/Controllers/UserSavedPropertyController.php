@@ -17,15 +17,15 @@ class UserSavedPropertyController extends Controller
     public function wishList()
     {
         $data['page_title'] = 'Saved properties for wishlist';
-        $data['lists'] = UserSavedProperty::whereUser_id(Auth::user()->id)->get(); 
-        return view('admin.wishlist.index', $data);
+        $data['lists'] = UserSavedProperty::whereUser_id(Auth::user()->id)->orderBy('id','DESC')->get(); 
+        return view('user.wishlist.index', $data);
     }
 
     public function removeWishList(UserSavedProperty $userSavedProperty)
     {
         if(Auth::user()->id == $userSavedProperty->user_id){
             $userSavedProperty->delete();
-            return redirect()->back();
+            return "success";
         }else{
             return view('errors.404');
         }

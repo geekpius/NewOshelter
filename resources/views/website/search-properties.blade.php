@@ -44,21 +44,10 @@
                                 <div class="pxp-results-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} Rooms</div>
 
                                 <span class="fa fa-tag text-white pull-right"> 
-                                    <strong>
-                                    @if ($property->type_status=='rent')
-                                        Rent
-                                    @elseif($property->type_status=='sell')
-                                        Sell
-                                    @elseif($property->type_status=='auction')
-                                        Auction
-                                    @else
-                                        Short Stay
-                                    @endif
-                                    </strong>
-                                </span>
+                                    <strong>Rent</span>
                             </div>
                             <div class="pxp-results-card-1-features">
-                                <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i> <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</span>
+                                <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i></span>
                             </div>
                         @else
                             <div class="pxp-results-card-1-details">
@@ -80,7 +69,7 @@
                                 </span>
                             </div>
                             <div class="pxp-results-card-1-features">
-                                <span>{{ $property->propertyContain->bedroom }} <i class="fa fa-home"></i> <span>|</span> {{ $property->propertyContain->bathroom }} <i class="fas fa-bath"></i> <span>|</span> {{ $property->propertyContain->toilet }} <i class="fas fa-toilet"></i> <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</span>
+                                <span>{{ $property->propertyContain->bedroom }} <i class="fa fa-home"></i> <span>|</span> {{ $property->propertyContain->bathroom }} <i class="fas fa-bath"></i> <span>|</span> {{ $property->propertyContain->toilet }} <i class="fas fa-toilet"></i> </span>
                             </div>
                         @endif
                         

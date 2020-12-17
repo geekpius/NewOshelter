@@ -18,7 +18,7 @@ Route::get('/oshelter/callback', 'WebsiteController@callback')->name('callback')
 Route::get('/own-property', 'WebsiteController@ownProperty')->name('own.property');
 Route::get('/property-status/{status}', 'WebsiteController@propertyStatus')->name('status.property');
 Route::get('/property-types/{type}', 'WebsiteController@propertyType')->name('type.property');
-Route::get('/single-property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
+Route::get('/property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
 Route::get('/properties', 'WebsiteController@property')->name('browse.property');
 Route::get('/map-properties', 'WebsiteController@mapProperty')->name('browse.property_map');
 

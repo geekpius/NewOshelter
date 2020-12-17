@@ -141,7 +141,7 @@
                 <div>
                     <a href="{{ route('single.property', $property->id) }}" class="pxp-prop-card-1 rounded-lg">
                         <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$property->propertyImages->first()->image) }});"></div>
-                        <span class="on-top-save on-top m-2 btnHeart" data-id="{{ $property->id }}">
+                        <span class="on-top-save on-top m-2 btnHeart" data-id="{{ $property->id }}" data-url="{{ route('saved.submit') }}">
                             @auth
                             <span class="fa fa-heart {{ (Auth::user()->userSavedProperties()->whereProperty_id($property->id)->count()>0)? 'text-pink':'text-primary' }} heart-hover"></span>
                             @else
@@ -170,9 +170,9 @@
                                 </strong>
                             </span>
                             @if($property->type=='hostel')
-                            <div class="pxp-prop-card-1-details-features text-uppercase"> <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i> <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</span></div>
+                            <div class="pxp-prop-card-1-details-features text-uppercase"> <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i> </span></div>
                             @else
-                            <div class="pxp-prop-card-1-details-features text-uppercase">{{ $property->propertyContain->bedroom }} <i class="fa fa-home"></i> <span>|</span> {{ $property->propertyContain->bathroom }} <i class="fas fa-bath"></i> <span>|</span> {{ $property->propertyContain->toilet }} <i class="fas fa-toilet"></i> <span>|</span> {{ $property->propertyDescription->size }} {{ $property->propertyDescription->unit }}</div>
+                            <div class="pxp-prop-card-1-details-features text-uppercase">{{ $property->propertyContain->bedroom }} <i class="fa fa-home"></i> <span>|</span> {{ $property->propertyContain->bathroom }} <i class="fas fa-bath"></i> <span>|</span> {{ $property->propertyContain->toilet }} <i class="fas fa-toilet"></i> </div>
                             @endif
                         </div>
                         <div class="pxp-prop-card-1-details-cta text-uppercase">View Details</div>
