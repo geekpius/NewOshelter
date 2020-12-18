@@ -8,9 +8,15 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
  * 1.0 - General
  */
 
+ /* NAVS */
   .nav-blue-background {
     background-color: #1C2765;
   }
+  
+  .mobile-menu-items{
+    display: none;
+  }
+
  .profile-avatar-container{
     box-sizing: border-box;  
     -webkit-box-sizing: border-box;
@@ -115,7 +121,7 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
 }
 
  
-
+  /* THUMB SIZES */
  .thumb-xxs {
     height: 24px !important;
     width: 24px !important;
@@ -159,6 +165,7 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   }
 
 
+  /* FONT SIZES */
   .font-10 {
     font-size: 10px !important;
   }
@@ -203,48 +210,29 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     font-size: 24px !important;
   }
 
-  @media (min-width: 1024px){
-    .font-12-sm-laptop {
-      font-size: 10px !important;
-    }
-    .font-14-sm-laptop {
-      font-size: 10px !important;
-    }
-  }
-  @media (min-width: 1440px){
-    .font-12-lg-laptop {
-      font-size: 12px !important;
-    }
-    .font-14-lg-laptop {
-      font-size: 14px !important;
-    }
-  }
-
-  @media (max-width: 768px){
-    .sub-menu-item {
-      margin-left: 3%;
-    }
-    
-    .nav-logo-sm {
-      display: none;
-    }
-
-    .font-14-large {
-      font-size: 20px;
-    }
-  }
-
-  @media (min-width: 768px){
-    .font-14-large {
-      font-size: 16px;
-    }
-  }
-
+ 
+  /* TEXT COLORS */
   .text-light-dark {
     color:#484848 !important
   }
-  
 
+  .text-pink {
+    color: #fd3c97 !important;
+  }
+  
+  .text-purple {
+    color: #6d81f5 !important;
+  }
+  
+  .text-light {
+    color: #f1f5fa !important;
+  }
+  
+  .text-dark {
+    color: #2f4686 !important;
+  }
+  
+  /* IMAGES */
   .img-right{
     float: right;
     clear: left;
@@ -261,23 +249,8 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         display: none;
     }
 
-    .text-pink {
-        color: #fd3c97 !important;
-      }
-      
-      .text-purple {
-        color: #6d81f5 !important;
-      }
-      
-      .text-light {
-        color: #f1f5fa !important;
-      }
-      
-      .text-dark {
-        color: #2f4686 !important;
-      }
 
-
+      /* CARDS */
       .card {
         margin-bottom: 24px;
         border: none;
@@ -357,7 +330,9 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         border-radius: 10px; 
         border-width: 1px !important;
       }
-      
+
+
+      /* WISHLIST ICON */
       .on-top{
         position: absolute;
         z-index: 1;
@@ -420,6 +395,8 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         color: #ffffff; 
       }
 
+
+      /* PROPERTIES */
       .own-property-get-started {
         position: absolute;
         top: 100px;
@@ -427,13 +404,8 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         z-index: 1;
       }
 
-      .btn-tomato {
-        background-color: #ff6347 !important;
-        color: #ffffff;
-        border-radius: 5%;
-      }
-      .btn-tomato:hover {
-        color: #ffffff;
+      .own-property-bottom {
+        margin-bottom: 1000px;
       }
 
       .own-property-detail {
@@ -443,11 +415,17 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         right: 0;
       }
 
-      .own-property-bottom {
-        margin-bottom: 1000px;
+      /* BUTTONS */
+      .btn-tomato {
+        background-color: #ff6347 !important;
+        color: #ffffff;
+        border-radius: 5%;
+      }
+      .btn-tomato:hover {
+        color: #ffffff;
       }
 
-      /* custom scroll bars */
+      /* CUSTOME SCROLL BAR */
       /* width */
       .custom-scroller::-webkit-scrollbar {
         width: 7px;
@@ -472,7 +450,7 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       /* end custom scroll bars */
 
 
-      /* help collapsable */
+      /* HELP collapsable */
       .ul-style {
         list-style-type: none;
       }
@@ -539,42 +517,91 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     }
 
 
-    
+    /* MEDIA QUERIES */
 
+    @media screen and (min-width: 1024px){
+      .font-12-sm-laptop {
+        font-size: 10px !important;
+      }
+      .font-14-sm-laptop {
+        font-size: 10px !important;
+      }
+    }
+    @media screen and (min-width: 1440px){
+      .font-12-lg-laptop {
+        font-size: 12px !important;
+      }
+      .font-14-lg-laptop {
+        font-size: 14px !important;
+      }
+    }
+  
+    @media screen and (max-width: 991px){
+      .nav-logo-sm {
+        display: none;
+      }
 
+      .mobile-menu-items {
+        display: inline-block;
+      }
+      
+    }
 
-      @media (min-width: 320px){
+    @media screen and (max-width: 768px){
+      .sub-menu-item {
+        margin-left: 3%;
+      }
+  
+      .font-14-large {
+        font-size: 20px;
+      }
+    }
+  
+    @media screen and (min-width: 768px){
+      .font-14-large {
+        font-size: 16px;
+      }
+    }
+
+      @media screen and (min-width: 320px){
         .own-property-bottom {
           margin-bottom: 1500px;
         }
       }
 
-      @media (min-width: 375px){
+      @media screen and (max-width: 375px){
+        .oshelter {
+          display: none;
+        }
+      }
+
+      @media screen and (min-width: 375px){
+        .own-property-bottom {
+          margin-bottom: 1400px;
+        }
+        
+      }
+
+      @media screen and (min-width: 425px){
         .own-property-bottom {
           margin-bottom: 1400px;
         }
       }
 
-      @media (min-width: 425px){
-        .own-property-bottom {
-          margin-bottom: 1400px;
-        }
-      }
-
-      @media (min-width: 1024px){
+      @media screen and (min-width: 1024px){
         .own-property-bottom {
           margin-bottom: 1000px;
         }
       }
 
-      @media (min-width: 2560px){
+      @media screen and (min-width: 2560px){
         .own-property-bottom {
           margin-bottom: 500px;
         }
       }
 
       /* ACCOUNT */
-      @media (max-width: 767px){
+      @media screen and (max-width: 767px){
         .account-details {
           display: none;
         }

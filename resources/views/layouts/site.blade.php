@@ -33,15 +33,26 @@
         <div class="pxp-header fixed-top pxp-animate nav-blue-background {{ empty($menu)? '':$menu }}">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-5 col-md-2">
+                    <div class="col-3 col-md-2">
                         <a href="{{ route('index') }}" class="pxp-logo text-decoration-none">
                             <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-small" class="thumb-md nav-logo-sm">
                             <img src="{{ asset('assets/images/form-logo.png') }}" alt="logo-small" class="thumb-md nav-logo-sm2 hide-logo-on-scroll">
-                            <span class="font-14-large">OShelter</span>
+                            <span class="font-14-large oshelter">OShelter</span>
                         </a>
                     </div>
                     
-                    <div class="col-2 col-md-7 text-right">
+                    <div class="col-6 col-md-7 text-center">
+                        <div class="mobile-menu-items">
+                            <a href="#" class="pr-4 text-decoration-none" title="Filter">
+                                <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
+                            </a>
+                            <a href="{{ route('help.owner') }}" class="pr-4 text-decoration-none" title="Help">
+                                <i class="fa fa-question-circle fa-lg text-white mobile-menu-item-icon"></i>
+                            </a>
+                            <a href="{{ route('login') }}" class="text-decoration-none" title="Login">
+                                <i class="fa fa-user-circle fa-lg text-white mobile-menu-item-icon"></i>
+                            </a>
+                        </div>
                         <ul class="pxp-nav list-inline">
                             {{-- <li class="list-inline-item"><a href="{{ route('own.property') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Own a Property</a></li> --}}
                             <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Own a Property</a></li>
@@ -71,8 +82,8 @@
                     </div>
                     @endauth --}}
 
-                    <div class="col-5 col-md-2 text-right">
-                        <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars fa-lg"></span></a>
+                    <div class="col-3 col-md-2 text-right">
+                        {{-- <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars fa-lg"></span></a> --}}
                         
                         @auth
                         <div class="dropdown notification-list float-left">
