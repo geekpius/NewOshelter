@@ -31,7 +31,7 @@ class RedirectIfAuthenticated
         // }
 
         if (Auth::guard()->check()) {
-            return redirect('/user/dashboard');
+            return redirect('/');
         }
 
         return $next($request);

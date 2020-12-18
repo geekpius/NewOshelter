@@ -33,7 +33,7 @@
         <div class="pxp-header fixed-top pxp-animate nav-blue-background {{ empty($menu)? '':$menu }}">
             <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-3 col-md-2">
+                    <div class="col-2 col-md-2">
                         <a href="{{ route('index') }}" class="pxp-logo text-decoration-none">
                             <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-small" class="thumb-md nav-logo-sm">
                             <img src="{{ asset('assets/images/form-logo.png') }}" alt="logo-small" class="thumb-md nav-logo-sm2 hide-logo-on-scroll">
@@ -41,8 +41,23 @@
                         </a>
                     </div>
                     
-                    <div class="col-6 col-md-7 text-center">
+                    <div class="col-8 col-md-7 text-center">
                         <div class="mobile-menu-items">
+                            @auth
+                            <a href="#" class="pr-4 text-decoration-none" title="Filter">
+                                <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
+                            </a>
+                            <a href="{{ route('help.owner') }}" class="pr-4 text-decoration-none" title="Help">
+                                <i class="fa fa-question-circle fa-lg text-white mobile-menu-item-icon"></i>
+                            </a>
+                            <a href="{{ route('visits') }}" class="pr-4 text-decoration-none" title="Visits">
+                                <i class="fa fa-building fa-lg text-white mobile-menu-item-icon"></i>
+                            </a>
+                            <a href="{{ route('account') }}" class="text-decoration-none" title="Account">
+                                <i class="fa fa-user-circle fa-lg text-white mobile-menu-item-icon"></i>
+                            </a>
+                            @endauth
+                            @guest
                             <a href="#" class="pr-4 text-decoration-none" title="Filter">
                                 <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
@@ -52,6 +67,7 @@
                             <a href="{{ route('login') }}" class="text-decoration-none" title="Login">
                                 <i class="fa fa-user-circle fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
+                            @endguest
                         </div>
                         <ul class="pxp-nav list-inline">
                             {{-- <li class="list-inline-item"><a href="{{ route('own.property') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Own a Property</a></li> --}}
@@ -82,7 +98,7 @@
                     </div>
                     @endauth --}}
 
-                    <div class="col-3 col-md-2 text-right">
+                    <div class="col-2 col-md-2 text-right">
                         {{-- <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars fa-lg"></span></a> --}}
                         
                         @auth
@@ -108,7 +124,7 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width: 200px">
                                 @auth
                                 <a class="dropdown-item" href="#"><span class="fa fa-envelope"></span> Message</a>
-                                <a class="dropdown-item" href="{{ route('visits') }}"><span class="fa fa-user"></span> Visits</a>
+                                <a class="dropdown-item" href="{{ route('visits') }}"><span class="fa fa-building"></span> Visits</a>
                                 <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
                                 <hr>
                                 <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> List a property</a>

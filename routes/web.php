@@ -91,6 +91,7 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
 
         /*------- Account and Profile ------- */
         Route::get('/account', 'UserProfileController@index')->name('account');
+        Route::get('/account/info', 'UserProfileController@accountInfo')->name('account.info');
         Route::post('/account/update', 'UserProfileController@update')->name('account.update');
         Route::post('/change-password', 'UserProfileController@updatePassword')->name('password.change');
         Route::post('/change-photo', 'UserProfileController@uploadProfilePhoto')->name('profile.photo');

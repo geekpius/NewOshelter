@@ -14,7 +14,7 @@
                     <div class="card card-bordered-blue">
                         <div class="card-body">
                             <i class="fa fa-user-circle text-primary"></i>
-                            <a href="#" class="text-decoration-none text-light-dark">
+                            <a href="{{ route('account.info') }}" class="text-decoration-none text-light-dark">
                                 <p class="font-18 font-weight-bold">Account Info ></p>
                             </a>
                             <p class="font-13 account-details">Provide account and personal details. This help us reach you.</p>

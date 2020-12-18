@@ -26,6 +26,13 @@ class UserProfileController extends Controller
         return view('user.account.index', $data);
     }
 
+    public function accountInfo()
+    {
+        $data['page_title'] = current(explode(' ',Auth::user()->name)).' account info';
+        return view('user.account.account_info', $data);
+    }
+
+
 
     //update 
     public function update(Request $request)

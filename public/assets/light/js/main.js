@@ -33,7 +33,7 @@
         let windowWidth = $(window).width();
         if (window.pageYOffset > 93) {
             $('.pxp-header').addClass('pxp-is-sticky');
-            $(".noti-bell").removeClass("text-white").addClass("text-dark");
+            $(".noti-bell").css("color", "#2b3b91").removeClass("text-white");
             $(".mobile-menu-item-icon").css("color", "#2b3b91").removeClass("text-white");
             if(windowWidth > 991){
                 $(".hide-logo-on-scroll").show();
@@ -44,7 +44,7 @@
             }
         } else {
             $('.pxp-header').removeClass('pxp-is-sticky');
-            $(".noti-bell").removeClass("text-dark").addClass("text-white");
+            $(".noti-bell").addClass("text-white");
             $(".mobile-menu-item-icon").addClass("text-white");
             if(windowWidth > 991){
                 $(".hide-logo-on-scroll").hide();
