@@ -93,12 +93,10 @@ class RegisterController extends Controller
     {
         try{
             DB::beginTransaction();
-            $membership = date('ymdHis');
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'phone' => $data['phone'],
-                'membership' => $membership,
                 'login_time' => Carbon::now(),
                 'email_verification_token' => $this->generateEmailVerificationCode(),
                 'verify_email_time' => Carbon::now()->addHour(),

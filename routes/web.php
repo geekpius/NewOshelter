@@ -92,9 +92,13 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         /*------- Account and Profile ------- */
         Route::get('/account', 'UserProfileController@index')->name('account');
         Route::get('/account/info', 'UserProfileController@accountInfo')->name('account.info');
-        Route::post('/account/update', 'UserProfileController@update')->name('account.update');
-        Route::post('/change-password', 'UserProfileController@updatePassword')->name('password.change');
+        Route::post('/account/update', 'UserProfileController@updateAccountInfo')->name('account.update');
         Route::post('/change-photo', 'UserProfileController@uploadProfilePhoto')->name('profile.photo');
+        Route::get('/account/change-password', 'UserProfileController@changePasswordView')->name('account.changepwd');
+        Route::post('/change-password', 'UserProfileController@updatePassword')->name('password.change');
+        Route::get('/account/logins', 'UserProfileController@loginsView')->name('account.logins');
+        Route::get('/account/payments', 'UserProfileController@paymentView')->name('account.payments');
+        Route::get('/account/notifications', 'UserProfileController@notificationView')->name('account.notifications');
         Route::post('/change-front-card', 'UserProfileController@uploadFrontCard')->name('profile.front.card');
         Route::post('/change-back-card', 'UserProfileController@uploadBackCard')->name('profile.back.card');
             

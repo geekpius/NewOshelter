@@ -50,12 +50,7 @@ class LoginController extends Controller
 
     protected function credentials(Request $request)
     {
-        //return $request->only($this->username(), 'password');
-        if(filter_var($request->{$this->username()}, FILTER_VALIDATE_EMAIL)){
-            return ['email'=>$request->{$this->username()}, 'password'=>$request->password];
-        }else{
-            return ['membership'=>$request->{$this->username()}, 'password'=>$request->password];
-        }
+        return $request->only($this->username(), 'password');
     }
 
     public function updateLoginTime($id) : void

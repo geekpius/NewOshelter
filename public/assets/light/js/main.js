@@ -13,6 +13,7 @@
                     topSpacing: topSpacing, 
                     bottomSpacing: footerHeight
                 });
+                
             } else {
                 $('.pxp-sp-agent-section').unstick();
             }
@@ -35,7 +36,7 @@
             $('.pxp-header').addClass('pxp-is-sticky');
             $(".noti-bell").css("color", "#2b3b91").removeClass("text-white");
             $(".mobile-menu-item-icon").css("color", "#2b3b91").removeClass("text-white");
-            if(windowWidth > 991){
+            if(windowWidth <= 768 || windowWidth > 991){
                 $(".hide-logo-on-scroll").show();
                 $(".nav-logo-sm").hide().siblings('span').css("color", "#2b3b91");
             }else{
@@ -46,7 +47,7 @@
             $('.pxp-header').removeClass('pxp-is-sticky');
             $(".noti-bell").addClass("text-white");
             $(".mobile-menu-item-icon").addClass("text-white");
-            if(windowWidth > 991){
+            if(windowWidth <= 768 || windowWidth > 991){
                 $(".hide-logo-on-scroll").hide();
                 $(".nav-logo-sm").show().siblings('span').css("color", "#ffffff");
             }else{

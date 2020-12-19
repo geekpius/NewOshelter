@@ -31,11 +31,8 @@ class UserProfileController extends Controller
         $data['page_title'] = current(explode(' ',Auth::user()->name)).' account info';
         return view('user.account.account_info', $data);
     }
-
-
-
-    //update 
-    public function update(Request $request)
+ 
+    public function updateAccountInfo(Request $request)
     {
         $validator = \Validator::make($request->all(), [
             'legal_name' => 'required|string',
@@ -64,35 +61,6 @@ class UserProfileController extends Controller
             );
             return "success";
         }
-    }
-
-    public function updatePassword(Request $request)
-    {
-        $validator = \Validator::make($request->all(), [
-            'current_password' => 'required|string|min:6',
-            'password' => 'required|string|min:6|confirmed',
-            'password_confirmation' => 'required|same:password',
-        ]);
-
-        if ($validator->fails()){
-           return 'Wrong inputs(password mismatch). Try again.';
-        }
-        else{
-            if(auth()->check()){
-                if(Hash::check($request->current_password, Auth::user()->password)) 
-                {
-                    $user = User::findorFail(Auth::user()->id);
-                    $user->password = Hash::make($request->password);
-                    $user->update();
-                    return 'success';
-                }
-                else
-                {
-                    return 'Incorrect current password.';
-                }
-            }
-        }
-        
     }
 
     public function uploadProfilePhoto(Request $request)
@@ -135,6 +103,59 @@ class UserProfileController extends Controller
              
     }
 
+
+    public function changePasswordView()
+    {
+        $data['page_title'] = 'Change password';
+        return view('user.account.change_password', $data);
+    }
+ 
+    public function updatePassword(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'current_password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required|same:password',
+        ]);
+
+        if ($validator->fails()){
+           return 'Wrong inputs(password mismatch). Try again.';
+        }
+        else{
+            if(auth()->check()){
+                if(Hash::check($request->current_password, Auth::user()->password)) 
+                {
+                    $user = User::findorFail(Auth::user()->id);
+                    $user->password = Hash::make($request->password);
+                    $user->update();
+                    return 'success';
+                }
+                else
+                {
+                    return 'Incorrect current password.';
+                }
+            }
+        }
+        
+    }
+
+    public function loginsView()
+    {
+        $data['page_title'] = 'Logins and security';
+        return view('user.account.login_details', $data);
+    }
+
+    public function paymentView()
+    {
+        $data['page_title'] = 'Payments';
+        return view('user.account.payments', $data);
+    }
+
+    public function notificationView()
+    {
+        $data['page_title'] = 'Notifications';
+        return view('user.account.notifications', $data);
+    }
 
     public function uploadFrontCard(Request $request)
     {    
@@ -180,7 +201,6 @@ class UserProfileController extends Controller
         return $message;
              
     }
-
 
     public function uploadBackCard(Request $request)
     {    

@@ -27,6 +27,10 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     -moz-border-radius: 30%;
  }
 
+.mobile-profile-avatar {
+  display: none;
+}
+
  .pull-content-down {
    margin-top: 150px !important;
  }
@@ -516,6 +520,15 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       display: none;
     }
 
+    /* ACCOUNTS */
+    .account-options {
+      display: inline-block;
+    }
+
+    .account-mobile-init-view {
+      display: none;
+    }
+
 
     /* MEDIA QUERIES */
 
@@ -544,6 +557,26 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       .mobile-menu-items {
         display: inline-block;
       }
+
+      .account-details {
+        display: none;
+      }
+
+      .account-icon {
+        display: none;
+      }
+
+      .account-options {
+        display: none;
+      }
+
+      .account-mobile-init-view {
+        display: inline-block;
+      }
+
+      .mobile-profile-avatar {
+        display: inline-block;
+      }
       
     }
 
@@ -554,6 +587,13 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   
       .font-14-large {
         font-size: 20px;
+      }
+      .oshelter {
+        display: none;
+      }
+      
+      .nav-logo-sm {
+        display: inline-block;
       }
     }
   
@@ -566,12 +606,6 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       @media screen and (min-width: 320px){
         .own-property-bottom {
           margin-bottom: 1500px;
-        }
-      }
-
-      @media screen and (max-width: 375px){
-        .oshelter {
-          display: none;
         }
       }
 
@@ -600,10 +634,4 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         }
       }
 
-      /* ACCOUNT */
-      @media screen and (max-width: 767px){
-        .account-details {
-          display: none;
-        }
-      }
       

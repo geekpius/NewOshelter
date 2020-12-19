@@ -32,11 +32,11 @@
     <body>
         <div class="pxp-header fixed-top pxp-animate nav-blue-background {{ empty($menu)? '':$menu }}">
             <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-2 col-md-2">
+                <div class="row">
+                    <div class="col-2 col-md-2 text-left">
                         <a href="{{ route('index') }}" class="pxp-logo text-decoration-none">
-                            <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-small" class="thumb-md nav-logo-sm">
-                            <img src="{{ asset('assets/images/form-logo.png') }}" alt="logo-small" class="thumb-md nav-logo-sm2 hide-logo-on-scroll">
+                            <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo-small" class="thumb-xs nav-logo-sm">
+                            <img src="{{ asset('assets/images/form-logo.png') }}" alt="logo-small" class="thumb-xs nav-logo-sm2 hide-logo-on-scroll">
                             <span class="font-14-large oshelter">OShelter</span>
                         </a>
                     </div>
@@ -47,11 +47,11 @@
                             <a href="#" class="pr-4 text-decoration-none" title="Filter">
                                 <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
-                            <a href="{{ route('help.owner') }}" class="pr-4 text-decoration-none" title="Help">
-                                <i class="fa fa-question-circle fa-lg text-white mobile-menu-item-icon"></i>
-                            </a>
                             <a href="{{ route('visits') }}" class="pr-4 text-decoration-none" title="Visits">
                                 <i class="fa fa-building fa-lg text-white mobile-menu-item-icon"></i>
+                            </a>
+                            <a href="{{ route('messages') }}" class="pr-4 text-decoration-none" title="Help">
+                                <i class="fa fa-envelope-o fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
                             <a href="{{ route('account') }}" class="text-decoration-none" title="Account">
                                 <i class="fa fa-user-circle fa-lg text-white mobile-menu-item-icon"></i>
@@ -118,7 +118,7 @@
                             <a href="javascript:void(0);" class="pxp-header-user" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="profile-avatar-container p-1">
                                     <i class="fa fa-bars text-dark ml-2"></i>
-                                    <img src="{{ asset('assets/images/'.(empty(Auth::user()->image)? 'user.svg':'users/'.Auth::user()->image)) }}" alt="Avatar" class="rounded-circle thumb-sm ml-3" />
+                                    <img src="{{ asset('assets/images/'.(empty(Auth::user()->image)? 'user.svg':'users/'.Auth::user()->image)) }}" alt="Avatar" class="rounded-circle thumb-sm ml-3 img_preview" />
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width: 200px">
@@ -130,7 +130,7 @@
                                 <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> List a property</a>
                                 <a class="dropdown-item" href="{{ route('account') }}"><span class="fa fa-user-circle"></span> Account</a>
                                 <hr>
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> Logout</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> Log out</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
@@ -220,8 +220,8 @@
                 }
             })
         </script>
-        @yield('scripts')
         <script src="{{ asset('assets/light/js/main.js') }}"></script>
         <script src="{{ asset('assets/light/js/layout.js') }}"></script>
+        @yield('scripts')
     </body>
 </html>
