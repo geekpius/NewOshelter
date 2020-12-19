@@ -117,5 +117,5 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/light/js/account/index.js') }}"></script>
+<script src="{{ asset('assets/pages/account/index.js') }}"></script>
 @endsection

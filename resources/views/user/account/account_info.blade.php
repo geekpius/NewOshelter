@@ -110,6 +110,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-8 offset-4">
+                    <div class="text-center mt-2">
+                        Would you like to deactivate your account?
+                        <a href="{{ route('profile.deactivate') }}" class="text-danger ml-2">Deactivate Account</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>    
@@ -118,7 +124,7 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/light/js/account/all-groups.js') }}"></script>
+<script src="{{ asset('assets/pages/account/all-groups.js') }}"></script>
 <script>
 $("#formProfileUpdate select[name='gender']").val("{{ empty(Auth::user()->profile->gender)? '':Auth::user()->profile->gender }}");
 $("#formProfileUpdate select[name='marital_status']").val("{{ empty(Auth::user()->profile->marital_status)? '':Auth::user()->profile->marital_status }}");

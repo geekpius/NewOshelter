@@ -47,9 +47,5 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/light/js/account/all-groups.js') }}"></script>
-<script>
-$("#formProfileUpdate select[name='gender']").val("{{ empty(Auth::user()->profile->gender)? '':Auth::user()->profile->gender }}");
-$("#formProfileUpdate select[name='marital_status']").val("{{ empty(Auth::user()->profile->marital_status)? '':Auth::user()->profile->marital_status }}");
-</script>
+<script src="{{ asset('assets/pages/account/all-groups.js') }}"></script>
 @endsection

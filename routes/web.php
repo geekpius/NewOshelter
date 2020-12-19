@@ -183,8 +183,8 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
 
         /*------- Visitors Visit ------- */
         Route::get('/visits', 'VisitorController@index')->name('visits');
-        Route::get('/visits/upcoming', 'VisitorController@upcoming')->name('visits.upcoming');
-        Route::get('/visits/past', 'VisitorController@past')->name('visits.past');
+        Route::get('/visits/residence/upcoming', 'VisitorController@residenceUpcoming')->name('visits.upcoming');
+        Route::get('/visits/residence/past', 'VisitorController@residencePast')->name('visits.past');
         Route::post('/visits/past/extend', 'VisitorController@extendStay')->name('visits.past.extend');
         Route::get('/visits/hostel/upcoming', 'VisitorController@hostelUpcoming')->name('visits.hostel.upcoming');
         Route::get('/visits/hostel/past', 'VisitorController@hostelPast')->name('visits.hostel.past');

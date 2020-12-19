@@ -1,66 +1,45 @@
-@extends('admin.layouts.app')
+@extends('layouts.site')
 
 @section('styles') 
 <!-- DataTables -->
 <link href="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
+<div class="pxp-content pull-content-down">
+    <div class="container">
+        <h2>Past Hostel Visits</h2>  
+        <p>
+            <strong>{{ Auth::user()->name }},</strong> visits 
+        </p>
+        <div class="pt-4">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card card-bordered-blue">
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link text-primary" href="{{ route('visits.hostel.upcoming') }}" role="tab">Upcoming</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active text-dark font-weight-500" href="{{ route('visits.hostel.past') }}" role="tab">Past</a>
+                                </li>
+                            </ul>
 
-<div class="container-fluid">
-    <!-- Page-Title -->
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="page-title-box">
-                <div class="float-right">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">My Visits</li>
-                    </ol>
-                </div>
-                <h4 class="page-title">My Visits</h4>
-            </div><!--end page-title-box-->
-        </div><!--end col-->
-    </div>
-    <!-- end page title end breadcrumb -->
-   
-    <div class="card">
-        
-        <div class="row">
-          
-            <div class="col-sm-12">
-
-                <div class="card-body pt-12">
-
-                    <h4 class="header-title mt-lg-12 mb-3">Hostel Visits History</h4> 
-
-                    <div class="col-sm-3">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs nav-justified" role="tablist">
-                            <li class="nav-item waves-effect waves-light">
-                                <a class="nav-link" href="{{ route('visits.hostel.upcoming') }}" role="tab">Upcoming</a>
-                            </li>
-                            <li class="nav-item waves-effect waves-light">
-                                <a class="nav-link active text-primary font-weight-500" href="{{ route('visits.hostel.past') }}" role="tab">Past</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <br>
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div class="tab-pane active p-3" id="all" role="tabpanel">
-                            <div class="table-responsive dash-social">
-                                <table id="datatable" class="table table-bordered">
+                            <div class="table-responsive mt-3">
+                                <table id="datatable" class="table table-striped">
                                     <thead class="thead-light">
-                                    <tr>                                        
-                                        <th>Booked At</th>
-                                        <th>Property</th>
-                                        <th>Owner</th>
-                                        <th>Block</th>
-                                        <th>Room#</th>
-                                        <th>Check In</th>
-                                        <th>Check Out</th>
-                                        <th>Status</th>
-                                        {{-- <th>Action</th> --}}
-                                    </tr><!--end tr-->
+                                        <tr>                                        
+                                            <th>Booked At</th>
+                                            <th>Property</th>
+                                            <th>Owner</th>
+                                            <th>Block</th>
+                                            <th>Room#</th>
+                                            <th>Check In</th>
+                                            <th>Check Out</th>
+                                            <th>Status</th>
+                                            {{-- <th>Action</th> --}}
+                                        </tr><!--end tr-->
                                     </thead>
 
                                     <tbody>
@@ -80,20 +59,16 @@
                                         </tr><!--end tr-->
                                         @endforeach                                                                                   
                                     </tbody>
-                                </table>                    
+                                </table>                         
                             </div>     
+
                         </div>
-                    </div>    
-
-
-                </div><!--end card-body--> 
-                
-            </div><!--end col--> 
-            <div class="col-sm-3"></div>                    
-        </div><!-- End row -->
-    </div>
-</div><!-- container -->
-
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
 @endsection
 
 @section('scripts')

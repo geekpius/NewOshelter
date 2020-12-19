@@ -40,28 +40,28 @@ class VisitorController extends Controller
         return view('user.visits.index', $data);
     }
 
-    public function upcoming()
+    public function residenceUpcoming()
     {
-        $data['page_title'] = 'My upcoming visits';
-        return view('admin.visits.upcoming', $data);
+        $data['page_title'] = 'My upcoming residence visits';
+        return view('user.visits.upcoming', $data);
     }
 
-    public function past()
+    public function residencePast()
     {
-        $data['page_title'] = 'My past visits';
-        return view('admin.visits.past', $data);
+        $data['page_title'] = 'My past residence visits';
+        return view('user.visits.past', $data);
     }
 
     public function hostelUpcoming()
     {
-        $data['page_title'] = 'My hostel upcoming visits';
-        return view('admin.visits.hostels.upcoming', $data);
+        $data['page_title'] = 'My upcoming hostel visits';
+        return view('user.visits.hostels.upcoming', $data);
     }
 
     public function hostelPast()
     {
-        $data['page_title'] = 'My hostel past visits';
-        return view('admin.visits.hostels.past', $data);
+        $data['page_title'] = 'My past hostel visits';
+        return view('user.visits.hostels.past', $data);
     }
 
 

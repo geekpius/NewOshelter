@@ -18,7 +18,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-4">
                             <div class="card card-bordered-blue">
                                 <div class="card-body">
-                                    <a href="#" class="text-decoration-none text-light-dark">
+                                    <a href="{{ route('visits.upcoming') }}" class="text-decoration-none text-light-dark">
                                         <p class="font-18 font-weight-bold">Residence ></p>
                                     </a>
                                     <p class="font-13 account-details">This include rent and short stay.</p>
@@ -28,7 +28,7 @@
                         <div class="col-sm-6 col-md-6 col-lg-4">
                             <div class="card card-bordered-blue">
                                 <div class="card-body">
-                                    <a href="#" class="text-decoration-none text-light-dark">
+                                    <a href="{{ route('visits.hostel.upcoming') }}" class="text-decoration-none text-light-dark">
                                         <p class="font-18 font-weight-bold">Hostel ></p>
                                     </a>
                                     <p class="font-13 account-details">Hostel room numbers visited.</p>
