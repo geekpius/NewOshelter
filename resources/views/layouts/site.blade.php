@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="{{ asset('assets/light/css/bootstrap.min.css') }}">
         <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{ asset('assets/light/css/font-awesome.min.css') }}">
-        @yield('styles')
+        @yield('style')
         <link rel="stylesheet" href="{{ asset('assets/light/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/light/css/my-style.css') }}">
         <link href="{{ asset('assets/sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css" />
@@ -220,8 +220,8 @@
                 }
             })
         </script>
+        @yield('scripts')
         <script src="{{ asset('assets/light/js/main.js') }}"></script>
         <script src="{{ asset('assets/light/js/layout.js') }}"></script>
-        @yield('scripts')
     </body>
 </html>

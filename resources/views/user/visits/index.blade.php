@@ -1,6 +1,6 @@
 @extends('layouts.site')
 
-@section('styles')
+@section('style')
 
 @endsection
 @section('content')

@@ -27,7 +27,7 @@
                                     <span class="auth-form-icon">
                                         <i class="dripicons-user"></i> 
                                     </span>                                                                                                              
-                                    <input type="text" class="form-control" name="username" placeholder="Enter Email or Membership ID" autofocus>
+                                    <input type="email" class="form-control" name="email" placeholder="Enter Email Address" autofocus>
                                 </div>  
                                 <span class="text-danger small mySpan" role="alert">{{ $errors->has('username') ? $errors->first('username') : '' }}</span>                                  
                             </div><!--end form-group--> 

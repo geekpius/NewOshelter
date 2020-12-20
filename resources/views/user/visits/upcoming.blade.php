@@ -1,6 +1,6 @@
 @extends('layouts.site')
 
-@section('styles') 
+@section('style') 
 <!-- DataTables -->
 <link href="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 @endsection

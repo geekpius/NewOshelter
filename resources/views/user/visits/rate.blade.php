@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('styles') 
+@section('style') 
 <link rel="stylesheet" href="{{ asset('assets/plugins/rating/themes/rating.css') }}" />
 @endsection
 @section('content')
