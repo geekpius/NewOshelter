@@ -98,7 +98,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group validate">
                                             <label for="">Emergency Contact</label>
-                                            <input type="text" name="emergency_contact" id="emergency_contact" value="{{ empty(Auth::user()->profile->emergency)? '':Auth::user()->profile->emergency }}" placeholder="Enter emergency contact" class="form-control">
+                                            <input type="number" name="emergency_contact" id="emergency_contact" value="{{ empty(Auth::user()->profile->emergency)? '':Auth::user()->profile->emergency }}" placeholder="Enter emergency contact" class="form-control">
                                             <span class="text-danger small mySpan" role="alert"></span>                                  
                                         </div>
                                     </div>

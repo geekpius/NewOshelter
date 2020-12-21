@@ -19,7 +19,12 @@ function getOccupation(occupation) {
     document.getElementById('myOccupation').innerText = occupation;
 }
 
-
+$("#formProfileUpdate input[name='emergency_contact']").on("keypress", function(e){
+    let $this = $(this);
+    if($this.val().length == 10){
+        e.preventDefault();
+    }
+});
 // update profile
 $("#formProfileUpdate").on("submit", function(e){
     e.preventDefault();
