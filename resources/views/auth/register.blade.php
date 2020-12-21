@@ -59,7 +59,7 @@
                                     <span class="auth-form-icon">
                                         <i class="fa fa-phone"></i> 
                                     </span>                                                                                                 
-                                    <input type="phone" class="form-control" name="phone" onkeypress="return isNumber(event);" maxlength="10" placeholder="Enter your phone number">
+                                    <input type="number" class="form-control" name="phone" onkeypress="return isNumber(event);" placeholder="Enter your phone number">
                                 </div>  
                                 <span class="text-danger small mySpan" role="alert">{{ $errors->has('phone') ? $errors->first('phone') : '' }}</span>                                  
                             </div><!--end form-group--> 
@@ -68,9 +68,9 @@
                             <div class="form-group validate">                                           
                                 <div class="input-group mb-3"> 
                                     <span class="auth-form-icon">
-                                        <i class="dripicons-lock"></i> 
+                                        <i class="fa fa-eye-slash" id="showPassword" style="cursor: pointer"></i> 
                                     </span>                                                       
-                                    <input type="password" class="form-control" name="password" onkeyup="validatePassword(this.value);" placeholder="Enter your password">
+                                    <input type="password" class="form-control" name="password" id="password" onkeyup="validatePassword(this.value);" placeholder="Enter your password">
                                 </div>    
                                 <div class="text-center"><strong ><span id="msg"></span></strong>  </div>             
                                 <span class="text-danger small mySpan" role="alert" id="msg">{{ $errors->has('password') ? $errors->first('password') : '' }}</span>                           
@@ -106,13 +106,4 @@
 
 @section('scripts')
 <script src="{{ asset('assets/pages/auth.js') }}"></script>
-<script>
-    $("#type").on("change", function(){
-        if($("#type").val() == 'normal'){
-            $("#typeDescription").html("");
-        }else{
-            $("#typeDescription").html('You will have full access to management rights which will cost you <span class="font-13 font-weight-800">GHC 20.00/month.</span>');
-        }
-    });
-</script>
 @endsection

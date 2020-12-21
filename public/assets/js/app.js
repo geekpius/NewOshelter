@@ -129,7 +129,7 @@ function validatePassword(password) {
     }
     // Create an array and push all possible values that you want in password
     var matchedCase = new Array();
-    matchedCase.push("[$@$!%*#?&]"); // Special Charector
+    matchedCase.push("[$@$!%*#?&.]"); // Special Charector
     matchedCase.push("[A-Z]");      // Uppercase Alpabates
     matchedCase.push("[0-9]");      // Numbers
     matchedCase.push("[a-z]");     // Lowercase Alphabates

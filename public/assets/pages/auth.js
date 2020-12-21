@@ -1,3 +1,19 @@
+
+$("#showPassword").on("click", function(){
+    var $this = $(this);
+    var password = $("#password");
+    var showPassword = $("#password").attr("type");
+    if(showPassword == "password"){
+        $this.removeClass("fa fa-eye-slash");
+        $this.addClass("fa fa-eye");
+        password.attr("type", "text");
+    }else {
+        $this.removeClass("fa fa-eye");
+        $this.addClass("fa fa-eye-slash");
+        password.attr("type", "password");
+    }
+});
+
 // sigin
 $("#formSignIn").on("submit", function(e){
     e.stopPropagation();
@@ -22,7 +38,6 @@ $("#formSignIn input").on('input', function(){
         $(this).parents('.validate').find('.mySpan').text('');
     }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
 });
-
 
 // sign up
 $("#formSignup").on("submit", function(e){
@@ -87,5 +102,20 @@ $("#formSignup input").on('input', function(){
     if($(this).val()!=''){
         $(this).parents('.validate').find('.mySpan').text('');
     }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
+});
+
+$("#type").on("change", function(){
+    if($("#type").val() == 'normal'){
+        $("#typeDescription").html("");
+    }else{
+        $("#typeDescription").html('You will have full access to management rights which will cost you <span class="font-13 font-weight-800">GHC 20.00/month.</span>');
+    }
+});
+
+$("#formSignup input[name='phone']").on("keypress", function(e){
+    let $this = $(this);
+    if($this.val().length == 10){
+        e.preventDefault();
+    }
 });
 
