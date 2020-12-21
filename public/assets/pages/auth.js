@@ -27,7 +27,7 @@ $("#formSignIn").on("submit", function(e){
         }
     });
     if(valid) {
-        $('.btn_sign_in').html('<i class="fa fa-spinner fa-spin"></i> Signing In...').attr('disabled', true);
+        $('.btn_sign_in').html('<i class="fa fa-spinner fa-spin"></i> Logging In...').attr('disabled', true);
         return true;
     }
     return false;

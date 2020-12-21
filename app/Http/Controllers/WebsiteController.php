@@ -81,13 +81,12 @@ class WebsiteController extends Controller
     {
         if($property->done_step){
             $data['page_title'] = 'Detailing '.$property->title.' property for you. Have all the overviews of property to make decisions.';
-            $data['menu'] = 'pxp-no-bg';
             $data['property'] = $property;
             $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
             $countImages = $property->propertyImages->count();
             $data['image'] = $property->propertyImages->first();
             $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
-            return view('property-detail', $data);
+            return view('website.property-detail', $data);
         }
         else{
             return view('errors.404');

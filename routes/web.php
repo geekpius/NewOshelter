@@ -155,8 +155,8 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         
         Route::post('/properties/{property}/visibility', 'PropertyController@togglePublishVisibility')->name('property.visibility');
 
-        Route::get('/properties/{property}/delete', 'PropertyController@confirmDelete')->name('property.confirmdelete');
-        Route::post('/properties/{property}/delete', 'PropertyController@deleteListing')->name('property.delete');
+        Route::get('/properties/{property}/remove', 'PropertyController@confirmDelete')->name('property.confirmdelete');
+        Route::post('/properties/{property}/remove', 'PropertyController@deleteListing')->name('property.delete');
 
         // Route::get('/my-properties', 'PropertyController@manageProperty')->name('property.manage');
         // Route::get('/my-properties/{property}/details', 'PropertyController@managePropertyDetail')->name('property.manage.detail');

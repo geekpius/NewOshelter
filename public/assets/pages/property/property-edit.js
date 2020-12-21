@@ -36,12 +36,12 @@ $("select").on('change', function(){
 
 
 // check if property type is hostel on document load
-if($("#property_type").val()=='hostel'){
+if($("#formPropertyType select[name='property_type']").val()=='hostel'){
     $('#property_type_status option:first').nextAll().hide();
     $("#myGuests").hide();
 }
 
-$("#property_type").on("change", function(){
+$("#formPropertyType select[name='property_type']").on("change", function(){
     var $this = $(this);
     if($this.val()=='hostel'){
         $('#property_type_status option:first').nextAll().hide();
@@ -49,6 +49,17 @@ $("#property_type").on("change", function(){
     }else{
         $('#property_type_status option:first').nextAll().show();
         $("#myGuests").fadeIn('fast');
+    }
+    return false;
+});
+
+// show guest if it is short stay
+$("#formPropertyType  select[name='property_type_status']").on("change", function(){
+    var $this = $(this);
+    if($this.val()=='short_stay'){
+        $("#myGuests").fadeIn("fast");
+    }else{
+        $("#myGuests").hide();
     }
     return false;
 });

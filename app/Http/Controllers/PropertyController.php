@@ -50,11 +50,11 @@ class PropertyController extends Controller
         if(Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(false)->count()>0){
             $data['page_title'] = 'Found something';
             $data['property']= Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(false)->get(); 
-            return view('admin.properties.duplicate-listing', $data);
+            return view('user.properties.duplicate-listing', $data);
         }else{
             $data['page_title'] = 'Add new listing';
             $data['property_types'] = PropertyType::whereIs_public(true)->get();
-            return view('admin.properties.add-listing', $data);
+            return view('user.properties.add-listing', $data);
         }
     }
 
@@ -63,7 +63,7 @@ class PropertyController extends Controller
     {
         $data['page_title'] = 'Add new listing';
         $data['property_types'] = PropertyType::whereIs_public(true)->get();
-        return view('admin.properties.add-listing', $data);
+        return view('user.properties.add-listing', $data);
     }
 
     ///create from the steps
@@ -73,7 +73,7 @@ class PropertyController extends Controller
             if(!$property->done_step){
                 $data['page_title'] = 'Creating new listing';
                 $data['property']= $property; 
-                return view('admin.properties.create-listing', $data);
+                return view('user.properties.create-listing', $data);
             }else{
                 return view('errors.404');
             }
@@ -90,7 +90,7 @@ class PropertyController extends Controller
         $countImages = $property->propertyImages->count();
         $data['image'] = $property->propertyImages->sortBy('id')->first();
         $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
-        return view('admin.properties.preview-listing', $data);
+        return view('user.properties.preview-listing', $data);
     }
 
     ///add Hostel block
@@ -318,7 +318,7 @@ class PropertyController extends Controller
         if(Auth::user()->id == $property->user->id){
             $countImages = $property->propertyImages->count();
             $data['images'] = $property->propertyImages->sortBy('id');
-            return view('admin.properties.show-property-photos', $data)->render(); 
+            return view('user.properties.show-property-photos', $data)->render(); 
         }else{
             return view('errors.404');
         }
@@ -374,7 +374,7 @@ class PropertyController extends Controller
     {
         if(Auth::user()->id == $property->user->id){
             $data['rules'] = $property->propertyOwnRules;
-            return view("admin.properties.show-own-rule", $data)->render();
+            return view("user.properties.show-own-rule", $data)->render();
         }else{
             return view('errors.404');
         }
@@ -609,7 +609,7 @@ class PropertyController extends Controller
             elseif($request->step==6){
                 $description = PropertyDescription::updateOrCreate(
                     ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 
-                    'direction'=>$request->directions, 'size'=>$request->property_size, 'unit'=>$request->size_unit]
+                    'direction'=>$request->directions]
                 );
                 ///update step to move forward
                 $property->step = ($request->step+1);
@@ -664,7 +664,7 @@ class PropertyController extends Controller
                 $property->done_step = true;
                 $property->update();
     
-                return redirect()->route('property');
+                return redirect()->route('single.property', $property->id);
             }
         }
 
@@ -677,7 +677,7 @@ class PropertyController extends Controller
         $data['page_title'] = 'Edit '.$property->title.' listing';
         $data['property'] = $property;
         $data['property_types'] = PropertyType::whereIs_public(true)->get();
-        return view('admin.properties.edit-listing', $data);
+        return view('user.properties.edit-listing', $data);
     }
     
     ///update edited listing
@@ -725,9 +725,9 @@ class PropertyController extends Controller
     ///confirm delete
     public function confirmDelete(Property $property)
     {
-        $data['page_title'] = 'Delete '.$property->title.' Listing';
+        $data['page_title'] = 'Remove '.$property->title.' Listing';
         $data['property'] = $property;
-        return view('admin.properties.confirm-listing-delete', $data);
+        return view('user.properties.confirm-listing-delete', $data);
     }
 
     //delete listing

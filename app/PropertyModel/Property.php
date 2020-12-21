@@ -92,6 +92,7 @@ class Property extends Model
 
 
 
+
     /******************************  STARS ******************************/
     public function sumAccuracyStar()
     {

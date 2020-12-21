@@ -11,7 +11,7 @@ class PropertyDescription extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'property_id', 'gate', 'description', 'neighbourhood', 'direction', 'size', 'unit',
+        'property_id', 'gate', 'description', 'neighbourhood', 'direction',
     ];
 
 

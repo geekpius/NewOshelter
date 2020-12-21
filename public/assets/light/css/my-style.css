@@ -418,6 +418,11 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
         left: 0;
         right: 0;
       }
+      .steps-container-mobile {
+        display: none;
+      }
+
+      
 
       /* BUTTONS */
       .btn-tomato {
@@ -577,6 +582,10 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       .mobile-profile-avatar {
         display: inline-block;
       }
+
+      .listing-progress {
+        display: none;
+      }
       
     }
 
@@ -593,6 +602,14 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       }
       
       .nav-logo-sm {
+        display: inline-block;
+      }
+      
+      .steps-container {
+        display: none;
+      }
+
+      .steps-container-mobile {
         display: inline-block;
       }
     }

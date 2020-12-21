@@ -1,9 +1,3 @@
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-    }
-})
-
 // toggle between listed property invisible and visible
 $(".btnVisibility").on("click", function(e){
     e.preventDefault();
@@ -87,15 +81,31 @@ $("select").on('change', function(){
 
 
 // check if it is hostel
-$("#property_type").on("change", function(){
+$("#formPropertyType select[name='property_type']").on("change", function(){
     var $this = $(this);
     $("#property_type_status").val('');
+    $("#myGuests").hide('fast');
+    $("#formPropertyType input[name='guest']").val("1");
+    $("#formPropertyType select[name='adult']").val("1");
+    $("#formPropertyType select[name='children']").val("0");
     if($this.val()=='hostel'){
         $('#property_type_status option:first').next().nextAll().hide();
-        $("#myGuests").hide();
     }else{
         $('#property_type_status option:first').next().nextAll().show();
-        $("#myGuests").fadeIn('fast');
+    }
+    return false;
+});
+
+// show guest if it is short stay
+$("#formPropertyType  select[name='property_type_status']").on("change", function(){
+    var $this = $(this);
+    if($this.val()=='short_stay'){
+        $("#myGuests").fadeIn("fast");
+    }else{
+        $("#myGuests").hide();
+        $("#formPropertyType input[name='guest']").val("1");
+        $("#formPropertyType select[name='adult']").val("1");
+        $("#formPropertyType select[name='children']").val("0");
     }
     return false;
 });
