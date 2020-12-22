@@ -262,22 +262,14 @@
                                             <span>{{ $property->getNumberOfGuest() }} Guests</span><br>
                                             <i class="fa fa-check text-success font-12"></i>
                                             <span>{{ $property->adult==1? $property->adult.' Adult':$property->adult.' Adults' }}</span> |
-                                            <span>
-                                            @if($property->children==0)
-                                            No Children
-                                            @elseif($property->children==1)
-                                            {{ $property->children.' Child' }}
-                                            @else
-                                            {{ $property->children.' Children' }}
-                                            @endif
-                                            </span> 
+                                            
                                         </p>
                                     </div>
                                 </div>
                             @elseif ($property->type_status=='short_stay')
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for renting':'Rented, too late' }}</h6>
+                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for booking':'Booked, too late' }}</h6>
                                         <p class=""><i class="fa fa-check text-success font-12"></i>
                                             <span>{{ $property->propertyPrice->getMinimumStay() }}</span>
                                             <br>
@@ -338,7 +330,6 @@
                                 </div>
                             @endif
                         </div>
-                        <hr>
                     @endif 
                 </div>
                 <hr>
