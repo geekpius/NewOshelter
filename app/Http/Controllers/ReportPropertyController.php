@@ -21,7 +21,7 @@ class ReportPropertyController extends Controller
     {
         $data['page_title'] = 'Report '.$property->title;
         $data['property'] = $property;
-        return view('admin.reports.index', $data);
+        return view('user.reports.index', $data);
     }
 
     
