@@ -123,7 +123,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width: 200px">
                                 @auth
-                                <a class="dropdown-item" href="#"><span class="fa fa-envelope"></span> Message</a>
+                                <a class="dropdown-item" href="{{ route('messages') }}"><span class="fa fa-envelope"></span> Message</a>
                                 <a class="dropdown-item" href="{{ route('visits') }}"><span class="fa fa-building"></span> Visits</a>
                                 <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
                                 <hr>
