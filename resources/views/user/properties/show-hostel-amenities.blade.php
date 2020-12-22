@@ -6,7 +6,6 @@
     <div class="activity">
         @foreach ($rooms as $item)
             <div class="parentDiv">
-                <i class="mdi mdi-checkbox-marked-circle-outline icon-success"></i>
                 <div class="time-item">
                     <div class="item-info">
                         <div class="d-flex justify-content-between align-items-center">
@@ -32,6 +31,7 @@
 
 <script>
 $(".removeAmenity").on("click", function(e){
+    e.preventDefault();
     e.stopPropagation();
     $this = $(this);
     $.ajax({

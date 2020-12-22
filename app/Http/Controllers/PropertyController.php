@@ -129,7 +129,7 @@ class PropertyController extends Controller
     public function showBlock(Property $property)
     {
         $data['blocks']=$property->propertyHostelBlocks;
-        return view("admin.properties.show-block", $data)->render();
+        return view("user.properties.show-block", $data)->render();
     }
 
     ///show delete blocks
@@ -208,7 +208,7 @@ class PropertyController extends Controller
     public function showBlockRoom(Property $property)
     {
         $data['blocks']=$property->propertyHostelBlocks;
-        return view("admin.properties.show-block-room", $data)->render();
+        return view("user.properties.show-block-room", $data)->render();
     }
 
     ///show delete block rooms
@@ -259,7 +259,7 @@ class PropertyController extends Controller
     public function showBlockRoomAmenities(Property $property)
     {
         $data['rooms']=$property->propertyHostelBlockRooms()->get();
-        return view("admin.properties.show-hostel-amenities", $data)->render();
+        return view("user.properties.show-hostel-amenities", $data)->render();
     }
 
     ///show delete block rooms amenities
@@ -424,7 +424,7 @@ class PropertyController extends Controller
     public function showHostelBlockPrice(Property $property)
     {
         $data['prices'] = $property->propertyHostelBlockRooms()->get();
-        return view("admin.properties.show-hostel-block-prices", $data)->render();
+        return view("user.properties.show-hostel-block-prices", $data)->render();
     }
 
     ///delete Hostel block prices
@@ -515,7 +515,7 @@ class PropertyController extends Controller
             elseif($request->step==7){
                 $description = PropertyDescription::updateOrCreate(
                     ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 
-                    'direction'=>$request->directions, 'size'=>$request->property_size, 'unit'=>$request->size_unit]
+                    'direction'=>$request->directions]
                 );
                 ///update step to move forward
                 $property->step = ($request->step+1);
@@ -542,7 +542,7 @@ class PropertyController extends Controller
                 $property->done_step = true;
                 $property->update();
 
-                return redirect()->route('property');
+                return redirect()->route('single.property', $property->id);
             }
         }else{
             ///nexts for other properties

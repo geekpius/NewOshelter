@@ -17,7 +17,8 @@
     </tbody>
 </table>
 <script>
-$(".btnRemoveBlock").on("click", function(){
+$(".btnRemoveBlock").on("click", function(e){
+    e.preventDefault();
     var $this = $(this);
     $.ajax({
         url: $this.attr('href'),

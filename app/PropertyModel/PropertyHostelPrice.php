@@ -18,6 +18,20 @@ class PropertyHostelPrice extends Model
         return $this->belongsTo(HostelBlockRoom::class, 'hostel_block_room_id');
     }
 
+    /******* ATTRIBUTES PROPERTIES *******/ 
+    public function getPaymentDuration()
+    {
+        if ($this->payment_duration==1){
+            return "1 month advance payment";
+        }
+        elseif ($this->payment_duration==12){
+            return "1 year advance payment";
+        }
+        else{
+            return $this->payment_duration." months advance payment";
+        }
+    }
+
 
 
 }

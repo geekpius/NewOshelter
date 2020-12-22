@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table id="myTable" class="table table-striped mt-4">
+    <table id="myTable" class="table table-striped mt-4 small">
         <thead>
             <tr>
                 <th>Block Name</th>
@@ -29,7 +29,8 @@
     </table>
 </div>
 <script>
-$(".btnRemoveBlock").on("click", function(){
+$(".btnRemoveBlock").on("click", function(e){
+    e.preventDefault();
     var $this = $(this);
     $.ajax({
         url: $this.attr('href'),

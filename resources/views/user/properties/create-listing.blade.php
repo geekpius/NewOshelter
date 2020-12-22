@@ -171,7 +171,7 @@
                                         <div class="step-pane active" data-step="1">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4>Provide block names of your hostel to make arrangement of rooms look nice and appreciated</h4>
+                                                    <h4>Create block names for your hostel to make arrangement of rooms look nice and appreciated</h4>
                                                     <form class="mt-4" id="formBlocks">
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         <div class="form-group mt-4 validate">
@@ -179,7 +179,7 @@
                                                             <input type="text" name="block_name" class="form-control" placeholder="eg: Kofi Annan">
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
-                                                        <button type="submit" class="btn btnAddBlock btn-gradient-primary btn-sm mt-4"><i class="fa fa-plus-circle"></i> Add Block</button>
+                                                        <button type="submit" class="btn btnAddBlock btn-primary mt-2"><i class="fa fa-plus-circle"></i> Add Block</button>
                                                     </form>
         
                                                     <form id="formBlockNames" method="POST" action="{{ route("property.store") }}" style="display:none !important;">
@@ -198,12 +198,12 @@
                                         <div class="step-pane" data-step="2">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4 class="ml-4">Create rooms for your hostel blocks</h4>
-                                                    <div style="position: relative;  height: 640px; overflow-y:scroll; overflow-x:hidden;" class="pr-3 pl-4">
-                                                        <form class="mt-4" id="formCreateRooms">
+                                                    <h4 class="">Create rooms for your hostel blocks</h4>
+                                                    <div style="position: relative;  height: 640px; overflow-y:scroll; overflow-x:hidden;" class="pr-3">
+                                                        <form class="" id="formCreateRooms">
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group mt-4 validate">
+                                                                    <div class="form-group mt-2 validate">
                                                                         <label for="">Hostel block name</label>
                                                                         <select name="hostel_block" class="form-control" id="hostel_block">
                                                                             <option value="">--Select--</option>
@@ -216,7 +216,7 @@
                                                                 </div>
         
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group mt-4 validate">
+                                                                    <div class="form-group validate">
                                                                         <label for="">Block room type</label>
                                                                         <select name="block_room_type" class="form-control" id="block_room_type">
                                                                             <option value="">--Select--</option>
@@ -228,7 +228,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group mt-4 validate">
+                                                                    <div class="form-group validate">
                                                                         <label for="">Gender</label>
                                                                         <select name="room_gender" class="form-control" id="room_gender">
                                                                             <option value="">--Select--</option>
@@ -241,31 +241,27 @@
                                                             </div>
         
                                                             <div class="row">
-                                                                <div class="col-sm-6 pr-lg-5">
-                                                                    <div class="form-group mb-4 validate">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group validate">
                                                                         <label class="mb-2">How many rooms on block?</label>
-                                                                        <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                                            <input id="rooms_on_block" type="text" value="1" onkeypress="return isNumber(event)" name="rooms_on_block" class="form-control">
-                                                                        </div>
+                                                                        <input id="rooms_on_block" type="number" min="1" value="1" onkeypress="return isNumber(event)" name="rooms_on_block" class="form-control">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
         
-                                                                <div class="col-sm-6 pl-lg-5">
-                                                                    <div class="form-group mb-4 validate">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group validate">
                                                                         <label class="mb-2">Room no.# start from</label>
-                                                                        <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                                                            <input id="room_start" type="text" value="1" onkeypress="return isNumber(event)" name="room_start" class="form-control">
-                                                                        </div>
+                                                                        <input id="room_start" type="number" min="1" value="1" onkeypress="return isNumber(event)" name="room_start" class="form-control">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
         
                                                             <div class="row">
-                                                                <div class="col-sm-6 pr-lg-5">
+                                                                <div class="col-sm-6">
                                                                     <div class="form-group validate">
-                                                                        <label class="mb-2 mt-2">How many beds per room?</label>
+                                                                        <label class="">How many beds per room?</label>
                                                                         <select name="beds" class="form-control" id="beds">
                                                                             <option value="">--Select--</option>
                                                                             @for ($i = 1; $i <= $count=10; $i++)
@@ -275,9 +271,9 @@
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6 pl-lg-5">
+                                                                <div class="col-sm-6">
                                                                     <div class="form-group validate">
-                                                                        <label class="mb-2 mt-2">How many people per room?</label>
+                                                                        <label class="">How many people per room?</label>
                                                                         <select name="person_per_room" class="form-control" id="person_per_room">
                                                                             <option value="">--Select--</option>
                                                                             @for ($i = 1; $i <= $count=10; $i++)
@@ -290,8 +286,8 @@
                                                             </div>
         
                                                             <div class="row">
-                                                                <div class="col-sm-6 pr-lg-5">
-                                                                    <div class="form-group mt-4 validate">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group validate">
                                                                         <label for="">Are rooms furnished?</label>
                                                                         <select name="furnish" class="form-control" id="furnish">
                                                                             <option value="">--Select--</option>
@@ -302,8 +298,8 @@
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6 pl-lg-5">
-                                                                    <div class="form-group mt-4 validate">
+                                                                <div class="col-sm-6">
+                                                                    <div class="form-group validate">
                                                                         <label for="">Have kitchen? What type?</label>
                                                                         <select name="kitchen" class="form-control" id="kitchen">
                                                                             <option value="">--Select--</option>
@@ -319,7 +315,7 @@
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group mb-0 validate">
-                                                                        <label class="mb-2">How many bathrooms?</label>
+                                                                        <label class="">How many bathrooms?</label>
                                                                         <select name="baths" class="form-control" id="baths">
                                                                             <option value="">--Select--</option>
                                                                             @for ($i = 1; $i <= $count=20; $i++)
@@ -330,7 +326,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group mt-4 validate">
+                                                                    <div class="form-group validate">
                                                                         <label for="">Is the bathroom private?</label>
                                                                         <div class="custom-control custom-radio">
                                                                             <input type="radio" id="bath_private" name="bath_private" value="1" class="custom-control-input" @if(empty($property)) checked @else @if($property->bath_private) checked @endif  @endif>
@@ -344,8 +340,8 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group mt-2 validate">
-                                                                        <label class="mb-2">How many toilet? </label>
+                                                                    <div class="form-group validate">
+                                                                        <label class="">How many toilet? </label>
                                                                         <select name="toilet" class="form-control" id="toilet">
                                                                             <option value="">--Select--</option>
                                                                             @for ($i = 1; $i <= $count=20; $i++)
@@ -356,7 +352,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group mt-4 validate">
+                                                                    <div class="form-group validate">
                                                                         <label for="">Is the toilet private?</label>
                                                                         <div class="custom-control custom-radio">
                                                                             <input type="radio" id="toilet_private" name="toilet_private" value="1" class="custom-control-input" @if(empty($property)) checked @else @if($property->toilet_private) checked @endif  @endif>
@@ -370,7 +366,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-12">
-                                                                    <button type="submit" class="btn btnCreateRoom btn-gradient-primary btn-sm mt-4"><i class="fa fa-plus-circle"></i> Create Rooms</button>
+                                                                    <button type="submit" class="btn btnCreateRoom btn-primary mt-2"><i class="fa fa-plus-circle"></i> Create Rooms</button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -383,7 +379,7 @@
         
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 pl-3">
+                                                <div class="col-lg-6">
                                                     <div id="myErrorRoomsMessage"></div>
                                                     <div id="getMyCreatedRooms"></div>
                                                 </div>
@@ -393,12 +389,12 @@
                                         <div class="step-pane" data-step="3">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4 class="ml-4">Amenities your offer to your guests</h4>
-                                                    <div class="pr-4 pl-4">
-                                                        <form class="mt-4" id="formHostelRoomAmenity">
+                                                    <h4 class="">Amenities you offer to your guests in your block rooms</h4>
+                                                    <div class="mt-4">
+                                                        <form id="formHostelRoomAmenity">
                                                             <div class="row">
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group mt-4 validate">
+                                                                    <div class="form-group validate">
                                                                         <label for="">Hostel block name</label>
                                                                         <select name="hostel_block_name" class="form-control" id="hostel_block_name">
                                                                             <option value="">--Select--</option>
@@ -411,7 +407,7 @@
                                                                 </div>
         
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group mt-4 validate">
+                                                                    <div class="form-group validate">
                                                                         <label for="">Gender on block</label>
                                                                         <select name="gender" class="form-control" id="gender">
                                                                             <option value="">--Select--</option>
@@ -423,7 +419,7 @@
                                                                 </div>
         
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group mt-4 validate">
+                                                                    <div class="form-group validate">
                                                                         <label for="">Block room type</label>
                                                                         <select name="room_type" class="form-control" id="room_type">
                                                                             <option class="after" value="">--Select--</option>
@@ -437,13 +433,13 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <button type="submit" class="btn btnAddAmenities btn-gradient-primary btn-sm mt-4"><i class="fa fa-plus-circle"></i> Add Amenities</button>
+                                                                    <button type="submit" class="btn btnAddAmenities btn-primary mt-2"><i class="fa fa-plus-circle"></i> Add Amenities</button>
                                                                 </div>
                                                             </div>
                                                         </form>
         
                                                         <hr class="mt-5">
-                                                        <h4 class="">If there are shared amenities offered to your guests in your hostel, let them know.</h4>
+                                                        <h4 class="">If there are shared amenities offered to your guests in your hostel accross all blocks, let them know.</h4>
                                                         <form id="formRoomAmenities" method="POST" action="{{ route("property.store") }}">
                                                             @csrf
                                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -453,7 +449,7 @@
         
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 pl-4">
+                                                <div class="col-lg-6">
                                                     <div id="myErrorRoomAmenitiesMessage"></div>
                                                     <div id="getMyRoomAmenities"></div>
                                                 </div>
@@ -462,10 +458,9 @@
         
                                         <div class="step-pane" data-step="4">
                                             <div class="row">
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-5">
+                                                <div class="col-lg-6">
                                                     <h4>Enforce hostel rules if any</h4>
-                                                    <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Guests must agree to your rules before booking property</p>
+                                                    <p><i class="fa fa-dot-circle font-13"></i> Guests must agree to your rules before booking property</p>
                                                     <form class="mt-4" id="formPropertyRules" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
                                                         <input type="hidden" name="step" value="4" readonly>
@@ -473,8 +468,7 @@
                                                         @include('includes.rules')
                                                     </form>                                            
                                                 </div>
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-5">
+                                                <div class="col-lg-6">
                                                     <h4>Would you like to add other rules?</h4>
                                                     <form class="mt-4" id="formPropertyOtherRules">
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -483,7 +477,7 @@
                                                             <div class="input-group">
                                                                 <input type="text" name="add_rule" class="form-control" placeholder="eg: Don't drink alcohol infront of children">
                                                                 <i class="input-group-append">
-                                                                    <button class="btn btn-gradient-primary btn-sm btnAddOwnRule" type="button"><i class="fa fa-plus-circle"></i> Add</button>
+                                                                    <button class="btn btn-primary btnAddOwnRule" type="button"><i class="fa fa-plus-circle"></i> Add</button>
                                                                 </i>
                                                             </div>
                                                             <span class="text-danger small mySpan" role="alert"></span>
@@ -530,17 +524,16 @@
                                         
                                         <div class="step-pane" data-step="6">
                                             <div class="row">
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-7">
                                                     <h4>Lets take a tour on your hostel</h4>
-                                                    <p class="mb-4"><i class="fa fa-dot-circle" style="font-size:9px"></i> Property photo with captions will best help us with the tour.
+                                                    <p class="mb-4"><i class="fa fa-dot-circle font-13"></i> Property photo with captions will best help us with the tour.
                                                     <br>
-                                                    <i class="fa fa-dot-circle" style="font-size:9px"></i> You can upload maximum of 10 photos at a time.</p>
+                                                    <i class="fa fa-dot-circle font-13"></i> You can upload maximum of 10 photos at a time.</p>
             
                                                     <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
                                                         
                                                     </div>
-                                                    <button class="btn btn-primary mt-3 btn-sm" onclick="getFile();"><i class="fa fa-cloud-upload-alt"></i> Add Photos
+                                                    <button class="btn btn-primary mt-3" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
                                                         <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" multiple name="photos[]" /></div>
                                                     </button>
                                                     <div class="mt-3">
@@ -553,9 +546,8 @@
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                     </form>
                                                 </div>
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-4">
-                                                    <div class="mt-5 pt-4" style="width:70%">
+                                                <div class="col-lg-5">
+                                                    <div class="mt-5 pt-4">
                                                         <i class="fa fa-lightbulb fa-lg text-pink"></i>
                                                         <h5>Tips for adding a great photos of your property</h5>
                                                         <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
@@ -571,8 +563,7 @@
         
                                         <div class="step-pane" data-step="7">
                                             <div class="row">
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-5">
+                                                <div class="col-lg-6">
                                                     <h4>How does your hostel looks like?</h4>
                                                     <form class="mt-4" id="formDescriptions" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
@@ -604,26 +595,6 @@
                                                             <textarea class="form-control" name="directions" rows="3" maxlength="250" id="directions" placeholder="Directions on how to reach the property">{{ empty($property->propertyDescription->direction)? '':$property->propertyDescription->direction }}</textarea>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
-            
-                                                        <div class="row">
-                                                            <div class="col-sm-8">
-                                                                <div class="form-group validate">
-                                                                    <label for="property_size"><span class="text-primary">Size</span></label>    
-                                                                    <input type="text" class="form-control" name="property_size" id="property_size" onkeypress="return isNumber(event);" placeholder="Enter property size" value="{{ empty($property->propertyDescription->size)? '':$property->propertyDescription->size }}" />
-                                                                    <span class="text-danger small mySpan" role="alert"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-4">
-                                                                <div class="form-group validate">
-                                                                    <label for="size_unit"><span class="text-primary">Unit</span></label> 
-                                                                    <select name="size_unit" class="form-control" id="size_unit">
-                                                                        <option value="">Unit</option>
-                                                                        <option value="sf">SF</option>
-                                                                    </select>   
-                                                                    <span class="text-danger small mySpan" role="alert"></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </form>
                                                 </div>
                                             </div><!-- end row --> 
@@ -632,9 +603,9 @@
                                         <div class="step-pane" data-step="8">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <div class="pr-4 pl-4">
-                                                        <h4>Provide guests with your rent schedule</h4>
-                                                        <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Guests must know advance payment and price calendar</p>
+                                                    <div class="">
+                                                        <h4>Provide guests with your rent schedule for each block rooms</h4>
+                                                        <p><i class="fa fa-dot-circle font-13"></i> Guests must know advance payment and price calendar</p>
                                                         
                                                         <form id="formHostelRoomPrices" method="POST" action="{{ route('property.store') }}">
                                                             @csrf
@@ -736,7 +707,7 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <button type="submit" class="btn btnHostelPrices btn-gradient-primary btn-sm mt-4"><i class="fa fa-plus-circle"></i> Price Room</button>
+                                                                    <button type="submit" class="btn btnHostelPrices btn-primary mt-2"><i class="fa fa-plus-circle"></i> Price Room</button>
                                                                 </div>
                                                             </div>
         
@@ -745,8 +716,8 @@
                                                 </div>
                                                 
                                                 <div class="col-lg-6">
-                                                    <div class="pr-4 pl-4">
-                                                        <label class="mt-3"><i class="fa fa-calendar text-success"></i> Prices calendar will be shown here <i class="fa fa-arrow-down"></i></label>
+                                                    <div class="pl-4">
+                                                        <label class="mt-3"><i class="fa fa-calendar text-success"></i> Prices schedule will be shown here <i class="fa fa-arrow-down"></i></label>
                                                         <div id="getMyBlockPrices" class="mt-3"></div>
                                                     </div>
                                                     
@@ -828,25 +799,24 @@
                                             </div> --}}
         
                                             <div class="row">
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-5">
+                                                <div class="col-lg-6">
                                                     <h4>All set and ready for publishing</h4>
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-building fa-5x"></i>
                                                         <i class="fa fa-home fa-5x ml-4 mr-4"></i>
                                                         <i class="fa fa-bed fa-5x"></i>
                                                     </div>
-                                                    <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Potential guests are wating for you to publish this property.</p>
+                                                    <p><i class="fa fa-dot-circle font-13"></i> Potential guests are wating for you to publish this property.</p>
                                                 
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-address-card fa-5x"></i>
                                                     </div>
-                                                    <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Guest will send a message of the date they will be moving in.</p>
+                                                    <p><i class="fa fa-dot-circle font-13"></i> Guest will send a message of the date they will be moving in.</p>
         
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-key fa-5x"></i>
                                                     </div>
-                                                    <p class="mb-3"><i class="fa fa-dot-circle" style="font-size: 9px"></i> Make the keys ready for your guests on their arrival.</p>    
+                                                    <p class="mb-3"><i class="fa fa-dot-circle font-13"></i> Make the keys ready for your guests on their arrival.</p>    
                                                     
                                                     <form id="formFinishListing" method="POST" action="{{ route('property.store') }}" style="display:none">
                                                         @csrf
@@ -855,7 +825,7 @@
                                                     </form> 
         
                                                 </div>
-                                                <div class="col-lg-5">
+                                                <div class="col-lg-6">
                                                     <h4>Terms and conditions, your local law and taxes.</h4>
                                                     <div class="mt-4">
                                                         <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
@@ -867,7 +837,7 @@
                                                     </div>
                                                     <div class="card mt-3 float-right">
                                                         <div class="card-body">        
-                                                            <a href="{{ route('property.preview', $property->id) }}" class="text-primary">
+                                                            <a href="{{ route('property.preview', $property->id) }}" class="text-primary text-decoration-none">
                                                                 <i class="fa fa-eye text-primary"></i>
                                                                 Preview Property
                                                             </a> 
@@ -990,7 +960,7 @@
                                                     <div class="col-lg-7">
                                                         <h4>Enforce property rules if any</h4>
                                                         @if ($property->type_status=='rent')
-                                                        <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Tenants must agree to your rules before renting property</p>
+                                                        <p><i class="fa fa-dot-circle font-13"></i> Tenants must agree to your rules before renting property</p>
                                                         @elseif($property->type_status=='short_stay')
                                                         <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Guests must agree to your rules before booking property</p>
                                                         @endif
@@ -1730,31 +1700,7 @@ $("#formCreateRooms").on("submit", function(e){
     e.preventDefault();
     e.stopPropagation();
     var valid = true;
-    if($("#formCreateRooms #rooms_on_block").val()=="0" || $("#formCreateRooms #rooms_on_block").val()==""){
-        valid = false;
-        $("#formCreateRooms #rooms_on_block").parents('.validate').find('.mySpan').text('The no. of rooms on blcok field is required');
-    }
-    if($("#formCreateRooms #room_start").val()=="0" || $("#formCreateRooms #room_start").val()==""){
-        valid = false;
-        $("#formCreateRooms #room_start").parents('.validate').find('.mySpan').text('The room start field is required');
-    }
-    if($("#formCreateRooms #person_per_room").val()=="0" || $("#formCreateRooms #person_per_room").val()==""){
-        valid = false;
-        $("#formCreateRooms #person_per_room").parents('.validate').find('.mySpan').text('The person per room field is required');
-    }
-    if($("#formCreateRooms #beds").val()=="0" || $("#formCreateRooms #beds").val()==""){
-        valid = false;
-        $("#formCreateRooms #beds").parents('.validate').find('.mySpan').text('The bed per person field is required');
-    }
-    if($("#formCreateRooms #baths").val()=="0" || $("#formCreateRooms #baths").val()==""){
-        valid = false;
-        $("#formCreateRooms #baths").parents('.validate').find('.mySpan').text('The bathroom field is required');
-    }
-    if($("#formCreateRooms #toilet").val()=="0" || $("#formCreateRooms #toilet").val()==""){
-        valid = false;
-        $("#formCreateRooms #toilet").parents('.validate').find('.mySpan').text('The bathroom field is required');
-    }
-    $('#formCreateRooms select').each(function() {
+    $('#formCreateRooms select, #formCreateRooms input').each(function() {
         var $this = $(this);
         
         if(!$this.val()) {
@@ -1773,12 +1719,12 @@ $("#formCreateRooms").on("submit", function(e){
             success: function(resp){
                 if(resp=='success'){
                     $("#getMyCreatedRooms").load("{{ route('property.blockroom.show', $property->id) }}");
-                    $("#formCreateRooms input[name='rooms_on_block']").val('0');
-                    $("#formCreateRooms input[name='room_start']").val('0');
-                    $("#formCreateRooms input[name='person_per_room']").val('0');
-                    $("#formCreateRooms input[name='baths']").val('0');
-                    $("#formCreateRooms input[name='toilet']").val('0');
-                    $("#formCreateRooms input[name='beds']").val('0');
+                    $("#formCreateRooms input[name='rooms_on_block']").val('1');
+                    $("#formCreateRooms input[name='room_start']").val('1');
+                    $("#formCreateRooms input[name='person_per_room']").val('');
+                    $("#formCreateRooms input[name='baths']").val('');
+                    $("#formCreateRooms input[name='toilet']").val('');
+                    $("#formCreateRooms input[name='beds']").val('');
                     $("#formCreateRooms select").val('');
                 }                
                 else{
@@ -2005,13 +1951,13 @@ $("#formRentSchedule #block").on("change", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this= $(this);
-    $("#formRentSchedule #gender").val('');
+    $("#formRentSchedule select[name='gender']").val('');
     $("#formRentSchedule #block_room").find('.after').nextAll().remove();
     return false;
 });
 
 ///select to get room type
-$("#formRentSchedule #gender1").on("change", function(e){
+$("#formRentSchedule select[name='gender']").on("change", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this= $(this);

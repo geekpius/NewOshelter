@@ -5,7 +5,6 @@
     <div class="activity">
     @foreach ($prices as $item)
         <div class="parentDiv">
-            <i class="mdi mdi-checkbox-marked-circle-outline icon-success"></i>
             <div class="time-item">
                 <div class="item-info">
                     <div class="d-flex justify-content-between align-items-center">
@@ -17,16 +16,8 @@
                     <div class="removeDiv">
                         @if(!empty($item->propertyHostelPrice))
                         <span class="badge badge-soft-primary font-13"><span class="font-15">{{ $item->propertyHostelPrice->currency }}</span> {{ number_format($item->propertyHostelPrice->property_price,2) }}/ {{ $item->propertyHostelPrice->price_calendar }} </span>                                                  
-                        <span class="badge badge-soft-primary font-13">
-                            @if($item->propertyHostelPrice->payment_duration==1)
-                            1 month advance payment
-                            @elseif($item->propertyHostelPrice->payment_duration==12)
-                            1 year advance payment
-                            @else
-                            {{ $item->propertyHostelPrice->payment_duration }} months advance payment
-                            @endif
-                        </span> 
-                        <span data-href="{{ route('property.blockprice.delete',$item->id) }}" class="text-danger float-right remove-property-image btnDelete">Remove</span>  
+                        <span class="badge badge-soft-primary font-13">{{ $item->propertyHostelPrice->getPaymentDuration() }}</span> 
+                        <span data-href="{{ route('property.blockprice.delete',$item->propertyHostelPrice->id) }}" class="text-danger float-right remove-property-image btnDelete">Remove</span>  
                         @else
                         <p class="text-danger">Price is not set</p>                                               
                         @endif
@@ -41,6 +32,7 @@
 
 <script>
 $(".btnDelete").on("click", function(e){
+    e.preventDefault();
     e.stopPropagation();
     $this = $(this);
     $.ajax({
