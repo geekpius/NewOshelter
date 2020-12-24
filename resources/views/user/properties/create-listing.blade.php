@@ -1461,9 +1461,9 @@
 <script src="{{ asset('assets/wizard/ace-elements.min.js') }}"></script>
 <script src="{{ asset('assets/wizard/wizard.min.js') }}"></script>
 <!-- Gmaps file -->
-{{-- <script src="{{ asset('assets/plugins/gmaps/gmaps.min.js') }}"></script> --}}
+<script src="{{ asset('assets/plugins/gmaps/gmaps.min.js') }}"></script>
 <!-- demo codes -->
-{{-- <script src="{{ asset('assets/pages/gmap.init.js') }}"></script> --}}
+<script src="{{ asset('assets/pages/gmap.init.js') }}"></script>
 
 <script>
 $('#registrationWizard')

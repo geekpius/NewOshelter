@@ -384,4 +384,5 @@
 
 @section('scripts')
 <script src="{{ asset('assets/light/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('assets/pages/website/gmap.init.js') }}"></script>
 @endsection

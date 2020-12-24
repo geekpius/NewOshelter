@@ -6,11 +6,11 @@
     var styles;
 
     // Property map marker position
-    var propLat = '37.75347110977809';
-    var propLng = '-122.46686778459474';
+    var propLat = '5.5739466';
+    var propLng = '-0.1428917';
 
     var options = {
-        zoom : 14,
+        zoom : 15,
         mapTypeId : 'Styled',
         panControl: false,
         zoomControl: true,
@@ -71,7 +71,7 @@
 
             map.mapTypes.set('Styled', styledMapType);
             map.setCenter(center);
-            map.setZoom(15);
+            map.setZoom(16);
 
             addContactMarker(propLat, propLng, map);
 

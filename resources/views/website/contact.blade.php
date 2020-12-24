@@ -103,13 +103,6 @@
                         <div class="col-6">
                             <h2 class="pxp-section-h2">Our Locations</h2>
                         </div>
-                        <div class="col-6 text-right">
-                            <select class="custom-select pxp-contact-locations-select">
-                                <option value="la">Accra, Ghana</option>
-                                <option value="ny">New York</option>
-                                <option value="sf">San Francisco</option>
-                            </select>
-                        </div>
                     </div>
                     <div id="pxp-contact-map" class="mt-3"></div>
                 </div>
@@ -122,7 +115,6 @@
 @endsection
 
 @section('scripts')
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_KEY_HERE&amp;libraries=geometry&amp;libraries=places"></script>
 <script src="{{ asset('assets/light/js/jquery.sticky.js') }}"></script>
 <script src="{{ asset('assets/light/js/contact-map.js') }}"></script>
 @endsection
