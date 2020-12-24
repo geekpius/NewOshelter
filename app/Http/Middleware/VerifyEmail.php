@@ -17,14 +17,13 @@ class VerifyEmail
      */
     public function handle($request, Closure $next)
     {
+        if(auth()->check()){
+            $user = User::findOrFail(Auth::user()->id);
 
-        $user = User::findOrFail(Auth::user()->id);
-
-        if (!$user->verify_email) {
-            return redirect()->route('verify.email');
+            if (!$user->verify_email) {
+                return redirect()->route('verify.email');
+            }
         }
-
-
 
         return $next($request);
     }

@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="pxp-content pxp-full-height">
+<div class="pxp-content pull-content-down">
     <div class="pxp-map-side pxp-map-right pxp-half">
         <div id="results-map"></div>
         <a href="javascript:void(0);" class="pxp-list-toggle"><span class="fa fa-list"></span></a>

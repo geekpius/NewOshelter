@@ -46,7 +46,7 @@ class WebsiteController extends Controller
     {
         $status = str_replace('-',' ',$status);
         $data['page_title'] = 'Narrow down '.$status.' filter complexity';
-        $data['menu'] = 'pxp-no-bg';
+        // $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->whereDone_step(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(9);
         $data['property_types'] = PropertyType::get(['name']);
         return view('website.property-status', $data);
@@ -57,7 +57,7 @@ class WebsiteController extends Controller
     {
         $type = str_replace('-',' ',$type);
         $data['page_title'] = 'Explore your curiosity on '.$type;
-        $data['menu'] = 'pxp-no-bg';
+        // $data['menu'] = 'pxp-no-bg';
         $props = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->whereIs_active(true)->orderBy('id', 'DESC');
         $data['property_types'] = PropertyType::get(['name']);
         $data['properties'] = $props->paginate(9);
@@ -97,7 +97,7 @@ class WebsiteController extends Controller
     public function property()
     {
         $data['page_title'] = 'Browse all properties of any kind';
-        $data['menu'] = 'pxp-no-bg';
+        // $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(9);
         $data['property_types'] = PropertyType::get(['name']);
         return view('website.properties', $data);
@@ -116,7 +116,7 @@ class WebsiteController extends Controller
         if($request->get('query_param')=='simple'){
             $location = $request->get('location');
             $data['page_title'] = $location;
-            $data['menu'] = 'pxp-no-bg';
+            // $data['menu'] = 'pxp-no-bg';
             $props = Property::whereType_status($request->get('status'))->whereIs_active(true)->wherePublish(true)
                 ->whereHas('propertyLocation', function($query) use($location){
                     $query->where('location', 'like', '%'.$location.'%');
@@ -134,7 +134,7 @@ class WebsiteController extends Controller
         else{
             $location = $request->get('location');
             $data['page_title'] = $location;
-            $data['menu'] = 'pxp-no-bg';
+            // $data['menu'] = 'pxp-no-bg';
 
             $props = Property::whereType_status($request->get('status'))->whereIs_active(true)->wherePublish(true);
             if(empty($request->get('type'))){
@@ -216,7 +216,7 @@ class WebsiteController extends Controller
     public function whyChooseUs($title)
     {
         $data['page_title'] = 'Why choose us. '.ucfirst(str_replace('-',' ',$title));
-        $data['menu'] = 'pxp-no-bg';
+        // $data['menu'] = 'pxp-no-bg';
         return view('website.choose-us', $data);
     }
 
@@ -246,7 +246,7 @@ class WebsiteController extends Controller
     public function ownProperty()
     {
         $data['page_title'] = 'Own a property of any kind for rent, sell and auction on OShelter';
-        $data['menu'] = 'pxp-no-bg';
+        // $data['menu'] = 'pxp-no-bg';
         return view('website.ownproperty', $data);
     }
 
@@ -254,7 +254,7 @@ class WebsiteController extends Controller
     public function hostEvent()
     {
         $data['page_title'] = 'Host an event, make it know to the world on OShelter';
-        $data['menu'] = 'pxp-no-bg';
+        // $data['menu'] = 'pxp-no-bg';
         return view('website.hostevent', $data);
     }
     
@@ -262,7 +262,7 @@ class WebsiteController extends Controller
     public function ownerHelp()
     {
         $data['page_title'] = 'Property owner help';
-        $data['menu'] = 'pxp-no-bg';
+        // $data['menu'] = 'pxp-no-bg';
         $data['types'] = HelpType::whereHelp_type('owner')->get();
         return view('website.ownerhelp', $data);
     }
@@ -271,7 +271,7 @@ class WebsiteController extends Controller
     public function bookingHelp()
     {
         $data['page_title'] = 'Booking and travellers help';
-        $data['menu'] = 'pxp-no-bg';
+        // $data['menu'] = 'pxp-no-bg';
         $data['types'] = HelpType::whereHelp_type('traveller')->get();
         return view('website.bookinghelp', $data);
     }
@@ -280,7 +280,7 @@ class WebsiteController extends Controller
     public function contact()
     {
         $data['page_title'] = 'Contact us';
-        $data['menu'] = 'pxp-no-bg';
+        // $data['menu'] = 'pxp-no-bg';
         return view('website.contact', $data);
     }
 

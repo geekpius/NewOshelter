@@ -70,41 +70,7 @@
                                     </div>                                           
                                 </li>
 
-                                <div class="card mt-3 myReader" style="display:none">
-                                    <div class="card-body">
-                                        <i class="fa fa-times float-right fa-lg exitReader" style="cursor: pointer"></i>
-                                        <div class="media mb-4">
-                                            <img class="d-flex mr-3 rounded-circle thumb-md" src="{{ empty($message->user->image)? asset('assets/images/user.jpg'):asset('assets/images/users/'.$message->user->image) }}" alt="Generic placeholder image">
-                                            <div class="media-body align-self-center">
-                                                <h4 class="font-14 m-0">{{ $message->user->name }}</h4>
-                                                <small class="text-muted">{{ $message->user->membership }}</small>
-                                            </div>
-                                        </div>
-            
-                                        <p>Dear {{ current(explode(' ',$message->user->name)) }},</p>
-                                        <p>{{ $message->message }}</p>
-                                        <hr/>
-
-                                        @foreach ($message->replies as $reply)
-                                            @if ($reply->status)
-                                                <p>{{ $reply->message }}</p>
-                                                <small>{{ $message->user->name }}</small>
-                                                <hr/>
-                                            @else
-                                                <div class="pl-5">
-                                                    <p>{{ $reply->message }}</p>
-                                                    <small>Me</small>
-                                                </div>
-                                                <hr/>
-                                            @endif
-                                        @endforeach
-                                        <div class="pl-5 myReplies" style="display:none"></div>
-                                        
-                                        <a href="javascript:void(0);" data-id="{{ $message->id }}" class="btn btn-gradient-primary waves-effect btnReply" data-animation="bounce">
-                                            <i class="mdi mdi-reply"></i> Reply
-                                        </a>
-                                    </div>
-                                </div>
+                                CC
                             </div>
                         @endforeach
                         @else

@@ -5,6 +5,7 @@ namespace App\MessageModel;
 use App\User;
 use App\MessageModel\Reply;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Message extends Model
 {
@@ -28,6 +29,17 @@ class Message extends Model
     public function replies()
     {
         return $this->hasMany(Reply::class);
+    }
+
+    /********* ATTRIBUTE PROPERTIES *********/
+    public function limitName()
+    {
+        return Str::limit($this->user->name, 20, '');
+    } 
+
+    public function limitMessage()
+    {
+        return Str::limit($this->message, 60, '...');
     }
 
 

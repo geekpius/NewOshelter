@@ -7,6 +7,9 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
 /**
  * 1.0 - General
  */
+  .hand-cursor {
+    cursor: pointer;
+  }
 
  /* NAVS */
   .nav-blue-background {
@@ -534,6 +537,12 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       display: none;
     }
 
+    /* MESSAGES */
+    .inbox-blue-background {
+      background-color: #0171bb !important;
+    }
+
+
 
     /* MEDIA QUERIES */
 
@@ -612,6 +621,9 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       .steps-container-mobile {
         display: inline-block;
       }
+      .inbox-blue-background {
+        background-color: #0171bb !important;
+      }
     }
   
     @media screen and (min-width: 768px){
@@ -620,35 +632,41 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       }
     }
 
-      @media screen and (min-width: 320px){
-        .own-property-bottom {
-          margin-bottom: 1500px;
-        }
+    @media screen and (max-width: 570px){
+      .pull-content-down {
+        margin-top: 100px !important;
       }
+    }
 
-      @media screen and (min-width: 375px){
-        .own-property-bottom {
-          margin-bottom: 1400px;
-        }
-        
+    @media screen and (min-width: 320px){
+      .own-property-bottom {
+        margin-bottom: 1500px;
       }
+    }
 
-      @media screen and (min-width: 425px){
-        .own-property-bottom {
-          margin-bottom: 1400px;
-        }
+    @media screen and (min-width: 375px){
+      .own-property-bottom {
+        margin-bottom: 1400px;
       }
+      
+    }
 
-      @media screen and (min-width: 1024px){
-        .own-property-bottom {
-          margin-bottom: 1000px;
-        }
+    @media screen and (min-width: 425px){
+      .own-property-bottom {
+        margin-bottom: 1400px;
       }
+    }
 
-      @media screen and (min-width: 2560px){
-        .own-property-bottom {
-          margin-bottom: 500px;
-        }
+    @media screen and (min-width: 1024px){
+      .own-property-bottom {
+        margin-bottom: 1000px;
       }
+    }
+
+    @media screen and (min-width: 2560px){
+      .own-property-bottom {
+        margin-bottom: 500px;
+      }
+    }
 
       

@@ -13,28 +13,29 @@
 
 
 /*----------------Website Route List----------------------------- */
-Route::get('/', 'WebsiteController@index')->name('index');
-Route::get('/oshelter/callback', 'WebsiteController@callback')->name('callback');
-Route::get('/own-property', 'WebsiteController@ownProperty')->name('own.property');
-Route::get('/property-status/{status}', 'WebsiteController@propertyStatus')->name('status.property');
-Route::get('/property-types/{type}', 'WebsiteController@propertyType')->name('type.property');
-Route::get('/property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
-Route::get('/properties', 'WebsiteController@property')->name('browse.property');
-Route::get('/map-properties', 'WebsiteController@mapProperty')->name('browse.property_map');
+Route::group(['middleware' => ['verify-email']], function() {
+    Route::get('/', 'WebsiteController@index')->name('index');
+    Route::get('/oshelter/callback', 'WebsiteController@callback')->name('callback');
+    Route::get('/own-property', 'WebsiteController@ownProperty')->name('own.property');
+    Route::get('/property-status/{status}', 'WebsiteController@propertyStatus')->name('status.property');
+    Route::get('/property-types/{type}', 'WebsiteController@propertyType')->name('type.property');
+    Route::get('/property/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
+    Route::get('/properties', 'WebsiteController@property')->name('browse.property');
+    Route::get('/map-properties', 'WebsiteController@mapProperty')->name('browse.property_map');
 
-Route::get('/properties/search', 'WebsiteController@searchProperty')->name('browse.property.search');
-Route::get('/map-search-properties', 'WebsiteController@mapSearchProperty')->name('browse.search_property_map');
-Route::get('/property-status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');
-Route::get('/property-types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
-Route::get('/map-property-types', 'WebsiteController@mapPropertyType')->name('browse.property_types_map');
+    Route::get('/properties/search', 'WebsiteController@searchProperty')->name('browse.property.search');
+    Route::get('/map-search-properties', 'WebsiteController@mapSearchProperty')->name('browse.search_property_map');
+    Route::get('/property-status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');
+    Route::get('/property-types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
+    Route::get('/map-property-types', 'WebsiteController@mapPropertyType')->name('browse.property_types_map');
 
-Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
-Route::get('/help/property-owners', 'WebsiteController@ownerHelp')->name('help.owner');
-Route::get('/help/booking-and-travellers', 'WebsiteController@bookingHelp')->name('help.booking');
-Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
-Route::get('/account-deactivated', 'WebsiteController@accountDeactivated')->name('account.deactivated');
-Route::get('/email', 'WebsiteController@email');
-
+    Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
+    Route::get('/help/property-owners', 'WebsiteController@ownerHelp')->name('help.owner');
+    Route::get('/help/booking-and-travellers', 'WebsiteController@bookingHelp')->name('help.booking');
+    Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
+    Route::get('/account-deactivated', 'WebsiteController@accountDeactivated')->name('account.deactivated');
+    Route::get('/email', 'WebsiteController@email');
+});
 
 /*----------------Start User Route List----------------------------- */
 Auth::routes();

@@ -2,8 +2,8 @@
 
 @section('content')
 
-<div class="pxp-content">
-    <div class="pxp-contact pxp-content-wrapper mt-100">
+<div class="pxp-content pull-content-down">
+    <div class="">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-7">

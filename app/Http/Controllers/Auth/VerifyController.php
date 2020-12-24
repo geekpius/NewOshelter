@@ -42,7 +42,7 @@ class VerifyController extends Controller
         if($user->email_verification_token == $request->verification_code){
             $user->verify_email = true;
             $user->update();
-            return redirect()->route('dashboard');
+            return redirect()->route('index');
         }else{
             if ($user->verify_email_time < Carbon::now()){
                 session()->flash('error', 'Verification code is expired');

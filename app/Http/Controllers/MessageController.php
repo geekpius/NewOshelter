@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\MessageModel\Reply;
 use Illuminate\Http\Request;
 use App\MessageModel\Message;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +19,8 @@ class MessageController extends Controller
     //show all messages
     public function index()
     {
-        $data['page_title'] = 'Messages';
-        $data['messages'] = Message::whereUser_id(Auth::user()->id)->whereIn('status', [0,1])->paginate(10);
+        $data['page_title'] = 'Message inbox';
+        $data['messages'] = Message::whereDestination(Auth::user()->id)->whereIn('status', [0,1])->orderBy('id','DESC')->paginate(10);
         return view('user.messages.index', $data);
     }
 
@@ -61,16 +60,17 @@ class MessageController extends Controller
     public function reply(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'message_id' => 'required|string',
+            'destination' => 'required|integer',
             'message' => 'required|string',
         ]);
         if ($validator->fails()){
             $message = 'fail';
         }else{
-            $reply = new Reply;
-            $reply->message_id = $request->message_id;
-            $reply->message = $request->message;
-            $reply->save();
+            $msg = new Message;
+            $msg->user_id = Auth::user()->id;
+            $msg->destination = $request->destination;
+            $msg->message = $request->message;
+            $msg->save();
             $message="success";
         }
         return $message;
@@ -79,15 +79,17 @@ class MessageController extends Controller
     //delete message
     public function read(Message $message)
     {
-        if(Auth::user()->id == $message->user->id){
+        if(Auth::user()->id == $message->destination){
             if($message->status==0){
                 $message->status = 1;
                 $message->update();
                 return 'success';
+            }else{
+                return 'success';
             }
         }
         else{
-            return view('errors.404');
+            return "permission";
         }
     }
 

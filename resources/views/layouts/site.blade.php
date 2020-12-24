@@ -44,7 +44,7 @@
                     <div class="col-8 col-md-7 text-center">
                         <div class="mobile-menu-items">
                             @auth
-                            <a href="#" class="pr-4 text-decoration-none" title="Filter">
+                            <a href="{{ route('browse.property') }}" class="pr-4 text-decoration-none" title="Filter">
                                 <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
                             <a href="{{ route('visits') }}" class="pr-4 text-decoration-none" title="Visits">
@@ -70,15 +70,14 @@
                             @endguest
                         </div>
                         <ul class="pxp-nav list-inline">
-                            {{-- <li class="list-inline-item"><a href="{{ route('own.property') }}" class="font-14 font-14-sm-laptop font-14-lg-laptop">Own a Property</a></li> --}}
                             <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Own a Property</a></li>
                             <li class="list-inline-item"><a href="{{ route('property.start') }}" class="font-12 font-14-sm-laptop font-12-lg-laptop">Become an Owner</a></li>
                             <li class="list-inline-item">
                                 <a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop"><i class="fa fa-question-circle"></i> Help</a>
-                                <ul class="pxp-nav-sub rounded-lg">
+                                {{-- <ul class="pxp-nav-sub rounded-lg">
                                     <li><a href="{{ route('help.owner') }}" class="font-13 sub-menu-item">Property Owners</a></li>
                                     <li><a href="#" class="font-13 sub-menu-item">Guests and Tenants</a></li>
-                                </ul>
+                                </ul> --}}
                             </li>
                         </ul>
                     </div>

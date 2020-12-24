@@ -14,13 +14,13 @@
             <div class="row">
                 <div class="col-sm-12">
                     <!-- Right Sidebar -->
-                    <div class="pt-3">
-                        <div class="btn-toolbar" role="toolbar">
+                    <div class="">
+                        <div class="btn-toolbar inbox-blue-background" role="toolbar">
                             <div class="btn-group">
-                                <button type="button" onclick="window.location='{{route('messages')}}'" class="btn btn-info waves-light waves-effect"><i class="fas fa-inbox"></i></button>
+                                <button type="button" onclick="window.location='{{route('messages')}}'" class="btn btn-default text-white"><i class="fas fa-inbox"></i></button>
                             </div>  
                             <div class="btn-group ml-1">  
-                                <button type="button" class="btn btn-info waves-light waves-effect" id="chkParent1">
+                                <button type="button" class="btn btn-default" id="chkParent1">
                                     <!-- <input type="checkbox" id="chkParent">
                                     <label for="chkParent" class="toggle"></label> -->
                                     <div class="custom-control custom-checkbox">
@@ -30,86 +30,65 @@
                                 </button>
                             </div>  
                             <div class="btn-group ml-1">
-                                <button type="button" class="btn btn-info waves-light waves-effect btnDeleteAll"><i class="fas fa-trash"></i></button>
+                                <button type="button" class="btn btn-default text-white btnDeleteAll"><i class="fas fa-trash"></i></button>
                             </div>                                    
                         </div><!-- end toolbar -->
     
     
                         <div class="card my-3">
-                            <ul class="message-list">
-                            @if (count($messages))
-                            @foreach ($messages as $message)
-                                <div class="inboxParent">
-                                    <li>                                           
-                                        <div class="col-mail col-mail-1">
-                                            <div class="checkbox-wrapper-mail">
-                                                <input type="checkbox" id="chk{{ $message->id }}" value="{{ $message->id }}">
-                                                <label for="chk{{ $message->id }}" class="toggle"></label>
-                                            </div>
-                                            <a href="javascript:void(0);" class="showReader" data-href="{{ route('messages.read', $message->id) }}">
-                                                <p class="title">{{ $message->user->name }}</p>
-                                            </a>                                                     
+                            <div class="message-list">
+                                @if (count($messages))
+                                @foreach ($messages as $message)
+                                <hr>
+                                <div class="inboxParent mb-3">
+                                    <div class="row hand-cursor showReader {{ ($message->status==0)? ' font-weight-bolder':'' }}" data-url="{{ route('messages.read', $message->id) }}">
+                                        <div class="col-1">
+                                            <input type="checkbox" class="ml-2" id="chk{{ $message->id }}" value="{{ $message->id }}" style="width: 16px; height: 16px">
+                                            <label for="chk{{ $message->id }}" class="toggle"></label>    
                                         </div>
-                                        <div class="col-mail col-mail-2">
-                                            <a href="javascript:void(0);" class="subject showReader" data-href="{{ route('messages.read', $message->id) }}"><span>{{ $message->message }}</span></a>
-                                            <div class="date">{{ \Carbon\Carbon::parse($message->created_at)->format("d-M-Y") }}</div><br>
-                                        </div>                                           
-                                    </li>
-    
-                                    <div class="card mt-3 myReader" style="display:none">
+                                        <div class="col-3">{{ $message->limitName() }}</div>
+                                        <div class="col-6">{{ $message->limitMessage() }}</div>  
+                                        <div class="col-2 text-right">
+                                            <span class="mr-2">{{ \Carbon\Carbon::parse($message->created_at)->format("M-d") }}</span>
+                                        </div>   
+                                    </div>
+                                    
+                                    <div class="col-12 mt-2 myReader" style="display:none">
                                         <div class="card-body">
                                             <i class="fa fa-times float-right fa-lg exitReader" style="cursor: pointer"></i>
                                             <div class="media mb-4">
-                                                <img class="d-flex mr-3 rounded-circle thumb-md" src="{{ empty($message->user->image)? asset('assets/images/user.jpg'):asset('assets/images/users/'.$message->user->image) }}" alt="Generic placeholder image">
+                                                <img class="d-flex mr-3 rounded-circle thumb-md" src="{{ empty($message->user->image)? asset('assets/images/user.svg'):asset('assets/images/users/'.$message->user->image) }}" alt="Generic placeholder image">
                                                 <div class="media-body align-self-center">
                                                     <h4 class="font-14 m-0">{{ $message->user->name }}</h4>
-                                                    <small class="text-muted">{{ $message->user->membership }}</small>
                                                 </div>
                                             </div>
                 
-                                            <p>Dear {{ current(explode(' ',$message->user->name)) }},</p>
                                             <p>{{ $message->message }}</p>
-                                            <hr/>
-    
-                                            @foreach ($message->replies as $reply)
-                                                @if ($reply->status)
-                                                    <p>{{ $reply->message }}</p>
-                                                    <small>{{ $message->user->name }}</small>
-                                                    <hr/>
-                                                @else
-                                                    <div class="pl-5">
-                                                        <p>{{ $reply->message }}</p>
-                                                        <small>Me</small>
-                                                    </div>
-                                                    <hr/>
-                                                @endif
-                                            @endforeach
-                                            <div class="pl-5 myReplies" style="display:none"></div>
-                                            
-                                            <a href="javascript:void(0);" data-id="{{ $message->id }}" class="btn btn-gradient-primary waves-effect btnReply" data-animation="bounce">
+                                            <a href="javascript:void(0);" data-id="{{ $message->user_id }}" class="btn btn-primary btnReply" data-animation="bounce">
                                                 <i class="mdi mdi-reply"></i> Reply
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
-                            @else
-                                <div class="text-center m-5">
-                                    <p class="text-danger">Empty</p>
-                                </div>
-                            @endif
-                            </ul>
+                                @endforeach
+                                @else
+                                    <div class="text-center m-5">
+                                        <p class="text-danger">Nothing in inbox</p>
+                                    </div>
+                                @endif
+                            </div>
                         </div> <!-- panel -->
     
     
-                        <div class="row mb-3">
+                        <div class="row">
                             <div class="col-7 align-self-center">
-                                Showing 1 - 20 of 100
+                                @if(count($messages))
+                                Showing 1 - {{ $messages->count() }} of {{ $messages->total() }}
+                                @endif
                             </div><!-- end Col -->
                             <div class="col-5">
                                 <div class="btn-group float-right">
-                                    <button type="button" class="btn btn-primary mb-0"><i class="fa fa-chevron-left"></i></button>
-                                    <button type="button" class="btn btn-primary mb-0"><i class="fa fa-chevron-right"></i></button>
+                                   {{ $messages->links() }}
                                 </div>
                             </div><!-- end Col -->
                         </div> <!--end row-->   
@@ -130,20 +109,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="card mb-0 p-3">
-                    <form id="formReply">
-                        <input type="hidden" name="message_id" id="message_id" readonly>
-                        <div class="form-group mb-3 validate">
-                            <textarea name="message" id="reply_message" cols="30" rows="5" class="form-control"></textarea>
-                            <span class="small text-danger mySpan"></span>
-                        </div><!--end form-group-->
-                        <div class="btn-toolbar form-group mb-0">
-                            <div class="pull-right">
-                                <button type="submit" class="btn btn-gradient-primary waves-effect waves-light btnSendReply">Send <i class="far fa-paper-plane ml-3"></i></button>                                                
-                            </div>
-                        </div><!--end form-group-->
-                    </form><!--end form-->
-                </div><!--end card-->
+                <form id="formReply">
+                    <input type="hidden" name="destination" id="message_id" readonly>
+                    <div class="form-group mb-3 validate">
+                        <textarea name="message" id="reply_message" cols="30" rows="5" class="form-control"></textarea>
+                        <span class="small text-danger mySpan"></span>
+                    </div><!--end form-group-->
+                    <div class="btn-toolbar form-group mb-0">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-primary btnSendReply">Send <i class="far fa-paper-plane ml-3"></i></button>                                                
+                        </div>
+                    </div><!--end form-group-->
+                </form><!--end form-->
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -156,16 +133,19 @@ $(".showReader").on("click", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this = $(this);
-    $this.parents('.inboxParent').find('.myReader').show();
-    $this.parents('.inboxParent').nextAll().hide();
-    $this.parents('.inboxParent').prevAll().hide();
     $.ajax({
-        url: $this.data('href'),
+        url: $this.data('url'),
         type: "GET",
         success: function(resp){
             if(resp=='success'){
-                //
-            }                
+                $this.parents(".inboxParent").find('.myReader').show();
+                $this.parents(".inboxParent").nextAll().hide();
+                $this.parents(".inboxParent").prevAll().hide();
+                $this.removeClass('font-weight-bolder');
+                $this.hide();
+            }else if(resp == "permission")  {
+                swal("Authorized", "You dont have permission to read this", "warning");
+            }              
         },
         error: function(resp){
             console.log('Something went wrong with request');
@@ -181,6 +161,7 @@ $(".exitReader").on("click", function(e){
     $this.parents('.myReader').hide();
     $this.parents('.inboxParent').nextAll().show();
     $this.parents('.inboxParent').prevAll().show();
+    $(".showReader").show();
     return false;
 });
 
@@ -209,7 +190,6 @@ $("#formReply").on("submit", function(e){
             data: data,
             success: function(resp){
                 if(resp=='success'){
-                    $(".myReplies").show().html("<p>"+$("#reply_message").val()+"</p><small>Me</small><hr>");
                     $("#reply_message").val('');
                     $(".compose-modal").modal('hide');
                     $('.exitReader').trigger('click');
@@ -238,7 +218,7 @@ $(".btnDeleteAll").on("click", function(e){
     var $this = $(this);
     var isChecked = 0;
     var ids = [];
-    $('.message-list .checkbox-wrapper-mail').find('input[type="checkbox"]').each(function() {
+    $('.message-list .inboxParent').find('input[type="checkbox"]').each(function() {
         if ($(this).prop("checked")){
             isChecked +=1;
             ids.push($(this).val());
@@ -269,19 +249,18 @@ $(".btnDeleteAll").on("click", function(e){
 });
 
 
-
 $('#chkParent').on("click", function() {
     var isChecked = $(this).prop("checked");
-    $('.message-list .checkbox-wrapper-mail').find('input[type="checkbox"]').prop('checked', isChecked);
+    $('.message-list .inboxParent').find('input[type="checkbox"]').prop('checked', isChecked);
 });
 
-$('.message-list .checkbox-wrapper-mail').find('input[type="checkbox"]').on("click", function() {
+$('.message-list .inboxParent').find('input[type="checkbox"]').on("click", function() {
     var isChecked = $(this).prop("checked");
     var isHeaderChecked = $("#chkParent").prop("checked");
     if (!isChecked && isHeaderChecked)
         $("#chkParent").prop('checked', isChecked);
     else {
-        $('.message-list .checkbox-wrapper-mail').find('input[type="checkbox"]').each(function() {
+        $('.message-list .inboxParent').find('input[type="checkbox"]').each(function() {
             if (!$(this).prop("checked"))
                 isChecked = false;
         });

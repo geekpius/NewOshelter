@@ -257,12 +257,7 @@
                                             <i class="fa fa-check text-success font-12"></i>
                                             <span>
                                                 <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>/<small>{{ $property->propertyPrice->price_calendar }}</small>
-                                            </span><br>
-                                            <i class="fa fa-check text-success font-12"></i>
-                                            <span>{{ $property->getNumberOfGuest() }} Guests</span><br>
-                                            <i class="fa fa-check text-success font-12"></i>
-                                            <span>{{ $property->adult==1? $property->adult.' Adult':$property->adult.' Adults' }}</span> |
-                                            
+                                            </span>
                                         </p>
                                     </div>
                                 </div>

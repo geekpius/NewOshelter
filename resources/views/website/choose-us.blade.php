@@ -2,8 +2,8 @@
 
 @section('content')
 
-<div class="pxp-content">
-    <div class="pxp-contact pxp-content-wrapper">
+<div class="pxp-content pull-content-down">
+    <div class="">
         <div class="pxp-contact-hero mt-4 mt-md-5">
             <div class="pxp-contact-hero-fig pxp-cover" style="background-image: url({{ asset('assets/light/images/contact-bg.jpg') }}); background-position: 50% 50%;"></div>
 
