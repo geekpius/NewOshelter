@@ -1,9 +1,3 @@
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-    }
-})
-
 // BOOKING SCRIPTS //
 
 // open upload modal
@@ -32,11 +26,11 @@ $("#front_file").on("change", function(){
     var ext = selectedFile.replace(/^.*\./, '');
     ext= ext.toLowerCase();
     if(size>1000141){
-        swal("Opps", "Uploaded file is greater than 1mb.", "error");
+        swal("Opps", "Uploaded file is greater than 1mb.", "warning");
         document.getElementById("front_file").value = null;
     }
     else if(ext!='jpg' && ext!='jpeg' && ext!='png'){
-        swal("Opps", "Unknown file types.", "error");
+        swal("Opps", "Unknown file types.", "warning");
         document.getElementById("front_file").value = null;
     }
     else{
@@ -83,11 +77,11 @@ $("#back_file").on("change", function(){
     var ext = selectedFile.replace(/^.*\./, '');
     ext= ext.toLowerCase();
     if(size>1000141){
-        swal("Opps", "Uploaded file is greater than 1mb.", "error");
+        swal("Opps", "Uploaded file is greater than 1mb.", "warning");
         document.getElementById("back_file").value = null;
     }
     else if(ext!='jpg' && ext!='jpeg' && ext!='png'){
-        swal("Opps", "Unknown file types.", "error");
+        swal("Opps", "Unknown file types.", "warning");
         document.getElementById("back_file").value = null;
     }
     else{
@@ -222,6 +216,9 @@ $(".btnVerify").on("click", function(e){
     var $this = $(this);
     if($("#phone_number").val()==''){
         $("#phone_number").addClass('is-invalid').focus();
+    }else if($("#phone_number").val().length>9){
+        $("#phone_number").addClass('is-invalid').focus();
+        $("#phone_number").parents(".validate").find(".mySpan").text("Invalid phone number");
     }else{
         $("#phone_number").removeClass('is-invalid');
         var data = $("#phone_number").serialize();
@@ -236,7 +233,7 @@ $(".btnVerify").on("click", function(e){
                         $this.html('<i class="fa fa-arrow-right"></i> Resend Verification');
                     });
                 }else{
-                    console.log(resp+'. try again.');
+                    swal('Warning', `${resp}.`, 'warning');
                 }
             },
             error: function(resp){

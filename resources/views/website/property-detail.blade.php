@@ -659,21 +659,23 @@
                             <form class="form-horizontal form-material mb-0" id="formRentBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
+                                <input type="hidden" name="type" readonly value="rent">
                                 <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
                                 <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <div class="input-group input-group-sm validate" id="dateRanger" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}">
-                                            <input type="text" name="check_in" value="" class="form-control" placeholder="Check In" readonly />
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text fa fa-arrow-right small" id="inputGroup-sizing-sm"></span>
-                                            </div>
-                                            <input type="text" name="check_out" value="" class="form-control" placeholder="Check Out" readonly />
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="duration" id="duration" class="form-control">
+                                                <option value="">--Select rent duration--</option>
+                                                <option value="6">6 months</option>
+                                                <option value="12">1 year</option>
+                                                <option value="24">2 years</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 mt-3">
                                         <div class="form-group input-group-sm validate">
-                                            <select name="adult" id="adult" class="form-control" data-number="{{ $property->adult }}">
+                                            <select name="adult" id="adult" class="form-control">
                                                 <option value="1">1 Adult</option>
                                                 <option value="2">2 Adults</option>
                                                 <option value="3">3 Adults</option>
@@ -687,9 +689,9 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 mt-3">
+                                    <div class="col-sm-12 mt-3">
                                         <div class="form-group input-group-sm validate">
-                                            <select name="children" id="children" class="form-control" data-number="{{ $property->children }}">
+                                            <select name="children" id="children" title="Under 12 years" class="form-control">
                                                 <option value="0">No Children</option>
                                                 <option value="1">1 Child</option>
                                                 <option value="2">2 Children</option>
@@ -701,19 +703,6 @@
                                                 <option value="8">8 Children</option>
                                                 <option value="9">9 Children</option>
                                                 <option value="10">10 Children</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 mt-3">
-                                        <div class="form-group input-group-sm validate">
-                                            <select name="infant" id="infant" class="form-control">
-                                                <option value="0">No Infant</option>
-                                                <option value="1">1 Infant</option>
-                                                <option value="2">2 Infants</option>
-                                                <option value="3">3 Infants</option>
-                                                <option value="4">4 Infants</option>
-                                                <option value="5">5 Infants</option>
                                             </select>
                                         </div>
                                     </div>

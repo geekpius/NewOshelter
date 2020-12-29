@@ -28,7 +28,7 @@ class TicketController extends Controller
     public function create()
     {
         $data['page_title'] = 'New ticket';
-        return view('admin.tickets.create', $data);
+        return view('user.supports.create', $data);
     }
 
     //save ticket message

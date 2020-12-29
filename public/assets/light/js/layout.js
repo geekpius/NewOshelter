@@ -15,23 +15,7 @@ function getMessageCount(){
     setTimeout(getMessageCount, 10000);
 }
 
-function getMessageNotification(){
-    $.ajax({                   
-        url: $(".myMessages").data('url'),
-        type: "GET",
-        success: function(resp){
-            $(".myMessages").html(resp);
-        },
-        error: function(resp){
-            console.log("Something went wrong with request");
-        }
-    });
-
-    setTimeout(getMessageNotification, 10000);
-}
-
-// getMessageCount();
-// getMessageNotification();
+getMessageCount();
 
 
 // notifications
@@ -67,7 +51,7 @@ function getNotification(){
 }
 
 getNotificationCount();
-// getNotification();
+getNotification();
 
 $(".btnHeart").on("click", function(e){
     e.preventDefault();

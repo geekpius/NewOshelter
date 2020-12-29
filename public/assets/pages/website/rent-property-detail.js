@@ -1,91 +1,31 @@
-// Date pickers //
-$(function() {
-    $('#dateRanger').daterangepicker({
-        opens: 'left',
-        autoApply: true,
-        // showDropdowns: true,
-        minDate: $('#dateRanger').data('date'), 
-    });
-});
-
-$('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
-    var checkIn = picker.startDate;
-    var checkOut =picker.endDate;
-    if(checkOut){
-        // get number of selected months
-        let months;
-        let numberOfMonth;
-        let checkInDate = new Date(checkIn);
-        let checkOutDate = new Date(checkOut);
-        months = (checkOutDate.getFullYear() - checkInDate.getFullYear()) * 12;
-        months -= checkInDate.getMonth();
-        months += checkOutDate.getMonth();
-        numberOfMonth = (months <= 0)? 0 : months;
-        
-        // check if select months is not less
-        let advanceDuration = $("#initialAmount").data('duration');
-        if (numberOfMonth < advanceDuration){
-            // alert("Number of months selected is less than advance payment months.\nSelect same or more than the advance payment duration");
-            swal("Warning","Number of months selected is less than advance payment months.\nSelect same or more than the advance payment duration", "warning");
-            return;
+$("#formRentBooking select[name='duration']").on('change', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this = $(this);
+    let advancePaymentDuration = $("#initialAmount").data("duration");
+    let selectedAdvancePaymentDuration = $this.val();
+    if (advancePaymentDuration > selectedAdvancePaymentDuration){
+        let duration = "";
+        if(advancePaymentDuration == 6){
+            duration = "6 months";
+        }else if(advancePaymentDuration == 12){
+            duration = "1 year";
+        }else if(advancePaymentDuration == 24){
+            duration = "2 years";
         }
-
-        // get the total selected months price
-        let totalPrice = numberOfMonth*parseFloat($("#initialAmount").data('amount'));
-        let month = (numberOfMonth>1)? numberOfMonth.toString()+" months":numberOfMonth.toString()+" month";
-        $('#dateCalculator').text($("#initialAmount").data('amount')+" x " + month);
-        $('#dateCalculatorResult').text($("#initialCurrency").data('currency')+" "+totalPrice.toFixed(2));
-        // getting service fee
-        let serviceCharge = parseFloat($("#formRentBooking input[name='charge']").val());
-        let serviceDiscount = parseFloat($("#formRentBooking input[name='discount']").val());
-        let serviceFee = (serviceCharge/100)*totalPrice;
-        let discountFee = (serviceDiscount/100)*totalPrice;
-        let totalAmount = (totalPrice+serviceFee)-discountFee;
-        $("#serviceFeeResult").text($("#initialCurrency").data('currency')+" "+serviceFee.toFixed(2));
-        $("#totalFeeResult").text($("#initialCurrency").data('currency')+" "+totalAmount.toFixed(2));
+        swal("Warning", `Least advance payment duration is ${duration}`, "warning");
+        $this.val(advancePaymentDuration);
     }
-
-    $("#dateRanger input[name='check_in']").val(picker.startDate.format('DD-MM-YYYY').toString()).removeClass('is-invalid');
-    $("#dateRanger input[name='check_out']").val(picker.endDate.format('DD-MM-YYYY').toString()).removeClass('is-invalid');
-    $("#formRentBooking #showCalculations").hide().slideDown('slow');
+    return false;
 });
 
 
-// checking adult selections //
-$("#formRentBooking #adult").on("change", function(){
-    $this = $(this);
-    if($this.val()!=""){
-        let setAdult = $this.data('number');
-        if(parseInt($this.val())>parseInt(setAdult)){
-            let noOfAdult = (parseInt(setAdult)>1)? setAdult+" adults":setAdult+" adult";
-            // alert("Property require "+noOfAdult);
-            swal("Warning","Property requires "+noOfAdult, "warning");
-            $this.val('1');
-            return;
-        }
-    }
-});
-
-// checking children selections //
-$("#formRentBooking #children").on("change", function(){
-    $this = $(this);
-    if($this.val()!=""){
-        let setChildren = $this.data('number');
-        if(parseInt($this.val())>parseInt(setChildren)){
-            let noOfChild = (parseInt(setChildren)>1)? setChildren+" children":setChildren+" child";
-            // alert("Property require "+noOfChild);
-            swal("Warning","Property requires "+noOfChild, "warning");
-            $this.val('0');
-            return;
-        }
-    }
-});
 
 $("#formRentBooking").on('submit', function(e){
     e.stopPropagation();
     var $this = $(this);
     var valid = true;
-    $('#formRentBooking input, #formRentBooking select').each(function() {
+    $('#formRentBooking select').each(function() {
         var $this = $(this);
         
         if(!$this.val()) {

@@ -61,7 +61,7 @@
                             <a href="#" class="pr-4 text-decoration-none" title="Filter">
                                 <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
-                            <a href="{{ route('help.owner') }}" class="pr-4 text-decoration-none" title="Help">
+                            <a href="#" class="pr-4 text-decoration-none" title="Help">
                                 <i class="fa fa-question-circle fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
                             <a href="{{ route('login') }}" class="text-decoration-none" title="Login">
@@ -72,47 +72,34 @@
                         <ul class="pxp-nav list-inline">
                             <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Own a Property</a></li>
                             <li class="list-inline-item"><a href="{{ route('property.start') }}" class="font-12 font-14-sm-laptop font-12-lg-laptop">Become an Owner</a></li>
-                            <li class="list-inline-item">
+                            {{-- <li class="list-inline-item">
                                 <a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop"><i class="fa fa-question-circle"></i> Help</a>
-                                {{-- <ul class="pxp-nav-sub rounded-lg">
+                                <ul class="pxp-nav-sub rounded-lg">
                                     <li><a href="{{ route('help.owner') }}" class="font-13 sub-menu-item">Property Owners</a></li>
                                     <li><a href="#" class="font-13 sub-menu-item">Guests and Tenants</a></li>
-                                </ul> --}}
-                            </li>
+                                </ul>
+                            </li> --}}
                         </ul>
                     </div>
 
-                    {{-- @auth
+                    @auth
                     <div class="col-2 col-md-1 text-right">
-                        <div class="dropdown notification-list">
-                            <a class="nav-link" data-toggle="dropdown" href="#" role="button"
-                                aria-haspopup="false" aria-expanded="false">
-                                <i class="fa fa-bell fa-lg text-white noti-bell"></i>
-                                <span class="badge badge-danger badge-pill noti-icon-badge myNotificationCount" data-url="">3</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right myNotifications" data-url=""  style="width: 200px">
-                                
-                            </div>
-                        </div>
-                    </div>
-                    @endauth --}}
-
-                    <div class="col-2 col-md-2 text-right">
-                        {{-- <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars fa-lg"></span></a> --}}
-                        
-                        @auth
                         <div class="dropdown notification-list float-left">
                             <a class="nav-link" data-toggle="dropdown" href="#" role="button"
                                 aria-haspopup="false" aria-expanded="false">
                                 <i class="fa fa-bell fa-lg text-white noti-bell"></i>
                                 <span class="badge badge-danger badge-pill noti-icon-badge myNotificationCount" data-url="{{ route('notification.count') }}"></span>
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right myNotifications" data-url=""  style="width: 200px">
+                            <div class="dropdown-menu dropdown-menu-right myNotifications" data-url="{{ route('notifications') }}" style="width: 250px">
                                 
                             </div>
                         </div>
-                        @endauth
+                    </div>
+                    @endauth
 
+                    <div class="col-2 col-md-2 text-right">
+                        {{-- <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars fa-lg"></span></a> --}}
+                        
                         <div class="dropdown">
                             <a href="javascript:void(0);" class="pxp-header-user" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="profile-avatar-container p-1">
@@ -122,7 +109,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width: 200px">
                                 @auth
-                                <a class="dropdown-item" href="{{ route('messages') }}"><span class="fa fa-envelope"></span> Message</a>
+                                <a class="dropdown-item" href="{{ route('messages') }}"><span class="fa fa-envelope"></span> Message (<span class="myMessageCount" data-url="{{ route('message.count') }}"></span>)</a>
                                 <a class="dropdown-item" href="{{ route('visits') }}"><span class="fa fa-building"></span> Visits</a>
                                 <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
                                 <hr>

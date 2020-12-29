@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+<messageLib>
+  <config>
+    <host>zenbeep.com</host>
+    <pid>WTJNdmRuWXZjREJOU1hGc1kzSnJSbFozTURSVGR6MDk=</pid>
+    <port>
+        <http>80</http>
+        <https>443</https>
+    </port>
+  </config>
+</messageLib> -->
+
+<!-- local -->
+
+<messageLib>
+  <config>
+    <host>zenophsms.org</host>
+    <pid>WTJNdmRuWXZjREJOU1hGc1kzSnJSbFozTURSVGR6MDk=</pid>
+    <port>
+        <http>80</http>
+        <https>443</https>
+    </port>
+  </config>
+</messageLib> 
+
+<!--
+﻿<messages>
+    <message>
+        <text>Hello {$name}!</text>
+        <type>0</type>
+        <sender>HELLO</sender>
+        <destinations>
+            <to p="246314915">
+                <values>
+                    <value>Daniel</value>
+                </values>
+            </to>
+            <to p="207729851">
+                <values>
+                    <value>Oppong</value>
+                </values>
+            </to>
+        </destinations>
+    </message>
+</messages> -->

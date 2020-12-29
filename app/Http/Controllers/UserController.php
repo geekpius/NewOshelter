@@ -46,7 +46,7 @@ class UserController extends Controller
     //notification message count
     public function messageCount()
     {
-        $countMessage = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->count();
+        $countMessage = Message::whereDestination(Auth::user()->id)->whereStatus(0)->count();
         return $countMessage;
     }
 
@@ -88,7 +88,7 @@ class UserController extends Controller
         // hostel
         $data['hostels'] = HostelBooking::whereOwner_id(Auth::user()->id)->whereStatus(1)->get();
         $data['hostels_confirms'] = HostelBooking::whereUser_id(Auth::user()->id)->whereStatus(2)->get();
-        return view('admin.notifications.notification', $data)->render();
+        return view('user.notifications.notification', $data)->render();
     }
 
     // booking requests
@@ -101,10 +101,10 @@ class UserController extends Controller
 
     public function requestDetail(Booking $booking)
     {
-       if(Auth::user()->id == $booking->owner_id){
+       if(Auth::user()->id === $booking->owner_id){
         $data['page_title'] = 'Booking requests';
         $data['booking'] = $booking;
-        return view('admin.requests.confirm', $data);
+        return view('user.requests.confirm', $data);
        }else{
         return view('errors.404');
        }
@@ -112,7 +112,7 @@ class UserController extends Controller
 
     public function requestConfirm(Booking $booking)
     {
-        if(Auth::user()->id == $booking->owner_id){
+        if(Auth::user()->id === $booking->owner_id){
             $message = '';
             if($booking->status == 1){
                 $booking->status = 2;
@@ -136,7 +136,7 @@ class UserController extends Controller
 
     public function requestCancel(Booking $booking)
     {
-        if(Auth::user()->id == $booking->owner_id){
+        if(Auth::user()->id === $booking->owner_id){
             $message = '';
             if($booking->status == 1){
                 $booking->status = 0;
@@ -165,7 +165,7 @@ class UserController extends Controller
                 $data['page_title'] = 'Payment requests';
                 $data['booking'] = $booking;
                 $data['charge'] = ServiceCharge::whereProperty_type($booking->property->type)->first();
-                return view('admin.requests.payment', $data);
+                return view('user.requests.payment', $data);
             }else{
                 return view('errors.404');
             }

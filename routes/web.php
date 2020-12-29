@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
 
         /*------- Notifications ------- */
         Route::get('/message-count', 'UserController@messageCount')->name('message.count');
-        Route::get('/message-notification', 'UserController@messageNotification')->name('message.notification');
+        // Route::get('/message-notification', 'UserController@messageNotification')->name('message.notification');
         Route::get('/notification-count', 'UserController@notificationCount')->name('notification.count');
         Route::get('/notifications', 'UserController@notification')->name('notifications');
 
@@ -61,7 +61,7 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         Route::get('/wishlist/{userSavedProperty}/remove', 'UserSavedPropertyController@removeWishList')->name('saved.remove');
 
         /*------- Requests ------- */
-        Route::get('/requests', 'UserController@requests')->name('requests');
+        // Route::get('/requests', 'UserController@requests')->name('requests');
         Route::get('/requests/{booking}/detail', 'UserController@requestDetail')->name('requests.detail');
         Route::get('/requests/{booking}/confirm', 'UserController@requestConfirm')->name('requests.comfirm');
         Route::get('/requests/{booking}/cancel', 'UserController@requestCancel')->name('requests.cancel');
@@ -76,6 +76,7 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         Route::get('/requests/{hostelBooking}/hostel/payment', 'UserController@hostelRequestPayment')->name('requests.payment.hostel');
         Route::get('/requests/{booking}/invoice', 'UserController@hostelRequestInvoice')->name('requests.invoice.hostel');
 
+        /*------- Extensions ------- */
         Route::get('/requests/extensions', 'VisitorController@extensionRequests')->name('requests.extension');
         Route::get('/requests/extensions/{userExtensionRequest}/detail', 'VisitorController@extensionDetail')->name('requests.extension.detail');
         Route::get('/requests/extensions/{userExtensionRequest}/confirm', 'VisitorController@confirmExtendStay')->name('requests.extension.confirm');
@@ -174,11 +175,11 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
         Route::post('/properties/bookings', 'BookingController@book')->name('property.bookings.submit');
         Route::post('/properties/hostel/bookings', 'BookingController@hostelBook')->name('property.bookings.hostel.submit');
-        Route::get('/properties/{property}/{checkin}/{checkout}/{guest}/{children}/{infant}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
+        Route::get('/properties/{property}/{checkin}/{checkout}/{guest}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
         Route::get('/properties/{property}/{checkin}/{checkout}/{block_id}/{gender}/{room_type}/{room_number}/{filter_id}/bookings', 'BookingController@hostelIndex')->name('property.bookings.hostel.index');
         Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
         Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
-        Route::post('/properties/bookings/verify', 'BookingController@verify')->name('property.bookings.verify');
+        Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
         Route::post('/properties/bookings/request', 'BookingController@bookingRequest')->name('property.bookings.request');
     
 

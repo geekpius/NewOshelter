@@ -21,13 +21,14 @@ use App\PaymentModel\Transaction;
 
 use App\Mail\EmailSender;
 use Illuminate\Support\Facades\Mail;
+use App\SMS\SMS;
 
 class BookingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('verify-user')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
-        $this->middleware('auth')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
+        $this->middleware('verify-user')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability']);
+        $this->middleware('auth')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability']);
     }
 
     //get hostel room number base on room type
@@ -67,23 +68,86 @@ class BookingController extends Controller
             return response()->json(array('data'=>$left.' '.$plural.' available','currency'=>(empty($price->currency)? '':$price->currency),'price'=>(empty($price->property_price)? '':$price->property_price),'calendar'=>(empty($price->price_calendar)? '':$price->price_calendar),'advance'=>$advance,'month'=>$price->payment_duration));
         }
     }
- 
-    public function index(Property $property,$checkin,$checkout,$adult,$children,$infant,$filter_id)
+
+    //booking entry route
+    public function index(Property $property,$checkin,$checkout,$guest,$filter_id)
     {
-        if($property->is_active && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count()){
-            $data['page_title'] = 'Booking '.$property->title;
-            $data['property'] = $property;
-            $data['check_in'] = $checkin;
-            $data['check_out'] = $checkout;
-            $data['adult'] = $adult;
-            $data['children'] = $children;
-            $data['infant'] = $infant;
-            $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
-            return view('admin.bookings.index', $data);
+        if($property->type == "hostel"){
+
         }else{
-            return view('errors.404');
+            if($property->type_status === 'rent'){
+                if($property->is_active && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count()){
+                    $data['page_title'] = 'Booking '.$property->title;
+                    $data['property'] = $property;
+                    $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+                    return view('user.bookings.index', $data);
+                }else{
+                    return view('errors.404');
+                }
+            }
         }
-    }  
+    } 
+ 
+    // book a reservation
+    public function book(Request $request)
+    {
+        if(auth()->check()){
+            if($request->type === 'rent'){
+                $this->validate($request, [
+                    'duration' => 'required',
+                    'adult'     => 'required|integer',
+                    'children'  => 'required|integer',
+                ]);    
+                
+                $checkIn = Carbon::now()->addDays(7)->toDateString();
+                $checkOut = Carbon::now()->addDays(7)->addMonths((int) $request->duration)->toDateString();
+                $bookingItems = collect([
+                    "duration"=>$request->duration, 
+                    "check_in"=>$checkIn,
+                    "check_out"=>$checkOut,
+                    "adult"=>$request->adult,
+                    "children"=>$request->children
+                    ]);
+                Session::put('bookingItems', $bookingItems);
+                Session::put('owner_message', '');
+                $token = Str::random(32);
+                (int) $step = 1;
+                Session::put('step', $step);
+                $guest = (int) $request->adult + (int) $request->children;
+
+                return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$checkIn, 'checkout'=>$checkOut, 'guest'=>$guest, 'filter_id'=>$token]);
+            
+            }
+        }else{
+            return redirect()->route('login');
+        }
+    }
+
+    //  book a reservation
+    public function hostelBook(Request $request)
+    {
+        if(auth()->check()){
+            $this->validate($request, [
+                'check_in'  => 'required',
+                'check_out' => 'required',
+                'block_name'     => 'required|string',
+                'gender'  => 'required|string',
+                'room_type'    => 'required|string',
+                'room_number'    => 'required|string',
+            ]);    
+            
+            Session::put('owner_message', '');
+            $token = Str::random(32);
+            (int) $step = 1;
+            Session::put('step', $step);
+            return redirect()->route('property.bookings.hostel.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'block_id'=>$request->block_name, 'gender'=>$request->gender, 'room_type'=>$request->room_type, 'room_number'=>$request->room_number, 'filter_id'=>$token]);
+        }else{
+            return redirect()->route('login');
+        }
+
+    }
+
+ 
     
     public function hostelIndex(Property $property,$checkin,$checkout,$block_id,$gender,$room_type,$room_number,$filter_id)
     {
@@ -131,53 +195,6 @@ class BookingController extends Controller
         return $message;        
     }
   
-    // book a reservation
-    public function book(Request $request)
-    {
-        if(auth()->check()){
-            $this->validate($request, [
-                'check_in'  => 'required',
-                'check_out' => 'required',
-                'adult'     => 'required|integer',
-                'children'  => 'required|integer',
-                'infant'    => 'required|integer',
-            ]);    
-
-            Session::put('owner_message', '');
-            $token = Str::random(32);
-            (int) $step = 1;
-            Session::put('step', $step);
-            return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'adult'=>$request->adult, 'children'=>$request->children, 'infant'=>$request->infant, 'filter_id'=>$token]);
-        }else{
-            return redirect()->route('login');
-        }
-
-    }
-
-    //  book a reservation
-    public function hostelBook(Request $request)
-    {
-        if(auth()->check()){
-            $this->validate($request, [
-                'check_in'  => 'required',
-                'check_out' => 'required',
-                'block_name'     => 'required|string',
-                'gender'  => 'required|string',
-                'room_type'    => 'required|string',
-                'room_number'    => 'required|string',
-            ]);    
-            
-            Session::put('owner_message', '');
-            $token = Str::random(32);
-            (int) $step = 1;
-            Session::put('step', $step);
-            return redirect()->route('property.bookings.hostel.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'block_id'=>$request->block_name, 'gender'=>$request->gender, 'room_type'=>$request->room_type, 'room_number'=>$request->room_number, 'filter_id'=>$token]);
-        }else{
-            return redirect()->route('login');
-        }
-
-    }
-
     // send sms verification code if not verified
     public function sendSmsVerification(Request $request ) : string
     {
@@ -190,20 +207,27 @@ class BookingController extends Controller
             $message = 'fail';
         }else{
             $user = User::findOrFail(Auth::user()->id);
-            $code = new User;
-            if($user->phone==$request->phone_number){
-                $user->sms_verification_token = $code->generateSmsVerificationCode();
-                $user->update();
-
-                //send sms verification code
-                $message='success';
+            (string) $phone = "0".$request->phone_number;
+            if(User::where('id', '!=', Auth::user()->id)->wherePhone($phone)->exists()){
+                $message = "Phone number is already taken by another user";
             }else{
-                $user->phone=$request->phone_number;
-                $user->sms_verification_token = $code->generateSmsVerificationCode();
-                $user->update();
-
-                //send sms verification code
-                $message='success';
+                if($user->phone==$phone){
+                    $user->sms_verification_token = $user->generateSmsVerificationCode();
+                    $user->update();
+    
+                    //send sms verification code
+                    // $sms = new SMS("TEST", "0542398441", "Test message");
+                    // $resp = $sms->send();
+                    // dd($resp);
+                    $message='success';
+                }else{
+                    $user->phone=$phone;
+                    $user->sms_verification_token = $user->generateSmsVerificationCode();
+                    $user->update();
+    
+                    //send sms verification code
+                    $message='success';
+                }
             }
         }
 
@@ -212,7 +236,7 @@ class BookingController extends Controller
     }
 
     // verify code sent from the sms
-    public function verify(Request $request) :string
+    public function verifySmsNumber(Request $request) :string
     {
         $validator = \Validator::make($request->all(), [
             'verify_code' => 'required|numeric',
@@ -242,6 +266,7 @@ class BookingController extends Controller
         $validator = \Validator::make($request->all(), [
             'property_id' => 'required',
             'type' => 'required',
+            'type_status' => 'required',
             'owner' => 'required',
             'checkin' => 'required',
             'checkout' => 'required',
@@ -295,7 +320,9 @@ class BookingController extends Controller
                     $book->check_out  = date("Y-m-d",strtotime($request->checkout));
                     $book->adult  = $request->adult;
                     $book->children  = $request->child;
-                    $book->infant  = $request->infant;
+                    if($request->type_status === 'short_stay'){
+                        $book->infant  = $request->infant;
+                    }
                     $book->status  = 1;
                     $book->update();
                     $message = "success";
@@ -316,7 +343,9 @@ class BookingController extends Controller
                     $book->check_out  = date("Y-m-d",strtotime($request->checkout));
                     $book->adult  = $request->adult;
                     $book->children  = $request->child;
-                    $book->infant  = $request->infant;
+                    if($request->type_status === 'short_stay'){
+                        $book->infant  = $request->infant;
+                    }
                     $book->save();
                     $message = "success";
                     //emailing
