@@ -1188,15 +1188,15 @@
                                                                         <label for="">Maximum stay</label>
                                                                         <select name="maximum_stay" class="form-control" id="maximum_stay">
                                                                             <option value="">--Select--</option>
-                                                                            <option value="1">1 Month</option>
-                                                                            <option value="1.1">1 Month, 1 week</option>
-                                                                            <option value="1.2">1 Month, 2 weeks</option>
-                                                                            <option value="1.3">1 Month, 3 weeks</option>
-                                                                            <option value="2">2 Months</option>
-                                                                            <option value="2.1">2 Months, 1 week</option>
-                                                                            <option value="2.2">2 Months, 2 weeks</option>
-                                                                            <option value="2.3">2 Months, 3 weeks</option>
-                                                                            <option value="3">3 Months</option>
+                                                                            <option value="30">1 Month</option>
+                                                                            <option value="37">1 Month, 1 week</option>
+                                                                            <option value="44">1 Month, 2 weeks</option>
+                                                                            <option value="51">1 Month, 3 weeks</option>
+                                                                            <option value="60">2 Months</option>
+                                                                            <option value="67">2 Months, 1 week</option>
+                                                                            <option value="74">2 Months, 2 weeks</option>
+                                                                            <option value="81">2 Months, 3 weeks</option>
+                                                                            <option value="90">3 Months</option>
                                                                         </select>
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>

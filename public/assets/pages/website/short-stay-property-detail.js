@@ -11,6 +11,7 @@ $(function() {
 $('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
     var checkIn = picker.startDate;
     var checkOut =picker.endDate;
+    
     if(checkOut){
         let checkInDate = new Date(checkIn).getTime();
         let checkOutDate = new Date(checkOut).getTime();
@@ -20,34 +21,28 @@ $('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
         // checking max and min stays
         maxStay = $("#dateMaxMin").data('max');
         minStay = $("#dateMaxMin").data('min');
-        let months;
-        let numberOfMonth;
-        let checkInDate1 = new Date(checkIn);
-        let checkOutDate1 = new Date(checkOut);
-        months = (checkOutDate1.getFullYear() - checkInDate1.getFullYear()) * 12;
-        months -= checkInDate1.getMonth();
-        months += checkOutDate1.getMonth();
-        numberOfMonth = (months <= 0)? 0 : months;
-        if (days < minStay){
-            alert("Check in and check out with owners minimum and maximum stay.");
-            return;
-        }
-        
-        if (numberOfMonth > maxStay){
-            alert("Check in and check out with owners minimum and maximum stay.");
+        if (days < minStay || days > maxStay){
+            swal("Warning", "Check in and check out with owners minimum and maximum stay.", "warning");
             return;
         }
 
         // get the total selected days price
         let totalPrice = days*parseFloat($("#initialAmount").data('amount'));
         let nights = (days>1)? days.toString()+" nights":days.toString()+" night";
-        $('#dateCalculator').text($("#initialAmount").data('amount')+" x " + nights);
-        $('#dateCalculatorResult').text($("#initialCurrency").data('currency')+" "+totalPrice.toFixed(2));
+        $('#dateCalculator').text(`${$("#initialAmount").data('amount')} x ${nights}`);
+        $('#dateCalculatorResult').text(`${$("#initialCurrency").data('currency')} ${totalPrice.toFixed(2)}`);
         // getting service fee
-        let serviceFee = (12/100)*totalPrice;
-        let totalAmount = totalPrice+serviceFee;
-        $("#serviceFeeResult").text($("#initialCurrency").data('currency')+" "+serviceFee.toFixed(2));
-        $("#totalFeeResult").text($("#initialCurrency").data('currency')+" "+totalAmount.toFixed(2));
+        let serviceCharge = parseFloat($("#formStayBooking input[name='charge']").val());
+        let discountCharge = parseFloat($("#formStayBooking input[name='discount']").val());
+        let serviceFee = (serviceCharge/100)*totalPrice;
+        let discountFee = (discountCharge/100)*totalPrice;
+        let totalAmount = (totalPrice+serviceFee)-discountFee;
+        $("#serviceFeeResult").text(`${$("#initialCurrency").data('currency')} ${serviceFee.toFixed(2)}`);
+        if(discountFee !== 0){
+            $("#discountFeeResult").text(`${$("#initialCurrency").data('currency')} ${discountFee.toFixed(2)}`);
+            $("#discountFee").show();
+        }
+        $("#totalFeeResult").text(`${$("#initialCurrency").data('currency')} ${totalAmount.toFixed(2)}`);
     }
 
     $("#dateRanger input[name='check_in']").val(picker.startDate.format('DD-MM-YYYY').toString()).removeClass('is-invalid');

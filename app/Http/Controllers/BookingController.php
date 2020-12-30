@@ -84,6 +84,15 @@ class BookingController extends Controller
                 }else{
                     return view('errors.404');
                 }
+            }elseif($property->type_status === 'short_stay'){
+                if($property->is_active && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count()){
+                    $data['page_title'] = 'Booking '.$property->title;
+                    $data['property'] = $property;
+                    $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+                    return view('user.bookings.index', $data);
+                }else{
+                    return view('errors.404');
+                }
             }
         }
     } 
@@ -117,6 +126,30 @@ class BookingController extends Controller
 
                 return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$checkIn, 'checkout'=>$checkOut, 'guest'=>$guest, 'filter_id'=>$token]);
             
+            }elseif($request->type === 'short_stay'){
+                $this->validate($request, [
+                    'check_in' => 'required',
+                    'check_out' => 'required',
+                    'adult'     => 'required|integer',
+                    'children'  => 'required|integer',
+                    'infant'  => 'required|integer',
+                ]);    
+                
+                $bookingItems = collect([
+                    "check_in"=>$request->check_in,
+                    "check_out"=>$request->check_out,
+                    "adult"=>$request->adult,
+                    "children"=>$request->children,
+                    "infant"=>$request->infant
+                    ]);
+                Session::put('bookingItems', $bookingItems);
+                Session::put('owner_message', '');
+                $token = Str::random(32);
+                (int) $step = 1;
+                Session::put('step', $step);
+                $guest = (int) $request->adult + (int) $request->children + (int) $request->infant;
+
+                return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'filter_id'=>$token]);
             }
         }else{
             return redirect()->route('login');

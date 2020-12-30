@@ -168,11 +168,17 @@
                                     $to = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_out);
                                     $dateDiff = $to->diffInMonths($from);
                                 }
+                                elseif ($booking->property->type_status == 'short_stay') {
+                                    $from=date_create($booking->check_in);
+                                    $to=date_create($booking->check_out);
+                                    $diff=date_diff($from,$to);
+                                    $dateDiff = $diff->format("%a");
+                                }
                                 
                                 $currency = $booking->property->propertyPrice->currency;
                                 $price = $booking->property->propertyPrice->property_price;
                                 $totalPrice = ($booking->property->propertyPrice->property_price* $dateDiff);
-                                $fee = empty($charge->charge)? 1:$charge->charge;
+                                $fee = empty($charge->charge)? 0:$charge->charge;
                                 $serviceFee = ($booking->property->propertyPrice->property_price* $dateDiff)*($fee/100);
                                 $discount = empty($charge->discount)? 0:$charge->discount;
                                 $discountFee = ($booking->property->propertyPrice->property_price* $dateDiff)*($discount/100);

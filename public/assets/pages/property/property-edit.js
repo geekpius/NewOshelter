@@ -41,6 +41,11 @@ if($("#formPropertyType select[name='property_type']").val()=='hostel'){
     $("#myGuests").hide();
 }
 
+// check if property type status is short stay on document load
+if($("#formPropertyType select[name='property_type_status']").val()=='short_stay'){
+    $("#myGuests").fadeIn();
+}
+
 $("#formPropertyType select[name='property_type']").on("change", function(){
     var $this = $(this);
     if($this.val()=='hostel'){

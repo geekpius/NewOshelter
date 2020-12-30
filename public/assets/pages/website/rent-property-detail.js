@@ -15,7 +15,40 @@ $("#formRentBooking select[name='duration']").on('change', function(e){
         }
         swal("Warning", `Least advance payment duration is ${duration}`, "warning");
         $this.val(advancePaymentDuration);
+        selectedAdvancePaymentDuration = advancePaymentDuration;
     }
+    
+
+    let totalPrice = selectedAdvancePaymentDuration*parseFloat($("#initialAmount").data('amount'));
+    let months = "";
+    if(selectedAdvancePaymentDuration == 6){
+        months = `${selectedAdvancePaymentDuration} months`;
+    }
+    else if(selectedAdvancePaymentDuration == 12){
+        months = "1 year";
+    }
+    else if(selectedAdvancePaymentDuration == 24){
+        months = "2 years";
+    }
+    
+    $('#formRentBooking #dateCalculator').text(`${$("#initialAmount").data('amount')} x ${months}`);
+    $('#dateCalculatorResult').text(`${$("#initialCurrency").data('currency')} ${totalPrice.toFixed(2)}`);
+    // getting service fee
+    let serviceCharge = parseFloat($("#formRentBooking input[name='charge']").val());
+    let discountCharge = parseFloat($("#formRentBooking input[name='discount']").val());
+    let serviceFee = (serviceCharge/100)*totalPrice;
+    let discountFee = (discountCharge/100)*totalPrice;
+    let totalAmount = (totalPrice+serviceFee)-discountFee;
+    $("#serviceFeeResult").text(`${$("#initialCurrency").data('currency')} ${serviceFee.toFixed(2)}`);
+    if(discountFee !== 0){
+        $("#discountFeeResult").text(`${$("#initialCurrency").data('currency')} ${discountFee.toFixed(2)}`);
+        $("#discountFee").show();
+    }
+    $("#totalFeeResult").text(`${$("#initialCurrency").data('currency')} ${totalAmount.toFixed(2)}`);
+
+    $("#formRentBooking #showCalculations").hide().slideDown('slow');
+
+
     return false;
 });
 

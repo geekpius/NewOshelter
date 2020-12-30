@@ -25,21 +25,28 @@
                                     $from = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_in);
                                     $to = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_out);
                                     $dateDiff = $to->diffInMonths($from);
+                                    $duration = '';
+                                    if($dateDiff >= 12){
+                                        $y = $dateDiff/12;
+                                        $m = $dateDiff%12;
+                                        $year = ($y==1)? $y." year":$y." years";
+                                        $month = ($m==1)? $m." month":$m." months";
+                                        $duration = $year.(($m==0)? '':$month);
+                                    }else{
+                                        $duration = $dateDiff." months";
+                                    }
                                 }
-                                $years = '';
-                                if($dateDiff >= 12){
-                                    $y = $dateDiff/12;
-                                    $m = $dateDiff%12;
-                                    $year = ($y==1)? $y." year":$y." years";
-                                    $month = ($m==1)? $m." month":$m." months";
-                                    $years = $year.(($m==0)? '':$month);
-                                }else{
-                                    $years = $dateDiff." months";
+                                elseif ($booking->property->type_status == 'short_stay') {
+                                    $from=date_create($booking->check_in);
+                                    $to=date_create($booking->check_out);
+                                    $diff=date_diff($from,$to);
+                                    $dateDiff = $diff->format("%a");
+                                    $duration = ($dateDiff <= 1)? $dateDiff.' day':$dateDiff.' days';
                                 }
                             @endphp
                             <span class="font-weight-500 ml-1">
                                 {{ $booking->property->propertyPrice->currency }}&nbsp;{{ number_format(($booking->property->propertyPrice->property_price*$dateDiff),2) }} 
-                                for {{ $years }}
+                                for {{ $duration  }}
                             </span>
                         </div>  
                     </div>

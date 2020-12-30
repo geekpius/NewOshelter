@@ -362,14 +362,14 @@
                                             </div>
                                         </div>
                                         @php
+                                            $bookingItems = Session::get('bookingItems');
                                             if ($property->type_status=='rent') {
-                                                $bookingItems = Session::get('bookingItems');
                                                 $from = \Carbon\Carbon::parse($bookingItems['check_in']);
                                                 $to = \Carbon\Carbon::parse($bookingItems['check_out']);
                                                 $dateDiff = $to->diffInMonths($from);
-                                            }else{
-                                                $from=date_create($check_in);
-                                                $to=date_create($check_out);
+                                            }elseif ($property->type_status=='short_stay'){
+                                                $from=date_create($bookingItems['check_in']);
+                                                $to=date_create($bookingItems['check_out']);
                                                 $diff=date_diff($from,$to);
                                                 $dateDiff = $diff->format("%a");
                                             }
@@ -530,12 +530,13 @@
                                     </div>
                                                                         
                                     @php
+                                        $currency = $property->propertyPrice->currency;
                                         $price = $property->propertyPrice->property_price;
                                         $totalPrice = ($property->propertyPrice->property_price* $dateDiff);
-                                        $fee = empty($charge->charge)? 1:$charge->charge;
-                                        $serviceFee = ($property->propertyPrice->property_price* $dateDiff)*($fee/100);
+                                        $fee = empty($charge->charge)? 0:$charge->charge;
+                                        $serviceFee = ($totalPrice)*($fee/100);
                                         $discount = empty($charge->discount)? 0:$charge->discount;
-                                        $discountFee = ($property->propertyPrice->property_price* $dateDiff)*($discount/100);
+                                        $discountFee = ($totalPrice)*($discount/100);
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
                                     <div class="col-sm-12 mt-5">
@@ -620,49 +621,57 @@
 
                                             <div class="col-sm-12">
                                                 <div>
-                                                    <p class="font-16">{{ $property->propertyPrice->currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
+                                                    <p class="font-16">{{ $currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
                                                 </div>
                                                 <div class="font-16">
                                                     <span id="dateCalculator">{{ $dateDiff }} x {{ number_format($price,2) }}</span>
-                                                    <span class="float-right" id="dateCalculatorResult">{{ $property->propertyPrice->currency }} {{ number_format($totalPrice,2) }}</span>
+                                                    <span class="float-right" id="dateCalculatorResult">{{ $currency }} {{ number_format($totalPrice,2) }}</span>
                                                 </div>
                                                 <div class="font-16">
                                                     <span>Service Fee</span>
-                                                    <span class="float-right" id="serviceFeeResult">{{ $property->propertyPrice->currency }} {{ number_format($serviceFee,2) }}</span>
+                                                    <span class="float-right" id="serviceFeeResult">{{ $currency }} {{ number_format($serviceFee,2) }}</span>
                                                 </div>
-                                                <div class="font-16" style="display: none !important">
+                                                @if($discountFee != 0)
+                                                <div class="font-16">
                                                     <span>Discount Fee</span>
-                                                    <span class="float-right" id="serviceDiscountResult">{{ $property->propertyPrice->currency }} {{ number_format($discountFee,2) }}</span>
+                                                    <span class="float-right" id="serviceDiscountResult">{{ $currency }} {{ number_format($discountFee, 2) }}</span>
                                                 </div>
+                                                @endif
                                                 <hr>
                                                 <div class="font-16">
                                                     <span><strong>Total</strong></span>
                                                     <span class="float-right"><strong id="totalFeeResult">
-                                                        {{ $property->propertyPrice->currency }} {{ number_format($totalFee,2) }}</strong></span>
+                                                        {{ $currency }} {{ number_format($totalFee,2) }}</strong></span>
                                                 </div>
                                             </div>
                                         @elseif($property->type_status == 'short_stay')
                                             <div class="col-sm-12">
-                                                {{-- <h4><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($adult+$children+$infant) }} {{ str_plural('Guest', ($adult+$children+$infant)) }}</h4> --}}
+                                                <h5><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant']) }} {{ str_plural('Guest', ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant'])) }}</h5>
                                             </div>
                                             <div class="col-sm-12"><hr></div>
                                             <div class="col-sm-12">
                                                 <div>
-                                                    <p class="font-18">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
+                                                    <p class="font-16">{{ $currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
                                                 </div>
-                                                <div class="font-18">
-                                                    <span id="dateCalculator">{{ $dateDiff }} {{ str_plural('Day', $dateDiff) }} x {{ number_format($property->propertyPrice->property_price,2) }}</span>
-                                                    <span class="float-right" id="dateCalculatorResult">{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price* $dateDiff,2) }}</span>
+                                                <div class="font-16">
+                                                    <span id="dateCalculator">{{ $dateDiff }} {{ str_plural('Day', $dateDiff) }} x {{ number_format($price,2) }}</span>
+                                                    <span class="float-right" id="dateCalculatorResult">{{ $currency }} {{ number_format($totalPrice,2) }}</span>
                                                 </div>
-                                                <div class="font-18">
+                                                <div class="font-16">
                                                     <span>Service Fee</span>
-                                                    <span class="float-right" id="serviceFeeResult">{{ $property->propertyPrice->currency }} {{ number_format(($property->propertyPrice->property_price* $dateDiff)*0.12,2) }}</span>
+                                                    <span class="float-right" id="serviceFeeResult">{{ $currency }} {{ number_format($serviceFee, 2) }}</span>
                                                 </div>
+                                                @if($discountFee != 0)
+                                                <div class="font-16">
+                                                    <span>Discount Fee</span>
+                                                    <span class="float-right" id="serviceDiscountResult">{{ $currency }} {{ number_format($discountFee, 2) }}</span>
+                                                </div>
+                                                @endif
                                                 <hr>
-                                                <div class="font-18">
+                                                <div class="font-16">
                                                     <span><strong>Total</strong></span>
                                                     <span class="float-right"><strong id="totalFeeResult">
-                                                        {{ $property->propertyPrice->currency }} {{ number_format((($property->propertyPrice->property_price* $dateDiff)*0.12)+($property->propertyPrice->property_price* $dateDiff),2) }}</strong></span>
+                                                        {{ $currency }} {{ number_format($totalFee, 2) }}</strong></span>
                                                 </div>
                                             </div>
                                         @endif

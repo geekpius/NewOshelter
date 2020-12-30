@@ -714,13 +714,13 @@
                                             <span id="dateCalculator">Month Cal</span>
                                             <span class="pull-right" id="dateCalculatorResult">Total Month Fee</span>
                                         </div>
-                                        {{-- <div>
-                                            <span>Discount Cal</span>
-                                            <span class="pull-right">Total Discount Fee</span>
-                                        </div> --}}
                                         <div>
                                             <span>Service Fee</span>
                                             <span class="pull-right" id="serviceFeeResult">Total Service Fee</span>
+                                        </div>
+                                        <div id="discountFee" style="display: none">
+                                            <span>Discount Fee</span>
+                                            <span class="pull-right" id="discountFeeResult">Total Discount Fee</span>
                                         </div>
                                         <hr>
                                         <div>
@@ -747,6 +747,9 @@
                             <form class="form-horizontal form-material mb-0" id="formStayBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
+                                <input type="hidden" name="type" readonly value="short_stay">
+                                <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
+                                <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
                                 <div class="row">
                                     <div class="col-sm-12" id="dateMaxMin" data-min="{{ $property->propertyPrice->minimum_stay }}" data-max="{{ $property->propertyPrice->maximum_stay }}">
                                         <div class="input-group input-group-sm validate" id="dateRanger" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}">
@@ -814,6 +817,10 @@
                                         <div>
                                             <span>Service Fee</span>
                                             <span class="pull-right" id="serviceFeeResult">Total Service Fee</span>
+                                        </div>
+                                        <div id="discountFee" style="display: none">
+                                            <span>Discount Fee</span>
+                                            <span class="pull-right" id="discountFeeResult">Total Discount Fee</span>
                                         </div>
                                         <hr>
                                         <div>
