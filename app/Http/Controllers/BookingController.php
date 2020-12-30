@@ -370,7 +370,9 @@ class BookingController extends Controller
             'mobile_operator' => 'required|string',
             'country_code' => 'required|string',
             'mobile_number' => 'required|numeric',
-            'payable_amount' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'service_fee' => 'required|numeric',
+            'discount_fee' => 'required|numeric',
             'currency' => 'required|string',
         ]);
         
@@ -381,36 +383,31 @@ class BookingController extends Controller
         }else{
             $country_code = substr($request->country_code, 1);
             if(substr($request->mobile_number, 0,1) == '0'){
-                if(strlen($request->mobile_number)>10){
-                    return 'Invalid phone number.';
-                    exit();
-                }elseif(strlen($request->mobile_number)<10){
-                    return 'Invalid phone number.';
-                    exit();
-                }else{
+                if(strlen($request->mobile_number) == 10){
                     $mobile_number = substr($request->mobile_number, 1);
+                }else{
+                    return 'Invalid phone number.';
+                    exit();
                 }
             }else{
-                if(strlen($request->mobile_number)>9){
-                    return 'Invalid phone number.';
-                    exit();
-                }elseif(strlen($request->mobile_number)<9){
-                    return 'Invalid phone number.';
-                    exit();
-                }else{
+                if(strlen($request->mobile_number) == 9){
                     $mobile_number = $request->mobile_number;
+                }else{
+                    return 'Invalid phone number.';
+                    exit();
                 }
             }
 
             $phone_number = $country_code.$mobile_number;
             $orderId = $booking->generateOrderID();
             $payId = $booking->generatePaymentID();
+            $payable = ($request->amount+$request->service_fee)-$request->discount_fee;
 
             $url = 'https://app.slydepay.com.gh/api/merchant/invoice/create';
             $params = [
                 "emailOrMobileNumber" => "vibtechbusiness@gmail.com",
                 "merchantKey" => "1593792958329",
-                "amount" => $request->payable_amount,
+                "amount" => $payable,
                 "description" => "Property payment",
                 "orderCode" => $orderId,
                 "sendInvoice" => true,
@@ -438,12 +435,14 @@ class BookingController extends Controller
                 $trans->booking_id = $booking->id;
                 $trans->transaction_id = $orderId;
                 $trans->payment_id = $payId;
-                $trans->amount = $request->payable_amount;
+                $trans->amount = $request->amount;
+                $trans->service_fee = $request->service_fee;
+                $trans->discount_fee = $request->discount_fee;
                 $trans->currency = $request->currency;
                 $trans->operator = $request->mobile_operator;
                 $trans->phone = $phone_number;
-                $trans->property_type = $request->property_type;
-                $trans->type = $request->type;
+                $trans->property_type = $request->type;
+                $trans->type = "mobile";
                 $trans->save();
                 return redirect()->route('payment.mobile.response', ['transactionId' => $orderId, 'user' => Auth::user()->id, 'operator' => strtolower($request->mobile_operator)]);
             }else{
@@ -456,7 +455,7 @@ class BookingController extends Controller
     {
         $data['page_title'] = 'Payment';
         $data['transaction'] = Transaction::whereTransaction_id($transactionId)->whereUser_id($user->id)->whereStatus(false)->orderBy('id', 'Desc')->first();
-        return view('admin.requests.payment_response', $data);
+        return view('user.requests.payment_response', $data);
     }
 
 

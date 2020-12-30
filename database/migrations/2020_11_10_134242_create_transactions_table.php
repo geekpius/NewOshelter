@@ -21,9 +21,11 @@ class CreateTransactionsTable extends Migration
             $table->string('transaction_id');
             $table->string('payment_id');
             $table->double('amount');
+            $table->double('service_fee');
+            $table->double('discount_fee');
             $table->string('currency');
-            $table->string('operator');
-            $table->string('phone');
+            $table->string('operator')->nullable();
+            $table->string('phone')->nullable();
             $table->string('type');
             $table->string('property_type');
             $table->boolean('status')->default(false);

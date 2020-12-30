@@ -58,7 +58,7 @@
                             </a>
                             @endauth
                             @guest
-                            <a href="#" class="pr-4 text-decoration-none" title="Filter">
+                            <a href="{{ route('browse.property') }}" class="pr-4 text-decoration-none" title="Filter">
                                 <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
                             <a href="#" class="pr-4 text-decoration-none" title="Help">

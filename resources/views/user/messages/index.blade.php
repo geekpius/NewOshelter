@@ -15,7 +15,7 @@
                 <div class="col-sm-12">
                     <!-- Right Sidebar -->
                     <div class="">
-                        <div class="btn-toolbar inbox-blue-background" role="toolbar">
+                        <div class="btn-toolbar inbox-blue-background" style="background-color: #0171bb !important;" role="toolbar">
                             <div class="btn-group">
                                 <button type="button" onclick="window.location='{{route('messages')}}'" class="btn btn-default text-white"><i class="fas fa-inbox"></i></button>
                             </div>  

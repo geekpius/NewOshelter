@@ -1,9 +1,3 @@
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-    }
-})
-
 // select visa
 $("#visa").on("change", function(){
     var $this = $(this);
