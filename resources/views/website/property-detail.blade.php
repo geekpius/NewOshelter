@@ -213,8 +213,8 @@
                     <h3>Availability</h3>                    
                     <!-- Vacancies -->
                     @if ($property->type=='hostel')
-                        <p><i class="fa fa-square font-12"></i> You will get to know your room mate when renting is 
-                            confirmed. Click on vacant block room to book.
+                        <p>
+                            <i class="fa fa-square font-12"></i> You will get to know your room mate when booking is confirmed.
                         </p>
                         <div class="row">
                             @if (count($property->propertyHostelBlockRooms))
@@ -223,7 +223,7 @@
                                     <div class="pro-order-box">
                                         <h4 class="header-title text-primary">
                                             <i class="fa fa-home text-success font-12"></i>
-                                            {{  $block->propertyHostelBlock->block_name  }}
+                                            {{ $block->propertyHostelBlock->block_name }}
                                         </h4>
                                         <p class="">
                                             <i class="fa fa-check text-success" style="font-size:9px"></i>
@@ -549,14 +549,16 @@
                             <span class="small text-primary">You're charged after booking is confirmed.</span>
                             <hr>
         
-                            <form class="form-horizontal form-material mb-0" id="formBookHostel" method="POST" action="{{ route('property.bookings.hostel.submit') }}">
+                            <form class="form-horizontal form-material mb-0" id="formBookHostel" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
+                                <input type="hidden" name="type" readonly value="hostel">
                                 <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
                                 <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <span id="hostelAvailabilityChecker" class="small text-success"></span>
+                                        <span id="myHostelAdvanceMonth" style="display: none !important"></span>
                                     </div>
                                     <div class="col-sm-7">
                                         <div class="form-group input-group-sm validate">
@@ -592,29 +594,33 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <div class="input-group input-group-sm validate" id="dateRanger" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}">
-                                            <input type="text" name="check_in" value="" class="form-control" placeholder="Check In" readonly />
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text fa fa-arrow-right small" id="inputGroup-sizing-sm"></span>
-                                            </div>
-                                            <input type="text" name="check_out" value="" class="form-control" placeholder="Check Out" readonly />
+                                        <div class="form-group input-group-sm validate">
+                                            <select name="duration" class="form-control" id="duration">
+                                                <option value="">--Select duration--</option>
+                                                <option value="3">3 months</option>
+                                                <option value="4">4 months</option>
+                                                <option value="6">6 months</option>
+                                                <option value="8">8 months</option>
+                                                <option value="9">9 months</option>
+                                                <option value="12">1 year</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="row mt-2" id="showCalculations">
+                                <div class="row" id="showCalculations">
                                     <div class="col-sm-12">
                                         <div>
                                             <span id="dateCalculator">Month Cal</span>
                                             <span class="pull-right" id="dateCalculatorResult">Total Month Fee</span>
                                         </div>
-                                        {{-- <div>
-                                            <span>Discount Cal</span>
-                                            <span class="pull-right">Total Discount Fee</span>
-                                        </div> --}}
                                         <div>
                                             <span>Service Fee</span>
                                             <span class="pull-right" id="serviceFeeResult">Total Service Fee</span>
+                                        </div>
+                                        <div id="discountFee" style="display: none">
+                                            <span>Discount Fee</span>
+                                            <span class="pull-right" id="discountFeeResult">Total Discount Fee</span>
                                         </div>
                                         <hr>
                                         <div>
@@ -627,16 +633,11 @@
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
                                             <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnHostelBook"><i class="fa fa-check-circle"></i> Book this {{ $property->type }}</button>
+                                            <span class="btn btn-default disabled btn-sm btn-block btnHostelBooked pl-5 pr-5 mt-3" style="display: none"> This hostel room is full</span>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-
-                            <hr>
-                            <div class="">
-                                <span class="small text-primary" id="myHostelAdvance"></span>
-                                <span class="small text-primary" id="myHostelAdvanceMonth" style="display: none"></span>
-                            </div>
                         </div><!--end card-body-->
                     </div><!--end card-->
                 @else

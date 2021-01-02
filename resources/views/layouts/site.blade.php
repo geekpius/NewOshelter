@@ -8,7 +8,7 @@
         <meta property="og:site_name" content="OShelter"/>
         <meta name="twitter:title" content="{{ $page_title }}"/>
         <meta name="twitter:site" content="@oshelter"/>
-        <meta property="og:image" content="{{ asset('assets/light/images/hero-1.jpg') }}, {{ asset('assets/light/images/favicon.png') }}">
+        <meta property="og:image" content="{{ asset('assets/light/images/bg.jpg') }}, {{ asset('assets/light/images/favicon.png') }}">
         <meta property="og:title" content="{{ $page_title }}">
         <meta property="og:url" content="{{ Request::url() }}"/>
 	    <meta property="og:description" content="Real estate platform where property owners can rent, sell, auction their properties and manage their rented properties as well">

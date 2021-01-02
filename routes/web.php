@@ -66,15 +66,15 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         Route::get('/requests/{booking}/confirm', 'UserController@requestConfirm')->name('requests.comfirm');
         Route::get('/requests/{booking}/cancel', 'UserController@requestCancel')->name('requests.cancel');
         Route::get('/requests/{booking}/payment', 'UserController@requestPayment')->name('requests.payment');
-        Route::get('/requests/{booking}/invoice', 'UserController@requestInvoice')->name('requests.invoice');
+        // Route::get('/requests/{booking}/invoice', 'UserController@requestInvoice')->name('requests.invoice');
 
         /*------- Hostel Requests ------- */
-        Route::get('/requests/hostel', 'UserController@hostelRequests')->name('requests.hostel');
+        // Route::get('/requests/hostel', 'UserController@hostelRequests')->name('requests.hostel');
         Route::get('/requests/{hostelBooking}/hostel/detail', 'UserController@hostelRequestDetail')->name('requests.detail.hostel');
         Route::get('/requests/{hostelBooking}/hostel/confirm', 'UserController@hostelRequestConfirm')->name('requests.comfirm.hostel');
         Route::get('/requests/{hostelBooking}/hostel/cancel', 'UserController@hostelRequestCancel')->name('requests.cancel.hostel');
         Route::get('/requests/{hostelBooking}/hostel/payment', 'UserController@hostelRequestPayment')->name('requests.payment.hostel');
-        Route::get('/requests/{booking}/invoice', 'UserController@hostelRequestInvoice')->name('requests.invoice.hostel');
+        // Route::get('/requests/{booking}/invoice', 'UserController@hostelRequestInvoice')->name('requests.invoice.hostel');
 
         /*------- Extensions ------- */
         Route::get('/requests/extensions', 'VisitorController@extensionRequests')->name('requests.extension');
@@ -84,10 +84,10 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         Route::get('/requests/extensions/{userExtensionRequest}/payment', 'VisitorController@extensionPayment')->name('requests.extension.payment');
 
         /*------- Payments ------- */
-        Route::post('/requests/{booking}/payment/mobile', 'BookingController@mobilePayment')->name('requests.payment.mobile');
-        Route::post('/requests/extensions/{userExtensionRequest}/payment/mobile', 'VisitorController@mobilePayment')->name('requests.extension.payment.mobile');
-        Route::get('/payments/mobile/{transactionId}/{user}/{operator}', 'BookingController@mobileResponse')->name('payment.mobile.response');
-        // Route::post('/properties/bookings/payment/mobile', 'BookingController@mobilePayment')->name('property.bookings.mobilepayment');
+        Route::post('/requests/{booking}/payment/mobile', 'PaymentController@mobilePayment')->name('requests.payment.mobile');
+        Route::post('/requests/{booking}/payment/mobile', 'PaymentController@mobilePaymentHostel')->name('requests.payment.hostel.mobile');
+        Route::post('/requests/extensions/{userExtensionRequest}/payment/mobile', 'PaymentController@mobilePayment')->name('requests.extension.payment.mobile');
+        Route::get('/payments/mobile/{transactionId}/{user}/{operator}', 'PaymentController@mobileResponse')->name('payment.mobile.response');
         // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
         // Route::get('/activities', 'UserActivityController@index')->name('activities');
 
@@ -174,9 +174,9 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         Route::post('/properties/get/block-room-number', 'BookingController@getRoomTypeNumber')->name('property.get.roomnumber');
         Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
         Route::post('/properties/bookings', 'BookingController@book')->name('property.bookings.submit');
-        Route::post('/properties/hostel/bookings', 'BookingController@hostelBook')->name('property.bookings.hostel.submit');
+        // Route::post('/properties/hostel/bookings', 'BookingController@hostelBook')->name('property.bookings.hostel.submit');
         Route::get('/properties/{property}/{checkin}/{checkout}/{guest}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
-        Route::get('/properties/{property}/{checkin}/{checkout}/{block_id}/{gender}/{room_type}/{room_number}/{filter_id}/bookings', 'BookingController@hostelIndex')->name('property.bookings.hostel.index');
+        // Route::get('/properties/{property}/{checkin}/{checkout}/{block_id}/{gender}/{room_type}/{room_number}/{filter_id}/bookings', 'BookingController@hostelIndex')->name('property.bookings.hostel.index');
         Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
         Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
         Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');

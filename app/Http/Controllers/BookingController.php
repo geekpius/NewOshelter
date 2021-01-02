@@ -17,7 +17,6 @@ use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\HostelBlockRoomNumber;
 use App\BookModel\Booking;
 use App\BookModel\HostelBooking;
-use App\PaymentModel\Transaction;
 
 use App\Mail\EmailSender;
 use Illuminate\Support\Facades\Mail;
@@ -45,55 +44,63 @@ class BookingController extends Controller
         $room = HostelBlockRoom::whereProperty_hostel_block_id($request->block_id)->whereGender($request->gender)->whereBlock_room_type($request->room_type)->first();
         $check = HostelBlockRoomNumber::whereHostel_block_room_id($room->id)->whereRoom_no($request->room_number)->whereFull(false)->first();
         if(empty($check)){
-            return response()->json(array('data'=>'Not available. Room is full.', 'currency'=>'','price'=>'','calendar'=>'','advance'=>'', 'month'=>''));
+            return response()->json(array('data'=>'Not available. Room is full.', 'currency'=>'','price'=>'','calendar'=>'','isFull'=>'Yes', 'month'=>''));
         }
         else{
             $price = PropertyHostelPrice::whereHostel_block_room_id($room->id)->first();
             $left = $check->person_per_room - $check->occupant;
-            $plural = ($left==1)? 'space':'spaces';
-            $advance ='';
-            if(empty($price->payment_duration)){
-                $advance='';
-            }
-            else{
-                if($price->payment_duration==1){
-                    $advance='1 month advance payment';
-                }
-                elseif($price->payment_duration==12){
-                    $advance='1 year advance payment';
-                }else{
-                    $advance= $price->payment_duration.' months advance payment';
-                }
-            }
-            return response()->json(array('data'=>$left.' '.$plural.' available','currency'=>(empty($price->currency)? '':$price->currency),'price'=>(empty($price->property_price)? '':$price->property_price),'calendar'=>(empty($price->price_calendar)? '':$price->price_calendar),'advance'=>$advance,'month'=>$price->payment_duration));
+            $plural = ($left <= 1)? 'space available':'spaces available';
+            return response()->json(array('data'=>$left.' '.$plural,'currency'=>(empty($price->currency)? '':$price->currency),'price'=>(empty($price->property_price)? '':$price->property_price),'calendar'=>(empty($price->price_calendar)? '':$price->price_calendar),'isFull'=>"No",'month'=>$price->payment_duration));
         }
     }
 
     //booking entry route
     public function index(Property $property,$checkin,$checkout,$guest,$filter_id)
     {
-        if($property->type == "hostel"){
-
-        }else{
-            if($property->type_status === 'rent'){
-                if($property->is_active && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count()){
-                    $data['page_title'] = 'Booking '.$property->title;
-                    $data['property'] = $property;
-                    $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
-                    return view('user.bookings.index', $data);
+        if(Session::has('bookingItems')){
+            $bookingItems = Session::get("bookingItems");
+            if($bookingItems['property'] == $property->id){
+                if($property->type == "hostel"){
+                    if($property->is_active && $property->user_id != Auth::user()->id){
+                        $data['page_title'] = 'Booking '.$property->title.' room';
+                        $data['property'] = $property;
+                        $data['my_room'] = HostelBlockRoom::whereProperty_hostel_block_id((int) $bookingItems['block_id'])
+                        ->whereBlock_room_type($bookingItems['room_type'])->whereGender($bookingItems['gender'])->first();
+                        $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+            
+                        $data['room_number'] = $data['my_room']->hostelBlockRoomNumbers->where('room_no',(int) $bookingItems['room_number'])->first();
+                        
+                        return view('user.bookings.index', $data);
+                        
+                    }else{
+                        return view('errors.404');
+                    }
                 }else{
-                    return view('errors.404');
+                    if($property->type_status === 'rent'){
+                        if($property->is_active && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count()){
+                            $data['page_title'] = 'Booking '.$property->title;
+                            $data['property'] = $property;
+                            $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+                            return view('user.bookings.index', $data);
+                        }else{
+                            return view('errors.404');
+                        }
+                    }elseif($property->type_status === 'short_stay'){
+                        if($property->is_active && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count()){
+                            $data['page_title'] = 'Booking '.$property->title;
+                            $data['property'] = $property;
+                            $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+                            return view('user.bookings.index', $data);
+                        }else{
+                            return view('errors.404');
+                        }
+                    }
                 }
-            }elseif($property->type_status === 'short_stay'){
-                if($property->is_active && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count()){
-                    $data['page_title'] = 'Booking '.$property->title;
-                    $data['property'] = $property;
-                    $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
-                    return view('user.bookings.index', $data);
-                }else{
-                    return view('errors.404');
-                }
+            }else{
+                return view('errors.404');
             }
+        }else{
+            return view('errors.404');
         }
     } 
  
@@ -111,7 +118,7 @@ class BookingController extends Controller
                 $checkIn = Carbon::now()->addDays(7)->toDateString();
                 $checkOut = Carbon::now()->addDays(7)->addMonths((int) $request->duration)->toDateString();
                 $bookingItems = collect([
-                    "duration"=>$request->duration, 
+                    "property"=>$request->property_id, 
                     "check_in"=>$checkIn,
                     "check_out"=>$checkOut,
                     "adult"=>$request->adult,
@@ -126,7 +133,8 @@ class BookingController extends Controller
 
                 return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$checkIn, 'checkout'=>$checkOut, 'guest'=>$guest, 'filter_id'=>$token]);
             
-            }elseif($request->type === 'short_stay'){
+            }
+            elseif($request->type === 'short_stay'){
                 $this->validate($request, [
                     'check_in' => 'required',
                     'check_out' => 'required',
@@ -136,6 +144,7 @@ class BookingController extends Controller
                 ]);    
                 
                 $bookingItems = collect([
+                    "property"=>$request->property_id, 
                     "check_in"=>$request->check_in,
                     "check_out"=>$request->check_out,
                     "adult"=>$request->adult,
@@ -151,62 +160,40 @@ class BookingController extends Controller
 
                 return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'filter_id'=>$token]);
             }
-        }else{
-            return redirect()->route('login');
-        }
-    }
+            elseif($request->type === 'hostel'){
+                $this->validate($request, [
+                    'duration' => 'required',
+                    'block_name'     => 'required|string',
+                    'gender'  => 'required|string',
+                    'room_type'    => 'required|string',
+                    'room_number'    => 'required|string',
+                ]);  
 
-    //  book a reservation
-    public function hostelBook(Request $request)
-    {
-        if(auth()->check()){
-            $this->validate($request, [
-                'check_in'  => 'required',
-                'check_out' => 'required',
-                'block_name'     => 'required|string',
-                'gender'  => 'required|string',
-                'room_type'    => 'required|string',
-                'room_number'    => 'required|string',
-            ]);    
-            
-            Session::put('owner_message', '');
-            $token = Str::random(32);
-            (int) $step = 1;
-            Session::put('step', $step);
-            return redirect()->route('property.bookings.hostel.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'block_id'=>$request->block_name, 'gender'=>$request->gender, 'room_type'=>$request->room_type, 'room_number'=>$request->room_number, 'filter_id'=>$token]);
-        }else{
-            return redirect()->route('login');
-        }
-
-    }
-
- 
-    
-    public function hostelIndex(Property $property,$checkin,$checkout,$block_id,$gender,$room_type,$room_number,$filter_id)
-    {
-        if($property->is_active && $property->user_id != Auth::user()->id){
-            $data['page_title'] = 'Booking '.$property->title;
-            $data['property'] = $property;
-            $data['check_in'] = $checkin;
-            $data['check_out'] = $checkout;
-            $data['block_id'] = $block_id;
-            $data['gender'] = $gender;
-            $data['room_type'] = $room_type;
-            $data['my_room'] = HostelBlockRoom::whereProperty_hostel_block_id($block_id)->whereBlock_room_type($room_type)->whereGender($gender)->first();
-            $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
-
-            $data['room_number'] = $data['my_room']->hostelBlockRoomNumbers->where('room_no', $room_number)->first();
-            if(empty($data['room_number'])){
-                return view('errors.404');
-            }elseif($data['room_number']->full){
-                return view('errors.404');
-            }else{
-                return view('admin.bookings.index', $data);
+                $checkIn = Carbon::now()->addDays(7)->toDateString();
+                $checkOut = Carbon::now()->addDays(7)->addMonths((int) $request->duration)->toDateString();
+                $bookingItems = collect([
+                    "property"=>$request->property_id, 
+                    "check_in"=>$checkIn,
+                    "check_out"=>$checkOut,
+                    "block_id"=>$request->block_name,
+                    "gender"=>$request->gender,
+                    "room_type"=>$request->room_type,
+                    "room_number"=>$request->room_number,
+                    "adult"=>1,
+                    ]);
+                Session::put('bookingItems', $bookingItems);
+                Session::put('owner_message', '');
+                $token = Str::random(32);
+                (int) $step = 1;
+                Session::put('step', $step);
+                $guest = 1;
+                
+                return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$checkIn, 'checkout'=>$checkOut, 'guest'=>$guest, 'filter_id'=>$token]);
             }
         }else{
-            return view('errors.404');
+            return redirect()->route('login');
         }
-    }  
+    }
 
     //move from review, verify and payment
     public function moveNext(Request $request) : string
@@ -346,6 +333,9 @@ class BookingController extends Controller
                     );
                     Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
                 }
+                Session::forget('bookingItems');
+                Session::forget('owner_message');
+                Session::forget('step');
             }else{
                 if($request->book_status == 'rebook'){
                     $book = Auth::user()->userBookings->where('property_id',$request->property_id)->where('status', 0)->sortByDesc('id')->first();
@@ -390,105 +380,13 @@ class BookingController extends Controller
                     );
                     Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
                 }
+                Session::forget('bookingItems');
+                Session::forget('owner_message');
+                Session::forget('step');
             }
         }
 
         return $message;        
-    }
-
-    // mobile payment
-    public function mobilePayment(Request $request, Booking $booking) :string
-    {
-        $validator = \Validator::make($request->all(), [
-            'mobile_operator' => 'required|string',
-            'country_code' => 'required|string',
-            'mobile_number' => 'required|numeric',
-            'amount' => 'required|numeric',
-            'service_fee' => 'required|numeric',
-            'discount_fee' => 'required|numeric',
-            'currency' => 'required|string',
-        ]);
-        
-        (string) $message = '';
-        if ($validator->fails()){
-            return 'fail';
-            exit();
-        }else{
-            $country_code = substr($request->country_code, 1);
-            if(substr($request->mobile_number, 0,1) == '0'){
-                if(strlen($request->mobile_number) == 10){
-                    $mobile_number = substr($request->mobile_number, 1);
-                }else{
-                    return 'Invalid phone number.';
-                    exit();
-                }
-            }else{
-                if(strlen($request->mobile_number) == 9){
-                    $mobile_number = $request->mobile_number;
-                }else{
-                    return 'Invalid phone number.';
-                    exit();
-                }
-            }
-
-            $phone_number = $country_code.$mobile_number;
-            $orderId = $booking->generateOrderID();
-            $payId = $booking->generatePaymentID();
-            $payable = ($request->amount+$request->service_fee)-$request->discount_fee;
-
-            $url = 'https://app.slydepay.com.gh/api/merchant/invoice/create';
-            $params = [
-                "emailOrMobileNumber" => "vibtechbusiness@gmail.com",
-                "merchantKey" => "1593792958329",
-                "amount" => $payable,
-                "description" => "Property payment",
-                "orderCode" => $orderId,
-                "sendInvoice" => true,
-                "payOption" => $request->mobile_operator,
-                "customerName" => Auth::user()->name,
-                "customerMobileNumber" => $phone_number         
-            ];
-
-            $curl = curl_init($url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS,  json_encode($params));
-            curl_setopt($curl, CURLOPT_HTTPHEADER, [
-                "Content-Type: application/json"
-              ]);
-            $response = curl_exec($curl);
-            curl_close($curl);
-            $json = json_decode($response);
-            // $message = $response . PHP_EOL;
-            // return  $json->success;
-            // return $json->errorMessage;
-            if($json->success == 1){
-                $trans = new Transaction;
-                $trans->user_id = Auth::user()->id;
-                $trans->booking_id = $booking->id;
-                $trans->transaction_id = $orderId;
-                $trans->payment_id = $payId;
-                $trans->amount = $request->amount;
-                $trans->service_fee = $request->service_fee;
-                $trans->discount_fee = $request->discount_fee;
-                $trans->currency = $request->currency;
-                $trans->operator = $request->mobile_operator;
-                $trans->phone = $phone_number;
-                $trans->property_type = $request->type;
-                $trans->type = "mobile";
-                $trans->save();
-                return redirect()->route('payment.mobile.response', ['transactionId' => $orderId, 'user' => Auth::user()->id, 'operator' => strtolower($request->mobile_operator)]);
-            }else{
-                return $json->errorMessage;
-            }
-        }      
-    }
-
-    public function mobileResponse($transactionId, User $user, $operator)
-    {
-        $data['page_title'] = 'Payment';
-        $data['transaction'] = Transaction::whereTransaction_id($transactionId)->whereUser_id($user->id)->whereStatus(false)->orderBy('id', 'Desc')->first();
-        return view('user.requests.payment_response', $data);
     }
 
 

@@ -53,12 +53,6 @@ class HostelBooking extends Model
         return $this->check_out < Carbon::today();
     }
 
-
-    public function getGuestAttribute()
-    {
-        return $this->adult+$this->children+$this->infant;
-    }
-
     public function generateOrderID() : string
     {
         return Str::random(16);

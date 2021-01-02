@@ -18,10 +18,33 @@ class Transaction extends Model
     ];
 
      /*********** METHODS ATTRIBUTES *************/
-     public function payableAmount() 
-     {
-         return ($this->amount + $this->service_fee)-$this->discount_fee;
-     }
+    public function payableAmount() 
+    {
+        return ($this->amount + $this->service_fee)-$this->discount_fee;
+    }
+
+    public function isConfirm() 
+    {
+        return $this->status == 1;
+    }
+
+    public function isCancel() 
+    {
+        return $this->status == 2;
+    }
+
+    public function getStatus() 
+    {
+        if($this->status == 0){
+            return "Waiting for confirmation";
+        }
+        elseif($this->status == 1){
+            return "Confirmed";
+        }
+        elseif($this->status == 2){
+            return "Cancelled";
+        }
+    }
 
 
     /*********** METHODS RELATIONSHIP *************/

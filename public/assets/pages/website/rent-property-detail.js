@@ -4,7 +4,7 @@ $("#formRentBooking select[name='duration']").on('change', function(e){
     var $this = $(this);
     let advancePaymentDuration = $("#initialAmount").data("duration");
     let selectedAdvancePaymentDuration = $this.val();
-    if (advancePaymentDuration > selectedAdvancePaymentDuration){
+    if (parseInt(advancePaymentDuration) > parseInt(selectedAdvancePaymentDuration)){
         let duration = "";
         if(advancePaymentDuration == 6){
             duration = "6 months";
@@ -51,7 +51,6 @@ $("#formRentBooking select[name='duration']").on('change', function(e){
 
     return false;
 });
-
 
 
 $("#formRentBooking").on('submit', function(e){

@@ -1,9 +1,3 @@
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-    }
-})
-
 // BOOKING SCRIPTS //
 
 // open upload modal
@@ -219,6 +213,9 @@ $(".btnVerify").on("click", function(e){
     var $this = $(this);
     if($("#phone_number").val()==''){
         $("#phone_number").addClass('is-invalid').focus();
+    }else if($("#phone_number").val().length>9){
+        $("#phone_number").addClass('is-invalid').focus();
+        $("#phone_number").parents(".validate").find(".mySpan").text("Invalid phone number");
     }else{
         $("#phone_number").removeClass('is-invalid');
         var data = $("#phone_number").serialize();

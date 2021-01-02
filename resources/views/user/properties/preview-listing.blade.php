@@ -195,8 +195,8 @@
                     <h3>Availability</h3>                    
                     <!-- Vacancies -->
                     @if ($property->type=='hostel')
-                        <p><i class="fa fa-square font-12"></i> You will get to know your room mate when renting is 
-                            confirmed. Click on vacant block room to book.
+                        <p>
+                            <i class="fa fa-square font-12"></i> You will get to know your room mate when renting is confirmed.
                         </p>
                         <div class="row">
                             @if (count($property->propertyHostelBlockRooms))

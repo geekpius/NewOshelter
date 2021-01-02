@@ -61,11 +61,11 @@
                                             </td>
                                             <td>
                                                 @if ($visit->isInAttribute())
-                                                <a href="/user/visits/past/extend" class="btnExtend mr-2" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
+                                                <a href="/user/visits/past/extend" class="btnExtend mr-2 text-decoration-none" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
                                                     <i class="fas fa-clock text-purple font-16"></i>
                                                 </a>
                                                 @endif
-                                                <a href="{{ route('visits.property.rating', $visit->id) }}" class="" title="Rate Property">
+                                                <a href="{{ route('visits.property.rating', $visit->id) }}" class="text-decoration-none" title="Rate Property">
                                                     <i class="fas fa-star text-warning font-16"></i>
                                                 </a>
                                             </td>
@@ -105,7 +105,7 @@
                         <span class="text-danger mySpan"></span>
                     </div>
                     <div class="form-group text-right">
-                        <button type="submit" class="btn btn-gradient-success btnExtendSubmit">Submit</button>
+                        <button type="submit" class="btn btn-success btnExtendSubmit">Submit</button>
                     </div>
                 </form>                    
             </div>

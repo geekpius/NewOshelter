@@ -20,9 +20,9 @@ class CreateUserVisitsTable extends Migration
             $table->integer('property_id')->unsigned()->index();
             $table->date('check_in');
             $table->date('check_out');
-            $table->integer('adult');
-            $table->integer('children');
-            $table->integer('infant');
+            $table->integer('adult')->default(1);
+            $table->integer('children')->default(0);
+            $table->integer('infant')->default(0);
             $table->integer('status')->default(1);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -42,7 +42,6 @@ class UserController extends Controller
     }
 
      
-
     //notification message count
     public function messageCount()
     {
@@ -51,11 +50,11 @@ class UserController extends Controller
     }
 
     //notification messages
-    public function messageNotification()
-    {
-        $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->get();
-        return view('admin.notifications.message-notification', $data)->render();
-    }
+    // public function messageNotification()
+    // {
+    //     $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->orderBy('id', 'DESC')->get();
+    //     return view('admin.notifications.message-notification', $data)->render();
+    // }
 
     //notification count
     public function notificationCount()
@@ -80,14 +79,14 @@ class UserController extends Controller
     public function notification()
     {
         // room, apartment, house
-        $data['bookings'] = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->get();
-        $data['confirms'] = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->get();
+        $data['bookings'] = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->orderBy('id','DESC')->get();
+        $data['confirms'] = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->orderBy('id','DESC')->get();
         // extension request
-        $data['notifications'] = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(1)->get();
-        $data['noti_confirms'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIs_confirm(2)->get();
+        $data['notifications'] = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(1)->orderBy('id','DESC')->get();
+        $data['noti_confirms'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIs_confirm(2)->orderBy('id','DESC')->get();
         // hostel
-        $data['hostels'] = HostelBooking::whereOwner_id(Auth::user()->id)->whereStatus(1)->get();
-        $data['hostels_confirms'] = HostelBooking::whereUser_id(Auth::user()->id)->whereStatus(2)->get();
+        $data['hostels'] = HostelBooking::whereOwner_id(Auth::user()->id)->whereStatus(1)->orderBy('id','DESC')->get();
+        $data['hostels_confirms'] = HostelBooking::whereUser_id(Auth::user()->id)->whereStatus(2)->orderBy('id','DESC')->get();
         return view('user.notifications.notification', $data)->render();
     }
 
@@ -180,7 +179,7 @@ class UserController extends Controller
     {
         $data['page_title'] = 'Hostel booking requests';
         $data['bookings'] = HostelBooking::whereUser_id(Auth::user()->id)->get();
-        return view('admin.requests.hostel_bookings', $data);
+        return view('user.requests.hostel_bookings', $data);
     }
 
     public function hostelRequestDetail(HostelBooking $hostelBooking)
@@ -188,7 +187,7 @@ class UserController extends Controller
        if(Auth::user()->id == $hostelBooking->owner_id){
         $data['page_title'] = 'Hostel booking requests';
         $data['booking'] = $hostelBooking;
-        return view('admin.requests.hostel_confirm', $data);
+        return view('user.requests.hostel_confirm', $data);
        }else{
         return view('errors.404');
        }
@@ -249,7 +248,7 @@ class UserController extends Controller
                 $data['page_title'] = 'Payment requests';
                 $data['booking'] = $hostelBooking;
                 $data['charge'] = ServiceCharge::whereProperty_type($hostelBooking->property->type)->first();
-                return view('admin.requests.payment', $data);
+                return view('user.requests.payment', $data);
             }else{
                 return view('errors.404');
             }

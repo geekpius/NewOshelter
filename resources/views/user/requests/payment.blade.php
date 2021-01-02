@@ -21,16 +21,14 @@
                                 This {{ $booking->property->type }} belongs to {{ current(explode(' ',$booking->owner->name))}}. Other people like it.
                             </p>
                             @php
-                                if ($booking->property->type_status == 'rent') {
-                                    $from = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_in);
-                                    $to = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_out);
-                                    $dateDiff = $to->diffInMonths($from);
-                                }
-                                
+                                $from = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_in);
+                                $to = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_out);
+                                $dateDiff = $to->diffInMonths($from);
+
                                 $currency = $booking->hostelBlockRoomNumber->hostelBlockRoom->propertyHostelPrice->currency;
                                 $price = $booking->hostelBlockRoomNumber->hostelBlockRoom->propertyHostelPrice->property_price;
                                 $totalPrice = ($booking->hostelBlockRoomNumber->hostelBlockRoom->propertyHostelPrice->property_price* $dateDiff);
-                                $fee = empty($charge->charge)? 1:$charge->charge;
+                                $fee = empty($charge->charge)? 0:$charge->charge;
                                 $serviceFee = ($booking->hostelBlockRoomNumber->hostelBlockRoom->propertyHostelPrice->property_price* $dateDiff)*($fee/100);
                                 $discount = empty($charge->discount)? 0:$charge->discount;
                                 $discountFee = ($booking->hostelBlockRoomNumber->hostelBlockRoom->propertyHostelPrice->property_price* $dateDiff)*($discount/100);
@@ -46,7 +44,7 @@
                             <hr>
                             <span class="font-weight-500">SERVICE CHARGE</span>
                             <span class="font-weight-500 text-primary float-right">{{ $currency }}{{ number_format($serviceFee,2) }}</span>
-                            @if (!empty($charge->discount))
+                            @if ($discountFee != 0)
                             <hr>
                             <span class="font-weight-500">DISCOUNT CHARGE</span>
                             <span class="font-weight-500 text-primary float-right">{{ $currency }}{{ number_format($discountFee,2) }}</span>
@@ -103,12 +101,14 @@
                             </div>
                             <div id="momoExpand" style="display: none">
                                 <hr>
-                                <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.payment.mobile', $booking->id) }}">
+                                <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.payment.hostel.mobile', $booking->id) }}">
                                     @csrf
-                                    <input type="hidden" name="type" value="rent" readonly>
-                                    <input type="hidden" name="property_type" value="{{ $booking->property->type }}" readonly>
+                                    <input type="hidden" name="type" value="{{ $booking->property->type }}" readonly>
                                     <input type="hidden" name="currency" value="{{ $currency }}" readonly>
-                                    <input type="hidden" name="payable_amount" value="{{ $totalFee }}" readonly>
+                                    <input type="hidden" name="amount" value="{{ $totalPrice }}" readonly>
+                                    <input type="hidden" name="service_fee" value="{{ $serviceFee }}" readonly>
+                                    <input type="hidden" name="discount_fee" value="{{ $discountFee }}" readonly>
+                                    
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group validate">
@@ -194,7 +194,7 @@
                             <hr>
                             <span class="font-weight-500">SERVICE CHARGE</span>
                             <span class="font-weight-500 text-primary float-right">{{ $currency }}{{ number_format($serviceFee,2) }}</span>
-                            @if (!empty($charge->discount))
+                            @if ($discountFee != 0)
                             <hr>
                             <span class="font-weight-500">DISCOUNT CHARGE</span>
                             <span class="font-weight-500 text-primary float-right">{{ $currency }}{{ number_format($discountFee,2) }}</span>

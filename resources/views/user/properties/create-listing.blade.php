@@ -661,8 +661,7 @@
                                                                         <label for="">Advance payment duration</label>
                                                                         <select name="advance_duration" class="form-control" id="advance_duration">
                                                                             <option value="">--Select--</option>
-                                                                            <option value="1">1 month in advance</option>
-                                                                            <option value="2">2 months in advance</option>
+                                                                            <option value="3">3 months in advance</option>
                                                                             <option value="4">4 months in advance</option>
                                                                             <option value="6">6 months in advance</option>
                                                                             <option value="8">8 months in advance</option>
