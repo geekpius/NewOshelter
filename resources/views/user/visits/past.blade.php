@@ -45,7 +45,7 @@
     
                                     <tbody>
                                         @foreach (Auth::user()->userVisits->where('check_in','<=',\Carbon\Carbon::today()) as $visit)
-                                        <tr>
+                                        <tr class="record">
                                             <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
                                             <td>{{ $visit->property->title }}</td>
                                             <td><img src="{{ asset('assets/images/users/'.$visit->property->user->image) }}" alt="" class="thumb-sm rounded-circle mr-2">{{ $visit->property->user->name }}</td>
@@ -61,9 +61,15 @@
                                             </td>
                                             <td>
                                                 @if ($visit->isInAttribute())
-                                                <a href="/user/visits/past/extend" class="btnExtend mr-2 text-decoration-none" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
+                                                @if ($visit->property->type_status == 'short_stay')
+                                                <a href="/user/visits/past/extend" class="btnExtend mr-2 text-decoration-none" data-max="{{ $visit->property->propertyPrice->maximum_stay }}" data-min="{{ $visit->property->propertyPrice->minimum_stay }}" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
                                                     <i class="fas fa-clock text-purple font-16"></i>
                                                 </a>
+                                                @else
+                                                <a href="/user/visits/past/extend" class="btnExtend mr-2 text-decoration-none" data-duration="{{ $visit->property->propertyPrice->payment_duration }}" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
+                                                    <i class="fas fa-clock text-purple font-16"></i>
+                                                </a>
+                                                @endif
                                                 @endif
                                                 <a href="{{ route('visits.property.rating', $visit->id) }}" class="text-decoration-none" title="Rate Property">
                                                     <i class="fas fa-star text-warning font-16"></i>
@@ -99,9 +105,12 @@
                     <input type="hidden" name="type" id="type" readonly>
                     <input type="hidden" name="status" id="status" readonly>
                     <input type="hidden" name="owner" id="owner" readonly>
+                    <input type="hidden" name="min_stay" id="min_stay" value="0" readonly>
+                    <input type="hidden" name="max_stay" id="max_stay" value="0" readonly>
+                    <input type="hidden" name="duration" id="duration" value="0" readonly>
                     <div class="form-group validate">
                         <label for="extended_date">Extended Date</label>
-                        <input type="text" class="form-control" name="extended_date" id="extended_date" title="Select date" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}" />
+                        <input type="text" class="form-control" name="extended_date" id="extended_date" title="Select date" />
                         <span class="text-danger mySpan"></span>
                     </div>
                     <div class="form-group text-right">

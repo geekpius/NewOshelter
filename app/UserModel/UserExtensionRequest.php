@@ -21,7 +21,7 @@ class UserExtensionRequest extends Model
     CONST UNPAID = 0;
 
     protected $fillable = [
-        'user_id', 'visit_id', 'owner_id', 'extension_date', 'is_confirm', 'is_paid',
+        'user_id', 'visit_id', 'owner_id', 'extension_date', 'is_confirm',
     ];
 
 
@@ -59,18 +59,6 @@ class UserExtensionRequest extends Model
     {
         return $this->is_confirm == UserExtensionRequest::REJECT;
     }
-
-    /************* Checking paid ****************/
-    public function isPaidAttribute() : bool
-    {
-        return $this->is_paid == UserExtensionRequest::PAID;
-    }
-
-    public function isUnpaidAttribute() : bool
-    {
-        return $this->is_paid == UserExtensionRequest::UNPAID;
-    }
-
 
     public function generateOrderID() : string
     {

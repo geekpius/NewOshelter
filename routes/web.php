@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         /*------- Payments ------- */
         Route::post('/requests/{booking}/payment/mobile', 'PaymentController@mobilePayment')->name('requests.payment.mobile');
         Route::post('/requests/{booking}/payment/mobile', 'PaymentController@mobilePaymentHostel')->name('requests.payment.hostel.mobile');
-        Route::post('/requests/extensions/{userExtensionRequest}/payment/mobile', 'PaymentController@mobilePayment')->name('requests.extension.payment.mobile');
+        Route::post('/requests/{userExtensionRequest}/payment/mobile', 'PaymentController@mobilePaymentExtension')->name('requests.extension.payment.mobile');
         Route::get('/payments/mobile/{transactionId}/{user}/{operator}', 'PaymentController@mobileResponse')->name('payment.mobile.response');
         // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
         // Route::get('/activities', 'UserActivityController@index')->name('activities');

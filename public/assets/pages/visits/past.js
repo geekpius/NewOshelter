@@ -5,25 +5,36 @@ $("#datatable tbody tr").on('click', '.btnExtend', function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this = $(this);
+    let typeStatus = $this.data("status");
+    let type = $this.data("type");
     $("#formExtend input[name='visit_id']").val($this.data('id'));
     $("#formExtend input[name='checkin']").val($this.data('checkin'));
     $("#formExtend input[name='type']").val($this.data('type'));
     $("#formExtend input[name='status']").val($this.data('status'));
     $("#formExtend input[name='owner']").val($this.data('owner'));
+    $("#formExtend input[name='extended_date']").val($this.data('checkin'));
+    if(type != 'hostel' && typeStatus == 'short_stay'){
+        $("#formExtend input[name='min_stay']").val($this.data('min'));
+        $("#formExtend input[name='max_stay']").val($this.data('max'));
+    }else if(type != 'hostel' && typeStatus == 'rent'){
+        $("#formExtend input[name='duration']").val($this.data('duration'));
+    }
     $("#extendModal").modal('show');
+
+    // initialize date range
+    $(function() {
+        $('input[name="extended_date"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            autoApply: true,
+            minDate: $('input[name="extended_date"]').val(),
+        });
+    });
     return false;
 });
 
-// select extension date
-$(function() {
-    $('input[name="extended_date"]').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        autoApply: true,
-        minDate: $('input[name="extended_date"]').data('date'),
-    });
-});
 
+// select checkout date
 $('input[name="extended_date"]').on('apply.daterangepicker', function(ev, picker) {
     var checkIn = $("#formExtend input[name='checkin']").val();
     var checkOut = picker.startDate;
@@ -38,9 +49,10 @@ $('input[name="extended_date"]').on('apply.daterangepicker', function(ev, picker
             months += checkOutDate.getMonth();
             let numberOfMonth = (months <= 0)? 0 : months;
             // check if select months is not less
-            if (numberOfMonth < 6){
-                // alert("Extension date should be 6 months or more.");
-                swal("Warning", "Extension date should be 6 months or more", "warning");
+            let duration = $("#formExtend input[name='duration']").val();
+            if (numberOfMonth < parseInt(duration)){
+                swal("Warning", `Extension date should be ${duration} months or more`, "warning");
+                $('input[name="extended_date"]').val(checkIn);
                 return;
             }
         }else{
@@ -52,9 +64,10 @@ $('input[name="extended_date"]').on('apply.daterangepicker', function(ev, picker
                 months += checkOutDate.getMonth();
                 let numberOfMonth = (months <= 0)? 0 : months;
                 // check if select months is not less
-                if (numberOfMonth < 12){
-                    // alert("Extension date should be 12 months or more.");
-                    swal("Warning", "Extension date should be 12 months or more", "warning");
+                let duration = $("#formExtend input[name='duration']").val();
+                if (numberOfMonth < parseInt(duration)){
+                    swal("Warning", `Extension date should be ${duration} months or more`, "warning");
+                    $('input[name="extended_date"]').val(checkIn);
                     return;
                 }
             }else if(status == 'short_stay'){
@@ -64,15 +77,18 @@ $('input[name="extended_date"]').on('apply.daterangepicker', function(ev, picker
                 let days = Math.floor(distance / (1000 * 60 * 60 * 24));
 
                 // checking max and min stays
-                if (days < 3){
-                    // alert("Extension date should be 3 days or more.");
-                    swal("Warning", "Extension date should be 3 days or more", "warning");
+                let minimumStay = $("#formExtend input[name='min_stay']").val();
+                let maximumStay = $("#formExtend input[name='max_stay']").val();
+                if (days < parseInt(minimumStay) || days > parseInt(maximumStay)){
+                    swal("Warning", `Extension date should be within ${minimumStay} to ${maximumStay} days.`, "warning");
+                    $('input[name="extended_date"]').val(checkIn);
                     return;
                 }
             }
         }
     }
 });
+
 
 $("#formExtend").on('submit', function(e){
     e.preventDefault();
@@ -90,9 +106,9 @@ $("#formExtend").on('submit', function(e){
         months += checkOutDate.getMonth();
         let numberOfMonth = (months <= 0)? 0 : months;
         // check if select months is not less
-        if (numberOfMonth < 6){
-            // alert("Extension date should be 6 months or more.");
-            swal("Warning", "Extension date should be 6 months or more", "warning");
+        let duration = $("#formExtend input[name='duration']").val();
+        if (numberOfMonth < parseInt(duration)){
+            swal("Warning", `Extension date should be ${duration} months or more`, "warning");
             return;
         }
     }else{
@@ -104,9 +120,9 @@ $("#formExtend").on('submit', function(e){
             months += checkOutDate.getMonth();
             let numberOfMonth = (months <= 0)? 0 : months;
             // check if select months is not less
-            if (numberOfMonth < 12){
-                // alert("Extension date should be 12 months or more.");
-                swal("Warning", "Extension date should be 12 months or more", "warning");
+            let duration = $("#formExtend input[name='duration']").val();
+            if (numberOfMonth < parseInt(duration)){
+                swal("Warning", `Extension date should be ${duration} months or more`, "warning");
                 return;
             }
         }else if(status == 'short_stay'){
@@ -116,9 +132,11 @@ $("#formExtend").on('submit', function(e){
             let days = Math.floor(distance / (1000 * 60 * 60 * 24));
 
             // checking max and min stays
-            if (days < 3){
-                // alert("Extension date should be 3 days or more.");
-                swal("Warning", "Extension date should be 3 days or more", "warning");
+            let minimumStay = $("#formExtend input[name='min_stay']").val();
+            let maximumStay = $("#formExtend input[name='max_stay']").val();
+            if (days < parseInt(minimumStay) || days > parseInt(maximumStay)){
+                swal("Warning", `Extension date should be within ${minimumStay} to ${maximumStay} days.`, "warning");
+                $('input[name="extended_date"]').val(checkIn);
                 return;
             }
         }
@@ -139,12 +157,10 @@ $("#formExtend").on('submit', function(e){
             data: data,
             success: function(resp){
                 if(resp=='success'){
-                    // alert('Request sent to property owner.\nWait for confirmation.')
                     swal("Success", "Request sent to property owner.\nWait for confirmation.", "success");
                     $("#extendModal").modal('hide');
                 }
                 else{
-                    // alert(resp);
                     swal("Warning", resp, "warning");
                 }
                 $(".btnExtendSubmit").text('Submit').attr('disabled', false);

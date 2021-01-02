@@ -103,10 +103,10 @@ class VisitorController extends Controller
 
     public function extensionDetail(UserExtensionRequest $userExtensionRequest)
     {
-        if(Auth::user()->id == $userExtensionRequest->user->id){
+        if(Auth::user()->id == $userExtensionRequest->owner_id){
             $data['page_title'] = 'Extension date request from '.$userExtensionRequest->user->name;
             $data['extension'] = $userExtensionRequest;
-            return view('admin.requests.extension-request', $data);
+            return view('user.requests.extension-request', $data);
         }else{
             return view('errors.404');
         }
@@ -114,7 +114,7 @@ class VisitorController extends Controller
 
     public function confirmExtendStay(UserExtensionRequest $userExtensionRequest)
     {
-        if(Auth::user()->id == $userExtensionRequest->user->id){
+        if(Auth::user()->id == $userExtensionRequest->owner_id){
             $message = '';
             if($userExtensionRequest->is_confirm == 1){
                 $userExtensionRequest->is_confirm = 2;
@@ -129,7 +129,7 @@ class VisitorController extends Controller
 
     public function cancelExtendStay(UserExtensionRequest $userExtensionRequest)
     {
-        if(Auth::user()->id == $userExtensionRequest->user->id){
+        if(Auth::user()->id == $userExtensionRequest->owner_id){
             $message = '';
             if($userExtensionRequest->is_confirm == 1){
                 $userExtensionRequest->is_confirm = 0;
@@ -149,7 +149,7 @@ class VisitorController extends Controller
                 $data['page_title'] = 'Extension payment requests';
                 $data['extension'] = $userExtensionRequest;
                 $data['charge'] = ServiceCharge::whereProperty_type($userExtensionRequest->visit->property->type)->first();
-                return view('admin.requests.extension_payment', $data);
+                return view('user.requests.extension_payment', $data);
             }else{
                 return view('errors.404');
             }
