@@ -453,7 +453,7 @@
                         <div class="pxp-sp-pois-nav-fitness text-uppercase">Fitness</div>
                     </div>     
                             
-                    <div id="pxp-sp-map" class="mt-3"></div>
+                    <div id="pxp-sp-map" class="mt-3" data-image="{{ asset('assets/images/svg/home.png') }}"></div>
                     
                     <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  
                         Exact location is provided after booking

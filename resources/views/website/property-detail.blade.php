@@ -471,7 +471,7 @@
                         <div class="pxp-sp-pois-nav-fitness text-uppercase">Fitness</div>
                     </div>     
                             
-                    <div id="pxp-sp-map" class="mt-3"></div>
+                    <div id="pxp-sp-map" class="mt-3" data-image="{{ asset('assets/images/svg/home.png') }}"></div>
                     
                     <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  
                         Exact location is provided after booking
@@ -674,7 +674,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 mt-3">
+                                    <div class="col-sm-12 mt-2">
                                         <div class="form-group input-group-sm validate">
                                             <select name="adult" id="adult" class="form-control">
                                                 <option value="1">1 Adult</option>
@@ -690,7 +690,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 mt-3">
+                                    <div class="col-sm-12 mt-2">
                                         <div class="form-group input-group-sm validate">
                                             <select name="children" id="children" title="Under 12 years" class="form-control">
                                                 <option value="0">No Children</option>
@@ -777,7 +777,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 mt-3">
+                                    <div class="col-sm-6">
                                         <div class="form-group input-group-sm validate">
                                             <select name="children" id="children" class="form-control" data-number="{{ $property->children }}">
                                                 <option value="0">No Children</option>
@@ -795,7 +795,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6 mt-3">
+                                    <div class="col-sm-6">
                                         <div class="form-group input-group-sm validate">
                                             <select name="infant" id="infant" class="form-control">
                                                 <option value="0">No Infant</option>

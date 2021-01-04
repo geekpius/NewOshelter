@@ -119,6 +119,7 @@
                             </div>
                             <div id="momoExpand" style="display: none">
                                 <hr>
+                                
                                 <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.extension.payment.mobile', $extension->id) }}">
                                     @csrf
                                     <input type="hidden" name="type" value="extension" readonly>

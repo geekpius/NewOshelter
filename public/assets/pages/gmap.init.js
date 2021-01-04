@@ -6,17 +6,17 @@ getLocation = function(){
   var long = document.getElementById('longitude_input').value;
   if(lati=='' && long==''){
     if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(function(position){
-          var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-          };
-          let latitude = (pos.lat)? pos.lat:5.5739466;
-          let longitude = (pos.lng)? pos.lng:-0.1428917;
-          document.getElementById('latitude_input').value = latitude;
-          document.getElementById('longitude_input').value = longitude;
-          initMap(latitude, longitude);
-        });
+        navigator.geolocation.getCurrentPosition(function (position) {
+        var pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        let latitude = (pos.lat) ? pos.lat : 5.5739466;
+        let longitude = (pos.lng) ? pos.lng : -0.1428917;
+        document.getElementById('latitude_input').value = latitude;
+        document.getElementById('longitude_input').value = longitude;
+        initMap(latitude, longitude);
+      });
     }
   }else{
     let latitude = parseFloat(lati);

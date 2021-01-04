@@ -3472,24 +3472,24 @@ a.pxp-results-card-1 .carousel-inner > .carousel-item {
     color: rgba(0, 0, 0, 1);
 }
 #pxp-sp-map {
-    height: 340px;
+    height: 400px;
 }
-.pxp-single-marker {
+.pxp-single-marker img{
     position: absolute;
-    width: 16px;
-    height: 16px;
-    background-color: #000;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    -webkit-transform: translate(calc(-50% + 8px), calc(-50% + 8px));
+    transform: translate(calc(-50% + 8px), calc(-50% + 8px));
 }
+
 .pxp-dark-mode .pxp-single-marker {
     background-color: #fff;
 }
 .pxp-single-marker:after {
     content: " ";
-    width: 42px;
-    height: 42px;
+    width: 72px;
+    height: 72px;
     background-color: rgba(0, 0, 0, 0.25);
     border-radius: 50%;
     display: block;

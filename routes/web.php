@@ -44,7 +44,8 @@ Route::get('user/verify-email', 'Auth\VerifyController@verfiyEmail')->name('veri
 Route::post('user/verify-email', 'Auth\VerifyController@verify')->name('verify.email.submit');
 Route::post('user/verify-email/{user}/resend', 'Auth\VerifyController@resendCode')->name('verify.email.resend');
 
-Route::group(['middleware' => ['auth', 'verify-email']], function() {
+
+Route::group(['middleware' => ['verify-email']], function() {
     Route::group(['prefix' => 'user'], function () {
         /*------- Dashboard ------- */
         Route::get('/dashboard', 'UserController@index')->name('dashboard');
@@ -95,14 +96,14 @@ Route::group(['middleware' => ['auth', 'verify-email']], function() {
         Route::get('/account', 'UserProfileController@index')->name('account');
         Route::get('/account/info', 'UserProfileController@accountInfo')->name('account.info');
         Route::post('/account/update', 'UserProfileController@updateAccountInfo')->name('account.update');
-        Route::post('/change-photo', 'UserProfileController@uploadProfilePhoto')->name('profile.photo');
+        Route::post('/account/change-photo', 'UserProfileController@uploadProfilePhoto')->name('profile.photo');
         Route::get('/account/change-password', 'UserProfileController@changePasswordView')->name('account.changepwd');
-        Route::post('/change-password', 'UserProfileController@updatePassword')->name('password.change');
+        Route::post('/account/change-password', 'UserProfileController@updatePassword')->name('password.change');
         Route::get('/account/logins', 'UserProfileController@loginsView')->name('account.logins');
         Route::get('/account/payments', 'UserProfileController@paymentView')->name('account.payments');
         Route::get('/account/notifications', 'UserProfileController@notificationView')->name('account.notifications');
-        Route::post('/change-front-card', 'UserProfileController@uploadFrontCard')->name('profile.front.card');
-        Route::post('/change-back-card', 'UserProfileController@uploadBackCard')->name('profile.back.card');
+        Route::post('/account/change-front-card', 'UserProfileController@uploadFrontCard')->name('profile.front.card');
+        Route::post('/account/change-back-card', 'UserProfileController@uploadBackCard')->name('profile.back.card');
             
         // Route::get('/get-vat', 'VatController@getVat')->name('profile.vat');
         // Route::post('/vat', 'VatController@store')->name('profile.vat.submit');

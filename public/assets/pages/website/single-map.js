@@ -17,13 +17,13 @@
     var propLng = $(".pxp-sp-top-address").data('longitude');
 
     var options = {
-        zoom : 14,
+        zoom : 10,
         mapTypeId : 'Styled',
         panControl: false,
         zoomControl: true,
-        mapTypeControl: true,
+        mapTypeControl: false,
         scaleControl: false,
-        streetViewControl: true,
+        streetViewControl: false,
         overviewMapControl: false,
         scrollwheel: false,
         zoomControlOptions: {
@@ -33,7 +33,21 @@
     };
 
 
-    styles = [{"featureType": "water","elementType": "geometry","stylers": [{"color": "#e9e9e9"},{"lightness": 17}]},{"featureType": "landscape","elementType": "geometry","stylers": [{"color": "#f5f5f5"},{"lightness": 20}]},{"featureType": "road.highway","elementType": "geometry.fill","stylers": [{"color": "#ffffff"},{"lightness": 17}]},{"featureType": "road.highway","elementType": "geometry.stroke","stylers": [{"color": "#ffffff"},{"lightness": 29},{"weight": 0.2}]},{"featureType": "road.arterial","elementType": "geometry","stylers": [{"color": "#ffffff"},{"lightness": 18}]},{"featureType": "road.local","elementType": "geometry","stylers": [{"color": "#ffffff"},{"lightness": 16}]},{"featureType": "poi","elementType": "geometry","stylers": [{"color": "#f5f5f5"},{"lightness": 21}]},{"featureType": "poi.park","elementType": "geometry","stylers": [{"color": "#dedede"},{"lightness": 21}]},{"elementType": "labels.text.stroke","stylers": [{"visibility": "on"},{"color": "#ffffff"},{"lightness": 16}]},{"elementType": "labels.text.fill","stylers": [{"saturation": 36},{"color": "#333333"},{"lightness": 40}]},{"elementType": "labels.icon","stylers": [{"visibility": "off"}]},{"featureType": "transit","elementType": "geometry","stylers": [{"color": "#f2f2f2"},{"lightness": 19}]},{"featureType": "administrative","elementType": "geometry.fill","stylers": [{"color": "#fefefe"},{"lightness": 20}]},{"featureType": "administrative","elementType": "geometry.stroke","stylers": [{"color": "#fefefe"},{"lightness": 17},{"weight": 1.2}]}];
+    // removed "stylers": [{"color": "#e9e9e9"}]} to get colored map
+    styles = [
+        {"featureType": "water","elementType": "geometry","stylers": [{"lightness": 17}]},
+        {"featureType": "landscape","elementType": "geometry","stylers": [{"lightness": 20}]},
+        {"featureType": "road.highway","elementType": "geometry.fill","stylers": [{"color": "#ffffff"},{"lightness": 17}]},
+        {"featureType": "road.highway","elementType": "geometry.stroke","stylers": [{"lightness": 29},{"weight": 0.2}]},
+        {"featureType": "road.arterial","elementType": "geometry","stylers": [{"lightness": 18}]},
+        {"featureType": "road.local","elementType": "geometry","stylers": [{"lightness": 16}]},
+        {"featureType": "poi","elementType": "geometry","stylers": [{"color": "#f5f5f5"},{"lightness": 21}]},
+        {"featureType": "poi.park","elementType": "geometry","stylers": [{"color": "#dedede"},{"lightness": 21}]},
+        {"elementType": "labels.text.stroke","stylers": [{"visibility": "on"},{"color": "#ffffff"},{"lightness": 16}]},
+        {"elementType": "labels.text.fill","stylers": [{"saturation": 36},{"color": "#333333"},{"lightness": 40}]},{"elementType": "labels.icon","stylers": [{"visibility": "off"}]},
+        {"featureType": "transit","elementType": "geometry","stylers": [{"color": "#f2f2f2"},{"lightness": 19}]},
+        {"featureType": "administrative","elementType": "geometry.fill","stylers": [{"color": "#fefefe"},{"lightness": 20}]},
+        {"featureType": "administrative","elementType": "geometry.stroke","stylers": [{"color": "#fefefe"},{"lightness": 17},{"weight": 1.2}]}];
 
     var transportationMarkerImage = {
         url: '../../assets/images/transportation-marker.png',
@@ -236,6 +250,12 @@
             div = this.div_ = document.createElement('div');
             div.classList.add(this.classname);
 
+            let source  = document.getElementById('pxp-sp-map');
+            let img = document.createElement("img");
+            img.src = source.getAttribute('data-image');
+            img.classList.add(this.classname);
+            div.appendChild(img);
+
             var panes = this.getPanes();
             panes.overlayImage.appendChild(div);
         }
@@ -263,13 +283,18 @@
 
             map.mapTypes.set('Styled', styledMapType);
             map.setCenter(center);
-            map.setZoom(15);
+            map.setZoom(10);
 
             addPropMarker(propLat, propLng, map);
 
             google.maps.event.trigger(map, 'resize');
 
-            $('.pxp-sp-pois-nav-transportation').click(function() {
+            // map.addListener("zoom_changed", () => {
+                
+            //     // console.log(map.getZoom());
+            // });
+
+            $('.pxp-sp-pois-nav-transportation').on("click", function() {
                 var this_ = $(this);
                 if($(this).hasClass('pxp-active')) {
                     $(this).removeClass('pxp-active');
@@ -288,7 +313,7 @@
                 });
             });
 
-            $('.pxp-sp-pois-nav-restaurants').click(function() {
+            $('.pxp-sp-pois-nav-restaurants').on("click", function() {
                 var this_ = $(this);
                 if($(this).hasClass('pxp-active')) {
                     $(this).removeClass('pxp-active');
@@ -307,7 +332,7 @@
                 });
             });
 
-            $('.pxp-sp-pois-nav-shopping').click(function() {
+            $('.pxp-sp-pois-nav-shopping').on("click", function() {
                 var this_ = $(this);
                 if($(this).hasClass('pxp-active')) {
                     $(this).removeClass('pxp-active');
@@ -326,7 +351,7 @@
                 });
             });
 
-            $('.pxp-sp-pois-nav-cafes').click(function() {
+            $('.pxp-sp-pois-nav-cafes').on("click", function() {
                 var this_ = $(this);
                 if($(this).hasClass('pxp-active')) {
                     $(this).removeClass('pxp-active');
@@ -345,7 +370,7 @@
                 });
             });
 
-            $('.pxp-sp-pois-nav-arts').click(function() {
+            $('.pxp-sp-pois-nav-arts').on("click", function() {
                 var this_ = $(this);
                 if($(this).hasClass('pxp-active')) {
                     $(this).removeClass('pxp-active');
@@ -364,7 +389,7 @@
                 });
             });
 
-            $('.pxp-sp-pois-nav-fitness').click(function() {
+            $('.pxp-sp-pois-nav-fitness').on("click", function() {
                 var this_ = $(this);
                 if($(this).hasClass('pxp-active')) {
                     $(this).removeClass('pxp-active');

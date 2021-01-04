@@ -490,7 +490,6 @@
         
                                         <div class="step-pane" data-step="5">
                                             <div class="row">
-                                                <div class="col-lg-1"></div>
                                                 <div class="col-lg-5">
                                                     <h4>Provide your hostel location & landmark</h4>
                                                     <form class="mt-4" id="formLocationLandmark" method="POST" action="{{ route('property.store') }}">
@@ -511,7 +510,7 @@
                                                         </div>
                                                     </form>
                                                 </div>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-7">
                                                     <div class="card mt-4">
                                                         <div class="card-body">        
                                                             <h4 class="mt-0 header-title">Pin your location to the right place</h4>     
@@ -1001,7 +1000,7 @@
                                         
                                         <div class="step-pane" data-step="4">
                                             <div class="row">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-5">
                                                     <h4>Provide your property location & landmark</h4>
                                                     <form class="mt-4" id="formLocationLandmark" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
@@ -1021,7 +1020,7 @@
                                                         </div>
                                                     </form>
                                                 </div>
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-7">
                                                     <div class="card mt-4">
                                                         <div class="card-body">        
                                                             <h4 class="mt-0 header-title">Pin your location to the right place</h4>     
@@ -1465,675 +1464,675 @@
 <script src="{{ asset('assets/pages/gmap.init.js') }}"></script>
 
 <script>
-$('#registrationWizard')
-.ace_wizard({
-    step: {{ $property->step }}
-})
-.on('actionclicked.fu.wizard' , function(e, info){
-    if(info.direction == 'next'){
+    $('#registrationWizard')
+    .ace_wizard({
+        step: {{ $property->step }}
+    })
+    .on('actionclicked.fu.wizard' , function(e, info){
+        if(info.direction == 'next'){
+        @if($property->type=='hostel')
+            if(info.step == 1) {
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formBlockNames").submit();
+            }
+            else if(info.step==2){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formBlockRooms").submit();
+            }
+            else if(info.step==3){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formRoomAmenities").submit();
+            }
+            else if(info.step==4){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formPropertyRules").submit();
+            }
+            else if(info.step == 5){
+                var valid = true;
+                $('#formLocationLandmark input').each(function() {
+                    var $this = $(this);
+                    
+                    if(!$this.val()) {
+                        valid = false;
+                        $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                    }
+                });
+                if(valid){
+                    $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                    document.getElementById("formLocationLandmark").submit();
+                }
+            }
+            else if(info.step == 6){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formPhotos").submit();
+            }
+            else if(info.step == 7){
+                var valid = true;
+                $('#formDescriptions input, #formDescriptions textarea, #formDescriptions select').each(function() {
+                    var $this = $(this);
+                    
+                    if(!$this.val()) {
+                        valid = false;
+                        $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                    }
+                });
+                if(valid){
+                    $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                    document.getElementById("formDescriptions").submit();
+                }
+            }
+            else if(info.step == 8){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formHostelRoomPrices").submit();
+            }
+            else if(info.step == 9){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Finished, Publishing...').attr('disabled', true);
+                document.getElementById("formFinishListing").submit();
+            }
+        @else
+            if(info.step == 1) {
+                var valid = true;
+                if($("#formContainAmenities #beds").val()==""){
+                    valid = false;
+                    $("#formContainAmenities #beds").parents('.validate').find('.mySpan').text('The beds field is required');
+                }
+                if($("#formContainAmenities #baths").val()=="0" || $("#formContainAmenities #baths").val()==""){
+                    valid = false;
+                    $("#formContainAmenities #baths").parents('.validate').find('.mySpan').text('The baths field is required');
+                }
+                if($("#formContainAmenities #toilet").val()=="0" || $("#formContainAmenities #toilet").val()==""){
+                    valid = false;
+                    $("#formContainAmenities #toilet").parents('.validate').find('.mySpan').text('The toilet field is required');
+                }
+                $('#formContainAmenities select').each(function() {
+                    var $this = $(this);
+                    
+                    if(!$this.val()) {
+                        valid = false;
+                        $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                    }
+                });
+                if(valid){
+                    $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                    document.getElementById("formContainAmenities").submit();
+                }
+            }
+            else if(info.step == 2){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formAmenities").submit();
+            }
+            else if(info.step == 3){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formPropertyRules").submit();
+            }
+            else if(info.step == 4){
+                var valid = true;
+                $('#formLocationLandmark input').each(function() {
+                    var $this = $(this);
+                    
+                    if(!$this.val()) {
+                        valid = false;
+                        $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                    }
+                });
+                if(valid){
+                    $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                    document.getElementById("formLocationLandmark").submit();
+                }
+            }
+            else if(info.step == 5){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formPhotos").submit();
+            }
+            else if(info.step == 6){
+                var valid = true;
+                $('#formDescriptions input, #formDescriptions textarea, #formDescriptions select').each(function() {
+                    var $this = $(this);
+                    
+                    if(!$this.val()) {
+                        valid = false;
+                        $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                    }
+                });
+                if(valid){
+                    $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                    document.getElementById("formDescriptions").submit();
+                }
+            }
+            else if(info.step == 7){
+                var valid = true;
+                $('#formRentSchedule input, #formRentSchedule select').each(function() {
+                    var $this = $(this);
+                    
+                    if(!$this.val()) {
+                        valid = false;
+                        $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                    }
+                });
+                if(valid){
+                    $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                    document.getElementById("formRentSchedule").submit();
+                }
+            }
+            else if(info.step == 8){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formTenantGuide").submit();
+            }
+            else if(info.step == 9){
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Finished, Publishing...').attr('disabled', true);
+                document.getElementById("formFinishListing").submit();
+            }
+        @endif
+            return false;
+        }
+    })
+    //.on('changed.fu.wizard', function() {
+    //})
+    .on('finished.fu.wizard', function(e) {
+        /* swal({
+            title: "Success",
+            text: "Form Submitted Successful",
+            icon: "success",
+            button: "OK"
+        }); */
+    }).on('stepclicked.fu.wizard', function(e){
+        return true; //this will not prevent clicking and selecting steps
+    });
+
     @if($property->type=='hostel')
-        if(info.step == 1) {
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formBlockNames").submit();
-        }
-        else if(info.step==2){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formBlockRooms").submit();
-        }
-        else if(info.step==3){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formRoomAmenities").submit();
-        }
-        else if(info.step==4){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formPropertyRules").submit();
-        }
-        else if(info.step == 5){
-            var valid = true;
-            $('#formLocationLandmark input').each(function() {
-                var $this = $(this);
-                
-                if(!$this.val()) {
-                    valid = false;
-                    $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                }
-            });
-            if(valid){
-                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formLocationLandmark").submit();
-            }
-        }
-        else if(info.step == 6){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formPhotos").submit();
-        }
-        else if(info.step == 7){
-            var valid = true;
-            $('#formDescriptions input, #formDescriptions textarea, #formDescriptions select').each(function() {
-                var $this = $(this);
-                
-                if(!$this.val()) {
-                    valid = false;
-                    $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                }
-            });
-            if(valid){
-                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formDescriptions").submit();
-            }
-        }
-        else if(info.step == 8){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formHostelRoomPrices").submit();
-        }
-        else if(info.step == 9){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Finished, Publishing...').attr('disabled', true);
-            document.getElementById("formFinishListing").submit();
-        }
-    @else
-        if(info.step == 1) {
-            var valid = true;
-            if($("#formContainAmenities #beds").val()==""){
-                valid = false;
-                $("#formContainAmenities #beds").parents('.validate').find('.mySpan').text('The beds field is required');
-            }
-            if($("#formContainAmenities #baths").val()=="0" || $("#formContainAmenities #baths").val()==""){
-                valid = false;
-                $("#formContainAmenities #baths").parents('.validate').find('.mySpan').text('The baths field is required');
-            }
-            if($("#formContainAmenities #toilet").val()=="0" || $("#formContainAmenities #toilet").val()==""){
-                valid = false;
-                $("#formContainAmenities #toilet").parents('.validate').find('.mySpan').text('The toilet field is required');
-            }
-            $('#formContainAmenities select').each(function() {
-                var $this = $(this);
-                
-                if(!$this.val()) {
-                    valid = false;
-                    $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                }
-            });
-            if(valid){
-                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formContainAmenities").submit();
-            }
-        }
-        else if(info.step == 2){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formAmenities").submit();
-        }
-        else if(info.step == 3){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formPropertyRules").submit();
-        }
-        else if(info.step == 4){
-            var valid = true;
-            $('#formLocationLandmark input').each(function() {
-                var $this = $(this);
-                
-                if(!$this.val()) {
-                    valid = false;
-                    $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                }
-            });
-            if(valid){
-                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formLocationLandmark").submit();
-            }
-        }
-        else if(info.step == 5){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formPhotos").submit();
-        }
-        else if(info.step == 6){
-            var valid = true;
-            $('#formDescriptions input, #formDescriptions textarea, #formDescriptions select').each(function() {
-                var $this = $(this);
-                
-                if(!$this.val()) {
-                    valid = false;
-                    $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                }
-            });
-            if(valid){
-                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formDescriptions").submit();
-            }
-        }
-        else if(info.step == 7){
-            var valid = true;
-            $('#formRentSchedule input, #formRentSchedule select').each(function() {
-                var $this = $(this);
-                
-                if(!$this.val()) {
-                    valid = false;
-                    $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                }
-            });
-            if(valid){
-                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formRentSchedule").submit();
-            }
-        }
-        else if(info.step == 8){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-            document.getElementById("formTenantGuide").submit();
-        }
-        else if(info.step == 9){
-            $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Finished, Publishing...').attr('disabled', true);
-            document.getElementById("formFinishListing").submit();
-        }
-    @endif
-        return false;
-    }
-})
-//.on('changed.fu.wizard', function() {
-//})
-.on('finished.fu.wizard', function(e) {
-    /* swal({
-        title: "Success",
-        text: "Form Submitted Successful",
-        icon: "success",
-        button: "OK"
-    }); */
-}).on('stepclicked.fu.wizard', function(e){
-    return true; //this will not prevent clicking and selecting steps
-});
-
-@if($property->type=='hostel')
-////add host blocks
-$("#formBlocks").on("submit", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var valid = true;
-    $('#formBlocks input').each(function() {
-        var $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        }
-    });
-    if(valid){
-        var data = $("#formBlocks").serialize();
-        $(".btnAddBlock").html('<i class="fa fa-spin fa-spinner"></i> Adding Block...').attr('disabled', true);
-        $.ajax({
-            url: "{{ route('property.block.submit') }}",
-            type: "POST",
-            data: data,
-            success: function(resp){
-                if(resp=='success'){
-                    showBlocks({{ $property->id }});
-                    $("#formBlocks input[name='block_name']").val('');
-                }
-                else{
-                    alert(resp);
-                }
-                $(".btnAddBlock").html('<i class="fa fa-plus-circle"></i> Add Block').attr('disabled', false);
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-                $(".btnAddBlock").html('<i class="fa fa-plus-circle"></i> Add Block').attr('disabled', false);
-            }
-        });
-    }
-    return false;
-});
-
-function showBlocks(id){
-    $.ajax({
-        url: "{{ url('/user/properties/block') }}/"+id+"/show",
-        type: "GET",
-        success: function(resp){
-            $("#getMyBlockNames").html(resp);
-        },
-        error: function(resp){
-            alert("Something went wrong with request");
-        }
-    });
-}
-showBlocks({{ $property->id }});
-
-///create hostel rooms
-$("#formCreateRooms").on("submit", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var valid = true;
-    $('#formCreateRooms select, #formCreateRooms input').each(function() {
-        var $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        }
-    });
-
-    if(valid){
-        var data = $("#formCreateRooms").serialize();
-        $(".btnCreateRoom").html('<i class="fa fa-spin fa-spinner"></i> Creating Room...').attr('disabled', true);
-        $.ajax({
-            url: "{{ route('property.blockroom.submit') }}",
-            type: "POST",
-            data: data,
-            success: function(resp){
-                if(resp=='success'){
-                    $("#getMyCreatedRooms").load("{{ route('property.blockroom.show', $property->id) }}");
-                    $("#formCreateRooms input[name='rooms_on_block']").val('1');
-                    $("#formCreateRooms input[name='room_start']").val('1');
-                    $("#formCreateRooms input[name='person_per_room']").val('');
-                    $("#formCreateRooms input[name='baths']").val('');
-                    $("#formCreateRooms input[name='toilet']").val('');
-                    $("#formCreateRooms input[name='beds']").val('');
-                    $("#formCreateRooms select").val('');
-                }                
-                else{
-                    alert(resp);
-                }
-                $(".btnCreateRoom").html('<i class="fa fa-plus-circle"></i> Create Room').attr('disabled', false);
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-                $(".btnCreateRoom").html('<i class="fa fa-plus-circle"></i> Create Room').attr('disabled', false);
-            }
-        });
-    }
-
-    return false;
-});
-
-$("#getMyCreatedRooms").load("{{ route('property.blockroom.show', $property->id) }}");
-
-///select to get room type
-$("#formHostelRoomAmenity #gender").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this= $(this);
-    if($this.val()!=''){
-        var data={ block_name:$('#hostel_block_name').val(), gender:$this.val() }
-        $("#formHostelRoomAmenity #room_type").find('.after').nextAll().remove();
-        $.ajax({
-            url: "{{ route('property.get.roomtype') }}",
-            type: "POST",
-            data: data,
-            dataType: 'json',
-            success: function(resp){
-                let options = '';
-                $.each( resp, function( key, value ) {
-                    options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
-                });
-                $("#formHostelRoomAmenity #room_type").find('.after').after(options);
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-            }
-        });
-    }
-    else{
-        $("#formHostelRoomAmenity #room_type").find('.after').nextAll().remove();
-    }
-    return false;
-});
-
-///hostel amenities
-$("#formHostelRoomAmenity").on("submit", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var valid = true;
-    $('#formHostelRoomAmenity select').each(function() {
-        var $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        }
-    });
-
-    if($("#formHostelRoomAmenity input[name='amenities[]']:checked").length == 0){
-        valid=false;
-        $("#selectMsg").show('fast');
-    }
-    if(valid){
-        var data = $("#formHostelRoomAmenity").serialize();
-        $("#selectMsg").hide('fast');
-        $(".btnAddAmenities").html('<i class="fa fa-spin fa-spinner"></i> Adding Amenities...').attr('disabled', true);
-        $.ajax({
-            url: "{{ route('property.room.amenities.submit') }}",
-            type: "POST",
-            data: data,
-            success: function(resp){
-                if(resp=='success'){
-                    $("#getMyRoomAmenities").load("{{ route('property.room.amenities.show', $property->id) }}");
-                    $("#formHostelRoomAmenity input[name='amenities[]']").prop('checked', false);
-                }                
-                else{
-                    console.log(resp);
-                }
-                $(".btnAddAmenities").html('<i class="fa fa-plus-circle"></i> Add Amenities').attr('disabled', false);
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-                $(".btnAddAmenities").html('<i class="fa fa-plus-circle"></i> Add Amenities').attr('disabled', false);
-            }
-        });
-    }
-
-    return false;
-});
-
-$("#getMyRoomAmenities").load("{{ route('property.room.amenities.show', $property->id) }}");
-@endif
-
-
-///get photos
-function getFile(){
-    document.getElementById("upfile").click();
-}
-
-///uploading property images
-$("#upfile").on("change", function(){
-    $("#uploadMsg").html('<i class="fa fa-spin fa-spinner"></i> Uploading...');
-    var form_data = new FormData();
-    var totalfiles = document.getElementById('upfile').files.length;
-    if(totalfiles>30){
-        swal("Exceed", "You can not upload more than 30 photos.", "warning");
-        document.getElementById("upfile").value = null;
-        $("#uploadMsg").html('');
-        return false;
-    }
-    else{
-        var s=0; var e=0;
-        for (var index = 0; index < totalfiles; index++) {
-            var size = document.getElementById('upfile').files[index].size;
-            var selectedFile = document.getElementById('upfile').files[index].name;
-            var ext = selectedFile.replace(/^.*\./, '');
-            ext= ext.toLowerCase();
-            if(size>1000141){
-                s+=1;
-            }
-            else if(ext!='jpg' && ext!='jpeg' && ext!='png'){
-                e+=1;
-            }
-            else{
-                form_data.append("photos[]", document.getElementById('upfile').files[index]);
-            }
-        }
-
-        $.ajax({
-            url: "{{ route('property.photos.submit', $property->id) }}", 
-            type: 'POST',
-            data: form_data,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                if(response=='exceed'){
-                    swal("Exceed", "You can not upload more than 10 photos.", "warning");
-                }
-                else if(response=='error'){
-                    swal("Error", "Something went wrong.", "error");
-                }
-                else{
-                    $("#propertyPhotoHolder").load("{{ route('property.photos.show',$property->id) }}");
-                }
-                document.getElementById("upfile").value = null;
-                $("#uploadMsg").html('');
-            },
-            error: function(response){
-                alert('Something went wrong with your request');
-                document.getElementById("upfile").value = null;
-                $("#uploadMsg").html('');
-            }
+    ////add host blocks
+    $("#formBlocks").on("submit", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var valid = true;
+        $('#formBlocks input').each(function() {
+            var $this = $(this);
             
+            if(!$this.val()) {
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            }
         });
-        if(s>0){
-            swal("File Size", s.toString()+" of your photos size is more than 1mb", "warning");
-        }
-        else if(e>0){
-            swal("File Type", e.toString()+" unknown file types", "warning");
-        }
-    }
-    return false;
-});
-
-//load all uploaded property photos
-$("#propertyPhotoHolder").load("{{ route('property.photos.show',$property->id) }}");
-
-///load all own rules
-$("#myDefineRules").load("{{ route('property.rule.show', $property->id) }}");
-
-///add own rule
-$(".btnAddOwnRule").on("click", function(e){
-    e.preventDefault();
-    var $this = $(this);
-    var valid = true;
-    $('#formPropertyOtherRules input').each(function() {
-        var $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        }
-    });
-    if(valid){
-        var data = $("#formPropertyOtherRules").serialize();
-        $this.html('<i class="fa fa-spin fa-spinner"></i> Adding...').attr('disabled', true);
-        $.ajax({
-            url: "{{ route('property.rule.submit') }}",
-            type: "POST",
-            data: data,
-            success: function(resp){
-                if(resp=='success'){
-                    $this.html('<i class="fa fa-plus-circle"></i> Add').attr('disabled', false);
-                    $("#formPropertyOtherRules input[name='add_rule']").val('');
-                    $("#myDefineRules").load("{{ route('property.rule.show', $property->id) }}");
+        if(valid){
+            var data = $("#formBlocks").serialize();
+            $(".btnAddBlock").html('<i class="fa fa-spin fa-spinner"></i> Adding Block...').attr('disabled', true);
+            $.ajax({
+                url: "{{ route('property.block.submit') }}",
+                type: "POST",
+                data: data,
+                success: function(resp){
+                    if(resp=='success'){
+                        showBlocks({{ $property->id }});
+                        $("#formBlocks input[name='block_name']").val('');
+                    }
+                    else{
+                        alert(resp);
+                    }
+                    $(".btnAddBlock").html('<i class="fa fa-plus-circle"></i> Add Block').attr('disabled', false);
+                },
+                error: function(resp){
+                    alert("Something went wrong with request");
+                    $(".btnAddBlock").html('<i class="fa fa-plus-circle"></i> Add Block').attr('disabled', false);
                 }
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-                $this.html('<i class="fa fa-plus-circle"></i> Add').attr('disabled', false);
-            }
-        });
-    }
-    return false;
-});
-
-$("#formPropertyOtherRules input[name='add_rule']").on('keypress', function(e){
-    if(e.which==13){
-        $(".btnAddOwnRule").trigger("click");
-        return false;
-    }
-});
-
-
-@if($property->type=='hostel')
-// clear  gender
-$("#formRentSchedule #block").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this= $(this);
-    $("#formRentSchedule select[name='gender']").val('');
-    $("#formRentSchedule #block_room").find('.after').nextAll().remove();
-    return false;
-});
-
-///select to get room type
-$("#formRentSchedule select[name='gender']").on("change", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this= $(this);
-    if($this.val()!=''){
-        var data={ block_name:$('#block').val(), gender:$this.val() }
-        $("#formRentSchedule #block_room").find('.after').nextAll().remove();
-        $.ajax({
-            url: "{{ route('property.get.roomtype') }}",
-            type: "POST",
-            data: data,
-            dataType: 'json',
-            success: function(resp){
-                let options = '';
-                $.each( resp, function( key, value ) {
-                    options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
-                });
-                $("#formRentSchedule #block_room").find('.after').after(options);
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-            }
-        });
-    }
-    else{
-        $("#formRentSchedule #block_room").find('.after').nextAll().remove();
-    }
-    return false;
-});
-
-//add hostel prices
-$("#formRentSchedule").on("submit", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    var valid = true;
-    $('#formRentSchedule input, #formRentSchedule select').each(function() {
-        var $this = $(this);
-        
-        if(!$this.val()) {
-            valid = false;
-            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            });
         }
+        return false;
     });
-    if(valid){
-        var data = $("#formRentSchedule").serialize();
-        $(".btnHostelPrices").html('<i class="fa fa-spin fa-spinner"></i> Pricing Room...').attr('disabled', true);
+
+    function showBlocks(id){
         $.ajax({
-            url: "{{ route('property.blockprice.submit') }}",
-            type: "POST",
-            data: data,
+            url: "{{ url('/user/properties/block') }}/"+id+"/show",
+            type: "GET",
             success: function(resp){
-                if(resp=='success'){
-                    $("#getMyBlockPrices").load("{{ route('property.blockprice.show', $property->id) }}");
-                    $("#formRentSchedule #advance_duration").val('');
-                    $("#formRentSchedule input[name='property_price']").val('');
+                $("#getMyBlockNames").html(resp);
+            },
+            error: function(resp){
+                alert("Something went wrong with request");
+            }
+        });
+    }
+    showBlocks({{ $property->id }});
+
+    ///create hostel rooms
+    $("#formCreateRooms").on("submit", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var valid = true;
+        $('#formCreateRooms select, #formCreateRooms input').each(function() {
+            var $this = $(this);
+            
+            if(!$this.val()) {
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            }
+        });
+
+        if(valid){
+            var data = $("#formCreateRooms").serialize();
+            $(".btnCreateRoom").html('<i class="fa fa-spin fa-spinner"></i> Creating Room...').attr('disabled', true);
+            $.ajax({
+                url: "{{ route('property.blockroom.submit') }}",
+                type: "POST",
+                data: data,
+                success: function(resp){
+                    if(resp=='success'){
+                        $("#getMyCreatedRooms").load("{{ route('property.blockroom.show', $property->id) }}");
+                        $("#formCreateRooms input[name='rooms_on_block']").val('1');
+                        $("#formCreateRooms input[name='room_start']").val('1');
+                        $("#formCreateRooms input[name='person_per_room']").val('');
+                        $("#formCreateRooms input[name='baths']").val('');
+                        $("#formCreateRooms input[name='toilet']").val('');
+                        $("#formCreateRooms input[name='beds']").val('');
+                        $("#formCreateRooms select").val('');
+                    }                
+                    else{
+                        alert(resp);
+                    }
+                    $(".btnCreateRoom").html('<i class="fa fa-plus-circle"></i> Create Room').attr('disabled', false);
+                },
+                error: function(resp){
+                    alert("Something went wrong with request");
+                    $(".btnCreateRoom").html('<i class="fa fa-plus-circle"></i> Create Room').attr('disabled', false);
+                }
+            });
+        }
+
+        return false;
+    });
+
+    $("#getMyCreatedRooms").load("{{ route('property.blockroom.show', $property->id) }}");
+
+    ///select to get room type
+    $("#formHostelRoomAmenity #gender").on("change", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this= $(this);
+        if($this.val()!=''){
+            var data={ block_name:$('#hostel_block_name').val(), gender:$this.val() }
+            $("#formHostelRoomAmenity #room_type").find('.after').nextAll().remove();
+            $.ajax({
+                url: "{{ route('property.get.roomtype') }}",
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                success: function(resp){
+                    let options = '';
+                    $.each( resp, function( key, value ) {
+                        options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
+                    });
+                    $("#formHostelRoomAmenity #room_type").find('.after').after(options);
+                },
+                error: function(resp){
+                    alert("Something went wrong with request");
+                }
+            });
+        }
+        else{
+            $("#formHostelRoomAmenity #room_type").find('.after').nextAll().remove();
+        }
+        return false;
+    });
+
+    ///hostel amenities
+    $("#formHostelRoomAmenity").on("submit", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var valid = true;
+        $('#formHostelRoomAmenity select').each(function() {
+            var $this = $(this);
+            
+            if(!$this.val()) {
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            }
+        });
+
+        if($("#formHostelRoomAmenity input[name='amenities[]']:checked").length == 0){
+            valid=false;
+            $("#selectMsg").show('fast');
+        }
+        if(valid){
+            var data = $("#formHostelRoomAmenity").serialize();
+            $("#selectMsg").hide('fast');
+            $(".btnAddAmenities").html('<i class="fa fa-spin fa-spinner"></i> Adding Amenities...').attr('disabled', true);
+            $.ajax({
+                url: "{{ route('property.room.amenities.submit') }}",
+                type: "POST",
+                data: data,
+                success: function(resp){
+                    if(resp=='success'){
+                        $("#getMyRoomAmenities").load("{{ route('property.room.amenities.show', $property->id) }}");
+                        $("#formHostelRoomAmenity input[name='amenities[]']").prop('checked', false);
+                    }                
+                    else{
+                        console.log(resp);
+                    }
+                    $(".btnAddAmenities").html('<i class="fa fa-plus-circle"></i> Add Amenities').attr('disabled', false);
+                },
+                error: function(resp){
+                    alert("Something went wrong with request");
+                    $(".btnAddAmenities").html('<i class="fa fa-plus-circle"></i> Add Amenities').attr('disabled', false);
+                }
+            });
+        }
+
+        return false;
+    });
+
+    $("#getMyRoomAmenities").load("{{ route('property.room.amenities.show', $property->id) }}");
+    @endif
+
+
+    ///get photos
+    function getFile(){
+        document.getElementById("upfile").click();
+    }
+
+    ///uploading property images
+    $("#upfile").on("change", function(){
+        $("#uploadMsg").html('<i class="fa fa-spin fa-spinner"></i> Uploading...');
+        var form_data = new FormData();
+        var totalfiles = document.getElementById('upfile').files.length;
+        if(totalfiles>30){
+            swal("Exceed", "You can not upload more than 30 photos.", "warning");
+            document.getElementById("upfile").value = null;
+            $("#uploadMsg").html('');
+            return false;
+        }
+        else{
+            var s=0; var e=0;
+            for (var index = 0; index < totalfiles; index++) {
+                var size = document.getElementById('upfile').files[index].size;
+                var selectedFile = document.getElementById('upfile').files[index].name;
+                var ext = selectedFile.replace(/^.*\./, '');
+                ext= ext.toLowerCase();
+                if(size>1000141){
+                    s+=1;
+                }
+                else if(ext!='jpg' && ext!='jpeg' && ext!='png'){
+                    e+=1;
                 }
                 else{
-                    swal("Opps", resp, "error");
+                    form_data.append("photos[]", document.getElementById('upfile').files[index]);
                 }
-                $(".btnHostelPrices").html('<i class="fa fa-plus-circle"></i> Price Room').attr('disabled', false);
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-                $(".btnHostelPrices").html('<i class="fa fa-plus-circle"></i> Price Room').attr('disabled', false);
+            }
+
+            $.ajax({
+                url: "{{ route('property.photos.submit', $property->id) }}", 
+                type: 'POST',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if(response=='exceed'){
+                        swal("Exceed", "You can not upload more than 10 photos.", "warning");
+                    }
+                    else if(response=='error'){
+                        swal("Error", "Something went wrong.", "error");
+                    }
+                    else{
+                        $("#propertyPhotoHolder").load("{{ route('property.photos.show',$property->id) }}");
+                    }
+                    document.getElementById("upfile").value = null;
+                    $("#uploadMsg").html('');
+                },
+                error: function(response){
+                    alert('Something went wrong with your request');
+                    document.getElementById("upfile").value = null;
+                    $("#uploadMsg").html('');
+                }
+                
+            });
+            if(s>0){
+                swal("File Size", s.toString()+" of your photos size is more than 1mb", "warning");
+            }
+            else if(e>0){
+                swal("File Type", e.toString()+" unknown file types", "warning");
+            }
+        }
+        return false;
+    });
+
+    //load all uploaded property photos
+    $("#propertyPhotoHolder").load("{{ route('property.photos.show',$property->id) }}");
+
+    ///load all own rules
+    $("#myDefineRules").load("{{ route('property.rule.show', $property->id) }}");
+
+    ///add own rule
+    $(".btnAddOwnRule").on("click", function(e){
+        e.preventDefault();
+        var $this = $(this);
+        var valid = true;
+        $('#formPropertyOtherRules input').each(function() {
+            var $this = $(this);
+            
+            if(!$this.val()) {
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
             }
         });
-    }
-    return false;
-});
-
-///get added hostel bock prices
-$("#getMyBlockPrices").load("{{ route('property.blockprice.show', $property->id) }}");
-@endif
-
-//remove error message if inputs are filled
-$("input, textarea").on('input', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-    }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
-});
-
-$("select").on('change', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-    }else{ 
-        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
-    }
-});
-
-
-//check remaining characters
-var maxNumber = 1000;
-var counter = $("#description").val().length;
-maxNumber=maxNumber-counter;
-$("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
-
-$("#description").on("input", function(){
-    var maxNumber = 1000;
-    var $this = $(this);
-    if($this.val()!=""){
-        var counter = $this.val().length;
-        maxNumber=maxNumber-counter;
-        $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
-    }else{
-        $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
-    }
-});
-
-
-//attach price calendar to price label
-$("#price_calendar").on("change", function(){
-    if($(this).val()!=''){
-        $("#myPriceCal").text("on price per "+$(this).val());
-    }else{$("#myPriceCal").text('');}
-});
-
-@if(!empty($property))
-    @if($property->type!='hostel')
-        $("#formContainAmenities #bedrooms").val("{{ empty($property->propertyContain->bedroom)? '':$property->propertyContain->bedroom }}");
-        $("#formContainAmenities #beds").val("{{ empty($property->propertyContain->no_bed)? '0':$property->propertyContain->no_bed }}");
-        $("#formContainAmenities #kitchen").val("{{ empty($property->propertyContain->kitchen)? '0':$property->propertyContain->kitchen }}");
-        $("#formContainAmenities #baths").val("{{ empty($property->propertyContain->bathroom)? '0':$property->propertyContain->bathroom }}");
-        $("#formContainAmenities #toilet").val("{{ empty($property->propertyContain->toilet)? '0':$property->propertyContain->toilet }}");
-        $("#formContainAmenities #furnish").val("{{ empty($property->propertyContain->furnish)? '':strtolower(str_replace(' ','_',$property->propertyContain->furnish)) }}");
-        @if(!empty($property->propertyContain))
-            @if($property->propertyContain->toilet_private)
-                $("#formContainAmenities #toilet_private").prop("checked", true);
-            @else
-                $("#formContainAmenities #toilet_private1").prop("checked", true);
-            @endif
-            @if($property->propertyContain->bath_private)
-                $("#formContainAmenities #bath_private").prop("checked", true);
-            @else
-                $("#formContainAmenities #bath_private1").prop("checked", true);
-            @endif
-        @endif
-
-        @if($property->type_status=='rent')
-            $("#formRentSchedule #advance_duration").val("{{ empty($property->propertyPrice->payment_duration)? '':$property->propertyPrice->payment_duration }}");
-            $("#formRentSchedule #price_calendar").val("{{ empty($property->propertyPrice->price_calendar)? 'month':$property->propertyPrice->price_calendar }}");
-        @elseif($property->type_status=='short_stay')
-            $("#formRentSchedule #minimum_stay").val("{{ empty($property->propertyPrice->minimum_stay)? '':$property->propertyPrice->minimum_stay }}");
-            $("#formRentSchedule #maximum_stay").val("{{ empty($property->propertyPrice->maximum_stay)? '':$property->propertyPrice->maximum_stay }}");
-            $("#formRentSchedule #price_calendar").val("{{ empty($property->propertyPrice->price_calendar)? 'night':$property->propertyPrice->price_calendar }}");
-            $("#formRentSchedule #smart_price").val("{{ empty($property->propertyPrice->smart_price)? '':$property->propertyPrice->smart_price }}");
-        @elseif($property->type_status=='sell')
-            @if(!empty($property->propertyPrice->negotiable))
-                $("#formRentSchedule #negotiable").prop("checked", true);
-            @endif
-        @endif
-        $("#formRentSchedule #property_price").val("{{ empty($property->propertyPrice->property_price)? '':$property->propertyPrice->property_price }}");
-    @endif
-    // $("#formLocationLandmark input[name='digital_address']").val("{{ empty($property->propertyLocation->digital_address)? '':$property->propertyLocation->digital_address }}");
-    $("#formLocationLandmark input[name='location']").val("{{ empty($property->propertyLocation->location)? '':$property->propertyLocation->location }}");
-    $("#formDescriptions #gate").val("{{ empty($property->propertyDescription->gate)? '0':$property->propertyDescription->gate }}");
-    $("#formDescriptions #size_unit").val("{{ empty($property->propertyDescription->unit)? '':$property->propertyDescription->unit }}");
-@endif
-
-
-
-function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        if(valid){
+            var data = $("#formPropertyOtherRules").serialize();
+            $this.html('<i class="fa fa-spin fa-spinner"></i> Adding...').attr('disabled', true);
+            $.ajax({
+                url: "{{ route('property.rule.submit') }}",
+                type: "POST",
+                data: data,
+                success: function(resp){
+                    if(resp=='success'){
+                        $this.html('<i class="fa fa-plus-circle"></i> Add').attr('disabled', false);
+                        $("#formPropertyOtherRules input[name='add_rule']").val('');
+                        $("#myDefineRules").load("{{ route('property.rule.show', $property->id) }}");
+                    }
+                },
+                error: function(resp){
+                    alert("Something went wrong with request");
+                    $this.html('<i class="fa fa-plus-circle"></i> Add').attr('disabled', false);
+                }
+            });
+        }
         return false;
+    });
+
+    $("#formPropertyOtherRules input[name='add_rule']").on('keypress', function(e){
+        if(e.which==13){
+            $(".btnAddOwnRule").trigger("click");
+            return false;
+        }
+    });
+
+
+    @if($property->type=='hostel')
+    // clear  gender
+    $("#formRentSchedule #block").on("change", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this= $(this);
+        $("#formRentSchedule select[name='gender']").val('');
+        $("#formRentSchedule #block_room").find('.after').nextAll().remove();
+        return false;
+    });
+
+    ///select to get room type
+    $("#formRentSchedule select[name='gender']").on("change", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this= $(this);
+        if($this.val()!=''){
+            var data={ block_name:$('#block').val(), gender:$this.val() }
+            $("#formRentSchedule #block_room").find('.after').nextAll().remove();
+            $.ajax({
+                url: "{{ route('property.get.roomtype') }}",
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                success: function(resp){
+                    let options = '';
+                    $.each( resp, function( key, value ) {
+                        options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
+                    });
+                    $("#formRentSchedule #block_room").find('.after').after(options);
+                },
+                error: function(resp){
+                    alert("Something went wrong with request");
+                }
+            });
+        }
+        else{
+            $("#formRentSchedule #block_room").find('.after').nextAll().remove();
+        }
+        return false;
+    });
+
+    //add hostel prices
+    $("#formRentSchedule").on("submit", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this = $(this);
+        var valid = true;
+        $('#formRentSchedule input, #formRentSchedule select').each(function() {
+            var $this = $(this);
+            
+            if(!$this.val()) {
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            }
+        });
+        if(valid){
+            var data = $("#formRentSchedule").serialize();
+            $(".btnHostelPrices").html('<i class="fa fa-spin fa-spinner"></i> Pricing Room...').attr('disabled', true);
+            $.ajax({
+                url: "{{ route('property.blockprice.submit') }}",
+                type: "POST",
+                data: data,
+                success: function(resp){
+                    if(resp=='success'){
+                        $("#getMyBlockPrices").load("{{ route('property.blockprice.show', $property->id) }}");
+                        $("#formRentSchedule #advance_duration").val('');
+                        $("#formRentSchedule input[name='property_price']").val('');
+                    }
+                    else{
+                        swal("Opps", resp, "error");
+                    }
+                    $(".btnHostelPrices").html('<i class="fa fa-plus-circle"></i> Price Room').attr('disabled', false);
+                },
+                error: function(resp){
+                    alert("Something went wrong with request");
+                    $(".btnHostelPrices").html('<i class="fa fa-plus-circle"></i> Price Room').attr('disabled', false);
+                }
+            });
+        }
+        return false;
+    });
+
+    ///get added hostel bock prices
+    $("#getMyBlockPrices").load("{{ route('property.blockprice.show', $property->id) }}");
+    @endif
+
+    //remove error message if inputs are filled
+    $("input, textarea").on('input', function(){
+        if($(this).val()!=''){
+            $(this).parents('.validate').find('.mySpan').text('');
+        }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
+    });
+
+    $("select").on('change', function(){
+        if($(this).val()!=''){
+            $(this).parents('.validate').find('.mySpan').text('');
+        }else{ 
+            $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
+    });
+
+
+    //check remaining characters
+    var maxNumber = 1000;
+    var counter = $("#description").val().length;
+    maxNumber=maxNumber-counter;
+    $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
+
+    $("#description").on("input", function(){
+        var maxNumber = 1000;
+        var $this = $(this);
+        if($this.val()!=""){
+            var counter = $this.val().length;
+            maxNumber=maxNumber-counter;
+            $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
+        }else{
+            $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
+        }
+    });
+
+
+    //attach price calendar to price label
+    $("#price_calendar").on("change", function(){
+        if($(this).val()!=''){
+            $("#myPriceCal").text("on price per "+$(this).val());
+        }else{$("#myPriceCal").text('');}
+    });
+
+    @if(!empty($property))
+        @if($property->type!='hostel')
+            $("#formContainAmenities #bedrooms").val("{{ empty($property->propertyContain->bedroom)? '':$property->propertyContain->bedroom }}");
+            $("#formContainAmenities #beds").val("{{ empty($property->propertyContain->no_bed)? '0':$property->propertyContain->no_bed }}");
+            $("#formContainAmenities #kitchen").val("{{ empty($property->propertyContain->kitchen)? '0':$property->propertyContain->kitchen }}");
+            $("#formContainAmenities #baths").val("{{ empty($property->propertyContain->bathroom)? '0':$property->propertyContain->bathroom }}");
+            $("#formContainAmenities #toilet").val("{{ empty($property->propertyContain->toilet)? '0':$property->propertyContain->toilet }}");
+            $("#formContainAmenities #furnish").val("{{ empty($property->propertyContain->furnish)? '':strtolower(str_replace(' ','_',$property->propertyContain->furnish)) }}");
+            @if(!empty($property->propertyContain))
+                @if($property->propertyContain->toilet_private)
+                    $("#formContainAmenities #toilet_private").prop("checked", true);
+                @else
+                    $("#formContainAmenities #toilet_private1").prop("checked", true);
+                @endif
+                @if($property->propertyContain->bath_private)
+                    $("#formContainAmenities #bath_private").prop("checked", true);
+                @else
+                    $("#formContainAmenities #bath_private1").prop("checked", true);
+                @endif
+            @endif
+
+            @if($property->type_status=='rent')
+                $("#formRentSchedule #advance_duration").val("{{ empty($property->propertyPrice->payment_duration)? '':$property->propertyPrice->payment_duration }}");
+                $("#formRentSchedule #price_calendar").val("{{ empty($property->propertyPrice->price_calendar)? 'month':$property->propertyPrice->price_calendar }}");
+            @elseif($property->type_status=='short_stay')
+                $("#formRentSchedule #minimum_stay").val("{{ empty($property->propertyPrice->minimum_stay)? '':$property->propertyPrice->minimum_stay }}");
+                $("#formRentSchedule #maximum_stay").val("{{ empty($property->propertyPrice->maximum_stay)? '':$property->propertyPrice->maximum_stay }}");
+                $("#formRentSchedule #price_calendar").val("{{ empty($property->propertyPrice->price_calendar)? 'night':$property->propertyPrice->price_calendar }}");
+                $("#formRentSchedule #smart_price").val("{{ empty($property->propertyPrice->smart_price)? '':$property->propertyPrice->smart_price }}");
+            @elseif($property->type_status=='sell')
+                @if(!empty($property->propertyPrice->negotiable))
+                    $("#formRentSchedule #negotiable").prop("checked", true);
+                @endif
+            @endif
+            $("#formRentSchedule #property_price").val("{{ empty($property->propertyPrice->property_price)? '':$property->propertyPrice->property_price }}");
+        @endif
+        // $("#formLocationLandmark input[name='digital_address']").val("{{ empty($property->propertyLocation->digital_address)? '':$property->propertyLocation->digital_address }}");
+        $("#formLocationLandmark input[name='location']").val("{{ empty($property->propertyLocation->location)? '':$property->propertyLocation->location }}");
+        $("#formDescriptions #gate").val("{{ empty($property->propertyDescription->gate)? '0':$property->propertyDescription->gate }}");
+        $("#formDescriptions #size_unit").val("{{ empty($property->propertyDescription->unit)? '':$property->propertyDescription->unit }}");
+    @endif
+
+
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
     }
-    return true;
-}
 
 
-$('#property_price, #smart_price').keypress(function(event) {
-    if (((event.which != 46 || (event.which == 46 && $(this).val() == '')) ||
-            $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+    $('#property_price, #smart_price').keypress(function(event) {
+        if (((event.which != 46 || (event.which == 46 && $(this).val() == '')) ||
+                $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+            event.preventDefault();
+        }
+    }).on('paste', function(event) {
         event.preventDefault();
-    }
-}).on('paste', function(event) {
-    event.preventDefault();
-});
+    });
 </script>
 @endsection
