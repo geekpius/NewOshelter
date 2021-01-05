@@ -532,7 +532,7 @@
                                                     <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
                                                         
                                                     </div>
-                                                    <button class="btn btn-primary mt-3" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
+                                                    <button class="btn btn-primary mt-3" id="btnUpload" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
                                                         <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" multiple name="photos[]" /></div>
                                                     </button>
                                                     <div class="mt-3">
@@ -1042,7 +1042,7 @@
                                                     <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
                                                         
                                                     </div>
-                                                    <button class="btn btn-primary mt-3" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
+                                                    <button class="btn btn-primary mt-3" id="btnUpload" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
                                                         <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" multiple name="photos[]" /></div>
                                                     </button>
                                                     <div class="mt-3">
@@ -1830,7 +1830,8 @@
 
     ///uploading property images
     $("#upfile").on("change", function(){
-        $("#uploadMsg").html('<i class="fa fa-spin fa-spinner"></i> Uploading...');
+        var $this = $(this);
+        $("#uploadMsg").html('<i class="fa fa-spin fa-spinner"></i> Processing photos...');
         var form_data = new FormData();
         var totalfiles = document.getElementById('upfile').files.length;
         if(totalfiles>30){
@@ -1857,37 +1858,46 @@
                 }
             }
 
-            $.ajax({
-                url: "{{ route('property.photos.submit', $property->id) }}", 
-                type: 'POST',
-                data: form_data,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    if(response=='exceed'){
-                        swal("Exceed", "You can not upload more than 10 photos.", "warning");
-                    }
-                    else if(response=='error'){
-                        swal("Error", "Something went wrong.", "error");
-                    }
-                    else{
-                        $("#propertyPhotoHolder").load("{{ route('property.photos.show',$property->id) }}");
-                    }
-                    document.getElementById("upfile").value = null;
-                    $("#uploadMsg").html('');
-                },
-                error: function(response){
-                    alert('Something went wrong with your request');
-                    document.getElementById("upfile").value = null;
-                    $("#uploadMsg").html('');
-                }
-                
-            });
             if(s>0){
                 swal("File Size", s.toString()+" of your photos size is more than 1mb", "warning");
+                document.getElementById("upfile").value = null;
+                $("#uploadMsg").html('');
             }
             else if(e>0){
                 swal("File Type", e.toString()+" unknown file types", "warning");
+                document.getElementById("upfile").value = null;
+                $("#uploadMsg").html('');
+            }else{
+                $("#uploadMsg").html('<i class="fa fa-spin fa-spinner"></i> Uploading...');
+                $this.parents("#btnUpload").attr("disabled", true);
+                $.ajax({
+                    url: "{{ route('property.photos.submit', $property->id) }}", 
+                    type: 'POST',
+                    data: form_data,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if(response=='exceed'){
+                            swal("Exceed", "You can not upload more than 10 photos.", "warning");
+                        }
+                        else if(response=='error'){
+                            swal("Error", "Something went wrong.", "error");
+                        }
+                        else{
+                            $("#propertyPhotoHolder").load("{{ route('property.photos.show',$property->id) }}");
+                        }
+                        document.getElementById("upfile").value = null;
+                        $("#uploadMsg").html('');
+                        $this.parents("#btnUpload").attr("disabled", false);
+                    },
+                    error: function(response){
+                        alert('Something went wrong with your request');
+                        document.getElementById("upfile").value = null;
+                        $("#uploadMsg").html('');
+                        $this.parents("#btnUpload").attr("disabled", false);
+                    }
+                    
+                });
             }
         }
         return false;
