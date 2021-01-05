@@ -39,7 +39,7 @@
        <!-- item-->
        <a href="{{ route('requests.payment', $item->id) }}" class="dropdown-item notify-item">
             <div class="notify-icon bg-success"><i class="fa fa-money-bill"></i></div>
-            <p class="notify-details">Payment Request<small class="text-muted">Pending</small></p>
+            <p class="notify-details">Booking Payment Request<small class="text-muted">Pending</small></p>
         </a> 
     @endforeach
     @endif
@@ -59,7 +59,7 @@
        <!-- item-->
        <a href="{{ route('requests.payment.hostel', $item->id) }}" class="dropdown-item notify-item">
             <div class="notify-icon bg-success"><i class="fa fa-money-bill"></i></div>
-            <p class="notify-details">Payment Request<small class="text-muted">Pending</small></p>
+            <p class="notify-details">Booking Payment Request<small class="text-muted">Pending</small></p>
         </a> 
     @endforeach
     @endif

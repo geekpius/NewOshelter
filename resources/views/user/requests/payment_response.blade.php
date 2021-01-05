@@ -13,12 +13,7 @@
         <div class="pt-4">
             <div class="row">
                 <div class="col-sm-8">
-                    <div class="card-body">
-
-                        <h4 class="header-title">Payment</h4> 
-                        
-                        <br>
-                        
+                    <div class="card-body">                        
                         <div class="text-center">
                             <div class="text-primary"><i class="fa fa-spin fa-spinner fa-5x"></i></div>
                             <h5 class="text-primary"> Waiting for acceptance on your phone</h5>

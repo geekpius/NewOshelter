@@ -33,14 +33,14 @@
                                         $month = ($m==1)? $m." month":$m." months";
                                         $duration = $year.(($m==0)? '':$month);
                                     }else{
-                                        $duration = $dateDiff." months";
+                                        $duration = $dateDiff." ".str_plural("month", $dateDiff);
                                     }
                                 }elseif ($extension->visit->property->type_status == 'short_stay') {
                                     $from=date_create($extension->visit->check_out);
                                     $to=date_create($extension->extension_date);
                                     $diff=date_diff($from,$to);
                                     $dateDiff = $diff->format("%a");
-                                    $duration = ($dateDiff <= 1)? $dateDiff.' day':$dateDiff.' days';
+                                    $duration = $dateDiff.' '.str_plural("day", $dateDiff);
                                 }
 
                                 $currency = $extension->visit->property->propertyPrice->currency;
@@ -120,9 +120,10 @@
                             <div id="momoExpand" style="display: none">
                                 <hr>
                                 
-                                <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.extension.payment.mobile', $extension->id) }}">
+                                <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.payment.mobile') }}">
                                     @csrf
-                                    <input type="hidden" name="type" value="extension" readonly>
+                                    <input type="hidden" name="booking_id" value="{{ $extension->id }}" readonly>
+                                    <input type="hidden" name="type" value="extension_request" readonly>
                                     <input type="hidden" name="currency" value="{{ $currency }}" readonly>
                                     <input type="hidden" name="amount" value="{{ $totalPrice }}" readonly>
                                     <input type="hidden" name="service_fee" value="{{ $serviceFee }}" readonly>
@@ -178,4 +179,9 @@
 
 @section('scripts')   
 <script src="{{ asset('assets/pages/booking/payment.js') }}"></script>   
+<script>
+    @if (session()->has('message'))
+        swal("Warning", "{{ session('message') }}", "warning");
+    @endif
+</script>
 @endsection

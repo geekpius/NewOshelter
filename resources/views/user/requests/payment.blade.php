@@ -101,8 +101,9 @@
                             </div>
                             <div id="momoExpand" style="display: none">
                                 <hr>
-                                <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.payment.hostel.mobile', $booking->id) }}">
+                                <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.payment.mobile') }}">
                                     @csrf
+                                    <input type="hidden" name="booking_id" value="{{ $booking->id }}" readonly>
                                     <input type="hidden" name="type" value="{{ $booking->property->type }}" readonly>
                                     <input type="hidden" name="currency" value="{{ $currency }}" readonly>
                                     <input type="hidden" name="amount" value="{{ $totalPrice }}" readonly>
@@ -167,12 +168,14 @@
                                     $from = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_in);
                                     $to = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_out);
                                     $dateDiff = $to->diffInMonths($from);
+                                    $duration = $dateDiff." ".str_plural("month",$dateDiff);
                                 }
                                 elseif ($booking->property->type_status == 'short_stay') {
                                     $from=date_create($booking->check_in);
                                     $to=date_create($booking->check_out);
                                     $diff=date_diff($from,$to);
                                     $dateDiff = $diff->format("%a");
+                                    $duration = $dateDiff." ".str_plural("day",$dateDiff);
                                 }
                                 
                                 $currency = $booking->property->propertyPrice->currency;
@@ -189,7 +192,7 @@
                     <h5>Payment Summary</h5>
                     <div class="card">
                         <div class="card-body">
-                            <span class="font-weight-500">{{ $dateDiff.' months' }} x {{ $currency }}{{ number_format($price,2) }}</span>
+                            <span class="font-weight-500">{{ $duration }} x {{ $currency }}{{ number_format($price,2) }}</span>
                             <span class="font-weight-500 text-primary float-right">{{ $currency }}{{ number_format($totalPrice,2) }}</span>
                             <hr>
                             <span class="font-weight-500">SERVICE CHARGE</span>
@@ -251,8 +254,9 @@
                             </div>
                             <div id="momoExpand" style="display: none">
                                 <hr>
-                                <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.payment.mobile', $booking->id) }}">
+                                <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.payment.mobile') }}">
                                     @csrf
+                                    <input type="hidden" name="booking_id" value="{{ $booking->id }}" readonly>
                                     <input type="hidden" name="type" value="{{ $booking->property->type }}" readonly>
                                     <input type="hidden" name="currency" value="{{ $currency }}" readonly>
                                     <input type="hidden" name="amount" value="{{ $totalPrice }}" readonly>
@@ -310,4 +314,9 @@
 
 @section('scripts')
 <script src="{{ asset('assets/pages/booking/payment.js') }}"></script> 
+<script>
+@if (session()->has('message'))
+    swal("Warning", "{{ session('message') }}", "warning");
+@endif
+</script>
 @endsection

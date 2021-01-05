@@ -48,7 +48,7 @@ Route::post('user/verify-email/{user}/resend', 'Auth\VerifyController@resendCode
 Route::group(['middleware' => ['verify-email']], function() {
     Route::group(['prefix' => 'user'], function () {
         /*------- Dashboard ------- */
-        Route::get('/dashboard', 'UserController@index')->name('dashboard');
+        // Route::get('/dashboard', 'UserController@index')->name('dashboard');
 
         /*------- Notifications ------- */
         Route::get('/message-count', 'UserController@messageCount')->name('message.count');
@@ -85,9 +85,7 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::get('/requests/extensions/{userExtensionRequest}/payment', 'VisitorController@extensionPayment')->name('requests.extension.payment');
 
         /*------- Payments ------- */
-        Route::post('/requests/{booking}/payment/mobile', 'PaymentController@mobilePayment')->name('requests.payment.mobile');
-        Route::post('/requests/{booking}/payment/mobile', 'PaymentController@mobilePaymentHostel')->name('requests.payment.hostel.mobile');
-        Route::post('/requests/{userExtensionRequest}/payment/mobile', 'PaymentController@mobilePaymentExtension')->name('requests.extension.payment.mobile');
+        Route::post('/requests/payment/mobile', 'PaymentController@mobilePayment')->name('requests.payment.mobile');
         Route::get('/payments/mobile/{transactionId}/{user}/{operator}', 'PaymentController@mobileResponse')->name('payment.mobile.response');
         // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
         // Route::get('/activities', 'UserActivityController@index')->name('activities');
