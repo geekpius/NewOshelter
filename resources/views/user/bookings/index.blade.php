@@ -223,8 +223,7 @@
                                             <div class="card-body">
                                                 <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> Your booking request will be sent to the owner.</p>
                                                 <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> As soon as owner confirms, you will be requested to make payment.</p>
-                                                <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If owner is taking too long(more than 24hours) to response create a 
-                                                    <a href="{{ route('ticket') }}" target="_blank" class="text-danger">new support ticket.</a></p>    
+                                                <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If owner is taking too long(more than 24hours) to response, <a href="{{ route('contact') }}" target="_blank" class="text-danger">contact us</a> for support.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -526,8 +525,7 @@
                                             <div class="card-body">
                                                 <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> Your booking request will be sent to the owner.</p>
                                                 <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> As soon as owner confirms, you will be requested to make payment.</p>
-                                                <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If owner is taking too long(more than 24hours) to response create a 
-                                                <a href="{{ route('ticket') }}" target="_blank" class="text-danger">new support ticket.</a></p>
+                                                <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If owner is taking too long(more than 24hours) to response, <a href="{{ route('contact') }}" target="_blank" class="text-danger">contact us</a> for support.</p>
                                                 
                                             </div>
                                         </div>

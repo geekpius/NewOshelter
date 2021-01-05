@@ -27,7 +27,7 @@ class VerifyController extends Controller
             $data['page_title'] = 'Email verification';
             return view('auth.verify_email',$data);
         }else{
-            return redirect()->route('dashboard');
+            return redirect()->route('index');
         }
 
     }

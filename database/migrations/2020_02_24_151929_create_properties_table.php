@@ -28,7 +28,6 @@ class CreatePropertiesTable extends Migration
             $table->boolean('done_step')->default(Property::NOT_DONE_STEP);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

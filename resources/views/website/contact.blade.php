@@ -62,40 +62,47 @@
                 <div class="col-sm-12 col-lg-6">
                     <h2 class="pxp-section-h2">Send Us A Message</h2>
                     <div class="pxp-contact-form mt-3 mt-md-4">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="pxp-contact-form-name" placeholder="Name">
+                        <form id="formContact">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group validate">
+                                        <input type="text" name="name" class="form-control" id="pxp-contact-form-name" placeholder="Name">
+                                        <span class="text-danger small mySpan" role="alert"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group validate">
+                                        <input type="email" name="email" class="form-control" id="pxp-contact-form-email" placeholder="Email">
+                                        <span class="text-danger small mySpan" role="alert"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group validate">
+                                        <select class="custom-select" name="help_desk" id="pxp-contact-form-reg">
+                                            <option value="">What is this regarding?</option>
+                                            <option value="support">Support/Feedback</option>
+                                            <option value="payments">Payments</option>
+                                            <option value="listings">Listings</option>
+                                            <option value="bookings">Bookings</option>
+                                            <option value="abuse">Abuse</option>
+                                            <option value="general">General questions</option>
+                                        </select>
+                                        <span class="text-danger small mySpan" role="alert"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control" placeholder="Phone (optional)" id="pxp-contact-form-phone">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="pxp-contact-form-email" placeholder="Email">
-                                </div>
+                            <div class="form-group validate">
+                                <textarea class="form-control" name="message" maxlength="500" id="pxp-contact-form-message" rows="6" placeholder="Message"></textarea>
+                                <small id="myMessageCharacters" class="form-text text-muted">500 characters remaining</small>
+                                <span class="text-danger small mySpan" role="alert"></span>
                             </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    <select class="custom-select" id="pxp-contact-form-reg">
-                                        <option value="">What is this regarding?</option>
-                                        <option value="">Customer support / feedback</option>
-                                        <option value="">Applying</option>
-                                        <option value="">Press</option>
-                                        <option value="">Listings</option>
-                                        <option value="">Partnerships</option>
-                                        <option value="">General questions</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Phone (optional)" id="pxp-contact-form-phone">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" id="pxp-contact-form-message" rows="6" placeholder="Message"></textarea>
-                        </div>
-                        <a href="#" class="pxp-contact-form-btn">Send Message</a>
+                            <button type="submit" class="pxp-contact-form-btn"><i class="fa fa-send"></i> Send Message</button>
+                        </form>
                     </div>
                 </div>
                 <div class="col-sm-12 col-lg-6">
@@ -104,7 +111,7 @@
                             <h2 class="pxp-section-h2">Our Locations</h2>
                         </div>
                     </div>
-                    <div id="pxp-contact-map" class="mt-3"></div>
+                    <div id="pxp-contact-map" class="mt-3" data-image="{{ asset('assets/images/svg/home.png') }}"></div>
                 </div>
             </div>
         </div>

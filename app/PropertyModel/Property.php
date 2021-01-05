@@ -30,11 +30,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Property extends Model
 {
-    use SoftDeletes; 
     
     protected $table = 'properties';
     protected $primaryKey = 'id';
-    protected $dates = ['deleted_at'];
+    
     const PUBLISH = true;
     const NOT_PUBLISH = false;
     const DONE_STEP = true;
