@@ -28,8 +28,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
+                        @if (!Session::get("edit"))
                         <div class="">
-                            <a href="javascript:void(0);" onclick="window.location='{{ route('property.add') }}'" class="text-primary ml-3 mt-1">
+                            <a href="javascript:void(0);" onclick="window.location='{{ route('property.add') }}'" class="text-primary text-decoration-none ml-3 mt-1">
                                 <i class="fa fa-heart"></i> Save and Exit
                             </a>
                             @php
@@ -60,6 +61,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <div class="card-body">
                             
                             @php
@@ -75,7 +77,7 @@
                                 }else{
                                     $proTypeStatus = 'booking';
                                     $sinTypeStatus = 'book';
-                                    $guest = 'guest';
+                                    $guest = 'visitor';
                                 }
                             @endphp
         
@@ -389,7 +391,7 @@
                                         <div class="step-pane" data-step="3">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4 class="">Amenities you offer to your guests in your block rooms</h4>
+                                                    <h4 class="">Amenities you offer to your {{ $guest.'s' }} in your block rooms</h4>
                                                     <div class="mt-4">
                                                         <form id="formHostelRoomAmenity">
                                                             <div class="row">
@@ -439,7 +441,7 @@
                                                         </form>
         
                                                         <hr class="mt-5">
-                                                        <h4 class="">If there are shared amenities offered to your guests in your hostel accross all blocks, let them know.</h4>
+                                                        <h4 class="">If there are shared amenities offered to your {{ $guest.'s' }} in your hostel accross all blocks, let them know.</h4>
                                                         <form id="formRoomAmenities" method="POST" action="{{ route("property.store") }}">
                                                             @csrf
                                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -491,7 +493,7 @@
                                         <div class="step-pane" data-step="5">
                                             <div class="row">
                                                 <div class="col-lg-5">
-                                                    <h4>Provide your hostel location & landmark</h4>
+                                                    <h4>Provide your hostel location</h4>
                                                     <form class="mt-4" id="formLocationLandmark" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
                                                         <input type="hidden" name="step" value="5" readonly>
@@ -603,7 +605,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="">
-                                                        <h4>Provide guests with your rent schedule for each block rooms</h4>
+                                                        <h4>Provide {{ $guest.'s' }} with your rent schedule for each block rooms</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Guests must know advance payment and price calendar</p>
                                                         
                                                         <form id="formHostelRoomPrices" method="POST" action="{{ route('property.store') }}">
@@ -804,7 +806,7 @@
                                                         <i class="fa fa-home fa-5x ml-4 mr-4"></i>
                                                         <i class="fa fa-bed fa-5x"></i>
                                                     </div>
-                                                    <p><i class="fa fa-dot-circle font-13"></i> Potential guests are wating for you to publish this property.</p>
+                                                    <p><i class="fa fa-dot-circle font-13"></i> Potential {{ $guest.'s' }} are wating for you to publish this property.</p>
                                                 
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-address-card fa-5x"></i>
@@ -814,7 +816,7 @@
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-key fa-5x"></i>
                                                     </div>
-                                                    <p class="mb-3"><i class="fa fa-dot-circle font-13"></i> Make the keys ready for your guests on their arrival.</p>    
+                                                    <p class="mb-3"><i class="fa fa-dot-circle font-13"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>    
                                                     
                                                     <form id="formFinishListing" method="POST" action="{{ route('property.store') }}" style="display:none">
                                                         @csrf
@@ -958,7 +960,7 @@
                                                     <div class="col-lg-7">
                                                         <h4>Enforce property rules if any</h4>
                                                         @if ($property->type_status=='rent')
-                                                        <p><i class="fa fa-dot-circle font-13"></i> Tenants must agree to your rules before renting property</p>
+                                                        <p><i class="fa fa-dot-circle font-13"></i> Visitors must agree to your rules before renting property</p>
                                                         @elseif($property->type_status=='short_stay')
                                                         <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Guests must agree to your rules before booking property</p>
                                                         @endif
@@ -991,7 +993,7 @@
                                                     <div class="col-lg-6">
                                                         <div class="mt-5 mb-5 text-center">
                                                             <h2 class="text-danger">If you are selling or auctioning, you don't need to set rules.</h2> 
-                                                            <h2 class="text-danger">Property rules are for tenants/guests only when renting or booking respectively.</h2> 
+                                                            <h2 class="text-danger">Property rules are for vitors only when booking property.</h2> 
                                                         </div> 
                                                     </div>
                                                 @endif
@@ -1001,7 +1003,7 @@
                                         <div class="step-pane" data-step="4">
                                             <div class="row">
                                                 <div class="col-lg-5">
-                                                    <h4>Provide your property location & landmark</h4>
+                                                    <h4>Provide your property location</h4>
                                                     <form class="mt-4" id="formLocationLandmark" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
                                                         <input type="hidden" name="step" value="4" readonly>
@@ -1056,7 +1058,7 @@
                                                     </form>
                                                 </div>
                                                 <div class="col-lg-5">
-                                                    <div class="mt-5 pt-4 ml-2">
+                                                    <div class="mt-5 pt-4">
                                                         <i class="fa fa-lightbulb fa-lg text-pink"></i>
                                                         <h5>Tips for adding a great photos of your property</h5>
                                                         <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
@@ -1113,13 +1115,13 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     @if ($property->type_status=='rent')
-                                                        <h4>Provide guests with your rent schedule</h4>
+                                                        <h4>Provide {{ $guest.'s' }} with your rent schedule</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Guest must know advance payment and price calendar</p>
                                                     @elseif ($property->type_status=='sell')
                                                         <h4>Provide buyers with your buying schedule</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Buyers must know buying price</p>
                                                     @elseif ($property->type_status=='short_stay')
-                                                        <h4>Provide guests with your booking schedule</h4>
+                                                        <h4>Provide {{ $guest.'s' }} with your booking schedule</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Guests must know booking price</p>
                                                     @else
                                                         <h4>Provide bidders with your bidding schedule</h4>
@@ -1262,8 +1264,8 @@
                                                 <div class="col-lg-6">
                                                     @if ($property->type_status=='rent')
                                                         <h5 class="mt-5"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3months before due date.</h5>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> Eviction notification will be sent to guest every two weeks till due date.</h5>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> It's guest's choice to extend his/her stay or to evict.</h5>
+                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> Eviction notification will be sent to visitor every two weeks till due date.</h5>
+                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> It's visitor's choice to extend his/her stay or to evict.</h5>
                                                     @elseif ($property->type_status=='sell')
                                                         <p class="mt-5">You can set set-in price later when market is down.</p>
                                                         <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> Set price which has value for your property.</h5>
@@ -1437,7 +1439,17 @@
                                     <i class="ace-icon fa fa-arrow-left"></i>
                                     Go Previous
                                 </button>
-            
+                                
+                                @if (Session::get("edit"))
+                                <form id="formSaveExit" action="{{ route('property.save.exit') }}" method="POST" style="display: none">
+                                    @csrf
+                                    <input type="hidden" name="property_id" value="{{ $property->id }}">
+                                </form>
+                                <button onclick="event.preventDefault(); document.getElementById('formSaveExit').submit();" class="btn btn-success text-light btn-save-exit mb-2">
+                                    Save and Exit 
+                                    <i class="ace-icon fa fa-save icon-on-right"></i>
+                                </button>
+                                @endif
                                 <button class="btn btn-success text-light btn-next mb-2 ml-lg-5 mr-sm-1" data-last="Finish And Publish ">
                                     Next Step 
                                     <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
@@ -1624,10 +1636,23 @@
             }
         @endif
             return false;
+        }else{
+            // previous step
+            $.ajax({
+                url: "{{ route('property.back', $property->id) }}",
+                type: "POST",
+                data: { step: info.step, action: "prev" },
+                success: function(resp){
+                    console.log(resp);
+                },
+                error: function(resp){
+                    alert("Something went wrong.");
+                }
+            });
         }
     })
-    //.on('changed.fu.wizard', function() {
-    //})
+    // .on('changed.fu.wizard', function() {
+    // })
     .on('finished.fu.wizard', function(e) {
         /* swal({
             title: "Success",
@@ -1635,9 +1660,22 @@
             icon: "success",
             button: "OK"
         }); */
-    }).on('stepclicked.fu.wizard', function(e){
+    }).on('stepclicked.fu.wizard', function(e, info){
+        // click to choose step
+        $.ajax({
+            url: "{{ route('property.back', $property->id) }}",
+            type: "POST",
+            data: { step: info.step, action: "step" },
+            success: function(resp){
+                console.log(resp);
+            },
+            error: function(resp){
+                alert("Something went wrong.");
+            }
+        });
         return true; //this will not prevent clicking and selecting steps
     });
+
 
     @if($property->type=='hostel')
     ////add host blocks

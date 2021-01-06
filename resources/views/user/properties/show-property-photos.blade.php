@@ -20,6 +20,8 @@
                     $this.parent(".propertyImage").fadeOut('slow', function(){
                         $this.parent('.propertyImage').remove();
                     });
+                }else{
+                    swal('Warning', resp, 'warning');
                 }
             },
             error: function(resp){

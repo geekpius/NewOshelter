@@ -28,6 +28,8 @@ $(".btnRemoveBlock").on("click", function(e){
                 $this.parents('.records').fadeOut('slow', function(){
                     $this.parents('.records').remove();
                 });
+            }else{
+                swal('Warning', resp, 'warning');
             }
         },
         error: function(resp){

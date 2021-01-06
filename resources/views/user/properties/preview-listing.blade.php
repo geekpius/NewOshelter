@@ -257,9 +257,9 @@
                                                 <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>/<small>{{ $property->propertyPrice->price_calendar }}</small>
                                             </span><br>
                                             <i class="fa fa-check text-success font-12"></i>
-                                            <span>{{ $property->getNumberOfGuest() }} Guests</span><br>
+                                            <span>{{ $property->getNumberOfGuest() }} {{ str_plural('Visitor', $property->getNumberOfGuest()) }}</span><br>
                                             <i class="fa fa-check text-success font-12"></i>
-                                            <span>{{ $property->adult==1? $property->adult.' Adult':$property->adult.' Adults' }}</span> |
+                                            <span>{{ $property->adult }} {{ str_plural('Adult', $property->adult) }}</span> |
                                             <span>
                                             @if($property->children==0)
                                             No Children
@@ -471,12 +471,12 @@
                     @if($property->type_status=='rent')   
                         <p>
                             <i class="fa fa-minus-circle font-13"></i> 
-                            Eviction notice will be sent to tenants 3 months before time. Tenants will wish to extend or evict.
+                            Eviction notice will be sent to visitors 3 months before time. Visitors will wish to extend or evict.
                         </p>
                     @elseif($property->type_status=='short_stay')   
                         <p>
                             <i class="fa fa-minus-circle font-13"></i> 
-                            Eviction notice will be sent to guest 3 days and 1 day before time.
+                            Eviction notice will be sent to visitors 3 days and 1 day before time.
                         </p>
                     @endif                       
                 </div>

@@ -156,7 +156,8 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::get('/block-price/{propertyHostelPrice}/delete', 'PropertyController@deleteHostelBlockPrice')->name('property.blockprice.delete');
             
             Route::post('/new/store', 'PropertyController@store')->name('property.store');
-            Route::post('/new/prev', 'PropertyController@goPrevious')->name('property.back');
+            Route::post('/new/{property}/prev', 'PropertyController@previousStep')->name('property.back');
+            Route::post('/new/save-exit', 'PropertyController@saveAndExit')->name('property.save.exit');
     
             Route::get('/{property}/edit', 'PropertyController@editListing')->name('property.edit');
             Route::post('/{property}/edit', 'PropertyController@updateListing')->name('property.update');

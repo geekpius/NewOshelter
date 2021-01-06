@@ -26,6 +26,7 @@ use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
 use App\PropertyModel\PropertySharedAmenity;
 use App\PropertyModel\IncludeUtility;
+use Illuminate\Support\Facades\Session;
 
 class PropertyController extends Controller
 {
@@ -85,12 +86,16 @@ class PropertyController extends Controller
     ///preview after listing
     public function previewCreatedListing(Property $property)
     {
-        $data['page_title'] = 'Preview '.$property->title. ' listing';
-        $data['property']= $property; 
-        $countImages = $property->propertyImages->count();
-        $data['image'] = $property->propertyImages->sortBy('id')->first();
-        $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
-        return view('user.properties.preview-listing', $data);
+        if(Auth::user()->id == $property->user_id){
+            $data['page_title'] = 'Preview '.$property->title. ' listing';
+            $data['property']= $property; 
+            $countImages = $property->propertyImages->count();
+            $data['image'] = $property->propertyImages->sortBy('id')->first();
+            $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
+            return view('user.properties.preview-listing', $data);
+        }else{
+            return view("errors.404");
+        }
     }
 
     ///add Hostel block
@@ -128,8 +133,12 @@ class PropertyController extends Controller
     ///show Hostel blocks
     public function showBlock(Property $property)
     {
-        $data['blocks']=$property->propertyHostelBlocks;
-        return view("user.properties.show-block", $data)->render();
+        if(Auth::user()->id == $property->user_id){
+            $data['blocks']=$property->propertyHostelBlocks;
+            return view("user.properties.show-block", $data)->render();
+        }else{
+            return view("errors.404")->render();
+        }
     }
 
     ///show delete blocks
@@ -138,6 +147,8 @@ class PropertyController extends Controller
         if(Auth::user()->id == $propertyHostelBlock->property->user_id){
             $propertyHostelBlock->delete();
             return 'success';
+        }else{
+            return 'You are unauthorized to delete';
         }
     }
 
@@ -207,8 +218,12 @@ class PropertyController extends Controller
     ///show Hostel blocks rooms
     public function showBlockRoom(Property $property)
     {
-        $data['blocks']=$property->propertyHostelBlocks;
-        return view("user.properties.show-block-room", $data)->render();
+        if(Auth::user()->id == $property->user_id){
+            $data['blocks']=$property->propertyHostelBlocks;
+            return view("user.properties.show-block-room", $data)->render();
+        }else{
+            return view("errors.404")->render();
+        }
     }
 
     ///show delete block rooms
@@ -258,8 +273,12 @@ class PropertyController extends Controller
     ///show Hostel blocks rooms amenities
     public function showBlockRoomAmenities(Property $property)
     {
-        $data['rooms']=$property->propertyHostelBlockRooms()->get();
-        return view("user.properties.show-hostel-amenities", $data)->render();
+        if(Auth::user()->id == $property->user_id){
+            $data['rooms']=$property->propertyHostelBlockRooms()->get();
+            return view("user.properties.show-hostel-amenities", $data)->render(); 
+        }else{
+            return view("errors.404")->render();
+        }
     }
 
     ///show delete block rooms amenities
@@ -320,7 +339,7 @@ class PropertyController extends Controller
             $data['images'] = $property->propertyImages->sortBy('id');
             return view('user.properties.show-property-photos', $data)->render(); 
         }else{
-            return view('errors.404');
+            return view('errors.404')->render();
         }
     }
 
@@ -339,6 +358,8 @@ class PropertyController extends Controller
             \File::delete("assets/images/properties/".$propertyImage->image);
             $propertyImage->delete();
             return 'success'; 
+        }else{
+            return 'You are unauthorized to delete';
         }
     }
 
@@ -376,7 +397,7 @@ class PropertyController extends Controller
             $data['rules'] = $property->propertyOwnRules;
             return view("user.properties.show-own-rule", $data)->render();
         }else{
-            return view('errors.404');
+            return view('errors.404')->render();
         }
     }
 
@@ -386,6 +407,8 @@ class PropertyController extends Controller
         if(Auth::user()->id == $propertyOwnRule->property->user_id){
             $propertyOwnRule->delete();
             return 'success'; 
+        }else{
+            return 'You are unauthorized to delete';
         }
     }
 
@@ -423,8 +446,12 @@ class PropertyController extends Controller
     ///show Hostel block prices
     public function showHostelBlockPrice(Property $property)
     {
-        $data['prices'] = $property->propertyHostelBlockRooms()->get();
-        return view("user.properties.show-hostel-block-prices", $data)->render();
+        if(Auth::user()->id == $property->user_id){
+            $data['prices'] = $property->propertyHostelBlockRooms()->get();
+            return view("user.properties.show-hostel-block-prices", $data)->render();
+        }else{
+            return view("errors.404")->render();
+        }
     }
 
     ///delete Hostel block prices
@@ -433,7 +460,6 @@ class PropertyController extends Controller
         $propertyHostelPrice->delete();
         return 'success'; 
     }
-
 
     //save and continue
     public function store(Request $request)
@@ -670,34 +696,70 @@ class PropertyController extends Controller
 
     }
 
+    public function previousStep(Request $request, Property $property)
+    {
+        if(Auth::user()->id == $property->user_id){
+            if($request->action == 'prev'){
+                $property->step = $request->step - 1;
+                $property->update();
+                return 'success';
+            }else{
+                $property->step = $request->step;
+                $property->update();
+                return 'success';
+            }
+        }else{
+            return 'You are unauthorized to go previous';
+        }
+    }
+
+    // save and exit
+    public function saveAndExit(Request $request)
+    {
+        $property = Property::findOrFail($request->property_id);
+        $property->step = 9;
+        $property->done_step = true;
+        $property->update();
+        return redirect()->route('single.property', $property->id);
+    }
+
     
-    ///edit saved listing
+    //edit saved listing
     public function editListing(Property $property)
     {
-        $data['page_title'] = 'Edit '.$property->title.' listing';
-        $data['property'] = $property;
-        $data['property_types'] = PropertyType::whereIs_public(true)->get();
-        return view('user.properties.edit-listing', $data);
+        if(Auth::user()->id == $property->user_id){
+            $data['page_title'] = 'Edit '.$property->title.' listing';
+            $data['property'] = $property;
+            $data['property_types'] = PropertyType::whereIs_public(true)->get();
+            return view('user.properties.edit-listing', $data);
+        }else{
+            return view("errors.404");
+        }
     }
     
-    ///update edited listing
+    //update edited listing
     public function updateListing(Request $request, Property $property)
     {
-        if(empty($request->base_property) || empty($request->property_type) || empty($request->property_title) || empty($request->property_type_status)){
-            return redirect()->back();
+        if(Auth::user()->id == $property->user_id){
+            if(empty($request->base_property) || empty($request->property_type) || empty($request->property_title) || empty($request->property_type_status)){
+                return redirect()->back();
+            }else{
+                $property->base = $request->base_property;
+                $property->type = $request->property_type;
+                $property->title = $request->property_title;
+                $property->type_status = $request->property_type_status;
+                $property->adult = $request->adult;
+                $property->children = $request->children;
+                $property->done_step = false;
+                $property->update();
+                
+                Session::put("edit", true);
+                return redirect()->route('property.create', $property->id);
+            }
         }else{
-            $property->base = $request->base_property;
-            $property->type = $request->property_type;
-            $property->title = $request->property_title;
-            $property->type_status = $request->property_type_status;
-            $property->adult = $request->adult;
-            $property->children = $request->children;
-            $property->step = 1;
-            $property->done_step = false;
-            $property->publish = false;
-            $property->update();
-            return redirect()->route('property.create', $property->id);
+            return redirect()->back();
         }
+        
     }
 
     ///toggle publish visibility
@@ -717,7 +779,7 @@ class PropertyController extends Controller
             }
             return $message;
         }else{
-            return 'Page not found';
+            return 'You are unauthorized to switch visibility';
         }
     }
     
@@ -725,9 +787,14 @@ class PropertyController extends Controller
     ///confirm delete
     public function confirmDelete(Property $property)
     {
-        $data['page_title'] = 'Remove '.$property->title.' Listing';
-        $data['property'] = $property;
-        return view('user.properties.confirm-listing-delete', $data);
+        if(Auth::user()->id == $property->user_id){
+            $data['page_title'] = 'Remove '.$property->title.' Listing';
+            $data['property'] = $property;
+            return view('user.properties.confirm-listing-delete', $data);
+        }
+        else{
+            return view("errors.404");
+        }
     }
 
     //delete listing

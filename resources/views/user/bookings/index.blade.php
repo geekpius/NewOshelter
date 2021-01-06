@@ -617,7 +617,7 @@
                                         <div class="col-sm-12"><hr></div>
                                         @if ($property->type_status=='rent')
                                             <div class="col-sm-12">
-                                                <h5><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']) }} {{ str_plural('Guest', ($bookingItems['adult']+$bookingItems['children'])) }}</h5>
+                                                <h5><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children'])) }}</h5>
                                             </div>
                                             <div class="col-sm-12"><hr></div>
 
@@ -648,7 +648,7 @@
                                             </div>
                                         @elseif($property->type_status == 'short_stay')
                                             <div class="col-sm-12">
-                                                <h5><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant']) }} {{ str_plural('Guest', ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant'])) }}</h5>
+                                                <h5><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant'])) }}</h5>
                                             </div>
                                             <div class="col-sm-12"><hr></div>
                                             <div class="col-sm-12">
