@@ -14,6 +14,8 @@ use App\ServiceCharge;
 use App\UserModel\UserVisit;
 use App\PaymentModel\Transaction;
 use DB;
+use App\Mail\EmailSender;
+use Illuminate\Support\Facades\Mail;
 
 
 class VisitorController extends Controller
@@ -96,6 +98,15 @@ class VisitorController extends Controller
                 $extension->extension_date = Carbon::parse($request->extended_date)->format('Y-m-d');
                 $extension->save();
                 $message="success";
+                 //emailing
+                 $data = array(
+                    "property" => $extension->visit->property->title,
+                    "link" => route('requests.extension.detail', $extension->id),
+                    "name" => current(explode(' ',$extension->visit->property->user->name)),
+                    "guest" => current(explode(' ',Auth::user()->name)),
+                );
+                Mail::to($extension->visit->property->user->email)->send(new EmailSender($data, 'Extension Request', 'emails.extension_request'));
+            
             }
         }
         return $message;
@@ -120,6 +131,15 @@ class VisitorController extends Controller
                 $userExtensionRequest->is_confirm = 2;
                 $userExtensionRequest->update();
                 $message = 'success';
+                $data = array(
+                    "title" => "EXTENSION CONFIRMATION",
+                    "property" => $userExtensionRequest->visit->property->title,
+                    "link" => route('requests.extension.payment', $userExtensionRequest->id),
+                    "status" => "confirmed",
+                    "name" => current(explode(' ',$userExtensionRequest->visit->user->name)),
+                    "owner" => current(explode(' ',Auth::user()->name)),
+                );
+                Mail::to($userExtensionRequest->visit->user->email)->send(new EmailSender($data, 'Extension Response', 'emails.extension_response'));
             }
             return $message;
         }else{

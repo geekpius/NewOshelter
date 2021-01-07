@@ -95,25 +95,30 @@
             var $this = $(this);
             
             if(!$this.val()) {
-                valid = false;
-                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                if($this.attr("name")!="phone"){
+                    valid = false;
+                    $this.parents('.validate').find('.mySpan').text(`The ${$this.attr('name').replace(/[\_]+/g, ' ')} field is required`);
+                }
             }
         });
         if(valid){
             $(".pxp-contact-form-btn").html('<i class="fa fa-spin fa-spinner"></i> Sending Message...').attr('disabled', true);
             var data  = $this.serialize();
             $.ajax({
-                url: "{{route('ticket.submit')}}",
+                url: $this.data('url'),
                 type: "POST",
                 data: data,
                 success: function(resp){
                     if(resp=='success'){
-                        swal("Submitted", "Ticket submitted successful", "success");
-                        $("#subject").val('');
-                        $("#message").val('');
+                        swal("Submitted", "Your message is sent", "success");
+                        $("#formContact input[name='name']").val('');
+                        $("#formContact input[name='email']").val('');
+                        $("#formContact input[name='help_desk']").val('');
+                        $("#formContact input[name='phone']").val('');
+                        $("#formContact textarea[name='message']").val('');
                     }
                     else{
-                        alert("Something went wrong");
+                        swal("Warning",resp, "warning");
                     }
                     $(".pxp-contact-form-btn").html('<i class="fa fa-send"></i> Send Message').attr('disabled', false);
                 },

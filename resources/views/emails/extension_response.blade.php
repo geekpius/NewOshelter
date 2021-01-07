@@ -8,7 +8,7 @@
      </tr> 
  
      <tr style="border-collapse:collapse"> 
-      <td align="center" style="padding:0;Margin:0;padding-top:5px;padding-bottom:5px"><h1 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;color:#333333;text-align: center"><strong>BOOKING REQUEST </strong></h1><h1 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;color:#333333;text-align:center"><strong>&nbsp;</strong></h1></td> 
+      <td align="center" style="padding:0;Margin:0;padding-top:5px;padding-bottom:5px"><h1 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;color:#333333;text-align: center"><strong>{{ $data['title'] }} </strong></h1><h1 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-size:18px;font-style:normal;font-weight:normal;color:#333333;text-align:center"><strong>&nbsp;</strong></h1></td> 
      </tr> 
      
     <tr style="border-collapse:collapse"> 
@@ -17,13 +17,18 @@
     <tr style="border-collapse:collapse"> 
      <td align="left" style="padding:0;Margin:0;padding-right:35px;padding-left:40px">
         <p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#666666;text-align:left">
-          A booking request from <b>{{ $data['guest'] }}</b> for <b>{{ $data['property'] }}</b> has been sent to you for confirmation. After confirmation, <b>{{ $data['guest'] }}</b> will be able to make payment through the Oshelter platform. Use this <a target="_blank" href="{{ $data['link'] }}">link</a> or go to your 
-          Oshelter account and confirm if you want <b>{{ $data['guest'] }}</b> to have a pleasant stay in your property.
+          Your extension stay request for <b>{{ $data['property'] }}</b> has been {{ $data['status'] }}. 
+          @if ($data['status']=='confirmed')
+          You can now make payment through Oshelter platform using this <a target="_blank" href="{{ $data['link'] }}">link</a>. Or go to your Oshelter account and make payment if you want to have a pleasant 
+          stay in <b>{{ $data['owner'] }}</b> property.
+          @else
+          Please keep trying other available properties.
+          @endif
         </p>
       </td> 
     </tr> 
     <tr style="border-collapse:collapse"> 
-     <td align="left" style="padding:0;Margin:0;padding-top:25px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#f34c4c">Note: Do not accept payment outside Oshelter platform hence, any problem for such action will not be resolved by Oshelter. </p></td> 
+     <td align="left" style="padding:0;Margin:0;padding-top:25px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#f34c4c">Note: Do not make payment outside Oshelter platform hence, any problem for such action will not be resolved by Oshelter. </p></td> 
     </tr> 
     <tr style="border-collapse:collapse"> 
       <td align="left" style="padding:0;Margin:0;padding-top:25px;padding-left:40px;padding-right:40px"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:16px;font-family:helvetica, 'helvetica neue', arial, verdana, sans-serif;line-height:24px;color:#666666">Thanks.</p></td> 

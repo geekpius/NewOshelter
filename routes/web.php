@@ -33,6 +33,7 @@ Route::group(['middleware' => ['verify-email']], function() {
     Route::get('/help/property-owners', 'WebsiteController@ownerHelp')->name('help.owner');
     Route::get('/help/booking-and-travellers', 'WebsiteController@bookingHelp')->name('help.booking');
     Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
+    Route::post('/contact-us', 'WebsiteController@submitContact')->name('contact.submit');
     Route::get('/account-deactivated', 'WebsiteController@accountDeactivated')->name('account.deactivated');
     Route::get('/email', 'WebsiteController@email');
 });
@@ -217,16 +218,6 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::post('/reply', 'MessageController@reply')->name('messages.reply');
             Route::get('/{message}/read', 'MessageController@read')->name('messages.read');
             Route::post('/delete', 'MessageController@delete')->name('messages.delete');
-        });
-
-        /*------- Support ------- */
-        Route::group(['prefix' => 'tickets'], function () {
-            Route::get('/new', 'TicketController@create')->name('ticket');
-            Route::post('/new', 'TicketController@store')->name('ticket.submit');
-            Route::get('/view', 'TicketController@index')->name('ticket.view');
-            Route::get('/view/{ticket}/read', 'TicketController@read')->name('ticket.read');
-            Route::post('/reply', 'TicketController@reply')->name('ticket.reply');
-            Route::get('/{ticket}/close', 'TicketController@close')->name('ticket.close');
         });
 
         /*------- Report Listing ------- */

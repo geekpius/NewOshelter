@@ -99,7 +99,7 @@ class RegisterController extends Controller
                 'phone' => $data['phone'],
                 'login_time' => Carbon::now(),
                 'email_verification_token' => $this->generateEmailVerificationCode(),
-                'verify_email_time' => Carbon::now()->addHour(),
+                'email_verification_expired_at' => Carbon::now()->addHour(),
                 'password' => Hash::make($data['password']),
             ]);
             
@@ -109,7 +109,7 @@ class RegisterController extends Controller
             $data = array(
                 "name" => current(explode(' ',$user->name)),
                 "code" => $user->email_verification_token,
-                "expire" => $user->verify_email_time,
+                "expire" => $user->email_verification_expired_at,
             );
             Mail::to($user->email)->send(new EmailSender($data, "Verify Email", "emails.verify_email"));
             DB::commit();

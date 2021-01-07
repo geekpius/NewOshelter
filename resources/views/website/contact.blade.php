@@ -62,7 +62,8 @@
                 <div class="col-sm-12 col-lg-6">
                     <h2 class="pxp-section-h2">Send Us A Message</h2>
                     <div class="pxp-contact-form mt-3 mt-md-4">
-                        <form id="formContact">
+                        <form id="formContact" data-url="{{ route('contact.submit') }}">
+                            @csrf
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group validate">
@@ -92,7 +93,7 @@
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <input type="number" class="form-control" placeholder="Phone (optional)" id="pxp-contact-form-phone">
+                                        <input type="number" name="phone" class="form-control" placeholder="Phone (optional)" id="pxp-contact-form-phone">
                                     </div>
                                 </div>
                             </div>

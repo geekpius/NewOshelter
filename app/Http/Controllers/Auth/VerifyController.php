@@ -39,32 +39,33 @@ class VerifyController extends Controller
         ]);
 
         $user = User::findorFail(Auth::user()->id);
-        if($user->email_verification_token == $request->verification_code){
-            $user->verify_email = true;
-            $user->update();
-            return redirect()->route('index');
+        if ($user->email_verification_expired_at < Carbon::now()){
+            session()->flash('error', 'Verification code is expired. Resend code.');
         }else{
-            if ($user->verify_email_time < Carbon::now()){
-                session()->flash('error', 'Verification code is expired');
+            if($user->email_verification_token == $request->verification_code){
+                $user->verify_email = true;
+                $user->verify_email_time = Carbon::now();
+                $user->update();
+                return redirect()->route('index');
             }else{
                 session()->flash('error', 'Verification code is invalid');
             }
-            return redirect()->back();
         }
 
+        return redirect()->back();
     }
 
     public function resendCode(Request $request, User $user)
     {
         $user->email_verification_token = $this->generateEmailVerificationCode();
-        $user->verify_email_time = Carbon::now()->addHour();
+        $user->email_verification_expired_at = Carbon::now()->addHour();
         $user->update();
         $data = array(
             "name" => current(explode(' ',$user->name)),
             "code" => $user->email_verification_token,
-            "expire" => $user->verify_email_time,
+            "expire" => $user->email_verification_expired_at,
         );
-        Mail::to($user->email)->send(new EmailSender($data), "Verify Email", "emails.verify_email");
+        Mail::to($user->email)->send(new EmailSender($data, "Verify Email", "emails.verify_email"));
         session()->flash('success', 'Verification code is sent to you email');
         return redirect()->back();
     }

@@ -649,7 +649,12 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   border-bottom: 16px solid #0656ff;
 }
 
-
+/* IMAGES */
+.img-filter {
+  filter: grayscale(20%);
+  filter: contrast(100%);
+  filter: saturate(100%);
+}
 
 
 

@@ -120,10 +120,12 @@
                         <div class="pxp-areas-1-item-details">
                             <div class="pxp-areas-1-item-details-area">{{ $type->name }}</div>
                         </div>
-                        <div class="pxp-areas-1-item-counter"><span class="text-primary">
-                        @php $propCount = $type->getPropertyCount(strtolower(str_replace(' ','_',$type->name))); @endphp  
-                        {{ $propCount. ' Properties' }}
-                        </span></div>
+                        <div class="pxp-areas-1-item-counter">
+                            <span class="text-primary">
+                            @php $propCount = $type->getPropertyCount(strtolower(str_replace(' ','_',$type->name))); @endphp  
+                            {{ $propCount. ' Properties' }}
+                            </span>
+                        </div>
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
                     </a>
                 </div>

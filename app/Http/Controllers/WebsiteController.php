@@ -23,6 +23,9 @@ use App\PropertyModel\PropertyLocation;
 
 use App\Http\Resources\PropertyCollection;
 
+use App\Mail\EmailSender;
+use Illuminate\Support\Facades\Mail;
+
 class WebsiteController extends Controller
 {
     
@@ -229,19 +232,6 @@ class WebsiteController extends Controller
         return view('website.deactivated', $data);
     }
 
-    public function email()
-    {
-        $data = array(
-            "property" => "Single room self contain",
-            "link" => route('requests.detail', 1),
-            "name" => current(explode(' ','Fiifi Pius')),
-            "guest" => current(explode(' ',"Pius Geek")),
-        );
-        return view('emails.booking_request')->with('data', $data);
-    }
-
-
-
     //own property
     public function ownProperty()
     {
@@ -280,8 +270,44 @@ class WebsiteController extends Controller
     public function contact()
     {
         $data['page_title'] = 'Contact us';
-        // $data['menu'] = 'pxp-no-bg';
         return view('website.contact', $data);
+    }
+
+    public function submitContact(Request $request) : string
+    {
+        $validator = \Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'help_desk' => 'required|string',
+            'phone' => 'nullable|numeric',
+            'message' => 'required|string',
+        ]);
+
+        (string) $message = "";
+        if ($validator->fails()){
+            $message = 'Something went wrong with your input';
+        }else{
+            $data = array(
+                "name" => $request->name,
+                "phone" => $request->phone,
+                "help_desk" => $request->help_desk,
+                "message" => $request->message,
+            );
+            Mail::to("support@oshelter.com")->send(new EmailSender($data, "Contact Support", "emails.contact"));
+            $message="success";
+        }
+        return $message;
+    }
+
+    public function email()
+    {
+        $data = array(
+            "property" => "Property Title",
+            "link" => "link-address",
+            "name" => "Pius",
+            "guest" => "Theresa",
+        );
+        return view('emails.extension_request')->with('data', $data);
     }
 
     
