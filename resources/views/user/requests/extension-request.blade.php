@@ -12,13 +12,72 @@
         <div class="pt-4">
             <div class="row">
                 <div class="col-sm-8">
-
+                    @if ($extension->type=='hostel')
                     <div class="card">
                         <div class="card-body">
                             <p class="font-14">
                                 @php $image = empty($extension->user->image)? 'user.svg': 'users/'.$extension->user->image; @endphp
                                 <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $extension->user->name }}" class="thumb-sm rounded-circle mr-1" />
-                                This booking request is from {{ $extension->user->name }}.
+                                This extension request is from {{ $extension->user->name }}.
+                            </p>
+                            @php
+                                $from = \Carbon\Carbon::createFromFormat('Y-m-d', $extension->hostelVisit->check_out);
+                                $to = \Carbon\Carbon::createFromFormat('Y-m-d', $extension->extension_date);
+                                $dateDiff = $to->diffInMonths($from);
+
+                                $duration = '';
+                                if($dateDiff >= 12){
+                                    $y = $dateDiff/12;
+                                    $m = $dateDiff%12;
+                                    $year = ($y==1)? $y." year":$y." years";
+                                    $month = ($m==1)? $m." month":$m." months";
+                                    $duration = $year.(($m==0)? '':$month);
+                                }else{
+                                    $duration = $dateDiff." ".str_plural("month", $dateDiff);
+                                }
+                            @endphp
+                            <span class="font-weight-500 ml-1">
+                                {{ $extension->hostelVisit->hostelBlockRoom->propertyHostelPrice->currency }}&nbsp;{{ number_format(($extension->hostelVisit->hostelBlockRoom->propertyHostelPrice->property_price*$dateDiff),2) }} 
+                                for {{ $duration }}
+                            </span>
+                        </div>    
+                    </div>
+
+                    <h5 class="text-primary">{{ $extension->hostelVisit->property->title }}</h5>
+                    <div class="card">
+                        <div class="card-body">
+                            <span class="font-weight-500">Checked In</span>
+                            <span class="font-weight-500 text-primary float-right">{{ \Carbon\Carbon::parse($extension->hostelVisit->check_in)->format('d-M-Y') }}</span>
+                            <hr>
+                            <span class="font-weight-500">Check Out</span>
+                            <span class="font-weight-500 text-primary float-right">{{ \Carbon\Carbon::parse($extension->hostelVisit->check_out)->format('d-M-Y') }}</span>
+                            <hr>
+                            <span class="font-weight-500">Extended Date</span>
+                            <span class="font-weight-500 text-danger float-right">{{ \Carbon\Carbon::parse($extension->extension_date)->format('d-M-Y') }}</span>
+                            
+                        </div>
+                        @if ($extension->isPendingAttribute())
+                        <div class="card-body text-center" id="actionBtn">
+                            <button class="btn btn-success mr-2 btnConfirm" data-href="{{ route('requests.extension.confirm', $extension->id) }}"><i class="fa fa-check"></i> Confirm</button>
+                            <button class="btn btn-danger ml-2 btnCancel" data-href="{{ route('requests.extension.cancel', $extension->id) }}"><i class="fa fa-times"></i> Cancel</button>
+                        </div>
+                        @elseif($extension->isConfirmAttribute())
+                        <div class="text-center">
+                            <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> WAITING FOR PAYMENT...</span>
+                        </div>
+                        @elseif($extension->isRejectAttribute())
+                        <div class="text-center">
+                            <span class="text-danger">BOOKING REQUEST WAS CANCELLED BY OWNER</span>
+                        </div>
+                        @endif
+                    </div>
+                    @else
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="font-14">
+                                @php $image = empty($extension->user->image)? 'user.svg': 'users/'.$extension->user->image; @endphp
+                                <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $extension->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                This extension request is from {{ $extension->user->name }}.
                             </p>
                             @php
                                 if ($extension->visit->property->type_status == 'rent') {
@@ -91,6 +150,7 @@
                         </div>
                         @endif
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

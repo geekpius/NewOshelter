@@ -82,12 +82,13 @@ class VisitorController extends Controller
             'extended_date' => 'required|string',
             'visit_id' => 'required|string',
             'owner' => 'required|string',
+            'type' => 'required|string',
         ]);
         (string) $message= '';
         if ($validator->fails()){
             $message = 'Some inputs are missing.';
         }else{
-            if(UserExtensionRequest::whereUser_id(Auth::user()->id)->whereVisit_id($request->visit_id)->whereIn('is_confirm', [1,2])->exists()){
+            if(UserExtensionRequest::whereUser_id(Auth::user()->id)->whereType($request->type)->whereVisit_id($request->visit_id)->whereIn('is_confirm', [1,2])->exists()){
                 $message = "Already have pending extension request with this property visit.";
             }
             else{
@@ -96,16 +97,28 @@ class VisitorController extends Controller
                 $extension->visit_id = $request->visit_id;
                 $extension->owner_id = $request->owner;
                 $extension->extension_date = Carbon::parse($request->extended_date)->format('Y-m-d');
+                $extension->type = $request->type;
                 $extension->save();
                 $message="success";
                  //emailing
-                 $data = array(
-                    "property" => $extension->visit->property->title,
-                    "link" => route('requests.extension.detail', $extension->id),
-                    "name" => current(explode(' ',$extension->visit->property->user->name)),
-                    "guest" => current(explode(' ',Auth::user()->name)),
-                );
-                Mail::to($extension->visit->property->user->email)->send(new EmailSender($data, 'Extension Request', 'emails.extension_request'));
+                if($extension->type == 'hostel'){
+                    $data = array(
+                        "property" => $extension->hostelVisit->property->title,
+                        "link" => route('requests.extension.detail', $extension->id),
+                        "name" => current(explode(' ',$extension->hostelVisit->property->user->name)),
+                        "guest" => current(explode(' ',Auth::user()->name)),
+                    );
+                    Mail::to($extension->hostelVisit->property->user->email)->send(new EmailSender($data, 'Extension Request', 'emails.extension_request'));
+                }
+                else{
+                    $data = array(
+                        "property" => $extension->visit->property->title,
+                        "link" => route('requests.extension.detail', $extension->id),
+                        "name" => current(explode(' ',$extension->visit->property->user->name)),
+                        "guest" => current(explode(' ',Auth::user()->name)),
+                    );
+                    Mail::to($extension->visit->property->user->email)->send(new EmailSender($data, 'Extension Request', 'emails.extension_request'));
+                }
             
             }
         }
@@ -131,15 +144,20 @@ class VisitorController extends Controller
                 $userExtensionRequest->is_confirm = 2;
                 $userExtensionRequest->update();
                 $message = 'success';
+                
+                $email = ($userExtensionRequest->type == 'hostel')? $userExtensionRequest->hostelVisit->user->email:$userExtensionRequest->visit->user->email;
+                $property = ($userExtensionRequest->type == 'hostel')? $userExtensionRequest->hostelVisit->property->title:$userExtensionRequest->visit->property->title;
+                $name = ($userExtensionRequest->type == 'hostel')? $userExtensionRequest->hostelVisit->user->name:$userExtensionRequest->visit->user->name;
+                
                 $data = array(
                     "title" => "EXTENSION CONFIRMATION",
-                    "property" => $userExtensionRequest->visit->property->title,
+                    "property" => $property,
                     "link" => route('requests.extension.payment', $userExtensionRequest->id),
                     "status" => "confirmed",
-                    "name" => current(explode(' ',$userExtensionRequest->visit->user->name)),
+                    "name" => current(explode(' ',$name)),
                     "owner" => current(explode(' ',Auth::user()->name)),
                 );
-                Mail::to($userExtensionRequest->visit->user->email)->send(new EmailSender($data, 'Extension Response', 'emails.extension_response'));
+                Mail::to($email)->send(new EmailSender($data, 'Extension Response', 'emails.extension_response'));
             }
             return $message;
         }else{

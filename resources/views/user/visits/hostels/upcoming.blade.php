@@ -47,7 +47,7 @@
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($visit->created_at)->diffForHumans() }}</td>
                                             <td>{{ $visit->property->title }}</td>
-                                            <td>{{ $visit->property->user->name }}</td>
+                                            <td><img src="{{ asset('assets/images/users/'.$visit->property->user->image) }}" alt="{{ $visit->property->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $visit->property->user->name }}</td>
                                             <td>{{ $visit->hostelBlockRoom->propertyHostelBlock->block_name }}({{ $visit->hostelBlockRoom->block_room_type }})</td>
                                             <td>{{ $visit->hostelBlockRoomNumber->room_no }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>

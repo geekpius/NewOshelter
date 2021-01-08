@@ -6,7 +6,7 @@ use App\User;
 use App\PropertyModel\Property;
 use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\HostelBlockRoomNumber;
-use App\UserModel\UserExtensionRequest;
+use App\UserModel\UserHostelVisit;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,15 +15,26 @@ class UserHostelVisit extends Model
     protected $table = 'user_hostel_visits';
     protected $primaryKey = 'id';
 
+    CONST IN = 1;
+    CONST OUT = 0;
+
     protected $fillable = [
         'user_id', 'property_id', 'hostel_block_room_id', 'hostel_block_room_number_id', 'check_in', 'check_out', 'is_in',
     ];
 
-    public function checkInOrOut() : string
+    /********* METHODS ATTRIBUTES *********/
+    public function isInAttribute() : bool
     {
-        return ($this->status)? 'IN':'OUT';
+        return $this->is_in == UserHostelVisit::IN;
     }
 
+    public function isOutAttribute() : bool
+    {
+        return $this->is_in == UserHostelVisit::OUT;
+    }
+
+
+    /************* RELATIONSHIPS *****************/
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -39,7 +50,7 @@ class UserHostelVisit extends Model
     public function hostelBlockRoomNumber(){
         return $this->belongsTo(HostelBlockRoomNumber::class, 'hostel_block_room_number_id');
     }
-    
+        
     public function userExtensionRequests(){
         return $this->hasMany(UserExtensionRequest::class);
     }

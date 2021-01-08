@@ -5,6 +5,7 @@ namespace App\UserModel;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\UserModel\UserVisit;
+use App\UserModel\UserHostelVisit;
 use App\UserModel\UserExtensionRequest;
 use Illuminate\Support\Str;
 class UserExtensionRequest extends Model
@@ -21,7 +22,7 @@ class UserExtensionRequest extends Model
     CONST UNPAID = 0;
 
     protected $fillable = [
-        'user_id', 'visit_id', 'owner_id', 'extension_date', 'is_confirm',
+        'user_id', 'visit_id', 'owner_id', 'extension_date', 'is_confirm', 'type',
     ];
 
 
@@ -32,6 +33,10 @@ class UserExtensionRequest extends Model
 
     public function visit(){
         return $this->belongsTo(UserVisit::class, 'visit_id');
+    }
+
+    public function hostelVisit(){
+        return $this->belongsTo(UserHostelVisit::class, 'visit_id');
     }
 
     public function owner(){
