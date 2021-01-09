@@ -289,10 +289,13 @@
 
             google.maps.event.trigger(map, 'resize');
 
-            // map.addListener("zoom_changed", () => {
-                
-            //     // console.log(map.getZoom());
-            // });
+            map.addListener("zoom_changed", () => {
+                // let zoomNumber = parseInt(map.getZoom());
+                // $(".pxp-single-marker").css({
+                //     "width": `${72+zoomNumber}px`,
+                //     "height": `${72+zoomNumber}px`
+                // });
+            });
 
             $('.pxp-sp-pois-nav-transportation').on("click", function() {
                 var this_ = $(this);

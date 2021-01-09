@@ -5130,6 +5130,19 @@ fieldset[disabled] .checkbox.custom-checkbox input:checked+span {
     .pxp-dark-mode .pxp-services-h .pxp-primary-cta:after {
         border-top: 2px solid #fff;
     }
+
+    .pxp-single-property-gallery > figure {
+        height: 225px;
+        width: 50%;
+    }
+    .pxp-single-property-gallery > figure:nth-child(4), 
+    .pxp-single-property-gallery > figure:nth-child(5) {
+        display: none;
+    }
+    .pxp-single-property-gallery > figure.pxp-sp-gallery-main-img {
+        height: 450px;
+    }
+
 }
 @media screen and (max-width: 767px) {
     .pxp-logo.pxp-logo-nav {
@@ -5553,6 +5566,22 @@ fieldset[disabled] .checkbox.custom-checkbox input:checked+span {
         float: none;
         width: 100%;
         font-size: 1.1rem;
+    }
+
+    /* property detail photos */
+    .pxp-single-property-gallery > figure {
+        height: 225px;
+        width: 50%;
+    }
+    .pxp-single-property-gallery > figure:nth-child(2), 
+    .pxp-single-property-gallery > figure:nth-child(3), 
+    .pxp-single-property-gallery > figure:nth-child(4), 
+    .pxp-single-property-gallery > figure:nth-child(5) {
+        display: none;
+    }
+    .pxp-single-property-gallery > figure.pxp-sp-gallery-main-img {
+        height: 350px;
+        width: 100%;
     }
 
     

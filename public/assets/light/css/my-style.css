@@ -243,307 +243,285 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   .img-right{
     float: right;
     clear: left;
-    }
-    .img-left{
-        float: left;
-        clear: right;
-    }
-    .no-border {
-        border:none !important;
-    }
+  }
+  .img-left{
+      float: left;
+      clear: right;
+  }
+  .no-border {
+      border:none !important;
+  }
     
-    .remove-on-every-screen{
-        display: none;
-    }
+  .remove-on-every-screen{
+      display: none !important;
+  }
+
+  .img-filter {
+    filter: grayscale(20%);
+    filter: contrast(100%);
+    filter: saturate(100%);
+  }
 
 
-      /* CARDS */
-      .card {
-        margin-bottom: 24px;
-        border: none;
-        -webkit-box-shadow: 0 6px 20px rgba(36, 37, 38, 0.08);
-                box-shadow: 0 6px 20px rgba(36, 37, 38, 0.08);
-        border-radius: 3px;
-        background-color: #ffffff;
-      }
+
+  /* CARDS */
+  .card {
+    margin-bottom: 24px;
+    border: none;
+    -webkit-box-shadow: 0 6px 20px rgba(36, 37, 38, 0.08);
+            box-shadow: 0 6px 20px rgba(36, 37, 38, 0.08);
+    border-radius: 3px;
+    background-color: #ffffff;
+  }
+  
+  .card-border {
+    border: 1px solid #eff2f9;
+  }
       
-      .card-border {
-        border: 1px solid #eff2f9;
-      }
-      
-      .card-header {
-        background-color: #eff2f9;
-        border-bottom: 1px solid #eff2f9;
-      }
-      
-      .card-footer {
-        background-color: #f1f5fa;
-        border-top: 1px solid #eff2f9;
-      }
-      
-      .card-primary {
-        background-color: #0656ff;
-      }
-      
-      .card-secondary {
-        background-color: #0dc8de;
-      }
-      
-      .card-success {
-        background-color: #1ecab8;
-      }
-      
-      .card-warning {
-        background-color: #ffb822;
-      }
-      
-      .card-info {
-        background-color: #9ba7ca;
-      }
-      
-      .card-danger {
-        background-color: #f1646c;
-      }
-      
-      .card-dark {
-        background-color: #2f4686;
-      }
-      
-      .card-light {
-        background-color: #f1f5fa;
-        color: #8997bd;
-      }
-      
-      .card-pink {
-        background-color: #fd3c97;
-      }
-      
-      .card-purple {
-        background-color: #6d81f5;
-      }
-      
-      .card-blue {
-        background-color: #2b55cc;
-      }
+  .card-header {
+    background-color: #eff2f9;
+    border-bottom: 1px solid #eff2f9;
+  }
+  
+  .card-footer {
+    background-color: #f1f5fa;
+    border-top: 1px solid #eff2f9;
+  }
+  
+  .card-primary {
+    background-color: #0656ff;
+  }
+  
+  .card-secondary {
+    background-color: #0dc8de;
+  }
+  
+  .card-success {
+    background-color: #1ecab8;
+  }
+  
+  .card-warning {
+    background-color: #ffb822;
+  }
+  
+  .card-info {
+    background-color: #9ba7ca;
+  }
+  
+  .card-danger {
+    background-color: #f1646c;
+  }
+  
+  .card-dark {
+    background-color: #2f4686;
+  }
+  
+  .card-light {
+    background-color: #f1f5fa;
+    color: #8997bd;
+  }
+  
+  .card-pink {
+    background-color: #fd3c97;
+  }
+  
+  .card-purple {
+    background-color: #6d81f5;
+  }
+  
+  .card-blue {
+    background-color: #2b55cc;
+  }
 
-      .card-bordered-pink{
-        border: solid #fd3c97 !important; 
-        border-radius: 10px; 
-        border-width: 1px !important;
-      }
+  .card-bordered-pink{
+    border: solid #fd3c97 !important; 
+    border-radius: 10px; 
+    border-width: 1px !important;
+  }
 
-      .card-bordered-blue{
-        border: solid #0656ff !important; 
-        border-radius: 10px; 
-        border-width: 1px !important;
-      }
+  .card-bordered-blue{
+    border: solid #0656ff !important; 
+    border-radius: 10px; 
+    border-width: 1px !important;
+  }
 
 
-      /* WISHLIST ICON */
-      .on-top{
-        position: absolute;
-        z-index: 1;
-      }
+  /* WISHLIST ICON */
+  .on-top{
+    position: absolute;
+    z-index: 1;
+  }
 
-      .on-down{
-        position: absolute;
-        z-index: -1;
-      }
+  .on-down{
+    position: absolute;
+    z-index: -1;
+  }
 
-      .heart-hover:hover {
-          font-size: 16px;
-      }
+  .heart-hover:hover {
+      font-size: 16px;
+  }
 
-      .text-decoration-none{
-        text-decoration: none !important;
-      }
+  .text-decoration-none{
+    text-decoration: none !important;
+  }
 
-      .on-top-save{
-          width: 26px;
-          height: 26px;
-          background: #ffffff; 
-          border-radius: 50%;
-          text-align: center;
-          line-height: 25px;
-          font-size: .8rem;
-          cursor: pointer;
-      }
-
-      
-      /* auto complete on home page */
-      .autocomplete-items {
-        position: absolute;
-        border: 1px solid #d4d4d4;
-        border-bottom: none;
-        border-top: none;
-        z-index: 99;
-        /*position the autocomplete items to be the same width as the container:*/
-        top: 100%;
-        left: 0;
-        right: 0;
-      }
-      
-      .autocomplete-items div {
-        padding: 10px;
-        text-align: left;
-        cursor: pointer;
-        background-color: #fff; 
-        border-bottom: 1px solid #d4d4d4; 
-      }
-      
-      /*when hovering an item:*/
-      .autocomplete-items div:hover {
-        background-color: #e9e9e9; 
-      }
-      
-      /*when navigating through the items using the arrow keys:*/
-      .autocomplete-active {
-        background-color: DodgerBlue !important; 
-        color: #ffffff; 
-      }
+  .on-top-save{
+      width: 26px;
+      height: 26px;
+      background: #ffffff; 
+      border-radius: 50%;
+      text-align: center;
+      line-height: 25px;
+      font-size: .8rem;
+      cursor: pointer;
+  }
 
 
-      /* PROPERTIES */
-      .own-property-get-started {
-        position: absolute;
-        top: 100px;
-        right: 100px;
-        z-index: 1;
-      }
+  /* PROPERTIES */
+  .own-property-get-started {
+    position: absolute;
+    top: 100px;
+    right: 100px;
+    z-index: 1;
+  }
 
-      .own-property-bottom {
-        margin-bottom: 1000px;
-      }
+  .own-property-bottom {
+    margin-bottom: 1000px;
+  }
 
-      .own-property-detail {
-        position: absolute;
-        top: 200px;
-        left: 0;
-        right: 0;
-      }
-      .steps-container-mobile {
-        display: none;
-      }
+  .own-property-detail {
+    position: absolute;
+    top: 200px;
+    left: 0;
+    right: 0;
+  }
+  .steps-container-mobile {
+    display: none;
+  }
 
-      
+  
 
-      /* BUTTONS */
-      .btn-tomato {
-        background-color: #ff6347 !important;
-        color: #ffffff;
-        border-radius: 5%;
-      }
-      .btn-tomato:hover {
-        color: #ffffff;
-      }
+  /* BUTTONS */
+  .btn-tomato {
+    background-color: #ff6347 !important;
+    color: #ffffff;
+    border-radius: 5%;
+  }
+  .btn-tomato:hover {
+    color: #ffffff;
+  }
 
-      /* CUSTOME SCROLL BAR */
-      /* width */
-      .custom-scroller::-webkit-scrollbar {
-        width: 7px;
-      }
+  /* CUSTOME SCROLL BAR */
+  /* width */
+  .custom-scroller::-webkit-scrollbar {
+    width: 7px;
+  }
 
-      /* Track */
-      .custom-scroller::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 5px grey; 
-        border-radius: 10px;
-      }
-      
-      /* Handle */
-      .custom-scroller::-webkit-scrollbar-thumb {
-        background: #a9a9a9; 
-        border-radius: 10px;
-      }
+  /* Track */
+  .custom-scroller::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  .custom-scroller::-webkit-scrollbar-thumb {
+    background: #a9a9a9; 
+    border-radius: 10px;
+  }
 
-      /* Handle on hover */
-      .custom-scroller::-webkit-scrollbar-thumb:hover {
-        background: #a9a9a9; 
-      }
-      /* end custom scroll bars */
+  /* Handle on hover */
+  .custom-scroller::-webkit-scrollbar-thumb:hover {
+    background: #a9a9a9; 
+  }
+  /* end custom scroll bars */
 
 
-      /* HELP collapsable */
-      .ul-style {
-        list-style-type: none;
-      }
-      
-      .myUL {
-        margin: 0;
-        padding: 0;
-      }
-      
-      .caret {
-        cursor: pointer;
-        -webkit-user-select: none; /* Safari 3.1+ */
-        -moz-user-select: none; /* Firefox 2+ */
-        -ms-user-select: none; /* IE 10+ */
-        user-select: none;
-      }
-      
-      .caret::before {
-        content: "\25B6";
-        color: black;
-        display: inline-block;
-        margin-right: 6px;
-      }
-      
-      .caret-down::before {
-        -ms-transform: rotate(90deg); /* IE 9 */
-        -webkit-transform: rotate(90deg); /* Safari */
-        transform: rotate(90deg);  
-      }
-      
-      .nested {
-        display: none;
-        /* background-color: midnightblue; */
-      }
-      
-      .active {
-        display: block;
-      }
-      
-      .hidden{
-        display: none !important;
-      }
+  /* HELP collapsable */
+  .ul-style {
+    list-style-type: none;
+  }
+  
+  .myUL {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .caret {
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari 3.1+ */
+    -moz-user-select: none; /* Firefox 2+ */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none;
+  }
+  
+  .caret::before {
+    content: "\25B6";
+    color: black;
+    display: inline-block;
+    margin-right: 6px;
+  }
+  
+  .caret-down::before {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Safari */
+    transform: rotate(90deg);  
+  }
+  
+  .nested {
+    display: none;
+    /* background-color: midnightblue; */
+  }
+  
+  .active {
+    display: block;
+  }
+  
+  .hidden{
+    display: none !important;
+  }
 
-      .show-answer{
-        cursor: pointer;
-      }
+  .show-answer{
+    cursor: pointer;
+  }
 
-      .non-underline{
-        text-decoration: none !important;
-      }
+  .non-underline{
+    text-decoration: none !important;
+  }
 
-      .text-dark{
-        color: #000f !important;
-      }
-      /* end help collapsable */
+  .text-dark{
+    color: #000f !important;
+  }
+  /* end help collapsable */
 
-      /* IDs  */
-      #showCalculations{
-        display: none;
-      }
 
-    .hide-logo-on-scroll {
-      display: none;
-    }
+  
+  /* IDs  */
+  #showCalculations{
+    display: none;
+  }
 
-    /* ACCOUNTS */
-    .account-options {
-      display: inline-block;
-    }
+.hide-logo-on-scroll {
+  display: none;
+}
 
-    .account-mobile-init-view {
-      display: none;
-    }
 
-    /* MESSAGES */
-    .inbox-blue-background {
-      background-color: #0171bb !important;
-    }
 
-    /* BOOKING */
-    /* The flip box container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+/* ACCOUNTS */
+.account-options {
+  display: inline-block;
+}
+
+.account-mobile-init-view {
+  display: none;
+}
+
+/* MESSAGES */
+.inbox-blue-background {
+  background-color: #0171bb !important;
+}
+
+/* BOOKING */
+/* The flip box container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
 .flip-box {
   background-color: transparent;
   width: 300px;
@@ -552,19 +530,19 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
 }
 
-@media (max-width: 450px){
+@media screen and (max-width: 450px){
   .flip-box {
     width: auto;
     margin: 0% !important;
   }  
 }
-@media (max-width: 768px){
+@media screen and (max-width: 768px){
   .flip-box {
     width: auto;
     margin: 0% !important;
   }  
 }
-@media (max-width: 1024px){
+@media screen and (max-width: 1024px){
   .flip-box {
     width: auto;
     margin: 0% !important;
@@ -649,138 +627,130 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   border-bottom: 16px solid #0656ff;
 }
 
-/* IMAGES */
-.img-filter {
-  filter: grayscale(20%);
-  filter: contrast(100%);
-  filter: saturate(100%);
+
+/* MEDIA QUERIES */
+
+@media screen and (min-width: 1024px){
+  .font-12-sm-laptop {
+    font-size: 10px !important;
+  }
+  .font-14-sm-laptop {
+    font-size: 10px !important;
+  }
+}
+@media screen and (min-width: 1440px){
+  .font-12-lg-laptop {
+    font-size: 12px !important;
+  }
+  .font-14-lg-laptop {
+    font-size: 14px !important;
+  }
 }
 
+@media screen and (max-width: 991px){
+  .nav-logo-sm {
+    display: none;
+  }
 
+  .mobile-menu-items {
+    display: inline-block;
+  }
 
-    /* MEDIA QUERIES */
+  .account-details {
+    display: none;
+  }
 
-    @media screen and (min-width: 1024px){
-      .font-12-sm-laptop {
-        font-size: 10px !important;
-      }
-      .font-14-sm-laptop {
-        font-size: 10px !important;
-      }
-    }
-    @media screen and (min-width: 1440px){
-      .font-12-lg-laptop {
-        font-size: 12px !important;
-      }
-      .font-14-lg-laptop {
-        font-size: 14px !important;
-      }
-    }
+  .account-icon {
+    display: none;
+  }
+
+  .account-options {
+    display: none;
+  }
+
+  .account-mobile-init-view {
+    display: inline-block;
+  }
+
+  .mobile-profile-avatar {
+    display: inline-block;
+  }
+
+  .listing-progress {
+    display: none;
+  }
   
-    @media screen and (max-width: 991px){
-      .nav-logo-sm {
-        display: none;
-      }
+}
 
-      .mobile-menu-items {
-        display: inline-block;
-      }
+@media screen and (max-width: 768px){
+  .sub-menu-item {
+    margin-left: 3%;
+  }
 
-      .account-details {
-        display: none;
-      }
-
-      .account-icon {
-        display: none;
-      }
-
-      .account-options {
-        display: none;
-      }
-
-      .account-mobile-init-view {
-        display: inline-block;
-      }
-
-      .mobile-profile-avatar {
-        display: inline-block;
-      }
-
-      .listing-progress {
-        display: none;
-      }
-      
-    }
-
-    @media screen and (max-width: 768px){
-      .sub-menu-item {
-        margin-left: 3%;
-      }
+  .font-14-large {
+    font-size: 20px;
+  }
+  .oshelter {
+    display: none;
+  }
   
-      .font-14-large {
-        font-size: 20px;
-      }
-      .oshelter {
-        display: none;
-      }
-      
-      .nav-logo-sm {
-        display: inline-block;
-      }
-      
-      .steps-container {
-        display: none;
-      }
-
-      .steps-container-mobile {
-        display: inline-block;
-      }
-      .inbox-blue-background {
-        background-color: #0171bb !important;
-      }
-    }
+  .nav-logo-sm {
+    display: inline-block;
+  }
   
-    @media screen and (min-width: 768px){
-      .font-14-large {
-        font-size: 16px;
-      }
-    }
+  .steps-container {
+    display: none;
+  }
 
-    @media screen and (max-width: 570px){
-      .pull-content-down {
-        margin-top: 100px !important;
-      }
-    }
+  .steps-container-mobile {
+    display: inline-block;
+  }
+  .inbox-blue-background {
+    background-color: #0171bb !important;
+  }
+}
 
-    @media screen and (min-width: 320px){
-      .own-property-bottom {
-        margin-bottom: 1500px;
-      }
-    }
+@media screen and (min-width: 768px){
+  .font-14-large {
+    font-size: 16px;
+  }
+}
 
-    @media screen and (min-width: 375px){
-      .own-property-bottom {
-        margin-bottom: 1400px;
-      }
-      
-    }
+@media screen and (max-width: 570px){
+  .pull-content-down {
+    margin-top: 100px !important;
+  }
+}
 
-    @media screen and (min-width: 425px){
-      .own-property-bottom {
-        margin-bottom: 1400px;
-      }
-    }
+@media screen and (min-width: 320px){
+  .own-property-bottom {
+    margin-bottom: 1500px;
+  }
+}
 
-    @media screen and (min-width: 1024px){
-      .own-property-bottom {
-        margin-bottom: 1000px;
-      }
-    }
+@media screen and (min-width: 375px){
+  .own-property-bottom {
+    margin-bottom: 1400px;
+  }
+  
+}
 
-    @media screen and (min-width: 2560px){
-      .own-property-bottom {
-        margin-bottom: 500px;
-      }
-    }
+@media screen and (min-width: 425px){
+  .own-property-bottom {
+    margin-bottom: 1400px;
+  }
+}
+
+@media screen and (min-width: 1024px){
+  .own-property-bottom {
+    margin-bottom: 1000px;
+  }
+}
+
+@media screen and (min-width: 2560px){
+  .own-property-bottom {
+    margin-bottom: 500px;
+  }
+}
 
       

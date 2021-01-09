@@ -108,7 +108,7 @@
     </div> --}}
 
     <div class="container-fluid pxp-props-carousel-right mt-100">
-        <h2 class="pxp-section-h2">Explore Your Curiosity</h2>
+        <h2 class="pxp-section-h2">Explore Our Neighborhoods</h2>
         <p class="pxp-text-light">Browse our comprehensive listing types</p>
         <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
             <div class="owl-carousel pxp-props-carousel-right-stage">
