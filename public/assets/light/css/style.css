@@ -3486,6 +3486,7 @@ a.pxp-results-card-1 .carousel-inner > .carousel-item {
 .pxp-dark-mode .pxp-single-marker {
     background-color: #fff;
 }
+
 .pxp-single-marker:after {
     content: " ";
     width: 72px;
@@ -3496,6 +3497,7 @@ a.pxp-results-card-1 .carousel-inner > .carousel-item {
     -webkit-transform: translate(calc(-50% + 8px), calc(-50% + 8px));
     transform: translate(calc(-50% + 8px), calc(-50% + 8px));
 }
+
 .pxp-dark-mode .pxp-single-marker:after {
     background-color: rgba(255, 255, 255, 0.25);
 }

@@ -253,7 +253,8 @@
             let source  = document.getElementById('pxp-sp-map');
             let img = document.createElement("img");
             img.src = source.getAttribute('data-image');
-            img.classList.add(this.classname);
+            // img.classList.add(this.classname);
+            div.classList.add("pxp-single-marker-change");
             div.appendChild(img);
 
             var panes = this.getPanes();
@@ -289,13 +290,9 @@
 
             google.maps.event.trigger(map, 'resize');
 
-            map.addListener("zoom_changed", () => {
-                // let zoomNumber = parseInt(map.getZoom());
-                // $(".pxp-single-marker").css({
-                //     "width": `${72+zoomNumber}px`,
-                //     "height": `${72+zoomNumber}px`
-                // });
-            });
+            // map.addListener("zoom_changed", () => {
+            //     let zoomNumber = parseInt(map.getZoom());
+            // });
 
             $('.pxp-sp-pois-nav-transportation').on("click", function() {
                 var this_ = $(this);
