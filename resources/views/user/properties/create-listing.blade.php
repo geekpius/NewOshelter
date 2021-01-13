@@ -1116,13 +1116,13 @@
                                                 <div class="col-lg-6">
                                                     @if ($property->type_status=='rent')
                                                         <h4>Provide {{ $guest.'s' }} with your rent schedule</h4>
-                                                        <p><i class="fa fa-dot-circle font-13"></i> Guest must know advance payment and price calendar</p>
+                                                        <p><i class="fa fa-dot-circle font-13"></i> Visitors must know advance payment and price calendar</p>
                                                     @elseif ($property->type_status=='sell')
                                                         <h4>Provide buyers with your buying schedule</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Buyers must know buying price</p>
                                                     @elseif ($property->type_status=='short_stay')
                                                         <h4>Provide {{ $guest.'s' }} with your booking schedule</h4>
-                                                        <p><i class="fa fa-dot-circle font-13"></i> Guests must know booking price</p>
+                                                        <p><i class="fa fa-dot-circle font-13"></i> Visitors must know booking price</p>
                                                     @else
                                                         <h4>Provide bidders with your bidding schedule</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Bidders must know initial bidding price</p>

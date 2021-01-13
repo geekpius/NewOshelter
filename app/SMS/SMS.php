@@ -1,12 +1,12 @@
 <?php
 namespace App\SMS;
 
+include_once (__DIR__.'/lib/Zenoph/Notify/AutoLoader.php');
+
 use Zenoph\Notify\Enums\AuthModel;
 use Zenoph\Notify\Enums\TextMessageType;
-use Zenoph\Notify\Enums\RequestHandshake;
 use Zenoph\Notify\Request\Request;
 use Zenoph\Notify\Request\SMSRequest;
-use Zenoph\Notify\Request\RequestException;
 
 class SMS
 {
@@ -24,32 +24,30 @@ class SMS
     public function send()
     {
         try {
-            // set host
-            Request::setHost("smsonlinegh.com");
-        
-            // Initialise request object
+            // Request host domain
+            Request::setHost('smsonlinegh.com');
+            
+            // create request subject
             $smsReq = new SMSRequest();
-        
-            // set authentication details.
             $smsReq->setAuthModel(AuthModel::API_KEY);
-            $smsReq->setAuthApiKey("6838284f3e4e207b2e947548ee161352494a06c490120d868ee0875f855c821f");
-        
-            // message properties
+            $smsReq->setAuthApiKey('2d2adc5cb5edf9d1b090dd97d37e2c5688adff43c8c3882c739dbffd29c3baa2');
+            
+            // set message properties
             $smsReq->setMessage($this->message);
+            $smsReq->setSender($this->sender);
             $smsReq->setMessageType(TextMessageType::TEXT);
-            $smsReq->setSender($this->sender);     // should be registered
+            
+            // add message destinations. 
+            $smsReq->adddestination($this->phone);
+            
+            // submit message for response
+            $msgResp = $smsReq->submit();
+            $smsReq->clearDestinations();
+            // return $msgResp->getHTTPStatusCode();
+        } 
         
-            // add message destination
-            $smsReq->addDestination($this->phone);
-        
-            // send message
-            $response = $smsReq->submit();
-            return $response;
-        }
-        
-        catch (\Exception $ex){
-            // output error message
-            return ("Error: " . $ex->getMessage());
+        catch (Exception $ex) {
+            return ($ex->getMessage());
         }
     }
 

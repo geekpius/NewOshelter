@@ -219,7 +219,8 @@ class BookingController extends Controller
     public function sendSmsVerification(Request $request ) : string
     {
         $validator = \Validator::make($request->all(), [
-            'phone_number' => 'required|numeric',
+            'phone_number' => 'required|string',
+            'phone_prefix' => 'required|string',
         ]);
 
         (string)$message = '';
@@ -231,22 +232,28 @@ class BookingController extends Controller
             if(User::where('id', '!=', Auth::user()->id)->wherePhone($phone)->exists()){
                 $message = "Phone number is already taken by another user";
             }else{
-                if($user->phone==$phone){
-                    $user->sms_verification_token = $user->generateSmsVerificationCode();
-                    $user->update();
-    
-                    //send sms verification code
-                    // $sms = new SMS("TEST", "0542398441", "Test message");
-                    // $resp = $sms->send();
-                    // dd($resp);
-                    $message='success';
-                }else{
-                    $user->phone=$phone;
-                    $user->sms_verification_token = $user->generateSmsVerificationCode();
-                    $user->update();
-    
-                    //send sms verification code
-                    $message='success';
+                try {
+                    if($user->phone==$phone){
+                        $user->sms_verification_token = $user->generateSmsVerificationCode();
+                        $user->update();
+                        
+                        $phoneNumber = $request->phone_prefix.$request->phone_number;
+                        $smsMessage = "Your Oshelter verification code is: ".$user->sms_verification_token.". Don't share this code with anyone not even our employees.";
+                        $sms = new SMS("VibTech-GH", $phoneNumber, $smsMessage);
+                        $resp = $sms->send();
+                        $message='success';
+                    }else{
+                        $user->phone=$phone;
+                        $user->sms_verification_token = $user->generateSmsVerificationCode();
+                        $user->update();
+        
+                        $smsMessage = "Your Oshelter verification code is: ".$user->sms_verification_token.". Don't share this code with anyone not even our employees.";
+                        $sms = new SMS("VibTech-GH", $phoneNumber, $smsMessage);
+                        $resp = $sms->send();
+                        $message='success';
+                    }
+                } catch (\Exception $e) {
+                    return $e->getMessage();
                 }
             }
         }
@@ -388,7 +395,6 @@ class BookingController extends Controller
 
         return $message;        
     }
-
 
     
 

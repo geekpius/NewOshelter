@@ -221,16 +221,25 @@ $(".btnVerify").on("click", function(e){
         $("#phone_number").parents(".validate").find(".mySpan").text("Invalid phone number");
     }else{
         $("#phone_number").removeClass('is-invalid');
-        var data = $("#phone_number").serialize();
+        if($this.text() == 'Send Verification'){
+            $this.html('<i class="fa fa-spin fa-spinner"></i> Sending....').attr("disabled", true);
+        }else{
+            $this.html('<i class="fa fa-spin fa-spinner"></i> Resending....').attr("disabled", true);
+        }
+        let data = {
+            phone_number: $("#phone_number").val(),
+            phone_prefix: $("#phone_prefix").text()
+        }
         $.ajax({
             url: $this.data('url'),
             type: "POST",
             data: data,
             success: function(resp){
+                $this.html('Send Verification').attr("disabled", false);
                 if(resp=='success'){
                     $(".phoneNumberField").slideUp('fast', function(){
                         $(".verifyCodeField").slideDown('fast');
-                        $this.html('<i class="fa fa-arrow-right"></i> Resend Verification');
+                        $this.text('Resend Verification');
                     });
                 }else{
                     swal('Warning', `${resp}.`, 'warning');
@@ -348,6 +357,12 @@ $("select").on('change', function(){
     }
 });
 
+$("#phone_number").on("keypress", function(e){
+    var $this= $(this);
+    if($this.val().length == 9){
+        e.preventDefault();
+    }
+});
 
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;

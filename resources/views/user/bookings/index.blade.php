@@ -457,13 +457,14 @@
                                         <div class="mt-5">
                                             <div id="phoneNumberCover" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}">
                                                 <h4>Verify your phone number</h4>
+                                                <p class="font-12"><i class="fa fa-dot-circle"></i> You will receive verification code on your phone.</p>
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="form-group validate phoneNumberField" style="display: {{ empty(Auth::user()->sms_verification_token)? 'block':'none' }}">
                                                             <label for="">Phone Number</label>
                                                             <div class="input-group">
                                                                 <div class="input-group-prepend">
-                                                                    <span class="input-group-text">233</span>
+                                                                    <span class="input-group-text" id="phone_prefix">233</span>
                                                                 </div>
                                                                 <input type="number" name="phone_number" id="phone_number" min="1" onkeypress="return isNumber(event);" title="Enter your valid phone number" class="form-control" value="{{ substr(Auth::user()->phone,1) }}" placeholder="eg: 542398441">
                                                             </div>
@@ -491,8 +492,8 @@
                                         </div>
                                     </div>
                                 
-                                    <div class="col-sm-12 mt-5">
-                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}"><i class="fa fa-arrow-right"></i> {{ empty(Auth::user()->sms_verification_token)? 'Send Verification':'Resend Verification' }}</button>
+                                    <div class="col-sm-12 mt-2 mt-lg-4 mb-3 mb-lg-0">
+                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}">{{ empty(Auth::user()->sms_verification_token)? 'Send Verification':'Resend Verification' }}</button>
                                         <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="2" data-url="{{ route('property.bookings.movenext') }}" style="display: {{ (!Auth::user()->verify_sms)? 'none':'block' }}"><i class="fa fa-arrow-right"></i> Continue</button>
                                     </div>
                                 </div> 

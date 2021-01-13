@@ -55,31 +55,31 @@ class PropertyPrice extends Model
 
     public function getMaximumStay()
     {
-        if ($this->maximum_stay==1){
+        if ($this->maximum_stay==30){
             return "1 month maximum stay";
         }
-        elseif ($this->maximum_stay==1.1){
+        elseif ($this->maximum_stay==37){
             return "1 month, 1 week maximum stay";
         }
-        elseif ($this->maximum_stay==1.2){
+        elseif ($this->maximum_stay==44){
             return "1 month, 2 weeks maximum stay";
         }
-        elseif ($this->maximum_stay==1.3){
+        elseif ($this->maximum_stay==51){
             return "1 month, 3 weeks maximum stay";
         }
-        elseif ($this->maximum_stay==2){
+        elseif ($this->maximum_stay==60){
             return "2 months maximum stay";
         }
-        elseif ($this->maximum_stay==2.1){
+        elseif ($this->maximum_stay==67){
             return "2 months, 1 week maximum stay";
         }
-        elseif ($this->maximum_stay==2.2){
+        elseif ($this->maximum_stay==74){
             return "2 months, 2 weeks maximum stay";
         }
-        elseif ($this->maximum_stay==2.3){
+        elseif ($this->maximum_stay==81){
             return "2 months, 3 weeks maximum stay";
         }
-        elseif ($this->maximum_stay==3){
+        elseif ($this->maximum_stay==90){
             return "3 months maximum stay";
         }
     }

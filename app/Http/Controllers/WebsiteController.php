@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use App\PropertyModel\PropertyCategory;
 use App\PropertyModel\PropertyLocation;
+use App\ContactModel\Contact;
 
 use App\Http\Resources\PropertyCollection;
 
@@ -287,13 +288,18 @@ class WebsiteController extends Controller
         if ($validator->fails()){
             $message = 'Something went wrong with your input';
         }else{
+            $contact  = new Contact;
+            $contact->name = $request->name;
+            $contact->email = $request->email;
+            $contact->help_desk = $request->help_desk;
+            $contact->phone = $request->phone;
+            $contact->message = $request->message;
+            $contact->save();
+
             $data = array(
                 "name" => $request->name,
-                "phone" => $request->phone,
-                "help_desk" => $request->help_desk,
-                "message" => $request->message,
             );
-            Mail::to("support@oshelter.com")->send(new EmailSender($data, "Contact Support", "emails.contact"));
+            Mail::to(strtolower($request->email))->send(new EmailSender($data, "Contact Support", "emails.contact"));
             $message="success";
         }
         return $message;
@@ -302,12 +308,9 @@ class WebsiteController extends Controller
     public function email()
     {
         $data = array(
-            "property" => "Property Title",
-            "link" => "link-address",
-            "name" => "Pius",
-            "guest" => "Theresa",
+            "name" => "Fiifi Pius",
         );
-        return view('emails.extension_request')->with('data', $data);
+        return view('emails.contact')->with('data', $data);
     }
 
     
