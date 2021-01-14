@@ -92,10 +92,12 @@ Route::group(['middleware' => ['verify-email']], function() {
         });
        
         /*------- Payments ------- */
-        Route::post('/requests/payment/mobile', 'PaymentController@mobilePayment')->name('requests.payment.mobile');
-        Route::get('/payments/mobile/{transactionId}/{user}/{operator}', 'PaymentController@mobileResponse')->name('payment.mobile.response');
-        // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
-        // Route::get('/activities', 'UserActivityController@index')->name('activities');
+        Route::group(['prefix' => 'payments'], function () {
+            Route::post('/verify', 'PaymentController@verifyPayment')->name('payments.verify');
+            Route::get('/mobile/{transactionId}/{user}/{operator}', 'PaymentController@mobileResponse')->name('payment.mobile.response');
+            // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
+            // Route::get('/activities', 'UserActivityController@index')->name('activities');
+        });
 
         /*------- Account and Profile ------- */
         Route::group(['prefix' => 'account'], function () {

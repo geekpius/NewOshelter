@@ -4,7 +4,7 @@
 
 <div class="pxp-content pull-content-down">
     <div class="">
-        <div class="container">
+        <div class="container contact-us-heading">
             <div class="row">
                 <div class="col-sm-12 col-md-7">
                     <h1 class="pxp-page-header">Contact Us</h1>

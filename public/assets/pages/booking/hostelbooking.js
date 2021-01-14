@@ -298,7 +298,7 @@ $("#formConfirmBooking").on("submit", function(e){
         confirmButtonClass: "btn-primary btn-sm",
         cancelButtonClass: "btn-danger btn-sm",
         confirmButtonText: "Confirm",
-        closeOnConfirm: false
+        closeOnConfirm: true
         },
     function(){
         let data = $this.serialize();

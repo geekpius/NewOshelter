@@ -627,6 +627,11 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   border-bottom: 16px solid #0656ff;
 }
 
+/********* CONTACT US *********/
+.contact-us-heading {
+  display: inline-block;
+}
+
 
 /* MEDIA QUERIES */
 
@@ -707,6 +712,10 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   }
   .inbox-blue-background {
     background-color: #0171bb !important;
+  }
+
+  .contact-us-heading {
+    display: none;
   }
 }
 

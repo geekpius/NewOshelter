@@ -21,51 +21,58 @@ class PaymentController extends Controller
         $this->middleware('auth');
     }
 
-    public function generateOrderID() : string
+    public function getVerificationStatus(string $reference): string
     {
-        return Str::random(16);
-    }
-
-    public function generatePaymentID(int $length=10) : string
-    {
-        (string) $characters = '0123456789';
-        (int) $charactersLength = strlen($characters);
-        (string) $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
-    }
-
-    public function sendPaymentRequest($payable, $orderId, $mobileOperator, $phoneNumber): bool
-    {
-        $url = 'https://app.slydepay.com.gh/api/merchant/invoice/create';
-        $params = [
-            "emailOrMobileNumber" => "vibtechbusiness@gmail.com",
-            "merchantKey" => "1593792958329",
-            "amount" => $payable,
-            "description" => "Property payment",
-            "orderCode" => $orderId,
-            "sendInvoice" => true,
-            "payOption" => $mobileOperator,
-            "customerName" => Auth::user()->name,
-            "customerMobileNumber" => $phoneNumber         
-        ];
-
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS,  json_encode($params));
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            "Content-Type: application/json"
-            ]);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.paystack.co/transaction/verify/".rawurlencode($reference),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+            "Authorization: Bearer sk_test_ee00381ccce25247856e9620cd6a73b0ef7c6b22",
+            "Cache-Control: no-cache",
+            ),
+        ));
+        
         $response = curl_exec($curl);
+        $err = curl_error($curl);
         curl_close($curl);
-        $json = json_decode($response);
-        // $message = $response . PHP_EOL;
-        // return  $json->success;
-        // return $json->errorMessage;
-        return $json->success == 1;
+        
+        if ($err) {
+            return "error";
+        } else {
+            $results =  json_decode($response);
+            return $results->data->status;
+        }
+    }
+
+
+    public function verifyPayment(Request $request): string
+    {
+        $validator = \Validator::make($request->all(), [
+            'reference_id' => 'required|string',
+        ]);
+            
+        (string) $message = "";
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            try {
+                $verificationStatus = $this->getVerificationStatus($request->reference_id);
+                if($verificationStatus == 'success'){
+                    // $message = route('')
+                }else{
+
+                }
+            } catch (\Exception $e) {
+                $message = 'Your payment could not be verified. Check your email if payment you have received payment notification.';
+            }
+        }
+        return $message;
     }
 
     public function saveTransaction($typeId,$orderId,$payId,$amount,$serviceFee,$discountFee,$currency,$mobileOperator,$phoneNumber,$type)

@@ -698,7 +698,7 @@
                                                                     <div class="form-group validate">
                                                                         <label for="">Currency</label>
                                                                         <select name="currency" class="form-control" id="currency">
-                                                                            <option value="GHC">Ghana Cedis(¢)</option>
+                                                                            <option value="GHS">Ghana Cedis(¢)</option>
                                                                         </select>
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
@@ -1253,7 +1253,7 @@
                                                         <div class="form-group validate">
                                                             <label for="">Currency</label>
                                                             <select name="currency" class="form-control" id="currency">
-                                                                <option value="GHC">Ghana Cedis(¢)</option>
+                                                                <option value="GHS">Ghana Cedis(¢)</option>
                                                             </select>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>

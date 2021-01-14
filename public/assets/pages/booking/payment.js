@@ -1,103 +1,42 @@
-// select visa
-$("#visa").on("change", function(){
-    var $this = $(this);
-    if($this.prop("checked", true)){
-        $("#momoExpand").slideUp('fast');
-        $("#visaExpand").slideDown('fast', function(){
-            $("#formMobile")[0].reset();
-        });
-    }
-});
+const paymentForm = document.getElementById('paymentForm');
+paymentForm.addEventListener("submit", payWithPaystack, false);
 
-// select momo
-$("#mobile_money").on("change", function(){
-    var $this = $(this);
-    if($this.prop("checked", true)){
-        $("#visaExpand").slideUp('fast');
-        $("#momoExpand").slideDown('fast', function(){
-            $("#formVisa")[0].reset();
-        });
-    }
-});
-
-// make payment
-$(".makePayment").on('click', function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    if(document.getElementById('mobile_money').checked){
-        var valid = true;
-        $('#formMobile input, #formMobile select').each(function() {
-            var $this = $(this);
-            
-            if(!$this.val()) {
-                valid = false;
-                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                $this.addClass('is-invalid');
+function payWithPaystack(e) {
+  e.preventDefault();
+  let handler = PaystackPop.setup({
+    key: 'pk_test_816a9713c650da936913373b265a690a4948feb3', // Replace with your public key
+    email: document.getElementById("email-address").value,
+    amount: parseFloat(document.getElementById("totalFee").value) * 100,
+    currency: document.getElementById("userCurrency").value, // Use GHS for Ghana Cedis or USD for US Dollars
+    ref: document.getElementById("referenceId").value, // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+    // label: "Optional string that replaces customer email"
+    onClose: function(){
+    //   alert('Window closed.');
+        swal("Cancelled", "This transaction was cancelled.", "warning");
+    },
+    callback: function(response){
+        let url = $("#paymentForm").data("url");
+        let data = {
+            booking_id: $("#paymentForm input[name='booking_id']").val(),
+            type: $("#paymentForm input[name='type']").val(),
+            currency: $("#paymentForm input[name='currency']").val(),
+            amount: $("#paymentForm input[name='amount']").val(),
+            service_fee: $("#paymentForm input[name='service_fee']").val(),
+            discount_fee: $("#paymentForm input[name='discount_fee']").val(),
+            reference_id: response.reference
+        }
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: data,
+            success: function (resp) {
+                window.location.href = resp.url;
+            },
+            error: function(resp){
+                console.log("something went wrong");
             }
         });
-        if(valid){
-            $this.attr('disabled', true);
-            $('#formMobile').trigger("submit");
-        }
-    }else if(document.getElementById('visa').checked){
-        var valid = true;
-        $('#formVisa input, #formVisa select').each(function() {
-            var $this = $(this);
-            
-            if(!$this.val()) {
-                valid = false;
-                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                $this.addClass('is-invalid');
-            }
-        });
-        if(valid){
-            return false;
-        }
-    }else{
-        swal("Select", "Select payment option.", "warning");
     }
-    return false;
-});
-
-// toggle input field error messages
-$("input, textarea").on('input', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-        $(this).removeClass('is-invalid');
-    }else{ 
-        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); 
-        $(this).addClass('is-invalid');
-    }
-});
-
-// toggle select field error messages
-$("select").on('change', function(){
-    if($(this).val()!=''){
-        $(this).parents('.validate').find('.mySpan').text('');
-        $(this).removeClass('is-invalid');
-    }else{ 
-        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
-        $(this).addClass('is-invalid');
-    }
-});
-
-
-function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-    }
-    return true;
-}
-
-function isMonthAndYear(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 47) 
-    {
-        return false;
-    }
-    return true;
+  });
+  handler.openIframe();
 }
