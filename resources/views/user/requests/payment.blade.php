@@ -55,95 +55,24 @@
                         </div>
                     </div>
 
-                    <h5>Choose Payment Methods</h5>
-                    <div class="card">
-                        <div class="card-body">
-                            {{-- visa --}}
-                            <div class="radio radio-success">
-                                <input type="radio" name="payment_method" id="visa" value="Mobile Money" />
-                                <label for="visa" class="font-weight-600 text-black">
-                                    VISA
-                                </label>
-                            </div>
-                            <div id="visaExpand" style="display: none">
-                                <hr>
-                                <form class="mt-4" id="formVisa">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group validate">
-                                                <input type="number" min="1" name="visa_number" placeholder="VISA Number(**************)" onkeypress="return isNumber(event)" class="form-control" />
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group validate">
-                                                <input type="text" name="expire" id="expire" maxlength="5" onkeypress="return isMonthAndYear(event)" class="form-control" placeholder="mm/yy" />
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group validate">
-                                                <input type="password" name="ccv" id="ccv" min="0" maxlength="3" class="form-control" placeholder="CCV(***)">
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
-                            {{-- momo --}}
-                            <div class="radio radio-success mt-3">
-                                <input type="radio" name="payment_method" id="mobile_money" value="Mobile Money" />
-                                <label for="mobile_money" class="font-weight-600 text-black">
-                                    Mobile Money
-                                </label>
-                            </div>
-                            <div id="momoExpand" style="display: none">
-                                <hr>
-                                <form class="mt-4" id="formMobile" method="POST" action="{{ route('requests.payment.mobile') }}">
-                                    @csrf
-                                    <input type="hidden" name="booking_id" value="{{ $booking->id }}" readonly>
-                                    <input type="hidden" name="type" value="{{ $booking->property->type }}" readonly>
-                                    <input type="hidden" name="currency" value="{{ $currency }}" readonly>
-                                    <input type="hidden" name="amount" value="{{ $totalPrice }}" readonly>
-                                    <input type="hidden" name="service_fee" value="{{ $serviceFee }}" readonly>
-                                    <input type="hidden" name="discount_fee" value="{{ $discountFee }}" readonly>
-                                    
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group validate">
-                                                <select name="mobile_operator" id="mobile_operator" class="form-control">
-                                                    <option value="">Select your operator</option>
-                                                    <option value="MTN_MONEY">MTN Mobile Money</option>
-                                                    <option value="AIRTEL_MONEY">AirtelTigo Money</option>
-                                                    <option value="VODAFONE_CASH_PROMPT">Vodafone Cash</option>
-                                                </select>
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="form-group validate">
-                                                <input type="text" name="country_code" id="country_code" value="+233" class="form-control" readonly placeholder="Code" />
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <div class="form-group validate">
-                                                <input type="number" name="mobile_number" id="mobile_number" min="1" maxlength="9" class="form-control" placeholder="eg: 542398441">
-                                                <span class="text-danger small mySpan" role="alert"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="col-sm-12 mt-2">
-                        <button class="btn btn-primary pl-5 pr-5 makePayment font-weight-600">
-                            PAY NOW {{ $currency }} {{ number_format(($totalFee),2) }}
-                        </button>
+                        <form id="paymentForm" data-url="{{ route('payments.verify') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
+                            <input type="hidden" name="booking_id" value="{{ $booking->id }}" readonly>
+                            <input type="hidden" name="type" value="{{ $booking->property->type }}" readonly>
+                            <input type="hidden" name="currency" id="userCurrency" value="{{ $currency }}" readonly>
+                            <input type="hidden" name="amount" value="{{ $totalPrice }}" readonly>
+                            <input type="hidden" name="service_fee" value="{{ $serviceFee }}" readonly>
+                            <input type="hidden" name="discount_fee" value="{{ $discountFee }}" readonly>
+                            <input type="hidden" id="email-address" value="{{ Auth::user()->email }}" required readonly />
+                            <input type="hidden" id="totalFee" value="{{ $totalFee }}" required readonly />
+                            <input type="hidden" id="referenceId" value="VT{{ \Carbon\Carbon::parse(now())->format('dmYHis') }}" required readonly />
+                            <div class="form-submit">
+                              <button type="submit" onclick="payWithPaystack()" class="btn btn-primary pl-5 pr-5 font-weight-600" id="paymentButton">
+                                  PAY NOW {{ $currency }} {{ number_format(($totalFee),2) }}
+                              </button>
+                            </div>
+                        </form>
                         <br>
                         <p class="text-danger mt-4 font-weight-bold">
                             <i class="fa fa-info-circle"></i> Make sure you have enough money in your wallet to cover {{ $currency }} {{ number_format(($totalFee),2) }} in your invoice.
@@ -152,8 +81,6 @@
                             <i class="fa fa-info-circle"></i> For MTN users, mobile bill prompt will only be sent if you have enough money in your wallet to cover {{ $currency }} {{ number_format(($totalFee),2) }} in your invoice
                         </p>
                     </div>
-
-
                 </div>
                 @else
                 <div class="col-sm-8">
@@ -210,7 +137,7 @@
 
                     <div class="col-sm-12 mt-2">
                         <form id="paymentForm" data-url="{{ route('payments.verify') }}">
-                            @csrf
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
                             <input type="hidden" name="booking_id" value="{{ $booking->id }}" readonly>
                             <input type="hidden" name="type" value="{{ $booking->property->type }}" readonly>
                             <input type="hidden" name="currency" id="userCurrency" value="{{ $currency }}" readonly>
@@ -221,7 +148,7 @@
                             <input type="hidden" id="totalFee" value="{{ $totalFee }}" required readonly />
                             <input type="hidden" id="referenceId" value="VT{{ \Carbon\Carbon::parse(now())->format('dmYHis') }}" required readonly />
                             <div class="form-submit">
-                              <button type="submit" onclick="payWithPaystack()" class="btn btn-primary pl-5 pr-5 font-weight-600">
+                              <button type="submit" onclick="payWithPaystack()" class="btn btn-primary pl-5 pr-5 font-weight-600" id="paymentButton">
                                   PAY NOW {{ $currency }} {{ number_format(($totalFee),2) }}
                               </button>
                             </div>
@@ -246,9 +173,4 @@
 @section('scripts')
 <script src="https://js.paystack.co/v1/inline.js"></script> 
 <script src="{{ asset('assets/pages/booking/payment.js') }}"></script> 
-<script>
-@if (session()->has('message'))
-    swal("Warning", "{{ session('message') }}", "warning");
-@endif
-</script>
 @endsection

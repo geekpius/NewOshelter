@@ -56,22 +56,6 @@ class Booking extends Model
         return $this->adult+$this->children+$this->infant;
     }
 
-    public function generateOrderID() : string
-    {
-        return Str::random(16);
-    }
-
-    public function generatePaymentID(int $length=10) : string
-    {
-        (string) $characters = '0123456789';
-        (int) $charactersLength = strlen($characters);
-        (string) $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
-    }
-
 
     /*********** METHODS RELATIONSHIP *************/
     public function user(){

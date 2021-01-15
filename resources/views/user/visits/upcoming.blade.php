@@ -36,9 +36,6 @@
                                         <th>Check In</th>
                                         <th>Check Out</th>
                                         <th>Guest</th>
-                                        <th>Status</th>
-                                        {{-- <th>Action</th> --}}
-                                    </tr><!--end tr-->
                                     </thead>
 
                                     <tbody>
@@ -50,16 +47,6 @@
                                             <td>{{ \Carbon\Carbon::parse($visit->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($visit->check_out)->format('d-M-Y') }}</td>
                                             <td>{{ $visit->getGuestAttribute() }}</td>
-                                            <td>
-                                                @if ($visit->isInAttribute())
-                                                <span class="badge badge-md badge-success">IN</span>
-                                                @else
-                                                <span class="badge badge-md badge-success">OUT</span>                                                    
-                                                @endif
-                                            </td>
-                                            {{-- <td>
-                                                <a href="{{ route('visits.property', $visit->property_id) }}" class="mr-3" title="View Property"><i class="fas fa-home text-primary font-16"></i></a>
-                                            </td> --}}
                                         </tr><!--end tr-->
                                         @endforeach                                                                                   
                                     </tbody>

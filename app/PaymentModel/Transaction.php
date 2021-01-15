@@ -5,6 +5,7 @@ namespace App\PaymentModel;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\BookModel\Booking;
+use App\BookModel\HostelBooking;
 use App\UserModel\UserExtensionRequest;
 
 class Transaction extends Model
@@ -13,37 +14,14 @@ class Transaction extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id', 'booking_id', 'extension_id', 'transaction_id', 'payment_id', 'amount', 
-        'service_fee', 'discount_fee', 'currency', 'operator', 'phone', 'type', 'property_type', 'status',
+        'user_id', 'booking_id', 'extension_id', 'reference_id', 'amount', 'service_fee', 'discount_fee', 
+        'currency', 'property_type', 'channel',
     ];
 
      /*********** METHODS ATTRIBUTES *************/
     public function payableAmount() 
     {
         return ($this->amount + $this->service_fee)-$this->discount_fee;
-    }
-
-    public function isConfirm() 
-    {
-        return $this->status == 1;
-    }
-
-    public function isCancel() 
-    {
-        return $this->status == 2;
-    }
-
-    public function getStatus() 
-    {
-        if($this->status == 0){
-            return "Waiting for confirmation";
-        }
-        elseif($this->status == 1){
-            return "Confirmed";
-        }
-        elseif($this->status == 2){
-            return "Cancelled";
-        }
     }
 
 
@@ -54,6 +32,10 @@ class Transaction extends Model
 
     public function booking(){
         return $this->belongsTo(Booking::class, 'booking_id');
+    }
+
+    public function hostelBooking(){
+        return $this->belongsTo(HostelBooking::class, 'booking_id');
     }
 
     public function extensionRequest(){

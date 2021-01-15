@@ -22,6 +22,7 @@ use App\PropertyModel\PropertyRent;
 use App\UserModel\UserNotification;
 use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
+use App\PaymentModel\Transaction;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -59,6 +60,7 @@ class User extends Authenticatable
     ];
 
 
+    /************** PROPERTIES **************/ 
     public function isVerifyEmail() : bool
     {
         return $this->verify_email == User::VERIFY_EMAIL;
@@ -68,7 +70,6 @@ class User extends Authenticatable
     {
         return $this->verify_sms == User::VERIFY_SMS;
     }
-
 
     public function generateSmsVerificationCode(int $length=4) : string
     {
@@ -106,6 +107,8 @@ class User extends Authenticatable
         return (empty($this->profile->dob))? 'Age':Carbon::parse($this->profile->dob)->age;
     }
 
+
+    /************** RELATIONSHIPS **************/ 
     public function properties(){
         return $this->hasMany(Property::class);
     }
@@ -172,6 +175,10 @@ class User extends Authenticatable
 
     public function userHostelBookings(){
         return $this->hasMany(HostelBooking::class);
+    }
+
+    public function userTransactions(){
+        return $this->hasMany(Transaction::class);
     }
 
 

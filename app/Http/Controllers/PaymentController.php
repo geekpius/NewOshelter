@@ -7,6 +7,8 @@ use App\PaymentModel\Transaction;
 use App\BookModel\Booking;
 use App\BookModel\HostelBooking;
 use App\UserModel\UserExtensionRequest;
+use App\UserModel\UserVisit;
+use App\UserModel\UserHostelVisit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -15,13 +17,25 @@ use Illuminate\Support\Str;
 
 class PaymentController extends Controller
 {
+    public $channel;
+
     public function __construct()
     {
         $this->middleware('verify-user');
         $this->middleware('auth');
     }
 
-    public function getVerificationStatus(string $reference): string
+    private function setPaymentChannel($channel): void
+    {
+        $this->channel = $channel;
+    }   
+
+    private function getPaymentChannel(): string
+    {
+        return $this->channel;
+    }
+
+    public function getVerificationStatus(string $reference): bool
     {
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -43,13 +57,72 @@ class PaymentController extends Controller
         curl_close($curl);
         
         if ($err) {
-            return "error";
+            return false;
         } else {
             $results =  json_decode($response);
-            return $results->data->status;
+            $this->setPaymentChannel($results->data->channel);
+            return $results->data->status == 'success';
         }
     }
 
+    public function saveTransaction($typeId,$referenceId,$amount,$serviceFee,$discountFee,$currency,$type): string
+    {
+        (string) $message = "";
+        try {
+            DB::beginTransaction();
+            $trans = new Transaction;
+            $trans->user_id = Auth::user()->id;
+            if($type == 'extension_request'){
+                $trans->extension_id = $typeId;
+            }else{
+                $trans->booking_id = $typeId;
+            }
+            $trans->reference_id = $referenceId;
+            $trans->amount = $amount;
+            $trans->service_fee = $serviceFee;
+            $trans->discount_fee = $discountFee;
+            $trans->currency = $currency;
+            $trans->property_type = $type;
+            $trans->channel = $this->getPaymentChannel();
+            $trans->save();
+
+            if($type == 'hostel'){
+                $book = HostelBooking::findOrFail($trans->booking_id);
+                $book->status = 3;
+
+                $stay = new UserHostelVisit;
+                $stay->user_id = Auth::user()->id;
+                $stay->property_id = $book->property_id;
+                $stay->hostel_block_room_id = $book->hostelBlockRoomNumber->hostelBlockRoom->id;
+                $stay->hostel_block_room_number_id = $book->hostel_block_room_number_id;
+                $stay->check_in = $book->check_in;
+                $stay->check_out = $book->check_out;
+                $stay->save();
+                $book->update();
+            }else{
+                $book = Booking::findOrFail($trans->booking_id);
+                $book->status = 3;
+
+                $stay = new UserVisit;
+                $stay->user_id = Auth::user()->id;
+                $stay->property_id = $book->property_id;
+                $stay->check_in = $book->check_in;
+                $stay->check_out = $book->check_out;
+                $stay->adult = $book->adult;
+                $stay->children = $book->children;
+                $stay->infant = $book->infant;
+                $stay->save();
+                $book->update();
+            }
+            DB::commit();
+            $message = "success";
+        } catch (\Exception $e) {
+            DB::rollback();
+            $message = "catch";
+            // dd($e->getMessage());
+        }
+        return $message;
+    }
 
     public function verifyPayment(Request $request): string
     {
@@ -62,97 +135,27 @@ class PaymentController extends Controller
             $message = 'fail';
         }else{
             try {
-                $verificationStatus = $this->getVerificationStatus($request->reference_id);
-                if($verificationStatus == 'success'){
-                    // $message = route('')
+                (bool) $verificationStatus = $this->getVerificationStatus($request->reference_id);
+                if($verificationStatus){
+                    (string) $saveResponse = $this->saveTransaction($request->booking_id, $request->reference_id, $request->amount, $request->service_fee, $request->discount_fee, $request->currency, $request->type);
+                    $message = ($saveResponse == "success")? route('payment.success'):$saveResponse;
                 }else{
-
+                    $message = 'error';
                 }
             } catch (\Exception $e) {
-                $message = 'Your payment could not be verified. Check your email if payment you have received payment notification.';
+                $message = 'catch';
             }
         }
         return $message;
     }
 
-    public function saveTransaction($typeId,$orderId,$payId,$amount,$serviceFee,$discountFee,$currency,$mobileOperator,$phoneNumber,$type)
+    public function successTrasaction()
     {
-        $trans = new Transaction;
-        $trans->user_id = Auth::user()->id;
-        if($type == 'extension_request'){
-            $trans->extension_id = $typeId;
-        }else{
-            $trans->booking_id = $typeId;
+        $data['page_title'] = 'Payment successful';
+        $data['transaction'] = Auth::user()->userTransactions->sortByDesc('id')->first();
+        if(empty($data['transaction'])){
+            return view('errors.404', $data);
         }
-        $trans->transaction_id = $orderId;
-        $trans->payment_id = $payId;
-        $trans->amount = $amount;
-        $trans->service_fee = $serviceFee;
-        $trans->discount_fee = $discountFee;
-        $trans->currency = $currency;
-        $trans->operator = $mobileOperator;
-        $trans->phone = $phoneNumber;
-        $trans->property_type = $type;
-        $trans->type = "mobile";
-        $trans->save();
-    }
-    
-    // mobile payment
-    public function mobilePayment(Request $request)
-    {
-        $this->validate($request, [
-            'mobile_operator' => 'required|string',
-            'country_code' => 'required|string',
-            'mobile_number' => 'required|numeric',
-            'amount' => 'required|numeric',
-            'service_fee' => 'required|numeric',
-            'discount_fee' => 'required|numeric',
-            'currency' => 'required|string',
-        ]);
-                
-        try {
-            $invalidNumber = false;
-            $country_code = substr($request->country_code, 1);
-            if(substr($request->mobile_number, 0,1) == '0'){
-                if(strlen($request->mobile_number) == 10){
-                    $mobile_number = substr($request->mobile_number, 1);
-                }else{
-                    $invalidNumber = true;
-                }
-            }else{
-                if(strlen($request->mobile_number) == 9){
-                    $mobile_number = $request->mobile_number;
-                }else{
-                    $invalidNumber = true;
-                }
-            }
-            if($invalidNumber){
-                session()->flash('message', "Invalid phone number.");
-            }else{
-                $phoneNumber = $country_code.$mobile_number;
-                $orderId = $this->generateOrderID();
-                $payId = $this->generatePaymentID();
-                $payable = ($request->amount+$request->service_fee)-$request->discount_fee;
-
-                $sendPaymentRequest = $this->sendPaymentRequest($payable, $orderId, $request->mobile_operator,$phoneNumber);
-                if($sendPaymentRequest){
-                    $this->saveTransaction($request->booking_id,$orderId,$payId,$request->amount,$request->service_fee,$request->discount_fee,$request->currency,$request->mobile_operator,$phoneNumber,$request->type);
-                    return redirect()->route('payment.mobile.response', ['transactionId' => $orderId, 'user' => Auth::user()->id, 'operator' => strtolower($request->mobile_operator)]);
-                }else{
-                    session()->flash('message', "Couldn't send payment request. Try again.");
-                }
-            }
-        } catch (\Exception $e) {
-            session()->flash('message', 'Something went wrong.');
-        }    
-        
-        return redirect()->back();
-    }
-
-    public function mobileResponse($transactionId, User $user, $operator)
-    {
-        $data['page_title'] = 'Payment';
-        $data['transaction'] = Transaction::whereTransaction_id($transactionId)->whereUser_id($user->id)->whereStatus(0)->orderBy('id', 'Desc')->first();
         return view('user.requests.payment_response', $data);
     }
 
