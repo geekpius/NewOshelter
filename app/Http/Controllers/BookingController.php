@@ -26,8 +26,8 @@ class BookingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('verify-user')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability']);
-        $this->middleware('auth')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability']);
+        $this->middleware('verify-user')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
+        $this->middleware('auth')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
     }
 
     //get hostel room number base on room type
@@ -239,7 +239,7 @@ class BookingController extends Controller
                         
                         $phoneNumber = $request->phone_prefix.$request->phone_number;
                         $smsMessage = "Your Oshelter verification code is: ".$user->sms_verification_token.". Don't share this code with anyone not even our employees.";
-                        $sms = new SMS("VibTech-GH", $phoneNumber, $smsMessage);
+                        $sms = new SMS("OSHELTER", $phoneNumber, $smsMessage);
                         $resp = $sms->send();
                         $message='success';
                     }else{
@@ -248,7 +248,7 @@ class BookingController extends Controller
                         $user->update();
         
                         $smsMessage = "Your Oshelter verification code is: ".$user->sms_verification_token.". Don't share this code with anyone not even our employees.";
-                        $sms = new SMS("VibTech-GH", $phoneNumber, $smsMessage);
+                        $sms = new SMS("OSHELTER", $phoneNumber, $smsMessage);
                         $resp = $sms->send();
                         $message='success';
                     }

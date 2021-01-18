@@ -66,7 +66,7 @@
                             <input type="hidden" name="discount_fee" value="{{ $discountFee }}" readonly>
                             <input type="hidden" id="email-address" value="{{ Auth::user()->email }}" required readonly />
                             <input type="hidden" id="totalFee" value="{{ $totalFee }}" required readonly />
-                            <input type="hidden" id="referenceId" value="VT{{ \Carbon\Carbon::parse(now())->format('dmYHis') }}" required readonly />
+                            <input type="hidden" id="referenceId" value="VTB{{ \Carbon\Carbon::parse(now())->format('dmYHis') }}" required readonly />
                             <div class="form-submit">
                               <button type="submit" onclick="payWithPaystack()" class="btn btn-primary pl-5 pr-5 font-weight-600" id="paymentButton">
                                   PAY NOW {{ $currency }} {{ number_format(($totalFee),2) }}
@@ -146,7 +146,7 @@
                             <input type="hidden" name="discount_fee" value="{{ $discountFee }}" readonly>
                             <input type="hidden" id="email-address" value="{{ Auth::user()->email }}" required readonly />
                             <input type="hidden" id="totalFee" value="{{ $totalFee }}" required readonly />
-                            <input type="hidden" id="referenceId" value="VT{{ \Carbon\Carbon::parse(now())->format('dmYHis') }}" required readonly />
+                            <input type="hidden" id="referenceId" value="VTB{{ \Carbon\Carbon::parse(now())->format('dmYHis') }}" required readonly />
                             <div class="form-submit">
                               <button type="submit" onclick="payWithPaystack()" class="btn btn-primary pl-5 pr-5 font-weight-600" id="paymentButton">
                                   PAY NOW {{ $currency }} {{ number_format(($totalFee),2) }}

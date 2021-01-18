@@ -3,8 +3,6 @@
 @section('style') 
 <!-- DataTables -->
 <link href="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
-{{-- date range --}}
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 @section('content')
 <div class="pxp-content pull-content-down">
@@ -63,7 +61,7 @@
                                             </td>
                                             <td>
                                                 @if ($visit->isInAttribute())
-                                                <a href="/user/visits/past/extend" class="btnExtend mr-2 text-decoration-none" data-duration="{{ $visit->hostelBlockRoom->propertyHostelPrice->payment_duration }}" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
+                                                <a href="/user/visits/past/extend" class="btnExtend mr-2 text-decoration-none" data-duration="{{ $visit->hostelBlockRoom->propertyHostelPrice->payment_duration }}" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
                                                     <i class="fas fa-clock text-purple font-16"></i>
                                                 </a>
                                                 @endif
@@ -94,16 +92,25 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <form id="formExtend" action="{{ route('visits.past.extend') }}">
+                <form id="formHostelExtend" action="{{ route('visits.past.extend') }}" style="display: none">
                     @csrf
-                    <input type="hidden" name="visit_id" id="visit_id" readonly>
-                    <input type="hidden" name="checkin" id="checkin" readonly>
-                    <input type="hidden" name="type" id="type" readonly>
-                    <input type="hidden" name="owner" id="owner" readonly>
-                    <input type="hidden" name="duration" id="duration" value="0" readonly>
+                    <input type="hidden" name="visit_id" readonly>
+                    <input type="hidden" name="checkin" readonly>
+                    <input type="hidden" name="type" readonly>
+                    <input type="hidden" name="status" readonly>
+                    <input type="hidden" name="owner" readonly>
+                    <input type="hidden" name="duration" value="0" readonly>
                     <div class="form-group validate">
                         <label for="extended_date">Extended Date</label>
-                        <input type="text" class="form-control" name="extended_date" id="extended_date" title="Select date" />
+                        <select name="extended_date" class="form-control">
+                            <option value="">--Select rent duration--</option>
+                            <option value="3">3 months</option>
+                            <option value="4">4 months</option>
+                            <option value="6">6 months</option>
+                            <option value="8">8 months</option>
+                            <option value="9">9 months</option>
+                            <option value="12">1 year</option>
+                        </select>
                         <span class="text-danger mySpan"></span>
                     </div>
                     <div class="form-group text-right">
@@ -119,8 +126,5 @@
 @section('scripts')
 <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
-{{-- date range --}}
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="{{ asset('assets/pages/visits/past_hostel.js') }}"></script>
+<script src="{{ asset('assets/pages/visits/past.js') }}"></script>
 @endsection

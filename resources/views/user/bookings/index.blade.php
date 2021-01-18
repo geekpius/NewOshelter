@@ -605,9 +605,9 @@
                                         <div class="col-sm-8">
                                             <h4>{{ $property->title }}</h4>
                                             @if(strtolower($property->type) === 'house' && strtolower($property->base) === 'house')
-                                            <p>{{ ucfirst($property->type) }}</p>
+                                            <p>{{ ucwords(str_replace('_',' ',$property->type)) }}</p>
                                             @else
-                                            <p>{{ ucfirst($property->type) }} in {{ strtolower($property->base) }}</p>
+                                            <p>{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</p>
                                             @endif
                                             <p>
                                                 <i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b>

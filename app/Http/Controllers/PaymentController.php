@@ -99,6 +99,16 @@ class PaymentController extends Controller
                 $stay->check_out = $book->check_out;
                 $stay->save();
                 $book->update();
+            }
+            elseif($type == 'extension_request'){
+                $extend = UserExtensionRequest::findOrFail($trans->extension_id);
+                $extend->is_confirm = 3;
+                if($extend->type == 'hostel'){
+                    $extend->hostelVisit()->update(['check_out'=> $extend->extension_date]);
+                }else{
+                    $extend->visit()->update(['check_out'=> $extend->extension_date]);
+                }
+                $extend->update();
             }else{
                 $book = Booking::findOrFail($trans->booking_id);
                 $book->status = 3;
@@ -152,7 +162,7 @@ class PaymentController extends Controller
     public function successTrasaction()
     {
         $data['page_title'] = 'Payment successful';
-        $data['transaction'] = Auth::user()->userTransactions->sortByDesc('id')->first();
+        $data['transaction'] = Auth::user()->transactions->sortByDesc('id')->first();
         if(empty($data['transaction'])){
             return view('errors.404', $data);
         }

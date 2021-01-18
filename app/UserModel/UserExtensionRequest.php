@@ -7,6 +7,7 @@ use App\User;
 use App\UserModel\UserVisit;
 use App\UserModel\UserHostelVisit;
 use App\UserModel\UserExtensionRequest;
+use App\PaymentModel\Transaction;
 use Illuminate\Support\Str;
 class UserExtensionRequest extends Model
 {
@@ -41,6 +42,10 @@ class UserExtensionRequest extends Model
 
     public function owner(){
         return $this->belongsTo(User::class, 'owner_id');
+    }
+    
+    public function transactions(){
+        return $this->hasMany(Transaction::class);
     }
 
 

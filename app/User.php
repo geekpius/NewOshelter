@@ -177,7 +177,7 @@ class User extends Authenticatable
         return $this->hasMany(HostelBooking::class);
     }
 
-    public function userTransactions(){
+    public function transactions(){
         return $this->hasMany(Transaction::class);
     }
 

@@ -568,6 +568,9 @@ class PropertyController extends Controller
                 $property->done_step = true;
                 $property->update();
 
+                if(Session::get("edit")){
+                    Session::forget("edit");
+                }
                 return redirect()->route('single.property', $property->id);
             }
         }else{
@@ -689,6 +692,10 @@ class PropertyController extends Controller
                 $property->publish = true;
                 $property->done_step = true;
                 $property->update();
+
+                if(Session::get("edit")){
+                    Session::forget("edit");
+                }
     
                 return redirect()->route('single.property', $property->id);
             }
@@ -720,6 +727,9 @@ class PropertyController extends Controller
         $property->step = 9;
         $property->done_step = true;
         $property->update();
+        if(Session::get("edit")){
+            Session::forget("edit");
+        }
         return redirect()->route('single.property', $property->id);
     }
 

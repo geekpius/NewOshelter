@@ -89,6 +89,7 @@
     </div>    
 </div>
 
+
 <!-- withdraw modal -->
 <div id="extendModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="extendModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
@@ -98,29 +99,52 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <form id="formExtend" action="{{ route('visits.past.extend') }}">
+                <form id="formShortStayExtend" action="{{ route('visits.past.extend') }}" style="display: none">
                     @csrf
-                    <input type="hidden" name="visit_id" id="visit_id" readonly>
-                    <input type="hidden" name="checkin" id="checkin" readonly>
-                    <input type="hidden" name="type" id="type" readonly>
-                    <input type="hidden" name="status" id="status" readonly>
-                    <input type="hidden" name="owner" id="owner" readonly>
-                    <input type="hidden" name="min_stay" id="min_stay" value="0" readonly>
-                    <input type="hidden" name="max_stay" id="max_stay" value="0" readonly>
-                    <input type="hidden" name="duration" id="duration" value="0" readonly>
+                    <input type="hidden" name="visit_id" readonly>
+                    <input type="hidden" name="checkin" readonly>
+                    <input type="hidden" name="type" readonly>
+                    <input type="hidden" name="status" readonly>
+                    <input type="hidden" name="owner" readonly>
+                    <input type="hidden" name="min_stay" value="0" readonly>
+                    <input type="hidden" name="max_stay" value="0" readonly>
                     <div class="form-group validate">
                         <label for="extended_date">Extended Date</label>
-                        <input type="text" class="form-control" name="extended_date" id="extended_date" title="Select date" />
+                        <input type="text" class="form-control" name="extended_date" title="Select date" />
                         <span class="text-danger mySpan"></span>
                     </div>
                     <div class="form-group text-right">
                         <button type="submit" class="btn btn-success btnExtendSubmit">Submit</button>
                     </div>
-                </form>                    
+                </form> 
+
+                <form id="formRentExtend" action="{{ route('visits.past.extend') }}" style="display: none">
+                    @csrf
+                    <input type="hidden" name="visit_id" readonly>
+                    <input type="hidden" name="checkin" readonly>
+                    <input type="hidden" name="type" readonly>
+                    <input type="hidden" name="status" readonly>
+                    <input type="hidden" name="owner" readonly>
+                    <input type="hidden" name="duration" value="0" readonly>
+                    <div class="form-group validate">
+                        <label for="extended_date">Extended Date</label>
+                        <select name="extended_date" class="form-control">
+                            <option value="">--Select rent duration--</option>
+                            <option value="6">6 months</option>
+                            <option value="12">1 year</option>
+                            <option value="24">2 years</option>
+                        </select>
+                        <span class="text-danger mySpan"></span>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-success btnExtendSubmit">Submit</button>
+                    </div>
+                </form>                     
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->  
+</div><!-- /.modal -->   
 @endsection
 
 @section('scripts')

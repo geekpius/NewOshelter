@@ -38,7 +38,7 @@ class Transaction extends Model
         return $this->belongsTo(HostelBooking::class, 'booking_id');
     }
 
-    public function extensionRequest(){
+    public function userExtensionRequest(){
         return $this->belongsTo(UserExtensionRequest::class, 'extension_id');
     }
 

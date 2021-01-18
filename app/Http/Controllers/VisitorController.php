@@ -76,13 +76,32 @@ class VisitorController extends Controller
         return view('admin.requests.date_extension', $data);
     }
 
-    public function extendStay(Request $request)
+
+    private function extractExtensionDateFromRequest(string $type, string $status, string $checkIn, string $extendDate)
+    {
+        if($type == 'hostel'){
+            $checkin = \Carbon\Carbon::createFromFormat("m-d-Y", $checkIn);
+            $extensionDate = $checkin->addMonths((int) $extendDate)->format('Y-m-d');
+        }else{
+            if($status == 'rent'){
+                $checkin = \Carbon\Carbon::createFromFormat("m-d-Y", $checkIn);
+                $extensionDate = $checkin->addMonths((int) $extendDate)->format('Y-m-d');
+            }elseif($status == 'short_stay'){
+                $extensionDate = Carbon::parse($extendDate)->format('Y-m-d');
+            }
+        }
+
+        return $extensionDate;
+    }
+
+    public function extendStay(Request $request): string
     {
         $validator = \Validator::make($request->all(), [
             'extended_date' => 'required|string',
             'visit_id' => 'required|string',
             'owner' => 'required|string',
             'type' => 'required|string',
+            'status' => 'required|string',
         ]);
         (string) $message= '';
         if ($validator->fails()){
@@ -96,11 +115,12 @@ class VisitorController extends Controller
                 $extension->user_id = Auth::user()->id;
                 $extension->visit_id = $request->visit_id;
                 $extension->owner_id = $request->owner;
-                $extension->extension_date = Carbon::parse($request->extended_date)->format('Y-m-d');
+                $extensionDate = $this->extractExtensionDateFromRequest($request->type, $request->status, $request->checkin, $request->extended_date);
+                $extension->extension_date = $extensionDate;
                 $extension->type = $request->type;
                 $extension->save();
                 $message="success";
-                 //emailing
+                //emailing
                 if($extension->type == 'hostel'){
                     $data = array(
                         "property" => $extension->hostelVisit->property->title,
@@ -139,26 +159,31 @@ class VisitorController extends Controller
     public function confirmExtendStay(UserExtensionRequest $userExtensionRequest)
     {
         if(Auth::user()->id == $userExtensionRequest->owner_id){
-            $message = '';
-            if($userExtensionRequest->is_confirm == 1){
-                $userExtensionRequest->is_confirm = 2;
-                $userExtensionRequest->update();
-                $message = 'success';
-                
-                $email = ($userExtensionRequest->type == 'hostel')? $userExtensionRequest->hostelVisit->user->email:$userExtensionRequest->visit->user->email;
-                $property = ($userExtensionRequest->type == 'hostel')? $userExtensionRequest->hostelVisit->property->title:$userExtensionRequest->visit->property->title;
-                $name = ($userExtensionRequest->type == 'hostel')? $userExtensionRequest->hostelVisit->user->name:$userExtensionRequest->visit->user->name;
-                
-                $data = array(
-                    "title" => "EXTENSION CONFIRMATION",
-                    "property" => $property,
-                    "link" => route('requests.extension.payment', $userExtensionRequest->id),
-                    "status" => "confirmed",
-                    "name" => current(explode(' ',$name)),
-                    "owner" => current(explode(' ',Auth::user()->name)),
-                );
-                Mail::to($email)->send(new EmailSender($data, 'Extension Response', 'emails.extension_response'));
+            try {
+                (string) $message = '';
+                if($userExtensionRequest->is_confirm == 1){
+                    $userExtensionRequest->is_confirm = 2;
+                    $userExtensionRequest->update();
+                    $message = 'success';
+                    
+                    $email = ($userExtensionRequest->type == 'hostel')? $userExtensionRequest->hostelVisit->user->email:$userExtensionRequest->visit->user->email;
+                    $property = ($userExtensionRequest->type == 'hostel')? $userExtensionRequest->hostelVisit->property->title:$userExtensionRequest->visit->property->title;
+                    $name = ($userExtensionRequest->type == 'hostel')? $userExtensionRequest->hostelVisit->user->name:$userExtensionRequest->visit->user->name;
+                    
+                    $data = array(
+                        "title" => "EXTENSION CONFIRMATION",
+                        "property" => $property,
+                        "link" => route('requests.extension.payment', $userExtensionRequest->id),
+                        "status" => "confirmed",
+                        "name" => current(explode(' ',$name)),
+                        "owner" => current(explode(' ',Auth::user()->name)),
+                    );
+                    Mail::to($email)->send(new EmailSender($data, 'Extension Response', 'emails.extension_response'));
+                }
+            } catch (\Exception $e) {
+                $message = "Confirmation failed";
             }
+
             return $message;
         }else{
             return view('errors.404');
@@ -168,7 +193,7 @@ class VisitorController extends Controller
     public function cancelExtendStay(UserExtensionRequest $userExtensionRequest)
     {
         if(Auth::user()->id == $userExtensionRequest->owner_id){
-            $message = '';
+            (string) $message = '';
             if($userExtensionRequest->is_confirm == 1){
                 $userExtensionRequest->is_confirm = 0;
                 $userExtensionRequest->update();
@@ -186,7 +211,6 @@ class VisitorController extends Controller
             if($userExtensionRequest->is_confirm == 2){
                 $data['page_title'] = 'Extension payment requests';
                 $data['extension'] = $userExtensionRequest;
-                $data['charge'] = ServiceCharge::whereProperty_type($userExtensionRequest->visit->property->type)->first();
                 return view('user.requests.extension_payment', $data);
             }else{
                 return view('errors.404');

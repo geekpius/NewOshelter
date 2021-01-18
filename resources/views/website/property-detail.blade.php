@@ -97,50 +97,51 @@
                     <h3>Key Details</h3>
                 
                     <!-- Contained amenities -->
-                    <p><i class="fa fa-home text-success"></i> <b>{{  ucwords(str_replace('_',' ',$property->type))  }} in {{  strtolower($property->base)  }} </b> </p>   
+                    @if(strtolower($property->type) === 'house' && strtolower($property->base) === 'house')
+                    <p><i class="fa fa-home text-success"></i> <b>{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
+                    @else
+                    <p><i class="fa fa-home text-success"></i> <b>{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
+                    @endif
+
                     @if ($property->type=='hostel')
                         @if (count($property->propertyHostelBlockRooms))
-                            <div style="position: relative;  height: 460px; overflow-y:scroll; overflow-x:hidden;">
-                                <div class="activity">
-                                @foreach ($property->propertyHostelBlockRooms as $block)
-                                    <div class="parentDiv">
-                                        <div class="time-item">
-                                            <div class="item-info">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <h6 class="m-0"><i class="fa fa-arrow-right font-14"></i> {{ $block->propertyHostelBlock->block_name }}</h6>
-                                                </div>
-                                                <p class="mt-2">
-                                                <span class="text-primary">{{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms for {{ $block->person_per_room }} person per room. 
-                                                </p>
-                                                <div>
-                                                    <span class="badge badge-soft-primary">{{$block->bed_person}} <i class="fa fa-bed" title="Bed per room"></i> </span>                                                  
-                                                    @if($block->kitchen==0)
-                                                    <span class="badge badge-soft-primary">0  <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="No Kitchen"></span>                                                
-                                                    @elseif($block->kitchen==1)
-                                                    <span class="badge badge-soft-primary">Private <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Private Kitchen"></span> 
-                                                    @else
-                                                    <span class="badge badge-soft-primary">Shared <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Shared Kitchen"></span> 
-                                                    @endif        
-                                                    <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }}  <i class="fas fa-bath"></i></span>                                          
-                                                    <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} <i class="fas fa-toilet"></i></span>                              
-                                                </div>
-                                                <div class="mt-3">
-                                                    <h6><strong>Amenities</strong></h6>
-                                                    @if(count($block->hostelRoomAmenities))
-                                                        @foreach ($block->hostelRoomAmenities as $amenity)
-                                                        <span class="mr-4 font-12"><span class="fa fa-check-square text-success"></span>  {{ $amenity->name }}</span> 
-                                                        @endforeach   
-                                                    @else
-                                                        <p class="text-danger">No amenity reported</p>
-                                                    @endif  
-                                                </div>    
-                                                <hr>    
-                                            </div>
-                                        </div> 
-                                    </div>   
-                                @endforeach                                                                                                                                
-                                </div>
-                            </div>        
+                        <div class="row">
+                            @foreach ($property->propertyHostelBlockRooms as $block)
+                                <div class="col-md-6 mb-3">
+                                    <div class="pro-order-box">
+                                        <h4 class="header-title text-primary">
+                                            <i class="fa fa-home text-success font-12"></i>
+                                            {{ $block->propertyHostelBlock->block_name }}
+                                        </h4>
+                                        <div class="">
+                                            <span class="text-primary">{{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms for {{ $block->person_per_room }} person per room. 
+                                            <br>
+                                            <span class="badge badge-soft-primary">{{$block->bed_person}} <i class="fa fa-bed" title="Bed per room"></i> </span>                                                  
+                                            @if($block->kitchen==0)
+                                            <span class="badge badge-soft-primary">0  <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="No Kitchen"></span>                                                
+                                            @elseif($block->kitchen==1)
+                                            <span class="badge badge-soft-primary">Private <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Private Kitchen"></span> 
+                                            @else
+                                            <span class="badge badge-soft-primary">Shared <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Shared Kitchen"></span> 
+                                            @endif        
+                                            <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }}  <i class="fas fa-bath"></i></span>                                          
+                                            <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} <i class="fas fa-toilet"></i></span>                              
+                                        </div>
+                                        <div><hr></div>
+                                        <div class="">
+                                            <h6><strong>Amenities</strong></h6>
+                                            @if(count($block->hostelRoomAmenities))
+                                                @foreach ($block->hostelRoomAmenities as $amenity)
+                                                <span class="mr-4 font-12"><span class="fa fa-check-square text-success"></span>  {{ $amenity->name }}</span> 
+                                                @endforeach   
+                                            @else
+                                                <p class="text-danger">No amenity reported</p>
+                                            @endif  
+                                        </div>    
+                                    </div>
+                                </div>  
+                            @endforeach  
+                        </div>
                         @endif  
                     @else
                         <span>{{ $property->propertyContain->bedroom }}&nbsp;<i class="fa fa-home" title="Bedroom"></i></span>
@@ -214,7 +215,7 @@
                     <!-- Vacancies -->
                     @if ($property->type=='hostel')
                         <p>
-                            <i class="fa fa-square font-12"></i> You will get to know your room mate when booking is confirmed.
+                            <i class="fa fa-dot-circle font-12"></i> You will get to know your room mate when booking is confirmed.
                         </p>
                         <div class="row">
                             @if (count($property->propertyHostelBlockRooms))
