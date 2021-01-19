@@ -8,6 +8,7 @@ use App\BookModel\Booking;
 use App\BookModel\HostelBooking;
 use App\UserModel\UserExtensionRequest;
 use App\UserModel\UserVisit;
+use App\UserModel\UserWallet;
 use App\UserModel\UserHostelVisit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -124,6 +125,7 @@ class PaymentController extends Controller
                 $stay->save();
                 $book->update();
             }
+            
             DB::commit();
             $message = "success";
         } catch (\Exception $e) {

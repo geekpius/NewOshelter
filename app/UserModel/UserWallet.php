@@ -16,6 +16,14 @@ class UserWallet extends Model
         'user_id', 'balance', 'currency',
     ];
 
+
+    /************* PROPERTIES **************/ 
+    public function getBalanceAmount(): string
+    {
+        return $this->currency." ".$this->balance;
+    }
+
+    /************* RELATIONSHIPS **************/ 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }

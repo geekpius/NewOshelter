@@ -249,6 +249,13 @@ class WebsiteController extends Controller
         return view('website.hostevent', $data);
     }
     
+ 
+    public function help()
+    {
+        $data['page_title'] = 'Oshelter help center';
+        return view('website.help.index', $data);
+    }
+     
     //owner help page
     public function ownerHelp()
     {

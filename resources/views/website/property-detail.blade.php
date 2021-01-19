@@ -79,7 +79,7 @@
             <div class="col-sm-12">
                 <!-- Title and Location -->
                 <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                    <img src="{{ (empty($property->user->image))? asset('assets/images/user.jpg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->membership }}" class="thumb-lg rounded-circle" /> 
+                    <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
                     <p>{{ current(explode(' ',$property->user->name)) }}</p>
                 </div>
                 <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
@@ -436,7 +436,7 @@
                 <div class="pxp-single-property-section">
                     <!-- Contact -->
                     <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                        <img src="{{ (empty($property->user->image))? asset('assets/images/user.jpg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->membership }}" class="thumb-lg rounded-circle" /> 
+                        <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
                     </div>
                     <h4><b>Owned by {{ current(explode(' ',$property->user->name)) }}</b></h4>                           
                     <p>{{ empty($property->user->profile->city)? 'City':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>                           

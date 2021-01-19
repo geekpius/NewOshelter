@@ -116,6 +116,7 @@
                                 <a class="dropdown-item" href="{{ route('property.add') }}"><span class="fa fa-home"></span> List a property</a>
                                 <a class="dropdown-item" href="{{ route('account') }}"><span class="fa fa-user-circle"></span> Account</a>
                                 <hr>
+                                <a class="dropdown-item" href="{{ route('help') }}"><span class="fa fa-question-circle"></span> Help</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i> Log out</a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
@@ -126,6 +127,8 @@
                                 <a class="dropdown-item" href="{{ route('register') }}"><span class="fa fa-user-circle"></span> Sign up</a>
                                 <hr>
                                 <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> List a property</a>
+                                <hr>
+                                <a class="dropdown-item" href="{{ route('help') }}"><span class="fa fa-question-circle"></span> Help</a>
                                 @endguest
                             </div>
                         </div>

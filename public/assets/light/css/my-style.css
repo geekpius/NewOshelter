@@ -632,6 +632,15 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   display: inline-block;
 }
 
+/********* HELP *********/
+.help-card-tiles {
+  display: inline;
+}
+
+.help-card-tiles-responsive {
+  display: none;
+}
+
 
 /* MEDIA QUERIES */
 
@@ -643,6 +652,7 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     font-size: 10px !important;
   }
 }
+
 @media screen and (min-width: 1440px){
   .font-12-lg-laptop {
     font-size: 12px !important;
@@ -715,6 +725,16 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   }
 
   .contact-us-heading {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 576px){
+  .help-card-tiles-responsive {
+    display: inline;
+  }
+
+  .help-card-tiles {
     display: none;
   }
 }

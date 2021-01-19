@@ -30,6 +30,7 @@ Route::group(['middleware' => ['verify-email']], function() {
     Route::get('/map-property-types', 'WebsiteController@mapPropertyType')->name('browse.property_types_map');
 
     Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
+    Route::get('/help', 'WebsiteController@help')->name('help');
     Route::get('/help/property-owners', 'WebsiteController@ownerHelp')->name('help.owner');
     Route::get('/help/booking-and-travellers', 'WebsiteController@bookingHelp')->name('help.booking');
     Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
