@@ -84,6 +84,7 @@ return array(
     'App\\User' => $baseDir . '/app/User.php',
     'App\\UserModel\\AccountReactivate' => $baseDir . '/app/UserModel/AccountReactivate.php',
     'App\\UserModel\\Amenity' => $baseDir . '/app/UserModel/Amenity.php',
+    'App\\UserModel\\Currency' => $baseDir . '/app/UserModel/Currency.php',
     'App\\UserModel\\DeactivateUser' => $baseDir . '/app/UserModel/DeactivateUser.php',
     'App\\UserModel\\UserActivity' => $baseDir . '/app/UserModel/UserActivity.php',
     'App\\UserModel\\UserExtensionRequest' => $baseDir . '/app/UserModel/UserExtensionRequest.php',

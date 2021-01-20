@@ -484,6 +484,7 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\UserModel\\AccountReactivate' => __DIR__ . '/../..' . '/app/UserModel/AccountReactivate.php',
         'App\\UserModel\\Amenity' => __DIR__ . '/../..' . '/app/UserModel/Amenity.php',
+        'App\\UserModel\\Currency' => __DIR__ . '/../..' . '/app/UserModel/Currency.php',
         'App\\UserModel\\DeactivateUser' => __DIR__ . '/../..' . '/app/UserModel/DeactivateUser.php',
         'App\\UserModel\\UserActivity' => __DIR__ . '/../..' . '/app/UserModel/UserActivity.php',
         'App\\UserModel\\UserExtensionRequest' => __DIR__ . '/../..' . '/app/UserModel/UserExtensionRequest.php',

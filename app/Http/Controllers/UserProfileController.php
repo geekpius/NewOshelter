@@ -7,6 +7,7 @@ use Image;
 use App\User;
 use Illuminate\Http\Request;
 use App\UserModel\UserProfile;
+use App\UserModel\Currency;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -151,17 +152,39 @@ class UserProfileController extends Controller
         return view('user.account.payments', $data);
     }
 
+    public function changeCurrency(Request $request): string
+    {
+        $validator = \Validator::make($request->all(), [
+            'currency' => 'required|string',
+        ]);
+
+        (string) $message = "";
+        if ($validator->fails()){
+            $message = 'fail';
+        }else{
+            $currency = Currency::updateOrCreate(
+                ['user_id'=>Auth::user()->id],
+                ['currency'=>$request->currency]
+            );
+            $message = $currency->getCurrencyName();
+        }
+
+        return $message;
+    }
+
     public function notificationView()
     {
         $data['page_title'] = 'Notifications';
         return view('user.account.notifications', $data);
     }
 
-    public function uploadFrontCard(Request $request)
+    public function uploadFrontCard(Request $request): string
     {    
         $validator = \Validator::make($request->all(), [
             'front_file' => 'required|image|mimes:jpg,png,jpeg|max:1024',
         ]);
+
+        (string) $message = "";
         if ($validator->fails()){
             $message = 'fail';
         }else{
@@ -202,11 +225,14 @@ class UserProfileController extends Controller
              
     }
 
-    public function uploadBackCard(Request $request)
+    public function uploadBackCard(Request $request): string
     {    
         $validator = \Validator::make($request->all(), [
             'back_file' => 'required|image|mimes:jpg,png,jpeg|max:1024',
         ]);
+
+        (string) $message = "";
+
         if ($validator->fails()){
             $message = 'fail';
         }else{

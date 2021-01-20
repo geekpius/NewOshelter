@@ -58,7 +58,7 @@
                         <div class="card-body">
                             <i class="fa fa-money text-primary account-icon"></i>
                             <a href="{{ route('account.payments') }}" class="text-decoration-none text-light-dark">
-                                <p class="font-18 font-weight-bold">Payments ></p>
+                                <p class="font-18 font-weight-bold">Payments and Currency ></p>
                             </a>
                             <p class="font-13 account-details">Check out payments, payout and claim coupons, and gift cards.</p>
                         </div>
@@ -95,11 +95,8 @@
                 <div class="col-sm-12"><hr></div>
                 <div class="col-sm-12">
                     <p class="text-muted font-12">Support</p>
-                    <a href="#" class="text-decoration-none text-light-dark">
+                    <a href="{{ route('help') }}" class="text-decoration-none text-light-dark">
                         <p class="font-16 font-weight-bold"><i class="fa fa-question-circle"></i> Help</p>
-                    </a>
-                    <a href="#" class="text-decoration-none text-light-dark">
-                        <p class="font-16 font-weight-bold"><i class="fa fa-support"></i> Support Ticket</p>
                     </a>
                 </div>
                 <div class="col-sm-12"><hr></div>

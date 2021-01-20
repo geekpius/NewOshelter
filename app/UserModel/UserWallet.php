@@ -4,7 +4,6 @@ namespace App\UserModel;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use App\UserModel\UserWalletTransaction;
 
 class UserWallet extends Model
 {
@@ -13,7 +12,7 @@ class UserWallet extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id', 'balance', 'currency',
+        'user_id', 'balance', 'currency', 'is_cash_out',
     ];
 
 
@@ -23,15 +22,19 @@ class UserWallet extends Model
         return $this->currency." ".$this->balance;
     }
 
+    public function getStatus(): string
+    {
+        if($this->is_cash_out){
+            return "Cashed Out";
+        }else{
+            return "Cashed In";
+        }
+    }
+
     /************* RELATIONSHIPS **************/ 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
-
-    public function userWalletTransactions(){
-        return $this->hasMany(UserWalletTransaction::class);
-    }
-
 
 
 }

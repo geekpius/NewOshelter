@@ -17,30 +17,43 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <p>
-                                        <strong class="text-primary">Make all payments through OShelter</strong><br>
+                                        <strong>Make all payments through OShelter</strong><br>
                                         Always pay and communicate through OShelter to ensure you're protected under our Terms of Service, 
                                         Payments Terms of Service, cancellation, and other safeguards. <a href="javascript:void(0);" class="text-primary">Learn more</a>
                                     </p>
                                     <p>
-                                        <strong class="text-primary">Payout</strong><br>
+                                        <strong>Payout</strong><br>
                                         When you receive a payment for a reservation, we call that payment to you a "payout." Our secure payment system 
                                         supports several payment methods. <br>
-                                        To get paid, you need to set up a payment method OShelter releases payouts about 24 hours after a guest’s scheduled 
+                                        To get paid, you need to <a href="#">request for payout</a>. OShelter releases payouts about 24-48 hours after a visitor's scheduled 
                                         check-in time. The time it takes for the funds to appear in your account depends on your payment method. <a href="javascript:void(0);" class="text-primary">Learn more</a>
                                     </p>
                                 </div>
                                 
                                 <div class="col-sm-6">
-                                    <h5 class="text-primary mb-3">Payments</h5>
-                                    <div class="">
-                                        <strong>Payment methods</strong><br>
-                                        <p>OShelter do not store your payment details on our system. You only enter payment details when making a 
-                                            transaction. It is a way of sure that your payment info is protected and only you knows. All our transactions 
-                                            are heavily encrypted which makes you save and secure. Start planning your next trip.</p>
-
-                                        {{-- <button class="btn btn-primary btn-sm text-light px-4" data-toggle="modal" data-target="#PaymentMethodModal"><i class="fa fa-plus-circle"></i> Payment Method</button> --}}
+                                    <strong>Payment methods</strong><br>
+                                    <p>OShelter do not store your payment details on our system. You only enter payment details when making a 
+                                        transaction. It is a way to make sure that your payment info is protected and only you knows. All our transactions 
+                                        are heavily encrypted which makes you save and secure. <a href="{{ route('property.add') }}">Start planning your next visit</a>.
+                                    </p>
+                                    <hr>
+                                    <div>
+                                        <span class="font-14 float-right"><a href="#" class="text-decoration-none btn-edit">Edit</a></span>
+                                        <p class="font-weight-bold font-14">Choosen currency</p>
+                                        <p class="font-14" id="choosenCurrency">{{ Auth::user()->currency->getCurrencyName() }}</p>
+                                        <form id="formCurrency" style="display: none" data-url="{{ route('account.payments.currency') }}">
+                                            <div class="form-group validate">
+                                                <select name="currency" class="form-control" data-currency="{{ Auth::user()->currency->currency }}">
+                                                    <option value="GHS">Ghana Cedis</option>    
+                                                    <option value="USD">United State Dollar</option>    
+                                                </select>                                 
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-primary btn-sm px-4">Save</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    
+                                        
                                     {{-- <div class="">
                                         <strong class="">Coupons</strong><br>
                                         <p>Add a coupon and save on your next trip.</p>

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\UserModel\UserLogin;
 use App\UserModel\UserVisit;
 use App\UserModel\UserHostelVisit;
+use App\UserModel\Currency;
 use App\BookModel\Booking;
 use App\BookModel\HostelBooking;
 use App\UserModel\UserTicket;
@@ -150,7 +151,7 @@ class User extends Authenticatable
     }
 
     public function userWallet(){
-        return $this->hasOne(UserWallet::class);
+        return $this->hasMany(UserWallet::class);
     }
 
     public function userTickets(){
@@ -179,6 +180,10 @@ class User extends Authenticatable
 
     public function transactions(){
         return $this->hasMany(Transaction::class);
+    }
+
+    public function currency(){
+        return $this->hasOne(Currency::class);
     }
 
 

@@ -184,6 +184,47 @@ $("#formChangePassword input").on('input', function(){
     }else{ $(this).parents('.validate').find('span:last').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
 });
 
+//currency
+$(".btn-edit").on("click", function(e){
+    e.preventDefault();
+    if($(this).text() == 'Edit'){
+        $("#choosenCurrency").hide('fast');
+        $("#formCurrency").show("fast");
+        $(this).text("Cancel");
+    }else{
+        $("#formCurrency").hide("fast");
+        $("#choosenCurrency").show('fast');
+        $(this).text("Edit");
+    }
+    return false;
+});
+
+
+$("#formCurrency").on("submit", function(e){
+    e.preventDefault();
+    var $this = $(this);
+    let data = $this.serialize();
+    $.ajax({
+        url: $this.data("url"),
+        type: "POST",
+        data: data,
+        success: function(resp){
+            if(resp == "fail"){
+                console.log("Validation failed");
+            }else{
+                $("#choosenCurrency").text(resp);
+                $(".btn-edit").trigger("click");
+            }
+        },
+        error: function(resp){
+            console.log("Something went wrong");
+        }
+    })
+    return false;
+});
+
+
+$("#formCurrency select[name='currency']").val($("#formCurrency select[name='currency']").data('currency'));
 
 // //coupon
 // $(".btnAddCoupon").on("click", function(e){

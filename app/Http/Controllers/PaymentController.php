@@ -125,13 +125,16 @@ class PaymentController extends Controller
                 $stay->save();
                 $book->update();
             }
-            
+
+            $wallet = new UserWallet;
+            $wallet->balance = $amount;
+            $wallet->currency = $currency;
+            $wallet->save();
             DB::commit();
             $message = "success";
         } catch (\Exception $e) {
             DB::rollback();
             $message = "catch";
-            // dd($e->getMessage());
         }
         return $message;
     }
