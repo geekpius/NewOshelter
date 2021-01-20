@@ -40,10 +40,10 @@
                                     <div>
                                         <span class="font-14 float-right"><a href="#" class="text-decoration-none btn-edit">Edit</a></span>
                                         <p class="font-weight-bold font-14">Choosen currency</p>
-                                        <p class="font-14" id="choosenCurrency">{{ Auth::user()->currency->getCurrencyName() }}</p>
+                                        <p class="font-14" id="choosenCurrency">{{ Auth::user()->currency? Auth::user()->currency->getCurrencyName():'Ghana Cedis' }}</p>
                                         <form id="formCurrency" style="display: none" data-url="{{ route('account.payments.currency') }}">
                                             <div class="form-group validate">
-                                                <select name="currency" class="form-control" data-currency="{{ Auth::user()->currency->currency }}">
+                                                <select name="currency" class="form-control" data-currency="{{ Auth::user()->currency? Auth::user()->currency->currency:'GHS' }}">
                                                     <option value="GHS">Ghana Cedis</option>    
                                                     <option value="USD">United State Dollar</option>    
                                                 </select>                                 

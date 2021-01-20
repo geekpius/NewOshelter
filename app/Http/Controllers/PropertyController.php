@@ -26,6 +26,7 @@ use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoomNumber;
 use App\PropertyModel\PropertySharedAmenity;
 use App\PropertyModel\IncludeUtility;
+use App\UserModel\Currency;
 use Illuminate\Support\Facades\Session;
 
 class PropertyController extends Controller
@@ -677,6 +678,11 @@ class PropertyController extends Controller
                         ['property_id'=>$request->property_id],['property_price'=>$request->property_price, 'currency'=>$request->currency]
                     );
                 }
+
+                Currency::firstOrCreate(
+                    ['user_id'=>Auth::user()->id],
+                    ['currency'=>$request->currency]
+                );
                 ///update step to move forward
                 $property->step = ($request->step+1);
                 $property->update();

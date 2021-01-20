@@ -616,7 +616,6 @@
                                                         </form>
         
                                                         <form class="mt-4" id="formRentSchedule">
-                                                        
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group validate">
@@ -695,12 +694,11 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group validate">
-                                                                        <label for="">Currency</label>
-                                                                        <select name="currency" class="form-control" id="currency">
-                                                                            <option value="GHS">Ghana Cedis(¢)</option>
-                                                                        </select>
-                                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                                    <div class="form-group mb-3">
+                                                                        <span class="font-14 float-right"><a href="{{ route('account.payments') }}" target="_blank" class="text-decoration-none btn-edit">Edit</a></span>
+                                                                        <p class="font-weight-bold font-14">Choosen currency</p>
+                                                                        <p class="font-14">{{ Auth::user()->currency? Auth::user()->currency->getCurrencyName():'Ghana Cedis' }}</p>
+                                                                        <input type="hidden" name="currency" readonly value="{{ Auth::user()->currency? Auth::user()->currency->currency:'GHS' }}">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1178,37 +1176,46 @@
                                                             </div>
                                                             @endif                                            
                                                         @endif
-        
+                                                            
+                                                        @if (Auth::user()->currency)
+                                                        <div class="form-group">
+                                                            <p class="font-weight-bold font-14">Choosen currency</p>
+                                                            <p class="font-14">{{ Auth::user()->currency->getCurrencyName() }}</p>
+                                                            <input type="hidden" name="currency" readonly value="{{ Auth::user()->currency->currency }}">
+                                                        </div>
+                                                        @else
                                                         <div class="form-group validate">
-                                                            <label for="">Currency</label>
+                                                            <label for="">Choosen currency</label>
                                                             <select name="currency" class="form-control" id="currency">
-                                                                <option value="GHS">Ghana Cedis(¢)</option>
+                                                                <option value="GHS">Ghana Cedis</option>
+                                                                <option value="USD">United State Dollar</option>    
                                                             </select>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
+                                                        @endif
         
                                                     </form>
                                                     
                                                 </div>
                                                 <div class="col-lg-6">
                                                     @if ($property->type_status=='rent')
-                                                        <h5 class="mt-5"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3months before due date.</h5>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> Eviction notification will be sent to visitor every two weeks till due date.</h5>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> It's visitor's choice to extend his/her stay or to evict.</h5>
+                                                        <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3months before due date.</p>
+                                                        <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Eviction notification will be sent to visitor every two weeks till due date.</p>
+                                                        <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> It's visitor's choice to extend his/her stay or to evict.</p>
                                                     @elseif ($property->type_status=='sell')
                                                         <p class="mt-5">You can set set-in price later when market is down.</p>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> Set price which has value for your property.</h5>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> Don't set your price too high or too low to scare buyers.</h5>
+                                                        <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Set price which has value for your property.</p>
+                                                        <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Don't set your price too high or too low to scare buyers.</p>
                                                     @elseif ($property->type_status=='short_stay')
                                                         <p class="mt-5">You can set set-in price later when market is down.</p>
-                                                        <h5 class="mt-5"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3days before due date.</h5>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> Set price which has value for your property.</h5>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> Don't set your price too high or too low to scare travellers.</h5>
+                                                        <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3days before due date.</p>
+                                                        <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Set price which has value for your property.</p>
+                                                        <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Don't set your price too high or too low to scare travellers.</p>
                                                     @else
-                                                        <h5 class="mt-5"><i class="fa fa-square text-pink font-13"></i> Have a price range that values your property in mind.</h5>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> Use the minimum price as initial.</h5>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> Let bidder do their job of bidding.</h5>
-                                                        <h5 class="mt-2"><i class="fa fa-square text-pink font-13"></i> If you are satisfied with the highest bidding, you can close auctioning.</h5>
+                                                        <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Have a price range that values your property in mind.</p>
+                                                        <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Use the minimum price as initial.</p>
+                                                        <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Let bidder do their job of bidding.</p>
+                                                        <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> If you are satisfied with the highest bidding, you can close auctioning.</p>
                                                     @endif
                                                 </div>
                                             </div><!-- end row --> 

@@ -98,8 +98,6 @@
                     @endauth
 
                     <div class="col-2 col-md-2 text-right">
-                        {{-- <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars fa-lg"></span></a> --}}
-                        
                         <div class="dropdown">
                             <a href="javascript:void(0);" class="pxp-header-user" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="profile-avatar-container p-1">
