@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
                         <a href="#" class="text-decoration-none">
-                            <div class="card card-bordered-blue" style="color:#333333">
+                            <div class="card card-bordered-blue text-gray">
                                 <div class="card-body text-center">
                                    <img class="" src="{{ asset('assets/images/svg/guest.svg') }}" alt="booking and visitors" width="170" height="170">
                                 </div>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
                         <a href="#" class="text-decoration-none">
-                            <div class="card card-bordered-blue" style="color: #333333">
+                            <div class="card card-bordered-blue text-gray">
                                 <div class="card-body text-center">
                                    <img class="" src="{{ asset('assets/images/svg/property-owner.svg') }}" alt="own a property" width="170" height="170">
                                 </div>
@@ -63,8 +63,33 @@
             </div>
 
             <div class="mt-4">
-                <h5>Similar helps</h5>
-                
+                <h5 class="font-weight-800">Popular helps</h5>
+                <div class="row mt-4">
+                    <div class="col-sm-3">
+                        <a href="#">
+                            <p class="font-weight-bold font-16">What is Oshelter and how does it work?</p>
+                        </a>
+                        <p>Oshelter began in 2020 when two designers who had space to share....</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="#">
+                            <p class="font-weight-bold font-16">What is Oshelter and how does it work?</p>
+                        </a>
+                        <p>Oshelter began in 2020 when two designers who had space to share....</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="#">
+                            <p class="font-weight-bold font-16">What is Oshelter and how does it work?</p>
+                        </a>
+                        <p>Oshelter began in 2020 when two designers who had space to share....</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <a href="#">
+                            <p class="font-weight-bold font-16">What is Oshelter and how does it work?</p>
+                        </a>
+                        <p>Oshelter began in 2020 when two designers who had space to share....</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>    

@@ -238,6 +238,10 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   .text-dark {
     color: #2f4686 !important;
   }
+
+  .text-gray {
+    color: #333333 !important;
+  }
   
   /* IMAGES */
   .img-right{
