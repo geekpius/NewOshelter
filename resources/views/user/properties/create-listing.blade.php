@@ -697,8 +697,8 @@
                                                                     <div class="form-group mb-3">
                                                                         <span class="font-14 float-right"><a href="{{ route('account.payments') }}" target="_blank" class="text-decoration-none btn-edit">Edit</a></span>
                                                                         <p class="font-weight-bold font-14">Choosen currency</p>
-                                                                        <p class="font-14">{{ Auth::user()->currency? Auth::user()->currency->getCurrencyName():'Ghana Cedis' }}</p>
-                                                                        <input type="hidden" name="currency" readonly value="{{ Auth::user()->currency? Auth::user()->currency->currency:'GHS' }}">
+                                                                        <p class="font-14">{{ Auth::user()->userCurrency? Auth::user()->userCurrency->getCurrencyName():'Ghana Cedis' }}</p>
+                                                                        <input type="hidden" name="currency" readonly value="{{ Auth::user()->userCurrency? Auth::user()->userCurrency->currency:'GHS' }}">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1177,18 +1177,19 @@
                                                             @endif                                            
                                                         @endif
                                                             
-                                                        @if (Auth::user()->currency)
+                                                        @if (Auth::user()->userCurrency)
                                                         <div class="form-group">
                                                             <p class="font-weight-bold font-14">Choosen currency</p>
-                                                            <p class="font-14">{{ Auth::user()->currency->getCurrencyName() }}</p>
-                                                            <input type="hidden" name="currency" readonly value="{{ Auth::user()->currency->currency }}">
+                                                            <p class="font-14">{{ Auth::user()->userCurrency->getCurrencyName() }}</p>
+                                                            <input type="hidden" name="currency" readonly value="{{ Auth::user()->userCurrency->currency }}">
                                                         </div>
                                                         @else
                                                         <div class="form-group validate">
                                                             <label for="">Choosen currency</label>
                                                             <select name="currency" class="form-control" id="currency">
-                                                                <option value="GHS">Ghana Cedis</option>
-                                                                <option value="USD">United State Dollar</option>    
+                                                                @foreach ($currencies as $currency)
+                                                                <option value="{{ $currency->symbol }}">{{ $currency->currency }}</option>
+                                                                @endforeach  
                                                             </select>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>

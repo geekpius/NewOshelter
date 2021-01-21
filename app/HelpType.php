@@ -15,9 +15,6 @@ class HelpType extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'help_type', 'document_title',
-    ];
 
     public function helps(){
         return $this->hasMany(Help::class);

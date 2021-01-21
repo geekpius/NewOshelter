@@ -16,6 +16,8 @@ function payWithPaystack(e) {
         document.getElementById("paymentButton").disabled = false;
     },
     callback: function(response){
+      const initialButtonText = document.getElementById("paymentButton").innerText;
+      document.getElementById("paymentButton").innerText= "WAITING FOR VERIFICATION.....";
         let url = $("#paymentForm").data("url");
         let data = {
             _token: $("#paymentForm input[name='_token']").val(),
@@ -35,12 +37,15 @@ function payWithPaystack(e) {
               if(resp=='fail'){
                 swal("Warning", "Did not found reference ID.", "warning");
                 document.getElementById("paymentButton").disabled = false;
+                document.getElementById("paymentButton").innerText= initialButtonText;
               }else if(resp=='error'){
-                swal("Warning", "Something happened with verification.", "warning");
+                swal("Warning", "Something happened with verification. Contact us for support.", "warning");
                 document.getElementById("paymentButton").disabled = false;
+                document.getElementById("paymentButton").innerText= initialButtonText;
               }else if(resp=='catch'){
-                swal("Warning", "Your payment could not be verified. Check your email if you have received payment notification.", "warning");
+                swal("Warning", "Your payment could not be verified. Check your email if you have received payment notification. Contact us for support.", "warning");
                 document.getElementById("paymentButton").disabled = false;
+                document.getElementById("paymentButton").innerText= initialButtonText;
               }else{  
                 window.location.href = resp;
               }
@@ -48,6 +53,8 @@ function payWithPaystack(e) {
             },
             error: function(resp){
                 console.log("something went wrong");
+                document.getElementById("paymentButton").disabled = false;
+                document.getElementById("paymentButton").innerText= initialButtonText;
             }
         });
     }

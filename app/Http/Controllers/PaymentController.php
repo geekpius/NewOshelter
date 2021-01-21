@@ -87,6 +87,7 @@ class PaymentController extends Controller
             $trans->channel = $this->getPaymentChannel();
             $trans->save();
 
+            (int) $ownerId = null;
             if($type == 'hostel'){
                 $book = HostelBooking::findOrFail($trans->booking_id);
                 $book->status = 3;
@@ -100,6 +101,7 @@ class PaymentController extends Controller
                 $stay->check_out = $book->check_out;
                 $stay->save();
                 $book->update();
+                $ownerId = $book->property->user_id;
             }
             elseif($type == 'extension_request'){
                 $extend = UserExtensionRequest::findOrFail($trans->extension_id);
@@ -110,6 +112,7 @@ class PaymentController extends Controller
                     $extend->visit()->update(['check_out'=> $extend->extension_date]);
                 }
                 $extend->update();
+                $ownerId = $extend->owner_id;
             }else{
                 $book = Booking::findOrFail($trans->booking_id);
                 $book->status = 3;
@@ -124,9 +127,11 @@ class PaymentController extends Controller
                 $stay->infant = $book->infant;
                 $stay->save();
                 $book->update();
+                $ownerId = $book->property->user_id;
             }
 
             $wallet = new UserWallet;
+            $wallet->user_id = $ownerId;
             $wallet->balance = $amount;
             $wallet->currency = $currency;
             $wallet->save();

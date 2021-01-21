@@ -9,14 +9,12 @@ use Illuminate\Support\Str;
 use App\UserModel\UserLogin;
 use App\UserModel\UserVisit;
 use App\UserModel\UserHostelVisit;
-use App\UserModel\Currency;
+use App\UserModel\UserCurrency;
 use App\BookModel\Booking;
 use App\BookModel\HostelBooking;
-use App\UserModel\UserTicket;
 use App\UserModel\UserWallet;
 use App\UserModel\UserProfile;
 use App\PropertyModel\Property;
-use App\UserModel\UserActivity;
 use App\PropertyModel\PropertyBid;
 use App\PropertyModel\PropertyBuy;
 use App\PropertyModel\PropertyRent;
@@ -122,10 +120,6 @@ class User extends Authenticatable
         return $this->hasMany(UserLogin::class);
     }
 
-    public function userActivities(){
-        return $this->hasMany(UserActivity::class);
-    }
-
     public function vat(){
         return $this->hasOne(Vat::class);
     }
@@ -182,8 +176,8 @@ class User extends Authenticatable
         return $this->hasMany(Transaction::class);
     }
 
-    public function currency(){
-        return $this->hasOne(Currency::class);
+    public function userCurrency(){
+        return $this->hasOne(UserCurrency::class);
     }
 
 

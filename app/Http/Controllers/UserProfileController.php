@@ -7,7 +7,8 @@ use Image;
 use App\User;
 use Illuminate\Http\Request;
 use App\UserModel\UserProfile;
-use App\UserModel\Currency;
+use App\UserModel\UserCurrency;
+use App\Currency;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -149,6 +150,7 @@ class UserProfileController extends Controller
     public function paymentView()
     {
         $data['page_title'] = 'Payments';
+        $data['currencies'] = Currency::all();
         return view('user.account.payments', $data);
     }
 
@@ -162,7 +164,7 @@ class UserProfileController extends Controller
         if ($validator->fails()){
             $message = 'fail';
         }else{
-            $currency = Currency::updateOrCreate(
+            $currency = UserCurrency::updateOrCreate(
                 ['user_id'=>Auth::user()->id],
                 ['currency'=>$request->currency]
             );

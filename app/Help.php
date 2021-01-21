@@ -15,9 +15,6 @@ class Help extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'help_type_id', 'document_name', 'question', 'answer',
-    ];
 
 
     public function helpType(){
