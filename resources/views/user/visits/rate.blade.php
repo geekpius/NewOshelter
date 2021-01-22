@@ -22,7 +22,8 @@
                             <div class="card">
                                 <div class="card-body">
                                     <p class="font-14">
-                                        <img src="{{ asset('assets/images/users/'.$visit->property->user->image) }}" alt="{{ $visit->property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                        @php $image = (empty($visit->property->user->image))? 'user.svg':'users/'.$visit->property->user->image; @endphp
+                                        <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $visit->property->user->name }}" class="thumb-sm rounded-circle mr-1" />
                                         This property belongs to {{ current(explode(' ',$visit->property->user->name))}}.
                                     </p>
                                     <span class="font-weight-500 ml-1">

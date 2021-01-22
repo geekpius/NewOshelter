@@ -70,7 +70,8 @@
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <p class="font-14">
-                                                    <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                    @php $image = (empty($property->user->image))? "user.svg":"users/".$property->user->image; @endphp
+                                                    <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
                                                     This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                                 </p>
                                             </div>
@@ -81,7 +82,7 @@
                                             $to = \Carbon\Carbon::parse($bookingItems['check_out']);
                                             $dateDiff = $to->diffInMonths($from);
                                         @endphp
-                                        <div class="mt-5">
+                                        <div class="mt-3">
                                             <h4>{{ $dateDiff }}  {{ str_plural('Month', $dateDiff) }} <small>@if ($dateDiff==12) (1 Year) @endif</small></h4>
                                             <div class="row">
                                                 <div class="col-sm-12 col-lg-4">
@@ -102,7 +103,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mt-5">
+                                        <div class="mt-3">
                                             <h3>Take note of the rules</h3>
                                             <div class="col-sm-12">
                                                 @if (count($property->propertyOwnRules))
@@ -121,7 +122,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 mt-5">
+                                    <div class="col-sm-12 mt-3 mb-5">
                                         <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="1" data-url="{{ route('property.bookings.movenext') }}"><i class="fa fa-arrow-right"></i> Agree and continue</button>
                                     </div>
                                 </div> 
@@ -138,12 +139,13 @@
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <p class="font-14">
-                                                    <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                    @php $image = (empty($property->user->image))? "user.svg":"users/".$property->user->image; @endphp
+                                                    <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
                                                     This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                                 </p>
                                             </div>
                                         </div>
-                                        <div class="mt-5">
+                                        <div class="mt-3">
                                             <h4>Click with your property owner</h4>
                                             <p>Say hi to {{ current(explode(' ',$property->user->name))}} to kickstart before you arrive.</p>
                                             <div class="row">
@@ -155,7 +157,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mt-5">
+                                        <div class="mt-3">
                                             <div id="phoneNumberCover" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}">
                                                 <h4>Verify your phone number</h4>
                                                 <div class="row">
@@ -192,7 +194,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-12 mt-5">
+                                    <div class="col-sm-12 mt-3 mb-5">
                                         <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}"><i class="fa fa-arrow-right"></i> {{ empty(Auth::user()->sms_verification_token)? 'Send Verification':'Resend Verification' }}</button>
                                         <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="2" data-url="{{ route('property.bookings.movenext') }}" style="display: {{ (!Auth::user()->verify_sms)? 'none':'block' }}"><i class="fa fa-arrow-right"></i> Continue</button>
                                     </div>
@@ -209,7 +211,8 @@
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <p class="font-14">
-                                                    <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                    @php $image = (empty($property->user->image))? "user.svg":"users/".$property->user->image; @endphp
+                                                    <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
                                                     This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                                 </p>
                                             </div>
@@ -237,7 +240,7 @@
                                         $discountFee = ($price* $dateDiff)*($discount/100);
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
-                                     <div class="col-sm-12 mt-5">
+                                    <div class="col-sm-12 mt-3 mb-5">
                                         @php $booking = Auth::user()->userHostelBookings->where('property_id',$property->id)->where('hostel_block_room_number_id', $room_number->id)->where('room_number',$room_number->room_no)->sortByDesc('id')->first(); @endphp
                                         @if (empty($booking))
                                         <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
@@ -279,8 +282,6 @@
                                         @endif
                                         
                                     </div>
-
-
                                 </div> 
                             </div> 
                         </div>
@@ -359,7 +360,8 @@
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <p class="font-14">
-                                                    <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                    @php $image = (empty($property->user->image))? "user.svg":"users/".$property->user->image; @endphp
+                                                    <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
                                                     This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                                 </p>
                                             </div>
@@ -377,7 +379,7 @@
                                                 $dateDiff = $diff->format("%a");
                                             }
                                         @endphp
-                                        <div class="mt-5">
+                                        <div class="mt-3">
                                             @if ($property->type_status=='rent')
                                             <h4>{{ $dateDiff }}  {{ str_plural('Month', $dateDiff) }} <small>@if ($dateDiff==12) (1 Year) @elseif($dateDiff==24) (2 Years) @endif</small></h4>
                                             @else
@@ -402,7 +404,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mt-5">
+                                        <div class="mt-3">
                                             <h3>Take note of the rules</h3>
                                             <div class="col-sm-12">
                                                 @if (count($property->propertyOwnRules))
@@ -421,7 +423,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 mt-5">
+                                    <div class="col-sm-12 mt-3 mb-5">
                                         <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="1" data-url="{{ route('property.bookings.movenext') }}"><i class="fa fa-arrow-right"></i> Agree and continue</button>
                                     </div>
                                 </div> 
@@ -437,12 +439,13 @@
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <p class="font-14">
-                                                    <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                    @php $image = (empty($property->user->image))? "user.svg":"users/".$property->user->image; @endphp
+                                                    <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
                                                     This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                                 </p>
                                             </div>
                                         </div>
-                                        <div class="mt-5">
+                                        <div class="mt-3">
                                             <h4>Click with your property owner</h4>
                                             <p>Say hi to {{ current(explode(' ',$property->user->name))}} to kickstart before you arrive.</p>
                                             <div class="row">
@@ -454,7 +457,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mt-5">
+                                        <div class="mt-3">
                                             <div id="phoneNumberCover" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}">
                                                 <h4>Verify your phone number</h4>
                                                 <p class="font-12"><i class="fa fa-dot-circle"></i> You will receive verification code on your phone.</p>
@@ -492,7 +495,7 @@
                                         </div>
                                     </div>
                                 
-                                    <div class="col-sm-12 mt-2 mt-lg-4 mb-3 mb-lg-0">
+                                    <div class="col-sm-12 mt-3 mt-lg-4 mb-5 mb-lg-0">
                                         <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}">{{ empty(Auth::user()->sms_verification_token)? 'Send Verification':'Resend Verification' }}</button>
                                         <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="2" data-url="{{ route('property.bookings.movenext') }}" style="display: {{ (!Auth::user()->verify_sms)? 'none':'block' }}"><i class="fa fa-arrow-right"></i> Continue</button>
                                     </div>
@@ -510,7 +513,8 @@
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <p class="font-14">
-                                                    <img src="{{ asset('assets/images/users/'.$property->user->image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                    @php $image = (empty($property->user->image))? "user.svg":"users/".$property->user->image; @endphp
+                                                    <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
                                                     This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                                 </p>
                                             </div>
@@ -542,7 +546,7 @@
                                         $discountFee = ($totalPrice)*($discount/100);
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
-                                    <div class="col-sm-12 mt-5">
+                                    <div class="col-sm-12 mt-3 mb-5">
                                         @php $booking = Auth::user()->userBookings->where('property_id',$property->id)->sortByDesc('id')->first(); @endphp
                                         @if (empty($booking))
                                         <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">

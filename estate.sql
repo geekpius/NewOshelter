@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 12, 2021 at 02:09 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.2.34
+-- Generation Time: Jan 21, 2021 at 06:42 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -59,7 +59,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `is_active`, `image`, `role`, `login_time`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin Geek', 'fiifipius@gmail.com', '$2y$10$C5fgKPH/HSQ79J4wiybGVOgILhRN2cCpeyMXn5VFCxiw.leAIVZki', 1, NULL, 'admin', '2020-12-15 17:06:34', 'g32n0D2mwfRwbMaEIY3PqF5V1rRPziV6EFC0ifxjb4YhIdDl0a3Uw7zMlngA', NULL, '2020-12-15 17:06:34');
+(1, 'Admin Geek', 'fiifipius@gmail.com', '$2y$10$C5fgKPH/HSQ79J4wiybGVOgILhRN2cCpeyMXn5VFCxiw.leAIVZki', 1, NULL, 'admin', '2021-01-21 16:21:49', 'g32n0D2mwfRwbMaEIY3PqF5V1rRPziV6EFC0ifxjb4YhIdDl0a3Uw7zMlngA', NULL, '2021-01-21 16:21:49');
 
 -- --------------------------------------------------------
 
@@ -110,7 +110,20 @@ INSERT INTO `admin_activities` (`id`, `admin_id`, `action`, `created_at`, `updat
 (28, 1, 'Hostel was changed to private', '2020-12-14 11:19:26', '2020-12-14 11:19:26'),
 (29, 1, 'Store was changed to public', '2020-12-14 11:19:49', '2020-12-14 11:19:49'),
 (30, 1, 'House was added', '2020-12-15 08:53:48', '2020-12-15 08:53:48'),
-(31, 1, 'House was changed to public', '2020-12-15 08:55:40', '2020-12-15 08:55:40');
+(31, 1, 'House was changed to public', '2020-12-15 08:55:40', '2020-12-15 08:55:40'),
+(32, 1, 'Added new document type general - Your Account', '2021-01-21 14:57:33', '2021-01-21 14:57:33'),
+(33, 1, 'Edited document type general - Your Account', '2021-01-21 15:01:25', '2021-01-21 15:01:25'),
+(34, 1, 'Edited document type general - Your Accounts', '2021-01-21 15:03:02', '2021-01-21 15:03:02'),
+(35, 1, 'Edited document type general - Your Account', '2021-01-21 15:03:16', '2021-01-21 15:03:16'),
+(36, 1, 'Added new document General Help - Your Account', '2021-01-21 15:13:51', '2021-01-21 15:13:51'),
+(37, 1, 'Edited document General Help - Your Account', '2021-01-21 15:24:40', '2021-01-21 15:24:40'),
+(38, 1, 'Added new currency United States Dollar', '2021-01-21 16:50:36', '2021-01-21 16:50:36'),
+(39, 1, 'Updated currency United States Dollar', '2021-01-21 17:05:29', '2021-01-21 17:05:29'),
+(40, 1, 'Updated currency United States Dollar', '2021-01-21 17:05:36', '2021-01-21 17:05:36'),
+(41, 1, 'Deleted currency United States Dollar', '2021-01-21 17:07:02', '2021-01-21 17:07:02'),
+(42, 1, 'Deleted currency Ghana Cedis', '2021-01-21 17:07:05', '2021-01-21 17:07:05'),
+(43, 1, 'Added new currency Ghana Cedis', '2021-01-21 17:07:21', '2021-01-21 17:07:21'),
+(44, 1, 'Added new currency United States Dollar', '2021-01-21 17:07:26', '2021-01-21 17:07:26');
 
 -- --------------------------------------------------------
 
@@ -151,8 +164,55 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `user_id`, `property_id`, `owner_id`, `check_in`, `check_out`, `adult`, `children`, `infant`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 9, 1, '2021-01-05', '2022-01-05', 2, 0, 0, 3, '2020-12-29 16:23:17', '2020-12-29 21:56:07'),
-(2, 2, 10, 1, '2021-01-01', '2021-01-15', 2, 0, 0, 3, '2020-12-30 14:36:20', '2020-12-30 15:12:47');
+(1, 2, 9, 1, '2021-01-21', '2022-01-21', 2, 0, 0, 3, '2021-01-14 12:13:56', '2021-01-21 11:05:56'),
+(2, 2, 12, 1, '2021-01-21', '2021-01-28', 1, 0, 0, 3, '2021-01-18 16:32:11', '2021-01-21 11:37:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contacts`
+--
+
+CREATE TABLE `contacts` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `help_desk` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `contacts`
+--
+
+INSERT INTO `contacts` (`id`, `name`, `email`, `phone`, `help_desk`, `message`, `is_read`, `created_at`, `updated_at`) VALUES
+(1, 'Pius Tweneboah-Koduah', 'fiifipius@gmail.com', NULL, 'support', 'This is a trial message', 1, '2021-01-13 11:42:48', '2021-01-21 14:40:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `currencies`
+--
+
+CREATE TABLE `currencies` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `currency` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `symbol` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `currencies`
+--
+
+INSERT INTO `currencies` (`id`, `currency`, `symbol`, `created_at`, `updated_at`) VALUES
+(1, 'Ghana Cedis', 'GHS', '2021-01-21 17:07:21', '2021-01-21 17:07:21'),
+(2, 'United States Dollar', 'USD', '2021-01-21 17:07:26', '2021-01-21 17:07:26');
 
 -- --------------------------------------------------------
 
@@ -178,11 +238,19 @@ CREATE TABLE `helps` (
   `id` int(10) UNSIGNED NOT NULL,
   `help_type_id` int(10) UNSIGNED NOT NULL,
   `document_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `document_name_slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `question` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `answer` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `helps`
+--
+
+INSERT INTO `helps` (`id`, `help_type_id`, `document_name`, `document_name_slug`, `question`, `answer`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Creating an account', 'creating-an-account', 'How do I create an account?', '<div>\r\n<div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi cumque quidem accusamus consectetur at, <a href=\"http://www.oshelter.com\" target=\"_blank\" rel=\"noopener\">create</a> laboriosam accusantium rem neque ea, porro dignissimos hic, rerum alias modi omnis cupiditate minus nobis.</div>\r\n</div>', '2021-01-21 15:13:51', '2021-01-21 15:13:51');
 
 -- --------------------------------------------------------
 
@@ -194,9 +262,17 @@ CREATE TABLE `help_types` (
   `id` int(10) UNSIGNED NOT NULL,
   `help_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `document_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `document_title_slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `help_types`
+--
+
+INSERT INTO `help_types` (`id`, `help_type`, `document_title`, `document_title_slug`, `created_at`, `updated_at`) VALUES
+(1, 'general', 'Your Account', 'your-account', '2021-01-21 14:57:33', '2021-01-21 15:03:16');
 
 -- --------------------------------------------------------
 
@@ -330,7 +406,7 @@ CREATE TABLE `hostel_bookings` (
 --
 
 INSERT INTO `hostel_bookings` (`id`, `user_id`, `property_id`, `owner_id`, `hostel_block_room_number_id`, `room_number`, `check_in`, `check_out`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 11, 1, 26, 1, '2021-01-09', '2021-09-09', 3, '2021-01-01 23:28:28', '2021-01-02 08:36:18');
+(1, 2, 11, 1, 26, 1, '2021-01-22', '2021-09-22', 3, '2021-01-15 15:28:59', '2021-01-21 11:03:50');
 
 -- --------------------------------------------------------
 
@@ -470,7 +546,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (43, '2020_09_15_124314_create_admin_activities_table', 5),
 (44, '2020_09_15_131804_create_service_charges_table', 6),
 (47, '2020_08_27_141223_create_user_extension_requests_table', 7),
-(48, '2020_10_13_180722_create_report_properties_table', 7);
+(48, '2020_10_13_180722_create_report_properties_table', 7),
+(49, '2020_11_23_120053_create_help_types_table', 8),
+(50, '2020_11_23_120132_create_helps_table', 9);
 
 -- --------------------------------------------------------
 
@@ -536,10 +614,11 @@ CREATE TABLE `properties` (
 --
 
 INSERT INTO `properties` (`id`, `user_id`, `base`, `type`, `type_status`, `title`, `adult`, `children`, `publish`, `step`, `done_step`, `is_active`, `created_at`, `updated_at`) VALUES
-(9, 1, 'house', 'apartment', 'rent', '2 Bedroom Apartment', 1, 0, 1, 9, 1, 1, '2020-12-21 11:40:12', '2021-01-06 15:59:13'),
+(9, 1, 'house', 'apartment', 'rent', '2 Bedroom Apartment', 1, 0, 1, 9, 1, 1, '2020-12-21 11:40:12', '2021-01-21 16:10:32'),
 (10, 1, 'house', 'house', 'short_stay', '2 Bedroom House', 2, 3, 1, 9, 1, 1, '2020-12-22 08:33:07', '2021-01-05 17:21:23'),
-(11, 1, 'storey_building', 'hostel', 'rent', 'Amanshie Hostel', 1, 0, 1, 9, 1, 1, '2020-12-22 09:22:49', '2021-01-06 16:05:50'),
-(12, 1, 'house', 'room', 'short_stay', 'Single room self contain', 2, 2, 1, 9, 1, 1, '2021-01-04 13:38:29', '2021-01-05 17:21:43');
+(11, 1, 'storey_building', 'hostel', 'rent', 'Amanshie Hostel', 1, 0, 1, 9, 1, 1, '2020-12-22 09:22:49', '2021-01-21 16:13:24'),
+(12, 1, 'house', 'room', 'short_stay', 'Single room self contain', 2, 2, 1, 9, 1, 1, '2021-01-04 13:38:29', '2021-01-05 17:21:43'),
+(13, 1, 'house', 'room', 'short_stay', '2 Sweet single room', 3, 2, 1, 9, 1, 1, '2021-01-20 18:45:07', '2021-01-20 19:21:37');
 
 -- --------------------------------------------------------
 
@@ -579,7 +658,14 @@ INSERT INTO `property_amenities` (`id`, `property_id`, `name`, `created_at`, `up
 (45, 12, 'Smoke Detector', '2021-01-04 13:40:28', '2021-01-04 13:40:28'),
 (46, 12, 'Air Conditioning', '2021-01-04 13:40:28', '2021-01-04 13:40:28'),
 (47, 12, 'Ceiling Fan', '2021-01-04 13:40:28', '2021-01-04 13:40:28'),
-(48, 12, 'Wardrobe', '2021-01-04 13:40:28', '2021-01-04 13:40:28');
+(48, 12, 'Wardrobe', '2021-01-04 13:40:28', '2021-01-04 13:40:28'),
+(49, 13, 'Bed', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
+(50, 13, 'TV', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
+(51, 13, 'Fridge', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
+(52, 13, 'Smoke Detector', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
+(53, 13, 'Air Conditioning', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
+(54, 13, 'Ceiling Fan', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
+(55, 13, 'Wardrobe', '2021-01-20 18:45:59', '2021-01-20 18:45:59');
 
 -- --------------------------------------------------------
 
@@ -609,7 +695,8 @@ CREATE TABLE `property_contains` (
 INSERT INTO `property_contains` (`id`, `property_id`, `bedroom`, `no_bed`, `kitchen`, `bathroom`, `bath_private`, `toilet`, `toilet_private`, `furnish`, `created_at`, `updated_at`) VALUES
 (7, 9, '2', 0, 1, 2, 1, 2, 1, 'not_furnished', '2020-12-21 13:07:04', '2020-12-21 13:07:04'),
 (8, 10, '2', 1, 1, 2, 1, 2, 1, 'fully_furnished', '2020-12-22 09:09:52', '2020-12-22 09:09:52'),
-(9, 12, '1', 1, 1, 1, 1, 1, 1, 'fully_furnished', '2021-01-04 13:39:52', '2021-01-04 13:39:52');
+(9, 12, '1', 1, 1, 1, 1, 1, 1, 'fully_furnished', '2021-01-04 13:39:52', '2021-01-04 13:39:52'),
+(10, 13, '1', 1, 1, 1, 1, 1, 1, 'fully_furnished', '2021-01-20 18:45:32', '2021-01-20 18:45:32');
 
 -- --------------------------------------------------------
 
@@ -636,7 +723,8 @@ INSERT INTO `property_descriptions` (`id`, `property_id`, `gate`, `description`,
 (8, 9, 0, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem beatae debitis molestiae deserunt fuga unde voluptate totam? Libero, aliquid nostrum. Ad necessitatibus eaque deserunt similique culpa vel consequuntur veritatis maiores! Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem beatae debitis molestiae deserunt fuga unde voluptate totam? Libero, aliquid nostrum. Ad necessitatibus eaque deserunt similique culpa vel consequuntur veritatis maiores! Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem beatae debitis molestiae deserunt fuga unde voluptate totam? Libero, aliquid nostrum. Ad necessitatibus eaque deserunt similique culpa vel consequuntur veritatis maiores!', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem beatae debitis molestiae deserunt fuga unde voluptate totam? Libero, aliquid nostrum. Ad necessitatibus eaque deserunt similique culpa vel consequuntur veritatis maiores!', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem beatae debitis molestiae deserunt fuga unde voluptate totam? Libero, aliquid nostrum. Ad necessitatibus eaque deserunt similique culpa vel consequuntur veritatis maiores!', '2020-12-21 14:51:45', '2020-12-21 14:51:45'),
 (9, 10, 1, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, vero culpa? Officiis quos recusandae quam magni tenetur, molestias fuga facilis? Autem sed quae magnam dolorem officiis tenetur quos quo labore.Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, vero culpa? Officiis quos recusandae quam magni tenetur, molestias fuga facilis? Autem sed quae magnam dolorem officiis tenetur quos quo labore.Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, vero culpa? Officiis quos recusandae quam magni tenetur, molestias fuga facilis? Autem sed quae magnam dolorem officiis tenetur quos quo labore.', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, vero culpa? Officiis quos recusandae quam magni tenetur, molestias fuga facilis? Autem sed quae magnam dolorem officiis tenetur quos quo labore.', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, vero culpa? Officiis quos recusandae quam magni tenetur, molestias fuga facilis? Autem sed quae magnam dolorem officiis tenetur quos quo labore.', '2020-12-22 09:16:36', '2020-12-22 09:16:36'),
 (10, 11, 0, 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, saepe laboriosam? Voluptatem provident ratione in, rerum dignissimos obcaecati autem quis. Nobis molestias deserunt iusto animi doloribus incidunt modi quod officia!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, saepe laboriosam? Voluptatem provident ratione in, rerum dignissimos obcaecati autem quis. Nobis molestias deserunt iusto animi doloribus incidunt modi quod officia!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, saepe laboriosam? Voluptatem provident ratione in, rerum dignissimos obcaecati autem quis. Nobis molestias deserunt iusto animi doloribus incidunt modi quod officia!', 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, saepe laboriosam? Voluptatem provident ratione in, rerum dignissimos obcaecati autem quis. Nobis molestias deserunt iusto animi doloribus incidunt modi quod officia!', 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, saepe laboriosam? Voluptatem provident ratione in, rerum dignissimos obcaecati autem quis. Nobis molestias deserunt iusto animi doloribus incidunt modi quod officia!', '2020-12-22 11:54:51', '2020-12-22 11:54:51'),
-(11, 12, 1, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet cons', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?', '2021-01-04 14:36:47', '2021-01-04 14:36:47');
+(11, 12, 1, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet cons', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?', '2021-01-04 14:36:47', '2021-01-04 14:36:47'),
+(12, 13, 1, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem m', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet cons', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet cons', '2021-01-20 18:50:43', '2021-01-20 18:50:43');
 
 -- --------------------------------------------------------
 
@@ -683,9 +771,9 @@ CREATE TABLE `property_hostel_prices` (
 --
 
 INSERT INTO `property_hostel_prices` (`id`, `hostel_block_room_id`, `payment_duration`, `price_calendar`, `property_price`, `currency`, `created_at`, `updated_at`) VALUES
-(3, 3, 8, 'month', 300, 'GHC', '2020-12-22 12:15:42', '2020-12-22 12:15:42'),
-(4, 4, 8, 'month', 400, 'GHC', '2020-12-22 12:16:16', '2020-12-22 12:16:16'),
-(5, 5, 8, 'month', 300, 'GHC', '2020-12-22 12:20:25', '2020-12-22 12:20:25');
+(3, 3, 8, 'month', 300, 'GHS', '2020-12-22 12:15:42', '2021-01-20 19:41:11'),
+(4, 4, 8, 'month', 500, 'GHS', '2020-12-22 12:16:16', '2021-01-20 19:41:27'),
+(5, 5, 8, 'month', 300, 'GHS', '2020-12-22 12:20:25', '2020-12-22 12:20:25');
 
 -- --------------------------------------------------------
 
@@ -732,7 +820,13 @@ INSERT INTO `property_images` (`id`, `property_id`, `caption`, `image`, `created
 (60, 12, 'Toilet', '1a1d5c8197653a006cfaadaa98c1b494fbc37995c.jpg', '2021-01-04 14:35:30', '2021-01-04 14:35:52'),
 (61, 12, 'Frontview', '10306074c2bee8ed318d5b41508e5920c6d6c4a66.jpg', '2021-01-04 14:35:30', '2021-01-04 14:35:54'),
 (62, 12, 'FrontView', '128b7a40e78d80118cfc1c042c5e5d6c94bbee4c1.jpg', '2021-01-04 14:35:30', '2021-01-04 14:35:58'),
-(63, 12, 'Sitting room', '1e8fab003e361bb77a52a6bb90022088bf7bf9d3b.jpg', '2021-01-04 14:35:30', '2021-01-04 14:36:10');
+(63, 12, 'Sitting room', '1e8fab003e361bb77a52a6bb90022088bf7bf9d3b.jpg', '2021-01-04 14:35:30', '2021-01-04 14:36:10'),
+(69, 13, 'Frontview', '11a3850d6170e605d18e9c0af55385e3150d53a87.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:09'),
+(70, 13, 'Frontview', '160145e986ba8d5beb3d6eb22c0976894b6a3ed69.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:12'),
+(71, 13, 'Frontview', '14d8db455384dc35e73623bdc588af92bae887d96.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:14'),
+(72, 13, 'Frontview', '18eb1391398f47ff094e0c2ca869ba2924c075ad5.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:16'),
+(73, 13, 'Hallway', '136e3b7e17b98048a9d05824eae9facfdf183c2c2.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:21'),
+(74, 13, 'Frontview', '1f32b2fc7e57c7c54c9a69d5467c0635a170e4a9b.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:23');
 
 -- --------------------------------------------------------
 
@@ -760,7 +854,8 @@ INSERT INTO `property_locations` (`id`, `property_id`, `digital_address`, `locat
 (9, 9, NULL, 'Madina, Accra Metropolis, Ghana', 'madina-accra-metropolis-ghana', '5.6731273', '-0.1663851', '2020-12-21 14:23:55', '2020-12-24 10:30:57'),
 (10, 10, NULL, 'Koforidua, Ghana', 'koforidua-ghana', '6.0784427', '-0.2713944', '2020-12-22 09:12:56', '2021-01-04 17:09:10'),
 (11, 11, NULL, 'Asuoyeboa, Kumasi, Ghana', 'asuoyeboa-kumasi-ghana', '6.695769299999999', '-1.6639235', '2020-12-22 12:43:13', '2021-01-04 17:10:22'),
-(12, 12, NULL, 'Madina Estate, Madina, Ghana', 'madina-estate-madina-ghana', '5.666151700000011', '-0.1582766000000002', '2021-01-04 14:32:32', '2021-01-04 14:32:32');
+(12, 12, NULL, 'Madina Estate, Madina, Ghana', 'madina-estate-madina-ghana', '5.666151700000011', '-0.1582766000000002', '2021-01-04 14:32:32', '2021-01-04 14:32:32'),
+(13, 13, NULL, 'Accra', 'accra', '5.572201000000001', '-0.2150965', '2021-01-20 18:48:58', '2021-01-20 18:48:58');
 
 -- --------------------------------------------------------
 
@@ -810,9 +905,10 @@ CREATE TABLE `property_prices` (
 --
 
 INSERT INTO `property_prices` (`id`, `property_id`, `payment_duration`, `minimum_stay`, `maximum_stay`, `price_calendar`, `property_price`, `smart_price`, `currency`, `negotiable`, `created_at`, `updated_at`) VALUES
-(7, 9, 6, NULL, NULL, 'month', 700, NULL, 'GHC', NULL, '2020-12-21 15:01:35', '2020-12-21 15:01:35'),
-(8, 10, NULL, 3, 30, 'night', 100, 80, 'GHC', NULL, '2020-12-22 09:17:47', '2020-12-30 12:14:58'),
-(9, 12, NULL, 5, 60, 'night', 120, 100, 'GHC', NULL, '2021-01-04 14:37:25', '2021-01-04 14:37:25');
+(7, 9, 6, NULL, NULL, 'month', 700, NULL, 'GHS', NULL, '2020-12-21 15:01:35', '2020-12-21 15:01:35'),
+(8, 10, NULL, 3, 30, 'night', 100, 80, 'GHS', NULL, '2020-12-22 09:17:47', '2020-12-30 12:14:58'),
+(9, 12, NULL, 5, 60, 'night', 120, 100, 'GHS', NULL, '2021-01-04 14:37:25', '2021-01-04 14:37:25'),
+(10, 13, NULL, 4, 44, 'night', 300, 280, 'GHS', NULL, '2021-01-20 19:05:10', '2021-01-20 19:05:10');
 
 -- --------------------------------------------------------
 
@@ -864,7 +960,10 @@ INSERT INTO `property_rules` (`id`, `property_id`, `rule`, `created_at`, `update
 (33, 11, 'Dont host visitors more than 2 weeks', '2020-12-22 11:39:09', '2020-12-22 11:39:09'),
 (34, 12, 'No smoking', '2021-01-04 13:40:43', '2021-01-04 13:40:43'),
 (35, 12, 'No deadly weapons', '2021-01-04 13:40:43', '2021-01-04 13:40:43'),
-(36, 12, 'Dont host visitors more than 2 weeks', '2021-01-04 13:40:43', '2021-01-04 13:40:43');
+(36, 12, 'Dont host visitors more than 2 weeks', '2021-01-04 13:40:43', '2021-01-04 13:40:43'),
+(37, 13, 'No smoking', '2021-01-20 18:46:05', '2021-01-20 18:46:05'),
+(38, 13, 'No deadly weapons', '2021-01-20 18:46:05', '2021-01-20 18:46:05'),
+(39, 13, 'Dont host visitors more than 2 weeks', '2021-01-20 18:46:05', '2021-01-20 18:46:05');
 
 -- --------------------------------------------------------
 
@@ -899,7 +998,11 @@ INSERT INTO `property_shared_amenities` (`id`, `property_id`, `name`, `created_a
 (37, 12, 'Fire Extinguisher', '2021-01-04 13:40:28', '2021-01-04 13:40:28'),
 (41, 11, 'Emergency Bell', '2021-01-06 16:05:31', '2021-01-06 16:05:31'),
 (42, 11, 'Basketball Court', '2021-01-06 16:05:31', '2021-01-06 16:05:31'),
-(43, 11, 'Car Park', '2021-01-06 16:05:32', '2021-01-06 16:05:32');
+(43, 11, 'Car Park', '2021-01-06 16:05:32', '2021-01-06 16:05:32'),
+(44, 13, 'Emergency Bell', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
+(45, 13, 'Garden', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
+(46, 13, 'Car Park', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
+(47, 13, 'Fire Extinguisher', '2021-01-20 18:45:59', '2021-01-20 18:45:59');
 
 -- --------------------------------------------------------
 
@@ -978,24 +1081,6 @@ CREATE TABLE `service_charges` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tickets`
---
-
-CREATE TABLE `tickets` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
-  `help_desk` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `subject` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `message` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 0,
-  `is_read` tinyint(1) NOT NULL DEFAULT 0,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `transactions`
 --
 
@@ -1004,17 +1089,13 @@ CREATE TABLE `transactions` (
   `user_id` int(10) UNSIGNED NOT NULL,
   `booking_id` int(11) DEFAULT NULL,
   `extension_id` int(11) DEFAULT NULL,
-  `transaction_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reference_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` double NOT NULL,
   `service_fee` double NOT NULL,
   `discount_fee` double NOT NULL,
   `currency` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `operator` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `property_type` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` int(11) NOT NULL DEFAULT 0,
+  `channel` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1023,12 +1104,11 @@ CREATE TABLE `transactions` (
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `user_id`, `booking_id`, `extension_id`, `transaction_id`, `payment_id`, `amount`, `service_fee`, `discount_fee`, `currency`, `operator`, `phone`, `type`, `property_type`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, NULL, 'XzvRQ9C1iuXkJ0UU', '1642842790', 8400, 0, 0, 'GHC', 'VODAFONE_CASH_PROMPT', '233507791393', 'mobile', 'apartment', 0, '2021-01-05 15:52:16', '2021-01-05 15:52:16'),
-(2, 2, 2, NULL, 'e9ApbMm3zfnuNpuZ', '0042942113', 1400, 0, 0, 'GHC', 'VODAFONE_CASH_PROMPT', '233507791393', 'mobile', 'house', 0, '2021-01-05 15:59:56', '2021-01-05 15:59:56'),
-(3, 2, 1, NULL, '5jtsz8H3wu0uw5Zi', '8932189975', 2400, 0, 0, 'GHC', 'VODAFONE_CASH_PROMPT', '233507791393', 'mobile', 'hostel', 0, '2021-01-05 16:30:36', '2021-01-05 16:30:36'),
-(4, 2, NULL, 1, 'mffbLLTp2fOEZPwn', '8058940743', 500, 0, 0, 'GHC', 'VODAFONE_CASH_PROMPT', '233507791393', 'mobile', 'extension_request', 0, '2021-01-05 16:46:17', '2021-01-05 16:46:17'),
-(5, 2, NULL, 3, 'ci6EptzEmHBW4Iui', '5322936263', 2400, 0, 0, 'GHC', 'VODAFONE_CASH_PROMPT', '233507791393', 'mobile', 'extension_request', 0, '2021-01-08 15:28:24', '2021-01-08 15:28:24');
+INSERT INTO `transactions` (`id`, `user_id`, `booking_id`, `extension_id`, `reference_id`, `amount`, `service_fee`, `discount_fee`, `currency`, `property_type`, `channel`, `created_at`, `updated_at`) VALUES
+(4, 2, 1, NULL, 'VTB21012021110335', 2400, 0, 0, 'GHS', 'hostel', 'mobile_money', '2021-01-21 11:03:50', '2021-01-21 11:03:50'),
+(5, 2, 1, NULL, 'VTB21012021110545', 8400, 0, 0, 'GHS', 'apartment', 'card', '2021-01-21 11:05:56', '2021-01-21 11:05:56'),
+(11, 2, 2, NULL, 'VTB21012021113724', 840, 0, 0, 'GHS', 'room', 'card', '2021-01-21 11:37:33', '2021-01-21 11:37:33'),
+(12, 2, NULL, 1, 'VTE21012021113910', 4200, 0, 0, 'GHS', 'extension_request', 'mobile_money', '2021-01-21 11:39:42', '2021-01-21 11:39:42');
 
 -- --------------------------------------------------------
 
@@ -1063,8 +1143,29 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `is_active`, `image`, `email_verification_token`, `email_verification_expired_at`, `verify_email`, `verify_email_time`, `sms_verification_token`, `verify_sms`, `verify_sms_time`, `login_time`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'fiifi pius jnr', 'fiifipius@gmail.com', '$2y$10$SdP7yCkjKapWQUHbVNYXs.bxBlL67pEDRvfoG1QIAoWK8ESuDYgA6', '0542398442', 1, '10ff36ac46e6be792da3dec441f52c02d470bf80a.jpeg', '68684398', '0000-00-00 00:00:00', 1, '2020-12-15 15:41:14', NULL, 0, NULL, '2021-01-06 08:45:55', 'PeGizINLDiyqrnBzRVc8u3VoGWwpTSFh1rFvUYqO2DOuJeAH2bEIETLk3llJ', '2020-12-15 14:41:14', '2021-01-06 08:45:55', NULL),
-(2, 'theresa ohenewaa', 'theresa@gmail.com', '$2y$10$LFmhuKxbcNVERXyx684yguPjYciIpO/ggWy.RO2kr36jwQ4MGXcgy', '0542398441', 1, '238a6d87fda9e7e6599f3cc296c835aecce895591.jpg', '53061952', '2021-01-07 17:15:59', 1, '2021-01-07 16:17:02', '2727', 1, '2020-12-29 15:42:24', '2021-01-07 16:15:32', 'mzlTDxxhMpGilZHwV1nUPNR6bpaitxBj9yqyx79v3xHjnFII1VJLmjz9v61H', '2020-12-23 11:50:57', '2021-01-07 16:17:02', NULL);
+(1, 'fiifi pius jnr', 'fiifipius@gmail.com', '$2y$10$SdP7yCkjKapWQUHbVNYXs.bxBlL67pEDRvfoG1QIAoWK8ESuDYgA6', '0542398442', 1, '10ff36ac46e6be792da3dec441f52c02d470bf80a.jpeg', '68684398', '0000-00-00 00:00:00', 1, '2020-12-15 15:41:14', NULL, 0, NULL, '2021-01-21 15:27:59', 'eRiDFysNXjlLMrMjSfkkLJUxNJ4PJGyJOaSqqlDmHbiwDFyohN3E8V6UFY54', '2020-12-15 14:41:14', '2021-01-21 15:27:59', NULL),
+(2, 'theresa ohenewaa', 'theresa@gmail.com', '$2y$10$LFmhuKxbcNVERXyx684yguPjYciIpO/ggWy.RO2kr36jwQ4MGXcgy', '0542398441', 1, '238a6d87fda9e7e6599f3cc296c835aecce895591.jpg', '53061952', '2021-01-07 17:15:59', 1, '2021-01-07 16:17:02', '4625', 1, '2021-01-13 15:32:15', '2021-01-21 10:46:32', 'FtWAtj4Uvn8yHH1SbBMpG85iCr7bOfGe64KDm4p7RpULovg2vHPMDET44yb5', '2020-12-23 11:50:57', '2021-01-21 10:46:32', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_currencies`
+--
+
+CREATE TABLE `user_currencies` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `currency` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'GHS',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_currencies`
+--
+
+INSERT INTO `user_currencies` (`id`, `user_id`, `currency`, `created_at`, `updated_at`) VALUES
+(1, 1, 'GHS', '2021-01-21 16:10:27', '2021-01-21 16:10:27');
 
 -- --------------------------------------------------------
 
@@ -1079,7 +1180,7 @@ CREATE TABLE `user_extension_requests` (
   `owner_id` int(11) NOT NULL,
   `extension_date` date NOT NULL,
   `is_confirm` int(11) NOT NULL DEFAULT 1,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1089,8 +1190,7 @@ CREATE TABLE `user_extension_requests` (
 --
 
 INSERT INTO `user_extension_requests` (`id`, `user_id`, `visit_id`, `owner_id`, `extension_date`, `is_confirm`, `type`, `created_at`, `updated_at`) VALUES
-(1, 2, 2, 1, '2021-01-20', 2, 'house', '2021-01-08 14:19:21', '2021-01-08 14:23:01'),
-(3, 2, 1, 1, '2022-05-10', 2, 'hostel', '2021-01-08 14:24:20', '2021-01-08 15:01:38');
+(1, 2, 1, 1, '2022-07-21', 3, 'apartment', '2021-01-21 11:38:28', '2021-01-21 11:39:42');
 
 -- --------------------------------------------------------
 
@@ -1116,7 +1216,7 @@ CREATE TABLE `user_hostel_visits` (
 --
 
 INSERT INTO `user_hostel_visits` (`id`, `user_id`, `property_id`, `hostel_block_room_id`, `hostel_block_room_number_id`, `check_in`, `check_out`, `is_in`, `created_at`, `updated_at`) VALUES
-(1, 2, 11, 3, 26, '2021-01-07', '2021-09-09', 1, '2021-01-02 09:46:09', '2021-01-02 09:46:09');
+(4, 2, 11, 3, 26, '2021-01-22', '2021-09-22', 1, '2021-01-21 11:03:50', '2021-01-21 11:03:50');
 
 -- --------------------------------------------------------
 
@@ -1145,7 +1245,21 @@ INSERT INTO `user_logins` (`id`, `user_id`, `ip`, `device`, `browser`, `location
 (3, 1, '127.0.0.1', 'Linux', 'Chrome', ', ', '2020-12-28 21:53:30', '2020-12-28 21:53:30'),
 (4, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2020-12-28 21:54:16', '2020-12-28 21:54:16'),
 (5, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-07 14:23:17', '2021-01-07 14:23:17'),
-(6, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-07 16:15:39', '2021-01-07 16:15:39');
+(6, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-07 16:15:39', '2021-01-07 16:15:39'),
+(7, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-13 14:24:31', '2021-01-13 14:24:31'),
+(8, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-13 14:25:08', '2021-01-13 14:25:08'),
+(9, 1, '127.0.0.1', 'Ubuntu', 'Firefox', ', ', '2021-01-14 12:14:38', '2021-01-14 12:14:38'),
+(10, 1, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-15 18:55:55', '2021-01-15 18:55:55'),
+(11, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-15 18:56:29', '2021-01-15 18:56:29'),
+(12, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-18 10:13:08', '2021-01-18 10:13:08'),
+(13, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-18 10:19:41', '2021-01-18 10:19:41'),
+(14, 1, '127.0.0.1', 'Ubuntu', 'Firefox', ', ', '2021-01-18 11:49:59', '2021-01-18 11:49:59'),
+(15, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-19 10:57:02', '2021-01-19 10:57:02'),
+(16, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-19 11:05:59', '2021-01-19 11:05:59'),
+(17, 1, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-20 18:43:59', '2021-01-20 18:43:59'),
+(18, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-21 10:46:33', '2021-01-21 10:46:33'),
+(19, 1, '127.0.0.1', 'Ubuntu', 'Firefox', ', ', '2021-01-21 11:38:52', '2021-01-21 11:38:52'),
+(20, 1, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-21 15:27:59', '2021-01-21 15:27:59');
 
 -- --------------------------------------------------------
 
@@ -1236,7 +1350,7 @@ CREATE TABLE `user_visits` (
   `adult` int(11) NOT NULL DEFAULT 1,
   `children` int(11) NOT NULL DEFAULT 0,
   `infant` int(11) NOT NULL DEFAULT 0,
-  `status` int(11) NOT NULL DEFAULT 1,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1246,8 +1360,8 @@ CREATE TABLE `user_visits` (
 --
 
 INSERT INTO `user_visits` (`id`, `user_id`, `property_id`, `check_in`, `check_out`, `adult`, `children`, `infant`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 9, '2021-01-05', '2022-01-05', 2, 0, 0, 1, '2021-01-02 09:44:17', '2021-01-02 09:44:17'),
-(2, 2, 10, '2021-01-01', '2021-01-15', 2, 0, 0, 1, '2021-01-02 09:45:04', '2021-01-02 09:45:04');
+(1, 2, 9, '2021-01-21', '2022-07-21', 2, 0, 0, 1, '2021-01-21 11:05:56', '2021-01-21 11:39:42'),
+(7, 2, 12, '2021-01-21', '2021-01-28', 1, 0, 0, 1, '2021-01-21 11:37:33', '2021-01-21 11:37:33');
 
 -- --------------------------------------------------------
 
@@ -1259,27 +1373,21 @@ CREATE TABLE `user_wallets` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `balance` double NOT NULL DEFAULT 0,
-  `currency` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'GHC',
+  `currency` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_cash_out` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `user_wallet_transactions`
+-- Dumping data for table `user_wallets`
 --
 
-CREATE TABLE `user_wallet_transactions` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `user_wallet_id` int(10) UNSIGNED NOT NULL,
-  `transaction_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `amount` double NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `user_wallets` (`id`, `user_id`, `balance`, `currency`, `is_cash_out`, `created_at`, `updated_at`) VALUES
+(3, 1, 2400, 'GHS', 0, '2021-01-21 11:03:50', '2021-01-21 11:03:50'),
+(4, 1, 8400, 'GHS', 0, '2021-01-21 11:05:56', '2021-01-21 11:05:56'),
+(6, 1, 840, 'GHS', 0, '2021-01-21 11:37:33', '2021-01-21 11:37:33'),
+(7, 1, 4200, 'GHS', 0, '2021-01-21 11:39:42', '2021-01-21 11:39:42');
 
 -- --------------------------------------------------------
 
@@ -1333,11 +1441,36 @@ ALTER TABLE `bookings`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `currencies`
+--
+ALTER TABLE `currencies`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `deactivate_users`
 --
 ALTER TABLE `deactivate_users`
   ADD PRIMARY KEY (`id`),
   ADD KEY `deactivate_users_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `helps`
+--
+ALTER TABLE `helps`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `helps_help_type_id_index` (`help_type_id`);
+
+--
+-- Indexes for table `help_types`
+--
+ALTER TABLE `help_types`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `hostel_block_rooms`
@@ -1518,13 +1651,6 @@ ALTER TABLE `service_charges`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tickets`
---
-ALTER TABLE `tickets`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `tickets_user_id_index` (`user_id`);
-
---
 -- Indexes for table `transactions`
 --
 ALTER TABLE `transactions`
@@ -1538,6 +1664,13 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`),
   ADD UNIQUE KEY `users_phone_unique` (`phone`);
+
+--
+-- Indexes for table `user_currencies`
+--
+ALTER TABLE `user_currencies`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_currencies_user_id_index` (`user_id`);
 
 --
 -- Indexes for table `user_extension_requests`
@@ -1601,13 +1734,6 @@ ALTER TABLE `user_wallets`
   ADD KEY `user_wallets_user_id_index` (`user_id`);
 
 --
--- Indexes for table `user_wallet_transactions`
---
-ALTER TABLE `user_wallet_transactions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_wallet_transactions_user_wallet_id_index` (`user_wallet_id`);
-
---
 -- Indexes for table `vats`
 --
 ALTER TABLE `vats`
@@ -1628,7 +1754,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `admin_activities`
 --
 ALTER TABLE `admin_activities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `amenities`
@@ -1643,10 +1769,34 @@ ALTER TABLE `bookings`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `contacts`
+--
+ALTER TABLE `contacts`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `currencies`
+--
+ALTER TABLE `currencies`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `deactivate_users`
 --
 ALTER TABLE `deactivate_users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `helps`
+--
+ALTER TABLE `helps`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `help_types`
+--
+ALTER TABLE `help_types`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `hostel_block_rooms`
@@ -1688,7 +1838,7 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `packages`
@@ -1700,25 +1850,25 @@ ALTER TABLE `packages`
 -- AUTO_INCREMENT for table `properties`
 --
 ALTER TABLE `properties`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `property_amenities`
 --
 ALTER TABLE `property_amenities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `property_contains`
 --
 ALTER TABLE `property_contains`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `property_descriptions`
 --
 ALTER TABLE `property_descriptions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `property_hostel_blocks`
@@ -1736,13 +1886,13 @@ ALTER TABLE `property_hostel_prices`
 -- AUTO_INCREMENT for table `property_images`
 --
 ALTER TABLE `property_images`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `property_locations`
 --
 ALTER TABLE `property_locations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `property_own_rules`
@@ -1754,7 +1904,7 @@ ALTER TABLE `property_own_rules`
 -- AUTO_INCREMENT for table `property_prices`
 --
 ALTER TABLE `property_prices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `property_reviews`
@@ -1766,13 +1916,13 @@ ALTER TABLE `property_reviews`
 -- AUTO_INCREMENT for table `property_rules`
 --
 ALTER TABLE `property_rules`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `property_shared_amenities`
 --
 ALTER TABLE `property_shared_amenities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `property_types`
@@ -1799,16 +1949,10 @@ ALTER TABLE `service_charges`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tickets`
---
-ALTER TABLE `tickets`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1817,22 +1961,28 @@ ALTER TABLE `users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `user_currencies`
+--
+ALTER TABLE `user_currencies`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `user_extension_requests`
 --
 ALTER TABLE `user_extension_requests`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_hostel_visits`
 --
 ALTER TABLE `user_hostel_visits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_logins`
 --
 ALTER TABLE `user_logins`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `user_notifications`
@@ -1856,19 +2006,13 @@ ALTER TABLE `user_saved_properties`
 -- AUTO_INCREMENT for table `user_visits`
 --
 ALTER TABLE `user_visits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user_wallets`
 --
 ALTER TABLE `user_wallets`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `user_wallet_transactions`
---
-ALTER TABLE `user_wallet_transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `vats`
@@ -1891,6 +2035,12 @@ ALTER TABLE `admin_activities`
 --
 ALTER TABLE `deactivate_users`
   ADD CONSTRAINT `deactivate_users_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `helps`
+--
+ALTER TABLE `helps`
+  ADD CONSTRAINT `helps_help_type_id_foreign` FOREIGN KEY (`help_type_id`) REFERENCES `help_types` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `hostel_block_rooms`
@@ -2015,16 +2165,16 @@ ALTER TABLE `report_properties`
   ADD CONSTRAINT `report_properties_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `tickets`
---
-ALTER TABLE `tickets`
-  ADD CONSTRAINT `tickets_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
 -- Constraints for table `transactions`
 --
 ALTER TABLE `transactions`
   ADD CONSTRAINT `transactions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_currencies`
+--
+ALTER TABLE `user_currencies`
+  ADD CONSTRAINT `user_currencies_user_id_index` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_extension_requests`
@@ -2078,12 +2228,6 @@ ALTER TABLE `user_visits`
 --
 ALTER TABLE `user_wallets`
   ADD CONSTRAINT `user_wallets_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `user_wallet_transactions`
---
-ALTER TABLE `user_wallet_transactions`
-  ADD CONSTRAINT `user_wallet_transactions_user_wallet_id_foreign` FOREIGN KEY (`user_wallet_id`) REFERENCES `user_wallets` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `vats`

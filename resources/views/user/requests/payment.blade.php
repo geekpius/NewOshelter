@@ -17,7 +17,8 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="font-14">
-                                <img src="{{ asset('assets/images/users/'.$booking->owner->image) }}" alt="{{ $booking->owner->name }}" class="thumb-sm rounded-circle mr-1" />
+                                @php $image = empty($booking->owner->image)? 'user.svg': 'users/'.$booking->owner->image; @endphp
+                                <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->owner->name }}" class="thumb-sm rounded-circle mr-1" />
                                 This {{ $booking->property->type }} belongs to {{ current(explode(' ',$booking->owner->name))}}. Other people like it.
                             </p>
                             @php
@@ -87,7 +88,8 @@
                     <div class="card">
                         <div class="card-body">
                             <p class="font-14">
-                                <img src="{{ asset('assets/images/users/'.$booking->owner->image) }}" alt="{{ $booking->owner->name }}" class="thumb-sm rounded-circle mr-1" />
+                                @php $image = empty($booking->owner->image)? 'user.svg': 'users/'.$booking->owner->image; @endphp
+                                <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->owner->name }}" class="thumb-sm rounded-circle mr-1" />
                                 This {{ $booking->property->type }} belongs to {{ current(explode(' ',$booking->owner->name))}}. Other people like it.
                             </p>
                             @php
