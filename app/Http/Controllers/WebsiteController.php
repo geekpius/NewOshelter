@@ -253,7 +253,23 @@ class WebsiteController extends Controller
     public function help()
     {
         $data['page_title'] = 'Oshelter help center';
+        $data['general'] = Help::take(8)->get();
         return view('website.help.index', $data);
+    }
+
+    public function helpTitle(HelpType $helpType, string $title)
+    {
+        $data['page_title'] = $helpType->document_title;
+        $data['helpTypes'] = HelpType::all();
+        $data['helpType'] = $helpType;
+        return view('website.help.read_title', $data);
+    }
+
+    public function readHelp(Help $help, string $question)
+    {
+        $data['page_title'] = $help->question;
+        $data['help'] = $help;
+        return view('website.help.read_help', $data);
     }
      
     //owner help page

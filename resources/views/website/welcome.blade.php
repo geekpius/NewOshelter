@@ -123,7 +123,7 @@
                         <div class="pxp-areas-1-item-counter">
                             <span class="text-primary">
                             @php $propCount = $type->getPropertyCount(strtolower(str_replace(' ','_',$type->name))); @endphp  
-                            {{ $propCount. ' Properties' }}
+                            {{ $propCount }} {{ str_plural("Property",$propCount) }}
                             </span>
                         </div>
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>

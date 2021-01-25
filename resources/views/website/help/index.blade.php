@@ -65,30 +65,14 @@
             <div class="mt-4">
                 <h5 class="font-weight-800">Popular helps</h5>
                 <div class="row mt-4">
+                    @foreach ($general as $help)
                     <div class="col-sm-3">
-                        <a href="#">
-                            <p class="font-weight-bold font-16">What is Oshelter and how does it work?</p>
+                        <a href="{{ route('help.read', ['help'=>$help->id, 'question'=>$help->question_slug]) }}">
+                            <p class="font-weight-bold font-16">{{ $help->question }}</p>
                         </a>
-                        <p>Oshelter began in 2020 when two designers who had space to share....</p>
+                        <p>{!! $help->getAnswerLimit()  !!}</p>
                     </div>
-                    <div class="col-sm-3">
-                        <a href="#">
-                            <p class="font-weight-bold font-16">What is Oshelter and how does it work?</p>
-                        </a>
-                        <p>Oshelter began in 2020 when two designers who had space to share....</p>
-                    </div>
-                    <div class="col-sm-3">
-                        <a href="#">
-                            <p class="font-weight-bold font-16">What is Oshelter and how does it work?</p>
-                        </a>
-                        <p>Oshelter began in 2020 when two designers who had space to share....</p>
-                    </div>
-                    <div class="col-sm-3">
-                        <a href="#">
-                            <p class="font-weight-bold font-16">What is Oshelter and how does it work?</p>
-                        </a>
-                        <p>Oshelter began in 2020 when two designers who had space to share....</p>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
