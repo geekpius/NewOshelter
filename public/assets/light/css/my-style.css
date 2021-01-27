@@ -497,7 +497,9 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   }
   /* end help collapsable */
 
-
+  .border-link {
+    border-left: solid red !important;
+  }
   
   /* IDs  */
   #showCalculations{

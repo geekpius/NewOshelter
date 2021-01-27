@@ -6,8 +6,9 @@ use DB;
 use Route;
 use App\User;
 use App\ServiceCharge;
-use App\Help;
-use App\HelpType;
+use App\HelpCategory;
+use App\HelpQuestion;
+use App\HelpTopic;
 use App\UserModel\Amenity;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -198,6 +199,45 @@ class WebsiteController extends Controller
         return PropertyCollection::collection($properties);
     }
 
+    public function help()
+    {
+        $data['page_title'] = 'Oshelter help center';
+        $generalHelps = HelpQuestion::whereHas('helpTopic', function($query){
+            $query->whereHas('helpCategory', function($query){
+                $query->where('category', 'general');
+            });
+        });
+        $data['general'] = $generalHelps->take(8)->get();
+        return view('website.help.general.index', $data);
+    }
+
+    public function helpCategory(HelpCategory $helpCategory, string $title)
+    {
+        $data['page_title'] = $helpCategory->topic;
+        $data['helpCategories'] = HelpCategory::whereCategory('general')->get();
+        $data['helpCategory'] = $helpCategory;
+        $data['title'] = $title;
+        return view('website.help.general.read_category', $data);
+    }
+
+    public function helpTopic(HelpTopic $helpTopic, string $topic)
+    {
+        $data['page_title'] = $helpTopic->topic_name;
+        $data['helpCategories'] = HelpCategory::whereCategory('general')->get();
+        $data['helpTopic'] = $helpTopic;
+        $data['title'] = $topic;
+        return view('website.help.general.read_topic', $data);
+    }
+
+    public function readQuestion(HelpQuestion $helpQuestion, string $question)
+    {
+        $data['page_title'] = $helpQuestion->question;
+        $data['helpCategories'] = HelpCategory::whereCategory('general')->get();
+        $data['help'] = $helpQuestion;
+        $data['title'] = $question;
+        return view('website.help.general.read_question', $data);
+    }
+     
 
 
 
@@ -247,38 +287,6 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Host an event, make it know to the world on OShelter';
         // $data['menu'] = 'pxp-no-bg';
         return view('website.hostevent', $data);
-    }
-    
- 
-    public function help()
-    {
-        $data['page_title'] = 'Oshelter help center';
-        $data['general'] = Help::take(8)->get();
-        return view('website.help.index', $data);
-    }
-
-    public function helpTitle(HelpType $helpType, string $title)
-    {
-        $data['page_title'] = $helpType->document_title;
-        $data['helpTypes'] = HelpType::all();
-        $data['helpType'] = $helpType;
-        return view('website.help.read_title', $data);
-    }
-
-    public function readHelp(Help $help, string $question)
-    {
-        $data['page_title'] = $help->question;
-        $data['help'] = $help;
-        return view('website.help.read_help', $data);
-    }
-     
-    //owner help page
-    public function ownerHelp()
-    {
-        $data['page_title'] = 'Property owner help';
-        // $data['menu'] = 'pxp-no-bg';
-        $data['types'] = HelpType::whereHelp_type('owner')->get();
-        return view('website.ownerhelp', $data);
     }
 
     //booking help page

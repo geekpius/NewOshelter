@@ -33,8 +33,9 @@ Route::group(['middleware' => ['verify-email']], function() {
 
     Route::group(['prefix' => 'help'], function () {
         Route::get('/', 'WebsiteController@help')->name('help');
-        Route::get('/title/{helpType}/{title}', 'WebsiteController@helpTitle')->name('help.title');
-        Route::get('/read/{help}/{question}', 'WebsiteController@readHelp')->name('help.read');
+        Route::get('/title/{helpCategory}/{title}', 'WebsiteController@helpCategory')->name('help.title');
+        Route::get('/topic/{helpTopic}/{topic}', 'WebsiteController@helpTopic')->name('help.topic');
+        Route::get('/read/{helpQuestion}/{question}', 'WebsiteController@readQuestion')->name('help.read');
     });
     Route::get('/help/property-owners', 'WebsiteController@ownerHelp')->name('help.owner');
     Route::get('/help/booking-and-travellers', 'WebsiteController@bookingHelp')->name('help.booking');

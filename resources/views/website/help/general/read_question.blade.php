@@ -12,8 +12,15 @@
                 <h5 class="font-weight-800"><a class="text-decoration-none" href="{{ route('help') }}">Help center</a></h5>
                 <div class="row mt-4">
                     <div class="col-sm-4">
-                        @foreach ($help->helpType()->get() as $type)
-                        <a class="text-gray" style="border-left: solid red" href="{{ route('help.title', ['helpType'=>$type->id, 'title'=>$type->document_title_slug]) }}">&nbsp;{{ $type->document_title }}</a>
+                        @foreach ($helpCategories as $category)
+                        <div class="mb-2">
+                            <a class="text-gray text-decoration-none font-weight-bold" href="{{ route('help.title', ['helpCategory'=>$category->id, 'title'=>$category->topic_slug]) }}">&nbsp;{{ $category->topic }}</a>
+                        </div>
+                            @foreach ($category->helpTopics as $topic)
+                            <div class="mb-2 ml-2">
+                                <a class="text-gray text-decoration-none {{ ($topic->topic_name_slug==$help->helpTopic->topic_name_slug)? 'border-link':'' }}" href="{{ route('help.topic', ['helpTopic'=>$topic->id, 'topic'=>$topic->topic_name_slug]) }}">&nbsp;{{ $topic->topic_name }}</a>
+                            </div>
+                            @endforeach
                         @endforeach
                     </div>
                     <div class="col-sm-8">
