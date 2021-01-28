@@ -19,8 +19,8 @@
     </div>
     <div class="form-group col-sm-4">
         <div class="checkbox checkbox-primary">
-            <input id="checkboxa2" type="checkbox" value="Fiber Broadband Modem" name="amenities[]">
-            <label for="checkboxa2">Fiber Broadband Modem</label>
+            <input id="checkboxa2" type="checkbox" value="Internet Connection" name="amenities[]">
+            <label for="checkboxa2">Internet Connection</label>
         </div>
     </div>
     <div class="form-group col-sm-4">

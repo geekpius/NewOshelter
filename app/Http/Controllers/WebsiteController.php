@@ -202,12 +202,7 @@ class WebsiteController extends Controller
     public function help()
     {
         $data['page_title'] = 'Oshelter help center';
-        $generalHelps = HelpQuestion::whereHas('helpTopic', function($query){
-            $query->whereHas('helpCategory', function($query){
-                $query->where('category', 'general');
-            });
-        });
-        $data['general'] = $generalHelps->take(8)->get();
+        $data['general'] = HelpQuestion::whereIs_popular(true)->take(8)->get();
         return view('website.help.general.index', $data);
     }
 

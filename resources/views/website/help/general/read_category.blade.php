@@ -8,8 +8,9 @@
     <div class="container">
         <h2 class="font-weight-bold">Welcom to Oshelter help center</h2>  
         <div class="pt-4">
-            <div class="mt-4">
-                <h5 class="font-weight-800"><a class="text-decoration-none" href="{{ route('help') }}">Help center</a></h5>
+            <div class="">
+                @include('website.help.search')
+                <h5 class="font-weight-800 mt-3"><a class="text-decoration-none" href="{{ route('help') }}">Help center</a></h5>
                 <div class="row mt-4">
                     <div class="col-sm-4">
                         @foreach ($helpCategories as $category)
@@ -42,4 +43,21 @@
 @endsection
 
 @section('scripts')
+<script>
+    function filterFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("myDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+            } else {
+            a[i].style.display = "none";
+            }
+        }
+    }
+</script>
 @endsection
