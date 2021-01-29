@@ -61,7 +61,7 @@
                             <a href="{{ route('browse.property') }}" class="pr-4 text-decoration-none" title="Filter">
                                 <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
-                            <a href="#" class="pr-4 text-decoration-none" title="Help">
+                            <a href="{{ route('help') }}" class="pr-4 text-decoration-none" title="Help">
                                 <i class="fa fa-question-circle fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
                             <a href="{{ route('login') }}" class="text-decoration-none" title="Login">

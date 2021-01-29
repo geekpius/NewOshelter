@@ -232,6 +232,12 @@ class WebsiteController extends Controller
         $data['title'] = $question;
         return view('website.help.general.read_question', $data);
     }
+
+    public function search(string $search)
+    {
+        $data['questions'] = HelpQuestion::where('question', 'LIKE', '%'.$search.'%')->get();
+        return view('website.help.search_results', $data)->render();
+    }
      
 
 

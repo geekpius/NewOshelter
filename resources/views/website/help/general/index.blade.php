@@ -66,7 +66,7 @@
                 <h5 class="font-weight-800">Popular helps</h5>
                 <div class="row mt-4">
                     @foreach ($general as $help)
-                    <div class="col-sm-3">
+                    <div class="col-12 col-md-3">
                         <a href="{{ route('help.read', ['help'=>$help->id, 'question'=>$help->question_slug]) }}">
                             <p class="font-weight-bold font-16">{{ $help->question }}</p>
                         </a>

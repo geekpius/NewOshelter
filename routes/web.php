@@ -33,6 +33,7 @@ Route::group(['middleware' => ['verify-email']], function() {
 
     Route::group(['prefix' => 'help'], function () {
         Route::get('/', 'WebsiteController@help')->name('help');
+        Route::get('/search/{search}', 'WebsiteController@search')->name('help.search');
         Route::get('/title/{helpCategory}/{title}', 'WebsiteController@helpCategory')->name('help.title');
         Route::get('/topic/{helpTopic}/{topic}', 'WebsiteController@helpTopic')->name('help.topic');
         Route::get('/read/{helpQuestion}/{question}', 'WebsiteController@readQuestion')->name('help.read');

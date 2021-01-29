@@ -1,12 +1,10 @@
-<div class="dropdown" style="margin-left: 300px">
-    <div id="myDropdown" class="dropdown-content">
-      <input type="search" name="search_help" class="form-control" placeholder="Search help ...." id="myInput" onkeyup="filterFunction()">
-      <a href="#about">About</a>
-      <a href="#base">Base</a>
-      <a href="#blog">Blog</a>
-      <a href="#contact">Contact</a>
-      <a href="#custom">Custom</a>
-      <a href="#support">Support</a>
-      <a href="#tools">Tools</a>
+<div class="dropdown1" style="margin-left: 300px;">
+    <div id="myDropdown" class="dropdown-content1">
+      <input type="text" name="search_help" class="form-control" placeholder="Search help questions...." id="myInput" onkeyup="filterFunction()" />
+      <div id="searchContent">
+        <div class="text-center pt-2 pb-2" id="spinContainer" style="display: none">
+          <i class="fa fa-spin fa-spinner"></i>
+        </div>
+      </div>
     </div>
   </div>
