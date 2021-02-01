@@ -164,6 +164,13 @@ textarea.form-control {
 .mb-40 {
     margin-bottom: 40px;
 }
+.mt-80 {
+    margin-top: 80px;
+}
+.mb-80 {
+    margin-bottom: 80px;
+}
+
 .mt-100 {
     margin-top: 100px;
 }

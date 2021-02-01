@@ -658,14 +658,14 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
 
 .dropdown1 {
   position: relative;
-  display: inline-block;
+  display: inline-block; 
 }
 
 .dropdown-content1 {
   display: inline;
   position: absolute;
   background-color: #f6f6f6;
-  min-width: 400px;
+  min-width: 500px;
   overflow: auto;
   border: 1px solid #ddd;
   z-index: 1;
@@ -768,6 +768,7 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   .contact-us-heading {
     display: none;
   }
+
 }
 
 @media screen and (max-width: 576px){
@@ -778,17 +779,34 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   .help-card-tiles {
     display: none;
   }
+
+  .pull-content-down {
+    margin-top: 100px !important;
+  }
+
+}
+
+@media screen and (max-width: 500px){
+  .dropdown-content1 {
+    min-width: 350px;
+  }
+}
+
+@media screen and (max-width: 375px){
+  .dropdown-content1 {
+    min-width: 300px;
+  }
+}
+
+@media screen and (max-width: 320px){
+  .dropdown-content1 {
+    min-width: 250px;
+  }
 }
 
 @media screen and (min-width: 768px){
   .font-14-large {
     font-size: 16px;
-  }
-}
-
-@media screen and (max-width: 570px){
-  .pull-content-down {
-    margin-top: 100px !important;
   }
 }
 

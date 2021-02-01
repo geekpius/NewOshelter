@@ -1,4 +1,4 @@
-<div class="dropdown1" style="margin-left: 300px;">
+<div class="dropdown1">
     <div id="myDropdown" class="dropdown-content1">
       <input type="text" name="search_help" class="form-control" placeholder="Search help questions...." id="myInput" onkeyup="filterFunction()" />
       <div id="searchContent">

@@ -2,7 +2,9 @@ function getResults(){
     $("#spinContainer").hide().fadeIn("slow");
     input = $("#myInput");
     if(input.val() === ''){
-        $("#searchContent").html('');
+        $("#searchContent").html(`<div class="text-center pt-2 pb-2" id="spinContainer" style="display: none">
+        <i class="fa fa-spin fa-spinner"></i>
+      </div>`);
         return;
     }
     $.ajax({

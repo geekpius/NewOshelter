@@ -7,10 +7,10 @@
 <div class="pxp-content pull-content-down">
     <div class="container">
         <h2 class="font-weight-bold">Welcom to Oshelter help center</h2>  
-        <div class="pt-4">
+        <div class="pt-2">
             <div class="">
                 @include('website.help.search')
-                <h5 class="font-weight-800 mt-3"><a class="text-decoration-none" href="{{ route('help') }}">Help center</a></h5>
+                <h5 class="font-weight-800 mt-60"><a class="text-decoration-none" href="{{ route('help') }}">Help center</a></h5>
                 <div class="row mt-4">
                     <div class="col-sm-4">
                         @foreach ($helpCategories as $category)
