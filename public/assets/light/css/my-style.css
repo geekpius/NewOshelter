@@ -786,6 +786,20 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
 
 }
 
+@media screen and (max-width: 575px){
+  .category-menu {
+    display: none;
+  }
+
+  .topic-menu {
+    display: none;
+  }
+
+  .question-menu {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 500px){
   .dropdown-content1 {
     min-width: 350px;
@@ -794,13 +808,13 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
 
 @media screen and (max-width: 375px){
   .dropdown-content1 {
-    min-width: 300px;
+    min-width: 250px;
   }
 }
 
 @media screen and (max-width: 320px){
   .dropdown-content1 {
-    min-width: 250px;
+    min-width: 200px;
   }
 }
 
