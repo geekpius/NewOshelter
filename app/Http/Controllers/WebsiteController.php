@@ -199,39 +199,66 @@ class WebsiteController extends Controller
         return PropertyCollection::collection($properties);
     }
 
+    /************ GENERAL ***************/ 
     public function help()
     {
         $data['page_title'] = 'Oshelter help center';
-        $data['general'] = HelpQuestion::whereIs_popular(true)->take(8)->get();
+        $questions = HelpQuestion::whereIs_popular(true)
+            ->whereHas('helpTopic', function($query){
+                $query->whereHas('helpCategory', function($query){
+                    $query->where('category', 'general');
+                });
+        });
+        $data['general'] = $questions->take(8)->get();
         return view('website.help.general.index', $data);
     }
 
+    /************ OWNER AND VISITOR ***************/ 
+    public function otherHelp(string $slug)
+    {
+        $data['page_title'] = 'Owning properties';
+        $questions = HelpQuestion::whereIs_popular(true)
+            ->whereHas('helpTopic', function($query){
+                $query->whereHas('helpCategory', function($query){
+                    $query->where('category','!=','general');
+                });
+        });
+        $data['general'] = $questions->take(8)->get();
+        return view('website.help.other.index', $data);
+    }
+
+
+
     public function helpCategory(HelpCategory $helpCategory, string $title)
     {
-        $data['page_title'] = $helpCategory->topic;
-        $data['helpCategories'] = HelpCategory::whereCategory('general')->get();
+        $data['page_title'] = ucfirst(strtolower($helpCategory->topic));
+        $data['helpCategories'] = HelpCategory::where('category','!=', 'general')->get();
+        $data['generals'] = HelpCategory::whereCategory('general')->get();
         $data['helpCategory'] = $helpCategory;
         $data['title'] = $title;
-        return view('website.help.general.read_category', $data);
+        return view('website.help.read_category', $data);
     }
 
     public function helpTopic(HelpTopic $helpTopic, string $topic)
     {
         $data['page_title'] = $helpTopic->topic_name;
-        $data['helpCategories'] = HelpCategory::whereCategory('general')->get();
+        $data['helpCategories'] = HelpCategory::where('category','!=', 'general')->get();
+        $data['generals'] = HelpCategory::whereCategory('general')->get();
         $data['helpTopic'] = $helpTopic;
         $data['title'] = $topic;
-        return view('website.help.general.read_topic', $data);
+        return view('website.help.read_topic', $data);
     }
 
     public function readQuestion(HelpQuestion $helpQuestion, string $question)
     {
         $data['page_title'] = $helpQuestion->question;
-        $data['helpCategories'] = HelpCategory::whereCategory('general')->get();
+        $data['helpCategories'] = HelpCategory::where('category','!=', 'general')->get();
+        $data['generals'] = HelpCategory::whereCategory('general')->get();
         $data['help'] = $helpQuestion;
         $data['title'] = $question;
-        return view('website.help.general.read_question', $data);
+        return view('website.help.read_question', $data);
     }
+
 
     public function search(string $search)
     {

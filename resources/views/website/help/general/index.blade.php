@@ -15,7 +15,7 @@
                         <h4 class="font-weight-bold">How can we help you?</h4>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#" class="text-decoration-none">
+                        <a href="{{ route('help.owner', str_slug('booking-and-visitors')) }}" class="text-decoration-none">
                             <div class="card card-bordered-blue text-gray">
                                 <div class="card-body text-center">
                                    <img class="" src="{{ asset('assets/images/svg/guest.svg') }}" alt="booking and visitors" width="170" height="170">
@@ -28,14 +28,14 @@
                         </a>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
-                        <a href="#" class="text-decoration-none">
+                        <a href="{{ route('help.owner', str_slug('owning-properties')) }}" class="text-decoration-none">
                             <div class="card card-bordered-blue text-gray">
                                 <div class="card-body text-center">
                                    <img class="" src="{{ asset('assets/images/svg/property-owner.svg') }}" alt="own a property" width="170" height="170">
                                 </div>
                                 <hr>
                                 <div class="text-center">
-                                    <p class="font-16 font-weight-bold">Owning a property</p>
+                                    <p class="font-16 font-weight-bold">Owning properties</p>
                                 </div>
                             </div>
                         </a>
@@ -50,14 +50,14 @@
                     </div>
     
                     <div class="col-sm-12">
-                        <a href="#" class="text-decoration-none text-light-dark">
+                        <a href="{{ route('help.owner', str_slug('booking-and-visitors')) }}" class="text-decoration-none text-light-dark">
                             <p class="font-18"><i class="fa fa-briefcase mr-2"></i> Booking and visitors</p>
                         </a>
                     </div>
                     <div class="col-sm-12"><hr></div>
                     <div class="col-sm-12">
-                        <a href="#" class="text-decoration-none text-light-dark">
-                            <p class="font-18"><i class="fa fa-home mr-2"></i> Owning a property</p>
+                        <a href="{{ route('help.owner', str_slug('owning-properties')) }}" class="text-decoration-none text-light-dark">
+                            <p class="font-18"><i class="fa fa-home mr-2"></i> Owning properties</p>
                         </a>
                     </div>
                 </div>

@@ -33,13 +33,12 @@ Route::group(['middleware' => ['verify-email']], function() {
 
     Route::group(['prefix' => 'help'], function () {
         Route::get('/', 'WebsiteController@help')->name('help');
+        Route::get('/{slug}', 'WebsiteController@otherHelp')->name('help.owner');
         Route::get('/search/{search}', 'WebsiteController@search')->name('help.search');
         Route::get('/title/{helpCategory}/{title}', 'WebsiteController@helpCategory')->name('help.title');
         Route::get('/topic/{helpTopic}/{topic}', 'WebsiteController@helpTopic')->name('help.topic');
         Route::get('/read/{helpQuestion}/{question}', 'WebsiteController@readQuestion')->name('help.read');
     });
-    Route::get('/help/property-owners', 'WebsiteController@ownerHelp')->name('help.owner');
-    Route::get('/help/booking-and-travellers', 'WebsiteController@bookingHelp')->name('help.booking');
     Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
     Route::post('/contact-us', 'WebsiteController@submitContact')->name('contact.submit');
     Route::get('/account-deactivated', 'WebsiteController@accountDeactivated')->name('account.deactivated');
