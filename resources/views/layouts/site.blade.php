@@ -137,7 +137,7 @@
 
         @yield('content')
 
-        <div class="pxp-footer pt-100 pb-100 mt-100">
+        <div class="pxp-footer pt-100 pb-100">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12 col-lg-4">

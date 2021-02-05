@@ -7,10 +7,11 @@
 <div class="pxp-content pull-content-down">
     <div class="container">
         <h2 class="font-weight-bold">Welcom to Oshelter help center</h2>  
-        <div class="pt-4">
+        <div class="pt-2">
+            @include('website.help.search')
             <div class="help-card-tiles">
                 <div class="row">
-                    <div class="col-12 mb-3">
+                    <div class="col-12 mb-3 mt-60">
                         <h4 class="font-weight-bold">How can we help you?</h4>
                     </div>
                     <div class="col-12 col-sm-6 col-lg-4">
@@ -45,7 +46,7 @@
             <div class="help-card-tiles-responsive">
                 <div class="row">
                     <div class="col-12 mb-3">
-                        <h5 class="font-weight-bold">How can we help you?</h5>
+                        <h5 class="font-weight-bold mt-60">How can we help you?</h5>
                     </div>
     
                     <div class="col-sm-12">
@@ -81,4 +82,5 @@
 @endsection
 
 @section('scripts')
+<script src="{{ asset('assets/pages/website/search_help.js') }}"></script>
 @endsection

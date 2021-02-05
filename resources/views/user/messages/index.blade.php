@@ -41,16 +41,20 @@
                                 @foreach ($messages as $message)
                                 <hr>
                                 <div class="inboxParent mb-3">
-                                    <div class="row hand-cursor showReader {{ ($message->status==0)? ' font-weight-bolder':'' }}" data-url="{{ route('messages.read', $message->id) }}">
-                                        <div class="col-1">
+                                    <div class="row">
+                                        <div class="col-1 children-checkbox">
                                             <input type="checkbox" class="ml-2" id="chk{{ $message->id }}" value="{{ $message->id }}" style="width: 16px; height: 16px">
                                             <label for="chk{{ $message->id }}" class="toggle"></label>    
                                         </div>
-                                        <div class="col-3">{{ $message->limitName() }}</div>
-                                        <div class="col-6">{{ $message->limitMessage() }}</div>  
-                                        <div class="col-2 text-right">
-                                            <span class="mr-2">{{ \Carbon\Carbon::parse($message->created_at)->format("M-d") }}</span>
-                                        </div>   
+                                        <div class="col-11 hand-cursor showReader {{ ($message->status==0)? ' font-weight-bolder':'' }}" data-url="{{ route('messages.read', $message->id) }}">
+                                            <div class="row">
+                                                <div class="col-3">{{ $message->limitName() }}</div>
+                                                <div class="col-6">{{ $message->limitMessage() }}</div>  
+                                                <div class="col-2 text-right">
+                                                    <span class="mr-2">{{ \Carbon\Carbon::parse($message->created_at)->format("M-d") }}</span>
+                                                </div>   
+                                            </div>
+                                        </div>
                                     </div>
                                     
                                     <div class="col-12 mt-2 myReader" style="display:none">
@@ -142,6 +146,7 @@ $(".showReader").on("click", function(e){
                 $this.parents(".inboxParent").nextAll().hide();
                 $this.parents(".inboxParent").prevAll().hide();
                 $this.removeClass('font-weight-bolder');
+                $(".children-checkbox").hide();
                 $this.hide();
             }else if(resp == "permission")  {
                 swal("Authorized", "You dont have permission to read this", "warning");
@@ -161,6 +166,7 @@ $(".exitReader").on("click", function(e){
     $this.parents('.myReader').hide();
     $this.parents('.inboxParent').nextAll().show();
     $this.parents('.inboxParent').prevAll().show();
+    $(".children-checkbox").show();
     $(".showReader").show();
     return false;
 });
