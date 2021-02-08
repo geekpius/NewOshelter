@@ -1819,10 +1819,11 @@
             var s=0; var e=0;
             for (var index = 0; index < totalfiles; index++) {
                 var size = document.getElementById('upfile').files[index].size;
+                var fileSize = Math.round((size / 1024)); 
                 var selectedFile = document.getElementById('upfile').files[index].name;
                 var ext = selectedFile.replace(/^.*\./, '');
                 ext= ext.toLowerCase();
-                if(size>1000141){
+                if(fileSize>2048){
                     s+=1;
                 }
                 else if(ext!='jpg' && ext!='jpeg' && ext!='png'){
