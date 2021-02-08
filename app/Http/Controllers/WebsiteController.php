@@ -242,8 +242,6 @@ class WebsiteController extends Controller
         }
     }
 
-
-
     public function helpCategory(HelpCategory $helpCategory, string $title)
     {
         $data['page_title'] = ucfirst(strtolower($helpCategory->topic));

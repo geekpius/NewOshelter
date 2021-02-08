@@ -648,7 +648,6 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   display: none;
 }
 
-/* HELP SEARCH */
 #myInput {
   border: none;
   border-bottom: 1px solid #ddd;
@@ -684,6 +683,15 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   display: none;
 }
 
+
+/********* VISITS *********/
+.visit-options {
+  display: block;
+}
+
+.visit-mobile-init-view {
+  display: none;
+}
 
 
 
@@ -771,6 +779,14 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
 
   .contact-us-heading {
     display: none;
+  }
+
+  .visit-options {
+    display: none;
+  }
+
+  .visit-mobile-init-view {
+    display: block;
   }
 
 }

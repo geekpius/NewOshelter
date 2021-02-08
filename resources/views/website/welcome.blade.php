@@ -195,7 +195,7 @@
 
         <div class="container">
             <div class="pxp-services-container rounded-lg mt-4 mt-md-5">
-                <a href="{{ route('why.choose', Illuminate\Support\Str::slug('Find your future home', '-')) }}" class="pxp-services-item">
+                <a href="#" class="pxp-services-item">
                     <div class="pxp-services-item-fig">
                         <img src="{{ asset('assets/light/images/service-icon-1.svg') }}" alt="property">
                     </div>
@@ -215,7 +215,7 @@
                     </div>
                     <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
                 </a> --}}
-                <a href="{{ route('why.choose', Illuminate\Support\Str::slug('Bid buy or rent properties', '-')) }}" class="pxp-services-item">
+                <a href="#" class="pxp-services-item">
                     <div class="pxp-services-item-fig">
                         <img src="{{ asset('assets/light/images/service-icon-3.svg') }}" alt="buy_sell_auction">
                     </div>
@@ -225,7 +225,7 @@
                     </div>
                     <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
                 </a>
-                <a href="{{ route('why.choose', Illuminate\Support\Str::slug('List your own property', '-')) }}" class="pxp-services-item">
+                <a href="#" class="pxp-services-item">
                     <div class="pxp-services-item-fig">
                         <img src="{{ asset('assets/light/images/service-icon-4.svg') }}" alt="own">
                     </div>
