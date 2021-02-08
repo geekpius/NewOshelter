@@ -216,15 +216,30 @@ class WebsiteController extends Controller
     /************ OWNER AND VISITOR ***************/ 
     public function otherHelp(string $slug)
     {
-        $data['page_title'] = 'Owning properties';
-        $questions = HelpQuestion::whereIs_popular(true)
-            ->whereHas('helpTopic', function($query){
-                $query->whereHas('helpCategory', function($query){
-                    $query->where('category','!=','general');
+        if($slug == 'owning-properties')
+        {
+            $data['page_title'] = 'Owning properties';
+            $questions = HelpQuestion::whereIs_popular(true)
+                ->whereHas('helpTopic', function($query){
+                    $query->whereHas('helpCategory', function($query){
+                        $query->where('category','owner');
+                    });
+            });
+            $data['general'] = $questions->take(8)->get();
+            return view('website.help.other.owner', $data);
+        }else{
+            {
+                $data['page_title'] = 'Booking and visitors';
+                $questions = HelpQuestion::whereIs_popular(true)
+                    ->whereHas('helpTopic', function($query){
+                        $query->whereHas('helpCategory', function($query){
+                            $query->where('category','visitor');
+                        });
                 });
-        });
-        $data['general'] = $questions->take(8)->get();
-        return view('website.help.other.index', $data);
+                $data['general'] = $questions->take(8)->get();
+                return view('website.help.other.visitor', $data);
+            }
+        }
     }
 
 
