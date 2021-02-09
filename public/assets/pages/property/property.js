@@ -20,7 +20,7 @@ $(".btnVisibility").on("click", function(e){
             success: function(resp){
                 if(resp=='success'){
                     swal(((jQuery.trim($this.text().toLowerCase())=="hide")? "Hidden":"Published"), "Property "+((jQuery.trim($this.text().toLowerCase())=="hide")? "hidden":"published")+" successful", "success");
-                    $this.parents(".myParent").find(".blog-card .publishStatus").html(((jQuery.trim($this.text().toLowerCase())=="hide")? '<i class="fa fa-eye-slash"></i> Hidden':'<i class="fa fa-check"></i> Published'));
+                    $this.parents(".myParent").find(".blog-card .publishStatus").html(((jQuery.trim($this.text().toLowerCase())=="hide")? 'Hidden':'Published'));
                     $this.html(((jQuery.trim($this.text().toLowerCase())=="hide")? '<i class="fa fa-check"></i> Publish':'<i class="fa fa-eye-slash"></i> Hide'));
                     if(jQuery.trim($this.text().toLowerCase())=="hide"){
                         $this.removeClass('text-success').addClass('text-pink');

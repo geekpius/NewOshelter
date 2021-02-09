@@ -8,7 +8,7 @@
     <div class="container">
         <h2>List Property</h2>  
         <p>
-            <strong>{{ Auth::user()->name }},</strong> listings 
+            <strong>{{ Auth::user()->name }},</strong> listings  > <small><a href="{{ route('property') }}">Checkout your listings</a></small>
         </p>
         <div class="pt-4">
             <div class="row">

@@ -1,42 +1,25 @@
-@extends('admin.layouts.app')
+@extends('layouts.site')
 
 @section('styles')
 @endsection
 @section('content')
-
-<div class="container-fluid">
-    <!-- Page-Title -->
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="page-title-box">
-                <div class="float-right">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">List Properties</li>
-                    </ol>
-                </div>
-                <h4 class="page-title">Properties</h4>
-            </div><!--end page-title-box-->
-        </div><!--end col-->
-    </div>
-    <!-- end page title end breadcrumb -->
-   
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-
-                    <div class="text-center mb-4">
-                        <a href="{{ route('property.add') }}" class="btn btn-gradient-primary btn-sm text-light"><i class="fa fa-plus-circle"></i> Add New Listing</a>
-                    </div>
-
+<div class="pxp-content pull-content-down">
+    <div class="container">
+        <h2>Your Properties</h2>  
+        <p>
+            <strong>{{ Auth::user()->name }},</strong> listings  > <small><a href="{{ route('property.add') }}">List new</a></small>
+        </p>
+        <div class="pt-4">
+            <div class="row">
+                <div class="col-sm-12">
                     @if (count($properties))
                     <div class="row">
                         @foreach ($properties as $property)
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 col-sm-6">
                             <div class="card">
-                                <div class="card-body myParent">
-                                    <div class="dropdown d-inline-block float-right">
-                                        <a class="nav-link dropdown-toggle arrow-none" id="dLabel1" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <div class="card-body myParent" style="padding-top: 0% !important">
+                                    <div class="dropdown float-right">
+                                        <a class="nav-link" id="dLabel1" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v font-20 text-muted"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel1">
@@ -52,8 +35,8 @@
                                             <img src="{{ asset('assets/images/properties/'.$property->propertyImages->first()->image) }}" alt="PropertyPhoto" class="img-fluid">
                                         </a>
                                         <div class="meta-box">
-                                            <ul class="p-0 mt-4 list-inline">
-                                                <li class="list-inline-item" style="text-transform: none"><i class="fa fa-star text-warning"></i>
+                                            <ul class="p-0 mt-2 list-inline">
+                                                <li class="list-inline-item font-14" style="text-transform: none"><i class="fa fa-star text-warning"></i>
                                                     @php
                                                         $countReview = $property->propertyReviews->count();
                                                         $accuracyStar = (!$countReview)? 0: $property->sumAccuracyStar()/$countReview;
@@ -70,71 +53,70 @@
                                                     No reviews yet
                                                     @endif
                                                 </li>
-                                                <li class="list-inline-item" style="text-transform: none">
-                                                    @if ($property->type=='hostel')
-                                                    {{ $property->userHostelVisits->count() }} visits
-                                                    @else
-                                                        {{ $property->userVisits->count() }} visits
-                                                    @endif
-                                                </li>
-                                                <br>
-                                                <li class="list-inline-item">
-                                                    @if (!$property->userVisits->count())
-                                                        <span class="badge badge-secondary px-3">Available for {{ str_replace('_',' ',$property->type_status) }}</span>
-                                                    @else
-                                                        <span class="badge badge-danger px-3">
-                                                            @if ($property->type_status=='rent')
-                                                                Rented
-                                                            @elseif ($property->type_status=='sell')
-                                                                Sold
-                                                            @elseif ($property->type_status=='auction')
-                                                                Auctioned
-                                                            @else
-                                                                Booked
-                                                            @endif
-                                                        </span>
-                                                    @endif
-                                                </li>
-                                                <li class="list-inline-item"><i class="fa fa-clock"></i> {{  \Carbon\Carbon::parse($property->created_at)->format('d M, Y')  }}</li>
-                                                <li class="list-inline-item text-capitalize publishStatus"><i class="{{  $property->publish? 'fa fa-check':'fa fa-eye-slash'  }}"></i> {{  $property->publish? 'Published':"Hidden"  }}</li>
+                                                @if ($property->type=='hostel')
+                                                    <li class="list-inline-item" style="text-transform: none">
+                                                        {{ $property->userHostelVisits->count() }} {{ str_plural('visit', $property->userHostelVisits->count()) }}
+                                                    </li>
+                                                    <br>
+                                                    <li class="list-inline-item">
+                                                        @if (!$property->userVisits->count())
+                                                            <span class="badge badge-secondary px-3">Available for {{ str_replace('_',' ',$property->type_status) }}</span>
+                                                        @else
+                                                            <span class="badge badge-danger px-3">Rented(Full)</span>
+                                                        @endif
+                                                    </li>
+                                                @else
+                                                    <li class="list-inline-item" style="text-transform: none">
+                                                        {{ $property->userVisits->count() }} {{ str_plural('visit', $property->userVisits->count()) }}                                                 
+                                                    </li>
+                                                    <br>
+                                                    <li class="list-inline-item">
+                                                        @if (!$property->userVisits->count())
+                                                            <span class="badge badge-secondary px-3">Available for {{ str_replace('_',' ',$property->type_status) }}</span>
+                                                        @else
+                                                            <span class="badge badge-danger px-3">
+                                                                @if ($property->type_status=='rent')
+                                                                    Rented
+                                                                @else
+                                                                    Booked
+                                                                @endif
+                                                            </span>
+                                                        @endif
+                                                    </li>
+                                                @endif
+                                                
+                                                <li class="list-inline-item font-14"><i class="fa fa-clock"></i> {{  \Carbon\Carbon::parse($property->created_at)->format('d M, Y')  }}</li>
+                                                <li class="list-inline-item text-capitalize publishStatus font-14">{{  $property->publish? 'Published':"Hidden"  }}</li>
                                             </ul>
                                         </div><!--end meta-box-->            
-                                        <h5 class="mt-2">
+                                        <h5 class="">
                                             <a href="{{ route('property.preview', $property->id) }}" class="text-primary">{{ $property->title }}</a>
                                         </h5>
-                                        <span>{{ $property->propertyLocation->location }}</span>
+                                        <span class="font-14">{{ $property->propertyLocation->location }}</span>
                                     </div><!--end blog-card-->                                   
                                 </div><!--end card-body-->
                             </div>
                         </div>
                         @endforeach
+                        {{ $properties->links() }}
                     </div>
                     @else
                     <div class="text-center mt-5 mb-3">
-                        <div class="alert icon-custom-alert alert-outline-pink b-round fade show" role="alert">                                            
-                            <i class="mdi mdi-alert-outline alert-icon"></i>
+                        <div class="alert alert-outline-pink b-round fade show" role="alert">                                            
+                            <i class="mdi mdi-alert-outline alert-icon text-danger"></i>
                             <div class="alert-text">
-                                <strong>None!</strong> No property found in your lists. You can add new property list now.
-                            </div>
-                            
-                            <div class="alert-close">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true"><i class="mdi mdi-close text-danger"></i></span>
-                                </button>
+                               No property found in your lists. You can add <a href="{{ route('property.add') }}">new property</a> list now.
                             </div>
                         </div>
                     </div>                    
                     @endif
-
                 </div>
             </div>
-        </div> <!-- end col -->
-    </div> <!-- end row -->
-
-</div><!-- container -->
-
+        </div>
+    </div>    
+</div>
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/pages/property.js') }}"></script>
+<script src="{{ asset('assets/pages/property/property.js') }}"></script>
 @endsection

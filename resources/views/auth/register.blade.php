@@ -59,7 +59,7 @@
                                     <span class="auth-form-icon">
                                         <i class="fa fa-phone"></i> 
                                     </span>                                                                                                 
-                                    <input type="number" class="form-control" name="phone" onkeypress="return isNumber(event);" placeholder="Enter your phone number">
+                                    <input type="tel" class="form-control" maxlength="10" name="phone" onkeypress="return isNumber(event);" placeholder="Enter your phone number">
                                 </div>  
                                 <span class="text-danger small mySpan" role="alert">{{ $errors->has('phone') ? $errors->first('phone') : '' }}</span>                                  
                             </div><!--end form-group--> 

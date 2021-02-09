@@ -43,8 +43,8 @@ class PropertyController extends Controller
     public function index()
     {
         $data['page_title'] = 'List properties';
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->get(); 
-        return view('admin.properties.index', $data);
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15); 
+        return view('user.properties.index', $data);
     }
 
     ///check if uncompleted found
