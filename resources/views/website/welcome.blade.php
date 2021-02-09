@@ -118,7 +118,7 @@
                         @php $image = empty($type->image)? 'area-1.jpg':'types/'.$type->image; @endphp
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ 'https://portal.oshelter.com/assets/images/'.$image }});"></div>
                         <div class="pxp-areas-1-item-details">
-                            <div class="pxp-areas-1-item-details-area">{{ $type->name }}</div>
+                            <div class="pxp-areas-1-item-details-area">{{ str_plural($type->name) }}</div>
                         </div>
                         <div class="pxp-areas-1-item-counter">
                             <span class="text-primary">

@@ -52,7 +52,7 @@ class WebsiteController extends Controller
         $status = str_replace('-',' ',$status);
         $data['page_title'] = 'Narrow down '.$status.' filter complexity';
         // $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->whereDone_step(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(9);
+        $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->whereDone_step(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(12);
         $data['property_types'] = PropertyType::get(['name']);
         return view('website.property-status', $data);
     }
@@ -61,11 +61,10 @@ class WebsiteController extends Controller
     public function propertyType($type)
     {
         $type = str_replace('-',' ',$type);
-        $data['page_title'] = 'Explore your curiosity on '.$type;
-        // $data['menu'] = 'pxp-no-bg';
+        $data['page_title'] = 'Explore our neighborhoods on '.$type;
         $props = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->whereIs_active(true)->orderBy('id', 'DESC');
         $data['property_types'] = PropertyType::get(['name']);
-        $data['properties'] = $props->paginate(9);
+        $data['properties'] = $props->get();
         if(session()->has('properties'))
         {
             session()->forget('properties');
@@ -103,7 +102,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Browse all properties of any kind';
         // $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(9);
+        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->orderBy('id', 'DESC')->paginate(12);
         $data['property_types'] = PropertyType::get(['name']);
         return view('website.properties', $data);
     }
@@ -126,7 +125,7 @@ class WebsiteController extends Controller
                 ->whereHas('propertyLocation', function($query) use($location){
                     $query->where('location', 'like', '%'.$location.'%');
             });
-            $data['properties'] = $props->orderBy('id','desc')->paginate(9);
+            $data['properties'] = $props->orderBy('id','desc')->paginate(12);
             $data['property_types'] = PropertyType::get(['name']);
             if(session()->has('properties'))
             {
@@ -181,7 +180,7 @@ class WebsiteController extends Controller
                 });
             }
 
-            $data['properties'] = $props->orderBy('id','desc')->paginate(9);
+            $data['properties'] = $props->orderBy('id','desc')->paginate(12);
             if(session()->has('properties'))
             {
                 session()->forget('properties');
