@@ -15,17 +15,17 @@
                 <div class="col-sm-12">
                     <div>
                         <i class="fa fa-home fa-5x"></i>
-                        <h5>Would you like to list new property?</h5>
-                        <a href="{{ route('property.start') }}" class="text-primary">Start New Listing</a> 
+                        <h6>Would you like to list new property?</h6>
+                        <a href="{{ route('property.start') }}" class="text-primary font-12">Start New Listing</a> 
                     </div> 
 
                     @foreach ($property as $item)
                     <div class="mt-5">
                         <i class="fa fa-home fa-5x"></i>
-                        <h5><i class="fa fa-dot-circle font-16"></i> {{ $item->title }}</h5>
-                        <a href="{{ route('property.create', $item->id) }}" class="text-primary">Complete Listing</a> &nbsp; &nbsp; || &nbsp; &nbsp;
-                        <a href="{{ route('property.edit',$item->id) }}" class="text-warning">Edit Property Type</a> &nbsp; &nbsp; || &nbsp; &nbsp;
-                        <a href="{{ route('property.confirmdelete', $item->id) }}" class="text-danger">Remove Listing</a> 
+                        <h6><i class="fa fa-dot-circle font-14"></i> {{ $item->title }}</h6>
+                        <a href="{{ route('property.create', $item->id) }}" class="text-primary font-12">Complete Listing</a> &nbsp; &nbsp; || &nbsp; &nbsp;
+                        <a href="{{ route('property.edit',$item->id) }}" class="text-warning font-12">Edit Property Type</a> &nbsp; &nbsp; || &nbsp; &nbsp;
+                        <a href="{{ route('property.confirmdelete', $item->id) }}" class="text-danger font-12">Remove Listing</a> 
                     </div>     
                     @endforeach
 

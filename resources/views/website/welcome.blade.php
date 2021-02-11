@@ -113,16 +113,19 @@
         <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
             <div class="owl-carousel pxp-props-carousel-right-stage">
                 @foreach ($types as $type)
+                @php $propCount = $type->getPropertyCount(strtolower(str_replace(' ','_',$type->name))); @endphp  
                 <div>
                     <a href="{{ route('type.property', strtolower(str_replace(' ','-',$type->name))) }}" class="pxp-areas-1-item rounded-lg">
                         @php $image = empty($type->image)? 'area-1.jpg':'types/'.$type->image; @endphp
                         <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({{ 'https://portal.oshelter.com/assets/images/'.$image }});"></div>
                         <div class="pxp-areas-1-item-details">
-                            <div class="pxp-areas-1-item-details-area">{{ str_plural($type->name) }}</div>
+                            <div class="pxp-areas-1-item-details-area">
+                                {{ str_plural($type->name) }}
+                                <span class="font-10 text-muted total-properties">({{ $propCount }} {{ str_plural("Property",$propCount) }})</span>
+                            </div>
                         </div>
                         <div class="pxp-areas-1-item-counter">
                             <span class="text-primary">
-                            @php $propCount = $type->getPropertyCount(strtolower(str_replace(' ','_',$type->name))); @endphp  
                             {{ $propCount }} {{ str_plural("Property",$propCount) }}
                             </span>
                         </div>

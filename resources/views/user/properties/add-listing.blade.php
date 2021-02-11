@@ -13,7 +13,7 @@
         <div class="pt-4">
             <div class="row">
                 <div class="col-sm-8">
-                    <h4>What kind of property are you listing?</h4>
+                    <h5>What kind of property are you listing?</h5>
                     <form class="mt-4" id="formPropertyType" method="POST" action="{{ route('property.store') }}">
                         @csrf
                         <input type="hidden" name="step" value="0" readonly>

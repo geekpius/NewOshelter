@@ -1,7 +1,8 @@
+<div class="text-danger mt-4 font-13 text-center"><strong>Note:</strong> Please make sure to add rooms to your blocks</div>
 <div class="table-responsive">
-    <table id="myTable" class="table table-striped mt-4 small">
+    <table id="myBlockRoomTable" class="table table-striped small">
         <thead>
-            <tr>
+            <tr class="text-primary">
                 <th>Block Name</th>
                 <th>Room Type</th>
                 <th>Gender</th>
@@ -43,7 +44,7 @@ $(".btnRemoveBlock").on("click", function(e){
             }
         },
         error: function(resp){
-            alert("Something went wrong with request");
+            console.log("Something went wrong with request");
         }
     });
     return false;

@@ -10,6 +10,9 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   .hand-cursor {
     cursor: pointer;
   }
+  .total-properties {
+    display: none;
+  }
 
  /* NAVS */
   .nav-blue-background {
@@ -789,6 +792,10 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     display: block;
   }
 
+  .total-properties {
+    display: inline;
+  }
+
 }
 
 @media screen and (max-width: 576px){
@@ -834,6 +841,7 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   .dropdown-content1 {
     min-width: 350px;
   }
+
 }
 
 @media screen and (max-width: 375px){

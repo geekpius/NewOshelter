@@ -30,7 +30,7 @@
                     <div class="card">
                         @if (!Session::get("edit"))
                         <div class="">
-                            <a href="javascript:void(0);" onclick="window.location='{{ route('property.add') }}'" class="text-primary text-decoration-none ml-3 mt-1">
+                            <a href="javascript:void(0);" onclick="window.location='{{ route('property.add') }}'" class="text-primary text-decoration-none ml-3 mt-1 font-13">
                                 <i class="fa fa-heart"></i> Save and Exit
                             </a>
                             @php
@@ -55,8 +55,8 @@
                                     $progress=100;
                                 }
                             @endphp
-                            <div class="progress float-right mt-1 listing-progress" style="height: 12px; width:50%">
-                                <div class="progress-bar  progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: {{$progress}}%;">
+                            <div class="progress float-right mt-1 listing-progress" style="height: 10px; width:50%">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated small" role="progressbar" style="width: {{$progress}}%;">
                                     {{$progress}}%                         
                                 </div>
                             </div>
@@ -173,15 +173,15 @@
                                         <div class="step-pane active" data-step="1">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4>Create block names for your hostel to make arrangement of rooms look nice and appreciated</h4>
+                                                    <h6>Create block names for your hostel to make arrangement of rooms look nice and appreciated</h6>
                                                     <form class="mt-4" id="formBlocks">
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                        <div class="form-group mt-4 validate">
+                                                        <div class="form-group input-group-sm mt-4 validate">
                                                             <label for="">Block name</label>
                                                             <input type="text" name="block_name" class="form-control" placeholder="eg: Kofi Annan">
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
-                                                        <button type="submit" class="btn btnAddBlock btn-primary mt-2"><i class="fa fa-plus-circle"></i> Add Block</button>
+                                                        <button type="submit" class="btn btnAddBlock btn-primary btn-sm mt-2"><i class="fa fa-plus-circle"></i> Add Block</button>
                                                     </form>
         
                                                     <form id="formBlockNames" method="POST" action="{{ route("property.store") }}" style="display:none !important;">
@@ -190,8 +190,8 @@
                                                         <input type="hidden" name="step" value="1" readonly>
                                                     </form>
                                                 </div>
-                                                <div class="col-lg-6 pt-5">
-                                                    <div id="myErrorBlockMessage"></div>
+                                                <div class="col-lg-6 pt-5 mb-3">
+                                                    <span id="checkBlockName" style="display: none !important"></span>
                                                     <div id="getMyBlockNames"></div>
                                                 </div>
                                             </div><!-- end row --> 
@@ -200,12 +200,12 @@
                                         <div class="step-pane" data-step="2">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4 class="">Create rooms for your hostel blocks</h4>
+                                                    <h6 class="">Create rooms for your hostel blocks</h6>
                                                     <div style="position: relative;  height: 640px; overflow-y:scroll; overflow-x:hidden;" class="pr-3">
                                                         <form class="" id="formCreateRooms">
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group mt-2 validate">
+                                                                    <div class="form-group input-group-sm mt-2 validate">
                                                                         <label for="">Hostel block name</label>
                                                                         <select name="hostel_block" class="form-control" id="hostel_block">
                                                                             <option value="">--Select--</option>
@@ -218,7 +218,7 @@
                                                                 </div>
         
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Block room type</label>
                                                                         <select name="block_room_type" class="form-control" id="block_room_type">
                                                                             <option value="">--Select--</option>
@@ -230,7 +230,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Gender</label>
                                                                         <select name="room_gender" class="form-control" id="room_gender">
                                                                             <option value="">--Select--</option>
@@ -244,7 +244,7 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label class="mb-2">How many rooms on block?</label>
                                                                         <input id="rooms_on_block" type="number" min="1" value="1" onkeypress="return isNumber(event)" name="rooms_on_block" class="form-control">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
@@ -252,7 +252,7 @@
                                                                 </div>
         
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label class="mb-2">Room no.# start from</label>
                                                                         <input id="room_start" type="number" min="1" value="1" onkeypress="return isNumber(event)" name="room_start" class="form-control">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
@@ -262,7 +262,7 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label class="">How many beds per room?</label>
                                                                         <select name="beds" class="form-control" id="beds">
                                                                             <option value="">--Select--</option>
@@ -274,7 +274,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label class="">How many people per room?</label>
                                                                         <select name="person_per_room" class="form-control" id="person_per_room">
                                                                             <option value="">--Select--</option>
@@ -289,7 +289,7 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Are rooms furnished?</label>
                                                                         <select name="furnish" class="form-control" id="furnish">
                                                                             <option value="">--Select--</option>
@@ -301,7 +301,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Have kitchen? What type?</label>
                                                                         <select name="kitchen" class="form-control" id="kitchen">
                                                                             <option value="">--Select--</option>
@@ -316,7 +316,7 @@
                                                             
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group mb-0 validate">
+                                                                    <div class="form-group input-group-sm mb-0 validate">
                                                                         <label class="">How many bathrooms?</label>
                                                                         <select name="baths" class="form-control" id="baths">
                                                                             <option value="">--Select--</option>
@@ -328,7 +328,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm mt-2 validate">
                                                                         <label for="">Is the bathroom private?</label>
                                                                         <div class="custom-control custom-radio">
                                                                             <input type="radio" id="bath_private" name="bath_private" value="1" class="custom-control-input" @if(empty($property)) checked @else @if($property->bath_private) checked @endif  @endif>
@@ -342,7 +342,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label class="">How many toilet? </label>
                                                                         <select name="toilet" class="form-control" id="toilet">
                                                                             <option value="">--Select--</option>
@@ -354,7 +354,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Is the toilet private?</label>
                                                                         <div class="custom-control custom-radio">
                                                                             <input type="radio" id="toilet_private" name="toilet_private" value="1" class="custom-control-input" @if(empty($property)) checked @else @if($property->toilet_private) checked @endif  @endif>
@@ -368,7 +368,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-12">
-                                                                    <button type="submit" class="btn btnCreateRoom btn-primary mt-2"><i class="fa fa-plus-circle"></i> Create Rooms</button>
+                                                                    <button type="submit" class="btn btnCreateRoom btn-sm btn-primary mt-2"><i class="fa fa-plus-circle"></i> Create Rooms</button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -382,7 +382,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <div id="myErrorRoomsMessage"></div>
                                                     <div id="getMyCreatedRooms"></div>
                                                 </div>
                                             </div><!-- end row --> 
@@ -391,12 +390,12 @@
                                         <div class="step-pane" data-step="3">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4 class="">Amenities you offer to your {{ $guest.'s' }} in your block rooms</h4>
+                                                    <h6 class="">Amenities you offer to your {{ str_plural($guest) }} in your block rooms</h6>
                                                     <div class="mt-4">
                                                         <form id="formHostelRoomAmenity">
                                                             <div class="row">
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Hostel block name</label>
                                                                         <select name="hostel_block_name" class="form-control" id="hostel_block_name">
                                                                             <option value="">--Select--</option>
@@ -409,7 +408,7 @@
                                                                 </div>
         
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Gender on block</label>
                                                                         <select name="gender" class="form-control" id="gender">
                                                                             <option value="">--Select--</option>
@@ -421,7 +420,7 @@
                                                                 </div>
         
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Block room type</label>
                                                                         <select name="room_type" class="form-control" id="room_type">
                                                                             <option class="after" value="">--Select--</option>
@@ -435,13 +434,13 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <button type="submit" class="btn btnAddAmenities btn-primary mt-2"><i class="fa fa-plus-circle"></i> Add Amenities</button>
+                                                                    <button type="submit" class="btn btnAddAmenities btn-sm btn-primary mt-2"><i class="fa fa-plus-circle"></i> Add Amenities</button>
                                                                 </div>
                                                             </div>
                                                         </form>
         
                                                         <hr class="mt-5">
-                                                        <h4 class="">If there are shared amenities offered to your {{ $guest.'s' }} in your hostel accross all blocks, let them know.</h4>
+                                                        <h6 class="">If there are shared amenities offered to your {{ $guest.'s' }} in your hostel accross all blocks, let them know.</h6>
                                                         <form id="formRoomAmenities" method="POST" action="{{ route("property.store") }}">
                                                             @csrf
                                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -461,7 +460,7 @@
                                         <div class="step-pane" data-step="4">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4>Enforce hostel rules if any</h4>
+                                                    <h6>Enforce hostel rules if any</h6>
                                                     <p><i class="fa fa-dot-circle font-13"></i> Guests must agree to your rules before booking property</p>
                                                     <form class="mt-4" id="formPropertyRules" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
@@ -471,12 +470,12 @@
                                                     </form>                                            
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <h4>Would you like to add other rules?</h4>
+                                                    <h6>Would you like to add other rules?</h6>
                                                     <form class="mt-4" id="formPropertyOtherRules">
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         <div class="form-group validate">
                                                             <label for="">Add your own rule</label>
-                                                            <div class="input-group">
+                                                            <div class="input-group input-group-sm">
                                                                 <input type="text" name="add_rule" class="form-control" placeholder="eg: Don't drink alcohol infront of children">
                                                                 <i class="input-group-append">
                                                                     <button class="btn btn-primary btnAddOwnRule" type="button"><i class="fa fa-plus-circle"></i> Add</button>
@@ -493,7 +492,7 @@
                                         <div class="step-pane" data-step="5">
                                             <div class="row">
                                                 <div class="col-lg-5">
-                                                    <h4>Provide your hostel location</h4>
+                                                    <h6>Provide your hostel location</h6>
                                                     <form class="mt-4" id="formLocationLandmark" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
                                                         <input type="hidden" name="step" value="5" readonly>
@@ -503,7 +502,7 @@
                                                             <input type="text" name="digital_address" class="form-control" placeholder="eg: GL-050-6789">
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div> --}}
-                                                        <div class="form-group validate">
+                                                        <div class="form-group input-group-sm validate">
                                                             <label for="">Where is your property located?</label>
                                                             <input type="text" name="location" id="search_input" class="form-control" placeholder="eg: Joy Lane, Accra, Ghana">
                                                             <span class="text-danger small mySpan" role="alert"></span>
@@ -515,7 +514,7 @@
                                                 <div class="col-lg-7">
                                                     <div class="card mt-4">
                                                         <div class="card-body">        
-                                                            <h4 class="mt-0 header-title">Pin your location to the right place</h4>     
+                                                            <h6 class="mt-0 header-title">Pin your location to the right place</h6>     
                                                             <div id="gmaps-markers" class="gmaps"></div>
                                                         </div><!--end card-body-->
                                                     </div><!--end card--> 
@@ -526,15 +525,15 @@
                                         <div class="step-pane" data-step="6">
                                             <div class="row">
                                                 <div class="col-lg-7">
-                                                    <h4>Lets take a tour on your hostel</h4>
-                                                    <p class="mb-4"><i class="fa fa-dot-circle font-13"></i> Property photo with captions will best help us with the tour.
+                                                    <h6>Lets take a tour on your hostel</h6>
+                                                    <p class="mb-4 font-13"><i class="fa fa-dot-circle font-10"></i> Property photo with captions will best help us with the tour.
                                                     <br>
-                                                    <i class="fa fa-dot-circle font-13"></i> You can upload maximum of 10 photos at a time.</p>
+                                                    <i class="fa fa-dot-circle font-10"></i> You can upload maximum of 10 photos at a time.</p>
             
                                                     <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
                                                         
                                                     </div>
-                                                    <button class="btn btn-primary mt-3" id="btnUpload" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
+                                                    <button class="btn btn-primary btn-sm mt-3" id="btnUpload" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
                                                         <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" multiple name="photos[]" /></div>
                                                     </button>
                                                     <div class="mt-3">
@@ -550,12 +549,12 @@
                                                 <div class="col-lg-5">
                                                     <div class="mt-5 pt-4">
                                                         <i class="fa fa-lightbulb fa-lg text-pink"></i>
-                                                        <h5>Tips for adding a great photos of your property</h5>
-                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
-                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in landscape mode in order to capture more spaces. Shoot from corners to add perspective.</p>
-                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
-                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Add property photos with size of 720x480 to best fit gallery.</p>
-                                                        <p class="mt-5"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> High photo quality will boost your property marketing.</p>
+                                                        <h6>Tips for adding a great photos of your property</h6>
+                                                        <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
+                                                        <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in landscape mode in order to capture more spaces. Shoot from corners to add perspective.</p>
+                                                        <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
+                                                        <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Add property photos with size of 720x480 to best fit gallery.</p>
+                                                        <p class="mt-4 font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> High photo quality will boost your property marketing.</p>
             
                                                     </div>
                                                 </div>
@@ -565,12 +564,12 @@
                                         <div class="step-pane" data-step="7">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4>How does your hostel looks like?</h4>
+                                                    <h6>How does your hostel looks like?</h6>
                                                     <form class="mt-4" id="formDescriptions" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
                                                         <input type="hidden" name="step" value="7" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                        <div class="form-group validate">
+                                                        <div class="form-group input-group-sm validate">
                                                             <label for="gate"><span class="text-primary">Is your property in a gated community?</span></label>
                                                             <select name="gate" class="form-control" id="gate">
                                                                 <option value="">--Select--</option>
@@ -579,19 +578,19 @@
                                                             </select>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
-                                                        <div class="form-group validate">
+                                                        <div class="form-group input-group-sm validate">
                                                             <label for="description"><span class="text-primary">A short description of your property</span></label>
                                                             <textarea class="form-control" name="description" rows="5" maxlength="1000" id="description" placeholder="Write descriptions about room decor, furniture, nearby things, how conducive the environment is. Just make it simple">{{ empty($property->propertyDescription->description)? '':$property->propertyDescription->description }}</textarea>
                                                             <small id="myDescriptionCharacters" class="form-text text-muted">1000 characters remaining</small>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                         <p class="mt-5"><strong>Let's narrow down the complexity</strong> <i class="fa fa-arrow-down"></i></p>
-                                                        <div class="form-group validate">
+                                                        <div class="form-group input-group-sm validate">
                                                             <label for="neighbourhood"><span class="text-primary">Neighbourhood description</span></label>
                                                             <textarea class="form-control" name="neighbourhood" rows="3" maxlength="250" id="neighbourhood" placeholder="Why is your neighbourhood is the best place? eg:parks,supermarket,etc">{{ empty($property->propertyDescription->neighbourhood)? '':$property->propertyDescription->neighbourhood }}</textarea>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
-                                                        <div class="form-group validate">
+                                                        <div class="form-group input-group-sm validate">
                                                             <label for="directions"><span class="text-primary">Directions</span></label>
                                                             <textarea class="form-control" name="directions" rows="3" maxlength="250" id="directions" placeholder="Directions on how to reach the property">{{ empty($property->propertyDescription->direction)? '':$property->propertyDescription->direction }}</textarea>
                                                             <span class="text-danger small mySpan" role="alert"></span>
@@ -605,8 +604,8 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="">
-                                                        <h4>Provide {{ $guest.'s' }} with your rent schedule for each block rooms</h4>
-                                                        <p><i class="fa fa-dot-circle font-13"></i> Guests must know advance payment and price calendar</p>
+                                                        <h6>Provide {{ str_plural($guest) }} with your rent schedule for each block rooms</h6>
+                                                        <p class="font-13"><i class="fa fa-dot-circle font-12"></i> Guests must know advance payment and price calendar</p>
                                                         
                                                         <form id="formHostelRoomPrices" method="POST" action="{{ route('property.store') }}">
                                                             @csrf
@@ -615,10 +614,10 @@
                                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         </form>
         
-                                                        <form class="mt-4" id="formRentSchedule">
+                                                        <form class="mt-2" id="formRentSchedule">
                                                             <div class="row">
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Which block do you want to set prices?</label>
                                                                         <select name="block" class="form-control" id="block">
                                                                             <option value="">--Select--</option>
@@ -633,7 +632,7 @@
                                                                 </div>
         
                                                                 <div class="col-sm-6">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Gender on block</label>
                                                                         <select name="gender" class="form-control" id="gender1">
                                                                             <option value="">--Select--</option>
@@ -645,7 +644,7 @@
                                                                 </div>
         
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Block room type</label>
                                                                         <select name="block_room" class="form-control" id="block_room">
                                                                             <option class="after" value="">--Select--</option>
@@ -657,7 +656,7 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Advance payment duration</label>
                                                                         <select name="advance_duration" class="form-control" id="advance_duration">
                                                                             <option value="">--Select--</option>
@@ -675,14 +674,14 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-7">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">This will be your default booking price</label>
                                                                         <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-5">
-                                                                    <div class="form-group validate">
+                                                                    <div class="form-group input-group-sm validate">
                                                                         <label for="">Your price calendar</label>
                                                                         <select name="price_calendar" class="form-control" id="price_calendar">
                                                                             <option value="month">Monthly</option>
@@ -694,7 +693,7 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <div class="form-group mb-3">
+                                                                    <div class="form-group input-group-sm mb-3">
                                                                         <span class="font-14 float-right"><a href="{{ route('account.payments') }}" target="_blank" class="text-decoration-none btn-edit">Edit</a></span>
                                                                         <p class="font-weight-bold font-14">Choosen currency</p>
                                                                         <p class="font-14">{{ Auth::user()->userCurrency? Auth::user()->userCurrency->getCurrencyName():'Ghana Cedis' }}</p>
@@ -705,7 +704,7 @@
         
                                                             <div class="row">
                                                                 <div class="col-sm-12">
-                                                                    <button type="submit" class="btn btnHostelPrices btn-primary mt-2"><i class="fa fa-plus-circle"></i> Price Room</button>
+                                                                    <button type="submit" class="btn btnHostelPrices btn-sm btn-primary mt-2"><i class="fa fa-plus-circle"></i> Price Room</button>
                                                                 </div>
                                                             </div>
         
@@ -727,23 +726,23 @@
         
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h4>All set and ready for publishing</h4>
+                                                    <h6>All set and ready for publishing</h6>
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-building fa-5x"></i>
                                                         <i class="fa fa-home fa-5x ml-4 mr-4"></i>
                                                         <i class="fa fa-bed fa-5x"></i>
                                                     </div>
-                                                    <p><i class="fa fa-dot-circle font-13"></i> Potential {{ $guest.'s' }} are wating for you to publish this property.</p>
+                                                    <p class="font-13"><i class="fa fa-dot-circle font-12"></i> Potential {{ $guest.'s' }} are wating for you to publish this property.</p>
                                                 
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-address-card fa-5x"></i>
                                                     </div>
-                                                    <p><i class="fa fa-dot-circle font-13"></i> Guest will send a message of the date they will be moving in.</p>
+                                                    <p class="font-13"><i class="fa fa-dot-circle font-12"></i> Guest will send a message of the date they will be moving in.</p>
         
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-key fa-5x"></i>
                                                     </div>
-                                                    <p class="mb-3"><i class="fa fa-dot-circle font-13"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>    
+                                                    <p class="mb-3 font-13"><i class="fa fa-dot-circle font-12"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>    
                                                     
                                                     <form id="formFinishListing" method="POST" action="{{ route('property.store') }}" style="display:none">
                                                         @csrf
@@ -753,13 +752,13 @@
         
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <h4>Terms and conditions, your local law and taxes.</h4>
+                                                    <h6>Terms and conditions, your local law and taxes.</h6>
                                                     <div class="mt-4">
-                                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+                                                        <p class="font-13">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
                                                             Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
-                                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+                                                        <p class="font-13">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
                                                             Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
-                                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
+                                                        <p class="font-13">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
                                                             Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus. <a href="javascript:void(0);" class="text-primary">Read more</a></p>
                                                     </div>
                                                     <div class="card mt-3 float-right">
@@ -1422,7 +1421,14 @@
         @if($property->type=='hostel')
             if(info.step == 1) {
                 $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formBlockNames").submit();
+                let blockName = document.getElementById('checkBlockName').innerText;
+                if(parseInt(blockName) === 0){
+                    swal('Block Name', 'List your block names.', 'warning');
+                    $(".btn-next").html('Next Step <i class="ace-icon fa fa-arrow-right icon-on-right"></i>').attr('disabled', false);
+                    return false;
+                }else{
+                    document.getElementById("formBlockNames").submit();
+                }
             }
             else if(info.step==2){
                 $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
@@ -1615,6 +1621,23 @@
 
 
     @if($property->type=='hostel')
+
+    function getChecks(id){
+        $.ajax({
+            url: "{{ url('/user/properties/start') }}/"+id+"/checks",
+            type: "GET",
+            dataType: 'json',
+            success: function(resp){
+                $("#checkBlockName").text(resp.countBlock);
+            },
+            error: function(resp){
+                alert("Something went wrong with request");
+            }
+        });
+    }
+
+    getChecks({{ $property->id }});
+
     ////add host blocks
     $("#formBlocks").on("submit", function(e){
         e.preventDefault();
@@ -1643,6 +1666,7 @@
                     else{
                         alert(resp);
                     }
+                    getChecks({{ $property->id }});
                     $(".btnAddBlock").html('<i class="fa fa-plus-circle"></i> Add Block').attr('disabled', false);
                 },
                 error: function(resp){
@@ -1718,13 +1742,13 @@
     $("#getMyCreatedRooms").load("{{ route('property.blockroom.show', $property->id) }}");
 
     ///select to get room type
-    $("#formHostelRoomAmenity #gender").on("change", function(e){
+    $("#formHostelRoomAmenity select[name='gender']").on("change", function(e){
         e.preventDefault();
         e.stopPropagation();
         var $this= $(this);
         if($this.val()!=''){
-            var data={ block_name:$('#hostel_block_name').val(), gender:$this.val() }
-            $("#formHostelRoomAmenity #room_type").find('.after').nextAll().remove();
+            var data={ block_name:$('#formHostelRoomAmenity select[name="hostel_block_name"]').val(), gender:$this.val() }
+            $("#formHostelRoomAmenity select[name='room_type']").find('.after').nextAll().remove();
             $.ajax({
                 url: "{{ route('property.get.roomtype') }}",
                 type: "POST",
@@ -1735,15 +1759,15 @@
                     $.each( resp, function( key, value ) {
                         options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
                     });
-                    $("#formHostelRoomAmenity #room_type").find('.after').after(options);
+                    $("#formHostelRoomAmenity select[name='room_type']").find('.after').after(options);
                 },
                 error: function(resp){
-                    alert("Something went wrong with request");
+                    console.log("Something went wrong with request");
                 }
             });
         }
         else{
-            $("#formHostelRoomAmenity #room_type").find('.after').nextAll().remove();
+            $("#formHostelRoomAmenity select[name='room_type']").find('.after').nextAll().remove();
         }
         return false;
     });
@@ -1785,7 +1809,7 @@
                     $(".btnAddAmenities").html('<i class="fa fa-plus-circle"></i> Add Amenities').attr('disabled', false);
                 },
                 error: function(resp){
-                    alert("Something went wrong with request");
+                    console.log("Something went wrong with request");
                     $(".btnAddAmenities").html('<i class="fa fa-plus-circle"></i> Add Amenities').attr('disabled', false);
                 }
             });
@@ -1795,6 +1819,92 @@
     });
 
     $("#getMyRoomAmenities").load("{{ route('property.room.amenities.show', $property->id) }}");
+   
+
+    // clear  gender
+    $("#formRentSchedule #block").on("change", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this= $(this);
+        $("#formRentSchedule select[name='gender']").val('');
+        $("#formRentSchedule select[name='block_room']").find('.after').nextAll().remove();
+        return false;
+    });
+
+    ///select to get room type
+    $("#formRentSchedule select[name='gender']").on("change", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this= $(this);
+        if($this.val()!=''){
+            var data={ block_name:$('#block').val(), gender:$this.val() }
+            $("#formRentSchedule select[name='block_room']").find('.after').nextAll().remove();
+            $.ajax({
+                url: "{{ route('property.get.roomtype') }}",
+                type: "POST",
+                data: data,
+                dataType: 'json',
+                success: function(resp){
+                    let options = '';
+                    $.each( resp, function( key, value ) {
+                        options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
+                    });
+                    $("#formRentSchedule select[name='block_room']").find('.after').after(options);
+                },
+                error: function(resp){
+                    alert("Something went wrong with request");
+                }
+            });
+        }
+        else{
+            $("#formRentSchedule select[name='block_room']").find('.after').nextAll().remove();
+        }
+        return false;
+    });
+
+    //add hostel prices
+    $("#formRentSchedule").on("submit", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this = $(this);
+        var valid = true;
+        $('#formRentSchedule input, #formRentSchedule select').each(function() {
+            var $this = $(this);
+            
+            if(!$this.val()) {
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            }
+        });
+        if(valid){
+            var data = $("#formRentSchedule").serialize();
+            $(".btnHostelPrices").html('<i class="fa fa-spin fa-spinner"></i> Pricing Room...').attr('disabled', true);
+            $.ajax({
+                url: "{{ route('property.blockprice.submit') }}",
+                type: "POST",
+                data: data,
+                success: function(resp){
+                    if(resp=='success'){
+                        $("#getMyBlockPrices").load("{{ route('property.blockprice.show', $property->id) }}");
+                        $("#formRentSchedule #advance_duration").val('');
+                        $("#formRentSchedule input[name='property_price']").val('');
+                    }
+                    else{
+                        swal("Opps", resp, "error");
+                    }
+                    $(".btnHostelPrices").html('<i class="fa fa-plus-circle"></i> Price Room').attr('disabled', false);
+                },
+                error: function(resp){
+                    alert("Something went wrong with request");
+                    $(".btnHostelPrices").html('<i class="fa fa-plus-circle"></i> Price Room').attr('disabled', false);
+                }
+            });
+        }
+        return false;
+    });
+
+    ///get added hostel bock prices
+    $("#getMyBlockPrices").load("{{ route('property.blockprice.show', $property->id) }}");
     @endif
 
 
@@ -1835,7 +1945,7 @@
             }
 
             if(s>0){
-                swal("File Size", s.toString()+" of your photos size is more than 1mb", "warning");
+                swal("File Size", s.toString()+" of your photos size is more than 2mb", "warning");
                 document.getElementById("upfile").value = null;
                 $("#uploadMsg").html('');
             }
@@ -1913,7 +2023,7 @@
                     }
                 },
                 error: function(resp){
-                    alert("Something went wrong with request");
+                    console.log("Something went wrong with request");
                     $this.html('<i class="fa fa-plus-circle"></i> Add').attr('disabled', false);
                 }
             });
@@ -1927,94 +2037,6 @@
             return false;
         }
     });
-
-
-    @if($property->type=='hostel')
-    // clear  gender
-    $("#formRentSchedule #block").on("change", function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var $this= $(this);
-        $("#formRentSchedule select[name='gender']").val('');
-        $("#formRentSchedule #block_room").find('.after').nextAll().remove();
-        return false;
-    });
-
-    ///select to get room type
-    $("#formRentSchedule select[name='gender']").on("change", function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var $this= $(this);
-        if($this.val()!=''){
-            var data={ block_name:$('#block').val(), gender:$this.val() }
-            $("#formRentSchedule #block_room").find('.after').nextAll().remove();
-            $.ajax({
-                url: "{{ route('property.get.roomtype') }}",
-                type: "POST",
-                data: data,
-                dataType: 'json',
-                success: function(resp){
-                    let options = '';
-                    $.each( resp, function( key, value ) {
-                        options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
-                    });
-                    $("#formRentSchedule #block_room").find('.after').after(options);
-                },
-                error: function(resp){
-                    alert("Something went wrong with request");
-                }
-            });
-        }
-        else{
-            $("#formRentSchedule #block_room").find('.after').nextAll().remove();
-        }
-        return false;
-    });
-
-    //add hostel prices
-    $("#formRentSchedule").on("submit", function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        var $this = $(this);
-        var valid = true;
-        $('#formRentSchedule input, #formRentSchedule select').each(function() {
-            var $this = $(this);
-            
-            if(!$this.val()) {
-                valid = false;
-                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-            }
-        });
-        if(valid){
-            var data = $("#formRentSchedule").serialize();
-            $(".btnHostelPrices").html('<i class="fa fa-spin fa-spinner"></i> Pricing Room...').attr('disabled', true);
-            $.ajax({
-                url: "{{ route('property.blockprice.submit') }}",
-                type: "POST",
-                data: data,
-                success: function(resp){
-                    if(resp=='success'){
-                        $("#getMyBlockPrices").load("{{ route('property.blockprice.show', $property->id) }}");
-                        $("#formRentSchedule #advance_duration").val('');
-                        $("#formRentSchedule input[name='property_price']").val('');
-                    }
-                    else{
-                        swal("Opps", resp, "error");
-                    }
-                    $(".btnHostelPrices").html('<i class="fa fa-plus-circle"></i> Price Room').attr('disabled', false);
-                },
-                error: function(resp){
-                    alert("Something went wrong with request");
-                    $(".btnHostelPrices").html('<i class="fa fa-plus-circle"></i> Price Room').attr('disabled', false);
-                }
-            });
-        }
-        return false;
-    });
-
-    ///get added hostel bock prices
-    $("#getMyBlockPrices").load("{{ route('property.blockprice.show', $property->id) }}");
-    @endif
 
     //remove error message if inputs are filled
     $("input, textarea").on('input', function(){
