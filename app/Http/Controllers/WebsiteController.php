@@ -64,7 +64,7 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Explore our neighborhoods on '.$type;
         $props = Property::whereType(str_replace(' ','_',$type))->whereDone_step(true)->whereIs_active(true)->orderBy('id', 'DESC');
         $data['property_types'] = PropertyType::get(['name']);
-        $data['properties'] = $props->get();
+        $data['properties'] = $props->paginate(12);
         if(session()->has('properties'))
         {
             session()->forget('properties');
