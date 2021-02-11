@@ -142,6 +142,7 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::get('/start', 'PropertyController@startNew')->name('property.start');
             Route::get('/start/{property}/create', 'PropertyController@createNewListing')->name('property.create');
             Route::get('/start/{property}/preview', 'PropertyController@previewCreatedListing')->name('property.preview');
+            Route::get('/start/{property}/checks', 'PropertyController@getChecks')->name('property.get.checks');
             
             Route::post('/add/block', 'PropertyController@addBlock')->name('property.block.submit');
             Route::get('/block/{property}/show', 'PropertyController@showBlock')->name('property.block.show');

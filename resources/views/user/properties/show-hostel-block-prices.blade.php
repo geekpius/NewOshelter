@@ -1,5 +1,5 @@
 @if (count($prices))
-<h4 class="header-title mt-0 mb-3">Hostel Room Types Prices</h4>
+<h6 class="header-title mt-0 mb-3">Hostel Room Types Prices</h6>
 <hr>
 <div style="position: relative;  height: 460px; overflow-y:scroll; overflow-x:hidden;">
     <div class="activity">
@@ -10,16 +10,16 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h6 class="m-0">{{ $item->propertyHostelBlock->block_name }}</h6>
                     </div>
-                    <p class="mt-1">
-                        <span class="text-primary font-13">{{ $item->block_room_type }} ({{ $item->gender }})</span> with {{ $item->block_no_room }} rooms of {{ ($item->person_per_room==1)? $item->person_per_room.' person':$item->person_per_room.' persons' }} per room.
+                    <p class="mt-1 font-13">
+                        <span class="text-primary">{{ $item->block_room_type }} ({{ $item->gender }})</span> with {{ $item->block_no_room }} rooms of {{ ($item->person_per_room==1)? $item->person_per_room.' person':$item->person_per_room.' persons' }} per room.
                     </p>
                     <div class="removeDiv">
                         @if(!empty($item->propertyHostelPrice))
                         <span class="badge badge-soft-primary font-13"><span class="font-15">{{ $item->propertyHostelPrice->currency }}</span> {{ number_format($item->propertyHostelPrice->property_price,2) }}/ {{ $item->propertyHostelPrice->price_calendar }} </span>                                                  
                         <span class="badge badge-soft-primary font-13">{{ $item->propertyHostelPrice->getPaymentDuration() }}</span> 
-                        <span data-href="{{ route('property.blockprice.delete',$item->propertyHostelPrice->id) }}" class="text-danger float-right remove-property-image btnDelete">Remove</span>  
+                        <span data-href="{{ route('property.blockprice.delete',$item->propertyHostelPrice->id) }}" class="text-danger float-right font-13 remove-property-image btnDelete">Remove</span>  
                         @else
-                        <p class="text-danger">Price is not set</p>                                               
+                        <p class="text-danger font-13">Price is not set</p>                                               
                         @endif
                     </div>
                     <hr>

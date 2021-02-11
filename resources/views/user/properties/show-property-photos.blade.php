@@ -4,7 +4,7 @@
 <div class="col-lg-6 col-sm-4 col-xs-4 img-thumbnail mb-2 p-2 propertyImage">
     <i class="fa fa-trash text-danger float-left clearfix remove-property-image btnDelete" data-href="{{ route('property.photos.delete',$item->id) }}"> Remove</i>
     <img src="{{ asset('assets/images/properties/'.$item->image) }}" class="property-image-width" heigth="120" alt="property_photo{{$i}}">
-    <input type="text" data-id="{{ $item->id }}" name="caption" value="{{ $item->caption }}"  class="form-control inputCaption" placeholder="Caption" style="border-top: none">
+    <input type="text" data-id="{{ $item->id }}" name="caption" value="{{ $item->caption }}"  class="form-control inputCaption" placeholder="Caption" style="border-top: none; height:40px">
 </div>
 @endforeach
 

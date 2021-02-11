@@ -13,7 +13,7 @@
         <div class="pt-4">
             <div class="row">
                 <div class="col-sm-8">
-                    <h4>Want To Edit {{ $property->title }}?</h4>
+                    <h5>Want To Edit {{ $property->title }}?</h5>
                     <form class="mt-4" id="formPropertyType" method="POST" action="{{ route('property.update', $property->id) }}">
                         @csrf
                         <input type="hidden" name="step" value="0" readonly>

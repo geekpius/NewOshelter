@@ -89,17 +89,26 @@
                                                 <li class="list-inline-item text-capitalize publishStatus font-14">{{  $property->publish? 'Published':"Hidden"  }}</li>
                                             </ul>
                                         </div><!--end meta-box-->            
-                                        <h5 class="">
+                                        <h6 class="">
                                             <a href="{{ route('property.preview', $property->id) }}" class="text-primary">{{ $property->title }}</a>
-                                        </h5>
+                                        </h6>
                                         <span class="font-14">{{ $property->propertyLocation->location }}</span>
                                     </div><!--end blog-card-->                                   
                                 </div><!--end card-body-->
                             </div>
                         </div>
                         @endforeach
-                        {{ $properties->links() }}
                     </div>
+
+                    <div class="row">
+                        <div class="col-12 ml-2">
+                            @if ($properties->hasPages())
+                            <div class="font-12">Page: {{ $properties->currentPage() }}</div>
+                            <div class="font-12">{{ $properties->count() }} out of {{ $properties->total() }} properties</div>
+                            <div>{{ $properties->links() }}</div>
+                            @endif
+                        </div>
+                   </div>
                     @else
                     <div class="text-center mt-5 mb-3">
                         <div class="alert alert-outline-pink b-round fade show" role="alert">                                            

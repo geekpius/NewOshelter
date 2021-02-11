@@ -43,7 +43,7 @@ class PropertyController extends Controller
     public function index()
     {
         $data['page_title'] = 'List properties';
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15); 
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15); 
         return view('user.properties.index', $data);
     }
 
@@ -86,6 +86,15 @@ class PropertyController extends Controller
         }else{
             return view('errors.404');
         }
+    }
+
+    public function getChecks(Property $property)
+    {
+        return response()->json(
+            [
+                'countBlock' => $property->propertyHostelBlocks->count(),
+            ]
+        );
     }
 
     ///preview after listing
@@ -325,7 +334,7 @@ class PropertyController extends Controller
             DB::commit();
         }catch(\Exception $e){
             DB::rollback();
-            $message = 'error';
+            $message = 'error'.$e->getMessage();
         }
 
         /* if($message=='success'){
@@ -778,7 +787,9 @@ class PropertyController extends Controller
                 $property->done_step = false;
                 $property->update();
                 
-                Session::put("edit", true);
+                if($property->publish){
+                    Session::put("edit", true);
+                }
                 return redirect()->route('property.create', $property->id);
             }
         }else{
@@ -808,7 +819,6 @@ class PropertyController extends Controller
         }
     }
     
-
     ///confirm delete
     public function confirmDelete(Property $property)
     {
