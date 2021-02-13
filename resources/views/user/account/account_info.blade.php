@@ -98,7 +98,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group validate">
                                             <label for="">Emergency Contact</label>
-                                            <input type="number" name="emergency_contact" id="emergency_contact" value="{{ empty(Auth::user()->profile->emergency)? '':Auth::user()->profile->emergency }}" placeholder="Enter emergency contact" class="form-control">
+                                            <input type="tel" name="emergency_contact" id="emergency_contact" onkeypress="return isNumber(event)" value="{{ empty(Auth::user()->profile->emergency)? '':Auth::user()->profile->emergency }}" placeholder="Enter emergency contact" class="form-control">
                                             <span class="text-danger small mySpan" role="alert"></span>                                  
                                         </div>
                                     </div>
@@ -126,6 +126,14 @@
 @section('scripts')
 <script src="{{ asset('assets/pages/account/all-groups.js') }}"></script>
 <script>
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
 $("#formProfileUpdate select[name='gender']").val("{{ empty(Auth::user()->profile->gender)? '':Auth::user()->profile->gender }}");
 $("#formProfileUpdate select[name='marital_status']").val("{{ empty(Auth::user()->profile->marital_status)? '':Auth::user()->profile->marital_status }}");
 </script>

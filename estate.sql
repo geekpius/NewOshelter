@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 21, 2021 at 06:42 PM
+-- Generation Time: Feb 13, 2021 at 08:35 PM
 -- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.0
+-- PHP Version: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -59,7 +59,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `is_active`, `image`, `role`, `login_time`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin Geek', 'fiifipius@gmail.com', '$2y$10$C5fgKPH/HSQ79J4wiybGVOgILhRN2cCpeyMXn5VFCxiw.leAIVZki', 1, NULL, 'admin', '2021-01-21 16:21:49', 'g32n0D2mwfRwbMaEIY3PqF5V1rRPziV6EFC0ifxjb4YhIdDl0a3Uw7zMlngA', NULL, '2021-01-21 16:21:49');
+(1, 'Admin Geek', 'fiifipius@gmail.com', '$2y$10$C5fgKPH/HSQ79J4wiybGVOgILhRN2cCpeyMXn5VFCxiw.leAIVZki', 1, NULL, 'admin', '2021-02-05 13:56:14', 'g32n0D2mwfRwbMaEIY3PqF5V1rRPziV6EFC0ifxjb4YhIdDl0a3Uw7zMlngA', NULL, '2021-02-05 13:56:14');
 
 -- --------------------------------------------------------
 
@@ -123,20 +123,62 @@ INSERT INTO `admin_activities` (`id`, `admin_id`, `action`, `created_at`, `updat
 (41, 1, 'Deleted currency United States Dollar', '2021-01-21 17:07:02', '2021-01-21 17:07:02'),
 (42, 1, 'Deleted currency Ghana Cedis', '2021-01-21 17:07:05', '2021-01-21 17:07:05'),
 (43, 1, 'Added new currency Ghana Cedis', '2021-01-21 17:07:21', '2021-01-21 17:07:21'),
-(44, 1, 'Added new currency United States Dollar', '2021-01-21 17:07:26', '2021-01-21 17:07:26');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `amenities`
---
-
-CREATE TABLE `amenities` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+(44, 1, 'Added new currency United States Dollar', '2021-01-21 17:07:26', '2021-01-21 17:07:26'),
+(45, 1, 'Added new document type general - Your Account', '2021-01-25 14:27:53', '2021-01-25 14:27:53'),
+(46, 1, 'Deleted document type General Help - Your Account', '2021-01-25 14:27:58', '2021-01-25 14:27:58'),
+(47, 1, 'Added new document General Help - Your Account', '2021-01-25 14:31:01', '2021-01-25 14:31:01'),
+(48, 1, 'Added new document General Help - Your Account', '2021-01-25 14:33:04', '2021-01-25 14:33:04'),
+(49, 1, 'Added new document General Help - Your Account', '2021-01-25 14:34:01', '2021-01-25 14:34:01'),
+(50, 1, 'Added new document General Help - Account', '2021-01-25 15:55:50', '2021-01-25 15:55:50'),
+(51, 1, 'Added new document General Help - Account', '2021-01-25 15:56:22', '2021-01-25 15:56:22'),
+(52, 1, 'Added new document General Help - Account', '2021-01-25 15:56:49', '2021-01-25 15:56:49'),
+(53, 1, 'Added new document General Help - Account', '2021-01-25 15:57:00', '2021-01-25 15:57:00'),
+(54, 1, 'Added new document type general - Notifications', '2021-01-26 09:45:12', '2021-01-26 09:45:12'),
+(55, 1, 'Added new document General Help - Notifications', '2021-01-26 09:45:53', '2021-01-26 09:45:53'),
+(56, 1, 'Added new help category general - Your Account', '2021-01-26 10:58:32', '2021-01-26 10:58:32'),
+(57, 1, 'Added new help category general - About Oshelter', '2021-01-26 10:59:54', '2021-01-26 10:59:54'),
+(58, 1, 'Added new help category general - Your Account', '2021-01-26 11:00:09', '2021-01-26 11:00:09'),
+(59, 1, 'Added new help category general - Terms And Policies', '2021-01-26 11:00:33', '2021-01-26 11:00:33'),
+(60, 1, 'Added new help category general - About Oshelter', '2021-01-26 11:05:46', '2021-01-26 11:05:46'),
+(61, 1, 'Added new help category general - Your Account', '2021-01-26 11:05:57', '2021-01-26 11:05:57'),
+(62, 1, 'Added new help category general - Terms And Policies', '2021-01-26 11:06:07', '2021-01-26 11:06:07'),
+(63, 1, 'Edited help category general - Your Accounts', '2021-01-26 11:28:10', '2021-01-26 11:28:10'),
+(64, 1, 'Edited help category general - Your Account', '2021-01-26 11:29:18', '2021-01-26 11:29:18'),
+(65, 1, 'Edited help category general - Your Account', '2021-01-26 11:29:25', '2021-01-26 11:29:25'),
+(66, 1, 'Edited help category general - Your Account', '2021-01-26 11:29:30', '2021-01-26 11:29:30'),
+(67, 1, 'Edited help category general - Your Account', '2021-01-26 11:30:08', '2021-01-26 11:30:08'),
+(68, 1, 'Edited help category general - Your Accounts', '2021-01-26 11:30:53', '2021-01-26 11:30:53'),
+(69, 1, 'Edited help category general - Your Account', '2021-01-26 11:31:00', '2021-01-26 11:31:00'),
+(70, 1, 'Added new help topic About Oshelter - Getting started', '2021-01-26 12:24:44', '2021-01-26 12:24:44'),
+(71, 1, 'Added new help topic About Oshelter - Getting started', '2021-01-26 12:25:14', '2021-01-26 12:25:14'),
+(72, 1, 'Added new help topic About Oshelter - How oshelter works', '2021-01-26 12:26:23', '2021-01-26 12:26:23'),
+(73, 1, 'Edited help topic About Oshelter - How Oshelter work', '2021-01-26 12:48:21', '2021-01-26 12:48:21'),
+(74, 1, 'Edited help topic About Oshelter - How Oshelter works', '2021-01-26 12:48:42', '2021-01-26 12:48:42'),
+(75, 1, 'Added new help topic About Oshelter - Messaging', '2021-01-26 12:50:16', '2021-01-26 12:50:16'),
+(76, 1, 'Added new help topic About Oshelter - Our clients', '2021-01-26 12:50:58', '2021-01-26 12:50:58'),
+(77, 1, 'Edited help topic About Oshelter - Our clients and partners', '2021-01-26 12:51:12', '2021-01-26 12:51:12'),
+(78, 1, 'Added new help topic Your Account - Creating an account', '2021-01-26 12:51:59', '2021-01-26 12:51:59'),
+(79, 1, 'Added new help topic Your Account - Managing your account', '2021-01-26 12:52:28', '2021-01-26 12:52:28'),
+(80, 1, 'Added new help topic Your Account - Account security', '2021-01-26 12:52:50', '2021-01-26 12:52:50'),
+(81, 1, 'Added new help topic Your Account - Verification', '2021-01-26 12:53:07', '2021-01-26 12:53:07'),
+(82, 1, 'Added new help question Getting started - How do I create an account?', '2021-01-26 15:27:15', '2021-01-26 15:27:15'),
+(83, 1, 'Added new help question Getting started - Who can own a property on Oshelter?', '2021-01-26 15:27:54', '2021-01-26 15:27:54'),
+(84, 1, 'Added new help question How Oshelter works - How do I contact Oshelter?', '2021-01-26 15:30:34', '2021-01-26 15:30:34'),
+(85, 1, 'Added new help question How Oshelter works - How do I send feedback to Oshelter?', '2021-01-26 15:31:20', '2021-01-26 15:31:20'),
+(86, 1, 'Edited help question How Oshelter works - How do I contact Oshelter?', '2021-01-26 15:55:27', '2021-01-26 15:55:27'),
+(87, 1, 'Edited help question How Oshelter works - How do I contact Oshelter?', '2021-01-26 15:55:32', '2021-01-26 15:55:32'),
+(88, 1, 'Edited help question How Oshelter works - How do I contact Oshelter?', '2021-01-26 15:55:53', '2021-01-26 15:55:53'),
+(89, 1, 'Added new help question How Oshelter works - How do I send feedback to Oshelter?', '2021-01-28 10:24:13', '2021-01-28 10:24:13'),
+(90, 1, 'Edited help question How Oshelter works - How do I send feedback to Oshelter?', '2021-01-28 10:28:37', '2021-01-28 10:28:37'),
+(91, 1, 'Edited help question How Oshelter works - How do I send feedback to Oshelter?', '2021-01-28 10:28:47', '2021-01-28 10:28:47'),
+(92, 1, 'Added new help category owner - About Listing', '2021-02-05 13:58:07', '2021-02-05 13:58:07'),
+(93, 1, 'Added new help category owner - Managing Your Listing', '2021-02-05 13:58:56', '2021-02-05 13:58:56'),
+(94, 1, 'Added new help topic About Listing - Preparing for owning', '2021-02-05 13:59:35', '2021-02-05 13:59:35'),
+(95, 1, 'Added new help topic About Listing - How to own', '2021-02-05 14:00:10', '2021-02-05 14:00:10'),
+(96, 1, 'Added new help question Preparing for owning - What are Oshelter\'s requirements to own property?', '2021-02-05 14:01:44', '2021-02-05 14:01:44'),
+(97, 1, 'Added new help question Preparing for owning - How can I prepare to own?', '2021-02-05 14:02:24', '2021-02-05 14:02:24'),
+(98, 1, 'Added new help question How to own - What is owner assist and how do I sign up?', '2021-02-05 14:04:53', '2021-02-05 14:04:53'),
+(99, 1, 'Added new help question How to own - What is owner?', '2021-02-05 14:05:12', '2021-02-05 14:05:12');
 
 -- --------------------------------------------------------
 
@@ -165,7 +207,8 @@ CREATE TABLE `bookings` (
 
 INSERT INTO `bookings` (`id`, `user_id`, `property_id`, `owner_id`, `check_in`, `check_out`, `adult`, `children`, `infant`, `status`, `created_at`, `updated_at`) VALUES
 (1, 2, 9, 1, '2021-01-21', '2022-01-21', 2, 0, 0, 3, '2021-01-14 12:13:56', '2021-01-21 11:05:56'),
-(2, 2, 12, 1, '2021-01-21', '2021-01-28', 1, 0, 0, 3, '2021-01-18 16:32:11', '2021-01-21 11:37:33');
+(2, 2, 12, 1, '2021-01-21', '2021-01-28', 1, 0, 0, 3, '2021-01-18 16:32:11', '2021-01-21 11:37:33'),
+(5, 2, 13, 1, '2021-02-16', '2021-02-23', 1, 0, 0, 1, '2021-02-13 15:48:42', '2021-02-13 15:48:42');
 
 -- --------------------------------------------------------
 
@@ -231,48 +274,90 @@ CREATE TABLE `deactivate_users` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `helps`
+-- Table structure for table `help_categories`
 --
 
-CREATE TABLE `helps` (
+CREATE TABLE `help_categories` (
   `id` int(10) UNSIGNED NOT NULL,
-  `help_type_id` int(10) UNSIGNED NOT NULL,
-  `document_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `document_name_slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `question` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `answer` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `topic` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `topic_slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `helps`
+-- Dumping data for table `help_categories`
 --
 
-INSERT INTO `helps` (`id`, `help_type_id`, `document_name`, `document_name_slug`, `question`, `answer`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Creating an account', 'creating-an-account', 'How do I create an account?', '<div>\r\n<div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi cumque quidem accusamus consectetur at, <a href=\"http://www.oshelter.com\" target=\"_blank\" rel=\"noopener\">create</a> laboriosam accusantium rem neque ea, porro dignissimos hic, rerum alias modi omnis cupiditate minus nobis.</div>\r\n</div>', '2021-01-21 15:13:51', '2021-01-21 15:13:51');
+INSERT INTO `help_categories` (`id`, `category`, `topic`, `topic_slug`, `created_at`, `updated_at`) VALUES
+(1, 'general', 'About Oshelter', 'about-oshelter', '2021-01-26 11:05:46', '2021-01-26 11:05:46'),
+(2, 'general', 'Your Account', 'your-account', '2021-01-26 11:05:57', '2021-01-26 11:31:00'),
+(3, 'general', 'Terms And Policies', 'terms-and-policies', '2021-01-26 11:06:07', '2021-01-26 11:06:07'),
+(4, 'owner', 'About Listing', 'about-listing', '2021-02-05 13:58:07', '2021-02-05 13:58:07'),
+(5, 'owner', 'Managing Your Listing', 'managing-your-listing', '2021-02-05 13:58:56', '2021-02-05 13:58:56');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `help_types`
+-- Table structure for table `help_questions`
 --
 
-CREATE TABLE `help_types` (
+CREATE TABLE `help_questions` (
   `id` int(10) UNSIGNED NOT NULL,
-  `help_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `document_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `document_title_slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `help_topic_id` int(10) UNSIGNED NOT NULL,
+  `question` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `question_slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `answer` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_popular` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `help_types`
+-- Dumping data for table `help_questions`
 --
 
-INSERT INTO `help_types` (`id`, `help_type`, `document_title`, `document_title_slug`, `created_at`, `updated_at`) VALUES
-(1, 'general', 'Your Account', 'your-account', '2021-01-21 14:57:33', '2021-01-21 15:03:16');
+INSERT INTO `help_questions` (`id`, `help_topic_id`, `question`, `question_slug`, `answer`, `is_popular`, `created_at`, `updated_at`) VALUES
+(1, 1, 'How do I create an account?', 'how-do-i-create-an-account', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, '2021-01-26 15:27:15', '2021-01-26 15:27:15'),
+(2, 1, 'How do I list a property on Oshelter?', 'who-can-own-a-property-on-oshelter', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, '2021-01-26 15:27:54', '2021-01-26 15:27:54'),
+(3, 2, 'How do I contact Oshelter?', 'how-do-i-contact-oshelter', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, '2021-01-26 15:30:34', '2021-01-26 15:30:34'),
+(4, 2, 'How do I send feedback to Oshelter?', 'how-do-i-send-feedback-to-oshelter', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, '2021-01-28 10:24:13', '2021-01-28 10:28:47'),
+(5, 9, 'What are Oshelter\'s requirements to own property?', 'what-are-oshelters-requirements-to-own-property', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, '2021-02-05 14:01:44', '2021-02-05 14:01:44'),
+(6, 9, 'How can I prepare to list?', 'how-can-i-prepare-to-list', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, '2021-02-05 14:02:24', '2021-02-05 14:02:24'),
+(7, 10, 'What is owner assist and how do I sign up?', 'what-is-owner-assist-and-how-do-i-sign-up', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, '2021-02-05 14:04:53', '2021-02-05 14:04:53'),
+(8, 10, 'What is owner?', 'what-is-owner', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 1, '2021-02-05 14:05:12', '2021-02-05 14:05:12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `help_topics`
+--
+
+CREATE TABLE `help_topics` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `help_category_id` int(10) UNSIGNED NOT NULL,
+  `topic_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `topic_name_slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `help_topics`
+--
+
+INSERT INTO `help_topics` (`id`, `help_category_id`, `topic_name`, `topic_name_slug`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Getting started', 'getting-started', '2021-01-26 12:25:14', '2021-01-26 12:25:14'),
+(2, 1, 'How Oshelter works', 'how-oshelter-works', '2021-01-26 12:26:23', '2021-01-26 12:48:42'),
+(3, 1, 'Messaging', 'messaging', '2021-01-26 12:50:16', '2021-01-26 12:50:16'),
+(4, 1, 'Our clients and partners', 'our-clients-and-partners', '2021-01-26 12:50:58', '2021-01-26 12:51:12'),
+(5, 2, 'Creating an account', 'creating-an-account', '2021-01-26 12:51:59', '2021-01-26 12:51:59'),
+(6, 2, 'Managing your account', 'managing-your-account', '2021-01-26 12:52:28', '2021-01-26 12:52:28'),
+(7, 2, 'Account security', 'account-security', '2021-01-26 12:52:50', '2021-01-26 12:52:50'),
+(8, 2, 'Verification', 'verification', '2021-01-26 12:53:07', '2021-01-26 12:53:07'),
+(9, 4, 'Preparing for owning', 'preparing-for-owning', '2021-02-05 13:59:35', '2021-02-05 13:59:35'),
+(10, 4, 'How to own', 'how-to-own', '2021-02-05 14:00:10', '2021-02-05 14:00:10');
 
 -- --------------------------------------------------------
 
@@ -306,7 +391,9 @@ CREATE TABLE `hostel_block_rooms` (
 INSERT INTO `hostel_block_rooms` (`id`, `property_hostel_block_id`, `block_room_type`, `gender`, `block_no_room`, `start_room_no`, `bed_person`, `person_per_room`, `furnish`, `kitchen`, `bathroom`, `bath_private`, `toilet`, `toilet_private`, `created_at`, `updated_at`) VALUES
 (3, 4, 'single_room', 'male', 15, 1, 2, 2, 'partially_furnished', 1, 1, 1, 1, 1, '2020-12-22 09:38:40', '2020-12-22 09:38:40'),
 (4, 5, 'chamber_and_hall', 'male', 10, 1, 2, 2, 'partially_furnished', 1, 1, 1, 1, 1, '2020-12-22 09:39:53', '2020-12-22 09:39:53'),
-(5, 6, 'single_room', 'female', 25, 1, 2, 2, 'partially_furnished', 1, 1, 1, 1, 1, '2020-12-22 09:45:52', '2020-12-22 09:45:52');
+(5, 6, 'single_room', 'female', 25, 1, 2, 2, 'partially_furnished', 1, 1, 1, 1, 1, '2020-12-22 09:45:52', '2020-12-22 09:45:52'),
+(6, 13, 'single_room', 'male', 10, 1, 2, 2, 'partially_furnished', 1, 1, 1, 1, 1, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(7, 14, 'single_room', 'female', 10, 1, 2, 2, 'partially_furnished', 1, 1, 1, 1, 1, '2021-02-11 16:52:54', '2021-02-11 16:52:54');
 
 -- --------------------------------------------------------
 
@@ -379,7 +466,27 @@ INSERT INTO `hostel_block_room_numbers` (`id`, `hostel_block_room_id`, `room_no`
 (72, 5, 22, 2, 0, 0, '2020-12-22 09:45:52', '2020-12-22 09:45:52'),
 (73, 5, 23, 2, 0, 0, '2020-12-22 09:45:52', '2020-12-22 09:45:52'),
 (74, 5, 24, 2, 0, 0, '2020-12-22 09:45:52', '2020-12-22 09:45:52'),
-(75, 5, 25, 2, 0, 0, '2020-12-22 09:45:52', '2020-12-22 09:45:52');
+(75, 5, 25, 2, 0, 0, '2020-12-22 09:45:52', '2020-12-22 09:45:52'),
+(76, 6, 1, 2, 0, 0, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(77, 6, 2, 2, 0, 0, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(78, 6, 3, 2, 0, 0, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(79, 6, 4, 2, 0, 0, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(80, 6, 5, 2, 0, 0, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(81, 6, 6, 2, 0, 0, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(82, 6, 7, 2, 0, 0, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(83, 6, 8, 2, 0, 0, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(84, 6, 9, 2, 0, 0, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(85, 6, 10, 2, 0, 0, '2021-02-11 16:52:27', '2021-02-11 16:52:27'),
+(86, 7, 1, 2, 0, 0, '2021-02-11 16:52:54', '2021-02-11 16:52:54'),
+(87, 7, 2, 2, 0, 0, '2021-02-11 16:52:54', '2021-02-11 16:52:54'),
+(88, 7, 3, 2, 0, 0, '2021-02-11 16:52:54', '2021-02-11 16:52:54'),
+(89, 7, 4, 2, 0, 0, '2021-02-11 16:52:54', '2021-02-11 16:52:54'),
+(90, 7, 5, 2, 0, 0, '2021-02-11 16:52:54', '2021-02-11 16:52:54'),
+(91, 7, 6, 2, 0, 0, '2021-02-11 16:52:54', '2021-02-11 16:52:54'),
+(92, 7, 7, 2, 0, 0, '2021-02-11 16:52:54', '2021-02-11 16:52:54'),
+(93, 7, 8, 2, 0, 0, '2021-02-11 16:52:54', '2021-02-11 16:52:54'),
+(94, 7, 9, 2, 0, 0, '2021-02-11 16:52:54', '2021-02-11 16:52:54'),
+(95, 7, 10, 2, 0, 0, '2021-02-11 16:52:54', '2021-02-11 16:52:54');
 
 -- --------------------------------------------------------
 
@@ -438,7 +545,17 @@ INSERT INTO `hostel_room_amenities` (`id`, `hostel_block_room_id`, `name`, `crea
 (14, 5, 'Bed', '2020-12-22 11:00:59', '2020-12-22 11:00:59'),
 (15, 5, 'Smoke Detector', '2020-12-22 11:00:59', '2020-12-22 11:00:59'),
 (16, 5, 'Ceiling Fan', '2020-12-22 11:00:59', '2020-12-22 11:00:59'),
-(18, 5, 'Wardrobe', '2020-12-22 11:01:00', '2020-12-22 11:01:00');
+(18, 5, 'Wardrobe', '2020-12-22 11:01:00', '2020-12-22 11:01:00'),
+(19, 6, 'Bed', '2021-02-11 17:04:57', '2021-02-11 17:04:57'),
+(20, 6, 'Smoke Detector', '2021-02-11 17:04:57', '2021-02-11 17:04:57'),
+(21, 6, 'Ceiling Fan', '2021-02-11 17:04:57', '2021-02-11 17:04:57'),
+(22, 6, 'Learning Light', '2021-02-11 17:04:57', '2021-02-11 17:04:57'),
+(23, 6, 'Wardrobe', '2021-02-11 17:04:57', '2021-02-11 17:04:57'),
+(24, 7, 'Bed', '2021-02-11 17:08:34', '2021-02-11 17:08:34'),
+(25, 7, 'Smoke Detector', '2021-02-11 17:08:34', '2021-02-11 17:08:34'),
+(26, 7, 'Ceiling Fan', '2021-02-11 17:08:34', '2021-02-11 17:08:34'),
+(27, 7, 'Learning Light', '2021-02-11 17:08:34', '2021-02-11 17:08:34'),
+(28, 7, 'Wardrobe', '2021-02-11 17:08:34', '2021-02-11 17:08:34');
 
 -- --------------------------------------------------------
 
@@ -483,9 +600,10 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`id`, `user_id`, `destination`, `message`, `status`, `created_at`, `updated_at`) VALUES
-(4, 2, 1, 'Hi, I would like to book your room.', 0, '2020-12-23 12:15:19', '2020-12-23 17:08:01'),
-(5, 2, 1, 'Hi please hit me back.', 0, '2020-12-23 13:01:20', '2020-12-23 16:07:10'),
-(6, 1, 2, 'Pass through the booking process.', 1, '2020-12-23 17:18:41', '2020-12-29 21:16:37');
+(4, 2, 1, 'Hi, I would like to book your room.', 1, '2020-12-23 12:15:19', '2021-02-05 09:39:07'),
+(5, 2, 1, 'Hi please hit me back.', 1, '2020-12-23 13:01:20', '2021-02-05 10:16:59'),
+(6, 1, 2, 'Pass through the booking process.', 1, '2020-12-23 17:18:41', '2020-12-29 21:16:37'),
+(8, 2, 1, 'Hi, I want to book your room <br>This is in regard to <a class=\"text-primary\" target=\"_blank\" href=\"http://127.0.0.1:8000/property/13/details\">2 Sweet single room</a>', 1, '2021-02-13 15:48:42', '2021-02-13 15:52:58');
 
 -- --------------------------------------------------------
 
@@ -614,11 +732,12 @@ CREATE TABLE `properties` (
 --
 
 INSERT INTO `properties` (`id`, `user_id`, `base`, `type`, `type_status`, `title`, `adult`, `children`, `publish`, `step`, `done_step`, `is_active`, `created_at`, `updated_at`) VALUES
-(9, 1, 'house', 'apartment', 'rent', '2 Bedroom Apartment', 1, 0, 1, 9, 1, 1, '2020-12-21 11:40:12', '2021-01-21 16:10:32'),
-(10, 1, 'house', 'house', 'short_stay', '2 Bedroom House', 2, 3, 1, 9, 1, 1, '2020-12-22 08:33:07', '2021-01-05 17:21:23'),
+(9, 1, 'house', 'apartment', 'rent', '2 Bedroom Apartment', 1, 0, 1, 9, 1, 1, '2020-12-21 11:40:12', '2021-02-08 11:16:43'),
+(10, 1, 'house', 'house', 'short_stay', '2 Bedroom House', 2, 3, 1, 9, 1, 1, '2020-12-22 08:33:07', '2021-02-13 19:31:44'),
 (11, 1, 'storey_building', 'hostel', 'rent', 'Amanshie Hostel', 1, 0, 1, 9, 1, 1, '2020-12-22 09:22:49', '2021-01-21 16:13:24'),
 (12, 1, 'house', 'room', 'short_stay', 'Single room self contain', 2, 2, 1, 9, 1, 1, '2021-01-04 13:38:29', '2021-01-05 17:21:43'),
-(13, 1, 'house', 'room', 'short_stay', '2 Sweet single room', 3, 2, 1, 9, 1, 1, '2021-01-20 18:45:07', '2021-01-20 19:21:37');
+(13, 1, 'house', 'room', 'short_stay', '2 Sweet single room', 3, 2, 1, 9, 1, 1, '2021-01-20 18:45:07', '2021-02-11 15:03:14'),
+(14, 1, 'house', 'hostel', 'rent', 'Akoto Suite Hostel', 1, 0, 1, 9, 1, 1, '2021-02-11 14:46:35', '2021-02-11 17:45:19');
 
 -- --------------------------------------------------------
 
@@ -694,7 +813,7 @@ CREATE TABLE `property_contains` (
 
 INSERT INTO `property_contains` (`id`, `property_id`, `bedroom`, `no_bed`, `kitchen`, `bathroom`, `bath_private`, `toilet`, `toilet_private`, `furnish`, `created_at`, `updated_at`) VALUES
 (7, 9, '2', 0, 1, 2, 1, 2, 1, 'not_furnished', '2020-12-21 13:07:04', '2020-12-21 13:07:04'),
-(8, 10, '2', 1, 1, 2, 1, 2, 1, 'fully_furnished', '2020-12-22 09:09:52', '2020-12-22 09:09:52'),
+(8, 10, '2', 1, 1, 2, 1, 2, 1, 'fully_furnished', '2020-12-22 09:09:52', '2021-02-13 18:32:36'),
 (9, 12, '1', 1, 1, 1, 1, 1, 1, 'fully_furnished', '2021-01-04 13:39:52', '2021-01-04 13:39:52'),
 (10, 13, '1', 1, 1, 1, 1, 1, 1, 'fully_furnished', '2021-01-20 18:45:32', '2021-01-20 18:45:32');
 
@@ -724,7 +843,8 @@ INSERT INTO `property_descriptions` (`id`, `property_id`, `gate`, `description`,
 (9, 10, 1, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, vero culpa? Officiis quos recusandae quam magni tenetur, molestias fuga facilis? Autem sed quae magnam dolorem officiis tenetur quos quo labore.Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, vero culpa? Officiis quos recusandae quam magni tenetur, molestias fuga facilis? Autem sed quae magnam dolorem officiis tenetur quos quo labore.Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, vero culpa? Officiis quos recusandae quam magni tenetur, molestias fuga facilis? Autem sed quae magnam dolorem officiis tenetur quos quo labore.', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, vero culpa? Officiis quos recusandae quam magni tenetur, molestias fuga facilis? Autem sed quae magnam dolorem officiis tenetur quos quo labore.', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe, vero culpa? Officiis quos recusandae quam magni tenetur, molestias fuga facilis? Autem sed quae magnam dolorem officiis tenetur quos quo labore.', '2020-12-22 09:16:36', '2020-12-22 09:16:36'),
 (10, 11, 0, 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, saepe laboriosam? Voluptatem provident ratione in, rerum dignissimos obcaecati autem quis. Nobis molestias deserunt iusto animi doloribus incidunt modi quod officia!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, saepe laboriosam? Voluptatem provident ratione in, rerum dignissimos obcaecati autem quis. Nobis molestias deserunt iusto animi doloribus incidunt modi quod officia!Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, saepe laboriosam? Voluptatem provident ratione in, rerum dignissimos obcaecati autem quis. Nobis molestias deserunt iusto animi doloribus incidunt modi quod officia!', 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, saepe laboriosam? Voluptatem provident ratione in, rerum dignissimos obcaecati autem quis. Nobis molestias deserunt iusto animi doloribus incidunt modi quod officia!', 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, saepe laboriosam? Voluptatem provident ratione in, rerum dignissimos obcaecati autem quis. Nobis molestias deserunt iusto animi doloribus incidunt modi quod officia!', '2020-12-22 11:54:51', '2020-12-22 11:54:51'),
 (11, 12, 1, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?Lorem ipsum dolor sit amet cons', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut at porro fugit quod odit facilis quia minima debitis doloremque saepe distinctio consectetur, earum fugiat iusto dignissimos magnam blanditiis cupiditate?', '2021-01-04 14:36:47', '2021-01-04 14:36:47'),
-(12, 13, 1, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem m', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet cons', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet cons', '2021-01-20 18:50:43', '2021-01-20 18:50:43');
+(12, 13, 1, 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem m', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet cons', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur fugiat nam blanditiis, nobis fugit error odit dolorem molestias quis earum ratione magnam molestiae iure quos nemo officiis laboriosam quo voluptatem?Lorem ipsum dolor sit amet cons', '2021-01-20 18:50:43', '2021-01-20 18:50:43'),
+(13, 14, 0, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letrase', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-02-11 17:33:56', '2021-02-11 17:33:56');
 
 -- --------------------------------------------------------
 
@@ -747,7 +867,9 @@ CREATE TABLE `property_hostel_blocks` (
 INSERT INTO `property_hostel_blocks` (`id`, `property_id`, `block_name`, `created_at`, `updated_at`) VALUES
 (4, 11, 'kofi annan', '2020-12-22 09:24:59', '2020-12-22 09:24:59'),
 (5, 11, 'osei tutu', '2020-12-22 09:26:07', '2020-12-22 09:26:07'),
-(6, 11, 'yaa asantewaa', '2020-12-22 09:26:22', '2020-12-22 09:26:22');
+(6, 11, 'yaa asantewaa', '2020-12-22 09:26:22', '2020-12-22 09:26:22'),
+(13, 14, 'akoto', '2021-02-11 16:25:49', '2021-02-11 16:25:49'),
+(14, 14, 'brew', '2021-02-11 16:25:58', '2021-02-11 16:25:58');
 
 -- --------------------------------------------------------
 
@@ -773,7 +895,9 @@ CREATE TABLE `property_hostel_prices` (
 INSERT INTO `property_hostel_prices` (`id`, `hostel_block_room_id`, `payment_duration`, `price_calendar`, `property_price`, `currency`, `created_at`, `updated_at`) VALUES
 (3, 3, 8, 'month', 300, 'GHS', '2020-12-22 12:15:42', '2021-01-20 19:41:11'),
 (4, 4, 8, 'month', 500, 'GHS', '2020-12-22 12:16:16', '2021-01-20 19:41:27'),
-(5, 5, 8, 'month', 300, 'GHS', '2020-12-22 12:20:25', '2020-12-22 12:20:25');
+(5, 5, 8, 'month', 300, 'GHS', '2020-12-22 12:20:25', '2020-12-22 12:20:25'),
+(6, 6, 8, 'month', 400, 'GHS', '2021-02-11 17:38:54', '2021-02-11 17:38:54'),
+(7, 7, 8, 'month', 400, 'GHS', '2021-02-11 17:39:42', '2021-02-11 17:39:42');
 
 -- --------------------------------------------------------
 
@@ -826,7 +950,12 @@ INSERT INTO `property_images` (`id`, `property_id`, `caption`, `image`, `created
 (71, 13, 'Frontview', '14d8db455384dc35e73623bdc588af92bae887d96.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:14'),
 (72, 13, 'Frontview', '18eb1391398f47ff094e0c2ca869ba2924c075ad5.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:16'),
 (73, 13, 'Hallway', '136e3b7e17b98048a9d05824eae9facfdf183c2c2.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:21'),
-(74, 13, 'Frontview', '1f32b2fc7e57c7c54c9a69d5467c0635a170e4a9b.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:23');
+(74, 13, 'Frontview', '1f32b2fc7e57c7c54c9a69d5467c0635a170e4a9b.jpg', '2021-01-20 18:50:03', '2021-01-20 18:50:23'),
+(75, 14, 'Chat area', '1c28bd82aa076f703ddec494a0f12149bcf29f3e2.jpg', '2021-02-11 17:25:42', '2021-02-11 17:28:11'),
+(76, 14, 'Kitchen', '1c2dde51ae7695dbdc8d721a7e05f883913797b92.jpg', '2021-02-11 17:28:01', '2021-02-11 17:28:15'),
+(77, 14, 'Frontview', '196f199df839e3fe2a68af2ad3c18a3f1a123ff8a.jpg', '2021-02-11 17:28:02', '2021-02-11 17:28:18'),
+(78, 14, 'Frontview', '146091a71773654e902a7b1c2c86cb5129091181e.jpg', '2021-02-11 17:28:02', '2021-02-11 17:28:20'),
+(79, 14, 'Frontview', '15e6e4d98a00025f38cd56df939228ba9f65cabec.jpg', '2021-02-11 17:28:02', '2021-02-11 17:28:23');
 
 -- --------------------------------------------------------
 
@@ -852,10 +981,11 @@ CREATE TABLE `property_locations` (
 
 INSERT INTO `property_locations` (`id`, `property_id`, `digital_address`, `location`, `location_slug`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
 (9, 9, NULL, 'Madina, Accra Metropolis, Ghana', 'madina-accra-metropolis-ghana', '5.6731273', '-0.1663851', '2020-12-21 14:23:55', '2020-12-24 10:30:57'),
-(10, 10, NULL, 'Koforidua, Ghana', 'koforidua-ghana', '6.0784427', '-0.2713944', '2020-12-22 09:12:56', '2021-01-04 17:09:10'),
+(10, 10, NULL, 'Ghana Legion St, Kumasi, Ghana', 'ghana-legion-st-kumasi-ghana', '6.7008408', '-1.6125823', '2020-12-22 09:12:56', '2021-02-13 18:55:59'),
 (11, 11, NULL, 'Asuoyeboa, Kumasi, Ghana', 'asuoyeboa-kumasi-ghana', '6.695769299999999', '-1.6639235', '2020-12-22 12:43:13', '2021-01-04 17:10:22'),
 (12, 12, NULL, 'Madina Estate, Madina, Ghana', 'madina-estate-madina-ghana', '5.666151700000011', '-0.1582766000000002', '2021-01-04 14:32:32', '2021-01-04 14:32:32'),
-(13, 13, NULL, 'Accra', 'accra', '5.572201000000001', '-0.2150965', '2021-01-20 18:48:58', '2021-01-20 18:48:58');
+(13, 13, NULL, 'Accra', 'accra', '5.572201000000001', '-0.2150965', '2021-01-20 18:48:58', '2021-01-20 18:48:58'),
+(14, 14, NULL, 'Tse Addo High Street, Accra, Ghana', 'tse-addo-high-street-accra-ghana', '5.587049117592352', '-0.139799864279182', '2021-02-11 17:18:28', '2021-02-11 17:18:28');
 
 -- --------------------------------------------------------
 
@@ -877,7 +1007,8 @@ CREATE TABLE `property_own_rules` (
 
 INSERT INTO `property_own_rules` (`id`, `property_id`, `rule`, `created_at`, `updated_at`) VALUES
 (4, 9, 'Don\'t drink in front of children in apartment', '2020-12-21 14:43:10', '2020-12-21 14:43:10'),
-(5, 11, 'Don\'t drop rubbish around the hostel', '2020-12-22 11:35:32', '2020-12-22 11:35:32');
+(5, 11, 'Don\'t drop rubbish around the hostel', '2020-12-22 11:35:32', '2020-12-22 11:35:32'),
+(6, 14, 'No parties after 10pm in the hostel', '2021-02-11 17:13:21', '2021-02-11 17:13:21');
 
 -- --------------------------------------------------------
 
@@ -1002,7 +1133,11 @@ INSERT INTO `property_shared_amenities` (`id`, `property_id`, `name`, `created_a
 (44, 13, 'Emergency Bell', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
 (45, 13, 'Garden', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
 (46, 13, 'Car Park', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
-(47, 13, 'Fire Extinguisher', '2021-01-20 18:45:59', '2021-01-20 18:45:59');
+(47, 13, 'Fire Extinguisher', '2021-01-20 18:45:59', '2021-01-20 18:45:59'),
+(52, 14, 'Emergency Bell', '2021-02-11 17:11:44', '2021-02-11 17:11:44'),
+(53, 14, 'Basketball Court', '2021-02-11 17:11:44', '2021-02-11 17:11:44'),
+(54, 14, 'Car Park', '2021-02-11 17:11:44', '2021-02-11 17:11:44'),
+(55, 14, 'Fire Extinguisher', '2021-02-11 17:11:44', '2021-02-11 17:11:44');
 
 -- --------------------------------------------------------
 
@@ -1143,8 +1278,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `is_active`, `image`, `email_verification_token`, `email_verification_expired_at`, `verify_email`, `verify_email_time`, `sms_verification_token`, `verify_sms`, `verify_sms_time`, `login_time`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'fiifi pius jnr', 'fiifipius@gmail.com', '$2y$10$SdP7yCkjKapWQUHbVNYXs.bxBlL67pEDRvfoG1QIAoWK8ESuDYgA6', '0542398442', 1, '10ff36ac46e6be792da3dec441f52c02d470bf80a.jpeg', '68684398', '0000-00-00 00:00:00', 1, '2020-12-15 15:41:14', NULL, 0, NULL, '2021-01-21 15:27:59', 'eRiDFysNXjlLMrMjSfkkLJUxNJ4PJGyJOaSqqlDmHbiwDFyohN3E8V6UFY54', '2020-12-15 14:41:14', '2021-01-21 15:27:59', NULL),
-(2, 'theresa ohenewaa', 'theresa@gmail.com', '$2y$10$LFmhuKxbcNVERXyx684yguPjYciIpO/ggWy.RO2kr36jwQ4MGXcgy', '0542398441', 1, '238a6d87fda9e7e6599f3cc296c835aecce895591.jpg', '53061952', '2021-01-07 17:15:59', 1, '2021-01-07 16:17:02', '4625', 1, '2021-01-13 15:32:15', '2021-01-21 10:46:32', 'FtWAtj4Uvn8yHH1SbBMpG85iCr7bOfGe64KDm4p7RpULovg2vHPMDET44yb5', '2020-12-23 11:50:57', '2021-01-21 10:46:32', NULL);
+(1, 'fiifi pius jnr', 'fiifipius@gmail.com', '$2y$10$SdP7yCkjKapWQUHbVNYXs.bxBlL67pEDRvfoG1QIAoWK8ESuDYgA6', '0542398442', 1, '10ff36ac46e6be792da3dec441f52c02d470bf80a.jpeg', '68684398', '0000-00-00 00:00:00', 1, '2020-12-15 15:41:14', NULL, 0, NULL, '2021-02-13 15:38:21', 'IPiAhaaaAjK2cOZDOCSQfQKLj6Fg4ArG2NMMlkbHak8HuBLC05B4oDBn4I6C', '2020-12-15 14:41:14', '2021-02-13 15:38:21', NULL),
+(2, 'theresa ohenewaa', 'theresa@gmail.com', '$2y$10$LFmhuKxbcNVERXyx684yguPjYciIpO/ggWy.RO2kr36jwQ4MGXcgy', '0542398441', 1, '238a6d87fda9e7e6599f3cc296c835aecce895591.jpg', '53061952', '2021-01-07 17:15:59', 1, '2021-01-07 16:17:02', '4878', 1, '2021-02-13 14:09:31', '2021-02-13 12:17:40', 'FtWAtj4Uvn8yHH1SbBMpG85iCr7bOfGe64KDm4p7RpULovg2vHPMDET44yb5', '2020-12-23 11:50:57', '2021-02-13 14:09:31', NULL);
 
 -- --------------------------------------------------------
 
@@ -1259,7 +1394,12 @@ INSERT INTO `user_logins` (`id`, `user_id`, `ip`, `device`, `browser`, `location
 (17, 1, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-20 18:43:59', '2021-01-20 18:43:59'),
 (18, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-21 10:46:33', '2021-01-21 10:46:33'),
 (19, 1, '127.0.0.1', 'Ubuntu', 'Firefox', ', ', '2021-01-21 11:38:52', '2021-01-21 11:38:52'),
-(20, 1, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-21 15:27:59', '2021-01-21 15:27:59');
+(20, 1, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-21 15:27:59', '2021-01-21 15:27:59'),
+(21, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-01-22 15:26:12', '2021-01-22 15:26:12'),
+(22, 1, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-02-08 11:15:03', '2021-02-08 11:15:03'),
+(23, 1, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-02-09 15:01:26', '2021-02-09 15:01:26'),
+(24, 2, '127.0.0.1', 'Linux', 'Chrome', ', ', '2021-02-13 12:17:40', '2021-02-13 12:17:40'),
+(25, 1, '127.0.0.1', 'Ubuntu', 'Firefox', ', ', '2021-02-13 15:38:21', '2021-02-13 15:38:21');
 
 -- --------------------------------------------------------
 
@@ -1429,12 +1569,6 @@ ALTER TABLE `admin_activities`
   ADD KEY `admin_activities_admin_id_index` (`admin_id`);
 
 --
--- Indexes for table `amenities`
---
-ALTER TABLE `amenities`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `bookings`
 --
 ALTER TABLE `bookings`
@@ -1460,17 +1594,24 @@ ALTER TABLE `deactivate_users`
   ADD KEY `deactivate_users_user_id_index` (`user_id`);
 
 --
--- Indexes for table `helps`
+-- Indexes for table `help_categories`
 --
-ALTER TABLE `helps`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `helps_help_type_id_index` (`help_type_id`);
+ALTER TABLE `help_categories`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `help_types`
+-- Indexes for table `help_questions`
 --
-ALTER TABLE `help_types`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `help_questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `help_topic_id` (`help_topic_id`);
+
+--
+-- Indexes for table `help_topics`
+--
+ALTER TABLE `help_topics`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `help_category_id` (`help_category_id`);
 
 --
 -- Indexes for table `hostel_block_rooms`
@@ -1754,19 +1895,13 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `admin_activities`
 --
 ALTER TABLE `admin_activities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
-
---
--- AUTO_INCREMENT for table `amenities`
---
-ALTER TABLE `amenities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `contacts`
@@ -1787,28 +1922,34 @@ ALTER TABLE `deactivate_users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `helps`
+-- AUTO_INCREMENT for table `help_categories`
 --
-ALTER TABLE `helps`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `help_categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `help_types`
+-- AUTO_INCREMENT for table `help_questions`
 --
-ALTER TABLE `help_types`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `help_questions`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `help_topics`
+--
+ALTER TABLE `help_topics`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `hostel_block_rooms`
 --
 ALTER TABLE `hostel_block_rooms`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `hostel_block_room_numbers`
 --
 ALTER TABLE `hostel_block_room_numbers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `hostel_bookings`
@@ -1820,7 +1961,7 @@ ALTER TABLE `hostel_bookings`
 -- AUTO_INCREMENT for table `hostel_room_amenities`
 --
 ALTER TABLE `hostel_room_amenities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `include_utilities`
@@ -1832,7 +1973,7 @@ ALTER TABLE `include_utilities`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1850,7 +1991,7 @@ ALTER TABLE `packages`
 -- AUTO_INCREMENT for table `properties`
 --
 ALTER TABLE `properties`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `property_amenities`
@@ -1868,37 +2009,37 @@ ALTER TABLE `property_contains`
 -- AUTO_INCREMENT for table `property_descriptions`
 --
 ALTER TABLE `property_descriptions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `property_hostel_blocks`
 --
 ALTER TABLE `property_hostel_blocks`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `property_hostel_prices`
 --
 ALTER TABLE `property_hostel_prices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `property_images`
 --
 ALTER TABLE `property_images`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT for table `property_locations`
 --
 ALTER TABLE `property_locations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `property_own_rules`
 --
 ALTER TABLE `property_own_rules`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `property_prices`
@@ -1922,7 +2063,7 @@ ALTER TABLE `property_rules`
 -- AUTO_INCREMENT for table `property_shared_amenities`
 --
 ALTER TABLE `property_shared_amenities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `property_types`
@@ -1982,7 +2123,7 @@ ALTER TABLE `user_hostel_visits`
 -- AUTO_INCREMENT for table `user_logins`
 --
 ALTER TABLE `user_logins`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `user_notifications`
@@ -2037,10 +2178,16 @@ ALTER TABLE `deactivate_users`
   ADD CONSTRAINT `deactivate_users_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Constraints for table `helps`
+-- Constraints for table `help_questions`
 --
-ALTER TABLE `helps`
-  ADD CONSTRAINT `helps_help_type_id_foreign` FOREIGN KEY (`help_type_id`) REFERENCES `help_types` (`id`) ON DELETE CASCADE;
+ALTER TABLE `help_questions`
+  ADD CONSTRAINT `help_questions_ibfk_1` FOREIGN KEY (`help_topic_id`) REFERENCES `help_topics` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `help_topics`
+--
+ALTER TABLE `help_topics`
+  ADD CONSTRAINT `help_topics_ibfk_1` FOREIGN KEY (`help_category_id`) REFERENCES `help_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `hostel_block_rooms`

@@ -59,10 +59,10 @@
                                                     </li>
                                                     <br>
                                                     <li class="list-inline-item">
-                                                        @if (!$property->userVisits->count())
+                                                        @if ($property->hostelRoomLeft() >0)
                                                             <span class="badge badge-secondary px-3">Available for {{ str_replace('_',' ',$property->type_status) }}</span>
                                                         @else
-                                                            <span class="badge badge-danger px-3">Rented(Full)</span>
+                                                            <span class="badge badge-danger px-3">Hostel is full</span>
                                                         @endif
                                                     </li>
                                                 @else
