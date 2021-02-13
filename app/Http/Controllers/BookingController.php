@@ -76,31 +76,28 @@ class BookingController extends Controller
                         return view('errors.404');
                     }
                 }else{
-                    if($property->type_status === 'rent'){
-                        if($property->is_active && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count()){
+                    if($property->is_active && $property->publish && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count())
+                    {
+                        if($property->type_status === 'rent'){
                             $data['page_title'] = 'Booking '.$property->title;
                             $data['property'] = $property;
                             $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
                             return view('user.bookings.index', $data);
-                        }else{
-                            return view('errors.404');
-                        }
-                    }elseif($property->type_status === 'short_stay'){
-                        if($property->is_active && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count()){
+                        }elseif($property->type_status === 'short_stay'){
                             $data['page_title'] = 'Booking '.$property->title;
                             $data['property'] = $property;
                             $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
                             return view('user.bookings.index', $data);
-                        }else{
-                            return view('errors.404');
                         }
-                    }
+                    }else{
+                        return view('errors.404');
+                    }                    
                 }
             }else{
                 return view('errors.404');
             }
         }else{
-            return view('errors.404');
+            return redirect()->route('single.property', $property->id);
         }
     } 
  
@@ -287,6 +284,15 @@ class BookingController extends Controller
         return $message;        
     }
 
+    private function saveMessage(int $destination, string $msg, string $propertyDetail) : void
+    {
+        $message = new Message;
+        $message->user_id = Auth::user()->id;
+        $message->destination = $destination;
+        $message->message = $msg.' <br>'.$propertyDetail;
+        $message->save();
+    }
+
     // confirm booking request
     public function bookingRequest(Request $request) :string
     {
@@ -311,6 +317,12 @@ class BookingController extends Controller
                     $book->room_number = $request->room_number;
                     $book->status  = 1;
                     $book->update();
+
+                    if(Session::has('owner_message')){
+                        (string) $msg = Session::get('owner_message');
+                        (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $book->property->id).'">'.$book->property->title.'</a>';
+                        $this->saveMessage(intval($book->property->user_id), $msg, $detail);
+                    }
                     $message = "success";
                     //emailing
                     $data = array(
@@ -330,6 +342,13 @@ class BookingController extends Controller
                     $book->check_in  = date("Y-m-d",strtotime($request->checkin));
                     $book->check_out  = date("Y-m-d",strtotime($request->checkout));
                     $book->save();
+
+                    if(Session::has('owner_message')){
+                        (string) $msg = Session::get('owner_message');
+                        (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $book->property->id).'">'.$book->property->title.'</a>';
+                        $this->saveMessage(intval($book->property->user_id), $msg, $detail);
+                    }
+
                     $message = "success";
                     //emailing
                     $data = array(
@@ -355,6 +374,14 @@ class BookingController extends Controller
                     }
                     $book->status  = 1;
                     $book->update();
+
+
+                    if(Session::has('owner_message')){
+                        (string) $msg = Session::get('owner_message');
+                        (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $book->property->id).'">'.$book->property->title.'</a>';
+                        $this->saveMessage(intval($book->property->user_id), $msg, $detail);
+                    }
+
                     $message = "success";
                     //emailing
                     $data = array(
@@ -377,6 +404,13 @@ class BookingController extends Controller
                         $book->infant  = $request->infant;
                     }
                     $book->save();
+
+                    if(Session::has('owner_message')){
+                        (string) $msg = Session::get('owner_message');
+                        (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $book->property->id).'">'.$book->property->title.'</a>';
+                        $this->saveMessage(intval($book->property->user_id), $msg, $detail);
+                    }
+
                     $message = "success";
                     //emailing
                     $data = array(

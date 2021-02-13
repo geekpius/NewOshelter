@@ -63,7 +63,7 @@
                             <div id="propertyReview" style="display: {{ (Session::get('step')==1)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h3>Review {{ $property->type }} rules</h3>
+                                        <h4>Review {{ $property->type }} rules</h4>
                                     </div>
 
                                     <div class="col-sm-12 mt-2">
@@ -104,19 +104,23 @@
                                             </div>
                                         </div>
                                         <div class="mt-3">
-                                            <h3>Take note of the rules</h3>
+                                            @if (count($property->propertyOwnRules) || count($property->propertyRules))
+                                            <h4>Take note of the rules</h4>
+                                            @else
+                                            <h6 class="text-danger"><i class="fa fa-arrow-right text-danger font-12"></i> &nbsp; No rules defined.</h6>
+                                            @endif
                                             <div class="col-sm-12">
                                                 @if (count($property->propertyOwnRules))
                                                     @foreach ($property->propertyOwnRules as $own_rule)
-                                                    <p><i class="fa fa-square text-danger"></i> &nbsp; {{ $own_rule->rule }}</p>
+                                                    <p><i class="fa fa-square text-danger font-12"></i> &nbsp; {{ $own_rule->rule }}</p>
                                                     @endforeach
                                                     
                                                     @foreach ($property->propertyRules as $rule)
-                                                    <p><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</p>
+                                                    <p><i class="fa fa-square text-danger font-12"></i> &nbsp; {{ $rule->rule }}</p>
                                                     @endforeach
                                                 @else
                                                     @foreach ($property->propertyRules as $rule)
-                                                    <p><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</p>
+                                                    <p><i class="fa fa-square text-danger font-12"></i> &nbsp; {{ $rule->rule }}</p>
                                                     @endforeach
                                                 @endif
                                             </div>
@@ -131,8 +135,8 @@
                             <div id="verifyContact" style="display: {{ (Session::get('step')==2)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="2">Back</a>
-                                        <h4>Verify to boost owner and OShelter early feedback</h4>
+                                        <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="2">&lt; Back</a>
+                                        <h4 class="mt-2">Verify to boost owner and OShelter early feedback</h4>
                                     </div>  
 
                                     <div class="col-sm-12 mt-2">
@@ -152,7 +156,6 @@
                                                 <div class="col-sm-8">
                                                     <div class="form-group validate">
                                                         <textarea name="owner_message" id="owner_message" cols="10" rows="4" class="form-control" placeholder="Hi {{ current(explode(' ',$property->user->name))}}, i'm excited to lodge in your property">{{ (empty(Session::get('owner_message')))? '':Session::get('owner_message') }}</textarea>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -160,6 +163,7 @@
                                         <div class="mt-3">
                                             <div id="phoneNumberCover" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}">
                                                 <h4>Verify your phone number</h4>
+                                                <p class="font-12 text-muted"><i class="fa fa-dot-circle"></i> You will receive verification code on your phone. Resend if taken too long.</p>
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="form-group validate phoneNumberField" style="display: {{ empty(Auth::user()->sms_verification_token)? 'block':'none' }}">
@@ -168,14 +172,15 @@
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text">233</span>
                                                                 </div>
-                                                                <input type="number" name="phone_number" id="phone_number" min="1" onkeypress="return isNumber(event);" title="Enter your valid phone number" class="form-control" value="{{ Auth::user()->phone }}" placeholder="eg: 542398441">
+                                                                <input type="tel" name="phone_number" id="phone_number" maxlength="9" oninput="removeZero('phone_number')" onkeypress="return isNumber(event);" title="Enter your valid phone number" class="form-control" value="{{ Auth::user()->phone }}" placeholder="eg: 542398441">
                                                             </div>
                                                             <span class="text-danger small mySpan" role="alert"></span>
+                                                            <span class="text-danger small" id="phoneSpan" role="alert"></span>
                                                         </div>
 
                                                         <div class="form-group validate verifyCodeField" style="display: {{ empty(Auth::user()->sms_verification_token)? 'none':'block' }}">
                                                             <label for="">Enter verification code</label>
-                                                            <input type="number" name="verify_code" id="verify_code" onkeypress="return isNumber(event);" min="1" class="form-control" placeholder="eg: xxxx" data-url="{{ route('property.bookings.verify') }}" />
+                                                            <input type="tel" name="verify_code" id="verify_code" onkeypress="return isNumber(event);" class="form-control" placeholder="eg: xxxx" data-url="{{ route('property.bookings.verify') }}" />
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                         
@@ -204,8 +209,8 @@
                             <div id="paymentDiv" style="display: {{ (Session::get('step')==3)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="3">Back</a>
-                                        <h3>Confirm and make payment</h3>
+                                        <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="3">&lt; Back</a>
+                                        <h4 class="mt-2">Confirm and make payment</h4>
                                     </div> 
                                     <div class="col-sm-12 mt-2">
                                         <div class="card card-bordered-pink">
@@ -242,7 +247,7 @@
                                     @endphp
                                     <div class="col-sm-12 mt-3 mb-5">
                                         @php $booking = Auth::user()->userHostelBookings->where('property_id',$property->id)->where('hostel_block_room_number_id', $room_number->id)->where('room_number',$room_number->room_no)->sortByDesc('id')->first(); @endphp
-                                        @if (empty($booking))
+                                        @if (empty($booking) || ($booking->isDoneAttribute() && $booking->isCheckoutAttribute()))
                                         <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
                                             @csrf
                                             <input type="hidden" name="book_status" value="freshbook" readonly>
@@ -296,8 +301,8 @@
                                         </div>
                                         <div class="col-sm-8">
                                             <h4>{{ $property->title }}</h4>
-                                            <p>{{ ucfirst($property->type) }} in {{ strtolower($property->base) }}</p>
-                                            <p>
+                                            <p class="font-13">{{ ucfirst($property->type) }} in {{ strtolower($property->base) }}</p>
+                                            <p class="font-13">
                                                 <i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b>
                                                 &nbsp;&nbsp;
                                                 {{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }}
@@ -305,35 +310,35 @@
                                         </div>
                                         <div class="col-sm-12"><hr></div>
                                         <div class="col-sm-12">
-                                            <p><i class="fa fa-institution"></i> &nbsp;&nbsp; Choosen Room Block: {{ $my_room->propertyHostelBlock->block_name }}</p>
+                                            <p class="font-13"><i class="fa fa-institution"></i> &nbsp;&nbsp; Choosen Room Block: {{ $my_room->propertyHostelBlock->block_name }}</p>
                                         </div>
                                         <div class="col-sm-12">
-                                            <p><i class="fa fa-building"></i> &nbsp;&nbsp; Choosen Room Type: {{ $my_room->block_room_type }}</p>
+                                            <p class="font-13"><i class="fa fa-building"></i> &nbsp;&nbsp; Choosen Room Type: {{ $my_room->block_room_type }}</p>
                                         </div>
                                         <div class="col-sm-12">
-                                            <p><i class="fa fa-bed"></i> &nbsp;&nbsp; Choosen Room No: {{ $room_number->room_no }}</p>
+                                            <p class="font-13"><i class="fa fa-bed"></i> &nbsp;&nbsp; Choosen Room No: {{ $room_number->room_no }}</p>
                                         </div>
                                         <div class="col-sm-12"><hr></div>
                                         <div class="col-sm-12">
                                             <div>
-                                                <p class="font-16">{{ $currency }} {{ number_format($price,2) }}/{{ $my_room->propertyHostelPrice->price_calendar }}</p>
+                                                <p class="font-14">{{ $currency }} {{ number_format($price,2) }}/{{ $my_room->propertyHostelPrice->price_calendar }}</p>
                                             </div>
-                                            <div class="font-16">
+                                            <div class="font-14">
                                                 <span id="dateCalculator">{{ $dateDiff." months" }} x {{ number_format($price,2) }}</span>
                                                 <span class="float-right" id="dateCalculatorResult">{{ $currency }} {{ number_format($totalPrice,2) }}</span>
                                             </div>
-                                            <div class="font-16">
+                                            <div class="font-14">
                                                 <span>Service Fee</span>
                                                 <span class="float-right" id="serviceFeeResult">{{ $currency }} {{ number_format($serviceFee,2) }}</span>
                                             </div>
                                             @if ($discountFee != 0)
-                                            <div class="font-16">
+                                            <div class="font-14">
                                                 <span>Discount Fee</span>
                                                 <span class="float-right" id="serviceDiscountResult">{{ $currency }} {{ number_format($discountFee,2) }}</span>
                                             </div>
                                             @endif
                                             <hr>
-                                            <div class="font-16">
+                                            <div class="font-14">
                                                 <span><strong>Total</strong></span>
                                                 <span class="float-right"><strong id="totalFeeResult">
                                                     {{ $currency }} {{ number_format($totalFee,2) }}</strong></span>
@@ -341,7 +346,7 @@
                                         </div>
                                         <div class="col-sm-12"><hr></div>
                                         <div class="col-sm-12">
-                                            <p class="font-16"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
+                                            <p class="font-14"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -354,7 +359,7 @@
                             <div id="propertyReview" style="display: {{ (Session::get('step')==1)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h3>Review {{ $property->type }} rules</h3>
+                                        <h4>Review {{ $property->type }} rules</h4>
                                     </div>
                                     <div class="col-sm-12 mt-2">
                                         <div class="card card-bordered-pink">
@@ -405,19 +410,23 @@
                                             </div>
                                         </div>
                                         <div class="mt-3">
-                                            <h3>Take note of the rules</h3>
+                                            @if (count($property->propertyOwnRules) || count($property->propertyRules))
+                                            <h4>Take note of the rules</h4>
+                                            @else
+                                            <h6 class="text-danger"><i class="fa fa-arrow-right text-danger font-12"></i> &nbsp; No rules defined.</h6>
+                                            @endif
                                             <div class="col-sm-12">
                                                 @if (count($property->propertyOwnRules))
                                                     @foreach ($property->propertyOwnRules as $own_rule)
-                                                    <p><i class="fa fa-square text-danger"></i> &nbsp; {{ $own_rule->rule }}</p>
+                                                    <p><i class="fa fa-square text-danger font-12"></i> &nbsp; {{ $own_rule->rule }}</p>
                                                     @endforeach
                                                     
                                                     @foreach ($property->propertyRules as $rule)
-                                                    <p><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</p>
+                                                    <p><i class="fa fa-square text-danger font-12"></i> &nbsp; {{ $rule->rule }}</p>
                                                     @endforeach
                                                 @else
                                                     @foreach ($property->propertyRules as $rule)
-                                                    <p><i class="fa fa-square text-danger"></i> &nbsp; {{ $rule->rule }}</p>
+                                                    <p><i class="fa fa-square text-danger font-12"></i> &nbsp; {{ $rule->rule }}</p>
                                                     @endforeach
                                                 @endif
                                             </div>
@@ -432,8 +441,8 @@
                             <div id="verifyContact" style="display: {{ (Session::get('step')==2)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="2">Back</a>
-                                        <h3>Verify to boost owner and OShelter early feedback</h3>
+                                        <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="2">&lt; Back</a>
+                                        <h4 class="mt-2">Verify to boost owner and OShelter early feedback</h4>
                                     </div>  
                                     <div class="col-sm-12 mt-2">
                                         <div class="card card-bordered-pink">
@@ -450,9 +459,8 @@
                                             <p>Say hi to {{ current(explode(' ',$property->user->name))}} to kickstart before you arrive.</p>
                                             <div class="row">
                                                 <div class="col-sm-8">
-                                                    <div class="form-group validate">
+                                                    <div class="form-group">
                                                         <textarea name="owner_message" id="owner_message" cols="10" rows="4" class="form-control" placeholder="Hi {{ current(explode(' ',$property->user->name))}}, i'm excited to lodge in your property">{{ (empty(Session::get('owner_message')))? '':Session::get('owner_message') }}</textarea>
-                                                        <span class="text-danger small mySpan" role="alert"></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -460,7 +468,7 @@
                                         <div class="mt-3">
                                             <div id="phoneNumberCover" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}">
                                                 <h4>Verify your phone number</h4>
-                                                <p class="font-12"><i class="fa fa-dot-circle"></i> You will receive verification code on your phone.</p>
+                                                <p class="font-12 text-muted"><i class="fa fa-dot-circle"></i> You will receive verification code on your phone. Resend if taken too long.</p>
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="form-group validate phoneNumberField" style="display: {{ empty(Auth::user()->sms_verification_token)? 'block':'none' }}">
@@ -469,14 +477,15 @@
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text" id="phone_prefix">233</span>
                                                                 </div>
-                                                                <input type="number" name="phone_number" id="phone_number" min="1" onkeypress="return isNumber(event);" title="Enter your valid phone number" class="form-control" value="{{ substr(Auth::user()->phone,1) }}" placeholder="eg: 542398441">
+                                                                <input type="tel" name="phone_number" id="phone_number" maxlength="9" oninput="removeZero('phone_number')" onkeypress="return isNumber(event);" title="Enter your valid phone number" class="form-control" value="{{ substr(Auth::user()->phone,1) }}" placeholder="eg: 542398441">
                                                             </div>
                                                             <span class="text-danger small mySpan" role="alert"></span>
+                                                            <span class="text-danger small" id="phoneSpan" role="alert"></span>
                                                         </div>
 
                                                         <div class="form-group validate verifyCodeField" style="display: {{ empty(Auth::user()->sms_verification_token)? 'none':'block' }}">
                                                             <label for="">Enter verification code</label>
-                                                            <input type="number" name="verify_code" id="verify_code" onkeypress="return isNumber(event);" min="1" class="form-control" placeholder="eg: xxxx" data-url="{{ route('property.bookings.verify') }}" />
+                                                            <input type="tel" name="verify_code" id="verify_code" onkeypress="return isNumber(event);" class="form-control" placeholder="eg: xxxx" data-url="{{ route('property.bookings.verify') }}" />
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                         
@@ -505,8 +514,8 @@
                             <div id="paymentDiv" style="display: {{ (Session::get('step')==3)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="3">Back</a>
-                                        <h3>Make a request and wait for confirmation</h3>
+                                        <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="3">&lt; Back</a>
+                                        <h4 class="mt-2">Make a request and wait for confirmation</h4>
                                     </div>  
 
                                     <div class="col-sm-12 mt-2">
@@ -548,7 +557,7 @@
                                     @endphp
                                     <div class="col-sm-12 mt-3 mb-5">
                                         @php $booking = Auth::user()->userBookings->where('property_id',$property->id)->sortByDesc('id')->first(); @endphp
-                                        @if (empty($booking))
+                                        @if (empty($booking) || ($booking->isDoneAttribute() && $booking->isCheckoutAttribute()))
                                         <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
                                             @csrf
                                             <input type="hidden" name="book_status" value="freshbook" readonly>
@@ -607,13 +616,13 @@
                                             <img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-thumbnail" width="200" height="200" />
                                         </div>
                                         <div class="col-sm-8">
-                                            <h4>{{ $property->title }}</h4>
+                                            <h5>{{ $property->title }}</h5>
                                             @if(strtolower($property->type) === 'house' && strtolower($property->base) === 'house')
-                                            <p>{{ ucwords(str_replace('_',' ',$property->type)) }}</p>
+                                            <p class="font-13">{{ ucwords(str_replace('_',' ',$property->type)) }}</p>
                                             @else
-                                            <p>{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</p>
+                                            <p class="font-13">{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</p>
                                             @endif
-                                            <p>
+                                            <p class="font-13">
                                                 <i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b>
                                                 &nbsp;&nbsp;
                                                 {{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }}
@@ -622,30 +631,30 @@
                                         <div class="col-sm-12"><hr></div>
                                         @if ($property->type_status=='rent')
                                             <div class="col-sm-12">
-                                                <h5><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children'])) }}</h5>
+                                                <h6><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children'])) }}</h6>
                                             </div>
                                             <div class="col-sm-12"><hr></div>
 
                                             <div class="col-sm-12">
                                                 <div>
-                                                    <p class="font-16">{{ $currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
+                                                    <p class="font-14">{{ $currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
                                                 </div>
-                                                <div class="font-16">
+                                                <div class="font-14">
                                                     <span id="dateCalculator">{{ $dateDiff }} x {{ number_format($price,2) }}</span>
                                                     <span class="float-right" id="dateCalculatorResult">{{ $currency }} {{ number_format($totalPrice,2) }}</span>
                                                 </div>
-                                                <div class="font-16">
+                                                <div class="font-14">
                                                     <span>Service Fee</span>
                                                     <span class="float-right" id="serviceFeeResult">{{ $currency }} {{ number_format($serviceFee,2) }}</span>
                                                 </div>
                                                 @if($discountFee != 0)
-                                                <div class="font-16">
+                                                <div class="font-14">
                                                     <span>Discount Fee</span>
                                                     <span class="float-right" id="serviceDiscountResult">{{ $currency }} {{ number_format($discountFee, 2) }}</span>
                                                 </div>
                                                 @endif
                                                 <hr>
-                                                <div class="font-16">
+                                                <div class="font-14">
                                                     <span><strong>Total</strong></span>
                                                     <span class="float-right"><strong id="totalFeeResult">
                                                         {{ $currency }} {{ number_format($totalFee,2) }}</strong></span>
@@ -653,29 +662,29 @@
                                             </div>
                                         @elseif($property->type_status == 'short_stay')
                                             <div class="col-sm-12">
-                                                <h5><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant'])) }}</h5>
+                                                <h6><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant'])) }}</h6>
                                             </div>
                                             <div class="col-sm-12"><hr></div>
                                             <div class="col-sm-12">
                                                 <div>
-                                                    <p class="font-16">{{ $currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
+                                                    <p class="font-14">{{ $currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
                                                 </div>
-                                                <div class="font-16">
+                                                <div class="font-14">
                                                     <span id="dateCalculator">{{ $dateDiff }} {{ str_plural('Day', $dateDiff) }} x {{ number_format($price,2) }}</span>
                                                     <span class="float-right" id="dateCalculatorResult">{{ $currency }} {{ number_format($totalPrice,2) }}</span>
                                                 </div>
-                                                <div class="font-16">
+                                                <div class="font-14">
                                                     <span>Service Fee</span>
                                                     <span class="float-right" id="serviceFeeResult">{{ $currency }} {{ number_format($serviceFee, 2) }}</span>
                                                 </div>
                                                 @if($discountFee != 0)
-                                                <div class="font-16">
+                                                <div class="font-14">
                                                     <span>Discount Fee</span>
                                                     <span class="float-right" id="serviceDiscountResult">{{ $currency }} {{ number_format($discountFee, 2) }}</span>
                                                 </div>
                                                 @endif
                                                 <hr>
-                                                <div class="font-16">
+                                                <div class="font-14">
                                                     <span><strong>Total</strong></span>
                                                     <span class="float-right"><strong id="totalFeeResult">
                                                         {{ $currency }} {{ number_format($totalFee, 2) }}</strong></span>
@@ -684,7 +693,7 @@
                                         @endif
                                         <div class="col-sm-12"><hr></div>
                                         <div class="col-sm-12">
-                                            <p class="font-16"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
+                                            <p class="font-14"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
                                         </div>
                                     </div>
                                 </div>

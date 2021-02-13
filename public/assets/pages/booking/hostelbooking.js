@@ -156,33 +156,28 @@ $(".btnContinue").on("click", function(e){
         });
     }
     else if($this.data('step')=='2'){
-        if($("#owner_message").val()==''){
-            $("#owner_message").addClass('is-invalid');
-            $("#owner_message").parents('.validate').find('.mySpan').text('owner message field is required');
-        }else{
-            var data = {
-                "step": $this.data('step'),
-                "owner_message": $("#owner_message").val(),
-            }
-
-            $.ajax({
-                url: $this.data('url'),
-                type: "POST",
-                data: data,
-                success: function(resp){
-                    if(resp=='success'){
-                        $("#verifyContact").slideUp('fast', function(){
-                            $("#paymentDiv").slideDown('fast');
-                        });
-                    }else{
-                        console.log(resp+ '. try again.');
-                    }
-                },
-                error: function(resp){
-                    console.log('something went wrong with request');
-                }
-            });
+        var data = {
+            "step": $this.data('step'),
+            "owner_message": $("#owner_message").val(),
         }
+
+        $.ajax({
+            url: $this.data('url'),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    $("#verifyContact").slideUp('fast', function(){
+                        $("#paymentDiv").slideDown('fast');
+                    });
+                }else{
+                    console.log(resp+ '. try again.');
+                }
+            },
+            error: function(resp){
+                console.log('something went wrong with request');
+            }
+        });
     }
 
     return false;
@@ -232,12 +227,16 @@ $(".btnVerify").on("click", function(e){
             type: "POST",
             data: data,
             success: function(resp){
-                $this.html('Send Verification').attr("disabled", false);
+                $this.html('Wait for SMS notification');
                 if(resp=='success'){
                     $(".phoneNumberField").slideUp('fast', function(){
                         $(".verifyCodeField").slideDown('fast');
-                        $this.text('Resend Verification');
                     });
+                    let timeOut = setTimeout(function(){
+                        $this.attr("disabled", false);
+                        $this.text('Resend Verification');
+                        clearTimeout(timeOut);
+                    }, 10000);
                 }else{
                     swal('Warning', `${resp}.`, 'warning');
                 }
@@ -357,13 +356,6 @@ $("select").on('change', function(){
 });
 
 
-$("#phone_number").on("keypress", function(e){
-    var $this= $(this);
-    if($this.val().length == 9){
-        e.preventDefault();
-    }
-});
-
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -371,6 +363,17 @@ function isNumber(evt) {
         return false;
     }
     return true;
+}
+
+
+function removeZero(field) {
+    var phoneNumber = document.getElementById(field).value;
+    if (phoneNumber.startsWith("0") === true) {
+        console.log('hmm');
+        document.getElementById('phoneSpan').innerText = 'Invalid phone number';
+    }else{
+        document.getElementById('phoneSpan').innerText = '';
+    }
 }
 
 function isMonthAndYear(evt) {

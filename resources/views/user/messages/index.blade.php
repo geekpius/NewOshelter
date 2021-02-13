@@ -67,7 +67,7 @@
                                                 </div>
                                             </div>
                 
-                                            <p>{{ $message->message }}</p>
+                                            <p>{!! $message->message !!}</p>
                                             <a href="javascript:void(0);" data-id="{{ $message->user_id }}" class="btn btn-primary btnReply" data-animation="bounce">
                                                 <i class="mdi mdi-reply"></i> Reply
                                             </a>
