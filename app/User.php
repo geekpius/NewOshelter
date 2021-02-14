@@ -144,7 +144,7 @@ class User extends Authenticatable
         return $this->hasMany(PropertyBid::class);
     }
 
-    public function userWallet(){
+    public function userWallets(){
         return $this->hasMany(UserWallet::class);
     }
 

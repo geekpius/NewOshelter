@@ -67,6 +67,17 @@
                 <div class="col-sm-6 col-md-6 col-lg-4">
                     <div class="card card-bordered-blue">
                         <div class="card-body">
+                            <i class="fa fa-send text-primary account-icon"></i>
+                            <a href="{{ route('account.requests') }}" class="text-decoration-none text-light-dark">
+                                <p class="font-18 font-weight-bold">Requests and Actions ></p>
+                            </a>
+                            <p class="font-13 account-details">Checkout your activities like bookings, cancellations, payments.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="card card-bordered-blue">
+                        <div class="card-body">
                             <i class="fa fa-bell text-primary account-icon"></i>
                             <a href="{{ route('account.notifications') }}" class="text-decoration-none text-light-dark">
                                 <p class="font-18 font-weight-bold">Notifications ></p>

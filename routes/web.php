@@ -120,6 +120,7 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::get('/logins', 'UserProfileController@loginsView')->name('account.logins');
             Route::get('/payments', 'UserProfileController@paymentView')->name('account.payments');
             Route::post('/payments/currency', 'UserProfileController@changeCurrency')->name('account.payments.currency');
+            Route::get('/requests', 'UserProfileController@requestView')->name('account.requests');
             Route::get('/notifications', 'UserProfileController@notificationView')->name('account.notifications');
             Route::post('/change-front-card', 'UserProfileController@uploadFrontCard')->name('profile.front.card');
             Route::post('/change-back-card', 'UserProfileController@uploadBackCard')->name('profile.back.card');
