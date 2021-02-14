@@ -170,9 +170,9 @@
                                                             <label for="">Phone Number</label>
                                                             <div class="input-group">
                                                                 <div class="input-group-prepend">
-                                                                    <span class="input-group-text">233</span>
+                                                                    <span class="input-group-text" id="phone_prefix">233</span>
                                                                 </div>
-                                                                <input type="tel" name="phone_number" id="phone_number" maxlength="9" oninput="removeZero('phone_number')" onkeypress="return isNumber(event);" title="Enter your valid phone number" class="form-control" value="{{ Auth::user()->phone }}" placeholder="eg: 542398441">
+                                                                <input type="tel" name="phone_number" id="phone_number" maxlength="9" oninput="removeZero('phone_number')" onkeypress="return isNumber(event);" title="Enter your valid phone number" class="form-control" value="{{ substr(Auth::user()->phone,1) }}" placeholder="eg: 542398441">
                                                             </div>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                             <span class="text-danger small" id="phoneSpan" role="alert"></span>
@@ -200,7 +200,7 @@
                                     </div>
 
                                     <div class="col-sm-12 mt-3 mb-5">
-                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}"><i class="fa fa-arrow-right"></i> {{ empty(Auth::user()->sms_verification_token)? 'Send Verification':'Resend Verification' }}</button>
+                                        <button class="btn btn-primary pl-5 pr-5 btnVerify" data-url="{{ route('property.bookings.smsverification') }}" style="display: {{ (!Auth::user()->verify_sms)? 'block':'none' }}">{{ empty(Auth::user()->sms_verification_token)? 'Send Verification':'Resend Verification' }}</button>
                                         <button class="btn btn-primary pl-5 pr-5 btnContinue" data-step="2" data-url="{{ route('property.bookings.movenext') }}" style="display: {{ (!Auth::user()->verify_sms)? 'none':'block' }}"><i class="fa fa-arrow-right"></i> Continue</button>
                                     </div>
                                 </div> 
@@ -300,7 +300,7 @@
                                             <img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-thumbnail" width="200" height="200" />
                                         </div>
                                         <div class="col-sm-8">
-                                            <h4>{{ $property->title }}</h4>
+                                            <h5>{{ $property->title }}</h5>
                                             <p class="font-13">{{ ucfirst($property->type) }} in {{ strtolower($property->base) }}</p>
                                             <p class="font-13">
                                                 <i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b>

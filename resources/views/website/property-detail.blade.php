@@ -98,9 +98,11 @@
                 
                     <!-- Contained amenities -->
                     @if(strtolower($property->type) === 'house' && strtolower($property->base) === 'house')
-                    <p><i class="fa fa-home text-success"></i> <b>{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
+                    <p><i class="fa fa-home text-success"></i> <b>@if($property->type !=='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
                     @else
-                    <p><i class="fa fa-home text-success"></i> <b>{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
+                    <p>
+                        <i class="fa fa-home text-success"></i> 
+                        <b>@if($property->type !=='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
                     @endif
 
                     @if ($property->type=='hostel')
@@ -113,8 +115,8 @@
                                             <i class="fa fa-home text-success font-12"></i>
                                             {{ $block->propertyHostelBlock->block_name }}
                                         </h4>
-                                        <div class="">
-                                            <span class="text-primary">{{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms for {{ $block->person_per_room }} person per room. 
+                                        <div class="font-14">
+                                            <span class="text-primary">{{ ucfirst(str_replace('_', ' ', $block->furnish)) }} {{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms for {{ $block->person_per_room }} person per room. 
                                             <br>
                                             <span class="badge badge-soft-primary">{{$block->bed_person}} <i class="fa fa-bed" title="Bed per room"></i> </span>                                                  
                                             @if($block->kitchen==0)
