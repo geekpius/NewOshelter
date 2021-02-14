@@ -20,17 +20,17 @@ Route::group(['middleware' => ['verify-email']], function() {
 
     Route::group(['prefix' => 'properties'], function () {
         Route::get('/', 'WebsiteController@property')->name('browse.property');
+        Route::get('/search', 'WebsiteController@searchProperty')->name('browse.property.search');
         Route::get('/status/{status}', 'WebsiteController@propertyStatus')->name('status.property');
+        Route::get('/status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');
         Route::get('/types/{type}', 'WebsiteController@propertyType')->name('type.property');
+        Route::get('/types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
         Route::get('/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
         Route::get('/map-properties', 'WebsiteController@mapProperty')->name('browse.property_map');
+        Route::get('/map-properties/search', 'WebsiteController@mapSearchProperty')->name('browse.search_property_map');
+        Route::get('/map-property/types', 'WebsiteController@mapPropertyType')->name('browse.property_types_map');
     });
 
-    Route::get('/properties/search', 'WebsiteController@searchProperty')->name('browse.property.search');
-    Route::get('/map-search-properties', 'WebsiteController@mapSearchProperty')->name('browse.search_property_map');
-    Route::get('/property-status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');
-    Route::get('/property-types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
-    Route::get('/map-property-types', 'WebsiteController@mapPropertyType')->name('browse.property_types_map');
 
     Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
 

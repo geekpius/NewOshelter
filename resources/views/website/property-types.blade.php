@@ -44,7 +44,8 @@
                                 <div class="pxp-results-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} Rooms</div>
 
                                 <span class="fa fa-tag text-white pull-right"> 
-                                    <strong>Rent</span>
+                                    <strong>Rent</strong>
+                                </span>
                             </div>
                             <div class="pxp-results-card-1-features">
                                 <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i> </span>
