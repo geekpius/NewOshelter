@@ -42,7 +42,7 @@ class PropertyController extends Controller
     //show all properties listed
     public function index()
     {
-        $data['page_title'] = 'List properties';
+        $data['page_title'] = 'All your properties';
         $data['properties'] = Property::whereUser_id(Auth::user()->id)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15); 
         return view('user.properties.index', $data);
     }

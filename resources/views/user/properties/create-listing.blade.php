@@ -1385,7 +1385,7 @@
                                     Go Previous
                                 </button>
                                 
-                                <button class="btn btn-success text-light btn-next mb-2 ml-lg-5 mr-sm-1" data-last="Finish And Publish ">
+                                <button class="btn btn-success text-light btn-next mb-2 ml-lg-5 mr-sm-1" data-last="{{ (Session::has('edit'))? 'Update to Publish':'Finish And Publish ' }}">
                                     {{ (Session::has('edit'))? 'Update to Next':'Next Step' }} 
                                     <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                 </button>
@@ -1772,6 +1772,15 @@
     });
 
     ///hostel amenities
+    $("#formHostelRoomAmenity select[name='hostel_block_name']").on("change", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this= $(this);
+        $("#formHostelRoomAmenity select[name='gender']").val('');
+        $("#formHostelRoomAmenity select[name='room_type']").find('.after').nextAll().remove();
+        return false;
+    });
+
     $("#formHostelRoomAmenity").on("submit", function(e){
         e.preventDefault();
         e.stopPropagation();

@@ -113,7 +113,7 @@
         <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
             <div class="owl-carousel pxp-props-carousel-right-stage">
                 @foreach ($types as $type)
-                @php $propCount = $type->getPropertyCount(strtolower(str_replace(' ','_',$type->name))); @endphp  
+                @php $propCount = $type->getPropertyCount(); @endphp  
                 <div>
                     <a href="{{ route('type.property', strtolower(str_replace(' ','-',$type->name))) }}" class="pxp-areas-1-item rounded-lg">
                         @php $image = empty($type->image)? 'area-1.jpg':'types/'.$type->image; @endphp

@@ -61,7 +61,7 @@ class WebsiteController extends Controller
     public function propertyType($type)
     {
         $type = str_replace('-',' ',$type);
-        $data['page_title'] = 'Explore our neighborhoods on '.$type;
+        $data['page_title'] = 'Explore our neighborhoods on '.str_plural($type);
         $props = Property::whereType(str_replace(' ','_',$type))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC');
         $data['property_types'] = PropertyType::get(['name']);
         $data['properties'] = $props->paginate(12);
@@ -101,7 +101,6 @@ class WebsiteController extends Controller
     public function property()
     {
         $data['page_title'] = 'Browse all properties of any kind';
-        // $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->paginate(12);
         $data['property_types'] = PropertyType::get(['name']);
         return view('website.properties', $data);

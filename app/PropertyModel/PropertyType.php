@@ -22,9 +22,9 @@ class PropertyType extends Model
         return ucwords(str_replace('_',' ',$value));
     }
 
-    public function getPropertyCount($value)
+    public function getPropertyCount()
     {
-        return Property::whereType($value)->whereDone_step(true)->count();
+        return Property::whereType(strtolower(str_replace(' ','_',$this->name)))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->count();
     }
 
 }
