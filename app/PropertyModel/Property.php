@@ -204,5 +204,29 @@ class Property extends Model
     }
 
 
+    public function getAvailableRooms(): int
+    {
+        (int) $count= 0;
+        foreach($this->propertyHostelBlockRooms as $block){
+            $count += $block->hostelBlockRoomNumbers->where('full', false)->count();
+        }
+        return $count;
+    }
+
+    public function getFullRooms(): int
+    {
+        (int) $count= 0;
+        foreach($this->propertyHostelBlockRooms as $block){
+            $count += $block->hostelBlockRoomNumbers->where('full', true)->count();
+        }
+        return $count;
+    }
+
+    public function hostelRoomLeft(): int
+    {
+        return $this->getAvailableRooms() - $this->getFullRooms();
+    }
+
+
 
 }

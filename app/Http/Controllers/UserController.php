@@ -49,13 +49,6 @@ class UserController extends Controller
         return $countMessage;
     }
 
-    //notification messages
-    // public function messageNotification()
-    // {
-    //     $data['notifications'] = Message::whereUser_id(Auth::user()->id)->whereStatus(0)->orderBy('id', 'DESC')->get();
-    //     return view('admin.notifications.message-notification', $data)->render();
-    // }
-
     //notification count
     public function notificationCount()
     {
@@ -116,6 +109,10 @@ class UserController extends Controller
             if($booking->status == 1){
                 $booking->status = 2;
                 $booking->update();
+                //reject other pending bookings associated with this property
+                if(Booking::whereProperty_id($booking->property_id)->whereStatus(1)->count()>0){
+                    Booking::whereProperty_id($booking->property_id)->whereStatus(1)->update(['status'=>0]);
+                }
                 $message = 'success';
                 $data = array(
                     "title" => "BOOKING CONFIRMATION",
@@ -127,9 +124,12 @@ class UserController extends Controller
                 );
                 Mail::to($booking->user->email)->send(new EmailSender($data, 'Booking Response', 'emails.booking_response'));
             }
+            else{
+                $message = "You have already serviced this visitor's booking";
+            }
             return $message;
         }else{
-            return view('errors.404');
+            return 'You are unauthorized to confirm. \nLooks like property does not belongs to you.';
         }
     }
 
@@ -150,10 +150,12 @@ class UserController extends Controller
                     "owner" => current(explode(' ',Auth::user()->name)),
                 );
                 Mail::to($booking->user->email)->send(new EmailSender($data, 'Booking Response', 'emails.booking_response'));
+            }else{
+                $message = "You have already serviced this visitor's booking";
             }
             return $message;
         }else{
-            return view('errors.404');
+            return 'You are unauthorized to cancel. \nLooks like property does not belongs to you.';
         }
     }
 

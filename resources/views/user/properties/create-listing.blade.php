@@ -61,6 +61,15 @@
                                 </div>
                             </div>
                         </div>
+                        @else                                
+                        <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('formExitUpdateMode').submit();" class="text-danger text-decoration-none ml-3 mt-1 font-13">
+                            <i class="fa fa-sign-out"></i> Exit Update Mode
+                        </a>
+
+                        <form id="formExitUpdateMode" action="{{ route('property.save.exit') }}" method="POST" style="display: none;">
+                            @csrf
+                            <input type="hidden" name="property_id" value="{{ $property->id }}">
+                        </form>
                         @endif
                         <div class="card-body">
                             
@@ -782,7 +791,7 @@
                                                         @csrf
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         <input type="hidden" name="step" value="1" readonly>
-                                                        <div class="form-group mt-4 validate">
+                                                       <div class="form-group mt-4 validate">
                                                             <label for="">How many bedrooms?</label>
                                                             <select name="bedrooms" class="form-control" id="bedrooms">
                                                                 <option value="">--Select--</option>
@@ -1376,18 +1385,8 @@
                                     Go Previous
                                 </button>
                                 
-                                @if (Session::get("edit"))
-                                <form id="formSaveExit" action="{{ route('property.save.exit') }}" method="POST" style="display: none">
-                                    @csrf
-                                    <input type="hidden" name="property_id" value="{{ $property->id }}">
-                                </form>
-                                <button onclick="event.preventDefault(); document.getElementById('formSaveExit').submit();" class="btn btn-success text-light btn-save-exit mb-2">
-                                    Save and Exit 
-                                    <i class="ace-icon fa fa-save icon-on-right"></i>
-                                </button>
-                                @endif
                                 <button class="btn btn-success text-light btn-next mb-2 ml-lg-5 mr-sm-1" data-last="Finish And Publish ">
-                                    Next Step 
+                                    {{ (Session::has('edit'))? 'Update to Next':'Next Step' }} 
                                     <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                 </button>
                             </div><!-- end buttons -->
@@ -1618,7 +1617,7 @@
         });
         return true; //this will not prevent clicking and selecting steps
     });
-
+    
 
     @if($property->type=='hostel')
 

@@ -597,6 +597,10 @@ class PropertyController extends Controller
                     $contain = PropertyContain::updateOrCreate(
                         ['property_id'=>$request->property_id], ['bedroom'=>$request->bedrooms, 'no_bed'=>$request->beds, 'kitchen'=>$request->kitchen, 'bathroom'=>$request->baths, 'bath_private'=>$request->bath_private, 'toilet'=>$request->toilet, 'toilet_private'=>$request->toilet_private, 'furnish'=>$request->furnish]
                     );
+                    if($this->isPropertyEditted(intval($property->id))){
+                        return redirect()->route('single.property', $property->id);
+                    }
+
                     $property->step = ($request->step+1);
                     $property->update();
                     return redirect()->back();

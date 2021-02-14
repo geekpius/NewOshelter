@@ -3,7 +3,6 @@
 namespace App\MessageModel;
 
 use App\User;
-use App\MessageModel\Reply;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -26,20 +25,24 @@ class Message extends Model
     }
 
 
-    public function replies()
-    {
-        return $this->hasMany(Reply::class);
-    }
-
     /********* ATTRIBUTE PROPERTIES *********/
     public function limitName()
     {
         return Str::limit($this->user->name, 20, '');
     } 
 
+    private function getMessageWithOutTag()
+    {
+        $pos = strpos($this->message, '<');
+        if($pos !== false){
+            return str_limit($this->message, $pos-1, '');
+        }
+        return $this->message;
+    }
+
     public function limitMessage()
     {
-        return Str::limit($this->message, 60, '...');
+        return Str::limit($this->getMessageWithOutTag(), 60, '...');
     }
 
 
