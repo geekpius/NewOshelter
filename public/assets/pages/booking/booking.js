@@ -212,6 +212,8 @@ $(".btnVerify").on("click", function(e){
     }else if($("#phone_number").val().length>9){
         $("#phone_number").addClass('is-invalid').focus();
         $("#phone_number").parents(".validate").find(".mySpan").text("Invalid phone number");
+    }else if ($("#phone_number").val().startsWith("0") === true) {
+        document.getElementById('phoneSpan').innerText = 'Invalid phone number';
     }else{
         $("#phone_number").removeClass('is-invalid');
         if($this.text() == 'Send Verification'){
@@ -240,6 +242,7 @@ $(".btnVerify").on("click", function(e){
                     }, 10000);
                 }else{
                     swal('Warning', `${resp}.`, 'warning');
+                    $this.text('Send Verification').attr("disabled", false);
                 }
             },
             error: function(resp){
@@ -367,7 +370,6 @@ function isNumber(evt) {
 function removeZero(field) {
     var phoneNumber = document.getElementById(field).value;
     if (phoneNumber.startsWith("0") === true) {
-        console.log('hmm');
         document.getElementById('phoneSpan').innerText = 'Invalid phone number';
     }else{
         document.getElementById('phoneSpan').innerText = '';

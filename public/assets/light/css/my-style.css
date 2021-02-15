@@ -352,6 +352,13 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     border-width: 1px !important;
   }
 
+  .card-bordered-grey{
+    border: solid #808080 !important; 
+    border-radius: 10px; 
+    border-width: 1px !important;
+  }
+
+
 
   /* WISHLIST ICON */
   .on-top{

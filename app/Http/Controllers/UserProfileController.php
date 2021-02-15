@@ -174,6 +174,13 @@ class UserProfileController extends Controller
         return $message;
     }
 
+    public function requestView()
+    {
+        $data['page_title'] = 'Requests';
+        return view('user.account.request', $data);
+    }
+
+
     public function notificationView()
     {
         $data['page_title'] = 'Notifications';

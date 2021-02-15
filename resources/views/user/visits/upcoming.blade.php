@@ -27,7 +27,7 @@
                             </ul>
 
                             <div class="table-responsive mt-3">
-                                <table id="datatable" class="table table-striped">
+                                <table id="datatable" class="table table-striped small">
                                     <thead class="thead-light">
                                     <tr>                                        
                                         <th>Booked At</th>

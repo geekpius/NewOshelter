@@ -4,7 +4,7 @@
 
 <div class="pxp-content pull-content-down">
     <div class="container">
-        <h2>Payments</h2>  
+        <h2>Notifications</h2>  
         <p>
             <strong>{{ Auth::user()->name }},</strong> account owner 
         </p>

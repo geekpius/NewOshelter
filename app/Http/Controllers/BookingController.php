@@ -61,7 +61,7 @@ class BookingController extends Controller
             $bookingItems = Session::get("bookingItems");
             if($bookingItems['property'] == $property->id){
                 if($property->type == "hostel"){
-                    if($property->is_active && $property->user_id != Auth::user()->id){
+                    if($property->is_active && $property->publish && $property->user_id != Auth::user()->id){
                         $data['page_title'] = 'Booking '.$property->title.' room';
                         $data['property'] = $property;
                         $data['my_room'] = HostelBlockRoom::whereProperty_hostel_block_id((int) $bookingItems['block_id'])
@@ -222,7 +222,7 @@ class BookingController extends Controller
 
         (string)$message = '';
         if ($validator->fails()){
-            $message = 'fail';
+            $message = 'Missing request data';
         }else{
             $user = User::findOrFail(Auth::user()->id);
             (string) $phone = "0".$request->phone_number;
@@ -250,7 +250,7 @@ class BookingController extends Controller
                         $message='success';
                     }
                 } catch (\Exception $e) {
-                    return $e->getMessage();
+                    $message = 'Error occurred while sending sms';
                 }
             }
         }
@@ -318,7 +318,7 @@ class BookingController extends Controller
                     $book->status  = 1;
                     $book->update();
 
-                    if(Session::has('owner_message')){
+                    if(Session::has('owner_message') && !empty(Session::get('owner_message'))){
                         (string) $msg = Session::get('owner_message');
                         (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $book->property->id).'">'.$book->property->title.'</a>';
                         $this->saveMessage(intval($book->property->user_id), $msg, $detail);
@@ -343,7 +343,7 @@ class BookingController extends Controller
                     $book->check_out  = date("Y-m-d",strtotime($request->checkout));
                     $book->save();
 
-                    if(Session::has('owner_message')){
+                    if(Session::has('owner_message') && !empty(Session::get('owner_message'))){
                         (string) $msg = Session::get('owner_message');
                         (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $book->property->id).'">'.$book->property->title.'</a>';
                         $this->saveMessage(intval($book->property->user_id), $msg, $detail);
@@ -376,7 +376,7 @@ class BookingController extends Controller
                     $book->update();
 
 
-                    if(Session::has('owner_message')){
+                    if(Session::has('owner_message') && !empty(Session::get('owner_message'))){
                         (string) $msg = Session::get('owner_message');
                         (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $book->property->id).'">'.$book->property->title.'</a>';
                         $this->saveMessage(intval($book->property->user_id), $msg, $detail);
@@ -405,7 +405,7 @@ class BookingController extends Controller
                     }
                     $book->save();
 
-                    if(Session::has('owner_message')){
+                    if(Session::has('owner_message') && !empty(Session::get('owner_message'))){
                         (string) $msg = Session::get('owner_message');
                         (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $book->property->id).'">'.$book->property->title.'</a>';
                         $this->saveMessage(intval($book->property->user_id), $msg, $detail);

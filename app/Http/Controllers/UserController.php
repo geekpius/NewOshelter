@@ -202,6 +202,15 @@ class UserController extends Controller
             if($hostelBooking->status == 1){
                 $hostelBooking->status = 2;
                 $hostelBooking->update();
+                //reject other pending bookings associated with this hostel room
+                (int) $personPerRoom = $hostelBooking->hostelBlockRoomNumber->person_per_room;
+                (int) $occupant = $hostelBooking->hostelBlockRoomNumber->occupant;
+                (int) $spaceLeft = $personPerRoom - $occupant;
+                if($spaceLeft <= 1){
+                    if(HostelBooking::whereProperty_id($hostelBooking->property_id)->where('hostel_block_room_number_id',$hostelBooking->hostel_block_room_number_id)->whereStatus(1)->count()>0){
+                        HostelBooking::whereProperty_id($hostelBooking->property_id)->where('hostel_block_room_number_id',$hostelBooking->hostel_block_room_number_id)->whereStatus(1)->update(['status'=>0]);
+                    }
+                }
                 $message = 'success';
                 $data = array(
                     "title" => "BOOKING CONFIRMATION",
@@ -213,9 +222,12 @@ class UserController extends Controller
                 );
                 Mail::to($hostelBooking->user->email)->send(new EmailSender($data, 'Booking Response', 'emails.booking_response'));
             }
+            else{
+                $message = "You have already serviced this visitor's booking";
+            }
             return $message;
         }else{
-            return view('errors.404');
+            return 'You are unauthorized to confirm. \nLooks like property does not belongs to you.';
         }
     }
 
@@ -237,9 +249,12 @@ class UserController extends Controller
                 );
                 Mail::to($hostelBooking->user->email)->send(new EmailSender($data, 'Booking Response', 'emails.booking_response'));
             }
+            else{
+                $message = "You have already serviced this visitor's booking";
+            }
             return $message;
         }else{
-            return view('errors.404');
+            return 'You are unauthorized to confirm. \nLooks like property does not belongs to you.';
         }
     }
 
