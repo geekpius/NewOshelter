@@ -1927,7 +1927,7 @@
         $("#uploadMsg").html('<i class="fa fa-spin fa-spinner"></i> Processing photos...');
         var form_data = new FormData();
         var totalfiles = document.getElementById('upfile').files.length;
-        if(totalfiles>30){
+        if(totalfiles>20){
             swal("Exceed", "You can not upload more than 30 photos.", "warning");
             document.getElementById("upfile").value = null;
             $("#uploadMsg").html('');
