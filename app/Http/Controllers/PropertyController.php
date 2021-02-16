@@ -43,8 +43,14 @@ class PropertyController extends Controller
     public function index()
     {
         $data['page_title'] = 'All your properties';
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15); 
+        $data['property_types'] = PropertyType::whereIs_public(true)->get();
         return view('user.properties.index', $data);
+    }
+
+    public function loadProperties()
+    {
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15); 
+        return view('user.properties.load_properties', $data)->render();
     }
 
     ///check if uncompleted found

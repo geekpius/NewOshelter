@@ -139,6 +139,7 @@ Route::group(['middleware' => ['verify-email']], function() {
         /*------- Properties ------- */
         Route::group(['prefix' => 'properties'], function () {
             Route::get('/listings', 'PropertyController@index')->name('property');
+            Route::get('/listings-load', 'PropertyController@loadProperties')->name('property.load');
             Route::get('/new', 'PropertyController@addNewListing')->name('property.add');
             Route::get('/start', 'PropertyController@startNew')->name('property.start');
             Route::get('/start/{property}/create', 'PropertyController@createNewListing')->name('property.create');
