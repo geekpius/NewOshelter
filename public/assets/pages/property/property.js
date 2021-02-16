@@ -14,6 +14,22 @@ function getProperties(url)
 
 getProperties($("#propertyContent").data('url'));
 
+$("select[name='filter']").on("change", function(){
+    var $this = $(this);
+    if($this.val() !== ''){
+        let url = `/user/properties/listings/filter/${$this.val()}`;
+        getProperties(url);
+    }
+    return false;
+});
+
+$("input[name='search']").on("keyup", function(){
+    var $this = $(this);
+    let url = `/user/properties/listings/search/${$this.val()}`;
+    getProperties(url);
+    return false;
+});
+
 // toggle between listed property invisible and visible
 $(".btnVisibility").on("click", function(e){
     e.preventDefault();
