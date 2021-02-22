@@ -252,6 +252,7 @@ class VisitorController extends Controller
                 $review = new PropertyReview;
                 $review->property_id = $visit->property_id;
                 $review->user_id = Auth::user()->id; 
+                $review->owner_id = $visit->property->user_id; 
                 $review->location_star = empty($request->location)? 0: $request->location;
                 $review->security_star = empty($request->security)? 0: $request->security;
                 $review->comm_star = empty($request->communication)? 0: $request->communication;

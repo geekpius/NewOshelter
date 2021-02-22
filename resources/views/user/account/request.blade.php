@@ -9,12 +9,12 @@
             <strong>{{ Auth::user()->name }},</strong> account owner 
         </p>
         <div id="" class="pt-4">
-            @include('includes.gobackroute')
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card card-bordered-grey">
                         <div class="card-body">
                             <div class="row">
+                                @if (Auth::user()->account_type=='visitor')
                                 <div class="col-6 col-sm-3 col-md-3 col-lg-2">
                                     <a href="#" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
@@ -28,6 +28,7 @@
                                         </div>
                                     </a>
                                 </div>
+                                @endif
                                 <div class="col-6 col-sm-3 col-lg-2">
                                     <a href="#" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
@@ -41,6 +42,7 @@
                                         </div>
                                     </a>
                                 </div>
+                                @if (Auth::user()->account_type=='visitor')
                                 <div class="col-6 col-sm-3 col-lg-2">
                                     <a href="{{ route('visits') }}" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
@@ -67,7 +69,8 @@
                                         </div>
                                     </a>
                                 </div>
-                                @if (Auth::user()->userWallets->count())
+                                @endif
+                                @if (Auth::user()->account_type=='owner')
                                 <div class="col-6 col-sm-3 col-lg-2">
                                     <a href="#" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
@@ -82,19 +85,32 @@
                                     </a>
                                 </div>
                                 @endif
-                                @if (Auth::user()->properties->count())
+                                @if (Auth::user()->account_type=='owner')
                                 <div class="col-6 col-sm-3 col-lg-2">
                                     <a href="{{ route('property') }}" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                    <div class="text-center"><i class="mdi mdi-office-building"></i> <br><small>Properties</small></div>
+                                                    <div class="text-center"><strong>{{ Auth::user()->properties->count() }}</strong> <br><small>Properties</small></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </a>
+                                </div>
+                                @endif
+                                @if (Auth::user()->account_type=='owner')
+                                <div class="col-6 col-sm-3 col-lg-2">
+                                    <div class="card card-bordered-pink">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                <div class="text-center"><strong>{{ Auth::user()->propertyReviews->count() }}</strong> <br><small>Ratings</small></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 @endif
                             </div>

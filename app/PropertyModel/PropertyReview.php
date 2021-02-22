@@ -12,7 +12,7 @@ class PropertyReview extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'property_id', 'user_id', 'location_star', 'security_star', 'comm_star', 'value_star', 'accuracy_star', 'tidy_star', 'comment',
+        'property_id', 'user_id', 'owner_id', 'location_star', 'security_star', 'comm_star', 'value_star', 'accuracy_star', 'tidy_star', 'comment',
     ];
 
     public function property(){
@@ -21,6 +21,10 @@ class PropertyReview extends Model
 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function owner(){
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
 

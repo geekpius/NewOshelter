@@ -67,17 +67,6 @@
                 <div class="col-sm-6 col-md-6 col-lg-4">
                     <div class="card card-bordered-blue">
                         <div class="card-body">
-                            <i class="fa fa-send text-primary account-icon"></i>
-                            <a href="{{ route('account.requests') }}" class="text-decoration-none text-light-dark">
-                                <p class="font-18 font-weight-bold">Requests and Actions ></p>
-                            </a>
-                            <p class="font-13 account-details">Checkout your activities like bookings, cancellations, payments.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-6 col-lg-4">
-                    <div class="card card-bordered-blue">
-                        <div class="card-body">
                             <i class="fa fa-bell text-primary account-icon"></i>
                             <a href="{{ route('account.notifications') }}" class="text-decoration-none text-light-dark">
                                 <p class="font-18 font-weight-bold">Notifications ></p>
@@ -96,11 +85,20 @@
                         <p class="font-16 font-weight-bold"><i class="fa fa-cog"></i> Account</p>
                     </a>
                 </div>
+                @if (Auth::user()->account_type=='owner')
                 <div class="col-sm-12"><hr></div>
                 <div class="col-sm-12">
                     <p class="text-muted font-12">Listing</p>
                     <a href="{{ route('property.add') }}" class="text-decoration-none text-light-dark">
                         <p class="font-16 font-weight-bold"><i class="fa fa-home"></i> List a property</p>
+                    </a>
+                </div>
+                @endif
+                <div class="col-sm-12"><hr></div>
+                <div class="col-sm-12">
+                    <p class="text-muted font-12">Activities</p>
+                    <a href="{{ route('account.requests') }}" class="text-decoration-none text-light-dark">
+                        <p class="font-16 font-weight-bold"><i class="fa fa-send"></i> Requests & Actions</p>
                     </a>
                 </div>
                 <div class="col-sm-12"><hr></div>

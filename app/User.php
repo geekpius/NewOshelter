@@ -162,10 +162,6 @@ class User extends Authenticatable
         return $this->hasMany(UserWallet::class);
     }
 
-    public function userTickets(){
-        return $this->hasMany(UserTicket::class);
-    }
-
     public function userSavedProperties(){
         return $this->hasMany(UserSavedProperty::class);
     }

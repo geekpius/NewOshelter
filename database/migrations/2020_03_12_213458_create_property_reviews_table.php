@@ -17,6 +17,7 @@ class CreatePropertyReviewsTable extends Migration
             $table->increments('id');
             $table->integer('property_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
+            $table->integer('owner_id');
             $table->integer('location_star');
             $table->integer('security_star');
             $table->integer('comm_star');

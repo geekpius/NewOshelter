@@ -47,10 +47,17 @@
                             <a href="{{ route('browse.property') }}" class="pr-4 text-decoration-none" title="Filter">
                                 <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
+                            @if (Auth::user()->account_type=='visitor')
                             <a href="{{ route('visits') }}" class="pr-4 text-decoration-none" title="Visits">
                                 <i class="fa fa-building fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
-                            <a href="{{ route('messages') }}" class="pr-4 text-decoration-none" title="Help">
+                            @endif
+                            @if (Auth::user()->account_type=='owner')
+                            <a href="{{ route('property.add') }}" class="pr-4 text-decoration-none" title="Listings">
+                                <i class="fa fa-home fa-lg text-white mobile-menu-item-icon"></i>
+                            </a>
+                            @endif
+                            <a href="{{ route('messages') }}" class="pr-4 text-decoration-none" title="Message">
                                 <i class="fa fa-envelope-o fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
                             <a href="{{ route('account') }}" class="text-decoration-none" title="Account">
@@ -108,10 +115,15 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width: 200px">
                                 @auth
                                 <a class="dropdown-item" href="{{ route('messages') }}"><span class="fa fa-envelope"></span> Message (<span class="myMessageCount" data-url="{{ route('message.count') }}"></span>)</a>
+                                @if (Auth::user()->account_type == 'visitor')
                                 <a class="dropdown-item" href="{{ route('visits') }}"><span class="fa fa-building"></span> Visits</a>
+                                @endif
                                 <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
                                 <hr>
+                                @if (Auth::user()->account_type == 'owner')
                                 <a class="dropdown-item" href="{{ route('property.add') }}"><span class="fa fa-home"></span> List a property</a>
+                                @endif
+                                <a class="dropdown-item" href="{{ route('account.requests') }}"><span class="fa fa-send"></span> Requests & Actions</a>
                                 <a class="dropdown-item" href="{{ route('account') }}"><span class="fa fa-user-circle"></span> Account</a>
                                 <hr>
                                 <a class="dropdown-item" href="{{ route('help') }}"><span class="fa fa-question-circle"></span> Help</a>

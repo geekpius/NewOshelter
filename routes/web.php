@@ -31,7 +31,6 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::get('/map-property/types', 'WebsiteController@mapPropertyType')->name('browse.property_types_map');
     });
 
-
     Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
 
     Route::group(['prefix' => 'help'], function () {
