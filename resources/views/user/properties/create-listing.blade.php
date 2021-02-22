@@ -182,7 +182,7 @@
                                         <div class="step-pane active" data-step="1">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h6>Create block names for your hostel to make arrangement of rooms look nice and appreciated</h6>
+                                                    <h5>Create block names for your hostel to make arrangement of rooms look nice and appreciated</h5>
                                                     <form class="mt-4" id="formBlocks">
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         <div class="form-group input-group-sm mt-4 validate">
@@ -209,7 +209,7 @@
                                         <div class="step-pane" data-step="2">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h6 class="">Create rooms for your hostel blocks</h6>
+                                                    <h5 class="">Create rooms for your hostel blocks</h5>
                                                     <div style="position: relative;  height: 640px; overflow-y:scroll; overflow-x:hidden;" class="pr-3">
                                                         <form class="" id="formCreateRooms">
                                                             <div class="row">
@@ -399,7 +399,7 @@
                                         <div class="step-pane" data-step="3">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h6 class="">Amenities you offer to your {{ str_plural($guest) }} in your block rooms</h6>
+                                                    <h5 class="">Amenities you offer to your {{ str_plural($guest) }} in your block rooms</h5>
                                                     <div class="mt-4">
                                                         <form id="formHostelRoomAmenity">
                                                             <div class="row">
@@ -430,7 +430,7 @@
         
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group input-group-sm validate">
-                                                                        <label for="">Block room type</label>
+                                                                        <label for="">Block room type <small class="text-success hostelStep3" style="display: none">Loading room type...</small></label>
                                                                         <select name="room_type" class="form-control" id="room_type">
                                                                             <option class="after" value="">--Select--</option>
                                                                         </select>
@@ -449,7 +449,7 @@
                                                         </form>
         
                                                         <hr class="mt-5">
-                                                        <h6 class="">If there are shared amenities offered to your {{ $guest.'s' }} in your hostel accross all blocks, let them know.</h6>
+                                                        <h5 class="">If there are shared amenities offered to your {{ $guest.'s' }} in your hostel accross all blocks, let them know.</h5>
                                                         <form id="formRoomAmenities" method="POST" action="{{ route("property.store") }}">
                                                             @csrf
                                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -469,7 +469,7 @@
                                         <div class="step-pane" data-step="4">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h6>Enforce hostel rules if any</h6>
+                                                    <h5>Enforce hostel rules if any</h5>
                                                     <p><i class="fa fa-dot-circle font-13"></i> Guests must agree to your rules before booking property</p>
                                                     <form class="mt-4" id="formPropertyRules" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
@@ -479,7 +479,7 @@
                                                     </form>                                            
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <h6>Would you like to add other rules?</h6>
+                                                    <h5>Would you like to add other rules?</h5>
                                                     <form class="mt-4" id="formPropertyOtherRules">
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         <div class="form-group validate">
@@ -501,7 +501,7 @@
                                         <div class="step-pane" data-step="5">
                                             <div class="row">
                                                 <div class="col-lg-5">
-                                                    <h6>Provide your hostel location</h6>
+                                                    <h5>Provide your hostel location</h5>
                                                     <form class="mt-4" id="formLocationLandmark" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
                                                         <input type="hidden" name="step" value="5" readonly>
@@ -523,7 +523,7 @@
                                                 <div class="col-lg-7">
                                                     <div class="card mt-4">
                                                         <div class="card-body">        
-                                                            <h6 class="mt-0 header-title">Pin your location to the right place</h6>     
+                                                            <h5 class="mt-0 header-title">Pin your location to the right place</h5>     
                                                             <div id="gmaps-markers" class="gmaps"></div>
                                                         </div><!--end card-body-->
                                                     </div><!--end card--> 
@@ -534,7 +534,7 @@
                                         <div class="step-pane" data-step="6">
                                             <div class="row">
                                                 <div class="col-lg-7">
-                                                    <h6>Lets take a tour on your hostel</h6>
+                                                    <h5>Lets take a tour on your hostel</h5>
                                                     <p class="mb-4 font-13"><i class="fa fa-dot-circle font-10"></i> Property photo with captions will best help us with the tour.
                                                     <br>
                                                     <i class="fa fa-dot-circle font-10"></i> You can upload maximum of 10 photos at a time.</p>
@@ -558,7 +558,7 @@
                                                 <div class="col-lg-5">
                                                     <div class="mt-5 pt-4">
                                                         <i class="fa fa-lightbulb fa-lg text-pink"></i>
-                                                        <h6>Tips for adding a great photos of your property</h6>
+                                                        <h5>Tips for adding a great photos of your property</h5>
                                                         <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
                                                         <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in landscape mode in order to capture more spaces. Shoot from corners to add perspective.</p>
                                                         <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
@@ -573,7 +573,7 @@
                                         <div class="step-pane" data-step="7">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h6>How does your hostel looks like?</h6>
+                                                    <h5>How does your hostel looks like?</h5>
                                                     <form class="mt-4" id="formDescriptions" method="POST" action="{{ route('property.store') }}">
                                                         @csrf
                                                         <input type="hidden" name="step" value="7" readonly>
@@ -613,7 +613,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="">
-                                                        <h6>Provide {{ str_plural($guest) }} with your rent schedule for each block rooms</h6>
+                                                        <h5>Provide {{ str_plural($guest) }} with your rent schedule for each block rooms</h5>
                                                         <p class="font-13"><i class="fa fa-dot-circle font-12"></i> Guests must know advance payment and price calendar</p>
                                                         
                                                         <form id="formHostelRoomPrices" method="POST" action="{{ route('property.store') }}">
@@ -654,7 +654,7 @@
         
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group input-group-sm validate">
-                                                                        <label for="">Block room type</label>
+                                                                        <label for="">Block room type <small class="text-success hostelStep8" style="display: none">Loading room type...</small></label>
                                                                         <select name="block_room" class="form-control" id="block_room">
                                                                             <option class="after" value="">--Select--</option>
                                                                         </select>
@@ -735,7 +735,7 @@
         
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <h6>All set and ready for publishing</h6>
+                                                    <h5>All set and ready for publishing</h5>
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-building fa-5x"></i>
                                                         <i class="fa fa-home fa-5x ml-4 mr-4"></i>
@@ -1748,6 +1748,7 @@
         if($this.val()!=''){
             var data={ block_name:$('#formHostelRoomAmenity select[name="hostel_block_name"]').val(), gender:$this.val() }
             $("#formHostelRoomAmenity select[name='room_type']").find('.after').nextAll().remove();
+            $(".hostelStep3").show();
             $.ajax({
                 url: "{{ route('property.get.roomtype') }}",
                 type: "POST",
@@ -1759,6 +1760,7 @@
                         options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
                     });
                     $("#formHostelRoomAmenity select[name='room_type']").find('.after').after(options);
+                    $(".hostelStep3").hide();
                 },
                 error: function(resp){
                     console.log("Something went wrong with request");
@@ -1776,6 +1778,7 @@
         e.preventDefault();
         e.stopPropagation();
         var $this= $(this);
+        $(".hostelStep3").hide();
         $("#formHostelRoomAmenity select[name='gender']").val('');
         $("#formHostelRoomAmenity select[name='room_type']").find('.after').nextAll().remove();
         return false;
@@ -1834,6 +1837,7 @@
         e.preventDefault();
         e.stopPropagation();
         var $this= $(this);
+        $(".hostelStep8").hide();
         $("#formRentSchedule select[name='gender']").val('');
         $("#formRentSchedule select[name='block_room']").find('.after').nextAll().remove();
         return false;
@@ -1847,6 +1851,7 @@
         if($this.val()!=''){
             var data={ block_name:$('#block').val(), gender:$this.val() }
             $("#formRentSchedule select[name='block_room']").find('.after').nextAll().remove();
+            $(".hostelStep8").show();
             $.ajax({
                 url: "{{ route('property.get.roomtype') }}",
                 type: "POST",
@@ -1858,6 +1863,7 @@
                         options+='<option value='+value.id+'>'+value.block_room_type +'</option>';
                     });
                     $("#formRentSchedule select[name='block_room']").find('.after').after(options);
+                    $(".hostelStep8").hide();
                 },
                 error: function(resp){
                     alert("Something went wrong with request");
