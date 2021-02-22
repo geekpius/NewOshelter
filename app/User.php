@@ -45,8 +45,17 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'email_verification_token', 'email_verification_expired_at', 
-        'verify_email_time', 'verify_email', 'verify_sms', 'login_time',
+        'name', 
+        'email', 
+        'password', 
+        'phone', 
+        'account_type', 
+        'email_verification_token', 
+        'email_verification_expired_at', 
+        'verify_email_time', 
+        'verify_email', 
+        'verify_sms', 
+        'login_time',
     ];
 
     /**
@@ -104,6 +113,11 @@ class User extends Authenticatable
     public function getAgeAttribute()
     {
         return (empty($this->profile->dob))? 'Age':Carbon::parse($this->profile->dob)->age;
+    }
+
+    public function getAccountType()
+    {
+        return ucfirst($this->account_type);
     }
 
 

@@ -35,9 +35,9 @@
                             <div class="form-group validate">                                            
                                 <div class="input-group mb-3"> 
                                     <span class="auth-form-icon">
-                                        <i class="fa fa-eye-slash" id="showPassword" style="cursor: pointer"></i> 
+                                        <i class="fa fa-eye-slash showPassword" style="cursor: pointer"></i> 
                                     </span>                                                       
-                                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password">
+                                    <input type="password" class="form-control password" name="password" placeholder="Enter Password">
                                 </div>    
                                 <span class="text-danger small mySpan" role="alert">{{ $errors->has('password') ? $errors->first('password') : '' }}</span>                           
                             </div><!--end form-group--> 

@@ -1,8 +1,26 @@
+var openVisitorBtn = document.getElementById('openVisitor');
+var openOwnerBtn = document.getElementById('openOwner');
+function clickOpenVisitorForm(e){
+    e.preventDefault();
+    $("#formSignupOwner").hide("slow");
+    openOwnerBtn.classList.remove("active");
+    $("#formSignupVisitor").show("slow");
+    openVisitorBtn.classList.add("active");
+}
 
-$("#showPassword").on("click", function(){
+
+function clickOpenOwnerForm(e){
+    e.preventDefault();
+    $("#formSignupVisitor").hide("slow");
+    openVisitorBtn.classList.remove("active");
+    $("#formSignupOwner").show("slow");
+    openOwnerBtn.classList.add("active");
+}
+
+$(".showPassword").on("click", function(){
     var $this = $(this);
-    var password = $("#password");
-    var showPassword = $("#password").attr("type");
+    var password = $(".password");
+    var showPassword = $(".password").attr("type");
     if(showPassword == "password"){
         $this.removeClass("fa fa-eye-slash");
         $this.addClass("fa fa-eye");
@@ -40,10 +58,10 @@ $("#formSignIn input").on('input', function(){
 });
 
 // sign up
-$("#formSignup").on("submit", function(e){
+$("#formSignupOwner").on("submit", function(e){
     e.stopPropagation();
     var valid = true;
-    $('#formSignup input').each(function() {
+    $('#formSignupOwner input').each(function() {
         var $this = $(this);
         
         if(!$this.val()) {
@@ -98,7 +116,7 @@ function isNumber(evt) {
     return true;
 }
 
-$("#formSignup input").on('input', function(){
+$("#formSignupOwner input").on('input', function(){
     if($(this).val()!=''){
         $(this).parents('.validate').find('.mySpan').text('');
     }else{ $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); }
@@ -112,7 +130,7 @@ $("#type").on("change", function(){
     }
 });
 
-$("#formSignup input[name='phone']").on("keypress", function(e){
+$("#formSignupOwner input[name='phone']").on("keypress", function(e){
     let $this = $(this);
     if($this.val().length == 10){
         e.preventDefault();

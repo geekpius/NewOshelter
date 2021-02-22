@@ -14,12 +14,21 @@
                         
                         <div class="text-center auth-logo-text">
                             <h4 class="mt-0 mb-3 mt-5">Sign Up For Account</h4>
-                            <p class="text-muted mb-0">Fill Your Information.</p>  
                         </div> <!--end auth-logo-text-->  
+
+                        <ul class="nav nav-pills mt-3 mb-2">
+                            <li class="nav-item">
+                              <a class="nav-link active" id="openOwner" href="#">Become property owner</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="openVisitor" href="#">Become a visitor</a>
+                            </li>
+                          </ul>
 
                         @include('includes.alerts')
                         
-                        <form class="form-horizontal auth-form my-4" id="formSignup" method="POST" action="{{ url('register') }}">
+                        <form class="form-horizontal auth-form my-4" id="formSignupOwner" method="POST" action="{{ url('register') }}">
+                            <p class="text-center text-primary">You are signing up as an owner.</p>  
                             @csrf
                             {{-- <div class="form-group validate">
                                 <div class="input-group mb-3">
@@ -33,7 +42,7 @@
                                 </div>  
                                 <span class="text-primary small mySpan" id="typeDescription" role="alert"></span>                                  
                             </div><!--end form-group-->  --}}
-
+                            <input type="hidden" name="account_type" readonly value="owner">
                             <div class="form-group validate">
                                 <div class="input-group mb-3">
                                     <span class="auth-form-icon">
@@ -68,9 +77,9 @@
                             <div class="form-group validate">                                           
                                 <div class="input-group mb-3"> 
                                     <span class="auth-form-icon">
-                                        <i class="fa fa-eye-slash" id="showPassword" style="cursor: pointer"></i> 
+                                        <i class="fa fa-eye-slash showPassword" style="cursor: pointer"></i> 
                                     </span>                                                       
-                                    <input type="password" class="form-control" name="password" id="password" onkeyup="validatePassword(this.value);" placeholder="Enter your password">
+                                    <input type="password" class="form-control password" name="password" onkeyup="validatePassword(this.value);" placeholder="Enter your password">
                                 </div>    
                                 <div class="text-center"><strong ><span id="msg"></span></strong>  </div>             
                                 <span class="text-danger small mySpan" role="alert" id="msg">{{ $errors->has('password') ? $errors->first('password') : '' }}</span>                           
@@ -80,6 +89,67 @@
                                 <div class="checkbox checkbox-primary pl-3">
                                     <input id="agreement" type="checkbox" name="agreement">
                                     <label for="agreement">By checking this, you have agreed to the <a href="#" class="text-primary">terms and conditions</a> of this platform.</label>
+                                </div>   
+                                <span class="text-danger small mySpan" role="alert"></span>                                   
+                            </div><!--end form-group--> 
+
+                            <div class="form-group mb-0 row">
+                                <div class="col-12 mt-2">
+                                    <button class="btn btn-gradient-danger btn-round btn-block waves-effect waves-light btn_sign_up" type="submit">Sign Up <i class="fas fa-sign-in-alt ml-1"></i></button>
+                                </div><!--end col--> 
+                            </div> <!--end form-group-->                           
+                        </form><!--end form-->
+
+                        <form class="form-horizontal auth-form my-4" id="formSignupVisitor" style="display: none" method="POST" action="{{ url('register') }}">
+                            <p class="text-center text-primary">You are signing up as a visitor.</p>  
+                            @csrf
+                            <input type="hidden" name="account_type" readonly value="visitor">
+                            <div class="form-group validate">
+                                <div class="input-group mb-3">
+                                    <span class="auth-form-icon">
+                                        <i class="dripicons-user"></i> 
+                                    </span>                                                                                                              
+                                    <input type="text" class="form-control" name="name" placeholder="Enter your name" autofocus>
+                                </div>  
+                                <span class="text-danger small mySpan" role="alert">{{ $errors->has('name') ? $errors->first('name') : '' }}</span>                                  
+                            </div><!--end form-group--> 
+
+                            <div class="form-group validate">
+                                <div class="input-group mb-3">
+                                    <span class="auth-form-icon">
+                                        <i class="fa fa-envelope"></i> 
+                                    </span>                                                                                                              
+                                    <input type="email" class="form-control" name="email" placeholder="Enter your email address">
+                                </div>  
+                                <span class="text-danger small mySpan" role="alert">{{ $errors->has('email') ? $errors->first('email') : '' }}</span>                                  
+                            </div><!--end form-group--> 
+
+                            <div class="form-group validate">
+                                <div class="input-group mb-3">
+                                    <span class="auth-form-icon">
+                                        <i class="fa fa-phone"></i> 
+                                    </span>                                                                                                 
+                                    <input type="tel" class="form-control" maxlength="10" name="phone" onkeypress="return isNumber(event);" placeholder="Enter your phone number">
+                                </div>  
+                                <span class="text-danger small mySpan" role="alert">{{ $errors->has('phone') ? $errors->first('phone') : '' }}</span>                                  
+                            </div><!--end form-group--> 
+
+                           
+                            <div class="form-group validate">                                           
+                                <div class="input-group mb-3"> 
+                                    <span class="auth-form-icon">
+                                        <i class="fa fa-eye-slash showPassword" style="cursor: pointer"></i> 
+                                    </span>                                                       
+                                    <input type="password" class="form-control password" name="password" onkeyup="validatePassword(this.value);" placeholder="Enter your password">
+                                </div>    
+                                <div class="text-center"><strong ><span id="msg"></span></strong>  </div>             
+                                <span class="text-danger small mySpan" role="alert" id="msg">{{ $errors->has('password') ? $errors->first('password') : '' }}</span>                           
+                            </div><!--end form-group--> 
+
+                            <div class="form-group validate">                                            
+                                <div class="checkbox checkbox-primary pl-3">
+                                    <input id="agreement1" type="checkbox" name="agreement">
+                                    <label for="agreement1">By checking this, you have agreed to the <a href="#" class="text-primary">terms and conditions</a> of this platform.</label>
                                 </div>   
                                 <span class="text-danger small mySpan" role="alert"></span>                                   
                             </div><!--end form-group--> 
@@ -106,4 +176,8 @@
 
 @section('scripts')
 <script src="{{ asset('assets/pages/auth.js') }}"></script>
+<script>
+openVisitorBtn.addEventListener("click", clickOpenVisitorForm);
+openOwnerBtn.addEventListener("click", clickOpenOwnerForm);
+</script>
 @endsection

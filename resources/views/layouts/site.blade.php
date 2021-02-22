@@ -124,8 +124,8 @@
                                 <a class="dropdown-item" href="{{ route('login') }}"><span class="fas fa-sign-in-alt"></span> Log in</a>
                                 <a class="dropdown-item" href="{{ route('register') }}"><span class="fa fa-user-circle"></span> Sign up</a>
                                 <hr>
-                                <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> List a property</a>
-                                <hr>
+                                {{-- <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> List a property</a>
+                                <hr> --}}
                                 <a class="dropdown-item" href="{{ route('help') }}"><span class="fa fa-question-circle"></span> Help</a>
                                 @endguest
                             </div>

@@ -66,6 +66,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'phone' => 'required|string|max:255|unique:users',
+            'account_type' => 'required|string',
             'password' => 'required|string|min:6',
         ]);
     }
@@ -97,6 +98,7 @@ class RegisterController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'phone' => $data['phone'],
+                'account_type' => $data['account_type'],
                 'login_time' => Carbon::now(),
                 'email_verification_token' => $this->generateEmailVerificationCode(),
                 'email_verification_expired_at' => Carbon::now()->addHour(),
