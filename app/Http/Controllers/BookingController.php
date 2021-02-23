@@ -430,6 +430,19 @@ class BookingController extends Controller
         return $message;        
     }
 
+
+    public function exitBookingMode(Property $property)
+    {      
+        if(Session::has('bookingItems')){
+            Session::forget('bookingItems');
+            Session::forget('owner_message');
+            Session::forget('step');
+        }
+       
+        return redirect()->route('single.property', $property->id);
+    }
+
+
     public function visitorBookingList()
     {      
         $data['page_title'] = 'My bookings';

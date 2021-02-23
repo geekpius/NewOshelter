@@ -685,7 +685,7 @@
                                                                 <div class="col-sm-7">
                                                                     <div class="form-group input-group-sm validate">
                                                                         <label for="">This will be your default booking price</label>
-                                                                        <input type="text" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                                        <input type="tel" name="property_price" keypress="return isNumber(event);" class="form-control" id="property_price" placeholder="Tip: 300.00">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
@@ -761,15 +761,6 @@
         
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <h6>Terms and conditions, your local law and taxes.</h6>
-                                                    <div class="mt-4">
-                                                        <p class="font-13">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-                                                            Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
-                                                        <p class="font-13">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-                                                            Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
-                                                        <p class="font-13">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-                                                            Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus. <a href="javascript:void(0);" class="text-primary">Read more</a></p>
-                                                    </div>
                                                     <div class="card mt-3 float-right">
                                                         <div class="card-body">        
                                                             <a href="{{ route('property.preview', $property->id) }}" class="text-primary text-decoration-none">
@@ -1087,7 +1078,7 @@
                                                                 <div class="col-sm-7">
                                                                     <div class="form-group validate">
                                                                         <label for="">This will be your default booking price</label>
-                                                                        <input type="number" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                                        <input type="tel" name="property_price" class="form-control" keypress="return isNumber(event)" id="property_price" placeholder="Tip: 300.00">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
@@ -1142,7 +1133,7 @@
                                                                 <div class="col-sm-7">
                                                                     <div class="form-group validate">
                                                                         <label for="">This will be your default booking price</label>
-                                                                        <input type="number" name="property_price" min="1" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                                        <input type="tel" name="property_price" keypress="return isNumber(event)" class="form-control" id="property_price" placeholder="Tip: 300.00">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
@@ -1160,7 +1151,7 @@
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group validate">
                                                                         <label for="" class="text-primary">Smart price will set in when market demand is low.</label>
-                                                                        <input type="number" name="smart_price" min="1" class="form-control" id="smart_price" placeholder="Enter smart price">
+                                                                        <input type="tel" name="smart_price" keypress="return isNumber(event)" class="form-control" id="smart_price" placeholder="Enter smart price">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
@@ -1171,7 +1162,7 @@
                                                                 <label for="">This will be your {{ $property->type_status=='sell'? 'default':'initial' }} {{ $property->type_status }} price <span id="myPriceCal"></span></label>
                                                                 @if($property->type_status=='sell')
                                                                 @endif
-                                                                <input type="number" name="property_price" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                                <input type="tel" name="property_price" keypress="return isNumber(event)" class="form-control" id="property_price" placeholder="Tip: 300.00">
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                             @if ($property->type_status=='sell')
@@ -1353,15 +1344,6 @@
         
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <h4>Terms and conditions, your local law and taxes.</h4>
-                                                    <div class="mt-4">
-                                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-                                                            Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
-                                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-                                                            Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.</p>
-                                                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-                                                            Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus. <a href="javascript:void(0);" class="text-primary">Read more</a></p>
-                                                    </div>
                                                     <div class="card mt-3 float-right">
                                                         <div class="card-body">        
                                                             <a href="{{ route('property.preview', $property->id) }}" class="text-primary text-decoration-none">

@@ -201,6 +201,7 @@ Route::group(['middleware' => ['verify-email']], function() {
         
         Route::group(['middleware' => ['visitor']], function() {
             Route::get('/{property}/{checkin}/{checkout}/{guest}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
+            Route::get('/{property}/bookings/exit', 'BookingController@exitBookingMode')->name('property.bookings.exit');
             Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
             Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
             Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');

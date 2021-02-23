@@ -176,7 +176,7 @@ class UserProfileController extends Controller
 
     public function requestView()
     {
-        $data['page_title'] = 'Requests';
+        $data['page_title'] = 'Requests and actions';
         return view('user.account.request', $data);
     }
 

@@ -556,52 +556,74 @@
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
                                     <div class="col-sm-12 mt-3 mb-5">
-                                        @php $booking = Auth::user()->userBookings->where('property_id',$property->id)->sortByDesc('id')->first(); @endphp
-                                        @if (empty($booking) || ($booking->isDoneAttribute() && $booking->isCheckoutAttribute()))
-                                        <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
-                                            @csrf
-                                            <input type="hidden" name="book_status" value="freshbook" readonly>
-                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                            <input type="hidden" name="type" value="{{ $property->type }}" readonly>
-                                            <input type="hidden" name="type_status" value="{{ $property->type_status }}" readonly>
-                                            <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
-                                            <input type="hidden" name="checkin" value="{{ $bookingItems['check_in'] }}" readonly>
-                                            <input type="hidden" name="checkout" value="{{ $bookingItems['check_out'] }}" readonly>
-                                            <input type="hidden" name="adult" value="{{ $bookingItems['adult'] }}" readonly>
-                                            <input type="hidden" name="child" value="{{ $bookingItems['children'] }}" readonly>
-                                            @if ($property->type_status === 'short_stay')
-                                            <input type="hidden" name="infant" value="{{ $bookingItems['infant'] }}" readonly>
-                                            @endif
-                                            <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">CONFIRM BOOKING REQUEST</button>
-                                        </form>
-                                        @else
-                                            @if ($booking->isPendingAttribute())
-                                                <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> WAITING FOR CONFIRMATION...</span>
-                                            @elseif ($booking->isConfirmAttribute())
-                                                <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> WAITING FOR PAYMENT...</span>
-                                            @elseif ($booking->isRejectAttribute())
-                                                <span class="text-danger">YOUR REQUEST WAS CANCELLED BY OWNER</span>
-                                                <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}" class="mt-2">
-                                                    @csrf
-                                                    <input type="hidden" name="book_status" value="rebook" readonly>
-                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    <input type="hidden" name="type" value="{{ $property->type }}" readonly>
-                                                    <input type="hidden" name="type_status" value="{{ $property->type_status }}" readonly>
-                                                    <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
-                                                    <input type="hidden" name="checkin" value="{{ $bookingItems['check_in'] }}" readonly>
-                                                    <input type="hidden" name="checkout" value="{{ $bookingItems['check_out'] }}" readonly>
-                                                    <input type="hidden" name="adult" value="{{ $bookingItems['adult'] }}" readonly>
-                                                    <input type="hidden" name="child" value="{{ $bookingItems['children'] }}" readonly>
-                                                    @if ($property->type_status === 'short_stay')
-                                                    <input type="hidden" name="infant" value="{{ $bookingItems['infant'] }}" readonly>
+                                        @php  $booking = $property->userBookings->sortByDesc('id')->first(); @endphp
+                                            @if (empty($booking) || ($booking->isDoneAttribute() && $booking->isCheckoutAttribute()))
+                                            <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
+                                                @csrf
+                                                <input type="hidden" name="book_status" value="freshbook" readonly>
+                                                <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                <input type="hidden" name="type" value="{{ $property->type }}" readonly>
+                                                <input type="hidden" name="type_status" value="{{ $property->type_status }}" readonly>
+                                                <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
+                                                <input type="hidden" name="checkin" value="{{ $bookingItems['check_in'] }}" readonly>
+                                                <input type="hidden" name="checkout" value="{{ $bookingItems['check_out'] }}" readonly>
+                                                <input type="hidden" name="adult" value="{{ $bookingItems['adult'] }}" readonly>
+                                                <input type="hidden" name="child" value="{{ $bookingItems['children'] }}" readonly>
+                                                @if ($property->type_status === 'short_stay')
+                                                <input type="hidden" name="infant" value="{{ $bookingItems['infant'] }}" readonly>
+                                                @endif
+                                                <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">CONFIRM BOOKING REQUEST</button>
+                                            </form>
+                                            @else
+                                                @if ($booking->isPendingAttribute())
+                                                    <span class="text-primary">
+                                                        <i class="fa fa-spin fa-spinner"></i> 
+                                                        {{ ($booking->user_id == Auth::user()->id) ? 'YOUR BOOKING IS WAITING FOR CONFIRMATION...':'ALREADY BOOKED AND WAITING FOR CONFIRMATION...' }}
+                                                    </span>
+                                                    <br>
+                                                    <div class="mt-3">
+                                                        <a href="{{ route('property.bookings.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from booking mode </a>
+                                                    </div>
+                                                @elseif ($booking->isConfirmAttribute())
+                                                    <span class="text-primary">
+                                                        <i class="fa fa-spin fa-spinner"></i> 
+                                                        {{ ($booking->user_id == Auth::user()->id) ? 'YOUR BOOKING IS WAITING FOR PAYMENT...':'ALREADY CONFIRMED AND WAITING FOR PAYMENT...' }}
+                                                    </span>
+                                                    <br>
+                                                    <div class="mt-3">
+                                                        <a href="{{ route('property.bookings.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from booking mode </a>
+                                                    </div>
+                                                @elseif ($booking->isRejectAttribute())
+                                                    @if ($booking->user_id == Auth::user()->id)
+                                                    <span class="text-danger">YOUR REQUEST WAS CANCELLED BY OWNER</span>
                                                     @endif
-                                                    <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">RE-APPLY BOOKING REQUEST</button>
-                                                </form>
-                                            @elseif ($booking->isDoneAttribute() && !$booking->isCheckoutAttribute())
-                                                <span class="text-success"><i class="fa fa-home"></i> YOU ARE CURRENTLY LIVING IN THE PROPERTY</span>
+                                                    <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}" class="mt-2">
+                                                        @csrf
+                                                        <input type="hidden" name="book_status" value="rebook" readonly>
+                                                        <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                        <input type="hidden" name="type" value="{{ $property->type }}" readonly>
+                                                        <input type="hidden" name="type_status" value="{{ $property->type_status }}" readonly>
+                                                        <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
+                                                        <input type="hidden" name="checkin" value="{{ $bookingItems['check_in'] }}" readonly>
+                                                        <input type="hidden" name="checkout" value="{{ $bookingItems['check_out'] }}" readonly>
+                                                        <input type="hidden" name="adult" value="{{ $bookingItems['adult'] }}" readonly>
+                                                        <input type="hidden" name="child" value="{{ $bookingItems['children'] }}" readonly>
+                                                        @if ($property->type_status === 'short_stay')
+                                                        <input type="hidden" name="infant" value="{{ $bookingItems['infant'] }}" readonly>
+                                                        @endif
+                                                        <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">RE-APPLY BOOKING REQUEST</button>
+                                                    </form>
+                                                @elseif ($booking->isDoneAttribute() && !$booking->isCheckoutAttribute())
+                                                    <span class="text-primary">
+                                                        <i class="fa fa-spin fa-spinner"></i> 
+                                                        {{ ($booking->user_id == Auth::user()->id) ? 'YOU ARE CURRENTLY LIVING IN THE PROPERTY':'SOMEONE IS CURRENTLY LIVING IN THE PROPERTY' }}
+                                                    </span>
+                                                    <br>
+                                                    <div class="mt-3">
+                                                        <a href="{{ route('property.bookings.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from booking mode </a>
+                                                    </div>
+                                                @endif
                                             @endif
-                                        @endif
-                                        
                                     </div>
                                 </div> 
                             </div> 

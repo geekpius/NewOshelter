@@ -5,7 +5,8 @@ namespace App\PropertyModel;
 use App\User;
 use App\UserModel\UserVisit;
 use App\UserModel\UserHostelVisit;
-use App\BookingModel\Booking;
+use App\BookModel\Booking;
+use App\BookModel\HostelBooking;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyList;
 use App\PropertyModel\PropertyRent;
@@ -26,7 +27,6 @@ use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\PropertySharedAmenity;
 use App\PropertyModel\IncludeUtility;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Property extends Model
 {
@@ -186,6 +186,14 @@ class Property extends Model
     public function userSavedProperties(){
         return $this->hasMany(UserSavedProperty::class);
     }
+
+    public function userBookings(){
+        return $this->hasMany(Booking::class);
+    }
+
+    public function userHostelBookings(){
+        return $this->hasMany(HostelBooking::class);
+    }
     
     public function userVisits(){
         return $this->hasMany(UserVisit::class);
@@ -202,7 +210,6 @@ class Property extends Model
     public function includeUtilities(){
         return $this->hasMany(IncludeUtility::class);
     }
-
 
     public function getAvailableRooms(): int
     {

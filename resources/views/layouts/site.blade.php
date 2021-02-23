@@ -77,15 +77,8 @@
                             @endguest
                         </div>
                         <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Own a Property</a></li>
-                            <li class="list-inline-item"><a href="{{ route('property.start') }}" class="font-12 font-14-sm-laptop font-12-lg-laptop">Become an Owner</a></li>
-                            {{-- <li class="list-inline-item">
-                                <a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop"><i class="fa fa-question-circle"></i> Help</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="{{ route('help.owner') }}" class="font-13 sub-menu-item">Property Owners</a></li>
-                                    <li><a href="#" class="font-13 sub-menu-item">Guests and Tenants</a></li>
-                                </ul>
-                            </li> --}}
+                            <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Become an Owner</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Become a Visitor</a></li>
                         </ul>
                     </div>
 

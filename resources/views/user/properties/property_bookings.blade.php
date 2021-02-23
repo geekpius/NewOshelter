@@ -43,18 +43,18 @@
                                             @php $image = (empty($booking->property->user->image))? 'user.svg':'users/'.$booking->property->user->image; @endphp
                                             <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->property->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $booking->property->user->name }}</td>
                                             <td>{{ $booking->hostelBlockRoom->propertyHostelBlock->block_name }}({{ $booking->hostelBlockRoom->block_room_type }})</td>
-                                            <td>{{ $booking->hostelBlockRoomNumber->room_no }}</td>
+                                            <td class="text-center">{{ $booking->hostelBlockRoomNumber->room_no }}</td>
                                             <td>{{ \Carbon\Carbon::parse($booking->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</td>
                                             <td>
                                                 @if ($booking->isPendingAttribute())
-                                                    <span class="label label-primary">Pending Request</span>
+                                                    <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> Pending</span>
                                                 @elseif ($booking->isConfirmAttribute())
-                                                    <span class="label label-success">Confirmed Request</span>
+                                                    <span class="text-success"><i class="fa fa-check-circle"></i> Confirmed</span>
                                                 @elseif ($booking->isRejectAttribute())
-                                                    <span class="label label-danger">Cancelled Request</span>
+                                                    <span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>
                                                 @else
-                                                    <span class="label label-success">Paid Booking</span>
+                                                    <span class="text-success"><i class="fa fa-money-bill"></i> Paid Booking</span>
                                                 @endif
                                             </td>
                                         </tr><!--end tr-->
@@ -83,16 +83,16 @@
                                             <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->property->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $booking->property->user->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($booking->check_in)->format('d-M-Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($booking->check_out)->format('d-M-Y') }}</td>
-                                            <td>{{ $booking->getGuestAttribute() }}</td>
+                                            <td class="text-center">{{ $booking->getGuestAttribute() }}</td>
                                             <td>
                                                 @if ($booking->isPendingAttribute())
-                                                    <span class="label label-primary">Pending Request</span>
+                                                    <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> Pending</span>
                                                 @elseif ($booking->isConfirmAttribute())
-                                                    <span class="label label-success">Confirmed Request</span>
+                                                    <span class="text-success"><i class="fa fa-check-circle"></i> Confirmed</span>
                                                 @elseif ($booking->isRejectAttribute())
-                                                    <span class="label label-danger">Cancelled Request</span>
+                                                    <span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>
                                                 @else
-                                                    <span class="label label-success">Paid Booking</span>
+                                                    <span class="text-success"><i class="fa fa-money-bill"></i> Paid Booking</span>
                                                 @endif
                                             </td>
                                         </tr><!--end tr-->
