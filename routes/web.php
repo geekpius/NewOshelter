@@ -58,9 +58,7 @@ Route::group(['prefix' => 'user'], function () {
 
 Route::group(['middleware' => ['verify-email']], function() {
     Route::group(['prefix' => 'user'], function () {
-        /*------- Dashboard ------- */
-        // Route::get('/dashboard', 'UserController@index')->name('dashboard');
-
+        
         /*------- Notifications ------- */
         Route::get('/message-count', 'UserController@messageCount')->name('message.count');
         // Route::get('/message-notification', 'UserController@messageNotification')->name('message.notification');
@@ -130,9 +128,6 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::post('/check-unsubscribe-notify', 'UserNotificationController@checkToggleSubscribe')->name('profile.unsubscribe.notify');
             Route::get('/deactivate', 'DeactivateUserController@index')->name('profile.deactivate');
             Route::post('/deactivate', 'DeactivateUserController@submitDeactivate')->name('profile.deactivate.submit');
-    
-            // Route::get('/get-vat', 'VatController@getVat')->name('profile.vat');
-            // Route::post('/vat', 'VatController@store')->name('profile.vat.submit');
         });
 
         /*------- Properties ------- */
@@ -142,6 +137,8 @@ Route::group(['middleware' => ['verify-email']], function() {
                 Route::get('/listings-load', 'PropertyController@loadProperties')->name('property.load');
                 Route::get('/listings/filter/{filter}', 'PropertyController@filterProperties')->name('property.filter');
                 Route::get('/listings/search/{search}', 'PropertyController@searchProperties')->name('property.search');
+                Route::get('/listings/{property}/visits', 'PropertyController@propertyVisits')->name('property.visits');
+                Route::get('/listings/{property}/bookings', 'PropertyController@propertyBookings')->name('property.bookings');
                 Route::get('/new', 'PropertyController@addNewListing')->name('property.add');
                 Route::get('/start', 'PropertyController@startNew')->name('property.start');
                 Route::get('/start/{property}/create', 'PropertyController@createNewListing')->name('property.create');
@@ -202,13 +199,15 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::post('/properties/get/block-room-number', 'BookingController@getRoomTypeNumber')->name('property.get.roomnumber');
         Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
         Route::post('/properties/bookings', 'BookingController@book')->name('property.bookings.submit');
-        // Route::post('/properties/hostel/bookings', 'BookingController@hostelBook')->name('property.bookings.hostel.submit');
-        Route::get('/{property}/{checkin}/{checkout}/{guest}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
-        // Route::get('/properties/{property}/{checkin}/{checkout}/{block_id}/{gender}/{room_type}/{room_number}/{filter_id}/bookings', 'BookingController@hostelIndex')->name('property.bookings.hostel.index');
-        Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
-        Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
-        Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
-        Route::post('/properties/bookings/request', 'BookingController@bookingRequest')->name('property.bookings.request');
+        
+        Route::group(['middleware' => ['visitor']], function() {
+            Route::get('/{property}/{checkin}/{checkout}/{guest}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
+            Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
+            Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
+            Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
+            Route::post('/properties/bookings/request', 'BookingController@bookingRequest')->name('property.bookings.request');
+            Route::get('/account/requests/bookings', 'BookingController@visitorBookingList')->name('property.visitor.bookings');
+        });
 
         /*------- Visitors Visit ------- */
         Route::group(['middleware' => ['visitor']], function() {
@@ -225,13 +224,6 @@ Route::group(['middleware' => ['verify-email']], function() {
             });
         });
         
-        /*------- Listing Guests ------- */
-        // Route::get('/tenants', 'TenantController@index')->name('tenants');
-        // Route::get('/tenants/current', 'TenantController@currentTenant')->name('tenants.current');
-        // Route::get('/tenants/{user}/visited-properties', 'TenantController@showVisitedProperty')->name('tenant.visited');
-        // Route::get('/buyers', 'TenantsController@buyer')->name('buyers');
-        // Route::get('/bidders', 'TenantsController@bidder')->name('bidders');
-
         /*------- Messages ------- */
         Route::group(['prefix' => 'messages'], function () {
             Route::get('', 'MessageController@index')->name('messages');
@@ -247,22 +239,5 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::get('/{property}/listing', 'ReportPropertyController@index')->name('report-listing');
             Route::post('/submit', 'ReportPropertyController@store')->name('report-listing.submit');
         });
-
-        /*------- Activities ------- */
-
-
-        /*Route::get('/subscription', 'SubscriptionController@index')->name('host.subscription');
-        Route::get('/pricing-plan', 'SubscriptionController@pricing')->name('host.pricing');
-        Route::get('/invoices', 'SubscriptionController@invoices')->name('host.invoice');
-        Route::get('/invoices/{invoice}', 'SubscriptionController@getInvoice')->name('host.getinvoice');
-
-        Route::get('/cart', 'CartController@index')->name('host.cart');
-        Route::post('/pricing-plan', 'CartController@store')->name('host.cart.submit');
-        Route::get('/pricing-plan/delete', 'CartController@destroy')->name('host.cart.destroy');
-        Route::get('/pricing-plan/{cart}/payment', 'CartController@choosePayment')->name('host.payment');
-        Route::get('/pay-point/{cart}/{pay}/{user}', 'CartController@makePayment')->name('host.makepayment');
-    
-        
-        Route::get('/logs', 'UserLogController@index')->name('host.log');*/
     });
 });

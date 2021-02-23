@@ -10,7 +10,8 @@
                         <i class="fas fa-ellipsis-v font-20 text-muted"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel1">
-                        <a class="dropdown-item text-warning" href="javascript:void(0);" onclick="window.location='{{ route('single.property', $property->id) }}';"><i class="fa fa-eye"></i> Preview</a>
+                        <a class="dropdown-item text-purple" href="javascript:void(0);" onclick="window.location='{{ route('property.visits',$property->id) }}';"><i class="fa fa-building"></i> Visits</a>
+                        <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.bookings', $property->id) }}';"><i class="mdi mdi-briefcase"></i> Bookings</a>
                         <a class="dropdown-item {{$property->publish? 'text-pink':'text-success'}} btnVisibility" href="javascript:void(0);" data-href="{{ route('property.visibility', $property->id) }}" data-title="{{ $property->title }}"><i class="{{$property->publish? 'fa fa-eye-slash':'fa fa-check'}}"></i> {{$property->publish? 'Hide':'Publish'}}</a>
                         <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.edit', $property->id) }}';"><i class="fa fa-edit"></i> Edit</a>
                         <a class="dropdown-item text-danger" href="javascript:void(0);" onclick="window.location='{{ route('property.confirmdelete', $property->id) }}';"><i class="fa fa-trash"></i> Delete</a>
@@ -106,4 +107,51 @@
     </div>
 </div>                    
 @endif
+
+@if(count($properties))
+<script>
+    // toggle between listed property invisible and visible
+    $(".btnVisibility").on("click", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this = $(this);
+        swal({
+            title: "Are you sure?",
+            text: "You are about "+$this.text().toLowerCase()+" "+$this.data("title")+" listing.",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonClass: ((jQuery.trim($this.text().toLowerCase())=="hide")? "btn-danger":"btn-success")+" btn-sm",
+            cancelButtonClass: "btn-sm",
+            confirmButtonText: "Yes, "+$this.text(),
+            closeOnConfirm: false
+            },
+        function(){
+            $.ajax({
+                url: $this.data('href'),
+                type: "POST",
+                success: function(resp){
+                    if(resp=='success'){
+                        swal(((jQuery.trim($this.text().toLowerCase())=="hide")? "Hidden":"Published"), "Property "+((jQuery.trim($this.text().toLowerCase())=="hide")? "hidden":"published")+" successful", "success");
+                        $this.parents(".myParent").find(".blog-card .publishStatus").html(((jQuery.trim($this.text().toLowerCase())=="hide")? 'Hidden':'Published'));
+                        $this.html(((jQuery.trim($this.text().toLowerCase())=="hide")? '<i class="fa fa-check"></i> Publish':'<i class="fa fa-eye-slash"></i> Hide'));
+                        if(jQuery.trim($this.text().toLowerCase())=="hide"){
+                            $this.removeClass('text-success').addClass('text-pink');
+                        }else{
+                            $this.removeClass('text-pink').addClass('text-success');
+                        }
+                    }
+                    else{
+                        alert("Something went wrong");
+                    }
+                },
+                error: function(resp){
+                    alert("Something went wrong with request");
+                }
+            });
+        });
+        return false;
+    });
+</script>
+@endif
+
                 

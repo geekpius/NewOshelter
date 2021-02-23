@@ -16,7 +16,7 @@
                             <div class="row">
                                 @if (Auth::user()->account_type=='visitor')
                                 <div class="col-6 col-sm-3 col-md-3 col-lg-2">
-                                    <a href="#" class="text-decoration-none text-gray">
+                                    <a href="{{ route('property.visitor.bookings') }}" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <div class="row">

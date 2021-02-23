@@ -430,6 +430,13 @@ class BookingController extends Controller
         return $message;        
     }
 
+    public function visitorBookingList()
+    {      
+        $data['page_title'] = 'My bookings';
+        return view('user.bookings.visitorbookings', $data);
+    }
+
+
     
 
 

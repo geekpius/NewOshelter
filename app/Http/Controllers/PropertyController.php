@@ -69,6 +69,20 @@ class PropertyController extends Controller
         return view('user.properties.load_properties', $data)->render();
     }
 
+    public function propertyVisits(Property $property)
+    {
+        $data['page_title'] = $property->title.' visits';
+        $data['property'] = $property;
+        return view('user.properties.property_visits', $data);
+    }
+
+    public function propertyBookings(Property $property)
+    {
+        $data['page_title'] = $property->title.' bookings';
+        $data['property'] = $property;
+        return view('user.properties.property_bookings', $data);
+    }
+
     ///check if uncompleted found
     public function addNewListing()
     {
