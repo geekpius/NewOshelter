@@ -157,7 +157,7 @@
                         <div class="pxp-prop-card-1-details">
                             <div class="pxp-prop-card-1-details-title">{{ $property->title }}</div>
                             @if($property->type=='hostel')
-                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} Rooms</div>                                
+                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} {{ str_plural('Room', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</div>                                
                             @else
                             <div class="pxp-prop-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}<small>/{{ $property->propertyPrice->price_calendar }}</small></div>                                
                             @endif

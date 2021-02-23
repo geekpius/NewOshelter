@@ -41,7 +41,7 @@
                         @if ($property->type=='hostel')
                             <div class="pxp-results-card-1-details">
                                 <div class="pxp-results-card-1-details-title">{{ $property->title }}</div>
-                                <div class="pxp-results-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} Rooms</div>
+                                <div class="pxp-results-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} {{ str_plural('Room', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</div>
 
                                 <span class="fa fa-tag text-white pull-right"> 
                                     <strong>Rent</span>

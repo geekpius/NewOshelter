@@ -6,7 +6,7 @@
         <meta content="Real estate platform where property owners can manage their guests/tenants" name="description" />
         <meta content="Fiifi Pius Geek" name="author" />
         <!-- CSRF Token -->
-        <title>OShelter  </title>
+        <title>OShelter - Unauthorized</title>
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
@@ -33,12 +33,19 @@
                                     <a href="{{ route('index') }}" class="logo logo-admin"><img src="{{ asset('assets/images/form-logo.png') }}" height="55" alt="logo" class="auth-logo"></a>
                                 </div><!--end auth-logo-box-->
                                 <img src="{{ asset('assets/images/404.jpg') }}" alt="" class="d-block mx-auto mt-4" height="250">
-                                <div class="text-center auth-logo-text mb-4">
-                                    <h4 class="mt-0 mb-3 mt-5">Looks like you've got lost...</h4>
-                                    <a href="javascript:history.back();" class="btn btn-sm btn-gradient-primary"><i class="fa fa-caret-left"></i> Go Back</a> 
+                                <div class="auth-logo-text mb-4">
+                                    <h4 class="mt-5 text-center">Looks like the resource you're looking for is not found.</h4>
+                                    <div class="mb-3 mt-3">
+                                        <ul>
+                                            <li>You are not authorized to access this resource.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="javascript:history.back();" class="btn btn-sm btn-gradient-primary"><i class="fa fa-caret-left"></i> Go Back</a> 
+                                    </div>
                                 </div> <!--end auth-logo-text-->
                             </div><!--end /div-->                                
-                        </div><!--end card-body-->                            
+                        </div><!--end card-body-->                           
                     </div><!--end card-->
                 </div><!--end auth-page-->
             </div><!--end col-->           

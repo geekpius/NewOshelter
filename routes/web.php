@@ -136,88 +136,93 @@ Route::group(['middleware' => ['verify-email']], function() {
         });
 
         /*------- Properties ------- */
-        Route::group(['prefix' => 'properties'], function () {
-            Route::get('/listings', 'PropertyController@index')->name('property');
-            Route::get('/listings-load', 'PropertyController@loadProperties')->name('property.load');
-            Route::get('/listings/filter/{filter}', 'PropertyController@filterProperties')->name('property.filter');
-            Route::get('/listings/search/{search}', 'PropertyController@searchProperties')->name('property.search');
-            Route::get('/new', 'PropertyController@addNewListing')->name('property.add');
-            Route::get('/start', 'PropertyController@startNew')->name('property.start');
-            Route::get('/start/{property}/create', 'PropertyController@createNewListing')->name('property.create');
-            Route::get('/start/{property}/preview', 'PropertyController@previewCreatedListing')->name('property.preview');
-            Route::get('/start/{property}/checks', 'PropertyController@getChecks')->name('property.get.checks');
-            
-            Route::post('/add/block', 'PropertyController@addBlock')->name('property.block.submit');
-            Route::get('/block/{property}/show', 'PropertyController@showBlock')->name('property.block.show');
-            Route::get('/block/{propertyHostelBlock}/delete', 'PropertyController@deleteBlock')->name('property.block.delete');
+        Route::group(['middleware' => ['owner']], function() {
+            Route::group(['prefix' => 'properties'], function () {
+                Route::get('/listings', 'PropertyController@index')->name('property');
+                Route::get('/listings-load', 'PropertyController@loadProperties')->name('property.load');
+                Route::get('/listings/filter/{filter}', 'PropertyController@filterProperties')->name('property.filter');
+                Route::get('/listings/search/{search}', 'PropertyController@searchProperties')->name('property.search');
+                Route::get('/new', 'PropertyController@addNewListing')->name('property.add');
+                Route::get('/start', 'PropertyController@startNew')->name('property.start');
+                Route::get('/start/{property}/create', 'PropertyController@createNewListing')->name('property.create');
+                Route::get('/start/{property}/preview', 'PropertyController@previewCreatedListing')->name('property.preview');
+                Route::get('/start/{property}/checks', 'PropertyController@getChecks')->name('property.get.checks');
+                
+                Route::post('/add/block', 'PropertyController@addBlock')->name('property.block.submit');
+                Route::get('/block/{property}/show', 'PropertyController@showBlock')->name('property.block.show');
+                Route::get('/block/{propertyHostelBlock}/delete', 'PropertyController@deleteBlock')->name('property.block.delete');
 
-            Route::post('/add/block-rooms', 'PropertyController@addBlockRoom')->name('property.blockroom.submit');
-            Route::get('/block-rooms/{property}/show', 'PropertyController@showBlockRoom')->name('property.blockroom.show');
-            Route::get('/block-rooms/{hostelBlockRoom}/delete', 'PropertyController@deleteBlockRoom')->name('property.blockroom.delete');
+                Route::post('/add/block-rooms', 'PropertyController@addBlockRoom')->name('property.blockroom.submit');
+                Route::get('/block-rooms/{property}/show', 'PropertyController@showBlockRoom')->name('property.blockroom.show');
+                Route::get('/block-rooms/{hostelBlockRoom}/delete', 'PropertyController@deleteBlockRoom')->name('property.blockroom.delete');
 
-            Route::post('/get/block-room-type', 'PropertyController@getRoomType')->name('property.get.roomtype');
-            Route::post('/add/room-amenities', 'PropertyController@addBlockRoomAmenities')->name('property.room.amenities.submit');
-            Route::get('/room-amenities/{property}/show', 'PropertyController@showBlockRoomAmenities')->name('property.room.amenities.show');
-            Route::get('/room-amenities/{hostelRoomAmenity}/delete', 'PropertyController@deleteBlockRoomAmenities')->name('property.room.amenities.delete');
+                Route::post('/get/block-room-type', 'PropertyController@getRoomType')->name('property.get.roomtype');
+                Route::post('/add/room-amenities', 'PropertyController@addBlockRoomAmenities')->name('property.room.amenities.submit');
+                Route::get('/room-amenities/{property}/show', 'PropertyController@showBlockRoomAmenities')->name('property.room.amenities.show');
+                Route::get('/room-amenities/{hostelRoomAmenity}/delete', 'PropertyController@deleteBlockRoomAmenities')->name('property.room.amenities.delete');
 
-            Route::post('/photos/{property}/upload', 'PropertyController@uploadPropertyPhoto')->name('property.photos.submit');
-            Route::get('/photos/{property}/show', 'PropertyController@showPropertyPhoto')->name('property.photos.show');
-            Route::get('/photos/{propertyImage}/delete', 'PropertyController@deletePropertyPhoto')->name('property.photos.delete');
-            Route::post('/photos/caption', 'PropertyController@propertyPhotoCaption')->name('property.caption.submit');
-    
-            Route::post('/rule/add', 'PropertyController@addOwnRule')->name('property.rule.submit');
-            Route::get('/rule/{property}/show', 'PropertyController@showOwnRule')->name('property.rule.show');
-            Route::get('/rule/{propertyOwnRule}/delete', 'PropertyController@deleteOwnRule')->name('property.rule.delete');
-    
-            Route::post('/block-price/add', 'PropertyController@addHostelBlockPrice')->name('property.blockprice.submit');
-            Route::get('/block-price/{property}/show', 'PropertyController@showHostelBlockPrice')->name('property.blockprice.show');
-            Route::get('/block-price/{propertyHostelPrice}/delete', 'PropertyController@deleteHostelBlockPrice')->name('property.blockprice.delete');
-            
-            Route::post('/new/store', 'PropertyController@store')->name('property.store');
-            Route::post('/new/{property}/prev', 'PropertyController@previousStep')->name('property.back');
-            Route::post('/new/save-exit', 'PropertyController@saveAndExit')->name('property.save.exit');
-    
-            Route::get('/{property}/edit', 'PropertyController@editListing')->name('property.edit');
-            Route::post('/{property}/edit', 'PropertyController@updateListing')->name('property.update');
-            
-            Route::post('/{property}/visibility', 'PropertyController@togglePublishVisibility')->name('property.visibility');
-    
-            Route::get('/{property}/remove', 'PropertyController@confirmDelete')->name('property.confirmdelete');
-            Route::post('/{property}/remove', 'PropertyController@deleteListing')->name('property.delete');
-    
-            // Route::get('/my-properties', 'PropertyController@manageProperty')->name('property.manage');
-            // Route::get('/my-properties/{property}/details', 'PropertyController@managePropertyDetail')->name('property.manage.detail');
-            // Route::get('/manage-properties/{property}/utilities', 'PropertyUtilityController@index')->name('property.utilities');
-            // Route::get('/manage-properties/{property}/utilities-list', 'PropertyUtilityController@show')->name('property.utilities.list');
-            // Route::post('/manage-properties/create/utilities', 'PropertyUtilityController@store')->name('property.utilities.submit');
-            // Route::post('/manage-properties/switch/utilities', 'PropertyUtilityController@switch')->name('property.utilities.switch');
-            // Route::post('/manage-properties/update/utilities', 'PropertyUtilityController@update')->name('property.utilities.update');
-            // Route::get('/manage-properties/{propertyUtility}/remove', 'PropertyUtilityController@remove')->name('property.utilities.remove');
-            
-            /*------- Booking a Properties ------- */
-            Route::post('/get/block-room-number', 'BookingController@getRoomTypeNumber')->name('property.get.roomnumber');
-            Route::post('/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
-            Route::post('/bookings', 'BookingController@book')->name('property.bookings.submit');
-            // Route::post('/hostel/bookings', 'BookingController@hostelBook')->name('property.bookings.hostel.submit');
-            Route::get('/{property}/{checkin}/{checkout}/{guest}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
-            // Route::get('/{property}/{checkin}/{checkout}/{block_id}/{gender}/{room_type}/{room_number}/{filter_id}/bookings', 'BookingController@hostelIndex')->name('property.bookings.hostel.index');
-            Route::post('/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
-            Route::post('/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
-            Route::post('/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
-            Route::post('/bookings/request', 'BookingController@bookingRequest')->name('property.bookings.request');
+                Route::post('/photos/{property}/upload', 'PropertyController@uploadPropertyPhoto')->name('property.photos.submit');
+                Route::get('/photos/{property}/show', 'PropertyController@showPropertyPhoto')->name('property.photos.show');
+                Route::get('/photos/{propertyImage}/delete', 'PropertyController@deletePropertyPhoto')->name('property.photos.delete');
+                Route::post('/photos/caption', 'PropertyController@propertyPhotoCaption')->name('property.caption.submit');
+        
+                Route::post('/rule/add', 'PropertyController@addOwnRule')->name('property.rule.submit');
+                Route::get('/rule/{property}/show', 'PropertyController@showOwnRule')->name('property.rule.show');
+                Route::get('/rule/{propertyOwnRule}/delete', 'PropertyController@deleteOwnRule')->name('property.rule.delete');
+        
+                Route::post('/block-price/add', 'PropertyController@addHostelBlockPrice')->name('property.blockprice.submit');
+                Route::get('/block-price/{property}/show', 'PropertyController@showHostelBlockPrice')->name('property.blockprice.show');
+                Route::get('/block-price/{propertyHostelPrice}/delete', 'PropertyController@deleteHostelBlockPrice')->name('property.blockprice.delete');
+                
+                Route::post('/new/store', 'PropertyController@store')->name('property.store');
+                Route::post('/new/{property}/prev', 'PropertyController@previousStep')->name('property.back');
+                Route::post('/new/save-exit', 'PropertyController@saveAndExit')->name('property.save.exit');
+        
+                Route::get('/{property}/edit', 'PropertyController@editListing')->name('property.edit');
+                Route::post('/{property}/edit', 'PropertyController@updateListing')->name('property.update');
+                
+                Route::post('/{property}/visibility', 'PropertyController@togglePublishVisibility')->name('property.visibility');
+        
+                Route::get('/{property}/remove', 'PropertyController@confirmDelete')->name('property.confirmdelete');
+                Route::post('/{property}/remove', 'PropertyController@deleteListing')->name('property.delete');
+        
+                // Route::get('/my-properties', 'PropertyController@manageProperty')->name('property.manage');
+                // Route::get('/my-properties/{property}/details', 'PropertyController@managePropertyDetail')->name('property.manage.detail');
+                // Route::get('/manage-properties/{property}/utilities', 'PropertyUtilityController@index')->name('property.utilities');
+                // Route::get('/manage-properties/{property}/utilities-list', 'PropertyUtilityController@show')->name('property.utilities.list');
+                // Route::post('/manage-properties/create/utilities', 'PropertyUtilityController@store')->name('property.utilities.submit');
+                // Route::post('/manage-properties/switch/utilities', 'PropertyUtilityController@switch')->name('property.utilities.switch');
+                // Route::post('/manage-properties/update/utilities', 'PropertyUtilityController@update')->name('property.utilities.update');
+                // Route::get('/manage-properties/{propertyUtility}/remove', 'PropertyUtilityController@remove')->name('property.utilities.remove');
+                
+            });
         });
 
+        /*------- Booking a Properties ------- */
+        Route::post('/properties/get/block-room-number', 'BookingController@getRoomTypeNumber')->name('property.get.roomnumber');
+        Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
+        Route::post('/properties/bookings', 'BookingController@book')->name('property.bookings.submit');
+        // Route::post('/properties/hostel/bookings', 'BookingController@hostelBook')->name('property.bookings.hostel.submit');
+        Route::get('/{property}/{checkin}/{checkout}/{guest}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
+        // Route::get('/properties/{property}/{checkin}/{checkout}/{block_id}/{gender}/{room_type}/{room_number}/{filter_id}/bookings', 'BookingController@hostelIndex')->name('property.bookings.hostel.index');
+        Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
+        Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
+        Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
+        Route::post('/properties/bookings/request', 'BookingController@bookingRequest')->name('property.bookings.request');
+
         /*------- Visitors Visit ------- */
-        Route::group(['prefix' => 'visits'], function () {
-            Route::get('', 'VisitorController@index')->name('visits');
-            Route::get('/residence/upcoming', 'VisitorController@residenceUpcoming')->name('visits.upcoming');
-            Route::get('/residence/past', 'VisitorController@residencePast')->name('visits.past');
-            Route::post('/past/extend', 'VisitorController@extendStay')->name('visits.past.extend');
-            Route::get('/hostel/upcoming', 'VisitorController@hostelUpcoming')->name('visits.hostel.upcoming');
-            Route::get('/hostel/past', 'VisitorController@hostelPast')->name('visits.hostel.past');
-            Route::get('/{visit}/ratings', 'VisitorController@rateProperty')->name('visits.property.rating');
-            Route::post('/{visit}/ratings', 'VisitorController@submitRating')->name('visits.property.rating.submit');
-            // Route::get('/{name}/types', 'VisitorController@types')->name('visits.types');
+        Route::group(['middleware' => ['visitor']], function() {
+            Route::group(['prefix' => 'visits'], function () {
+                Route::get('', 'VisitorController@index')->name('visits');
+                Route::get('/residence/upcoming', 'VisitorController@residenceUpcoming')->name('visits.upcoming');
+                Route::get('/residence/past', 'VisitorController@residencePast')->name('visits.past');
+                Route::post('/past/extend', 'VisitorController@extendStay')->name('visits.past.extend');
+                Route::get('/hostel/upcoming', 'VisitorController@hostelUpcoming')->name('visits.hostel.upcoming');
+                Route::get('/hostel/past', 'VisitorController@hostelPast')->name('visits.hostel.past');
+                Route::get('/{visit}/ratings', 'VisitorController@rateProperty')->name('visits.property.rating');
+                Route::post('/{visit}/ratings', 'VisitorController@submitRating')->name('visits.property.rating.submit');
+                // Route::get('/{name}/types', 'VisitorController@types')->name('visits.types');
+            });
         });
         
         /*------- Listing Guests ------- */
