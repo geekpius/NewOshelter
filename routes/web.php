@@ -102,9 +102,8 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::group(['prefix' => 'payments'], function () {
             Route::post('/verify', 'PaymentController@verifyPayment')->name('payments.verify');
             Route::get('/transaction/success', 'PaymentController@successTrasaction')->name('payment.success');
-            // Route::get('/wallet', 'UserWalletController@index')->name('wallet');
-            // Route::get('/activities', 'UserActivityController@index')->name('activities');
         });
+        Route::get('/account/requests/payments', 'PaymentController@payment')->name('payments');
 
         /*------- Account and Profile ------- */
         Route::group(['prefix' => 'account'], function () {
@@ -238,6 +237,11 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::group(['prefix' => 'report'], function () {
             Route::get('/{property}/listing', 'ReportPropertyController@index')->name('report-listing');
             Route::post('/submit', 'ReportPropertyController@store')->name('report-listing.submit');
+        });
+
+        /*------- Wallet and Payments ------- */
+        Route::group(['middleware' => ['owner']], function() {
+            Route::get('/{property}/listing', 'UserWalletController@index')->name('wallet');
         });
     });
 });

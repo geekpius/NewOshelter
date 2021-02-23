@@ -179,4 +179,11 @@ class PaymentController extends Controller
         return view('user.requests.payment_response', $data);
     }
 
+    public function payment()
+    {
+        $data['page_title'] = 'My payments';
+        return view('user.payments.payments', $data);
+    }
+
+
 }

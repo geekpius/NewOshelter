@@ -30,7 +30,7 @@
                                 </div>
                                 @endif
                                 <div class="col-6 col-sm-3 col-lg-2">
-                                    <a href="#" class="text-decoration-none text-gray">
+                                    <a href="{{ route('payments') }}" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <div class="row">
