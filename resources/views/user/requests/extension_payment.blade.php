@@ -59,6 +59,7 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
                                 <input type="hidden" name="booking_id" value="{{ $extension->id }}" readonly>
                                 <input type="hidden" name="type" value="extension_request" readonly>
+                                <input type="hidden" name="owner" value="{{ $extension->owner_id }}" readonly>
                                 <input type="hidden" name="currency" id="userCurrency" value="{{ $currency }}" readonly>
                                 <input type="hidden" name="amount" value="{{ $totalFee }}" readonly>
                                 <input type="hidden" name="service_fee" value="0" readonly>

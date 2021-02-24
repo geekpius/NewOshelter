@@ -23,6 +23,7 @@ class CreatePropertiesTable extends Migration
             $table->string('title');
             $table->integer('adult')->nullable();
             $table->integer('children')->nullable();
+            $table->string('document')->nullable();
             $table->boolean('publish')->default(Property::NOT_PUBLISH);
             $table->integer('step')->default(1);
             $table->boolean('done_step')->default(Property::NOT_DONE_STEP);

@@ -4,9 +4,8 @@ namespace App\PaymentModel;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
-use App\BookModel\Booking;
-use App\BookModel\HostelBooking;
-use App\UserModel\UserExtensionRequest;
+use App\PaymentModel\BookingTransaction;
+use App\PaymentModel\ExtensionTransaction;
 
 class Transaction extends Model
 {
@@ -14,14 +13,21 @@ class Transaction extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id', 'booking_id', 'extension_id', 'reference_id', 'amount', 'service_fee', 'discount_fee', 
-        'currency', 'property_type', 'channel',
+        'user_id',
+        'owner_id',
+        'reference_id', 
+        'amount', 
+        'service_fee', 
+        'discount_fee', 
+        'currency', 
+        'channel',
+        'property_type',
     ];
 
      /*********** METHODS ATTRIBUTES *************/
     public function payableAmount() 
     {
-        return ($this->amount + $this->service_fee)-$this->discount_fee;
+        return number_format(($this->amount + $this->service_fee)-$this->discount_fee,2);
     }
 
 
@@ -30,16 +36,17 @@ class Transaction extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function booking(){
-        return $this->belongsTo(Booking::class, 'booking_id');
+    public function owner(){
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function hostelBooking(){
-        return $this->belongsTo(HostelBooking::class, 'booking_id');
+    public function bookingTransaction(){
+        return $this->hasOne(BookingTransaction::class);
     }
 
-    public function userExtensionRequest(){
-        return $this->belongsTo(UserExtensionRequest::class, 'extension_id');
+    public function extensionTransaction(){
+        return $this->hasOne(ExtensionTransaction::class);
     }
+
 
 }

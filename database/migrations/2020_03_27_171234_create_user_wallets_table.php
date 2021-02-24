@@ -18,6 +18,7 @@ class CreateUserWalletsTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->double('balance')->default(0);
             $table->string('currency');
+            $table->string('type');
             $table->boolean('is_cash_out')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -12,14 +12,18 @@ class UserWallet extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id', 'balance', 'currency', 'is_cash_out',
+        'user_id', 
+        'balance', 
+        'currency', 
+        'type', 
+        'is_cash_out',
     ];
 
 
     /************* PROPERTIES **************/ 
     public function getBalanceAmount(): string
     {
-        return $this->currency." ".$this->balance;
+        return $this->currency." ".number_format($this->balance,2);
     }
 
     public function getStatus(): string
@@ -29,6 +33,11 @@ class UserWallet extends Model
         }else{
             return "Cashed In";
         }
+    }
+
+    public function getType(): string
+    {
+        return ucfirst($this->type);
     }
 
     /************* RELATIONSHIPS **************/ 

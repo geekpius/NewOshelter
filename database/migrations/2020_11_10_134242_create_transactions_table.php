@@ -16,8 +16,7 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
-            $table->integer('booking_id')->nullable();
-            $table->integer('extension_id')->nullable();
+            $table->integer('owner_id')->unsigned()->index();
             $table->string('reference_id');
             $table->double('amount');
             $table->double('service_fee');
@@ -27,6 +26,7 @@ class CreateTransactionsTable extends Migration
             $table->string('channel');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

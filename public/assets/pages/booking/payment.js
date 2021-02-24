@@ -22,6 +22,7 @@ function payWithPaystack(e) {
         let data = {
             _token: $("#paymentForm input[name='_token']").val(),
             booking_id: $("#paymentForm input[name='booking_id']").val(),
+            owner: $("#paymentForm input[name='owner']").val(),
             type: $("#paymentForm input[name='type']").val(),
             currency: $("#paymentForm input[name='currency']").val(),
             amount: $("#paymentForm input[name='amount']").val(),

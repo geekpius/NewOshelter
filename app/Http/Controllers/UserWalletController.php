@@ -22,7 +22,7 @@ class UserWalletController extends Controller
     public function index()
     {
         $data['page_title'] = 'My wallet';
-        return view('admin.wallet.index', $data);
+        return view('user.payments.wallet', $data);
     }
 
     

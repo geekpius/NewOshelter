@@ -182,8 +182,12 @@ class User extends Authenticatable
         return $this->hasMany(HostelBooking::class);
     }
 
-    public function transactions(){
-        return $this->hasMany(Transaction::class);
+    public function userTransactions(){
+        return $this->hasMany(Transaction::class, 'user_id');
+    }
+
+    public function ownerTransactions(){
+        return $this->hasMany(Transaction::class, 'owner_id');
     }
 
     public function userCurrency(){

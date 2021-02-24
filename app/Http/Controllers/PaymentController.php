@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\PaymentModel\Transaction;
+use App\PaymentModel\BookingTransaction;
+use App\PaymentModel\ExtensionTransaction;
 use App\BookModel\Booking;
 use App\BookModel\HostelBooking;
 use App\UserModel\UserExtensionRequest;
@@ -66,30 +68,31 @@ class PaymentController extends Controller
         }
     }
 
-    public function saveTransaction($typeId,$referenceId,$amount,$serviceFee,$discountFee,$currency,$type): string
+    private function saveBookingTransaction(int $ownerID, string $referenceId, float $amount, float $serviceFee, float $discountFee, string $currency, string $propertyType, int $bookingID): string
     {
         (string) $message = "";
         try {
             DB::beginTransaction();
             $trans = new Transaction;
             $trans->user_id = Auth::user()->id;
-            if($type == 'extension_request'){
-                $trans->extension_id = $typeId;
-            }else{
-                $trans->booking_id = $typeId;
-            }
+            $trans->owner_id = $ownerID;
             $trans->reference_id = $referenceId;
             $trans->amount = $amount;
             $trans->service_fee = $serviceFee;
             $trans->discount_fee = $discountFee;
             $trans->currency = $currency;
-            $trans->property_type = $type;
+            $trans->property_type = $propertyType;
             $trans->channel = $this->getPaymentChannel();
             $trans->save();
 
-            (int) $ownerId = null;
-            if($type == 'hostel'){
-                $book = HostelBooking::findOrFail($trans->booking_id);
+            $bookTrans = new BookingTransaction;
+            $bookTrans->transaction_id = $trans->id;
+            $bookTrans->booking_id = $bookingID;
+            $bookTrans->property_type = $propertyType;
+            $bookTrans->save();
+
+            if($propertyType == 'hostel'){
+                $book = HostelBooking::findOrFail($bookingID);
                 $book->status = 3;
 
                 $stay = new UserHostelVisit;
@@ -101,20 +104,8 @@ class PaymentController extends Controller
                 $stay->check_out = $book->check_out;
                 $stay->save();
                 $book->update();
-                $ownerId = $book->property->user_id;
-            }
-            elseif($type == 'extension_request'){
-                $extend = UserExtensionRequest::findOrFail($trans->extension_id);
-                $extend->is_confirm = 3;
-                if($extend->type == 'hostel'){
-                    $extend->hostelVisit()->update(['check_out'=> $extend->extension_date]);
-                }else{
-                    $extend->visit()->update(['check_out'=> $extend->extension_date]);
-                }
-                $extend->update();
-                $ownerId = $extend->owner_id;
             }else{
-                $book = Booking::findOrFail($trans->booking_id);
+                $book = Booking::findOrFail($bookingID);
                 $book->status = 3;
 
                 $stay = new UserVisit;
@@ -127,13 +118,60 @@ class PaymentController extends Controller
                 $stay->infant = $book->infant;
                 $stay->save();
                 $book->update();
-                $ownerId = $book->property->user_id;
             }
 
             $wallet = new UserWallet;
-            $wallet->user_id = $ownerId;
+            $wallet->user_id = $ownerID;
             $wallet->balance = $amount;
             $wallet->currency = $currency;
+            $wallet->type = 'booking';
+            $wallet->save();
+            DB::commit();
+            $message = "success";
+        } catch (\Exception $e) {
+            DB::rollback();
+            $message = "catch";
+        }
+        return $message;
+    }
+
+    private function saveExtensionTransaction(int $ownerID, string $referenceId, float $amount, float $serviceFee, float $discountFee, string $currency, string $propertyType, int $bookingID): string
+    {
+        (string) $message = "";
+        try {
+            DB::beginTransaction();
+            $trans = new Transaction;
+            $trans->user_id = Auth::user()->id;
+            $trans->owner_id = $ownerID;
+            $trans->reference_id = $referenceId;
+            $trans->amount = $amount;
+            $trans->service_fee = $serviceFee;
+            $trans->discount_fee = $discountFee;
+            $trans->currency = $currency;
+            $trans->property_type = $propertyType;
+            $trans->channel = $this->getPaymentChannel();
+            $trans->save();
+            
+            $extensionTrans = new ExtensionTransaction;
+            $extensionTrans->transaction_id = $trans->id;
+            $extensionTrans->extension_id = $bookingID;
+            $extensionTrans->property_type = $propertyType;
+            $extensionTrans->save();
+
+            $extensionRequest = UserExtensionRequest::findOrFail($bookingID);
+            $extensionRequest->is_confirm = 3;
+            if($extensionRequest->type == 'hostel'){
+                $extensionRequest->hostelVisit()->update(['check_out'=> $extensionRequest->extension_date]);
+            }else{
+                $extensionRequest->visit()->update(['check_out'=> $extensionRequest->extension_date]);
+            }
+            $extensionRequest->update();
+
+            $wallet = new UserWallet;
+            $wallet->user_id = $ownerID;
+            $wallet->balance = $amount;
+            $wallet->currency = $currency;
+            $wallet->type = 'extension';
             $wallet->save();
             DB::commit();
             $message = "success";
@@ -157,8 +195,13 @@ class PaymentController extends Controller
             try {
                 (bool) $verificationStatus = $this->getVerificationStatus($request->reference_id);
                 if($verificationStatus){
-                    (string) $saveResponse = $this->saveTransaction($request->booking_id, $request->reference_id, $request->amount, $request->service_fee, $request->discount_fee, $request->currency, $request->type);
-                    $message = ($saveResponse == "success")? route('payment.success'):$saveResponse;
+                    if($request->type == 'extension_request'){
+                        (string) $saveResponse = $this->saveExtensionTransaction(intval($request->owner), $request->reference_id, floatval($request->amount), floatval($request->service_fee), floatval($request->discount_fee), $request->currency, $request->type, intval($request->booking_id));
+                        $message = ($saveResponse == "success")? route('payment.success'):$saveResponse;
+                    }else{
+                        (string) $saveResponse = $this->saveBookingTransaction(intval($request->owner), $request->reference_id, floatval($request->amount), floatval($request->service_fee), floatval($request->discount_fee), $request->currency, $request->type, intval($request->booking_id));
+                        $message = ($saveResponse == "success")? route('payment.success'):$saveResponse;
+                    }
                 }else{
                     $message = 'error';
                 }
@@ -172,7 +215,7 @@ class PaymentController extends Controller
     public function successTrasaction()
     {
         $data['page_title'] = 'Payment successful';
-        $data['transaction'] = Auth::user()->transactions->sortByDesc('id')->first();
+        $data['transaction'] = Auth::user()->userTransactions->sortByDesc('id')->first();
         if(empty($data['transaction'])){
             return view('errors.404', $data);
         }

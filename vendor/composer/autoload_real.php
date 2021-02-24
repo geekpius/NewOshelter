@@ -22,15 +22,13 @@ class ComposerAutoloaderInitec12ffc76e7e9fd2117533448ccaa5ee
             return self::$loader;
         }
 
-        require __DIR__ . '/platform_check.php';
-
         spl_autoload_register(array('ComposerAutoloaderInitec12ffc76e7e9fd2117533448ccaa5ee', 'loadClassLoader'), true, true);
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
         spl_autoload_unregister(array('ComposerAutoloaderInitec12ffc76e7e9fd2117533448ccaa5ee', 'loadClassLoader'));
 
         $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION') && (!function_exists('zend_loader_file_encoded') || !zend_loader_file_encoded());
         if ($useStaticLoader) {
-            require __DIR__ . '/autoload_static.php';
+            require_once __DIR__ . '/autoload_static.php';
 
             call_user_func(\Composer\Autoload\ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee::getInitializer($loader));
         } else {

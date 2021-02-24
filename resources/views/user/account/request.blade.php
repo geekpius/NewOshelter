@@ -28,21 +28,19 @@
                                         </div>
                                     </a>
                                 </div>
-                                @endif
                                 <div class="col-6 col-sm-3 col-lg-2">
                                     <a href="{{ route('payments') }}" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <div class="text-center"><strong>{{ Auth::user()->transactions->count() }}</strong> <br><small>Payments</small></div>
+                                                        <div class="text-center"><strong>{{ Auth::user()->userTransactions->count() }}</strong> <br><small>Payments</small></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
-                                @if (Auth::user()->account_type=='visitor')
                                 <div class="col-6 col-sm-3 col-lg-2">
                                     <a href="{{ route('visits') }}" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
@@ -72,7 +70,20 @@
                                 @endif
                                 @if (Auth::user()->account_type=='owner')
                                 <div class="col-6 col-sm-3 col-lg-2">
-                                    <a href="#" class="text-decoration-none text-gray">
+                                    <a href="{{ route('payments') }}" class="text-decoration-none text-gray">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="text-center"><strong>{{ Auth::user()->ownerTransactions->count() }}</strong> <br><small>Payments</small></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-6 col-sm-3 col-lg-2">
+                                    <a href="{{ route('wallet') }}" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <div class="row">
@@ -84,8 +95,6 @@
                                         </div>
                                     </a>
                                 </div>
-                                @endif
-                                @if (Auth::user()->account_type=='owner')
                                 <div class="col-6 col-sm-3 col-lg-2">
                                     <a href="{{ route('property') }}" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
@@ -99,8 +108,6 @@
                                         </div>
                                     </a>
                                 </div>
-                                @endif
-                                @if (Auth::user()->account_type=='owner')
                                 <div class="col-6 col-sm-3 col-lg-2">
                                     <div class="card card-bordered-pink">
                                         <div class="card-body">

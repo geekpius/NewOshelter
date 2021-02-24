@@ -61,6 +61,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
                             <input type="hidden" name="booking_id" value="{{ $booking->id }}" readonly>
                             <input type="hidden" name="type" value="{{ $booking->property->type }}" readonly>
+                            <input type="hidden" name="owner" value="{{ $booking->property->user_id }}" readonly>
                             <input type="hidden" name="currency" id="userCurrency" value="{{ $currency }}" readonly>
                             <input type="hidden" name="amount" value="{{ $totalPrice }}" readonly>
                             <input type="hidden" name="service_fee" value="{{ $serviceFee }}" readonly>
@@ -141,6 +142,7 @@
                         <form id="paymentForm" data-url="{{ route('payments.verify') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
                             <input type="hidden" name="booking_id" value="{{ $booking->id }}" readonly>
+                            <input type="hidden" name="owner" value="{{ $booking->property->user_id }}" readonly>
                             <input type="hidden" name="type" value="{{ $booking->property->type }}" readonly>
                             <input type="hidden" name="currency" id="userCurrency" value="{{ $currency }}" readonly>
                             <input type="hidden" name="amount" value="{{ $totalPrice }}" readonly>

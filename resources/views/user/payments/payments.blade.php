@@ -23,26 +23,34 @@
                                 @if (Auth::user()->account_type == 'owner')
                                 <table id="datatable" class="table table-striped small">
                                     <thead class="thead-light">
-                                    <tr>                                        
-                                        <th>Paid At</th>
-                                        <th>Property</th>
-                                        <th>Visitor</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
+                                        <tr>                                        
+                                            <th>Paid At</th>
+                                            <th>Property</th>
+                                            <th>Visitor</th>
+                                            <th>Amount</th>
+                                            <th>Description</th>
+                                        </tr>
                                     </thead>
 
                                     <tbody>
+                                        @foreach (Auth::user()->ownerTransactions as $trans)
                                         <tr>
-                                            <td>22-54-2021</td>
-                                            <td>This property</td>
-                                            {{-- @php $image = (empty($booking->property->user->image))? 'user.svg':'users/'.$booking->property->user->image; @endphp --}}
-                                            {{-- <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->property->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $booking->property->user->name }}</td> --}}
-                                            <td>Visitor</td>
-                                            <td>200.00 </td>
+                                            <td>{{ \Carbon\Carbon::parse($trans->created_at)->diffForHumans() }}</td>
+                                            <td>{{ $trans->bookingTransaction->booking->property->title }}</td>
+                                            @php $image = (empty($trans->user->image))? 'user.svg':'users/'.$trans->user->image; @endphp
+                                            <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $trans->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $trans->user->name }}</td>
+                                            <td>{{ $trans->currency }} {{ $trans->payableAmount() }}</td>
                                             <td>
-                                              Confirmed
+                                                @if ($trans->property_type == 'hostel')
+                                                    Payment for <a target="_blank" href="{{ route('single.property', $trans->bookingTransaction->hostelBooking->property->id) }}">{{ $trans->bookingTransaction->hostelBooking->property->title }}</a> booking
+                                                @elseif ($trans->property_type == 'extension_request')
+                                                    Payment for <a target="_blank" href="{{ route('single.property', $trans->extensionTransaction->property->id) }}">{{ $trans->extensionTransaction->property->title }}</a> extension date
+                                                @else
+                                                    Payment for <a target="_blank" href="{{ route('single.property', $trans->bookingTransaction->booking->property->id) }}">{{ $trans->bookingTransaction->booking->property->title }}</a> booking
+                                                @endif
                                             </td>
-                                        </tr><!--end tr-->                                                                                   
+                                        </tr><!--end tr-->   
+                                        @endforeach                                                                                
                                     </tbody>
                                 </table>   
                                 @else
@@ -53,21 +61,29 @@
                                         <th>Property</th>
                                         <th>Owner</th>
                                         <th>Amount</th>
-                                        <th>Status</th>
+                                        <th>Description</th>
+                                    </tr>
                                     </thead>
 
                                     <tbody>
+                                        @foreach (Auth::user()->userTransactions as $trans)
                                         <tr>
-                                            <td>22-54-2021</td>
-                                            <td>This property</td>
-                                            {{-- @php $image = (empty($booking->property->user->image))? 'user.svg':'users/'.$booking->property->user->image; @endphp --}}
-                                            {{-- <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->property->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $booking->property->user->name }}</td> --}}
-                                            <td>Owner</td>
-                                            <td>200.00 </td>
+                                            <td>{{ \Carbon\Carbon::parse($trans->created_at)->diffForHumans() }}</td>
+                                            <td>{{ $trans->bookingTransaction->booking->property->title }}</td>
+                                            @php $image = (empty($trans->owner->image))? 'user.svg':'users/'.$trans->owner->image; @endphp
+                                            <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $trans->owner->name }}" class="thumb-sm rounded-circle mr-2">{{ $trans->owner->name }}</td>
+                                            <td>{{ $trans->currency }} {{ $trans->payableAmount() }}</td>
                                             <td>
-                                              Pending payment
+                                                @if ($trans->property_type == 'hostel')
+                                                    Payment for <a target="_blank" href="{{ route('single.property', $trans->bookingTransaction->hostelBooking->property->id) }}">{{ $trans->bookingTransaction->hostelBooking->property->title }}</a> booking
+                                                @elseif ($trans->property_type == 'extension_request')
+                                                    Payment for <a target="_blank" href="{{ route('single.property', $trans->extensionTransaction->property->id) }}">{{ $trans->extensionTransaction->property->title }}</a> extension date
+                                                @else
+                                                    Payment for <a target="_blank" href="{{ route('single.property', $trans->bookingTransaction->booking->property->id) }}">{{ $trans->bookingTransaction->booking->property->title }}</a> booking
+                                                @endif
                                             </td>
-                                        </tr><!--end tr-->                                                                                   
+                                        </tr><!--end tr-->   
+                                        @endforeach                                                                                
                                     </tbody>
                                 </table>  
                                 @endif                   

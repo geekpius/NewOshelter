@@ -44,9 +44,9 @@ class UserExtensionRequest extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
     
-    public function transactions(){
-        return $this->hasMany(Transaction::class);
-    }
+    // public function transactions(){
+    //     return $this->hasMany(Transaction::class);
+    // }
 
 
     /************* Checking confirm ****************/
