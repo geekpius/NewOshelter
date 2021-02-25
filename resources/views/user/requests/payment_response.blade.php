@@ -28,6 +28,7 @@
                                 <span class="font-14 float-right">{{ $transaction->currency }} {{ number_format($transaction->payableAmount(),2) }}</span>
                             </div>
                         </div>
+                        <p>Congratulation, you have successfully made payment for your booked property. Check your payment status <a href="{{ route('payments') }}">here</a></p>
                     </div><!--end card-body--> 
                 </div>
             </div>

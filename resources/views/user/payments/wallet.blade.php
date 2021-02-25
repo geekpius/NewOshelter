@@ -50,7 +50,9 @@
                                     <td>{{ $wallet->getType() }}</td>
                                     <td class="{{ ($wallet->is_cash_out)? 'text-success':'text-primary' }}">{{ $wallet->getStatus() }}</td>  
                                     <td>
-                                        <a href="#" class="text-decoration-none text-primary btn-withdraw"><i class="fa fa-money-bill"></i></a>
+                                        @if(!$wallet->is_cash_out)
+                                            <a href="#" class="text-decoration-none text-primary btn-withdraw"><i class="fa fa-money-bill"></i></a>
+                                        @endif
                                     </td>  
                                 @endforeach                                                                                
                             </tbody>

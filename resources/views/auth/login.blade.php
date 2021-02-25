@@ -63,7 +63,7 @@
                     </div><!--end /div-->
                     
                     <div class="m-3 text-center text-muted">
-                        <p class="">Don't have an account ?  <a href="{{ route('register') }}" class="text-danger ml-2">Free Sign Up</a></p>
+                        <p class="">Don't have an account?  <a href="{{ route('register') }}" class="text-danger ml-2">Free Sign Up</a></p>
                     </div>
                 </div><!--end card-body-->
             </div><!--end card-->

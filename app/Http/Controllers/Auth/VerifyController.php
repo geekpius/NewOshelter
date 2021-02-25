@@ -55,6 +55,18 @@ class VerifyController extends Controller
         return redirect()->back();
     }
 
+
+    private function generateEmailVerificationCode(int $length=8) : string
+    {
+        (string) $characters = '0123456789';
+        (int) $charactersLength = strlen($characters);
+        (string) $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+    
     public function resendCode(Request $request, User $user)
     {
         $user->email_verification_token = $this->generateEmailVerificationCode();
@@ -66,19 +78,8 @@ class VerifyController extends Controller
             "expire" => $user->email_verification_expired_at,
         );
         Mail::to($user->email)->send(new EmailSender($data, "Verify Email", "emails.verify_email"));
-        session()->flash('success', 'Verification code is sent to you email');
+        session()->flash('success', 'Verification code is sent to your mail');
         return redirect()->back();
-    }
-
-    public function generateEmailVerificationCode(int $length=8) : string
-    {
-        (string) $characters = '0123456789';
-        (int) $charactersLength = strlen($characters);
-        (string) $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
     }
 
      

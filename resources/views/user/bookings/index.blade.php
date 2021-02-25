@@ -599,7 +599,7 @@
                                                     @endif
                                                     <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}" class="mt-2">
                                                         @csrf
-                                                        <input type="hidden" name="book_status" value="rebook" readonly>
+                                                        <input type="hidden" name="book_status" value="{{ ($booking->user_id == Auth::user()->id) ? 'rebook':'freshbook' }}" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         <input type="hidden" name="type" value="{{ $property->type }}" readonly>
                                                         <input type="hidden" name="type_status" value="{{ $property->type_status }}" readonly>
@@ -611,7 +611,7 @@
                                                         @if ($property->type_status === 'short_stay')
                                                         <input type="hidden" name="infant" value="{{ $bookingItems['infant'] }}" readonly>
                                                         @endif
-                                                        <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">RE-APPLY BOOKING REQUEST</button>
+                                                        <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">{{ ($booking->user_id == Auth::user()->id) ? 'RE-APPLY BOOKING REQUEST':'CONFIRM BOOKING REQUEST' }}</button>
                                                     </form>
                                                 @elseif ($booking->isDoneAttribute() && !$booking->isCheckoutAttribute())
                                                     <span class="text-primary">

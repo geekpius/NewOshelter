@@ -13,17 +13,17 @@
                         </div><!--end auth-logo-box-->
                         
                         <div class="text-center auth-logo-text">
-                            <h4 class="mt-0 mb-3 mt-5">Sign Up For Account</h4>
+                            <h4 class="mt-0 mb-3 mt-5">Sign Up For Account As</h4>
                         </div> <!--end auth-logo-text-->  
 
                         <ul class="nav nav-pills mt-3 mb-2">
                             <li class="nav-item">
-                              <a class="nav-link active" id="openOwner" href="#">Become property owner</a>
+                              <a class="nav-link active" id="openOwner" href="#">Property owner</a>
                             </li>
                             <li class="nav-item">
-                              <a class="nav-link" id="openVisitor" href="#">Become a visitor</a>
+                              <a class="nav-link" id="openVisitor" href="#">A visitor</a>
                             </li>
-                          </ul>
+                        </ul>
 
                         @include('includes.alerts')
                         
@@ -163,7 +163,7 @@
                     </div><!--end /div-->
                     
                     <div class="m-3 text-center text-muted">
-                        <p class="">Already have an account ?  <a href="{{ route('login') }}" class="text-primary ml-2">Sign In</a></p>
+                        <p class="">Already have an account?  <a href="{{ route('login') }}" class="text-primary ml-2">Sign In</a></p>
                     </div>
                 </div><!--end card-body-->
             </div><!--end card-->

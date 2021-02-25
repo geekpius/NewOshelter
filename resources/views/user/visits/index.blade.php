@@ -39,7 +39,7 @@
                             <div class="col-sm-6 col-md-6 col-lg-4">
                                 <div class="card card-bordered-blue">
                                     <div class="card-body">
-                                        <a href="{{ route('visits.hostel.upcoming') }}" class="text-decoration-none text-light-dark">
+                                        <a href="#" class="text-decoration-none text-light-dark">
                                             <p class="font-18 font-weight-bold">Documents <small class="text-danger">({{ Auth::user()->userHostelVisits->count() }})</small>></p>
                                         </a>
                                         <p class="font-13 account-details">Owners agreement documents.</p>
@@ -67,7 +67,7 @@
                     </div>
                     <div class="col-sm-12"><hr></div>
                     <div class="col-sm-12">
-                        <a href="{{ route('visits.hostel.upcoming') }}" class="text-decoration-none text-light-dark">
+                        <a href="#" class="text-decoration-none text-light-dark">
                             <p class="font-16 font-weight-bold"><i class="fa fa-file"></i> Documents</p>
                         </a>
                     </div>

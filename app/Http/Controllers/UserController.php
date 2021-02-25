@@ -84,12 +84,6 @@ class UserController extends Controller
     }
 
     // booking requests
-    public function requests()
-    {
-        $data['page_title'] = 'Booking requests';
-        $data['bookings'] = Booking::whereUser_id(Auth::user()->id)->get();
-        return view('admin.requests.index', $data);
-    }
 
     public function requestDetail(Booking $booking)
     {
@@ -109,10 +103,6 @@ class UserController extends Controller
             if($booking->status == 1){
                 $booking->status = 2;
                 $booking->update();
-                //reject other pending bookings associated with this property
-                if(Booking::whereProperty_id($booking->property_id)->whereStatus(1)->count()>0){
-                    Booking::whereProperty_id($booking->property_id)->whereStatus(1)->update(['status'=>0]);
-                }
                 $message = 'success';
                 $data = array(
                     "title" => "BOOKING CONFIRMATION",
@@ -177,12 +167,6 @@ class UserController extends Controller
     
 
     // hostel booking requests
-    public function hostelRequests()
-    {
-        $data['page_title'] = 'Hostel booking requests';
-        $data['bookings'] = HostelBooking::whereUser_id(Auth::user()->id)->get();
-        return view('user.requests.hostel_bookings', $data);
-    }
 
     public function hostelRequestDetail(HostelBooking $hostelBooking)
     {
@@ -202,15 +186,6 @@ class UserController extends Controller
             if($hostelBooking->status == 1){
                 $hostelBooking->status = 2;
                 $hostelBooking->update();
-                //reject other pending bookings associated with this hostel room
-                (int) $personPerRoom = $hostelBooking->hostelBlockRoomNumber->person_per_room;
-                (int) $occupant = $hostelBooking->hostelBlockRoomNumber->occupant;
-                (int) $spaceLeft = $personPerRoom - $occupant;
-                if($spaceLeft <= 1){
-                    if(HostelBooking::whereProperty_id($hostelBooking->property_id)->where('hostel_block_room_number_id',$hostelBooking->hostel_block_room_number_id)->whereStatus(1)->count()>0){
-                        HostelBooking::whereProperty_id($hostelBooking->property_id)->where('hostel_block_room_number_id',$hostelBooking->hostel_block_room_number_id)->whereStatus(1)->update(['status'=>0]);
-                    }
-                }
                 $message = 'success';
                 $data = array(
                     "title" => "BOOKING CONFIRMATION",
