@@ -603,6 +603,11 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
 }
 
 /* MAPS */
+.gmaps1, .gmaps-panaroma {
+  height: 500px;
+  background: #f1f5fa;
+  border-radius: 3px;
+}
 
 .gmaps, .gmaps-panaroma {
   height: 300px;
@@ -801,6 +806,12 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
 
   .total-properties {
     display: inline;
+  }
+
+  .gmaps1, .gmaps-panaroma {
+    height: 300px;
+    background: #f1f5fa;
+    border-radius: 3px;
   }
 
 }

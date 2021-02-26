@@ -61,14 +61,20 @@
     </div>
     <div class="form-group col-sm-4">
         <div class="checkbox checkbox-primary">
-            <input id="checkboxa10" type="checkbox" {{ ($property->isAmenityChecked('Learning Light'))? 'checked':'' }} value="Learning Light" name="amenities[]">
-            <label for="checkboxa10">Learning Light</label>
+            <input id="checkboxa10" type="checkbox" {{ ($property->isAmenityChecked('Balcony'))? 'checked':'' }} value="Balcony" name="amenities[]">
+            <label for="checkboxa10">Balcony</label>
         </div>
     </div>
     <div class="form-group col-sm-4">
         <div class="checkbox checkbox-primary">
             <input id="checkboxa11" type="checkbox" {{ ($property->isAmenityChecked('Wardrobe'))? 'checked':'' }} value="Wardrobe" name="amenities[]">
             <label for="checkboxa11">Wardrobe</label>
+        </div>
+    </div>
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
+            <input id="checkboxa12" type="checkbox" {{ ($property->isAmenityChecked('Water Reservoir'))? 'checked':'' }} value="Water Reservoir" name="amenities[]">
+            <label for="checkboxa12">Water Reservoir</label>
         </div>
     </div>
 

@@ -3,18 +3,18 @@ var openOwnerBtn = document.getElementById('openOwner');
 function clickOpenVisitorForm(e){
     e.preventDefault();
     $("#formSignupOwner").hide("slow");
-    openOwnerBtn.classList.remove("active");
+    openOwnerBtn.classList.remove("btn","btn-primary","btn-sm");
     $("#formSignupVisitor").show("slow");
-    openVisitorBtn.classList.add("active");
+    openVisitorBtn.classList.add("btn","btn-primary","btn-sm");
 }
 
 
 function clickOpenOwnerForm(e){
     e.preventDefault();
     $("#formSignupVisitor").hide("slow");
-    openVisitorBtn.classList.remove("active");
+    openVisitorBtn.classList.remove("btn","btn-primary","btn-sm");
     $("#formSignupOwner").show("slow");
-    openOwnerBtn.classList.add("active");
+    openOwnerBtn.classList.add("btn","btn-primary","btn-sm");
 }
 
 $(".showPassword").on("click", function(){

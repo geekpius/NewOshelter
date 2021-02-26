@@ -25,7 +25,7 @@
                                 <br>
                                 <hr>
                                 <span class="font-14">{{ $transaction->reference_id }}</span>
-                                <span class="font-14 float-right">{{ $transaction->currency }} {{ number_format($transaction->payableAmount(),2) }}</span>
+                                <span class="font-14 float-right">{{ $transaction->currency }} {{ $transaction->payableAmount() }}</span>
                             </div>
                         </div>
                         <p>Congratulation, you have successfully made payment for your booked property. Check your payment status <a href="{{ route('payments') }}">here</a></p>

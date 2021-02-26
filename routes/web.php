@@ -152,7 +152,6 @@ Route::group(['middleware' => ['verify-email']], function() {
                 Route::get('/block-rooms/{property}/show', 'PropertyController@showBlockRoom')->name('property.blockroom.show');
                 Route::get('/block-rooms/{hostelBlockRoom}/delete', 'PropertyController@deleteBlockRoom')->name('property.blockroom.delete');
 
-                Route::post('/get/block-room-type', 'PropertyController@getRoomType')->name('property.get.roomtype');
                 Route::post('/add/room-amenities', 'PropertyController@addBlockRoomAmenities')->name('property.room.amenities.submit');
                 Route::get('/room-amenities/{property}/show', 'PropertyController@showBlockRoomAmenities')->name('property.room.amenities.show');
                 Route::get('/room-amenities/{hostelRoomAmenity}/delete', 'PropertyController@deleteBlockRoomAmenities')->name('property.room.amenities.delete');
@@ -195,19 +194,17 @@ Route::group(['middleware' => ['verify-email']], function() {
         });
 
         /*------- Booking a Properties ------- */
+        Route::post('/properties/get/block-room-type', 'PropertyController@getRoomType')->name('property.get.roomtype');
         Route::post('/properties/get/block-room-number', 'BookingController@getRoomTypeNumber')->name('property.get.roomnumber');
         Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
         Route::post('/properties/bookings', 'BookingController@book')->name('property.bookings.submit');
-        
-        Route::group(['middleware' => ['visitor']], function() {
-            Route::get('/{property}/{checkin}/{checkout}/{guest}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
-            Route::get('/{property}/bookings/exit', 'BookingController@exitBookingMode')->name('property.bookings.exit');
-            Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
-            Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
-            Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
-            Route::post('/properties/bookings/request', 'BookingController@bookingRequest')->name('property.bookings.request');
-            Route::get('/account/requests/bookings', 'BookingController@visitorBookingList')->name('property.visitor.bookings');
-        });
+        Route::get('/properties/{property}/{checkin}/{checkout}/{guest}/{filter_id}/bookings', 'BookingController@index')->name('property.bookings.index');
+        Route::get('/properties/{property}/bookings/exit', 'BookingController@exitBookingMode')->name('property.bookings.exit');
+        Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
+        Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
+        Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
+        Route::post('/properties/bookings/request', 'BookingController@bookingRequest')->name('property.bookings.request');
+        Route::get('/account/requests/bookings', 'BookingController@visitorBookingList')->name('property.visitor.bookings');
 
         /*------- Visitors Visit ------- */
         Route::group(['middleware' => ['visitor']], function() {

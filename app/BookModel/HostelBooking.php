@@ -7,6 +7,7 @@ use App\BookModel\HostelBooking;
 use App\PropertyModel\Property;
 use App\PropertyModel\HostelBlockRoomNumber;
 use App\User;
+use App\PaymentModel\BookingTransaction;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -69,6 +70,10 @@ class HostelBooking extends Model
 
     public function hostelBlockRoomNumber(){
         return $this->belongsTo(HostelBlockRoomNumber::class, 'hostel_block_room_number_id');
+    }
+
+    public function bookingTransaction(){
+        return $this->hasMany(BookingTransaction::class);
     }
 
 }

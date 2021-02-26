@@ -25,7 +25,7 @@ class Transaction extends Model
     ];
 
      /*********** METHODS ATTRIBUTES *************/
-    public function payableAmount() 
+    public function payableAmount(): string
     {
         return number_format(($this->amount + $this->service_fee)-$this->discount_fee,2);
     }

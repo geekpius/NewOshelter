@@ -62,3 +62,12 @@ function payWithPaystack(e) {
   });
   handler.openIframe();
 }
+
+
+
+let locationBtn = document.getElementById("viewLocation");
+locationBtn.addEventListener("click", openModal);
+function openModal(e){
+  e.preventDefault();
+ $('#locationModal').modal('show');
+}

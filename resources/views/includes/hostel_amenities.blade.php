@@ -71,6 +71,12 @@
             <label for="checkboxa11">Wardrobe</label>
         </div>
     </div>
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
+            <input id="checkboxa12" type="checkbox" value="Balcony" name="amenities[]">
+            <label for="checkboxa12">Balcony</label>
+        </div>
+    </div>
 
 
     <span class="text-danger small" id="selectMsg" style="display:none" role="alert">Select at least one amenity</span>

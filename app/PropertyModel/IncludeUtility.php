@@ -18,5 +18,10 @@ class IncludeUtility extends Model
         return $this->belongsTo(Property::class, 'property_id');
     }
 
+    public function getName(): string
+    {
+        return ucfirst($this->name);
+    }
+
 
 }

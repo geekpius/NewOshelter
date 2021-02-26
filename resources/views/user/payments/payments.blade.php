@@ -36,7 +36,15 @@
                                         @foreach (Auth::user()->ownerTransactions as $trans)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($trans->created_at)->diffForHumans() }}</td>
-                                            <td>{{ $trans->bookingTransaction->booking->property->title }}</td>
+                                            <td>
+                                                @if ($trans->property_type == 'hostel')
+                                                    {{ $trans->bookingTransaction->hostelBooking->property->title }}
+                                                @elseif ($trans->property_type == 'extension_request')
+                                                    {{ $trans->extensionTransaction->property->title }}
+                                                @else
+                                                    {{ $trans->bookingTransaction->booking->property->title }}
+                                                @endif    
+                                            </td>
                                             @php $image = (empty($trans->user->image))? 'user.svg':'users/'.$trans->user->image; @endphp
                                             <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $trans->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $trans->user->name }}</td>
                                             <td>{{ $trans->currency }} {{ $trans->payableAmount() }}</td>
@@ -69,7 +77,15 @@
                                         @foreach (Auth::user()->userTransactions as $trans)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($trans->created_at)->diffForHumans() }}</td>
-                                            <td>{{ $trans->bookingTransaction->booking->property->title }}</td>
+                                            <td>
+                                                @if ($trans->property_type == 'hostel')
+                                                    {{ $trans->bookingTransaction->hostelBooking->property->title }}
+                                                @elseif ($trans->property_type == 'extension_request')
+                                                    {{ $trans->extensionTransaction->property->title }}
+                                                @else
+                                                    {{ $trans->bookingTransaction->booking->property->title }}
+                                                @endif
+                                            </td>
                                             @php $image = (empty($trans->owner->image))? 'user.svg':'users/'.$trans->owner->image; @endphp
                                             <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $trans->owner->name }}" class="thumb-sm rounded-circle mr-2">{{ $trans->owner->name }}</td>
                                             <td>{{ $trans->currency }} {{ $trans->payableAmount() }}</td>

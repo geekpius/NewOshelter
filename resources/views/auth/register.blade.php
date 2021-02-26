@@ -16,14 +16,16 @@
                             <h4 class="mt-0 mb-3 mt-5">Sign Up For Account As</h4>
                         </div> <!--end auth-logo-text-->  
 
-                        <ul class="nav nav-pills mt-3 mb-2">
-                            <li class="nav-item">
-                              <a class="nav-link active" id="openOwner" href="#">Property owner</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" id="openVisitor" href="#">A visitor</a>
-                            </li>
-                        </ul>
+                        <div class="row mt-3 mb-2">
+                            <div class="col-sm-1"></div>
+                            <div class="col-sm-5 text-center">
+                                <a class="btn btn-primary btn-sm nav-link" id="openOwner" href="#">Property owner</a>
+                            </div>
+                            <div class="col-sm-5 text-center">
+                                <a class="nav-link" id="openVisitor" href="#">A visitor</a>
+                            </div>
+                            <div class="col-sm-1"></div>
+                        </div>
 
                         @include('includes.alerts')
                         

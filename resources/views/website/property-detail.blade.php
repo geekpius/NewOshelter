@@ -191,24 +191,41 @@
                     </p>
                 </div>
 
+                <!-- Amenities -->
                 @if ($property->type!='hostel')
                     <hr>
                     <div class="pxp-single-property-section">
                         <h3>Amenities</h3>
-                        <div class="row mt-3 mt-md-4">
-                            <!-- Amenities -->
+                        <div class="row mt-md-4">
                             @if (count($property->propertyAmenities))
                                 @foreach ($property->propertyAmenities as $amen)
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="pxp-sp-amenities-item"><i class="fa fa-check-square text-success"></i> {{ $amen->name }}</div>
+                                <div class="col-sm-6 col-lg-4 mb-2">
+                                    <div class=""><i class="fa fa-check-square text-success"></i> {{ $amen->name }}</div>
                                 </div>                 
                                 @endforeach
                             @else
-                                <p><i class="fa fa-square font-12"></i> No amenities reported on property.</p>
+                                <p class="text-danger"><i class="fa fa-square font-12"></i> No amenities reported on property.</p>
                             @endif
                         </div>
                     </div>
                 @endif
+
+                <!-- Shared Amenities -->
+                <hr>
+                <div class="pxp-single-property-section">
+                    <h3>Shared Amenities</h3>
+                    <div class="row mt-md-4">
+                        @if (count($property->propertySharedAmenities))
+                            @foreach ($property->propertySharedAmenities as $amen)
+                            <div class="col-sm-6 col-lg-4 mb-2">
+                                <div class=""><i class="fa fa-check-square text-success"></i> {{ $amen->name }}</div>
+                            </div>                 
+                            @endforeach
+                        @else
+                            <p class="text-danger ml-3"><i class="fa fa-dot-circle font-12"></i> No shared amenities reported on property.</p>
+                        @endif
+                    </div>
+                </div>
                 
                 <hr>
                 {{-- Availability --}}
@@ -477,14 +494,14 @@
                     <div id="pxp-sp-map" class="mt-3" data-image="{{ asset('assets/images/svg/home.png') }}"></div>
                     
                     <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  
-                        Exact location is provided after booking
+                        Exact location is provided after booking is confirmed
                     </p>   
                 </div>
                 
                 <hr>
                 {{-- Cancellation --}}
                 <div class="pxp-single-property-section">
-                    <h3>Cancellation {{ $property->type_status=='rent'? 'and Eviction':'' }}</h3>
+                    <h3>Cancellation and Eviction </h3>
                     <p>
                         <i class="fa fa-minus-circle font-12"></i> 
                         Cancellation after 48 hours, you will get full refund minus service fee.
@@ -496,18 +513,17 @@
                         </p>
                     @elseif($property->type_status=='short_stay')   
                         <p>
-                            <i class="fa fa-minus-circle" style="font-size: 9px"></i> 
+                            <i class="fa fa-minus-circle font-12"></i> 
                             Eviction notice will be sent to visitor 3 days and 1 day before time.
                         </p>
                     @endif                       
                 </div>
 
-                @if ($property->type_status=='rent')
                 <hr>
                 {{-- property rules --}}
                 <div class="pxp-single-property-section">
                     <h3>Property Rules</h3>
-                    <div class="row mt-3 mt-md-4">
+                    <div class="row mt-md-4">
                         <!-- Property Rules -->
                         @if (count($property->propertyRules))
                             @foreach ($property->propertyRules as $rule)
@@ -534,7 +550,6 @@
                         @endif
                     </div>
                 </div>
-                @endif
             </div>
             
             {{-- Booking form --}}

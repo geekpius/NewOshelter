@@ -246,7 +246,7 @@
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
                                     <div class="col-sm-12 mt-3 mb-5">
-                                        @php $booking = Auth::user()->userHostelBookings->where('property_id',$property->id)->where('hostel_block_room_number_id', $room_number->id)->where('room_number',$room_number->room_no)->sortByDesc('id')->first(); @endphp
+                                        @php $booking = $property->userHostelBookings->where('property_id',$property->id)->where('hostel_block_room_number_id', $room_number->id)->where('room_number',$room_number->room_no)->sortByDesc('id')->first(); @endphp
                                         @if (empty($booking) || ($booking->isDoneAttribute() && $booking->isCheckoutAttribute()))
                                         <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
                                             @csrf
@@ -263,14 +263,28 @@
                                         </form>
                                         @else
                                             @if ($booking->isPendingAttribute())
-                                                <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> WAITING FOR CONFIRMATION...</span>
+                                                <span class="text-primary">
+                                                    <i class="fa fa-spin fa-spinner"></i> 
+                                                    {{ ($booking->user_id == Auth::user()->id) ? 'YOUR BOOKING IS WAITING FOR CONFIRMATION...':'ALREADY BOOKED AND WAITING FOR CONFIRMATION...' }}
+                                                </span>
+                                                <br>
+                                                <div class="mt-3">
+                                                    <a href="{{ route('property.bookings.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from booking mode </a>
+                                                </div>                                                
                                             @elseif ($booking->isConfirmAttribute())
-                                                <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> WAITING FOR PAYMENT...</span>
+                                                <span class="text-primary">
+                                                    <i class="fa fa-spin fa-spinner"></i> 
+                                                    {{ ($booking->user_id == Auth::user()->id) ? 'YOUR BOOKING IS WAITING FOR PAYMENT...':'ALREADY CONFIRMED AND WAITING FOR PAYMENT...' }}
+                                                </span>
+                                                <br>
+                                                <div class="mt-3">
+                                                    <a href="{{ route('property.bookings.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from booking mode </a>
+                                                </div>
                                             @elseif ($booking->isRejectAttribute())
                                                 <span class="text-danger">YOUR REQUEST WAS CANCELLED BY OWNER</span>
                                                 <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}" class="mt-2">
                                                     @csrf
-                                                    <input type="hidden" name="book_status" value="rebook" readonly>
+                                                    <input type="hidden" name="book_status" value="{{ ($booking->user_id == Auth::user()->id) ? 'rebook':'freshbook' }}" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                     <input type="hidden" name="type" value="{{ $property->type }}" readonly>
                                                     <input type="hidden" name="type_status" value="rent" readonly>
@@ -279,10 +293,17 @@
                                                     <input type="hidden" name="room_number" value="{{ $room_number->room_no }}" readonly>
                                                     <input type="hidden" name="checkin" value="{{ $bookingItems['check_in'] }}" readonly>
                                                     <input type="hidden" name="checkout" value="{{ $bookingItems['check_out'] }}" readonly>
-                                                    <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">RE-APPLY BOOKING REQUEST</button>
+                                                    <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">{{ ($booking->user_id == Auth::user()->id) ? 'RE-APPLY BOOKING REQUEST':'CONFIRM BOOKING REQUEST' }}</button>
                                                 </form>
                                             @elseif ($booking->isDoneAttribute() && !$booking->isCheckoutAttribute())
-                                                <span class="text-success"><i class="fa fa-home"></i> YOU ARE CURRENTLY LIVING IN THE PROPERTY</span>
+                                                <span class="text-primary">
+                                                    <i class="fa fa-spin fa-spinner"></i> 
+                                                    {{ ($booking->user_id == Auth::user()->id) ? 'YOU ARE CURRENTLY LIVING IN THE PROPERTY':'SOMEONE IS CURRENTLY LIVING IN THE PROPERTY' }}
+                                                </span>
+                                                <br>
+                                                <div class="mt-3">
+                                                    <a href="{{ route('property.bookings.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from booking mode </a>
+                                                </div>
                                             @endif
                                         @endif
                                         
@@ -317,6 +338,19 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <p class="font-13"><i class="fa fa-bed"></i> &nbsp;&nbsp; Choosen Room No: {{ $room_number->room_no }}</p>
+                                        </div>
+                                        <div class="col-sm-12"><hr></div>
+                                        <div class="col-sm-12">
+                                        @if (count($property->includeUtilities))
+                                            <h6 class="text-primary">Inclusive Utilities</h6>
+                                            <div class="row">
+                                                @foreach ($property->includeUtilities as $utility)
+                                                    <div class="col-sm-4 font-13">{{ $utility->getName() }}</div>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <div class="font-13">No inclusive utilities</div>
+                                        @endif
                                         </div>
                                         <div class="col-sm-12"><hr></div>
                                         <div class="col-sm-12">
@@ -650,10 +684,23 @@
                                                 {{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }}
                                             </p>
                                         </div>
-                                        <div class="col-sm-12"><hr></div>
+                                            <div class="col-sm-12"><hr></div>
                                         @if ($property->type_status=='rent')
+                                                <div class="col-sm-12">
+                                                    <h6><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children'])) }}</h6>
+                                                </div>
+                                                <div class="col-sm-12"><hr></div>
                                             <div class="col-sm-12">
-                                                <h6><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children'])) }}</h6>
+                                            @if (count($property->includeUtilities))
+                                                <h6 class="text-primary">Inclusive Utilities</h6>
+                                                <div class="row">
+                                                    @foreach ($property->includeUtilities as $utility)
+                                                        <div class="col-sm-4 font-13">{{ $utility->getName() }}</div>
+                                                    @endforeach
+                                                </div>
+                                            @else
+                                                <div class="font-13">No inclusive utilities</div>
+                                            @endif
                                             </div>
                                             <div class="col-sm-12"><hr></div>
 

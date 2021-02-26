@@ -5,6 +5,7 @@ namespace App\BookModel;
 use Illuminate\Database\Eloquent\Model;
 use App\BookModel\Booking;
 use App\PropertyModel\Property;
+use App\PaymentModel\BookingTransaction;
 use App\User;
 use Illuminate\Support\Str;
 
@@ -68,6 +69,10 @@ class Booking extends Model
 
     public function property(){
         return $this->belongsTo(Property::class, 'property_id');
+    }
+
+    public function bookingTransaction(){
+        return $this->hasMany(BookingTransaction::class);
     }
 
 
