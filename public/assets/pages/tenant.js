@@ -1,2 +1,0 @@
-// tenant table
-$('#tenantDatatable').DataTable();

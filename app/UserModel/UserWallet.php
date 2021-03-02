@@ -28,10 +28,12 @@ class UserWallet extends Model
 
     public function getStatus(): string
     {
-        if($this->is_cash_out){
-            return "Cashed Out";
-        }else{
+        if($this->is_cash_out==0){
             return "Cashed In";
+        }elseif($this->is_cash_out==1){
+            return "Pending Approval";
+        }elseif($this->is_cash_out==2){
+            return "Cashed Out";
         }
     }
 

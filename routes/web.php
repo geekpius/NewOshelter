@@ -240,6 +240,7 @@ Route::group(['middleware' => ['verify-email']], function() {
         /*------- Wallet and Payments ------- */
         Route::group(['middleware' => ['owner']], function() {
             Route::get('/account/requests/wallet', 'UserWalletController@index')->name('wallet');
+            Route::post('/account/requests/wallet/withdraw', 'UserWalletController@withdrawWithMobile')->name('wallet.withdraw');
         });
     });
 });
