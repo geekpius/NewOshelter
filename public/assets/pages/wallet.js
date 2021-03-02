@@ -68,6 +68,7 @@ $("#formCashOut input[name='phone_number'], #formCashOut input[name='account_num
 
 $(".btnMomoRequest").on("click", function(e){
     e.preventDefault();
+    var $this = $(this);
     var valid = true;
     $('#formCashOut input, #formCashOut select').each(function() {
         var $this = $(this);
@@ -80,6 +81,7 @@ $(".btnMomoRequest").on("click", function(e){
 
     if(valid){
         let data = $("#formCashOut").serialize();
+        $this.attr('disabled', true);
         $.ajax({
             url: $("#formCashOut").attr('action'),
             type: "POST",
@@ -99,10 +101,12 @@ $(".btnMomoRequest").on("click", function(e){
                     });
                 }else{
                     swal('Warning', resp, 'warning');
+                    $this.attr('disabled', false);
                 }
             },
             error: function(resp){
                 console.log("Something went wrong with request");
+                $this.attr('disabled', false);
             }
         });
     }
@@ -111,6 +115,7 @@ $(".btnMomoRequest").on("click", function(e){
 
 $(".btnBankRequest").on("click", function(e){
     e.preventDefault();
+    var $this = $(this);
     var valid = true;
     $('#formCashOut input, #formCashOut select').each(function() {
         var $this = $(this);
@@ -123,6 +128,7 @@ $(".btnBankRequest").on("click", function(e){
 
     if(valid){
         let data = $("#formCashOut").serialize();
+        $this.attr('disabled', true);
         $.ajax({
             url: $("#formCashOut").attr('action'),
             type: "POST",
@@ -142,10 +148,12 @@ $(".btnBankRequest").on("click", function(e){
                     });
                 }else{
                     swal('Warning', resp, 'warning');
+                    $this.attr('disabled', false);
                 }
             },
             error: function(resp){
                 console.log("Something went wrong with request");
+                $this.attr('disabled', false);
             }
         });
     }
