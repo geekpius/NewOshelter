@@ -13,7 +13,7 @@ class Withdraw extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'wallet_id',
+        'user_wallet_id',
         'reference_id', 
         'amount', 
         'currency', 
@@ -23,7 +23,7 @@ class Withdraw extends Model
 
     /************* RELATIONSHIPS **************/ 
     public function wallet(){
-        return $this->belongsTo(UserWallet::class, 'wallet_id');
+        return $this->belongsTo(UserWallet::class, 'user_wallet_id');
     }
 
     public function mobileWithdraw(){

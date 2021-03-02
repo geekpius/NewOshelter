@@ -4,6 +4,7 @@ namespace App\UserModel;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
+use App\PaymentModel\Withdraw;
 
 class UserWallet extends Model
 {
@@ -45,6 +46,10 @@ class UserWallet extends Model
     /************* RELATIONSHIPS **************/ 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function withdraw(){
+        return $this->hasOne(Withdraw::class);
     }
 
 

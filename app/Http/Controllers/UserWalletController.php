@@ -48,7 +48,7 @@ class UserWalletController extends Controller
                 try{
                     DB::beginTransaction();
                     $withdraw = new Withdraw;
-                    $withdraw->wallet_id = $request->wallet_id;
+                    $withdraw->user_wallet_id = $request->wallet_id;
                     $withdraw->reference_id = "VBW".Carbon::parse(now())->format('dmYHis');
                     $withdraw->amount = $request->balance;
                     $withdraw->currency = $request->currency;
@@ -74,7 +74,7 @@ class UserWalletController extends Controller
                 try{
                     DB::beginTransaction();
                     $withdraw = new Withdraw;
-                    $withdraw->wallet_id = $request->wallet_id;
+                    $withdraw->user_wallet_id = $request->wallet_id;
                     $withdraw->reference_id = "VBW".Carbon::parse(now())->format('dmYHis');
                     $withdraw->amount = $request->balance;
                     $withdraw->currency = $request->currency;

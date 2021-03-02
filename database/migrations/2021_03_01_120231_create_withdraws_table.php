@@ -15,13 +15,13 @@ class CreateWithdrawsTable extends Migration
     {
         Schema::create('withdraws', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('wallet_id')->unsigned()->index();
+            $table->integer('user_wallet_id')->unsigned()->index();
             $table->string('reference_id');
             $table->double('amount');
             $table->string('currency');
             $table->string('channel');
             $table->timestamps();
-            $table->foreign('wallet_id')->references('id')->on('user_wallets')->onDelete('cascade');
+            $table->foreign('user_wallet_id')->references('id')->on('user_wallets')->onDelete('cascade');
         });
     }
 
