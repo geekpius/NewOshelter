@@ -67,8 +67,7 @@ $(".btnHeart").on("click", function(e){
         data: data,
         statusCode: {
             401: function() {
-                // alert("Login to save favourite.");
-                swal("Login Required","Login to save favourite","warning");
+                window.location.href = "/login";
             }
         },
         success: function (resp) {

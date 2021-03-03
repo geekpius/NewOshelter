@@ -73,11 +73,13 @@
                             </div>
                         @endif
                         
-                        @auth
-                        <div class="pxp-results-card-1-save btnHeart" data-id="{{ $property->id }}"><span class="fa fa-heart {{ (Auth::user()->userSavedProperties()->whereProperty_id($property->id)->count()>0)? 'text-pink':'text-primary' }} heart-hover" style="cursor:pointer"></span></div>
-                        @else
-                        <div class="pxp-results-card-1-save btnHeart" data-id="{{ $property->id }}"><span class="fa fa-heart text-primary heart-hover" style="cursor:pointer"></span></div>
-                        @endauth
+                        <div class="pxp-results-card-1-save btnHeart" data-id="{{ $property->id }}" data-url="{{ route('saved.submit') }}">
+                            @auth
+                            <span class="fa fa-heart {{ (Auth::user()->userSavedProperties()->whereProperty_id($property->id)->count()>0)? 'text-pink':'text-primary' }} heart-hover"></span>
+                            @else
+                            <span class="fa fa-heart text-primary heart-hover"></span>
+                            @endauth
+                        </div>
                     </a>
                 </div>
                 @endforeach

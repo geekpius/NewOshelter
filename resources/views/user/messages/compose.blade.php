@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="">
-                        <img src="{{ (empty($host->image))? asset('assets/images/user.jpg'):asset('assets/images/users/'.$host->image) }}" alt="{{ current(explode(' ',$host->name)) }}" class="rounded-circle thumb-md" />
+                        <img src="{{ (empty($host->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$host->image) }}" alt="{{ current(explode(' ',$host->name)) }}" class="rounded-circle thumb-md" />
                         <p class="mt-lg-2">{{ $host->name }}</p>
                     </div>
                     <form id="formCompose">
