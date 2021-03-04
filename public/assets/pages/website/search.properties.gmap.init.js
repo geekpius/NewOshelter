@@ -247,6 +247,14 @@
           $("#formSearch").trigger("submit");
       }
     });
+
+    autocomplete.addListener("place_changed", function() {
+        const place = autocomplete.getPlace();
+        if (place.place_id) {
+            $("#formSearch").trigger("submit");
+            return;
+        }
+    });
     
 
 })(jQuery);

@@ -221,7 +221,7 @@
   autocomplete= new google.maps.places.Autocomplete((document.getElementById("search_input")), {
       types: ['geocode']
   });
-
+  
 
   $('#min_price, #max_price').keypress(function(event) {
       if (((event.which != 46 || (event.which == 46 && $(this).val() == '')) ||
@@ -247,6 +247,14 @@
       if(e.which==13){
           $("#formSearch").trigger("submit");
       }
+    });
+
+    autocomplete.addListener("place_changed", function() {
+        const place = autocomplete.getPlace();
+        if (place.place_id) {
+            $("#formSearch").trigger("submit");
+            return;
+        }
     });
     
 

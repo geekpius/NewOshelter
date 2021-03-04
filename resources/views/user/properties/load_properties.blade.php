@@ -43,7 +43,7 @@
                             </li>
                             @if ($property->type=='hostel')
                                 <li class="list-inline-item" style="text-transform: none">
-                                    {{ $property->userHostelVisits->count() }} {{ str_plural('visit', $property->userHostelVisits->count()) }}
+                                    {{ $property->userHostelVisits->count() }} {{ str_plural('occupant', $property->userHostelVisits->count()) }}
                                 </li>
                                 <br>
                                 <li class="list-inline-item">
@@ -55,7 +55,7 @@
                                 </li>
                             @else
                                 <li class="list-inline-item" style="text-transform: none">
-                                    {{ $property->userVisits->count() }} {{ str_plural('visit', $property->userVisits->count()) }}                                                 
+                                    {{ $property->userVisits->count() }} {{ str_plural('occupant', $property->userVisits->count()) }}                                                 
                                 </li>
                                 <br>
                                 <li class="list-inline-item">

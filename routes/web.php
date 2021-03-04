@@ -54,6 +54,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('verify-email', 'Auth\VerifyController@verfiyEmail')->name('verify.email');
     Route::post('verify-email', 'Auth\VerifyController@verify')->name('verify.email.submit');
     Route::post('verify-email/{user}/resend', 'Auth\VerifyController@resendCode')->name('verify.email.resend');
+    Route::get('activate-email/{token}', 'Auth\VerifyController@activateEmail')->name('verify.email.activate');
 });
 
 Route::group(['middleware' => ['verify-email']], function() {

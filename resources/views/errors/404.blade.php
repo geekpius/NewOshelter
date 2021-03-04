@@ -37,8 +37,9 @@
                                     <h4 class="mt-5 text-center">Looks like the resource you're looking for is not found.</h4>
                                     <div class="mb-3 mt-3">
                                         <ul>
-                                            <li>Resource does't not belongs to you.</li>
-                                            <li>You don't have the right to pull that resource</li>
+                                            <li>Resource doesn't not belongs to you.</li>
+                                            <li>Resource doesn't exist.</li>
+                                            <li>You don't have the right to pull that resource.</li>
                                         </ul>
                                     </div>
                                     <div class="text-center">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\EmailVerify;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Mail\EmailSender;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 class VerifyController extends Controller
 {
@@ -67,8 +69,28 @@ class VerifyController extends Controller
         return $randomString;
     }
     
+    private function generateToken()
+    {
+        // This is set in the .env file
+        $key = config('app.key');
+
+        // Illuminate\Support\Str;
+        if (Str::startsWith($key, 'base64:')) {
+            $key = base64_decode(substr($key, 7));
+        }
+        return hash_hmac('sha256', Str::random(40), $key);
+    }
+
     public function resendCode(Request $request, User $user)
     {
+        (string) $token = $this->generateToken();
+        $results = DB::select('select * from email_verifies where email = :email', ['email' => $user->email]);
+        if(empty($results)){
+            $insert = DB::insert('insert into email_verifies (email, token, created_at) values (?, ?, ?)', [$user->email, $token, Carbon::now()]);
+        }else{
+            $update = DB::update('update email_verifies set token = ?, created_at = ? where email = ?', [$token, Carbon::now(), $user->email]);
+        }
+        
         $user->email_verification_token = $this->generateEmailVerificationCode();
         $user->email_verification_expired_at = Carbon::now()->addHour();
         $user->update();
@@ -76,6 +98,7 @@ class VerifyController extends Controller
             "name" => current(explode(' ',$user->name)),
             "code" => $user->email_verification_token,
             "expire" => $user->email_verification_expired_at,
+            "link" => route('verify.email.activate', ['token'=>$token]),
         );
         Mail::to($user->email)->send(new EmailSender($data, "Verify Email", "emails.verify_email"));
         session()->flash('success', 'Verification code is sent to your mail');
@@ -83,7 +106,25 @@ class VerifyController extends Controller
     }
 
      
-     
+    public function activateEmail(string $token)
+    {
+        $results = DB::select('select * from email_verifies where token = :token', ['token' => $token]);
+        if(empty($results)){
+            return view("errors.404");
+        }else{
+            $user = User::findorFail(Auth::user()->id);
+            if ($user->email_verification_expired_at < Carbon::now()){
+                session()->flash('error', 'Verification code is expired. Resend code.');
+                return redirect()->route('verify.email');
+            }else{
+                $user->verify_email = true;
+                $user->update();
+                $deleted = DB::delete('delete from email_verifies where token = :token', ['token'=>$token]);
+                return redirect()->route('index');
+            }
+        }
+        
+    }
 
 
 
