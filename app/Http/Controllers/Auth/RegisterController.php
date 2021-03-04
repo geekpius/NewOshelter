@@ -73,7 +73,6 @@ class RegisterController extends Controller
     }
 
 
-
     private function generateEmailVerificationCode(int $length=8) : string
     {
         (string) $characters = '0123456789';

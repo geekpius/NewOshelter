@@ -173,29 +173,9 @@
         </div>
     </div>    
 </div>
-
-
-<!-- id modal -->
-<div id="locationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="locationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-heading pl-5 mb-2"><h6>{{ $booking->property->propertyLocation->location }}</h6></div>
-            <div class="modal-body">
-                <div id="gmaps-markers" class="gmaps1" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}"></div>        
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->  
 @endsection
 
 @section('scripts')
 <script src="https://js.paystack.co/v1/inline.js"></script> 
 <script src="{{ asset('assets/pages/booking/payment.js') }}"></script> 
-<!-- Gmaps file -->
-<script src="{{ asset('assets/plugins/gmaps/gmaps.min.js') }}"></script>
-<!-- demo codes -->
-<script src="{{ asset('assets/pages/booking/property.map.js') }}"></script>
 @endsection

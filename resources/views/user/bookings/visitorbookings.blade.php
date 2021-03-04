@@ -59,7 +59,9 @@
                                                 @elseif ($booking->isRejectAttribute())
                                                     <span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>
                                                 @else
-                                                    <span class="text-success"><i class="fa fa-money-bill"></i> Paid Booking</span>
+                                                    <a href="#" class="btnViewLocation text-decoration-none" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">
+                                                        <span class="text-success"><i class="mdi mdi-map-marker"></i> Paid, view location</span>
+                                                    </a>
                                                 @endif
                                             </td>
                                         </tr><!--end tr-->
@@ -103,7 +105,9 @@
                                                 @elseif ($booking->isRejectAttribute())
                                                     <span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>
                                                 @else
-                                                    <span class="text-success"><i class="fa fa-money-bill"></i> Paid Booking</span>
+                                                    <a href="#" class="btnViewLocation text-decoration-none" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">
+                                                        <span class="text-success"><i class="mdi mdi-map-marker"></i> Paid, view location</span>
+                                                    </a>
                                                 @endif
                                             </td>
                                         </tr><!--end tr-->
@@ -118,11 +122,30 @@
         </div>
     </div>    
 </div>
+
+<!-- id modal -->
+<div id="locationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="locationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-heading pl-5 mb-2"><h6 class="modal-title"></h6></div>
+            <div class="modal-body">
+                <div id="gmaps-markers" class="gmaps1"></div>        
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->  
 @endsection
 
 @section('scripts')
 <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
+<!-- Gmaps file -->
+<script src="{{ asset('assets/plugins/gmaps/gmaps.min.js') }}"></script>
+<!-- demo codes -->
+<script src="{{ asset('assets/pages/booking/property.map.js') }}"></script>
 <script>
 $('#datatable').DataTable();
 $('#datatable1').DataTable();

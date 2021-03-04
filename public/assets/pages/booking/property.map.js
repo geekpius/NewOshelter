@@ -1,8 +1,5 @@
 
 let marker;
-let latitude = document.getElementById("gmaps-markers").getAttribute('data-lat');
-let longitude = document.getElementById("gmaps-markers").getAttribute('data-lng');
-
 function initMap(latitude, longitude) {        
   const myLatLng = { lat: latitude, lng: longitude };
   const map = new google.maps.Map(document.getElementById("gmaps-markers"), {
@@ -18,4 +15,22 @@ function initMap(latitude, longitude) {
 
 }
 
-initMap(Number(latitude), Number(longitude));
+$("#datatable tbody").on('click', '.btnViewLocation', function(){
+  var $this = $(this);
+  $("#locationModal .modal-title").text($this.data('title'));
+  let latitude = $this.data('lat');
+  let longitude = $this.data('lng');
+  initMap(Number(latitude), Number(longitude));
+  $("#locationModal").modal('show');
+  return false;
+});
+
+$("#datatable1 tbody").on('click', '.btnViewLocation', function(){
+  var $this = $(this);
+  $("#locationModal .modal-title").text($this.data('title'));
+  let latitude = $this.data('lat');
+  let longitude = $this.data('lng');
+  initMap(Number(latitude), Number(longitude));
+  $("#locationModal").modal('show');
+  return false;
+});
