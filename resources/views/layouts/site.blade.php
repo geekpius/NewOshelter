@@ -77,8 +77,8 @@
                             @endguest
                         </div>
                         <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Become an Owner</a></li>
-                            <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Become a Visitor</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Becoming an Owner</a></li>
+                            <li class="list-inline-item"><a href="#" class="font-12 font-14-sm-laptop font-12-lg-laptop">Becoming a Visitor</a></li>
                         </ul>
                     </div>
 

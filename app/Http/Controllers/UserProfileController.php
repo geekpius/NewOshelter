@@ -234,47 +234,29 @@ class UserProfileController extends Controller
              
     }
 
-    public function uploadBackCard(Request $request): string
+    public function updateCardInfo(Request $request): string
     {    
         $validator = \Validator::make($request->all(), [
-            'back_file' => 'required|image|mimes:jpg,png,jpeg|max:1024',
+            'id_type' => 'required',
+            'id_number' => 'required',
         ]);
 
         (string) $message = "";
 
         if ($validator->fails()){
-            $message = 'fail';
+            $message = 'Input required failed.';
         }else{
-            //upload image
-            if($request->hasFile('back_file')){
-                try{
-                    DB::beginTransaction();
-                    $user = UserProfile::whereUser_id(Auth::user()->id)->first();
-                    $photo = $request->file('back_file');
-                    $name = sha1(date('YmdHis') . str_random(30));
-                    $new_name = Auth::user()->id . $name . '.' . $photo->getClientOriginalExtension();
-                    $location = 'assets/images/cards/' . $new_name;
-                    Image::make($photo)->resize(300, 200)->save($location); 
-                    //delete old photo
-                    if(!empty($user)){
-                        if(!empty($user->id_back)){
-                            \File::delete("assets/images/cards/".$user->id_back);
-                        }
-                    }
-                    $profile = UserProfile::updateOrCreate(
-                        ['user_id'=>Auth::user()->id],
-                        ['id_back'=>$new_name]
-                    );
-
-                    DB::commit();
-                    $message = $profile->id_back;
-                }catch(\Exception $e){
-                    DB::rollback();
-                    $message = 'error';
-                }
-            }
-            else{
-                $message = 'nophoto';
+            try{
+                DB::beginTransaction();
+                $profile = UserProfile::whereUser_id(Auth::user()->id)->first();
+                $profile->id_number = $request->id_number;
+                $profile->id_type = $request->id_type;
+                $profile->update();
+                DB::commit();
+                $message = "success";
+            }catch(\Exception $e){
+                DB::rollback();
+                $message = 'Could not update card info.';
             }
         }
 
@@ -284,9 +266,6 @@ class UserProfileController extends Controller
 
     
 
-    
-    
-
-    
+        
     
 }

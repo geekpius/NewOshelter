@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-md-6 col-lg-4">
+                            {{-- <div class="col-sm-6 col-md-6 col-lg-4">
                                 <div class="card card-bordered-blue">
                                     <div class="card-body">
                                         <a href="#" class="text-decoration-none text-light-dark">
@@ -45,7 +45,7 @@
                                         <p class="font-13 account-details">Owners agreement documents.</p>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="col-sm-2"></div>
@@ -66,12 +66,12 @@
                         </a>
                     </div>
                     <div class="col-sm-12"><hr></div>
-                    <div class="col-sm-12">
+                    {{-- <div class="col-sm-12">
                         <a href="#" class="text-decoration-none text-light-dark">
                             <p class="font-16 font-weight-bold"><i class="fa fa-file"></i> Documents</p>
                         </a>
                     </div>
-                    <div class="col-sm-12"><hr></div>
+                    <div class="col-sm-12"><hr></div> --}}
                 </div>
             </div>
 

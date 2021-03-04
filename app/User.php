@@ -56,6 +56,7 @@ class User extends Authenticatable
         'verify_email', 
         'verify_sms', 
         'login_time',
+        'is_id_verified',
     ];
 
     /**

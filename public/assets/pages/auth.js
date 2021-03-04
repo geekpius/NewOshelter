@@ -82,6 +82,30 @@ $("#formSignupOwner").on("submit", function(e){
     return false;
 });
 
+$("#formSignupVisitor").on("submit", function(e){
+    e.stopPropagation();
+    var valid = true;
+    $('#formSignupVisitor input').each(function() {
+        var $this = $(this);
+        
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
+        if($this.attr('name')=='agreement'){
+            if(!$('#agreement1').is(":checked")){
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            }
+        }
+    });
+    if(valid) {
+        $('.btn_sign_up').html('<i class="fa fa-spinner fa-spin"></i> Signing Up...').attr('disabled', true);
+        return true;
+    }
+    return false;
+});
+
 
 // verify email
 $("#formVerify").on("submit", function(e){

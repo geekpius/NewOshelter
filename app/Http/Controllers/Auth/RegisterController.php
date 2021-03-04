@@ -112,6 +112,7 @@ class RegisterController extends Controller
                 "name" => current(explode(' ',$user->name)),
                 "code" => $user->email_verification_token,
                 "expire" => $user->email_verification_expired_at,
+                "link" => "",
             );
             Mail::to($user->email)->send(new EmailSender($data, "Verify Email", "emails.verify_email"));
             DB::commit();

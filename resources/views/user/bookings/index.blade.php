@@ -23,37 +23,24 @@
                         $tidyStar = (!$countReview)? 0: $property->sumCleanStar()/$countReview;
                         $sumReviews = $accuracyStar+$locationStar+$securityStar+$valueStar+$commStar+$tidyStar;
                     @endphp
-                    @if(empty(Auth::user()->profile->id_front) || empty(Auth::user()->profile->id_back))
+                    @if(!Auth::user()->is_id_verified)
                     <div class="row mb-5">
                         <div class="col-sm-4">
-                            <div class="flip-box">
-                                <div class="flip-box-inner">
-                                    @php
-                                        $cardFront = (empty(Auth::user()->profile->id_front))? '1.png':'cards/'.Auth::user()->profile->id_front;
-                                        $cardBack = (empty(Auth::user()->profile->id_back))? '1.png':'cards/'.Auth::user()->profile->id_back;
-                                    @endphp
-                                    <div class="text-center mt-2 flip-box-front">
-                                        <img src="{{ asset('assets/images/'.$cardFront) }}" alt="ID Card Front" class="front_card" style="width:300px; height:200px; border-radius:2%" />
-                                    </div>
-                                    <div class="flip-box-back">
-                                        <img src="{{ asset('assets/images/'.$cardBack) }}" alt="ID Card Front" class="back_card" style="width:300px; height:200px; border-radius:2%" />
-                                    </div>
-                                </div>
+                            <div class="text-center mt-2">
+                                <img src="{{ asset('assets/images/card-sample.png') }}" alt="ID Card Front" class="front_card" width="200" height="170" style="border-radius:2%" />
+                            </div>
+                            <div class="text-center mt-3">
+                                <p><span class="text-primary">Status:</span> {{ empty(Auth::user()->profile->id_type)? 'No card type selected':'Oshelter is checking ID card...' }}</p>
                             </div>
                         </div>
-                        <div class="col-sm-7"></div>
                         <div class="col-sm-6">
-                           <div class="mt-5">
-                                @if (empty(Auth::user()->profile->id_front) || empty(Auth::user()->profile->id_back))
-                                <a href="javascript:void(0);" class="text-primary text-decoration-none btnAddNewID">Add New Government ID Approve</a>
-                                @else
-                                <i class="fa fa-check text-success"></i> ID is checked
-                                @endif
-                           </div>
-                        </div>
-
-                        <div class="col-sm-12 mt-4">
-                            <button class="btn btn-primary pl-5 pr-5 btnNext"><i class="fa fa-arrow-right"></i> Next</button>
+                            <h6 class="font-weight-bold">CARD SAMPLE</h6>
+                            <p>ID card type: <span class="text-primary">National ID</span></p>
+                            <p>ID card type: <span class="text-primary">GHA-0123456789-0</span></p>
+                            <p class="mt-3">
+                                Seeing this information means you haven't updated your government approved card info. 
+                                <a target="_blank" href="{{ route('account.info') }}">Update your government approved card info here</a>
+                            </p>
                         </div>
                     </div><!-- end row --> 
                     @else
@@ -573,7 +560,7 @@
                                             <div class="card-body">
                                                 <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> Your booking request will be sent to the owner.</p>
                                                 <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> As soon as owner confirms, you will be requested to make payment.</p>
-                                                <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If owner is taking too long(more than 24hours) to response, <a href="{{ route('contact') }}" target="_blank" class="text-danger">contact us</a> for support.</p>
+                                                <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If owner is taking too long (more than 24hours) to response, <a href="{{ route('contact') }}" target="_blank" class="text-danger">contact us</a> for support.</p>
                                                 
                                             </div>
                                         </div>
@@ -775,42 +762,7 @@
             </div>
         </div>
     </div>    
-</div>
-
-<!-- id modal -->
-<div id="idModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="idModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title mt-0" id="idModalLabel">Upload ID front and back</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="text-center" onclick="getFrontFile();" style="cursor:pointer">
-                    {{-- <div><i class="fa fa-id-card text-primary" style="font-size:150px"></i></div> --}}
-                    <div>
-                        <img src="{{ asset('assets/images/iconmonstr-id-card-14.svg') }}" alt="Front" width="100" height="100">    
-                    </div>
-                    <div>
-                        <a href="javascript:void(0);"> <span id="msgStatus">Click upload ID front</span>
-                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="front_file" type="file" name="front_file" data-url="{{ route('profile.front.card') }}" data-path="{{ asset('assets/images/cards') }}" /></div>
-                        </a>
-                    </div>
-                </div>
-                <div class="mt-4 text-center" onclick="getBackFile();" style="cursor:pointer">
-                    <div>
-                        <img src="{{ asset('assets/images/iconmonstr-credit-card-15.svg') }}" alt="Front" width="100" height="100">    
-                    </div>
-                    <div>
-                        <a href="javascript:void(0);"> <span id="msgStatus2">Click to upload ID back</span>
-                            <div style='height: 0px;width:0px; overflow:hidden;'><input id="back_file" type="file" name="back_file" data-url="{{ route('profile.back.card') }}" data-path="{{ asset('assets/images/cards') }}" /></div>
-                        </a>
-                    </div>
-                </div>             
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->  
+</div> 
 
 @endsection
 

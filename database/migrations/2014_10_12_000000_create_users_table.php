@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->boolean('verify_sms')->default(User::UNVERIFY_SMS);
             $table->dateTime('verify_sms_time')->nullable();
             $table->dateTime('login_time')->nullable();
+            $table->boolean('is_id_verified')->default(false);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

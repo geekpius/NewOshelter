@@ -119,7 +119,7 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::get('/requests', 'UserProfileController@requestView')->name('account.requests');
             Route::get('/notifications', 'UserProfileController@notificationView')->name('account.notifications');
             Route::post('/change-front-card', 'UserProfileController@uploadFrontCard')->name('profile.front.card');
-            Route::post('/change-back-card', 'UserProfileController@uploadBackCard')->name('profile.back.card');
+            Route::post('/change-card-info', 'UserProfileController@updateCardInfo')->name('profile.card.info');
             Route::post('/check-message-notify', 'UserNotificationController@checkMessage')->name('profile.message.notify');
             Route::post('/check-support-notify', 'UserNotificationController@checkSupport')->name('profile.support.notify');
             Route::post('/check-reminder-notify', 'UserNotificationController@checkReminder')->name('profile.reminder.notify');
