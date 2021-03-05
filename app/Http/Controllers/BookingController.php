@@ -445,9 +445,24 @@ class BookingController extends Controller
 
     public function visitorBookingList()
     {      
-        $data['page_title'] = 'My bookings';
-        return view('user.bookings.visitorbookings', $data);
+        if(Auth::user()->account_type=='visitor'){
+            $data['page_title'] = 'My bookings';
+            return view('user.bookings.visitorbookings', $data);
+        }else{
+            return view('errors.404');
+        }
     }
+
+    public function visitorStayConfirmation()
+    {      
+        if(Auth::user()->account_type=='visitor'){
+            $data['page_title'] = 'My confirmations';
+            return view('user.bookings.visitorconfirmation', $data);
+        }else{
+            return view('errors.404');
+        }
+    }
+
 
 
     

@@ -132,7 +132,7 @@
                     }
                 },
                 error: function(resp){
-                    alert("Something went wrong with request");
+                    console.log("Something went wrong with request");
                 }
             });
         });
@@ -167,7 +167,7 @@
                     }
                 },
                 error: function(resp){
-                    alert("Something went wrong with request");
+                    console.log("Something went wrong with request");
                 }
             });
         });
