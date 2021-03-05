@@ -45,7 +45,7 @@
                                         @foreach (Auth::user()->userBookings as $booking)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($booking->created_at)->diffForHumans() }}</td>
-                                            <td><a href="{{ route('single.property', $booking->property_id) }}">{{ $booking->property->title }}</a></td>
+                                            <td><a target="_blank" href="{{ route('single.property', $booking->property_id) }}">{{ $booking->property->title }}</a></td>
                                             @php $image = (empty($booking->property->user->image))? 'user.svg':'users/'.$booking->property->user->image; @endphp
                                             <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->property->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $booking->property->user->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($booking->check_in)->format('d-M-Y') }}</td>
@@ -89,7 +89,7 @@
                                         @foreach (Auth::user()->userHostelBookings as $booking)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($booking->created_at)->diffForHumans() }}</td>
-                                            <td><a href="{{ route('single.property', $booking->property_id) }}">{{ $booking->property->title }}</a></td>
+                                            <td><a target="_blank" href="{{ route('single.property', $booking->property_id) }}">{{ $booking->property->title }}</a></td>
                                             @php $image = (empty($booking->property->user->image))? 'user.svg':'users/'.$booking->property->user->image; @endphp
                                             <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->property->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $booking->property->user->name }}</td>
                                             {{-- <td>{{ $booking->hostelBlockRoom->propertyHostelBlock->block_name }}({{ $booking->hostelBlockRoom->block_room_type }})</td> --}}
