@@ -46,7 +46,7 @@
                     @else
                     @if ($property->type=='hostel')
                     <div class="row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-5 col-lg-7">
                             <div id="propertyReview" style="display: {{ (Session::get('step')==1)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -299,7 +299,7 @@
                             </div> 
                         </div>
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-7 col-lg-5">
                             <div class="card card-bordered-pink">
                                 <div class="card-body">
                                     <div class="row">
@@ -376,7 +376,7 @@
                     </div>
                     @else
                     <div class="row">
-                        <div class="col-sm-7">
+                        <div class="col-sm-5 col-lg-7">
                             <div id="propertyReview" style="display: {{ (Session::get('step')==1)? 'block':'none' }}">
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -650,7 +650,7 @@
                             </div> 
                         </div>
 
-                        <div class="col-sm-5">
+                        <div class="col-sm-7 col-lg-5">
                             <div class="card card-bordered-pink">
                                 <div class="card-body">
                                     <div class="row">
