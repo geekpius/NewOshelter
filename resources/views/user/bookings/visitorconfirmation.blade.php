@@ -7,7 +7,7 @@
 @section('content')
 <div class="pxp-content pull-content-down">
     <div class="container">
-        <h2>My Confirmations</h2>  
+        <h2>My Stay Confirmations</h2>  
         <p>
             <strong>{{ Auth::user()->name }},</strong> account owner 
         </p>
@@ -153,5 +153,48 @@ function openResidenceLink(e){
 
 residenceBtn.addEventListener("click", openResidenceLink);
 
+$("#datatable tbody").on("click", ".btnConfirm", function(){
+    var $this = $(this);
+    swal({
+        title: "Confirm",
+        text: "You are about to confirm your stay",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: "btn-primary btn-sm",
+        cancelButtonClass: "btn-danger btn-sm",
+        confirmButtonText: "Confirm",
+        closeOnConfirm: true
+        },
+    function(){
+        $this.parents('.record').find('td').eq(6).html('<span class="text-success">Confirmed</span>');
+        // $.ajax({
+        //     url: $this.attr('action'),
+        //     type: "POST",
+        //     data: data,
+        //     success: function(resp){
+        //         if(resp=='success'){
+        //             swal({
+        //                 title: "Confirmed",
+        //                 text: "You have sent a booking request to owner\nWait for owner confirmation.",
+        //                 type: "success",
+        //                 confirmButtonClass: "btn-primary btn-sm",
+        //                 confirmButtonText: "Okay",
+        //                 closeOnConfirm: true
+        //                 },
+        //             function(){
+        //                 window.location.href = $(".confirmBooking").data('href');
+        //             });
+        //         }else{
+        //             swal("Warning", resp, "warning");
+        //             $(".confirmBooking").text('<i class="fa fa-spinner fa-spin"></i> CONFIRM BOOKING REQUEST').attr('disabled', false);
+        //         }
+        //     },
+        //     error: function(resp){
+        //         console.log("Something went wrong with request");
+        //     }
+        // });
+    });
+    return false;
+});
 </script>
 @endsection
