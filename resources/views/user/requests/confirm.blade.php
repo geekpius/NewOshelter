@@ -50,6 +50,27 @@
                             </span>
                         </div>  
                     </div>
+                    @if(!Auth::user()->is_id_verified)
+                    <div class="row mb-5">
+                        <div class="col-sm-4">
+                            <div class="text-center mt-2">
+                                <img src="{{ asset('assets/images/card-sample.png') }}" alt="ID Card Front" class="front_card" width="200" height="170" style="border-radius:2%" />
+                            </div>
+                            <div class="text-center mt-3">
+                                <p class="font-13"><span class="text-primary">Status:</span> {{ empty(Auth::user()->profile->id_type)? 'No card type selected':'Oshelter is checking ID card...' }}</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <h6 class="font-weight-bold">CARD SAMPLE</h6>
+                            <p>ID card type: <span class="text-primary">National ID</span></p>
+                            <p>ID card type: <span class="text-primary">GHA-0123456789-0</span></p>
+                            <p class="mt-3">
+                                Seeing this information means you haven't updated your government approved card info. 
+                                <a target="_blank" href="{{ route('account.info') }}">Update your government approved card info here</a>
+                            </p>
+                        </div>
+                    </div><!-- end row --> 
+                    @else
                     <h5 class="text-primary ml-2">{{ $booking->property->title }}</h5>
                     <div class="card">
                         <div class="card-body">
@@ -87,6 +108,7 @@
                         </div>
                         @endif
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
