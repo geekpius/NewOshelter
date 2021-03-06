@@ -43,6 +43,7 @@ Route::group(['middleware' => ['verify-email']], function() {
     });
     Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
     Route::post('/contact-us', 'WebsiteController@submitContact')->name('contact.submit');
+    Route::get('/about-us', 'WebsiteController@about')->name('about');
     Route::get('/account-deactivated', 'WebsiteController@accountDeactivated')->name('account.deactivated');
     // Route::get('/email', 'WebsiteController@email');
 });

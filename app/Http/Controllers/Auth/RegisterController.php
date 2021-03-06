@@ -116,7 +116,7 @@ class RegisterController extends Controller
                 'email_verification_expired_at' => Carbon::now()->addHour(),
                 'password' => Hash::make($data['password']),
             ]);
-            
+
             UserNotification::create([
                 'user_id' => $user->id,
             ]);

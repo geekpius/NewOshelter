@@ -54,7 +54,7 @@ class WebsiteController extends Controller
         // $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->paginate(12);
         $data['property_types'] = PropertyType::get(['name']);
-        return view('website.property-status', $data);
+        return view('website.properties.property-status', $data);
     }
 
     //property listing types
@@ -70,7 +70,7 @@ class WebsiteController extends Controller
             session()->forget('properties');
         }
         session(['properties' => $props->get()]);
-        return view('website.property-types', $data);
+        return view('website.properties.property-types', $data);
     }
 
     // property type results to map
@@ -90,7 +90,7 @@ class WebsiteController extends Controller
             $countImages = $property->propertyImages->count();
             $data['image'] = $property->propertyImages->first();
             $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
-            return view('website.property-detail', $data);
+            return view('website.properties.property-detail', $data);
         }
         else{
             return view('errors.404');
@@ -103,7 +103,7 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Browse all properties of any kind';
         $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->paginate(12);
         $data['property_types'] = PropertyType::get(['name']);
-        return view('website.properties', $data);
+        return view('website.properties.properties', $data);
     }
 
     // get all properties to the map
@@ -131,7 +131,7 @@ class WebsiteController extends Controller
             }
             session(['properties' => $props->orderBy('id','desc')->get()]);
 
-            return view('website.search-properties', $data);
+            return view('website.properties.search-properties', $data);
         }
         else{
             $location = $request->get('location');
@@ -185,7 +185,7 @@ class WebsiteController extends Controller
             }
             session(['properties' => $props->orderBy('id','desc')->get()]);
             $data['property_types'] = PropertyType::get(['name']);
-            return view('website.search-properties', $data);
+            return view('website.properties.search-properties', $data);
         }
     }
 
@@ -276,23 +276,6 @@ class WebsiteController extends Controller
     }
      
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //why choose us
     public function whyChooseUs($title)
     {
@@ -371,6 +354,12 @@ class WebsiteController extends Controller
             $message="success";
         }
         return $message;
+    }
+
+    public function about()
+    {
+        $data['page_title'] = 'About us';
+        return view('website.about', $data);
     }
 
     public function email()
