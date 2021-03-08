@@ -97,12 +97,12 @@
                     <h3>Key Details</h3>
                 
                     <!-- Contained amenities -->
-                    @if(strtolower($property->type) === 'house' && strtolower($property->base) === 'house')
-                    <p><i class="fa fa-home text-success"></i> <b>@if($property->type !=='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
+                    @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
+                    <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
                     @else
                     <p>
                         <i class="fa fa-home text-success"></i> 
-                        <b>@if($property->type !=='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
+                        <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
                     @endif
 
                     @if ($property->type=='hostel')

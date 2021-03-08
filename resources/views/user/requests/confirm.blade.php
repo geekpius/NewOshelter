@@ -87,7 +87,7 @@
                             <hr>
                             <span class="font-weight-500">Children</span>
                             <span class="font-weight-500 text-primary float-right">{{ $booking->children }}</span>
-                            @if ($booking->property->type_status === 'short_stay')
+                            @if ($booking->property->type_status == 'short_stay')
                             <hr>
                             <span class="font-weight-500">Infant</span>
                             <span class="font-weight-500 text-primary float-right">{{ $booking->infant }}</span>

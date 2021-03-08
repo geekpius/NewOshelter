@@ -590,7 +590,7 @@
                                                 <input type="hidden" name="checkout" value="{{ $bookingItems['check_out'] }}" readonly>
                                                 <input type="hidden" name="adult" value="{{ $bookingItems['adult'] }}" readonly>
                                                 <input type="hidden" name="child" value="{{ $bookingItems['children'] }}" readonly>
-                                                @if ($property->type_status === 'short_stay')
+                                                @if ($property->type_status == 'short_stay')
                                                 <input type="hidden" name="infant" value="{{ $bookingItems['infant'] }}" readonly>
                                                 @endif
                                                 <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">CONFIRM BOOKING REQUEST</button>
@@ -629,7 +629,7 @@
                                                         <input type="hidden" name="checkout" value="{{ $bookingItems['check_out'] }}" readonly>
                                                         <input type="hidden" name="adult" value="{{ $bookingItems['adult'] }}" readonly>
                                                         <input type="hidden" name="child" value="{{ $bookingItems['children'] }}" readonly>
-                                                        @if ($property->type_status === 'short_stay')
+                                                        @if ($property->type_status == 'short_stay')
                                                         <input type="hidden" name="infant" value="{{ $bookingItems['infant'] }}" readonly>
                                                         @endif
                                                         <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">{{ ($booking->user_id == Auth::user()->id) ? 'RE-APPLY BOOKING REQUEST':'CONFIRM BOOKING REQUEST' }}</button>
@@ -660,7 +660,7 @@
                                         </div>
                                         <div class="col-sm-8">
                                             <h5>{{ $property->title }}</h5>
-                                            @if(strtolower($property->type) === 'house' && strtolower($property->base) === 'house')
+                                            @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
                                             <p class="font-13">{{ ucwords(str_replace('_',' ',$property->type)) }}</p>
                                             @else
                                             <p class="font-13">{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</p>

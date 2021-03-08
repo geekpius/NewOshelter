@@ -87,7 +87,7 @@ class UserController extends Controller
 
     public function requestDetail(Booking $booking)
     {
-       if(Auth::user()->id === $booking->owner_id){
+       if(Auth::user()->id == $booking->owner_id){
         $data['page_title'] = 'Booking requests';
         $data['booking'] = $booking;
         return view('user.requests.confirm', $data);
@@ -98,7 +98,7 @@ class UserController extends Controller
 
     public function requestConfirm(Booking $booking)
     {
-        if(Auth::user()->id === $booking->owner_id){
+        if(Auth::user()->id == $booking->owner_id){
             $message = '';
             if($booking->status == 1){
                 $booking->status = 2;
@@ -125,7 +125,7 @@ class UserController extends Controller
 
     public function requestCancel(Booking $booking)
     {
-        if(Auth::user()->id === $booking->owner_id){
+        if(Auth::user()->id == $booking->owner_id){
             $message = '';
             if($booking->status == 1){
                 $booking->status = 0;

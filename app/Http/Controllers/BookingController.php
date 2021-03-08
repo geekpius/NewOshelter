@@ -78,12 +78,12 @@ class BookingController extends Controller
                 }else{
                     if($property->is_active && $property->publish && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count())
                     {
-                        if($property->type_status === 'rent'){
+                        if($property->type_status == 'rent'){
                             $data['page_title'] = 'Booking '.$property->title;
                             $data['property'] = $property;
                             $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
                             return view('user.bookings.index', $data);
-                        }elseif($property->type_status === 'short_stay'){
+                        }elseif($property->type_status == 'short_stay'){
                             $data['page_title'] = 'Booking '.$property->title;
                             $data['property'] = $property;
                             $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
@@ -105,7 +105,7 @@ class BookingController extends Controller
     public function book(Request $request)
     {
         if(auth()->check()){
-            if($request->type === 'rent'){
+            if($request->type == 'rent'){
                 $this->validate($request, [
                     'duration' => 'required',
                     'adult'     => 'required|integer',
@@ -131,7 +131,7 @@ class BookingController extends Controller
                 return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$checkIn, 'checkout'=>$checkOut, 'guest'=>$guest, 'filter_id'=>$token]);
             
             }
-            elseif($request->type === 'short_stay'){
+            elseif($request->type == 'short_stay'){
                 $this->validate($request, [
                     'check_in' => 'required',
                     'check_out' => 'required',
@@ -157,7 +157,7 @@ class BookingController extends Controller
 
                 return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'filter_id'=>$token]);
             }
-            elseif($request->type === 'hostel'){
+            elseif($request->type == 'hostel'){
                 $this->validate($request, [
                     'duration' => 'required',
                     'block_name'     => 'required|string',
@@ -369,7 +369,7 @@ class BookingController extends Controller
                     $book->check_out  = date("Y-m-d",strtotime($request->checkout));
                     $book->adult  = $request->adult;
                     $book->children  = $request->child;
-                    if($request->type_status === 'short_stay'){
+                    if($request->type_status == 'short_stay'){
                         $book->infant  = $request->infant;
                     }
                     $book->status  = 1;
@@ -400,7 +400,7 @@ class BookingController extends Controller
                     $book->check_out  = date("Y-m-d",strtotime($request->checkout));
                     $book->adult  = $request->adult;
                     $book->children  = $request->child;
-                    if($request->type_status === 'short_stay'){
+                    if($request->type_status == 'short_stay'){
                         $book->infant  = $request->infant;
                     }
                     $book->save();
