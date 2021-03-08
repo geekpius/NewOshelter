@@ -17,10 +17,9 @@ class EmailSender extends Mailable
      *
      * @return void
      */
-    public function __construct($data,string $from = "noreply@oshelter.com", string $subject, $view)
+    public function __construct($data, $subject, $view)
     {
         $this->data = $data;
-        $this->from = $from;
         $this->subject = $subject;
         $this->view = $view;
     }
@@ -32,7 +31,7 @@ class EmailSender extends Mailable
      */
     public function build()
     {
-        return $this->from($this->from, "Oshelter")->subject($this->subject)->view($this->view)->with('data', $this->data);
+        return $this->from("noreply@oshelter.com", "Oshelter")->subject($this->subject)->view($this->view)->with('data', $this->data);
     }
 
 

@@ -41,16 +41,21 @@ class VerifyController extends Controller
         ]);
 
         $user = User::findorFail(Auth::user()->id);
-        if ($user->email_verification_expired_at < Carbon::now()){
-            session()->flash('error', 'Verification code is expired. Resend code.');
-        }else{
-            if($user->email_verification_token == $request->verification_code){
-                $user->verify_email = true;
-                $user->verify_email_time = Carbon::now();
-                $user->update();
-                return redirect()->route('index');
+        if($user->verify_email){
+            session()->flash('error', 'This email address is already verified.');
+        }
+        else{
+            if ($user->email_verification_expired_at < Carbon::now()){
+                session()->flash('error', 'Verification code is expired. Resend code.');
             }else{
-                session()->flash('error', 'Verification code is invalid');
+                if($user->email_verification_token == $request->verification_code){
+                    $user->verify_email = true;
+                    $user->verify_email_time = Carbon::now();
+                    $user->update();
+                    return redirect()->route('index');
+                }else{
+                    session()->flash('error', 'Verification code is invalid');
+                }
             }
         }
 
