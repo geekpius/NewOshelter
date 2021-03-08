@@ -166,7 +166,7 @@
                                 <h4 class="pxp-footer-header mt-4 mt-lg-0">Company</h4>
                                 <ul class="list-unstyled pxp-footer-links mt-2">
                                     <li><a href="{{ route('index') }}">OShelter</a></li>
-                                    <li><a href="{{ route('contact') }}">About Us</a></li>
+                                    <li><a href="{{ route('about') }}">About Us</a></li>
                                     <li><a href="{{ route('contact') }}">Contact Us</a></li>
                                 </ul>
                             </div>
