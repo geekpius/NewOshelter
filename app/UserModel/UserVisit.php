@@ -15,6 +15,7 @@ class UserVisit extends Model
 
     CONST IN = 1;
     CONST OUT = 0;
+    CONST CANCELLED = 2;
 
     protected $fillable = [
         'user_id', 'property_id', 'check_in', 'check_out', 'adult', 'children', 'infant', 'status',
@@ -41,6 +42,11 @@ class UserVisit extends Model
     public function isOutAttribute() : bool
     {
         return $this->status == UserVisit::OUT;
+    }
+
+    public function isCancelledAttribute() : bool
+    {
+        return $this->status == UserVisit::CANCELLED;
     }
 
     public function getGuestAttribute()

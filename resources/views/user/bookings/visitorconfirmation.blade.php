@@ -125,9 +125,9 @@ $("#datatable tbody").on("click", ".btnConfirm", function(){
         let data = {
             _token: $this.data('token'),
             owner_id: $this.data('owner'),
-            visit_id:  $this.data('visit'),
-            transaction_id:  $this.data('transaction'),
-            type:  $this.data('type'),
+            visit_id: $this.data('visit'),
+            transaction_id: $this.data('transaction'),
+            type: $this.data('type'),
         }
         $.ajax({
             url: $this.attr('href'),
@@ -137,6 +137,36 @@ $("#datatable tbody").on("click", ".btnConfirm", function(){
                 if(resp=='success'){
                     swal("Cofirmed", "You have confirmed your stay.\nOwner can have access to payment", "success");
                     $this.parents('.record').find('td').eq(5).html('<span class="text-success"><i class="fa fa-check-circle"></i> Confirmed</span>');
+                }else{
+                    swal("Warning", resp, "warning");
+                }
+            },
+            error: function(resp){
+                console.log("Something went wrong with request");
+            }
+        });
+    }
+    return false;
+});
+
+$("#datatable tbody").on("click", ".btnReject", function(){
+    var $this = $(this);
+    if(confirm('You are about to cancel your stay. Sure to cancel?')){
+        let data = {
+            _token: $this.data('token'),
+            owner_id: $this.data('owner'),
+            visit_id: $this.data('visit'),
+            transaction_id: $this.data('transaction'),
+            type: $this.data('type'),
+        }
+        $.ajax({
+            url: $this.attr('href'),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp=='success'){
+                    swal("Cancelled", "You have cancelled your stay.\nOwner do not have access to payment.\nService fee will be deducted.", "success");
+                    $this.parents('.record').find('td').eq(5).html('<span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>');
                 }else{
                     swal("Warning", resp, "warning");
                 }

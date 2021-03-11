@@ -44,6 +44,9 @@ class UserWallet extends Model
             case 3:
                 return "Cash Out";
                 break;    
+            case 4:
+                return "Cancelled";
+                break; 
             default:
                 return "Unknown State";
                 break;

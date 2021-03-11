@@ -56,25 +56,29 @@
                                             <td>
                                                 @if ($visit->isInAttribute())
                                                 <span class="badge badge-md badge-success">IN</span>
-                                                @else
-                                                <span class="badge badge-md badge-success">OUT</span>                                                    
+                                                @elseif ($visit->isOutAttribute())
+                                                <span class="badge badge-md badge-primary">OUT</span> 
+                                                @elseif ($visit->isCancelledAttribute())
+                                                <span class="badge badge-md badge-danger">CANCELLED</span>                                                    
                                                 @endif
                                             </td>
                                             <td>
                                                 @if ($visit->isInAttribute())
-                                                @if ($visit->property->type_status == 'short_stay')
-                                                <a href="/user/visits/past/extend" class="btnExtend mr-2 text-decoration-none" data-max="{{ $visit->property->propertyPrice->maximum_stay }}" data-min="{{ $visit->property->propertyPrice->minimum_stay }}" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
-                                                    <i class="fas fa-clock text-purple font-16"></i>
-                                                </a>
-                                                @else
-                                                <a href="/user/visits/past/extend" class="btnExtend mr-2 text-decoration-none" data-duration="{{ $visit->property->propertyPrice->payment_duration }}" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
-                                                    <i class="fas fa-clock text-purple font-16"></i>
-                                                </a>
+                                                    @if ($visit->property->type_status == 'short_stay')
+                                                    <a href="/user/visits/past/extend" class="btnExtend mr-2 text-decoration-none" data-max="{{ $visit->property->propertyPrice->maximum_stay }}" data-min="{{ $visit->property->propertyPrice->minimum_stay }}" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
+                                                        <i class="fas fa-clock text-purple font-16"></i>
+                                                    </a>
+                                                    @else
+                                                    <a href="/user/visits/past/extend" class="btnExtend mr-2 text-decoration-none" data-duration="{{ $visit->property->propertyPrice->payment_duration }}" data-owner="{{ $visit->property->user_id }}" data-id="{{ $visit->id }}" data-type="{{ $visit->property->type }}" data-status="{{ $visit->property->type_status }}" data-checkin="{{ \Carbon\Carbon::parse($visit->check_out)->format('m-d-Y') }}" title="Extend Stay">
+                                                        <i class="fas fa-clock text-purple font-16"></i>
+                                                    </a>
+                                                    @endif
                                                 @endif
-                                                @endif
+                                                @if (!$visit->isCancelledAttribute())
                                                 <a href="{{ route('visits.property.rating', $visit->id) }}" class="text-decoration-none" title="Rate Property">
                                                     <i class="fas fa-star text-warning font-16"></i>
                                                 </a>
+                                                @endif
                                             </td>
                                         </tr><!--end tr-->
                                         @endforeach                                                                                   
