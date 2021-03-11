@@ -5,6 +5,7 @@ namespace App\UserModel;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use App\PaymentModel\Withdraw;
+use App\PaymentModel\Transaction;
 
 class UserWallet extends Model
 {
@@ -14,6 +15,7 @@ class UserWallet extends Model
 
     protected $fillable = [
         'user_id', 
+        'transaction_id',
         'balance', 
         'currency', 
         'type', 
@@ -29,12 +31,22 @@ class UserWallet extends Model
 
     public function getStatus(): string
     {
-        if($this->is_cash_out==0){
-            return "Cashed In";
-        }elseif($this->is_cash_out==1){
-            return "Pending Approval";
-        }elseif($this->is_cash_out==2){
-            return "Cashed Out";
+        switch ($this->is_cash_out) {
+            case 0:
+                return "Pending";
+                break;
+            case 1:
+                return "Cash In";
+                break;
+            case 2:
+                return "Pending Approval";
+                break; 
+            case 3:
+                return "Cash Out";
+                break;    
+            default:
+                return "Unknown State";
+                break;
         }
     }
 
@@ -51,6 +63,11 @@ class UserWallet extends Model
     public function withdraw(){
         return $this->hasOne(Withdraw::class);
     }
+
+    public function transaction(){
+        return $this->hasOne(Transaction::class);
+    }
+
 
 
 }

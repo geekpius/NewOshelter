@@ -122,6 +122,7 @@ class PaymentController extends Controller
 
             $wallet = new UserWallet;
             $wallet->user_id = $ownerID;
+            $wallet->transaction_id = $trans->id;
             $wallet->balance = $amount;
             $wallet->currency = $currency;
             $wallet->type = 'booking';

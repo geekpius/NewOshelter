@@ -73,7 +73,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <div class="text-center"><strong>0</strong> <br><small>Confirmations</small></div>
+                                                        <div class="text-center"><strong>{{ Auth::user()->userConfirmations->count() }}</strong> <br><small>Confirmations</small></div>
                                                     </div>
                                                 </div>
                                             </div>

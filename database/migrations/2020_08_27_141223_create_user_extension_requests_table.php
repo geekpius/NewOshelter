@@ -16,8 +16,8 @@ class CreateUserExtensionRequestsTable extends Migration
         Schema::create('user_extension_requests', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
-            $table->integer('visit_id');
-            $table->integer('owner_id');
+            $table->integer('visit_id')->index();
+            $table->integer('owner_id')->index();
             $table->date('extension_date');
             $table->integer('is_confirm')->default(1);
             $table->string('type');

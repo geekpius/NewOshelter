@@ -10,6 +10,7 @@ use App\UserModel\UserLogin;
 use App\UserModel\UserVisit;
 use App\UserModel\UserHostelVisit;
 use App\UserModel\UserCurrency;
+use App\UserModel\Confirmation;
 use App\BookModel\Booking;
 use App\BookModel\HostelBooking;
 use App\UserModel\UserWallet;
@@ -193,6 +194,10 @@ class User extends Authenticatable
 
     public function userCurrency(){
         return $this->hasOne(UserCurrency::class);
+    }
+
+    public function userConfirmations(){
+        return $this->hasMany(Confirmation::class);
     }
 
 

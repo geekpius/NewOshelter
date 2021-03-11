@@ -129,7 +129,9 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::post('/check-unsubscribe-notify', 'UserNotificationController@checkToggleSubscribe')->name('profile.unsubscribe.notify');
             Route::get('/deactivate', 'DeactivateUserController@index')->name('profile.deactivate');
             Route::post('/deactivate', 'DeactivateUserController@submitDeactivate')->name('profile.deactivate.submit');
-            Route::get('/requests/confirmations', 'BookingController@visitorStayConfirmation')->name('property.visitor.confirmations');
+            Route::get('/requests/confirmations', 'ConfirmationController@index')->name('property.visitor.confirmations');
+            Route::post('/requests/confirmations/{user}/confirm', 'ConfirmationController@confirmStay')->name('property.visitor.confirmations.yes');
+            Route::post('/requests/confirmations/{user}/cancel', 'ConfirmationController@cancelStay')->name('property.visitor.confirmations.no');
         });
 
         /*------- Properties ------- */

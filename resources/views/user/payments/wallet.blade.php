@@ -20,7 +20,7 @@
                     <div class="card card-bordered-blue">
                         <div class="card-body">
                             <div class="text-center">
-                                <h1>{{ Auth::user()->userCurrency->currency }} {{ number_format(Auth::user()->userWallets->where('is_cash_out','!=', 2)->sum('balance'),2) }}</h1>
+                                <h2>{{ Auth::user()->userCurrency->currency }} {{ number_format(Auth::user()->userWallets->whereIn('is_cash_out',[1])->sum('balance'),2) }}</h2>
                             </div>
                             <div class="text-center">
                                 <p class="text-muted">Available funds</p>
@@ -52,7 +52,7 @@
                             </thead>
 
                             <tbody>
-                                @foreach (Auth::user()->userWallets->where('is_cash_out', '!=', 2) as $wallet)
+                                @foreach (Auth::user()->userWallets->where('is_cash_out', '!=', 3) as $wallet)
                                 <tr class="record">
                                     <td>{{ \Carbon\Carbon::parse($wallet->created_at)->diffForHumans() }}</td>
                                     <td>{{ $wallet->getBalanceAmount() }}</td>
@@ -60,6 +60,8 @@
                                     <td class="{{ ($wallet->is_cash_out==1)? 'text-success':'text-primary' }}">{{ $wallet->getStatus() }}</td>  
                                     <td>
                                         @if($wallet->is_cash_out==0)
+                                        <span><i class="fa fa-spin fa-spinner"></i> Waiting visitor's confirmation</span>
+                                        @elseif($wallet->is_cash_out==1)
                                             <a href="#" class="text-decoration-none text-primary btn-withdraw" data-id="{{ $wallet->id }}" data-balance="{{ $wallet->balance }}" data-currency="{{ $wallet->currency }}"><i class="fa fa-money-bill"></i></a>
                                         @endif
                                     </td>  
@@ -80,7 +82,7 @@
                             </thead>
 
                             <tbody>
-                                @foreach (Auth::user()->userWallets->where('is_cash_out', 2) as $wallet)
+                                @foreach (Auth::user()->userWallets->where('is_cash_out', 3) as $wallet)
                                 <tr class="record">
                                     <td>{{ \Carbon\Carbon::parse($wallet->created_at)->diffForHumans() }}</td>
                                     <td>{{ $wallet->getBalanceAmount() }}</td>
@@ -93,6 +95,12 @@
                             </tbody>
                         </table>                    
                     </div> 
+
+                    <div class="mt-2">
+                        <p class="font-13">
+                            <span class="text-danger">Note:</span> Cashout button <i class="fa fa-money-bill text-primary"></i> will be enabled when visitor confirms his/her stay.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

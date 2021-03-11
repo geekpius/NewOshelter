@@ -15,10 +15,10 @@ class CreateHostelBookingsTable extends Migration
     {
         Schema::create('hostel_bookings', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('property_id');
-            $table->integer('owner_id');
-            $table->integer('hostel_block_room_number_id');
+            $table->integer('user_id')->index();
+            $table->integer('property_id')->index();
+            $table->integer('owner_id')->index();
+            $table->integer('hostel_block_room_number_id')->index();
             $table->integer('room_number');
             $table->date('check_in');
             $table->date('check_out');

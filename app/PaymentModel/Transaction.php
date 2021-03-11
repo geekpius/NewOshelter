@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\PaymentModel\BookingTransaction;
 use App\PaymentModel\ExtensionTransaction;
+use App\UserModel\Confirmation;
 
 class Transaction extends Model
 {
@@ -46,6 +47,10 @@ class Transaction extends Model
 
     public function extensionTransaction(){
         return $this->hasOne(ExtensionTransaction::class);
+    }
+
+    public function confirmation(){
+        return $this->hasOne(Confirmation::class);
     }
 
 
