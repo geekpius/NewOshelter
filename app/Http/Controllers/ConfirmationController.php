@@ -106,7 +106,13 @@ class ConfirmationController extends Controller
                         $confirmation->save();
 
                         if($confirmation->type=='hostel'){
-                            UserHostelVisit::findOrFail($confirmation->visit_id)->update(['is_in' => 2]);
+                            $hostelVisit = UserHostelVisit::findOrFail($confirmation->visit_id);
+                            $hostelVisit->is_in = 2;
+                            $hostelVisit->update();
+                            $roomNumber = $hostelVisit->hostelBlockRoomNumber;
+                            $roomNumber->occupant = $roomNumber->occupant-1;
+                            $roomNumber->full = false;
+                            $roomNumber->update();
                         }else{
                             UserVisit::findOrFail($confirmation->visit_id)->update(['status' => 2]);
                         }

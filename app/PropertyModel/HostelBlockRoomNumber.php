@@ -12,7 +12,11 @@ class HostelBlockRoomNumber extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'hostel_block_room_id', 'room_no', 'person_per_room', 'occupant', 'full',
+        'hostel_block_room_id', 
+        'room_no', 
+        'person_per_room', 
+        'occupant', 
+        'full',
     ];
 
     public function hostelBlockRoom(){

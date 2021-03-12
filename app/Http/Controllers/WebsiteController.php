@@ -36,10 +36,10 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = null;
         $data['types'] = PropertyType::whereIs_public(true)->get();
-        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->take(50)->orderBy('id', 'DESC')
-        ->whereHas('userVisits', function($query){
-            // $query->whereIn('status', [0,2]);
-        })->get();
+        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->take(50)->orderBy('id', 'DESC')->get();
+        // ->whereHas('userVisits', function($query){
+        //     // $query->whereIn('status', [0,2]);
+        // })->get();
         return view('website.welcome', $data);
     }
 

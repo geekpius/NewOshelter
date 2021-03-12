@@ -12,6 +12,7 @@ use App\UserModel\UserExtensionRequest;
 use App\UserModel\UserVisit;
 use App\UserModel\UserWallet;
 use App\UserModel\UserHostelVisit;
+use App\PropertyModel\HostelBlockRoomNumber;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -104,6 +105,13 @@ class PaymentController extends Controller
                 $stay->check_in = $book->check_in;
                 $stay->check_out = $book->check_out;
                 $stay->save();
+                //place visitor in hostel room
+                $roomNumber = HostelBlockRoomNumber::findOrFail($stay->hostel_block_room_number_id);
+                $roomNumber->occupant = $roomNumber->occupant+1;
+                if($roomNumber->occupant == $roomNumber->person_per_room){
+                    $roomNumber->full = true;
+                }
+                $roomNumber->update();
                 $book->update();
             }else{
                 $book = Booking::findOrFail($bookingID);
