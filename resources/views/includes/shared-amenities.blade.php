@@ -7,8 +7,8 @@
     </div>
     <div class="form-group col-sm-4">
         <div class="checkbox checkbox-primary">
-            <input id="checkboxs1" type="checkbox" {{ ($property->isSharedAmenityChecked('Laundary'))? 'checked':'' }} value="Laundary" name="shared_amenities[]">
-            <label for="checkboxs1">Laundary</label>
+            <input id="checkboxs1" type="checkbox" {{ ($property->isSharedAmenityChecked('Laundry'))? 'checked':'' }} value="Laundry" name="shared_amenities[]">
+            <label for="checkboxs1">Laundry</label>
         </div>
     </div>
     <div class="form-group col-sm-4">

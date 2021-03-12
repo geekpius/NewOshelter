@@ -4,8 +4,9 @@ namespace App\UserModel;
 
 use App\User;
 use App\UserModel\UserVisit;
-use App\PropertyModel\Property;
+use App\BookModel\Booking;
 use App\UserModel\UserExtensionRequest;
+use App\PropertyModel\Property;
 use Illuminate\Database\Eloquent\Model;
 
 class UserVisit extends Model
@@ -18,7 +19,15 @@ class UserVisit extends Model
     CONST CANCELLED = 2;
 
     protected $fillable = [
-        'user_id', 'property_id', 'check_in', 'check_out', 'adult', 'children', 'infant', 'status',
+        'user_id', 
+        'property_id', 
+        'booking_id', 
+        'check_in', 
+        'check_out', 
+        'adult', 
+        'children', 
+        'infant', 
+        'status',
     ];
 
     public function user(){
@@ -27,6 +36,10 @@ class UserVisit extends Model
 
     public function property(){
         return $this->belongsTo(Property::class, 'property_id');
+    }
+
+    public function booking(){
+        return $this->belongsTo(Booking::class, 'booking_id');
     }
     
     public function userExtensionRequests(){

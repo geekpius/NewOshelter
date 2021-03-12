@@ -62,12 +62,20 @@
                                             <td>
                                                 @if ($trans->property_type == 'hostel')
                                                     @if ($trans->bookingTransaction->hostelBooking->check_in <= \Carbon\Carbon::today())
-                                                    <a href="#" class="btnConfirm mr-4 text-decoration-none text-success" title="Confirm your stay">
-                                                        <i class="fas fa-check-circle font-16"></i>
-                                                    </a>
-                                                    <a href="#" class="text-decoration-none btnReject text-danger" title="Cancel your stay">
-                                                        <i class="fas fa-times-circle font-16"></i>
-                                                    </a>
+                                                        @if ($trans->confirmation)
+                                                            @if ($trans->confirmation->status)
+                                                            <span class="text-success"><i class="fa fa-check-circle"></i> Confirmed</span>
+                                                            @else
+                                                            <span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>
+                                                            @endif
+                                                        @else
+                                                            <a href="{{ route('property.visitor.confirmations.yes', Auth::user()->id) }}" data-token="{{ csrf_token() }}" data-transaction="{{ $trans->id }}" data-owner="{{ $trans->bookingTransaction->hostelBooking->owner_id }}" data-visit="{{ $trans->bookingTransaction->hostelBooking->userHostelVisit->id }}" data-type="{{ $trans->property_type }}" class="btnConfirm mr-4 text-decoration-none text-success" title="Confirm your stay">
+                                                                <i class="fas fa-check-circle font-16"></i>
+                                                            </a>
+                                                            <a href="{{ route('property.visitor.confirmations.no', Auth::user()->id) }}" data-token="{{ csrf_token() }}" data-transaction="{{ $trans->id }}" data-owner="{{ $trans->bookingTransaction->hostelBooking->owner_id }}" data-visit="{{ $trans->bookingTransaction->hostelBooking->userHostelVisit->id }}" data-type="{{ $trans->property_type }}" class="text-decoration-none btnReject text-danger" title="Cancel your stay">
+                                                                <i class="fas fa-times-circle font-16"></i>
+                                                            </a> 
+                                                        @endif
                                                     @else
                                                         <span class="text-danger"><i class="fa fa-spin fa-spinner"></i> Not yet checked in</span>
                                                     @endif
@@ -80,13 +88,13 @@
                                                             <span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>
                                                             @endif
                                                         @else
-                                                        <a href="{{ route('property.visitor.confirmations.yes', Auth::user()->id) }}" data-token="{{ csrf_token() }}" data-transaction="{{ $trans->id }}" data-owner="{{ $trans->bookingTransaction->booking->owner_id }}" data-visit="{{ $trans->bookingTransaction->booking->property->userVisits->where('user_id', Auth::user()->id)->where('status', true)->first()->id }}" data-type="{{ $trans->property_type }}" class="btnConfirm mr-4 text-decoration-none text-success" title="Confirm your stay">
-                                                            <i class="fas fa-check-circle font-16"></i>
-                                                        </a>
-                                                        <a href="{{ route('property.visitor.confirmations.no', Auth::user()->id) }}" data-token="{{ csrf_token() }}" data-transaction="{{ $trans->id }}" data-owner="{{ $trans->bookingTransaction->booking->owner_id }}" data-visit="{{ $trans->bookingTransaction->booking->property->userVisits->where('user_id', Auth::user()->id)->where('status', true)->first()->id }}" data-type="{{ $trans->property_type }}" class="text-decoration-none btnReject text-danger" title="Cancel your stay">
-                                                            <i class="fas fa-times-circle font-16"></i>
-                                                        </a> 
-                                                    @endif
+                                                            <a href="{{ route('property.visitor.confirmations.yes', Auth::user()->id) }}" data-token="{{ csrf_token() }}" data-transaction="{{ $trans->id }}" data-owner="{{ $trans->bookingTransaction->booking->owner_id }}" data-visit="{{ $trans->bookingTransaction->booking->userVisit->id }}" data-type="{{ $trans->property_type }}" class="btnConfirm mr-4 text-decoration-none text-success" title="Confirm your stay">
+                                                                <i class="fas fa-check-circle font-16"></i>
+                                                            </a>
+                                                            <a href="{{ route('property.visitor.confirmations.no', Auth::user()->id) }}" data-token="{{ csrf_token() }}" data-transaction="{{ $trans->id }}" data-owner="{{ $trans->bookingTransaction->booking->owner_id }}" data-visit="{{ $trans->bookingTransaction->booking->userVisit->id }}" data-type="{{ $trans->property_type }}" class="text-decoration-none btnReject text-danger" title="Cancel your stay">
+                                                                <i class="fas fa-times-circle font-16"></i>
+                                                            </a> 
+                                                        @endif
                                                     @else
                                                         <span class="text-danger"><i class="fa fa-spin fa-spinner"></i> Not yet checked in</span>
                                                     @endif

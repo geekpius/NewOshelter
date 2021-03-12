@@ -7,6 +7,7 @@ use App\BookModel\Booking;
 use App\PropertyModel\Property;
 use App\PaymentModel\BookingTransaction;
 use App\User;
+use App\UserModel\UserVisit;
 use Illuminate\Support\Str;
 
 class Booking extends Model
@@ -21,7 +22,15 @@ class Booking extends Model
 
 
     protected $fillable = [
-        'user_id', 'property_id', 'owner_id', 'check_in', 'check_out', 'adult', 'children', 'infant', 'status',
+        'user_id', 
+        'property_id', 
+        'owner_id', 
+        'check_in', 
+        'check_out', 
+        'adult', 
+        'children', 
+        'infant', 
+        'status',
     ];
 
 
@@ -44,6 +53,11 @@ class Booking extends Model
     public function isRejectAttribute() : bool
     {
         return $this->status == Booking::REJECT;
+    }
+
+    public function isCancelAttribute(): bool
+    {
+        return $this->userVisit->status == 2;
     }
 
     public function isCheckoutAttribute() : bool
@@ -73,6 +87,10 @@ class Booking extends Model
 
     public function bookingTransaction(){
         return $this->hasMany(BookingTransaction::class);
+    }
+
+    public function userVisit(){
+        return $this->hasOne(UserVisit::class);
     }
 
 

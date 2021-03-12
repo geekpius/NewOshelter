@@ -58,6 +58,8 @@
                                                     <span class="text-success"><i class="fa fa-check-circle"></i> Confirmed</span>
                                                 @elseif ($booking->isRejectAttribute())
                                                     <span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>
+                                                @elseif ($booking->isCancelAttribute())
+                                                    <span class="text-danger"><i class="fa fa-times-circle"></i> Paid but cancelled</span>
                                                 @else
                                                     <a href="#" class="btnViewLocation text-decoration-none" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">
                                                         <span class="text-success"><i class="mdi mdi-map-marker"></i> Paid, view location</span>
@@ -104,6 +106,8 @@
                                                     <span class="text-success"><i class="fa fa-check-circle"></i> Confirmed</span>
                                                 @elseif ($booking->isRejectAttribute())
                                                     <span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>
+                                                @elseif ($booking->isCancelAttribute())
+                                                    <span class="text-danger"><i class="fa fa-times-circle"></i> Paid but cancelled</span>
                                                 @else
                                                     <a href="#" class="btnViewLocation text-decoration-none" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">
                                                         <span class="text-success"><i class="mdi mdi-map-marker"></i> Paid, view location</span>

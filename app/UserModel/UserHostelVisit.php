@@ -3,9 +3,10 @@
 namespace App\UserModel;
 
 use App\User;
-use App\PropertyModel\Property;
+use App\BookModel\HostelBooking;
 use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\HostelBlockRoomNumber;
+use App\PropertyModel\Property;
 use App\UserModel\UserHostelVisit;
 
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,14 @@ class UserHostelVisit extends Model
     CONST CANCELLED = 2;
 
     protected $fillable = [
-        'user_id', 'property_id', 'hostel_block_room_id', 'hostel_block_room_number_id', 'check_in', 'check_out', 'is_in',
+        'user_id', 
+        'property_id', 
+        'hostel_booking_id', 
+        'hostel_block_room_id', 
+        'hostel_block_room_number_id', 
+        'check_in', 
+        'check_out', 
+        'is_in',
     ];
 
     /********* METHODS ATTRIBUTES *********/
@@ -47,6 +55,10 @@ class UserHostelVisit extends Model
 
     public function property(){
         return $this->belongsTo(Property::class, 'property_id');
+    }
+
+    public function hostelBooking(){
+        return $this->belongsTo(HostelBooking::class, 'hostel_booking_id');
     }
 
     public function hostelBlockRoom(){

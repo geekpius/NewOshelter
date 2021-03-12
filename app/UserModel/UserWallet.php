@@ -53,6 +53,30 @@ class UserWallet extends Model
         }
     }
 
+    public function getCssStyle(): string
+    {
+        switch ($this->is_cash_out) {
+            case 0:
+                return "text-primary";
+                break;
+            case 1:
+                return "text-primary";
+                break;
+            case 2:
+                return "text-purple";
+                break; 
+            case 3:
+                return "text-success";
+                break;    
+            case 4:
+                return "text-danger";
+                break; 
+            default:
+                return "";
+                break;
+        }
+    }
+
     public function getType(): string
     {
         return ucfirst($this->type);

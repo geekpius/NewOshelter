@@ -57,7 +57,7 @@
                                     <td>{{ \Carbon\Carbon::parse($wallet->created_at)->diffForHumans() }}</td>
                                     <td>{{ $wallet->getBalanceAmount() }}</td>
                                     <td>{{ $wallet->getType() }}</td>
-                                    <td class="{{ ($wallet->is_cash_out==1)? 'text-success':'text-primary' }}">{{ $wallet->getStatus() }}</td>  
+                                    <td class="{{ $wallet->getCssStyle() }}">{{ $wallet->getStatus() }}</td>  
                                     <td>
                                         @if($wallet->is_cash_out==0)
                                         <span><i class="fa fa-spin fa-spinner"></i> Waiting visitor's confirmation</span>

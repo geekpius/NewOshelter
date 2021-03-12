@@ -751,10 +751,10 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            @if (!$property->userVisits->where('status','!=',0)->count())
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnRentBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
-                                            @else
+                                            @if ($property->userVisits->where('status',1)->count())
                                             <span class="btn btn-default disabled btn-sm btn-block pl-5 pr-5 mt-3"><i class="fa fa-check"></i> {{ ucwords(str_replace('_', ' ', $property->type)) }} is booked</span>
+                                            @else
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnRentBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
                                             @endif
                                         </div>
                                     </div>
@@ -851,10 +851,10 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            @if (!$property->userVisits->where('status','!=',0)->count())
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnStayBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
-                                            @else
+                                            @if ($property->userVisits->where('status', 1)->count())
                                             <span class="btn btn-default disabled btn-sm btn-block pl-5 pr-5 mt-3"><i class="fa fa-check"></i> {{ ucwords(str_replace('_', ' ', $property->type)) }} is booked</span>
+                                            @else
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnStayBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
                                             @endif
                                         </div>
                                     </div>

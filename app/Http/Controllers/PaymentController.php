@@ -98,6 +98,7 @@ class PaymentController extends Controller
                 $stay = new UserHostelVisit;
                 $stay->user_id = Auth::user()->id;
                 $stay->property_id = $book->property_id;
+                $stay->hostel_booking_id = $book->id;
                 $stay->hostel_block_room_id = $book->hostelBlockRoomNumber->hostelBlockRoom->id;
                 $stay->hostel_block_room_number_id = $book->hostel_block_room_number_id;
                 $stay->check_in = $book->check_in;
@@ -111,6 +112,7 @@ class PaymentController extends Controller
                 $stay = new UserVisit;
                 $stay->user_id = Auth::user()->id;
                 $stay->property_id = $book->property_id;
+                $stay->booking_id = $book->id;
                 $stay->check_in = $book->check_in;
                 $stay->check_out = $book->check_out;
                 $stay->adult = $book->adult;

@@ -7,6 +7,7 @@ use App\BookModel\HostelBooking;
 use App\PropertyModel\Property;
 use App\PropertyModel\HostelBlockRoomNumber;
 use App\User;
+use App\UserModel\UserHostelVisit;
 use App\PaymentModel\BookingTransaction;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -23,7 +24,14 @@ class HostelBooking extends Model
 
 
     protected $fillable = [
-        'user_id', 'property_id', 'owner_id', 'hostel_block_room_number_id', 'room_number', 'check_in', 'check_out', 'status',
+        'user_id', 
+        'property_id', 
+        'owner_id', 
+        'hostel_block_room_number_id', 
+        'room_number', 
+        'check_in', 
+        'check_out', 
+        'status',
     ];
 
 
@@ -47,6 +55,11 @@ class HostelBooking extends Model
     public function isRejectAttribute() : bool
     {
         return $this->status == HostelBooking::REJECT;
+    }
+
+    public function isCancelAttribute(): bool
+    {
+        return $this->userHostelVisit->is_in == 2;
     }
 
     public function isCheckoutAttribute() : bool
@@ -74,6 +87,10 @@ class HostelBooking extends Model
 
     public function bookingTransaction(){
         return $this->hasMany(BookingTransaction::class);
+    }
+
+    public function userHostelVisit(){
+        return $this->hasOne(UserHostelVisit::class);
     }
 
 }

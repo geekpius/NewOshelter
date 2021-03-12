@@ -17,6 +17,7 @@ class CreateUserHostelVisitsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->integer('property_id')->unsigned()->index();
+            $table->integer('hostel_booking_id')->unsigned()->index();
             $table->integer('hostel_block_room_id')->unsigned()->index();
             $table->integer('hostel_block_room_number_id')->unsigned()->index();
             $table->date('check_in');
@@ -25,6 +26,7 @@ class CreateUserHostelVisitsTable extends Migration
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
+            $table->foreign('hostel_booking_id')->references('id')->on('hostel_bookings')->onDelete('cascade');
             $table->foreign('hostel_block_room_id')->references('id')->on('hostel_block_rooms')->onDelete('cascade');
             $table->foreign('hostel_block_room_number_id')->references('id')->on('hostel_block_room_numbers')->onDelete('cascade');
         });

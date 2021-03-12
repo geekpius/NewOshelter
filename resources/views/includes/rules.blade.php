@@ -19,8 +19,8 @@
     </div>
     <div class="form-group col-sm-6">
         <div class="checkbox checkbox-primary">
-            <input id="laundary" type="checkbox" {{ ($property->isRuleChecked('No washing outside laundary'))? 'checked':'' }}  value="No washing outside laundary" name="property_rules[]">
-            <label for="laundary">No washing outside laundary</label>
+            <input id="laundry" type="checkbox" {{ ($property->isRuleChecked('No washing outside laundry'))? 'checked':'' }}  value="No washing outside laundry" name="property_rules[]">
+            <label for="laundry">No washing outside laundry</label>
         </div>
     </div>
     <div class="form-group col-sm-6">
