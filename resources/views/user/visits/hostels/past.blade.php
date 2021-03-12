@@ -14,6 +14,9 @@
         <div class="pt-4">
             <div class="row">
                 <div class="col-sm-12">
+                    <div class="col-sm-12 mb-3">
+                        <a class="text-decoration-none" href="{{ route('visits') }}">&lt;Back</a>
+                    </div>
                     <div class="card card-bordered-blue">
                         <div class="card-body">
                             <!-- Nav tabs -->
@@ -56,8 +59,10 @@
                                             <td>
                                                 @if ($visit->isInAttribute())
                                                 <span class="badge badge-md badge-success">IN</span>
-                                                @else
-                                                <span class="badge badge-md badge-success">OUT</span>                                                    
+                                                @elseif ($visit->isOutAttribute())
+                                                <span class="badge badge-md badge-primary">OUT</span>                                                    
+                                                @elseif ($visit->isCancelledAttribute())
+                                                <span class="badge badge-md badge-danger">CANCELLED</span>                                                    
                                                 @endif
                                             </td>
                                             <td>
@@ -66,9 +71,11 @@
                                                     <i class="fas fa-clock text-purple font-16"></i>
                                                 </a>
                                                 @endif
+                                                @if (!$visit->isCancelledAttribute())
                                                 <a href="{{ route('visits.property.rating', $visit->id) }}" class="text-decoration-none" title="Rate Property">
                                                     <i class="fas fa-star text-warning font-16"></i>
-                                                </a>                                               
+                                                </a>   
+                                                @endif                                            
                                             </td>
                                         </tr><!--end tr-->
                                         @endforeach                                                                                   

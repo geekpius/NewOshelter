@@ -16,6 +16,9 @@
         <div class="pt-4">
             <div class="row">
                 <div class="col-sm-12">
+                    <div class="col-sm-12 mb-3">
+                        <a class="text-decoration-none" href="{{ route('visits') }}">&lt;Back</a>
+                    </div>
                     <div class="card card-bordered-blue">
                         <div class="card-body">
                             <!-- Nav tabs -->
