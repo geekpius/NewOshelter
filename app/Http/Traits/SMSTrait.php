@@ -15,7 +15,6 @@ trait SMSTrait
         $data = array(
             "auth" => array(
                 "model" => "key",
-                // "apiKey" => "2d2adc5cb5edf9d1b090dd97d37e2c5688adff43c8c3882c739dbffd29c3baa2"
                 "apiKey" => $key
             ),
             "data" => array(
