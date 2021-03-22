@@ -300,7 +300,7 @@ class BookingController extends Controller
     }
 
     // confirm booking request
-    public function bookingRequest(Request $request) :string
+    public function bookingRequest(Request $request): string
     {
         $validator = \Validator::make($request->all(), [
             'property_id' => 'required',
@@ -313,7 +313,7 @@ class BookingController extends Controller
         
         (string)$message ='';
         if ($validator->fails()){
-            $message = 'fail';
+            $message = 'Validation failed';
         }else{
             if($request->type == 'hostel'){
                 if($request->book_status == 'rebook'){
@@ -401,9 +401,9 @@ class BookingController extends Controller
                     $book = new Booking;
                     $book->user_id = Auth::user()->id;
                     $book->property_id  = $request->property_id;
-                    $book->owner_id  = $request->owner;
-                    $book->check_in  = date("Y-m-d",strtotime($request->checkin));
-                    $book->check_out  = date("Y-m-d",strtotime($request->checkout));
+                    $book->owner_id = $request->owner;
+                    $book->check_in = date("Y-m-d",strtotime($request->checkin));
+                    $book->check_out = date("Y-m-d",strtotime($request->checkout));
                     $book->adult  = $request->adult;
                     $book->children  = $request->child;
                     if($request->type_status == 'short_stay'){

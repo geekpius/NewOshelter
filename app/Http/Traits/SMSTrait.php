@@ -3,17 +3,20 @@
 namespace App\Http\Traits;
 
 use Illuminate\Support\Facades\Auth;
+use Config;
 
 trait SMSTrait
 {
     public function isSendSMS(string $message, string $phone): bool
     {
+        $key = env('SMS_API_KEY');
         $url = 'https://api.smsonlinegh.com/v3/message/sms/send';
 
         $data = array(
             "auth" => array(
                 "model" => "key",
-                "apiKey" => "2d2adc5cb5edf9d1b090dd97d37e2c5688adff43c8c3882c739dbffd29c3baa2"
+                // "apiKey" => "2d2adc5cb5edf9d1b090dd97d37e2c5688adff43c8c3882c739dbffd29c3baa2"
+                "apiKey" => $key
             ),
             "data" => array(
                 "messages" => [

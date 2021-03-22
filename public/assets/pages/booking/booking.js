@@ -199,7 +199,7 @@ $("#formConfirmBooking").on("submit", function(e){
             type: "POST",
             data: data,
             success: function(resp){
-                if(resp=='success'){
+                if(resp == 'success'){
                     swal({
                         title: "Confirmed",
                         text: "You have sent a booking request to owner\nWait for owner confirmation.",
