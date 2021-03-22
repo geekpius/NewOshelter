@@ -24,7 +24,10 @@ class PropertyType extends Model
 
     public function getPropertyCount()
     {
-        return Property::whereType(strtolower(str_replace(' ','_',$this->name)))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->count();
+        return Property::whereType(strtolower(str_replace(' ','_',$this->name)))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)
+        ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+            $query->whereIn('status', [0,2]);
+        })->count();
     }
 
 }

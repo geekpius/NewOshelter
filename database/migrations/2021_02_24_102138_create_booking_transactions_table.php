@@ -16,7 +16,7 @@ class CreateBookingTransactionsTable extends Migration
         Schema::create('booking_transactions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('transaction_id')->unsigned()->index();
-            $table->integer('booking_id');
+            $table->integer('booking_id')->index();
             $table->string('property_type');
             $table->timestamps();
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');

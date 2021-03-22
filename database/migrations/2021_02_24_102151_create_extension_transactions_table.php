@@ -16,7 +16,7 @@ class CreateExtensionTransactionsTable extends Migration
         Schema::create('extension_transactions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('transaction_id')->unsigned()->index();
-            $table->integer('extension_id');
+            $table->integer('extension_id')->index();
             $table->string('property_type');
             $table->timestamps();
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');

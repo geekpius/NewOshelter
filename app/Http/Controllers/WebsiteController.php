@@ -36,10 +36,10 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = null;
         $data['types'] = PropertyType::whereIs_public(true)->get();
-        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->take(50)->orderBy('id', 'DESC')->get();
-        // ->whereHas('userVisits', function($query){
-        //     // $query->whereIn('status', [0,2]);
-        // })->get();
+        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->take(50)->orderBy('id', 'DESC')
+        ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+            $query->whereIn('status', [0,2]);
+        })->get();
         return view('website.welcome', $data);
     }
 
@@ -55,7 +55,10 @@ class WebsiteController extends Controller
         $status = str_replace('-',' ',$status);
         $data['page_title'] = 'Narrow down '.$status.' filter complexity';
         // $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->paginate(12);
+        $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)
+        ->orderBy('id', 'DESC')->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+            $query->whereIn('status', [0,2]);
+        })->paginate(12);
         $data['property_types'] = PropertyType::get(['name']);
         return view('website.properties.property-status', $data);
     }
@@ -67,7 +70,9 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Explore our neighborhoods on '.str_plural($type);
         $props = Property::whereType(str_replace(' ','_',$type))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC');
         $data['property_types'] = PropertyType::get(['name']);
-        $data['properties'] = $props->paginate(12);
+        $data['properties'] = $props->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+            $query->whereIn('status', [0,2]);
+        })->paginate(12);
         if(session()->has('properties'))
         {
             session()->forget('properties');
@@ -104,7 +109,10 @@ class WebsiteController extends Controller
     public function property()
     {
         $data['page_title'] = 'Browse all properties of any kind';
-        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->paginate(12);
+        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')
+        ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+            $query->whereIn('status', [0,2]);
+        })->paginate(12);
         $data['property_types'] = PropertyType::get(['name']);
         return view('website.properties.properties', $data);
     }
@@ -112,7 +120,10 @@ class WebsiteController extends Controller
     // get all properties to the map
     public function mapProperty()
     {
-        $properties = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->get();
+        $properties = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')
+        ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+            $query->whereIn('status', [0,2]);
+        })->get();
         return PropertyCollection::collection($properties);
     }
 
@@ -123,7 +134,9 @@ class WebsiteController extends Controller
             $location = $request->get('location');
             $data['page_title'] = $location;
             $props = Property::whereType_status($request->get('status'))->whereIs_active(true)->wherePublish(true)->whereDone_step(true)
-                ->whereHas('propertyLocation', function($query) use($location){
+            ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+                $query->whereIn('status', [0,2]);
+            })->whereHas('propertyLocation', function($query) use($location){
                     $query->where('location', 'like', '%'.$location.'%');
             });
             $data['properties'] = $props->orderBy('id','desc')->paginate(12);

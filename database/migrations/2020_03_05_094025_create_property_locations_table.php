@@ -17,7 +17,7 @@ class CreatePropertyLocationsTable extends Migration
             $table->increments('id');
             $table->integer('property_id')->unsigned()->index();
             $table->string('digital_address')->nullable();
-            $table->string('location')->nullable();
+            $table->string('location')->nullable()->index();
             $table->string('location_slug')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();

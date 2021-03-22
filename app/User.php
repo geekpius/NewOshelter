@@ -136,10 +136,6 @@ class User extends Authenticatable
         return $this->hasMany(UserLogin::class);
     }
 
-    public function vat(){
-        return $this->hasOne(Vat::class);
-    }
-
     public function userNotification(){
         return $this->hasOne(UserNotification::class);
     }
