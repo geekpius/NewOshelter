@@ -718,6 +718,15 @@
                                             </div>
                                         @elseif($property->type_status == 'short_stay')
                                             <div class="col-sm-12">
+                                                <h6 class="text-primary">Inclusive Utilities</h6>
+                                                <div class="row">
+                                                    <div class="col-sm-4 font-13">Water</div>
+                                                    <div class="col-sm-4 font-13">Sanitation</div>
+                                                    <div class="col-sm-4 font-13">Light</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12"><hr></div>
+                                            <div class="col-sm-12">
                                                 <h6><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant'])) }}</h6>
                                             </div>
                                             <div class="col-sm-12"><hr></div>

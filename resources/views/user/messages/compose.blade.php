@@ -21,6 +21,8 @@
                         <div class="row">
                             <div class="col-sm-12 pt-4">     
                                 <input type="hidden" name="destination" value="{{ $host->id }}" readonly>                       
+                                <input type="hidden" name="property" value="{{ $property }}" readonly>                       
+                                <input type="hidden" name="property_title" value="{{ $property_title }}" readonly>                       
                                 <div class="form-group validate">
                                     <label for="message"><span class="text-primary">Message</span></label>
                                     <textarea class="form-control" maxlength="500" name="message" rows="5" maxlength="500" id="message" placeholder="Write your message"></textarea>

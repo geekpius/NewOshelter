@@ -145,13 +145,15 @@ class LoginController extends Controller
         }
 
         //update 
-        $login = new UserLogin;
-        $login->user_id = $id;
-        $login->ip = $ip;
-        $login->device = $os_platform;
-        $login->browser = $browser;
-        $login->location = $city. ', '.$country;
-        $login->save();
+        if(UserLogin::whereUser_id($id)->whereDevice($os_platform)->whereBrowser($browser)->orderBy('id')->count() < 1)
+        {
+            $login = new UserLogin;
+            $login->user_id = $id;
+            $login->device = $os_platform;
+            $login->browser = $browser;
+            $login->location = $city. ', '.$country;
+            $login->save();
+        }
     }
 
     protected function authenticated(Request $request, $user)

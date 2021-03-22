@@ -229,7 +229,7 @@ Route::group(['middleware' => ['verify-email']], function() {
         /*------- Messages ------- */
         Route::group(['prefix' => 'messages'], function () {
             Route::get('', 'MessageController@index')->name('messages');
-            Route::get('/{user}/compose', 'MessageController@composeMessage')->name('messages.compose');
+            Route::get('/{user}/{property}/compose', 'MessageController@composeMessage')->name('messages.compose');
             Route::post('/submit', 'MessageController@sendMessage')->name('messages.compose.submit');
             Route::post('/reply', 'MessageController@reply')->name('messages.reply');
             Route::get('/{message}/read', 'MessageController@read')->name('messages.read');

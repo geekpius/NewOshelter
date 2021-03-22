@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\MessageModel\Message;
+use App\PropertyModel\Property;
 use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
@@ -24,32 +25,43 @@ class MessageController extends Controller
         return view('user.messages.index', $data);
     }
 
-    public function composeMessage(User $user)
+    public function composeMessage(User $user, Property $property)
     {
-        if(Auth::user()->id == $user->id){
-            return redirect()->route('messages');
-        }
-        else{
-            $data['page_title'] = 'Compose message to '.$user->name;
-            $data['host'] = $user;
-            return view('user.messages.compose', $data);
+        if($property->is_active && $property->publish && $property->done_step && $user->is_active){
+            if(Auth::user()->id == $user->id){
+                return redirect()->route('messages');
+            }
+            else{
+                $data['page_title'] = 'Compose message to '.$user->name;
+                $data['host'] = $user;
+                $data['property'] = $property->id;
+                $data['property_title'] = $property->title;
+                return view('user.messages.compose', $data);
+            }
+        }else{
+            return view('errors.404');
         }
     }
 
     //send message
-    public function sendMessage(Request $request)
+    public function sendMessage(Request $request): string
     {
         $validator = \Validator::make($request->all(), [
-            'destination' => 'required|string',
+            'destination' => 'required',
+            'property' => 'required',
+            'property_title' => 'required|string',
             'message' => 'required|string',
         ]);
+
+        (string) $message = "";
         if ($validator->fails()){
             $message = 'fail';
         }else{
+            (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $request->property).'">'.$request->property_title.'</a>';
             $msg = new Message;
             $msg->user_id = Auth::user()->id;
             $msg->destination = $request->destination;
-            $msg->message = $request->message;
+            $msg->message = $request->message.' <br>'.$detail;
             $msg->save();
             $message="success";
         }

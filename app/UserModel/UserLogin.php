@@ -11,7 +11,7 @@ class UserLogin extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id', 'ip', 'device', 'browser', 'location',
+        'user_id', 'device', 'browser', 'location',
     ];
 
     public function user(){

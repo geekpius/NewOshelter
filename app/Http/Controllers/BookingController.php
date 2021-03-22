@@ -20,10 +20,12 @@ use App\BookModel\HostelBooking;
 
 use App\Mail\EmailSender;
 use Illuminate\Support\Facades\Mail;
-use App\SMS\SMS;
+use App\Http\Traits\SMSTrait;
 
 class BookingController extends Controller
 {
+    use SMSTrait; 
+    
     public function __construct()
     {
         $this->middleware('verify-user')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
@@ -236,18 +238,22 @@ class BookingController extends Controller
                         
                         $phoneNumber = $request->phone_prefix.$request->phone_number;
                         $smsMessage = "Your Oshelter verification code is: ".$user->sms_verification_token.". Don't share this code with anyone not even our employees.";
-                        $sms = new SMS("OSHELTER", $phoneNumber, $smsMessage);
-                        $resp = $sms->send();
-                        $message='success';
+                        if($this->isSendSMS($smsMessage, $phoneNumber)){
+                            $message='success';
+                        }else{
+                            $message = "Could not send verification code. Try again.";
+                        }
                     }else{
                         $user->phone=$phone;
                         $user->sms_verification_token = $user->generateSmsVerificationCode();
                         $user->update();
         
                         $smsMessage = "Your Oshelter verification code is: ".$user->sms_verification_token.". Don't share this code with anyone not even our employees.";
-                        $sms = new SMS("OSHELTER", $phoneNumber, $smsMessage);
-                        $resp = $sms->send();
-                        $message='success';
+                        if($this->isSendSMS($smsMessage, $phoneNumber)){
+                            $message='success';
+                        }else{
+                            $message = "Could not send verification code. Try again.";
+                        }
                     }
                 } catch (\Exception $e) {
                     $message = 'Error occurred while sending sms';

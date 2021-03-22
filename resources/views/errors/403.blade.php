@@ -8,7 +8,7 @@
         <!-- CSRF Token -->
         <title>OShelter - Unauthorized</title>
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
 
         @yield('styles')
 
