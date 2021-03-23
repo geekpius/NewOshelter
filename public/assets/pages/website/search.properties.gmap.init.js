@@ -233,20 +233,24 @@
     
     $("#formSearch").on('submit', function(e){
       e.stopPropagation();
-      if($("#location").val()==''){
+      if($("#formSearch input[name='location']").val()==''){
           return false;
       }else{
           return true;
       }
-      return false;
     });
     
-    $("#formSearch #location, #formSearch status").on('keydown', function(e){
+    $("#formSearch input[name='location'], #formSearch select[name='status']").on('keydown', function(e){
       e.stopPropagation();
       if(e.which==13){
           $("#formSearch").trigger("submit");
       }
     });
+
+    $("#formSearch select[name='status']").on('change', function(e){
+        e.stopPropagation();
+        $("#formSearch").trigger("submit");
+      });
 
     autocomplete.addListener("place_changed", function() {
         const place = autocomplete.getPlace();

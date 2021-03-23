@@ -250,9 +250,9 @@
         <div class="col-sm-6">
             <h2 class="pxp-content-side-h2">
                 @if (empty(request()->input('location')))
-                {{ ($properties->total()>1)? number_format($properties->total()).' results':number_format($properties->total()).' result' }}
+                {{ number_format($properties->total()) }} {{ str_plural('result', $properties->total()) }} for {{ str_plural(str_replace('_',' ',request()->input('status'))) }}
                 @else
-                {{ ($properties->total()>1)? number_format($properties->total()).' results':number_format($properties->total()).' result' }} for {{ ucwords(request()->input('location')) }}
+                {{ number_format($properties->total()) }} {{ str_plural('result', $properties->total()) }} for {{ str_plural(str_replace('_',' ',request()->input('status'))) }} in {{ ucwords(request()->input('location')) }}
                 @endif
             </h2>
         </div>
