@@ -33,7 +33,7 @@ class ConfirmationController extends Controller
         }
     }
 
-    public function confirmStay(Request $request, User $user)
+    public function confirmStay(Request $request, User $user): string
     {
         $validator = \Validator::make($request->all(), [
             'owner_id' => 'required',
@@ -78,7 +78,7 @@ class ConfirmationController extends Controller
         return $message;        
     }
 
-    public function cancelStay(Request $request, User $user)
+    public function cancelStay(Request $request, User $user): string
     {
         $validator = \Validator::make($request->all(), [
             'owner_id' => 'required',

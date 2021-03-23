@@ -250,7 +250,7 @@
                     <div class="pxp-cta-1-caption pxp-animate-in rounded-lg">
                         <h2 class="pxp-section-h2">Search Smarter, From Anywhere</h2>
                         <p class="pxp-text-light">Power your search with our OShelter real estate platform, for timely listings and a seamless experience.</p>
-                        <a href="#" class="pxp-primary-cta text-uppercase mt-3 mt-md-5 pxp-animate">Search Now</a>
+                        {{-- <a href="#" class="pxp-primary-cta text-uppercase mt-3 mt-md-5 pxp-animate">Search Now</a> --}}
                     </div>
                 </div>
             </div>

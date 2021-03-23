@@ -91,7 +91,7 @@ class WebsiteController extends Controller
     //single property details
     public function singleProperty(Property $property)
     {
-        if($property->done_step && $property->is_active && $property->publish){
+        if($property->done_step && $property->is_active && $property->publish && $property->isVisitorIn()){
             $data['page_title'] = 'Detailing '.$property->title.' property for you. Have all the overviews of property to make decisions.';
             $data['property'] = $property;
             $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
@@ -156,7 +156,9 @@ class WebsiteController extends Controller
 
             $props = Property::whereType_status($request->get('status'))->whereIs_active(true)->wherePublish(true)->whereDone_step(true);
             if(empty($request->get('type'))){
-                $props->whereHas('propertyLocation', function($query) use($location){
+                $props->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+                    $query->whereIn('status', [0,2]);
+                })->whereHas('propertyLocation', function($query) use($location){
                     $query->where('location', 'like', '%'.$location.'%');
                 })->whereHas('propertyPrice', function($query) use($request){
                     $min = empty($request->get('min_price'))? 0:$request->get('min_price');
@@ -175,7 +177,9 @@ class WebsiteController extends Controller
                 });
             }else{
                 $props->whereType($request->get('type'));
-                $props->whereHas('propertyLocation', function($query) use($location){
+                $props->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+                    $query->whereIn('status', [0,2]);
+                })->whereHas('propertyLocation', function($query) use($location){
                     $query->where('location', 'like', '%'.$location.'%');
                 })->whereHas('propertyPrice', function($query) use($request){
                     $min = empty($request->get('min_price'))? 0:$request->get('min_price');

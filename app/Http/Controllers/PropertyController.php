@@ -357,9 +357,9 @@ class PropertyController extends Controller
                             $name = sha1(date('YmdHis') . str_random(30));
                             $new_name = Auth::user()->id . $name . '.' . $photo->getClientOriginalExtension();
                             $location = 'assets/images/properties/' . $new_name;
-                            // (string) $waterMarkLocation = 'assets/images/form-logo.png';
-                            // $photo = Image::make($photo)->resize(720, 480)->insert($waterMarkLocation, 'center')->save($location); 
-                            $photo = Image::make($photo)->resize(720, 480)->save($location); 
+                            (string) $waterMarkLocation = 'assets/images/watermark.png';
+                            $photo = Image::make($photo)->resize(720, 480)->insert($waterMarkLocation, 'center')->save($location); 
+                            // $photo = Image::make($photo)->resize(720, 480)->save($location); 
                             //save temp image
                             $files = new PropertyImage;
                             $files->property_id = $property->id;

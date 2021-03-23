@@ -234,6 +234,15 @@ class Property extends Model
         return $this->getAvailableRooms() - $this->getFullRooms();
     }
 
+    public function isVisitorIn(): bool
+    {   
+        if($this->type=='hostel'){
+            return true;
+        }else{
+            return $this->userVisits->where('status', 1)->count() == 0;
+        }
+    }
+
 
 
 }
