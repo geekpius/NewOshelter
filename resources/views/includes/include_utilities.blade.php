@@ -2,16 +2,16 @@
     <div class="col-sm-4">
         <div class="form-group">
             <div class="checkbox checkbox-primary">
-                <input id="utility1" type="checkbox" {{ ($property->isIncludeUtilityChecked('water bill'))? 'checked':'' }} value="water bill" name="includes[]">
-                <label for="utility1">Include water bill</label>
+                <input id="utility1" type="checkbox" {{ ($property->isIncludeUtilityChecked('water'))? 'checked':'' }} value="water" name="includes[]">
+                <label for="utility1">Include water utitlity</label>
             </div>
         </div>
     </div>
     <div class="col-sm-4">
         <div class="form-group">
             <div class="checkbox checkbox-primary">
-                <input id="utility2" type="checkbox" {{ ($property->isIncludeUtilityChecked('sanitation fee'))? 'checked':'' }} value="sanitation fee" name="includes[]">
-                <label for="utility2">Include sanitation fee</label>
+                <input id="utility2" type="checkbox" {{ ($property->isIncludeUtilityChecked('sanitation'))? 'checked':'' }} value="sanitation" name="includes[]">
+                <label for="utility2">Include sanitation utitlity</label>
             </div>
         </div>
     </div>

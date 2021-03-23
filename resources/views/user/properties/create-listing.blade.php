@@ -1660,6 +1660,7 @@
     });
 
     function showBlocks(id){
+        $("#getMyBlockNames").html('<div class="text-center mt-2 text-primary"><i class="fa fa-spin fa-spinner fa-lg"></i> Loading block names</div>');
         $.ajax({
             url: "{{ url('/user/properties/block') }}/"+id+"/show",
             type: "GET",
@@ -1667,13 +1668,28 @@
                 $("#getMyBlockNames").html(resp);
             },
             error: function(resp){
-                alert("Something went wrong with request");
+                console.log("Something went wrong with request");
             }
         });
     }
     showBlocks({{ $property->id }});
 
     ///create hostel rooms
+    function showMyCreatedRoom(){
+        $("#getMyCreatedRooms").html('<div class="text-center mt-3 text-primary"><i class="fa fa-spin fa-spinner fa-lg"></i> Loading block rooms</div>');
+        $.ajax({
+            url: "{{ route('property.blockroom.show', $property->id) }}",
+            type: "GET",
+            success: function(resp){
+                $("#getMyCreatedRooms").html(resp);
+            },
+            error: function(resp){
+                console.log("Something went wrong with request");
+            }
+        });
+    }
+    showMyCreatedRoom();
+
     $("#formCreateRooms").on("submit", function(e){
         e.preventDefault();
         e.stopPropagation();
@@ -1696,7 +1712,8 @@
                 data: data,
                 success: function(resp){
                     if(resp=='success'){
-                        $("#getMyCreatedRooms").load("{{ route('property.blockroom.show', $property->id) }}");
+                        // $("#getMyCreatedRooms").load("{{ route('property.blockroom.show', $property->id) }}");
+                        showMyCreatedRoom();
                         $("#formCreateRooms input[name='rooms_on_block']").val('1');
                         $("#formCreateRooms input[name='room_start']").val('1');
                         $("#formCreateRooms input[name='person_per_room']").val('');
@@ -1720,7 +1737,6 @@
         return false;
     });
 
-    $("#getMyCreatedRooms").load("{{ route('property.blockroom.show', $property->id) }}");
 
     ///select to get room type
     $("#formHostelRoomAmenity select[name='gender']").on("change", function(e){
