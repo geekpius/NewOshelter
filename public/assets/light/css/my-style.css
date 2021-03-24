@@ -14,6 +14,11 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     display: none;
   }
 
+  a.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+
  /* NAVS */
   .nav-blue-background {
     background-color: #1C2765;

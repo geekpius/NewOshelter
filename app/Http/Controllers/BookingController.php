@@ -78,7 +78,7 @@ class BookingController extends Controller
                         return view('errors.404');
                     }
                 }else{
-                    if($property->is_active && $property->publish && $property->user_id != Auth::user()->id && !$property->userVisits->where('status','!=',0)->count())
+                    if($property->is_active && $property->publish && $property->user_id != Auth::user()->id && $property->isVisitorIn())
                     {
                         if($property->type_status == 'rent'){
                             $data['page_title'] = 'Booking '.$property->title;

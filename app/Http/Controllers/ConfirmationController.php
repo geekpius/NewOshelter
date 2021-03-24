@@ -12,6 +12,8 @@ use App\UserModel\UserWallet;
 use App\UserModel\UserVisit;
 use App\UserModel\UserHostelVisit;
 use App\Http\Traits\PermissionTrait;
+use App\Mail\EmailSender;
+use Illuminate\Support\Facades\Mail;
 
 class ConfirmationController extends Controller
 {
@@ -59,9 +61,19 @@ class ConfirmationController extends Controller
                         $confirmation->type = $request->type;
                         $confirmation->status = true;
                         $confirmation->save();
-            
+                        
+                        (string) $propertyTitle = ($confirmation->type=='hostel')? $confirmation->hostelVisit->property->title:$confirmation->visit->property->title;
                         UserWallet::whereUser_id($confirmation->owner_id)->whereTransaction_id($confirmation->transaction_id)->update(['is_cash_out' => 1]);
                         DB::commit();
+                        //emailing
+                        $data = array(
+                            "type" => "confirm",
+                            "title" => "STAY CONFIRMATION",
+                            "property" => $propertyTitle,
+                            "name" => current(explode(' ',$confirmation->owner->name)),
+                            "visitor" => current(explode(' ',Auth::user()->name)),
+                        );
+                        Mail::to($confirmation->owner->email)->send(new EmailSender($data, 'Stay Confirmation', 'emails.stay_confirmation'));
                         $message = "success";
                     }catch(\Exception $e){
                         DB::rollback();
@@ -105,6 +117,7 @@ class ConfirmationController extends Controller
                         $confirmation->status = false;
                         $confirmation->save();
 
+                        (string) $propertyTitle = "";
                         if($confirmation->type=='hostel'){
                             $hostelVisit = UserHostelVisit::findOrFail($confirmation->visit_id);
                             $hostelVisit->is_in = 2;
@@ -113,11 +126,22 @@ class ConfirmationController extends Controller
                             $roomNumber->occupant = $roomNumber->occupant-1;
                             $roomNumber->full = false;
                             $roomNumber->update();
+                            $propertyTitle = $confirmation->hostelVisit->property->title;
                         }else{
                             UserVisit::findOrFail($confirmation->visit_id)->update(['status' => 2]);
+                            $propertyTitle = $confirmation->visit->property->title;
                         }
                         UserWallet::whereUser_id($confirmation->owner_id)->whereTransaction_id($confirmation->transaction_id)->update(['is_cash_out' => 4]);
                         DB::commit();
+                         //emailing
+                         $data = array(
+                            "type" => "cancel",
+                            "title" => "STAY CANCELLATION",
+                            "property" => $propertyTitle,
+                            "name" => current(explode(' ',$confirmation->owner->name)),
+                            "visitor" => current(explode(' ',Auth::user()->name)),
+                        );
+                        Mail::to($confirmation->owner->email)->send(new EmailSender($data, 'Stay Cancellation', 'emails.stay_confirmation'));
                         $message = "success";
                     }catch(\Exception $e){
                         DB::rollback();

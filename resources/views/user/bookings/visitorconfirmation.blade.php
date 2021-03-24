@@ -140,6 +140,8 @@ $("#datatable tbody").on("click", ".btnConfirm", function(){
         closeOnConfirm: true
         },
     function(){
+        $this.addClass('disabled');
+        $("#datatable tbody .btnReject").addClass('disabled');
         let data = {
             _token: $this.data('token'),
             owner_id: $this.data('owner'),
@@ -157,39 +159,17 @@ $("#datatable tbody").on("click", ".btnConfirm", function(){
                     $this.parents('.record').find('td').eq(5).html('<span class="text-success"><i class="fa fa-check-circle"></i> Confirmed</span>');
                 }else{
                     swal("Warning", resp, "warning");
+                    $this.removeClass('disabled');
+                    $("#datatable tbody .btnReject").removeClass('disabled');
                 }
             },
             error: function(resp){
                 console.log("Something went wrong with request");
+                $this.removeClass('disabled');
+                $("#datatable tbody .btnReject").removeClass('disabled');
             }
         });
     });
-
-        //     if(confirm('You are about to confirm your stay. Sure to confirm?')){
-        //         let data = {
-        //             _token: $this.data('token'),
-        //             owner_id: $this.data('owner'),
-        //             visit_id: $this.data('visit'),
-        //             transaction_id: $this.data('transaction'),
-        //             type: $this.data('type'),
-        //         }
-        //         $.ajax({
-        //             url: $this.attr('href'),
-        //             type: "POST",
-        //             data: data,
-        //             success: function(resp){
-        //                 if(resp=='success'){
-        //                     swal("Cofirmed", "You have confirmed your stay.\nOwner can have access to payment", "success");
-        //                     $this.parents('.record').find('td').eq(5).html('<span class="text-success"><i class="fa fa-check-circle"></i> Confirmed</span>');
-        //                 }else{
-        //                     swal("Warning", resp, "warning");
-        //                 }
-        //             },
-        //             error: function(resp){
-        //                 console.log("Something went wrong with request");
-        //             }
-        //         });
-        //     }
     return false;
 });
 
@@ -202,10 +182,12 @@ $("#datatable tbody").on("click", ".btnReject", function(){
         showCancelButton: true,
         confirmButtonClass: "btn-primary btn-sm",
         cancelButtonClass: "btn-danger btn-sm",
-        confirmButtonText: "Cancel",
+        confirmButtonText: "Confirm",
         closeOnConfirm: true
         },
     function(){
+        $this.addClass('disabled');
+        $("#datatable tbody .btnConfirm").addClass('disabled');
         let data = {
             _token: $this.data('token'),
             owner_id: $this.data('owner'),
@@ -223,38 +205,17 @@ $("#datatable tbody").on("click", ".btnReject", function(){
                     $this.parents('.record').find('td').eq(5).html('<span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>');
                 }else{
                     swal("Warning", resp, "warning");
+                    $this.removeClass('disabled');
+                    $("#datatable tbody .btnConfirm").removeClass('disabled');
                 }
             },
             error: function(resp){
+                $this.removeClass('disabled');
+                $("#datatable tbody .btnConfirm").removeClass('disabled');
                 console.log("Something went wrong with request");
             }
         });
     });
-    // if(confirm('You are about to cancel your stay. Sure to cancel?')){
-    //     let data = {
-    //         _token: $this.data('token'),
-    //         owner_id: $this.data('owner'),
-    //         visit_id: $this.data('visit'),
-    //         transaction_id: $this.data('transaction'),
-    //         type: $this.data('type'),
-    //     }
-    //     $.ajax({
-    //         url: $this.attr('href'),
-    //         type: "POST",
-    //         data: data,
-    //         success: function(resp){
-    //             if(resp=='success'){
-    //                 swal("Cancelled", "You have cancelled your stay.\nOwner do not have access to payment.\nService fee will be deducted.", "success");
-    //                 $this.parents('.record').find('td').eq(5).html('<span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>');
-    //             }else{
-    //                 swal("Warning", resp, "warning");
-    //             }
-    //         },
-    //         error: function(resp){
-    //             console.log("Something went wrong with request");
-    //         }
-    //     });
-    // }
     return false;
 });
 </script>

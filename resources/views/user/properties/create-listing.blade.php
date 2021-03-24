@@ -1594,7 +1594,7 @@
                 console.log(resp);
             },
             error: function(resp){
-                alert("Something went wrong.");
+                console.log("Something went wrong.");
             }
         });
         return true; //this will not prevent clicking and selecting steps
@@ -1612,7 +1612,7 @@
                 $("#checkBlockName").text(resp.countBlock);
             },
             error: function(resp){
-                alert("Something went wrong with request");
+                console.log("Something went wrong with request");
             }
         });
     }
@@ -1728,7 +1728,7 @@
                     $(".btnCreateRoom").html('<i class="fa fa-plus-circle"></i> Create Room').attr('disabled', false);
                 },
                 error: function(resp){
-                    alert("Something went wrong with request");
+                    console.log("Something went wrong with request");
                     $(".btnCreateRoom").html('<i class="fa fa-plus-circle"></i> Create Room').attr('disabled', false);
                 }
             });
@@ -1864,7 +1864,7 @@
                     $(".hostelStep8").hide();
                 },
                 error: function(resp){
-                    alert("Something went wrong with request");
+                    console.log("Something went wrong with request");
                 }
             });
         }
@@ -1907,7 +1907,7 @@
                     $(".btnHostelPrices").html('<i class="fa fa-plus-circle"></i> Price Room').attr('disabled', false);
                 },
                 error: function(resp){
-                    alert("Something went wrong with request");
+                    console.log("Something went wrong with request");
                     $(".btnHostelPrices").html('<i class="fa fa-plus-circle"></i> Price Room').attr('disabled', false);
                 }
             });
@@ -1989,7 +1989,7 @@
                         $this.parents("#btnUpload").attr("disabled", false);
                     },
                     error: function(response){
-                        alert('Something went wrong with your request');
+                        console.log('Something went wrong with your request');
                         document.getElementById("upfile").value = null;
                         $("#uploadMsg").html('');
                         $this.parents("#btnUpload").attr("disabled", false);

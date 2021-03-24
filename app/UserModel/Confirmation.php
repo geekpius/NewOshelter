@@ -3,6 +3,7 @@
 namespace App\UserModel;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 use App\UserModel\UserVisit;
 use App\UserModel\UserHostelVisit;
 use App\PaymentModel\Transaction;

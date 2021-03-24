@@ -233,8 +233,8 @@
                                         $totalFee = ($totalPrice+$serviceFee)-$discountFee;
                                     @endphp
                                     <div class="col-sm-12 mt-3 mb-5">
-                                        @php $booking = $property->userHostelBookings->where('property_id',$property->id)->where('hostel_block_room_number_id', $room_number->id)->where('room_number',$room_number->room_no)->sortByDesc('id')->first(); @endphp
-                                        @if (empty($booking) || ($booking->isDoneAttribute() && $booking->isCheckoutAttribute()))
+                                        @php $booking = $property->userHostelBookings->where('hostel_block_room_number_id', $room_number->id)->where('room_number',$room_number->room_no)->sortByDesc('id')->first(); @endphp
+                                        @if (empty($booking) || ($booking->isDoneAttribute() && $booking->isCheckoutAttribute()) || ($booking->isDoneAttribute() && $booking->isCancelAttribute()))
                                         <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
                                             @csrf
                                             <input type="hidden" name="book_status" value="freshbook" readonly>
@@ -578,7 +578,7 @@
                                     @endphp
                                     <div class="col-sm-12 mt-3 mb-5">
                                         @php  $booking = $property->userBookings->sortByDesc('id')->first(); @endphp
-                                            @if (empty($booking) || ($booking->isDoneAttribute() && $booking->isCheckoutAttribute()))
+                                            @if (empty($booking) || ($booking->isDoneAttribute() && $booking->isCheckoutAttribute()) || ($booking->isDoneAttribute() && $booking->isCancelAttribute()))
                                             <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
                                                 @csrf
                                                 <input type="hidden" name="book_status" value="freshbook" readonly>
