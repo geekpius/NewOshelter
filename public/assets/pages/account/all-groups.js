@@ -199,7 +199,6 @@ $(".btn-edit").on("click", function(e){
     return false;
 });
 
-
 $("#formCurrency").on("submit", function(e){
     e.preventDefault();
     var $this = $(this);
@@ -214,6 +213,7 @@ $("#formCurrency").on("submit", function(e){
             }else{
                 $("#choosenCurrency").text(resp);
                 $(".btn-edit").trigger("click");
+                $(".btn-edit").hide();
             }
         },
         error: function(resp){
@@ -224,7 +224,31 @@ $("#formCurrency").on("submit", function(e){
 });
 
 
-$("#formCurrency select[name='currency']").val($("#formCurrency select[name='currency']").data('currency'));
+// $("#formCurrency").on("submit", function(e){
+//     e.preventDefault();
+//     var $this = $(this);
+//     let data = $this.serialize();
+//     $.ajax({
+//         url: $this.data("url"),
+//         type: "POST",
+//         data: data,
+//         success: function(resp){
+//             if(resp == "fail"){
+//                 console.log("Validation failed");
+//             }else{
+//                 $("#choosenCurrency").text(resp);
+//                 $(".btn-edit").trigger("click");
+//             }
+//         },
+//         error: function(resp){
+//             console.log("Something went wrong");
+//         }
+//     })
+//     return false;
+// });
+
+
+// $("#formCurrency select[name='currency']").val($("#formCurrency select[name='currency']").data('currency'));
 
 // //coupon
 // $(".btnAddCoupon").on("click", function(e){

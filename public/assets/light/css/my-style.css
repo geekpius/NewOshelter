@@ -395,6 +395,16 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
       cursor: pointer;
   }
 
+  .on-top-tag{
+    width: 90px;
+    height: 26px;
+    background: #262637; 
+    text-align: center;
+    line-height: 25px;
+    font-size: .8rem;
+    margin-left: 70%;
+  }
+
 
   /* PROPERTIES */
   .own-property-get-started {

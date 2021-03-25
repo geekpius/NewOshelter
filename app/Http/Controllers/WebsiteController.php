@@ -98,6 +98,12 @@ class WebsiteController extends Controller
             $countImages = $property->propertyImages->count();
             $data['image'] = $property->propertyImages->first();
             $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
+            //similar properties
+            $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)
+            ->whereType($property->type)->whereType_status($property->type_status)->where('id','!=',$property->id)->take(50)->inRandomOrder()
+            ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+                $query->whereIn('status', [0,2]);
+            })->get();
             return view('website.properties.property-detail', $data);
         }
         else{
@@ -379,6 +385,10 @@ class WebsiteController extends Controller
     public function about()
     {
         $data['page_title'] = 'About us';
+        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->take(50)->inRandomOrder()
+        ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
+            $query->whereIn('status', [0,2]);
+        })->get();
         return view('website.about', $data);
     }
 
@@ -390,6 +400,50 @@ class WebsiteController extends Controller
         return view('emails.contact')->with('data', $data);
     }
 
+    public function currencies()
+    {
+        // set API Endpoint and API key 
+        $endpoint = 'latest';
+        $access_key = '8c5dc329251f71a140b747bfba552357';
+
+        // Initialize CURL:
+        $ch = curl_init('http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Store the data:
+        $json = curl_exec($ch);
+        curl_close($ch);
+
+        // Decode JSON response:
+        $exchangeRates = json_decode($json, true);
+
+        // Access the exchange rate values, e.g. GBP:
+        // echo $exchangeRates['rates']['GHS'];
+        echo ($exchangeRates['base']);
+        echo '<br>';
+        echo json_encode($exchangeRates['rates']);
+
+        // $endpoint = 'convert';
+        // $access_key = '8c5dc329251f71a140b747bfba552357';
+
+        // $from = 'USD';
+        // $to = 'EUR';
+        // $amount = 10;
+
+        // // initialize CURL:
+        // $ch = curl_init('http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'&from='.$from.'&to='.$to.'&amount='.$amount.'');   
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // // get the JSON data:
+        // $json = curl_exec($ch);
+        // curl_close($ch);
+
+        // // Decode JSON response:
+        // $conversionResult = json_decode($json, true);
+
+        // // access the conversion result
+        // print_r($conversionResult);
+    }
     
     
 

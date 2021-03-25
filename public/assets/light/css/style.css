@@ -1677,6 +1677,13 @@ h1.pxp-page-header {
     overflow: hidden;
     height: 400px;
 }
+.pxp-prop-card-1-sm {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    height: 200px;
+    width: 270px;
+}
 .pxp-prop-card-1-fig {
     position: absolute;
     top: 0;

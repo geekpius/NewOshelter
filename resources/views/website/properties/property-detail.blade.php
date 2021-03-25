@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{{ asset('assets/light/css/default-skin/default-skin.css') }}">
 {{-- date range --}}
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="{{ asset('assets/light/css/owl.carousel.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/light/css/owl.theme.default.min.css') }}">
 @endsection
 
 @section('content')
@@ -872,9 +874,57 @@
             </div>
         </div>
     </div>
-
     <hr>
+</div>
 
+<div class="container-fluid pxp-props-carousel-right mt-5">
+    <h2 class="pxp-section-h2">Similar Properties</h2>
+    @if (count($properties))
+    <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
+        <div class="owl-carousel pxp-props-carousel-right-stage">
+            @foreach ($properties as $property)
+            <div>
+                <a href="{{ route('single.property', $property->id) }}" class="pxp-prop-card-1-sm rounded-lg">
+                    <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$property->propertyImages->first()->image) }});"></div>
+                    <span class="on-top-save on-top m-2 btnHeart" data-id="{{ $property->id }}" data-url="{{ route('saved.submit') }}">
+                        @auth
+                        <span class="fa fa-heart {{ (Auth::user()->userSavedProperties()->whereProperty_id($property->id)->count()>0)? 'text-pink':'text-primary' }} heart-hover"></span>
+                        @else
+                        <span class="fa fa-heart text-primary heart-hover"></span>
+                        @endauth
+                    </span>
+                    <span class="text-white on-top-tag on-top font-12"> 
+                        @if ($property->type_status=='rent')
+                            Rent
+                        @elseif($property->type_status=='sell')
+                            Sale
+                        @elseif($property->type_status=='auction')
+                            Auction
+                        @else
+                            Short Stay
+                        @endif
+                    </span>
+                </a>
+                <div class="mt-2">
+                    @if (count($property->propertyReviews))
+                    <div><i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b></div>
+                    @else
+                    <div class="text-muted font-13">No review yet</div>
+                    @endif
+                    <div class="">{{ $property->title }}</div>
+                    @if($property->type=='hostel')
+                    <div><strong>{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }}</strong> {{ str_plural('room', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</div>
+                    @else
+                    <div><strong>{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}</strong><small> / {{ $property->propertyPrice->price_calendar }}</small></div>
+                    @endif
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @else
+    <p class="text-danger">No property available</p>
+    @endif
 </div>
 
 <!-- id modal -->
@@ -1031,6 +1081,7 @@
     <script type="text/javascript" src="{{ asset('assets/pages/website/short-stay-property-detail.js') }}"></script>
     @endif
 @endif
+<script src="{{ asset('assets/light/js/owl.carousel.min.js') }}"></script>
 <script>
     $(".btn_review_all").on("click", function(){
         $("#reviewModal").modal('show');

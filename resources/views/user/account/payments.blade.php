@@ -34,10 +34,12 @@
                                     <strong>Payment methods</strong><br>
                                     <p>OShelter do not store your payment details on our system. You only enter payment details when making a 
                                         transaction. It is a way to make sure that your payment info is protected and only you knows. All our transactions 
-                                        are heavily encrypted which makes you save and secure. <a href="{{ route('property.add') }}">Start planning your next visit</a>.
+                                        are heavily encrypted which makes you save and secure. @if (Auth::user()->account_type=='owner')
+                                        <a href="{{ route('property.add') }}">Start planning your next visit</a>.
+                                        @endif
                                     </p>
                                     <hr>
-                                    <div>
+                                    {{-- <div>
                                         <span class="font-14 float-right"><a href="#" class="text-decoration-none btn-edit">Edit</a></span>
                                         <p class="font-weight-bold font-14">Choosen currency</p>
                                         <p class="font-14" id="choosenCurrency">{{ Auth::user()->userCurrency? Auth::user()->userCurrency->getCurrencyName():'Ghana Cedis' }}</p>
@@ -53,24 +55,27 @@
                                                 <button class="btn btn-primary btn-sm px-4">Save</button>
                                             </div>
                                         </form>
-                                    </div>
-                                        
-                                    {{-- <div class="">
-                                        <strong class="">Coupons</strong><br>
-                                        <p>Add a coupon and save on your next trip.</p>
-                                        <p>Your coupon <span class="ml-5">0</span></p>
-                                        <form class="form-horizontal form-material mb-0" id="formCoupon" style="display: none">
+                                    </div> --}}
+
+                                    <div>
+                                        @if (!Auth::user()->userCurrency)
+                                        <span class="font-14 float-right"><a href="#" class="text-decoration-none btn-edit">Edit</a></span>
+                                        @endif
+                                        <p class="font-weight-bold font-14">Choosen currency</p>
+                                        <p class="font-14" id="choosenCurrency">{{ Auth::user()->userCurrency? Auth::user()->userCurrency->getCurrencyName():'Ghana Cedis' }}</p>
+                                        <form id="formCurrency" style="display: none" data-url="{{ route('account.payments.currency') }}">
                                             <div class="form-group validate">
-                                                <input type="text" name="coupon_code" id="coupon_code" placeholder="Enter coupon code" class="form-control">
-                                                <span class="text-danger small mySpan" role="alert"></span>                                  
+                                                <select name="currency" class="form-control">
+                                                    @foreach ($currencies as $currency)
+                                                    <option value="{{ $currency->symbol }}">{{ $currency->currency }}</option> 
+                                                    @endforeach     
+                                                </select>                                 
                                             </div>
                                             <div class="form-group">
-                                                <button class="btn btn-gradient-primary btn-sm text-light px-4 btnSaveCoupon">Redeem Coupon</button>
-                                                <button type="button" class="btn btn-default btn-sm text-light px-4 ml-4 btnSaveCouponCancel text-dark">Cancel</button>
+                                                <button class="btn btn-primary btn-sm px-4">Save</button>
                                             </div>
                                         </form>
-                                        <button class="btn btn-primary btn-sm text-light px-4 mb-5 btnAddCoupon"><i class="fa fa-plus-circle"></i> Add Coupon</button>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>

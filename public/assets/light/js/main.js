@@ -5,7 +5,8 @@
     function toggleSticky() {
         if ($('.pxp-sp-agent-section').length > 0) {
             var windowWidth = $(window).width();
-            var footerHeight = $('.pxp-footer').height() + 360;
+            // var footerHeight = $('.pxp-footer').height() + 360;
+            var footerHeight = $('.pxp-footer').height() + 750;
             var topSpacing = 182;
 
             if (windowWidth > 991) {

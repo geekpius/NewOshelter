@@ -180,7 +180,6 @@ class UserProfileController extends Controller
         return view('user.account.request', $data);
     }
 
-
     public function notificationView()
     {
         $data['page_title'] = 'Notifications';
