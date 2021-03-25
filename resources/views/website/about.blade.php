@@ -39,17 +39,17 @@
 
                     <h5><strong>Cores Values</strong></h5>
                     <ol type="i">
-                        <li>Integrity</li>
+                        <li><strong>Integrity</strong></li>
                         <p>Our work and dealings are based on trustworthiness and strong ethical principles</p>
-                        <li>Competence</li>
+                        <li><strong>Competence</strong></li>
                         <p>We offer reliable advice and guidance based on our many years of experience and research to enable our clients to make the right decisions that accrue to their profit</p>
-                        <li>Quality Customer service</li>
+                        <li><strong>Quality Customer service</strong></li>
                         <p>Keeping our clients fulfilled is our core motivation for existence and so we take advantage of opportunities to deliver outstanding services</p>
-                        <li>Team Work</li>
+                        <li><strong>Team Work</strong></li>
                         <p>Every member of the team is committed to the good of our clients and our business model.</p>
-                        <li>Prompt delivery</li>
+                        <li><strong>Prompt delivery</strong></li>
                         <p>We don’t give excuses; we keep to the deadlines and deliver.</p>
-                        <li>Versatility</li>
+                        <li><strong>Versatility</strong></li>
                         <p>We adapt to the varied needs and dreams of our clients and provide tailored options to cater to these individual prerequisites and aspirations.</p>
                     </ol>
                 </div>
