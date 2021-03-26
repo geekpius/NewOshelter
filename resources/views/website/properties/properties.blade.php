@@ -85,8 +85,11 @@
                 @endforeach
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12 small">
                     {{ $properties->links() }}
+                </div>
+                <div class="col-sm-12 small">
+                    {{ ($properties->lastPage()==$properties->currentPage())? ($properties->total()-$properties->count())+1:(($properties->currentPage()*$properties->count())-15)+1 }} - {{ ($properties->lastPage()==$properties->currentPage())? $properties->total():$properties->currentPage()*$properties->count() }} of {{ $properties->total() }} properties
                 </div>
             </div>
         </div>

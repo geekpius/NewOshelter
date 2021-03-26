@@ -16,6 +16,8 @@ class SendResetPasswordNotification extends Notification
      *
      * @return void
      */
+    private $token;
+    
     public function __construct($token)
     {
         $this->token = $token;

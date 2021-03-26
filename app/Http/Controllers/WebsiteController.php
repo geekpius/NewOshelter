@@ -72,7 +72,7 @@ class WebsiteController extends Controller
         $data['property_types'] = PropertyType::get(['name']);
         $data['properties'] = $props->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
             $query->whereIn('status', [0,2]);
-        })->paginate(15);
+        })->paginate(1);
         if(session()->has('properties'))
         {
             session()->forget('properties');

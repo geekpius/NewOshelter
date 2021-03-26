@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use App\Mail\EmailSender;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\SendEmailJob;
 
 class VerifyController extends Controller
 {
@@ -105,6 +106,8 @@ class VerifyController extends Controller
             "expire" => $user->email_verification_expired_at,
             "link" => route('verify.email.activate', ['token'=>$token]),
         );
+        
+        // dispatch(new SendEmailJob($user, $data));
         Mail::to($user->email)->send(new EmailSender($data, "Verify Email", "emails.verify_email"));
         session()->flash('success', 'Verification code is sent to your mail');
         return redirect()->back();
