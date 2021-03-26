@@ -89,6 +89,11 @@ class Property extends Model
         return IncludeUtility::whereProperty_id($this->id)->whereName($value)->exists();
     }
 
+    public function getPropertyType()
+    {
+        return ucwords(str_replace('_',' ',$this->type));;
+    }
+
 
 
 
@@ -242,6 +247,12 @@ class Property extends Model
             return $this->userVisits->where('status', 1)->count() == 0;
         }
     }
+
+    public function getBedRooms(): string
+    {   
+        return $this->propertyContain->bedroom.' '.str_plural('bedroom', $this->propertyContain->bedroom);
+    }
+
 
 
 

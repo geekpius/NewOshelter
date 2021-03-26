@@ -915,6 +915,13 @@
                     @else
                     <div class="text-muted font-13">No review yet</div>
                     @endif
+                    <div class="">{{ $property->getPropertyType() }} 
+                    @if ($property->type=='hostel')
+                        <small> {{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} {{ str_plural('bedroom', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</small>
+                    @else
+                        <small> {{ $property->getBedRooms() }}</small>
+                    @endif
+                    </div>
                     <div class="">{{ $property->title }}</div>
                     @if($property->type=='hostel')
                     <div><strong>{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }}</strong> {{ str_plural('room', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</div>
