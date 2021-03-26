@@ -249,9 +249,12 @@
     <div class="row pb-4">
         <div class="col-sm-6">
             <h2 class="pxp-content-side-h2">
-                @if (empty(request()->input('location')))
+                @if (empty(request()->input('location')) && empty(request()->input('status')))
+                {{ number_format($properties->total()) }} {{ str_plural('result', $properties->total()) }}
+                @endif
+                @if (empty(request()->input('location')) && !empty(request()->input('status')))
                 {{ number_format($properties->total()) }} {{ str_plural('result', $properties->total()) }} for {{ str_plural(str_replace('_',' ',request()->input('status'))) }}
-                @else
+                @elseif (!empty(request()->input('location')) && !empty(request()->input('status')))
                 {{ number_format($properties->total()) }} {{ str_plural('result', $properties->total()) }} for {{ str_plural(str_replace('_',' ',request()->input('status'))) }} in {{ ucwords(request()->input('location')) }}
                 @endif
             </h2>

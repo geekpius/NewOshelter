@@ -31,7 +31,9 @@
                             
                             @php
                                 $actual_link = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-                                $message = current(explode(' ',$property->user->name)).' has hosted an affordable '.$property->title. ' on Oshelter platform for '.str_replace('_', ' ',$property->type_status).'. Do check it out for your preferences and enjoy stay.'."\r\n";
+                                // $propertyLink = "<a href='".route('single.property', $property->id)."' target='_blank'>$property->title</a>";
+                                $propertyLink = route('single.property', $property->id);
+                                $message = current(explode(' ',$property->user->name)).' has hosted an affordable '.$property->title.' on Oshelter platform for '.str_replace('_', ' ',$property->type_status).'. Do check it out for your preferences and enjoy stay.'."\r\n";
                             @endphp
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="https://www.facebook.com/sharer.php?u={{ $actual_link }}&quote={{ urlencode($message) }}" target="_blank"><span class="fa fa-facebook text-primary"></span> Facebook</a>
@@ -534,7 +536,9 @@
                             </div>                                
                             @endforeach
                         @else
-                            <p><i class="fa fa-square font-12"></i> No rules reported on this property.</p>
+                            <div class="col-sm-12">
+                                <p><i class="fa fa-square font-12"></i> No rules reported on this property.</p>
+                            </div>
                         @endif
                     </div>
 

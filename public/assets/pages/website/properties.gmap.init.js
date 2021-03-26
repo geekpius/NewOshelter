@@ -249,6 +249,11 @@
       }
     });
 
+    $("#formSearch select[name='status']").on('change', function(e){
+        e.stopPropagation();
+        $("#formSearch").trigger("submit");
+    });
+    
     autocomplete.addListener("place_changed", function() {
         const place = autocomplete.getPlace();
         if (place.place_id) {
