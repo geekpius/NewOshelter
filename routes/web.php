@@ -19,7 +19,7 @@ Route::group(['middleware' => ['verify-email']], function() {
     Route::get('/own-property', 'WebsiteController@ownProperty')->name('own.property');
 
     Route::group(['prefix' => 'properties'], function () {
-        Route::get('/', 'WebsiteController@property')->name('browse.property');
+        // Route::get('/', 'WebsiteController@property')->name('browse.property');
         Route::get('/search', 'WebsiteController@searchProperty')->name('browse.property.search');
         Route::get('/status/{status}', 'WebsiteController@propertyStatus')->name('status.property');
         Route::get('/status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');

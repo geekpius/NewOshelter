@@ -44,7 +44,7 @@
                     <div class="col-8 col-md-7 text-center">
                         <div class="mobile-menu-items">
                             @auth
-                            <a href="{{ route('browse.property') }}" class="pr-4 text-decoration-none" title="Filter">
+                            <a href="#" class="pr-4 text-decoration-none" title="Filter">
                                 <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
                             @if (Auth::user()->account_type=='visitor')
@@ -65,7 +65,7 @@
                             </a>
                             @endauth
                             @guest
-                            <a href="{{ route('browse.property') }}" class="pr-4 text-decoration-none" title="Filter">
+                            <a href="#" class="pr-4 text-decoration-none" title="Filter">
                                 <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
                             <a href="{{ route('help') }}" class="pr-4 text-decoration-none" title="Help">
