@@ -659,11 +659,13 @@ class PropertyController extends Controller
                     return redirect()->back();
                 }
                 elseif($request->step==3){
-                    if(!empty($request->property_rules)){
-                        foreach($request->property_rules as $rule){
-                            $rule = PropertyRule::updateOrCreate(
-                                ['property_id'=>$request->property_id,'rule'=>$rule]
-                            );
+                    if($property->type_status != 'sale'){
+                        if(!empty($request->property_rules)){
+                            foreach($request->property_rules as $rule){
+                                $rule = PropertyRule::updateOrCreate(
+                                    ['property_id'=>$request->property_id,'rule'=>$rule]
+                                );
+                            }
                         }
                     }
                     ///update step to move forward
@@ -719,9 +721,9 @@ class PropertyController extends Controller
                             'property_price'=>$request->property_price, 'smart_price'=>$request->smart_price, 'currency'=>$request->currency]
                         );
                     }
-                    elseif($property->type_status=='sell'){
+                    elseif($property->type_status=='sale'){
                         $price = PropertyPrice::updateOrCreate(
-                            ['property_id'=>$request->property_id],['property_price'=>$request->property_price, 'currency'=>$request->currency, 'negotiable'=>$request->negotiable]
+                            ['property_id'=>$request->property_id],['property_price'=>$request->property_price, 'currency'=>$request->currency]
                         );
                     }
                     else{

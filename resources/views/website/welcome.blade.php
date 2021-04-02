@@ -23,8 +23,8 @@
                                 <select class="custom-select" name="status" id="status">
                                     <option value="rent" selected>Rent</option>
                                     <option value="short_stay">Short Stay</option>
-                                    {{-- <option value="sell">Sell</option>
-                                    <option value="auction">Auction</option> --}}
+                                    <option value="sale">Sale</option>
+                                    {{-- <option value="auction">Auction</option> --}}
                                 </select>
                             </div>
                         </div>
@@ -159,14 +159,14 @@
                             @if($property->type=='hostel')
                             <div class="pxp-prop-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} {{ str_plural('Room', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</div>                                
                             @else
-                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}<small>/{{ $property->propertyPrice->price_calendar }}</small></div>                                
+                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}{{ $property->type_status=='sale'? '':'<small>/'.$property->propertyPrice->price_calendar.'</small>' }}</div>                                
                             @endif
                             <span class="fa fa-tag text-white pull-right"> 
                                 <strong>
                                 @if ($property->type_status=='rent')
-                                    Rent
-                                @elseif($property->type_status=='sell')
-                                    Sell
+                                    For Rent
+                                @elseif($property->type_status=='sale')
+                                    For Sale
                                 @elseif($property->type_status=='auction')
                                     Auction
                                 @else

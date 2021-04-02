@@ -16,6 +16,10 @@
     <div class="pxp-single-property-top pxp-content-wrapper mt-5">
         <div class="container">
             <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
+                    <p class="pxp-sp-top-address pxp-text-light" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }}</p>
+                </div>
                 <div class="col-sm-7">
                     <div class="pxp-sp-top-btns">
                         @auth
@@ -86,8 +90,17 @@
                     <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
                     <p>{{ current(explode(' ',$property->user->name)) }}</p>
                 </div>
-                <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
-                <p class="pxp-sp-top-address pxp-text-light" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }}</p>
+
+                <h3>Key Details</h3>
+                
+                <!-- Contained amenities -->
+                @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
+                <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
+                @else
+                <p>
+                    <i class="fa fa-home text-success"></i> 
+                    <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
+                @endif
             </div>
         </div>
     </div>
@@ -95,19 +108,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <hr>       
                 {{-- Key details --}}
                 <div class="pxp-single-property-section">
-                    <h3>Key Details</h3>
-                
-                    <!-- Contained amenities -->
-                    @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
-                    <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
-                    @else
-                    <p>
-                        <i class="fa fa-home text-success"></i> 
-                        <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
-                    @endif
 
                     @if ($property->type=='hostel')
                         @if (count($property->propertyHostelBlockRooms))
@@ -314,20 +316,14 @@
                                         </p>
                                     </div>
                                 </div>
-                            @elseif ($property->type_status=='sell')
+                            @elseif ($property->type_status=='sale')
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <i class="fa fa-user-circle text-primary"></i>
-                                        <h4 class="header-title">Some Title</h4>
+                                        <h6 class="header-title text-primary">Available for sale</h6>
                                         <p class="">
-                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            <i class="fa fa-check text-success font-12"></i>
                                             <span>
                                                 <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b> 
-                                            </span>
-                                            <br>
-                                            <i class="fa {{ $property->propertyPrice->negotiable? 'fa-check text-success':'fa-times text-danger' }}" style="font-size:9px"></i>
-                                            <span>
-                                                <b>{{ $property->propertyPrice->negotiable? 'Negotiable':'Non Negotiable' }}
                                             </span>
                                         </p>
                                     </div>
@@ -498,14 +494,14 @@
                     <div id="pxp-sp-map" class="mt-3" data-image="{{ asset('assets/images/svg/home.png') }}"></div>
                     
                     <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  
-                        Exact location is provided after booking is confirmed
+                        Exact location is provided after {{ $property->type_status=='sale'? 'buying':'booking' }} is confirmed
                     </p>   
                 </div>
                 
                 <hr>
                 {{-- Cancellation --}}
                 <div class="pxp-single-property-section">
-                    <h3>Cancellation and Eviction </h3>
+                    <h3>Cancellation {{ $property->type_status!='sale'? 'and Eviction':'' }} </h3>
                     <p>
                         <i class="fa fa-minus-circle font-12"></i> 
                         Cancellation after 48 hours, you will get full refund minus service fee.
@@ -523,6 +519,7 @@
                     @endif                       
                 </div>
 
+                @if ($property->type_status!='sale')
                 <hr>
                 {{-- property rules --}}
                 <div class="pxp-single-property-section">
@@ -555,7 +552,8 @@
                             @endforeach
                         @endif
                     </div>
-                </div>
+                </div>   
+                @endif
             </div>
             
             {{-- Booking form --}}
@@ -671,13 +669,13 @@
                                 <h6>
                                     <strong>
                                         <span class="font-20" id="initialCurrency" data-currency="{{ $property->propertyPrice->currency }}">{{ $property->propertyPrice->currency }}</span> 
-                                        <span id="initialAmount" data-amount="{{ $property->propertyPrice->property_price }}" data-duration="{{ $property->propertyPrice->payment_duration }}">{{ number_format($property->propertyPrice->property_price,2) }}</span>/<small>{{ $property->propertyPrice->price_calendar }}</small>
+                                        <span id="initialAmount" data-amount="{{ $property->propertyPrice->property_price }}" data-duration="{{ $property->propertyPrice->payment_duration }}">{{ number_format($property->propertyPrice->property_price,2) }}</span>{{ $property->type_status!='sale'? '/<small>'.$property->propertyPrice->price_calendar.'</small>':'' }}
                                     </strong>
                                 </h6>
                                 <span class="font-12"><i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b> ({{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }})</span>
                             </div>
                             <hr>
-                            <span class="small text-primary">You're charged after booking is confirmed.</span>
+                            <span class="small text-primary">You're charged after {{ $property->type_status=='sale'? 'buying':'booking' }} is confirmed.</span>
                             <hr>
                             {{-- for rent --}}
                             @if ($property->type_status=='rent')
@@ -866,6 +864,45 @@
                                     </div>
                                 </div>
                             </form>
+
+                            @elseif ($property->type_status=='sale')
+                            <form class="form-horizontal form-material mb-0" id="formOrder" method="POST" action="{{ route('property.order.submit') }}">
+                                @csrf
+                                <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
+                                <input type="hidden" name="type" readonly value="sale">
+                                <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
+                                <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
+                                
+
+                                <div class="row" id="showCalculations">
+                                    <div class="col-sm-12">
+                                        <div>
+                                            <span id="dateCalculator">Month Cal</span>
+                                            <span class="pull-right" id="dateCalculatorResult">Total Month Fee</span>
+                                        </div>
+                                        <div>
+                                            <span>Service Fee</span>
+                                            <span class="pull-right" id="serviceFeeResult">Total Service Fee</span>
+                                        </div>
+                                        <div id="discountFee" style="display: none">
+                                            <span>Discount Fee</span>
+                                            <span class="pull-right" id="discountFeeResult">Total Discount Fee</span>
+                                        </div>
+                                        <hr>
+                                        <div>
+                                            <span><strong>Total</strong></span>
+                                            <span class="pull-right"><strong id="totalFeeResult">Total Fee</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnOrder"><i class="fa fa-check-circle"></i> Buy this {{ str_replace('_', ' ', $property->type) }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                             @endif
                         </div><!--end card-body-->
                     </div><!--end card-->
@@ -899,9 +936,9 @@
                     </span>
                     <span class="text-white on-top-tag on-top font-12"> 
                         @if ($property->type_status=='rent')
-                            Rent
-                        @elseif($property->type_status=='sell')
-                            Sale
+                            For Rent
+                        @elseif($property->type_status=='sale')
+                            For Sale
                         @elseif($property->type_status=='auction')
                             Auction
                         @else

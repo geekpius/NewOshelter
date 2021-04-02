@@ -77,7 +77,37 @@
             <label for="checkboxa12">Water Reservoir</label>
         </div>
     </div>
-
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
+            <input id="checkboxa13" type="checkbox" {{ ($property->isAmenityChecked('Door Bell'))? 'checked':'' }} value="Door Bell" name="amenities[]">
+            <label for="checkboxa13">Door Bell</label>
+        </div>
+    </div>
+    
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
+            <input id="checkboxa14" type="checkbox" {{ ($property->isAmenityChecked('Car Parking Space'))? 'checked':'' }} value="Car Parking Space" name="amenities[]">
+            <label for="checkboxa14">Car Parking Space</label>
+        </div>
+    </div>
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
+            <input id="checkboxa15" type="checkbox" {{ ($property->isAmenityChecked('Swimming Pool'))? 'checked':'' }} value="Swimming Pool" name="amenities[]">
+            <label for="checkboxa15">Swimming Pool</label>
+        </div>
+    </div>
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
+            <input id="checkboxa16" type="checkbox" {{ ($property->isAmenityChecked('Garden'))? 'checked':'' }} value="Garden" name="amenities[]">
+            <label for="checkboxa16">Garden</label>
+        </div>
+    </div>
+    <div class="form-group col-sm-4">
+        <div class="checkbox checkbox-primary">
+            <input id="checkboxa17" type="checkbox" {{ ($property->isAmenityChecked('Laundry'))? 'checked':'' }} value="Laundry" name="amenities[]">
+            <label for="checkboxa17">Laundry</label>
+        </div>
+    </div>
 
     <span class="text-danger small" id="selectMsg" style="display:none" role="alert">Select at least one amenity</span>
 </div>

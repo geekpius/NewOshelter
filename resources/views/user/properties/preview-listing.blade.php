@@ -290,20 +290,14 @@
                                         </p>
                                     </div>
                                 </div>
-                            @elseif ($property->type_status=='sell')
+                            @elseif ($property->type_status=='sale')
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <i class="fa fa-user-circle text-primary"></i>
-                                        <h4 class="header-title">Some Title</h4>
+                                        <h6 class="header-title text-primary">Available for sale</h6>
                                         <p class="">
-                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            <i class="fa fa-check text-success font-12"></i>
                                             <span>
                                                 <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b> 
-                                            </span>
-                                            <br>
-                                            <i class="fa {{ $property->propertyPrice->negotiable? 'fa-check text-success':'fa-times text-danger' }}" style="font-size:9px"></i>
-                                            <span>
-                                                <b>{{ $property->propertyPrice->negotiable? 'Negotiable':'Non Negotiable' }}
                                             </span>
                                         </p>
                                     </div>
@@ -474,14 +468,14 @@
                     <div id="pxp-sp-map" class="mt-3" data-image="{{ asset('assets/images/svg/home.png') }}"></div>
                     
                     <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  
-                        Exact location is provided after booking is confirmed
+                        Exact location is provided after {{ $property->type_status=='sale'? 'buying':'booking' }} is confirmed
                     </p>   
                 </div>
                 
                 <hr>
                 {{-- Cancellation --}}
                 <div class="pxp-single-property-section">
-                    <h3>Cancellation and Eviction</h3>
+                    <h3>Cancellation {{ $property->type_status!='sale'? 'and Eviction':'' }} </h3>
                     <p>
                         <i class="fa fa-minus-circle font-12"></i> 
                         Cancellation after 48 hours, you will get full refund minus service fee.
@@ -501,6 +495,7 @@
 
                 <hr>
                 {{-- property rules --}}
+                @if ($property->type_status!='sale')
                 <div class="pxp-single-property-section">
                     <h3>Property Rules</h3>
                     <div class="row mt-md-4">
@@ -512,7 +507,9 @@
                             </div>                                
                             @endforeach
                         @else
-                            <p><i class="fa fa-square font-12"></i> No rules reported on this property.</p>
+                            <div class="col-sm-6 col-lg-4">
+                                <p><i class="fa fa-square font-12"></i> No rules reported on this property.</p>
+                            </div>
                         @endif
                     </div>
 
@@ -529,7 +526,8 @@
                             @endforeach
                         @endif
                     </div>
-                </div>
+                </div>                   
+                @endif
             </div>
         </div>
     </div>

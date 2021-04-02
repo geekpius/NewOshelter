@@ -75,9 +75,9 @@
                         </span>
                         <span class="text-white on-top-tag on-top font-12"> 
                             @if ($property->type_status=='rent')
-                                Rent
-                            @elseif($property->type_status=='sell')
-                                Sale
+                                For Rent
+                            @elseif($property->type_status=='sale')
+                                For Sale
                             @elseif($property->type_status=='auction')
                                 Auction
                             @else

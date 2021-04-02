@@ -225,6 +225,12 @@ Route::group(['middleware' => ['verify-email']], function() {
                 // Route::get('/{name}/types', 'VisitorController@types')->name('visits.types');
             });
         });
+
+        /*------- Buying and Auction ------- */
+        Route::group(['prefix' => 'orders'], function (){
+            Route::post('/properties/buy', 'OrderController@order')->name('property.order.submit');
+        });
+         
         
         /*------- Messages ------- */
         Route::group(['prefix' => 'messages'], function () {

@@ -31,12 +31,16 @@
                 <div class="col-sm-4"></div>
 
                 <div class="col-sm-3 text-center">
-                    <a class="btn btn-primary btn-sm nav-link" id="cashIn" href="#">All Cash In</a>
+                    <a class="btn btn-primary btn-sm nav-link" id="cashIn" href="#">Payments</a>
                 </div>
                 <div class="col-sm-3 text-center">
-                    <a class="nav-link" id="cashOut" href="#">All Cash Out</a>
+                    <a class="nav-link" id="cashOut" href="#">Withdrawals</a>
                 </div>
-                <div class="col-sm-6"></div>
+                <div class="col-sm-3 text-center">
+                    <a class="nav-link" id="cancelled" href="#">Cancelled Payments</a>
+                </div>
+                
+                <div class="col-sm-3"></div>
 
                 <div class="col-sm-12">                    
                     <div class="table-responsive mt-5" id="cashInTable">
@@ -52,7 +56,7 @@
                             </thead>
 
                             <tbody>
-                                @foreach (Auth::user()->userWallets->where('is_cash_out', '!=', 3) as $wallet)
+                                @foreach (Auth::user()->userWallets->whereIn('is_cash_out', [0,1,2]) as $wallet)
                                 <tr class="record">
                                     <td>{{ \Carbon\Carbon::parse($wallet->created_at)->diffForHumans() }}</td>
                                     <td>{{ $wallet->getBalanceAmount() }}</td>
@@ -63,6 +67,8 @@
                                         <span><i class="fa fa-spin fa-spinner"></i> Waiting visitor's confirmation</span>
                                         @elseif($wallet->is_cash_out==1)
                                             <a href="#" class="text-decoration-none text-primary btn-withdraw" data-id="{{ $wallet->id }}" data-balance="{{ $wallet->balance }}" data-currency="{{ $wallet->currency }}"><i class="fa fa-money-bill"></i></a>
+                                        @else
+                                        <span><i class="fa fa-spin fa-spinner"></i> Waiting for withdraw approval</span>
                                         @endif
                                     </td>  
                                 @endforeach                                                                                
@@ -77,7 +83,7 @@
                                     <th>Amount</th>
                                     <th>Type</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    {{-- <th>Action</th> --}}
                                 </tr>
                             </thead>
 
@@ -87,10 +93,33 @@
                                     <td>{{ \Carbon\Carbon::parse($wallet->created_at)->diffForHumans() }}</td>
                                     <td>{{ $wallet->getBalanceAmount() }}</td>
                                     <td>{{ $wallet->getType() }}</td>
-                                    <td class="{{ ($wallet->is_cash_out==1)? 'text-success':'text-primary' }}">{{ $wallet->getStatus() }}</td>  
-                                    <td>
+                                    <td class="text-success">{{ $wallet->getStatus() }}</td>  
+                                    {{-- <td>
                                         <a href="#" class="text-decoration-none text-primary btn-view" data-id="{{ $wallet->id }}"><i class="fa fa-eye"></i></a>
-                                    </td>  
+                                    </td>   --}}
+                                @endforeach                                                                                
+                            </tbody>
+                        </table>                    
+                    </div> 
+
+                    <div class="table-responsive mt-5" id="cancelTable" style="display: none">
+                        <table id="datatable2" class="table table-striped small">
+                            <thead class="thead-light">
+                                <tr>                                        
+                                    <th>Paid At</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (Auth::user()->userWallets->where('is_cash_out', 4) as $wallet)
+                                <tr class="record">
+                                    <td>{{ \Carbon\Carbon::parse($wallet->created_at)->diffForHumans() }}</td>
+                                    <td>{{ $wallet->getBalanceAmount() }}</td>
+                                    <td>{{ $wallet->getType() }}</td>
+                                    <td class="text-danger">{{ $wallet->getStatus() }}</td>  
                                 @endforeach                                                                                
                             </tbody>
                         </table>                    
@@ -193,5 +222,6 @@
 <script>
     cashInBtn.addEventListener("click", clickOpenCashIn);
     cashOutBtn.addEventListener("click", clickOpenCashOut);
+    cancelBtn.addEventListener("click", clickOpenlCancel);
 </script>
 @endsection

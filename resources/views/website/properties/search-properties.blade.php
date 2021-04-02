@@ -53,16 +53,16 @@
                         @else
                             <div class="pxp-results-card-1-details">
                                 <div class="pxp-results-card-1-details-title">{{ $property->title }}</div>
-                                <div class="pxp-results-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}<small>/{{ $property->propertyPrice->price_calendar }}</small></div>
+                                <div class="pxp-results-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}{{ $property->type_status=='sale'? '':'<small>/'.$property->propertyPrice->price_calendar.'</small>' }}</div>
 
                                 <span class="fa fa-tag text-white pull-right"> 
                                     <strong>
                                     @if ($property->type_status=='rent')
-                                        Rent
-                                    @elseif($property->type_status=='sell')
-                                        Sell
+                                        For Rent
+                                    @elseif($property->type_status=='sale')
+                                        For Sale
                                     @elseif($property->type_status=='auction')
-                                        Auction
+                                        For Auction
                                     @else
                                         Short Stay
                                     @endif
@@ -90,7 +90,7 @@
                     {{ $properties->links() }}
                 </div>
                 <div class="col-sm-12 small">
-                    {{ ($properties->lastPage()==$properties->currentPage())? ($properties->total()-$properties->count())+1:(($properties->currentPage()*$properties->count())-15)+1 }} - {{ ($properties->lastPage()==$properties->currentPage())? $properties->total():$properties->currentPage()*$properties->count() }} of {{ $properties->total() }} properties
+                    {{ ($properties->lastPage()==$properties->currentPage())? ($properties->total()-$properties->count())+(($properties->total()==0)?0:1):(($properties->currentPage()*$properties->count())-15)+1 }} - {{ ($properties->lastPage()==$properties->currentPage())? $properties->total():$properties->currentPage()*$properties->count() }} of {{ $properties->total() }} properties
                 </div>
             </div>
 
