@@ -1077,6 +1077,36 @@
                                                                         </select>
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
+
+                                                                    <div>
+                                                                        <i class="fa fa-exclamation-circle float-right" 
+                                                                        title="To the maximum extent permitted by applicable law (rent and housing control), Oshelter Company Limited shall not be liable for any advance agreements or contracts beyond six months either between property owner(landlord) and visitor(tenant) or vice versa. The company cannot guarantee the validity of such information provided by each party in this type of contract or agreement as there are no legal backings to such terms. Moreover, any such contract/agreement beyond six months is against the laws and policies regarding rent and housing (ref.). Hence, we make NO warranties about the content's accuracy and assume no liability or responsibility for such agreement or contracts. We only take full responsibility for the laws and policies governing renting and housing in Ghana."></i>
+                                                                    </div>
+
+                                                                    <div id="disclaimerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="disclaimerModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h6 class="modal-title font-13 text-primary text-uppercase">Disclaimer!!!</h6>
+                                                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <p>
+                                                                                        To the maximum extent permitted by applicable law (rent and housing control), Oshelter 
+                                                                                        Company Limited shall not be liable for any advance agreements or contracts beyond 
+                                                                                        six months either between property owner(landlord) and visitor(tenant) or vice versa. The company cannot 
+                                                                                        guarantee the validity of such information provided by each party in this type of 
+                                                                                        contract or agreement as there are no legal backings to such terms. Moreover, any such 
+                                                                                        contract/agreement beyond six months is against the laws and policies regarding rent 
+                                                                                        and housing (ref.). Hence, we make NO warranties about the content's accuracy and 
+                                                                                        assume no liability or responsibility for such agreement or contracts. We only take 
+                                                                                        full responsibility for the laws and policies governing renting and housing in Ghana.
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div><!-- /.modal-content -->
+                                                                        </div><!-- /.modal-dialog -->
+                                                                    </div><!-- /.modal -->  
+
                                                                 </div>
                                                             </div>
         
@@ -2093,9 +2123,7 @@
         $("#formRentSchedule select[name='advance_duration']").on("change", function(){
             var $this = $(this);
             if(parseInt($this.val()) > 6){
-                alert('disclaimer');
-            }else{
-                alert('no disclaimer')
+                $("#disclaimerModal").modal('show');
             }
         });
     @endif

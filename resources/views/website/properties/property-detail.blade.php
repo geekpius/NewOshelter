@@ -87,7 +87,7 @@
             <div class="col-sm-12">
                 <!-- Title and Location -->
                 <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                    <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
+                    <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-md rounded-circle" /> 
                     <p>{{ current(explode(' ',$property->user->name)) }}</p>
                 </div>
 
@@ -276,7 +276,7 @@
                             @if ($property->type_status=='rent')
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for renting':'Rented, too late' }}</h6>
+                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for rent':'Rented, too late' }}</h6>
                                         <p class=""><i class="fa fa-check text-success font-12"></i>
                                             <span>{{ $property->propertyPrice->getPaymentDuration() }}</span>
                                             <br>
@@ -290,7 +290,7 @@
                             @elseif ($property->type_status=='short_stay')
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for booking':'Booked, too late' }}</h6>
+                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for short stay':'Booked, too late' }}</h6>
                                         <p class=""><i class="fa fa-check text-success font-12"></i>
                                             <span>{{ $property->propertyPrice->getMinimumStay() }}</span>
                                             <br>
@@ -455,7 +455,7 @@
                 <div class="pxp-single-property-section">
                     <!-- Contact -->
                     <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                        <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
+                        <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-md rounded-circle" /> 
                     </div>
                     <h4><b>Owned by {{ current(explode(' ',$property->user->name)) }}</b></h4>                           
                     <p>{{ empty($property->user->profile->city)? 'City':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>                           
@@ -669,7 +669,7 @@
                                 <h6>
                                     <strong>
                                         <span class="font-20" id="initialCurrency" data-currency="{{ $property->propertyPrice->currency }}">{{ $property->propertyPrice->currency }}</span> 
-                                        <span id="initialAmount" data-amount="{{ $property->propertyPrice->property_price }}" data-duration="{{ $property->propertyPrice->payment_duration }}">{{ number_format($property->propertyPrice->property_price,2) }}</span>{{ $property->type_status!='sale'? '/<small>'.$property->propertyPrice->price_calendar.'</small>':'' }}
+                                        <span id="initialAmount" data-amount="{{ $property->propertyPrice->property_price }}" data-duration="{{ $property->propertyPrice->payment_duration }}">{{ number_format($property->propertyPrice->property_price,2) }}</span>@if($property->type_status!='sale')/<small>{{ $property->propertyPrice->price_calendar }}</small> @endif                                    
                                     </strong>
                                 </h6>
                                 <span class="font-12"><i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b> ({{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }})</span>
@@ -963,7 +963,7 @@
                     @if($property->type=='hostel')
                     <div><strong>{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }}</strong> {{ str_plural('room', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</div>
                     @else
-                    <div><strong>{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}</strong><small> / {{ $property->propertyPrice->price_calendar }}</small></div>
+                    <div><strong>{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}</strong> @if($property->type_status!='sale') <small> / {{ $property->propertyPrice->price_calendar }}</small> @endif</div>
                     @endif
                 </div>
             </div>

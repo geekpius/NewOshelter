@@ -13,6 +13,11 @@
         <p>
             <strong>{{ Auth::user()->name }},</strong> listings 
         </p>
+        <div class="mt-3">
+            <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
+            <p class="pxp-sp-top-address pxp-text-light" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }}</p>
+        </div>
+        @if (!$property->done_step)
         <div class="text-center">
             <a href="javascript:void(0);" onclick="window.location='{{ route('property.create', $property->id) }}';" class="mr-4 text-pink text-decoration-none"><i class="fa fa-heart"></i> Save</a>
             <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('formFinishListing').submit();" class="ml-4 text-success text-decoration-none"><i class="fa fa-arrow-right"></i> Finish & Publish</a>
@@ -22,7 +27,8 @@
                 <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
             </form> 
             {{-- <a href="#shareModal" data-toggle="modal" data-backdrop="static" class="ml-2 text-pink"><i class="fa fa-share"></i> Share</a> --}}
-        </div>
+        </div>    
+        @endif
     </div>
     <hr>
 
@@ -61,11 +67,19 @@
             <div class="col-sm-12">
                 <!-- Title and Location -->
                 <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                    <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
+                    <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-md rounded-circle" /> 
                     <p>{{ current(explode(' ',$property->user->name)) }}</p>
                 </div>
-                <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
-                <p class="pxp-sp-top-address pxp-text-light" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }}</p>
+
+                <h3>Key Details</h3>
+                
+                <!-- Contained amenities -->
+                @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
+                <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
+                @else
+                <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
+                @endif
+                    
             </div>
         </div>
     </div>
@@ -73,17 +87,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <hr>       
                 {{-- Key details --}}
                 <div class="pxp-single-property-section">
-                    <h3>Key Details</h3>
-                
-                    <!-- Contained amenities -->
-                    @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
-                    <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
-                    @else
-                    <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
-                    @endif
                     
                     @if ($property->type=='hostel')
                         @if (count($property->propertyHostelBlockRooms))
@@ -429,7 +434,7 @@
                 <div class="pxp-single-property-section">
                     <!-- Contact -->
                     <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                        <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
+                        <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-md rounded-circle" /> 
                     </div>
                     <h4><b>Owned by {{ current(explode(' ',$property->user->name)) }}</b></h4>                           
                     <p>{{ empty($property->user->profile->city)? 'City':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>                           
