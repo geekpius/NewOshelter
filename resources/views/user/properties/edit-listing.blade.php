@@ -36,7 +36,7 @@
                         </div>
                         <div class="form-group validate">
                             <label for="">Property Title</label>
-                            <input type="text" name="property_title" class="form-control" placeholder="eg: Single room self contain">
+                            <input type="text" name="property_title" class="form-control" placeholder="eg: Ahodwo Homes, Royal Lodge Apartments, Airpot Residential Apartments">
                             <span class="text-danger small mySpan" role="alert"></span>
                         </div>
                         <div class="form-group validate">
