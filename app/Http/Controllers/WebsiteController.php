@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\PropertyModel\PropertyCategory;
 use App\PropertyModel\PropertyLocation;
 use App\ContactModel\Contact;
+use App\UserModel\UserVisit;
 
 use App\Http\Resources\PropertyCollection;
 
@@ -56,8 +57,13 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Narrow down '.$status.' filter complexity';
         // $data['menu'] = 'pxp-no-bg';
         $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)
-        ->orderBy('id', 'DESC')->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
-            $query->whereIn('status', [0,2]);
+        ->orderBy('id', 'DESC')->whereNotIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new UserVisit)->getTable());
+        })->orWhereIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new UserVisit)->getTable())
+            ->whereIn('status', [0,2]);
         })->paginate(15);
         $data['property_types'] = PropertyType::get(['name']);
         return view('website.properties.property-status', $data);
@@ -70,9 +76,15 @@ class WebsiteController extends Controller
         $data['page_title'] = 'Explore our neighborhoods on '.str_plural($type);
         $props = Property::whereType(str_replace(' ','_',$type))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC');
         $data['property_types'] = PropertyType::get(['name']);
-        $data['properties'] = $props->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
-            $query->whereIn('status', [0,2]);
-        })->paginate(1);
+        $data['properties'] = $props->whereNotIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new UserVisit)->getTable());
+        })->orWhereIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new UserVisit)->getTable())
+            ->whereIn('status', [0,2]);
+        })->paginate(15);
+
         if(session()->has('properties'))
         {
             session()->forget('properties');
@@ -119,8 +131,13 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Browse all properties of any kind';
         $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')
-        ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
-            $query->whereIn('status', [0,2]);
+        ->whereNotIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new UserVisit)->getTable());
+        })->orWhereIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new UserVisit)->getTable())
+            ->whereIn('status', [0,2]);
         })->paginate(15);
         $data['property_types'] = PropertyType::get(['name']);
         return view('website.properties.properties', $data);
@@ -130,8 +147,13 @@ class WebsiteController extends Controller
     public function mapProperty()
     {
         $properties = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')
-        ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
-            $query->whereIn('status', [0,2]);
+        ->whereNotIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new UserVisit)->getTable());
+        })->orWhereIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new UserVisit)->getTable())
+            ->whereIn('status', [0,2]);
         })->get();
         return PropertyCollection::collection($properties);
     }
@@ -139,14 +161,23 @@ class WebsiteController extends Controller
     //property search
     public function searchProperty(Request $request)
     {
+        // SELECT * FROM properties WHERE type_status='rent' AND is_active=true AND publish=true AND done_step=true AND id IN (SELECT property_id FROM property_locations WHERE location LIKE '%Accra%') AND (id NOT IN (SELECT property_id FROM user_visits) OR id IN (SELECT property_id FROM user_visits WHERE status IN (0,2)))
+
         if($request->get('query_param')=='simple'){
             $location = $request->get('location');
             $data['page_title'] = $location;
             $props = Property::whereType_status($request->get('status'))->whereIs_active(true)->wherePublish(true)->whereDone_step(true)
-            ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
-                $query->whereIn('status', [0,2]);
-            })->whereHas('propertyLocation', function($query) use($location){
-                    $query->where('location', 'like', '%'.$location.'%');
+            ->whereIn('id', function($query) use($location){
+                $query->select('property_id')
+                ->from(with(new PropertyLocation)->getTable())
+                ->where('location', 'like', '%'.$location.'%');
+            })->whereNotIn('id', function($query){
+                $query->select('property_id')
+                ->from(with(new UserVisit)->getTable());
+            })->orWhereIn('id', function($query){
+                $query->select('property_id')
+                ->from(with(new UserVisit)->getTable())
+                ->whereIn('status', [0,2]);
             });
             $data['properties'] = $props->orderBy('id','desc')->paginate(15);
             $data['property_types'] = PropertyType::get(['name']);
@@ -163,10 +194,17 @@ class WebsiteController extends Controller
             $data['page_title'] = $location;
             $props = Property::whereType_status($request->get('status'))->whereIs_active(true)->wherePublish(true)->whereDone_step(true);
             if(empty($request->get('type'))){
-                $props->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
-                    $query->whereIn('status', [0,2]);
-                })->whereHas('propertyLocation', function($query) use($location){
-                    $query->where('location', 'like', '%'.$location.'%');
+                $props->whereIn('id', function($query) use($location){
+                    $query->select('property_id')
+                    ->from(with(new PropertyLocation)->getTable())
+                    ->where('location', 'like', '%'.$location.'%');
+                })->whereNotIn('id', function($query){
+                    $query->select('property_id')
+                    ->from(with(new UserVisit)->getTable());
+                })->orWhereIn('id', function($query){
+                    $query->select('property_id')
+                    ->from(with(new UserVisit)->getTable())
+                    ->whereIn('status', [0,2]);
                 })->whereHas('propertyPrice', function($query) use($request){
                     $min = empty($request->get('min_price'))? 0:$request->get('min_price');
                     $max = empty($request->get('max_price'))? 0:$request->get('max_price');
@@ -184,10 +222,17 @@ class WebsiteController extends Controller
                 });
             }else{
                 $props->whereType($request->get('type'));
-                $props->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
-                    $query->whereIn('status', [0,2]);
-                })->whereHas('propertyLocation', function($query) use($location){
-                    $query->where('location', 'like', '%'.$location.'%');
+                $props->whereIn('id', function($query) use($location){
+                    $query->select('property_id')
+                    ->from(with(new PropertyLocation)->getTable())
+                    ->where('location', 'like', '%'.$location.'%');
+                })->whereNotIn('id', function($query){
+                    $query->select('property_id')
+                    ->from(with(new UserVisit)->getTable());
+                })->orWhereIn('id', function($query){
+                    $query->select('property_id')
+                    ->from(with(new UserVisit)->getTable())
+                    ->whereIn('status', [0,2]);
                 })->whereHas('propertyPrice', function($query) use($request){
                     $min = empty($request->get('min_price'))? 0:$request->get('min_price');
                     $max = empty($request->get('max_price'))? 0:$request->get('max_price');
