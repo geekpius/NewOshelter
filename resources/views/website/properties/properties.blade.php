@@ -44,7 +44,7 @@
                                 <div class="pxp-results-card-1-details-price">{{ $property->propertyHostelBlockRooms->where('full', false)->sum('block_no_room') }} {{ str_plural('Room', $property->propertyHostelBlockRooms->where('full', false)->sum('block_no_room')) }}</div>
 
                                 <span class="fa fa-tag text-white pull-right"> 
-                                    <strong>Rent</strong>
+                                    <strong>For Rent</strong>
                                 </span>
                             </div>
                             <div class="pxp-results-card-1-features">
