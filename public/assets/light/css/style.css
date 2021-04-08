@@ -4083,6 +4083,12 @@ a.pxp-results-card-1 .carousel-inner > .carousel-item {
     height: 70vh;
     min-height: 540px;
 }
+
+.pxp-owner-hero-fig {
+    height: 40vh;
+    min-height: 340px;
+    border-radius: 8px;
+}
 .pxp-contact-hero-offices-container {
     position: absolute;
     bottom: -100px;

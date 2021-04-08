@@ -303,6 +303,19 @@ class WebsiteController extends Controller
     }
      
 
+    public function becomeOwner()
+    {
+        $data['page_title'] = 'Becoming an owner';
+        return view('website.become_owner', $data);
+    }
+
+    public function becomeVisitor()
+    {
+        $data['page_title'] = 'Becoming a visitor';
+        return view('website.become_visitor', $data);
+    }
+
+
     //why choose us
     public function whyChooseUs($title)
     {

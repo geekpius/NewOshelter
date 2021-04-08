@@ -17,6 +17,8 @@ Route::group(['middleware' => ['verify-email']], function() {
     Route::get('/', 'WebsiteController@index')->name('index');
     Route::get('/oshelter/callback', 'WebsiteController@callback')->name('callback');
     Route::get('/own-property', 'WebsiteController@ownProperty')->name('own.property');
+    Route::get('/becoming-an-owner', 'WebsiteController@becomeOwner')->name('become.owner');
+    Route::get('/becoming-a-visitor', 'WebsiteController@becomeVisitor')->name('become.visitor');
 
     Route::group(['prefix' => 'properties'], function () {
         // Route::get('/', 'WebsiteController@property')->name('browse.property');

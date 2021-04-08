@@ -19,6 +19,17 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     cursor: default;
   }
 
+  .bg-text {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    z-index: 2;
+    width: 30%;
+    padding: 20px;
+  }
+
  /* NAVS */
   .nav-blue-background {
     background-color: #1C2765;
@@ -786,6 +797,17 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     display: none;
   }
   
+  .bg-text {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    z-index: 2;
+    width: 80%;
+    padding: 10px;
+  }
+
 }
 
 @media screen and (max-width: 768px){
