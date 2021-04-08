@@ -133,7 +133,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-8 offset-4">
+                <div class="col-sm-8 offset-sm-4">
                     <div class="text-center mt-2">
                         Would you like to deactivate your account?
                         <a href="{{ route('profile.deactivate') }}" class="text-danger ml-2">Deactivate Account</a>
@@ -155,13 +155,15 @@
             <div class="modal-body">
                 <div class="text-center" onclick="getFrontFile();" style="cursor:pointer">
                     <div>
-                        <img src="{{ asset('assets/images/iconmonstr-id-card-14.svg') }}" alt="Front" width="100" height="100">    
+                        <img src="{{ asset('assets/images/iconmonstr-id-card-14.svg') }}" data-img="{{ (empty(Auth::user()->profile->id_front))? '':'cards/'.Auth::user()->profile->id_front }}" alt="Front" width="100" height="100" id="img_preview">    
                     </div>
                     <div>
                         <a href="javascript:void(0);"> <span id="msgStatus">Upload ID front</span>
                             <div style='height: 0px;width:0px; overflow:hidden;'><input id="front_file" type="file" name="front_file" data-url="{{ route('profile.front.card') }}" data-path="{{ asset('assets/images/cards') }}" /></div>
                         </a>
                     </div>
+
+                    <span class="small text-danger preview_mySpan"></span>
                 </div>
                 <form id="formID" action="{{ route('profile.card.info') }}" class="mt-5">
                     @csrf
@@ -252,6 +254,7 @@ $("#front_file").on("change", function(){
                 else{
                     $("#msgStatus").addClass('text-success').text("Uploaded Successfully");
                     $(".front_card").attr("src", $this.data('path')+"/"+response); 
+                    $("#img_preview").data('img', 'inserted');
                 }
                 document.getElementById("front_file").value = null;
             },
@@ -279,6 +282,12 @@ $("#formID").on("submit", function(e){
             $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
         }
     });
+
+    if($("#img_preview").data('img') == ''){
+        valid = false;
+        $(".preview_mySpan").text('Upload card front view');
+    }
+
     if(valid){
         let data = $this.serialize();
         $(".btnID").attr('disabled', false);
