@@ -75,7 +75,7 @@
                             
                             @php
                                 $proTypeStatus = ''; $sinTypeStatus = ''; $guest = '';
-                                if($property->type_status=='sell'){
+                                if($property->type_status=='sale'){
                                     $proTypeStatus = 'buying';
                                     $sinTypeStatus = 'buy';
                                     $guest = 'buyer';
@@ -915,11 +915,17 @@
                                                         <div id="myDefineRules"></div>
                                                     </div>
                                                 @else
+                                                    
+                                                    <form class="mt-4" id="formPropertyRules" method="POST" action="{{ route('property.store') }}" style="display: none !important">
+                                                        @csrf
+                                                        <input type="hidden" name="step" value="3" readonly>
+                                                        <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                    </form>      
                                                     <div class="col-lg-3"></div>
                                                     <div class="col-lg-6">
                                                         <div class="mt-5 mb-5 text-center">
                                                             <h2 class="text-danger">If you are selling or auctioning, you don't need to set rules.</h2> 
-                                                            <h2 class="text-danger">Property rules are for vitors only when booking property.</h2> 
+                                                            <h2 class="text-danger">Property rules are for visitors only when booking property.</h2> 
                                                         </div> 
                                                     </div>
                                                 @endif
@@ -1043,7 +1049,7 @@
                                                     @if ($property->type_status=='rent')
                                                         <h4>Provide {{ $guest.'s' }} with your rent schedule</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Visitors must know advance payment and price calendar</p>
-                                                    @elseif ($property->type_status=='sell')
+                                                    @elseif ($property->type_status=='sale')
                                                         <h4>Provide buyers with your buying schedule</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Buyers must know buying price</p>
                                                     @elseif ($property->type_status=='short_stay')
@@ -1071,6 +1077,36 @@
                                                                         </select>
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
+
+                                                                    <div>
+                                                                        <i class="fa fa-exclamation-circle float-right" 
+                                                                        title="To the maximum extent permitted by applicable law (rent and housing control), Oshelter Company Limited shall not be liable for any advance agreements or contracts beyond six months either between property owner(landlord) and visitor(tenant) or vice versa. The company cannot guarantee the validity of such information provided by each party in this type of contract or agreement as there are no legal backings to such terms. Moreover, any such contract/agreement beyond six months is against the laws and policies regarding rent and housing (ref.). Hence, we make NO warranties about the content's accuracy and assume no liability or responsibility for such agreement or contracts. We only take full responsibility for the laws and policies governing renting and housing in Ghana."></i>
+                                                                    </div>
+
+                                                                    <div id="disclaimerModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="disclaimerModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h6 class="modal-title font-13 text-primary text-uppercase">Disclaimer!!!</h6>
+                                                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <p>
+                                                                                        To the maximum extent permitted by applicable law (rent and housing control), Oshelter 
+                                                                                        Company Limited shall not be liable for any advance agreements or contracts beyond 
+                                                                                        six months either between property owner(landlord) and visitor(tenant) or vice versa. The company cannot 
+                                                                                        guarantee the validity of such information provided by each party in this type of 
+                                                                                        contract or agreement as there are no legal backings to such terms. Moreover, any such 
+                                                                                        contract/agreement beyond six months is against the laws and policies regarding rent 
+                                                                                        and housing (ref.). Hence, we make NO warranties about the content's accuracy and 
+                                                                                        assume no liability or responsibility for such agreement or contracts. We only take 
+                                                                                        full responsibility for the laws and policies governing renting and housing in Ghana.
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div><!-- /.modal-content -->
+                                                                        </div><!-- /.modal-dialog -->
+                                                                    </div><!-- /.modal -->  
+
                                                                 </div>
                                                             </div>
         
@@ -1156,24 +1192,15 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        
                                                         @else
-                                                            <p class=""><i class="fa fa-dot-circle" style="font-size: 9px"></i> <strong>Price your property for {{ $property->type_status.'ing' }} </strong></p>
+                                                            <p class=""><i class="fa fa-dot-circle" style="font-size: 9px"></i> <strong>Price your property for {{ $property->type_status }} </strong></p>
                                                             <div class="form-group validate">
-                                                                <label for="">This will be your {{ $property->type_status=='sell'? 'default':'initial' }} {{ $property->type_status }} price <span id="myPriceCal"></span></label>
-                                                                @if($property->type_status=='sell')
-                                                                @endif
-                                                                <input type="tel" name="property_price" keypress="return isNumber(event)" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                                <label for="">This will be your {{ $property->type_status=='sale'? 'default':'initial' }} {{ $property->type_status }} price <span id="myPriceCal"></span></label>
+                                                                <input type="tel" name="property_price" keypress="return isNumber(event)" class="form-control" id="property_price" placeholder="Tip: 100000.00">
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
-                                                            @if ($property->type_status=='sell')
-                                                            <div class="form-group validate">
-                                                                <div class="checkbox checkbox-primary">
-                                                                    <input id="negotiable" type="checkbox" value="1" name="negotiable">
-                                                                    <label for="negotiable">Negotiable</label>
-                                                                </div>
-                                                                <span class="text-danger small mySpan" role="alert"></span>
-                                                            </div>
-                                                            @endif                                            
+                                                                                            
                                                         @endif
                                                             
                                                         @if (Auth::user()->userCurrency)
@@ -1202,7 +1229,7 @@
                                                         <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3months before due date.</p>
                                                         <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Eviction notification will be sent to visitor every two weeks till due date.</p>
                                                         <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> It's visitor's choice to extend his/her stay or to evict.</p>
-                                                    @elseif ($property->type_status=='sell')
+                                                    @elseif ($property->type_status=='sale')
                                                         <p class="mt-5">You can set set-in price later when market is down.</p>
                                                         <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Set price which has value for your property.</p>
                                                         <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Don't set your price too high or too low to scare buyers.</p>
@@ -2091,6 +2118,15 @@
             $("#myPriceCal").text("on price per "+$(this).val());
         }else{$("#myPriceCal").text('');}
     });
+
+    @if($property->type_status=='rent' && $property->type!='hostel')
+        $("#formRentSchedule select[name='advance_duration']").on("change", function(){
+            var $this = $(this);
+            if(parseInt($this.val()) > 6){
+                $("#disclaimerModal").modal('show');
+            }
+        });
+    @endif
 
     @if(!empty($property))
         @if($property->type!='hostel')

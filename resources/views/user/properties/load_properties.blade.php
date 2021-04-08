@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="blog-card">
-                    <a href="{{ route('single.property', $property->id) }}">
+                    <a href="{{ route('property.preview', $property->id) }}">
                         <img src="{{ asset('assets/images/properties/'.$property->propertyImages->first()->image) }}" alt="PropertyPhoto" class="img-fluid">
                     </a>
                     <div class="meta-box">
@@ -54,6 +54,11 @@
                                     @endif
                                 </li>
                             @else
+                                @if ($property->type_status=='sale')
+                                <li class="list-inline-item">
+                                    <span class="badge badge-secondary px-3">Available for sale</span>
+                                </li>
+                                @else
                                 <li class="list-inline-item" style="text-transform: none">
                                     {{ $property->userVisits->whereIn('status', [0,1])->count() }} {{ str_plural('occupant', $property->userVisits->whereIn('status', [0,1])->count()) }}                                                 
                                 </li>
@@ -71,6 +76,7 @@
                                         </span>
                                     @endif
                                 </li>
+                                @endif
                             @endif
                             
                             <li class="list-inline-item font-14"><i class="fa fa-clock"></i> {{  \Carbon\Carbon::parse($property->created_at)->format('d M, Y')  }}</li>

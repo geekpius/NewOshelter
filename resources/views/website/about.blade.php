@@ -75,9 +75,9 @@
                         </span>
                         <span class="text-white on-top-tag on-top font-12"> 
                             @if ($property->type_status=='rent')
-                                Rent
-                            @elseif($property->type_status=='sell')
-                                Sale
+                                For Rent
+                            @elseif($property->type_status=='sale')
+                                For Sale
                             @elseif($property->type_status=='auction')
                                 Auction
                             @else
@@ -112,7 +112,7 @@
                         @if($property->type=='hostel')
                         <div><strong>{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }}</strong> {{ str_plural('room', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</div>
                         @else
-                        <div><strong>{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}</strong><small> / {{ $property->propertyPrice->price_calendar }}</small></div>
+                        <div><strong>{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}</strong> @if($property->type_status!='sale') <small> / {{ $property->propertyPrice->price_calendar }}</small> @endif</div>
                         @endif
                     </div>
                 </div>

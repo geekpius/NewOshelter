@@ -13,6 +13,11 @@
         <p>
             <strong>{{ Auth::user()->name }},</strong> listings 
         </p>
+        <div class="mt-3">
+            <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
+            <p class="pxp-sp-top-address pxp-text-light" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }}</p>
+        </div>
+        @if (!$property->done_step)
         <div class="text-center">
             <a href="javascript:void(0);" onclick="window.location='{{ route('property.create', $property->id) }}';" class="mr-4 text-pink text-decoration-none"><i class="fa fa-heart"></i> Save</a>
             <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('formFinishListing').submit();" class="ml-4 text-success text-decoration-none"><i class="fa fa-arrow-right"></i> Finish & Publish</a>
@@ -22,7 +27,8 @@
                 <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
             </form> 
             {{-- <a href="#shareModal" data-toggle="modal" data-backdrop="static" class="ml-2 text-pink"><i class="fa fa-share"></i> Share</a> --}}
-        </div>
+        </div>    
+        @endif
     </div>
     <hr>
 
@@ -61,11 +67,19 @@
             <div class="col-sm-12">
                 <!-- Title and Location -->
                 <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                    <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
+                    <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-md rounded-circle" /> 
                     <p>{{ current(explode(' ',$property->user->name)) }}</p>
                 </div>
-                <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
-                <p class="pxp-sp-top-address pxp-text-light" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }}</p>
+
+                <h3>Key Details</h3>
+                
+                <!-- Contained amenities -->
+                @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
+                <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
+                @else
+                <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
+                @endif
+                    
             </div>
         </div>
     </div>
@@ -73,17 +87,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <hr>       
                 {{-- Key details --}}
                 <div class="pxp-single-property-section">
-                    <h3>Key Details</h3>
-                
-                    <!-- Contained amenities -->
-                    @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
-                    <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
-                    @else
-                    <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
-                    @endif
                     
                     @if ($property->type=='hostel')
                         @if (count($property->propertyHostelBlockRooms))
@@ -290,20 +295,14 @@
                                         </p>
                                     </div>
                                 </div>
-                            @elseif ($property->type_status=='sell')
+                            @elseif ($property->type_status=='sale')
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <i class="fa fa-user-circle text-primary"></i>
-                                        <h4 class="header-title">Some Title</h4>
+                                        <h6 class="header-title text-primary">Available for sale</h6>
                                         <p class="">
-                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            <i class="fa fa-check text-success font-12"></i>
                                             <span>
                                                 <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b> 
-                                            </span>
-                                            <br>
-                                            <i class="fa {{ $property->propertyPrice->negotiable? 'fa-check text-success':'fa-times text-danger' }}" style="font-size:9px"></i>
-                                            <span>
-                                                <b>{{ $property->propertyPrice->negotiable? 'Negotiable':'Non Negotiable' }}
                                             </span>
                                         </p>
                                     </div>
@@ -435,7 +434,7 @@
                 <div class="pxp-single-property-section">
                     <!-- Contact -->
                     <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                        <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
+                        <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-md rounded-circle" /> 
                     </div>
                     <h4><b>Owned by {{ current(explode(' ',$property->user->name)) }}</b></h4>                           
                     <p>{{ empty($property->user->profile->city)? 'City':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>                           
@@ -474,14 +473,14 @@
                     <div id="pxp-sp-map" class="mt-3" data-image="{{ asset('assets/images/svg/home.png') }}"></div>
                     
                     <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  
-                        Exact location is provided after booking is confirmed
+                        Exact location is provided after {{ $property->type_status=='sale'? 'buying':'booking' }} is confirmed
                     </p>   
                 </div>
                 
                 <hr>
                 {{-- Cancellation --}}
                 <div class="pxp-single-property-section">
-                    <h3>Cancellation and Eviction</h3>
+                    <h3>Cancellation {{ $property->type_status!='sale'? 'and Eviction':'' }} </h3>
                     <p>
                         <i class="fa fa-minus-circle font-12"></i> 
                         Cancellation after 48 hours, you will get full refund minus service fee.
@@ -501,6 +500,7 @@
 
                 <hr>
                 {{-- property rules --}}
+                @if ($property->type_status!='sale')
                 <div class="pxp-single-property-section">
                     <h3>Property Rules</h3>
                     <div class="row mt-md-4">
@@ -512,7 +512,9 @@
                             </div>                                
                             @endforeach
                         @else
-                            <p><i class="fa fa-square font-12"></i> No rules reported on this property.</p>
+                            <div class="col-sm-6 col-lg-4">
+                                <p><i class="fa fa-square font-12"></i> No rules reported on this property.</p>
+                            </div>
                         @endif
                     </div>
 
@@ -529,7 +531,8 @@
                             @endforeach
                         @endif
                     </div>
-                </div>
+                </div>                   
+                @endif
             </div>
         </div>
     </div>

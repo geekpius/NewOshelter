@@ -4,7 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta content="Real estate platform where property owners can manage their guests/tenants" name="description" />
-        <meta content="Fiifi Pius Geek" name="author" />
+        <meta content="T.K Fiifi Pius Geek" name="author" />
+        <meta content="https://github.com/geekpius" name="website" />
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>OShelter- {{$page_title}} </title>

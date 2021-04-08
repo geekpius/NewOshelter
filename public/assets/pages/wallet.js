@@ -1,4 +1,4 @@
-$('#datatable, #datatable1').DataTable();
+$('#datatable, #datatable1, #datatable2').DataTable();
 $("#datatable tbody").on('click', '.btn-withdraw', function(e){
     e.preventDefault();
     e.stopPropagation();
@@ -173,19 +173,33 @@ $("#formCashOut select").on('change', function(){
 
 var cashInBtn = document.getElementById('cashIn');
 var cashOutBtn = document.getElementById('cashOut');
+var cancelBtn = document.getElementById('cancelled');
 function clickOpenCashOut(e){
     e.preventDefault();
     $("#cashInTable").hide("slow");
+    $("#cancelTable").hide("slow");
     cashInBtn.classList.remove("btn","btn-primary","btn-sm");
+    cancelBtn.classList.remove("btn","btn-primary","btn-sm");
     $("#cashOutTable").show("slow");
     cashOutBtn.classList.add("btn","btn-primary","btn-sm");
 }
 
+function clickOpenlCancel(e){
+    e.preventDefault();
+    $("#cashInTable").hide("slow");
+    $("#cashOutTable").hide("slow");
+    cashInBtn.classList.remove("btn","btn-primary","btn-sm");
+    cashOutBtn.classList.remove("btn","btn-primary","btn-sm");
+    $("#cancelTable").show("slow");
+    cancelBtn.classList.add("btn","btn-primary","btn-sm");
+}
 
 function clickOpenCashIn(e){
     e.preventDefault();
     $("#cashOutTable").hide("slow");
+    $("#cancelTable").hide("slow");
     cashOutBtn.classList.remove("btn","btn-primary","btn-sm");
+    cancelBtn.classList.remove("btn","btn-primary","btn-sm");
     $("#cashInTable").show("slow");
     cashInBtn.classList.add("btn","btn-primary","btn-sm");
 }

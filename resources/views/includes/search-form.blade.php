@@ -7,8 +7,8 @@
                     <select class="custom-select" id="pxp-p-search-status" name="status">
                         <option value="rent" selected>Rent</option>
                         <option value="short_stay">Short Stay</option>
-                        {{-- <option value="sell">Sell</option>
-                        <option value="auction">Auction</option> --}}
+                        <option value="sale">Sale</option>
+                        {{-- <option value="auction">Auction</option> --}}
                     </select>
                 </div>
                 <div class="col-7 col-sm-7 col-md-8 col-lg-9 pxp-content-side-search-form-col autocomplete">
@@ -247,7 +247,7 @@
         <button type="submit" class="pxp-filter-btn">Apply Filters</button>
     </div>
     <div class="row pb-4">
-        <div class="col-sm-6">
+        <div class="col-sm-9">
             <h2 class="pxp-content-side-h2">
                 @if (empty(request()->input('location')) && empty(request()->input('status')))
                 {{ number_format($properties->total()) }} {{ str_plural('result', $properties->total()) }}
@@ -259,7 +259,7 @@
                 @endif
             </h2>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <div class="pxp-sort-form form-inline float-right">
                 {{-- <div class="form-group">
                     <select class="custom-select" id="pxp-sort-results">

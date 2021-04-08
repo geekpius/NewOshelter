@@ -44,8 +44,8 @@
                             <select name="property_type_status" class="form-control" id="property_type_status">   
                                 <option value="rent">I want to rent out</option>     
                                 <option value="short_stay">For short stay</option>                                   
-                                <!-- <option value="sell">I want to sell</option>
-                                <option value="auction">I want to auction</option>-->
+                                <option value="sale">I want to sell</option>
+                                <!-- <option value="auction">I want to auction</option>-->
                             </select>
                             <span class="text-danger small mySpan" role="alert"></span>
                         </div>

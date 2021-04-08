@@ -13,7 +13,8 @@
         <meta property="og:url" content="{{ Request::url() }}"/>
 	    <meta property="og:description" content="Real estate platform where property owners can rent, sell, auction their properties and manage their rented properties as well">
         <meta content="Real estate platform where property owners can rent, sell, auction their properties and manage their rented properties as well" name="description" />
-        <meta content="Fiifi Pius Geek" name="author" />
+        <meta content="T.K Fiifi Pius Geek" name="author" />
+        <meta content="https://github.com/geekpius" name="website" />
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -199,8 +200,8 @@
         </div>
 
 
-        {{-- <script src="{{ asset('assets/light/js/jquery-3.4.1.min.js') }}"></script> --}}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="{{ asset('assets/light/js/jquery-3.4.1.min.js') }}"></script>
+        {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> --}}
         <script src="{{ asset('assets/light/js/popper.min.js') }}"></script>
         <script src="{{ asset('assets/light/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/sweetalert/sweetalert.min.js') }}"></script>

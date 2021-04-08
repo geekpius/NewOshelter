@@ -114,7 +114,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                    <div class="text-center"><strong>{{ Auth::user()->properties->count() }}</strong> <br><small>Properties</small></div>
+                                                    <div class="text-center"><strong>{{ Auth::user()->properties->where('is_active', true)->where('publish', true)->where('done_step', true)->count() }}</strong> <br><small>Properties</small></div>
                                                     </div>
                                                 </div>
                                             </div>

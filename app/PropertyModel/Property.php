@@ -94,6 +94,11 @@ class Property extends Model
         return ucwords(str_replace('_',' ',$this->type));;
     }
 
+    public function getPropertyTypeStatus()
+    {
+        return ucwords(str_replace('_',' ',$this->type_status));;
+    }
+
 
 
 
