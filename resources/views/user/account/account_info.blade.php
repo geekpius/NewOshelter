@@ -259,7 +259,7 @@ $("#front_file").on("change", function(){
                 document.getElementById("front_file").value = null;
             },
             error: function(response){
-                alert('Something went wrong.');
+                console.log('Something went wrong.');
                 document.getElementById("front_file").value = null;
             }
             
