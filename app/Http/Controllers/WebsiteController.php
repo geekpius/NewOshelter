@@ -74,16 +74,17 @@ class WebsiteController extends Controller
     {
         $type = str_replace('-',' ',$type);
         $data['page_title'] = 'Explore our neighborhoods on '.str_plural($type);
-        $props = Property::whereType(str_replace(' ','_',$type))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC');
         $data['property_types'] = PropertyType::get(['name']);
-        $data['properties'] = $props->whereNotIn('id', function($query){
+        $props = Property::whereType(str_replace(' ','_',$type))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC');
+        $props->whereNotIn('id', function($query){
             $query->select('property_id')
             ->from(with(new UserVisit)->getTable());
         })->orWhereIn('id', function($query){
             $query->select('property_id')
             ->from(with(new UserVisit)->getTable())
             ->whereIn('status', [0,2]);
-        })->paginate(15);
+        });
+        $data['properties'] = $props->paginate(15);
 
         if(session()->has('properties'))
         {

@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-sm-12">
                     <br><br>
-                    <div class="pxp-owner-hero-fig pxp-cover" style="background-image: url({{ asset('assets/light/images/contact-bg.jpg') }}); background-position: 50% 50%;"></div>
+                    <div class="pxp-owner-hero-fig pxp-cover" style="background-image: url({{ asset('assets/light/images/owner-bg.jpg') }}); background-position: 50% 50%;"></div>
                     <div class="bg-text">
                         <h2><strong>Start your ownership journey</strong></h2>
                         <p>Let's get your listing set up together</p>
