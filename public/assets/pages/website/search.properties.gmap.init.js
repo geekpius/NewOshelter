@@ -140,6 +140,7 @@
                               '<div class="pxp-marker-details-info-title">' + prop.title + '</div>' + 
                               '<div class="pxp-marker-details-info-price">' + prop.currency + price + '<small>'+prop.calendar+'</small></div>' + 
                               '<div class="pxp-marker-details-info-feat">' + prop.position.location + '</div>' + 
+                              '<div class="pxp-marker-details-info-feat mt-2 font-weight-bold">' + prop.type + '</div>' + 
                           '</div>' + 
                       '</a>';
 
