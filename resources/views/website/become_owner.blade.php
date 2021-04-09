@@ -41,7 +41,12 @@
                     <div class="bg-text">
                         <h2><strong>Start your ownership journey</strong></h2>
                         <p>Let's get your listing set up together</p>
+                        @auth
+                        <a href="{{ Auth::user()->account_type=='owner'? route('property.add'):'#' }}" class="btn btn-primary btn-lg">Get Started</a>
+                        @endauth
+                        @guest
                         <a href="{{ route('property.add') }}" class="btn btn-primary btn-lg">Get Started</a>
+                        @endguest
                     </div>
                 </div>
             </div>
