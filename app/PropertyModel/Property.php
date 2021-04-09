@@ -221,6 +221,8 @@ class Property extends Model
         return $this->hasMany(IncludeUtility::class);
     }
 
+
+    
     public function getAvailableRooms(): int
     {
         (int) $count= 0;

@@ -17,6 +17,7 @@ class PropertyCollection extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'type' => 'For '.$this->getPropertyTypeStatus(),
             'photo' => asset('assets/images/properties/'.$this->propertyImages->first()->image),
             'position' => [
                 'location'=> $this->propertyLocation->location,
@@ -25,7 +26,7 @@ class PropertyCollection extends JsonResource
             ],
             'price' => ($this->type=='hostel')? '' : number_format($this->propertyPrice->property_price,2),
             'currency' => ($this->type=='hostel')? '' : $this->propertyPrice->currency,
-            'calendar' => ($this->type=='hostel')? '' : '/'.$this->propertyPrice->price_calendar[0],
+            'calendar' => ($this->type=='hostel')? '' : ((empty($this->propertyPrice->price_calendar))? '':'/'.$this->propertyPrice->price_calendar),
             'rooms' => ($this->type=='hostel')? $this->propertyHostelBlockRooms()->sum('block_no_room').' Rooms' : '',
             'link' => route('single.property', $this->id),
         ];

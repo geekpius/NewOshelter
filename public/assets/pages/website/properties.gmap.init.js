@@ -141,6 +141,7 @@
                               '<div class="pxp-marker-details-info-title">' + prop.title + '</div>' + 
                               '<div class="pxp-marker-details-info-price">' + prop.currency + price + '<small>'+prop.calendar+'</small></div>' + 
                               '<div class="pxp-marker-details-info-feat">' + prop.position.location + '</div>' + 
+                              '<div class="pxp-marker-details-info-feat mt-2 font-weight-bold">' + prop.type + '</div>' + 
                           '</div>' + 
                       '</a>';
 
@@ -242,7 +243,7 @@
       return false;
     });
     
-    $("#formSearch #location, #formSearch status").on('keydown', function(e){
+    $("#formSearch input[name='location'], #formSearch select[name='status']").on('keydown', function(e){
       e.stopPropagation();
       if(e.which==13){
           $("#formSearch").trigger("submit");
