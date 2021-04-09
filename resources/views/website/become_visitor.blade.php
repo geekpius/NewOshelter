@@ -17,6 +17,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <p>
+                        <img src="{{ asset('assets/images/svg/visitor.png') }}" alt="Visitor_logo" width="400" height="200" style="margin-right:15px; float: left;">
                         Anyone can browse our numerous properties on our Oshelter platform without signing up. However, prospective tenants are required 
                         to sign up to book for a property or buy one. Once a sign up is made, payment and management of the booked property is 
                         securely done at the account section where every data received will be reviewed. This measure is implemented to reduce and 

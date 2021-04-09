@@ -187,7 +187,6 @@
 
             </div>
 
-            {{-- <a href="{{ route('browse.property') }}" class="pxp-primary-cta text-uppercase mt-4 mt-md-5 pxp-animate">Browse All</a> --}}
         </div>
     </div>
 
