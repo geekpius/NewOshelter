@@ -17,8 +17,8 @@
                     <div class="col-12 col-sm-6 col-lg-4">
                         <a href="{{ route('help.owner', str_slug('booking-and-visitors')) }}" class="text-decoration-none">
                             <div class="card card-bordered-blue text-gray">
-                                <div class="card-body text-center">
-                                   <img class="" src="{{ asset('assets/images/svg/guest.svg') }}" alt="booking and visitors" width="170" height="170">
+                                <div class="card-body">
+                                   <img class="" src="{{ asset('assets/images/svg/visitor.png') }}" alt="booking and visitors" width="300" height="150">
                                 </div>
                                 <hr>
                                 <div class="text-center">
@@ -30,8 +30,8 @@
                     <div class="col-12 col-sm-6 col-lg-4">
                         <a href="{{ route('help.owner', str_slug('owning-properties')) }}" class="text-decoration-none">
                             <div class="card card-bordered-blue text-gray">
-                                <div class="card-body text-center">
-                                   <img class="" src="{{ asset('assets/images/svg/property-owner.svg') }}" alt="own a property" width="170" height="170">
+                                <div class="card-body">
+                                   <img class="" src="{{ asset('assets/images/svg/owner.png') }}" alt="own a property" width="300" height="150">
                                 </div>
                                 <hr>
                                 <div class="text-center">
