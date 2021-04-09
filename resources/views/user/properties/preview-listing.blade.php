@@ -76,7 +76,6 @@
         <div class="row">
             <div class="col-lg-12">
                 {{-- Key details --}}
-                {{-- Key details --}}
                 <div class="pxp-single-property-section">
                     <h3>Key Details</h3>
                 
@@ -214,8 +213,7 @@
                 <hr>
                 {{-- Availability --}}
                 <div class="pxp-single-property-section">
-                    <h3>Availability</h3>                    
-                    <!-- Vacancies -->
+                    <h3>Availability</h3> 
                     @if ($property->type=='hostel')
                         <p>
                             <i class="fa fa-square font-12"></i> You will get to know your room mate when renting is confirmed.
@@ -476,10 +474,11 @@
                     </p>   
                 </div>
                 
+                @if ($property->type_status!='sale')
                 <hr>
                 {{-- Cancellation --}}
                 <div class="pxp-single-property-section">
-                    <h3>Cancellation {{ $property->type_status!='sale'? 'and Eviction':'' }} </h3>
+                    <h3>Cancellation and Eviction</h3>
                     <p>
                         <i class="fa fa-minus-circle font-12"></i> 
                         Cancellation after 48 hours, you will get full refund minus service fee.
@@ -495,11 +494,12 @@
                             Eviction notice will be sent to visitors 3 days and 1 day before time.
                         </p>
                     @endif                       
-                </div>
+                </div>                 
+                @endif
 
-                <hr>
                 {{-- property rules --}}
                 @if ($property->type_status!='sale')
+                <hr>
                 <div class="pxp-single-property-section">
                     <h3>Property Rules</h3>
                     <div class="row mt-md-4">

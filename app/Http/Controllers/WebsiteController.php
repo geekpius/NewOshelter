@@ -112,7 +112,7 @@ class WebsiteController extends Controller
             $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
             //similar properties
             (string) $location = $property->propertyLocation->location;
-            $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)
+            $data['properties'] = Property::whereType_status($property->type_status)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)
             ->where('id','!=',$property->id)->take(50)->inRandomOrder()
             ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
                 $query->whereIn('status', [0,2]);
