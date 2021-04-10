@@ -68,7 +68,7 @@ class BookingController extends Controller
                         $data['property'] = $property;
                         $data['my_room'] = HostelBlockRoom::whereProperty_hostel_block_id((int) $bookingItems['block_id'])
                         ->whereBlock_room_type($bookingItems['room_type'])->whereGender($bookingItems['gender'])->first();
-                        $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+                        $data['charge'] = ServiceCharge::whereProperty_type($property->type_status)->first();
             
                         $data['room_number'] = $data['my_room']->hostelBlockRoomNumbers->where('room_no',(int) $bookingItems['room_number'])->first();
                         
@@ -83,12 +83,12 @@ class BookingController extends Controller
                         if($property->type_status == 'rent'){
                             $data['page_title'] = 'Booking '.$property->title;
                             $data['property'] = $property;
-                            $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+                            $data['charge'] = ServiceCharge::whereProperty_type($property->type_status)->first();
                             return view('user.bookings.index', $data);
                         }elseif($property->type_status == 'short_stay'){
                             $data['page_title'] = 'Booking '.$property->title;
                             $data['property'] = $property;
-                            $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+                            $data['charge'] = ServiceCharge::whereProperty_type($property->type_status)->first();
                             return view('user.bookings.index', $data);
                         }
                     }else{

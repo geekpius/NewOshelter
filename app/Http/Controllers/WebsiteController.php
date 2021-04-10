@@ -107,7 +107,7 @@ class WebsiteController extends Controller
         if($property->done_step && $property->is_active && $property->publish && $property->isVisitorIn()){
             $data['page_title'] = 'Detailing '.$property->title.' property for you. Have all the overviews of property to make decisions.';
             $data['property'] = $property;
-            $data['charge'] = ServiceCharge::whereProperty_type($property->type)->first();
+            $data['charge'] = ServiceCharge::whereProperty_type($property->type_status)->first();
             $countImages = $property->propertyImages->count();
             $data['image'] = $property->propertyImages->first();
             $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);

@@ -10,7 +10,6 @@ use App\PropertyModel\PropertyReview;
 use App\UserModel\UserExtensionRequest;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use App\ServiceCharge;
 use App\UserModel\UserVisit;
 use App\PaymentModel\Transaction;
 use DB;

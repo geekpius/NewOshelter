@@ -155,7 +155,7 @@ class UserController extends Controller
             if($booking->status == 2){
                 $data['page_title'] = 'Payment requests';
                 $data['booking'] = $booking;
-                $data['charge'] = ServiceCharge::whereProperty_type($booking->property->type)->first();
+                $data['charge'] = ServiceCharge::whereProperty_type($booking->property->type_status)->first();
                 return view('user.requests.payment', $data);
             }else{
                 return view('errors.404');
@@ -239,7 +239,7 @@ class UserController extends Controller
             if($hostelBooking->status == 2){
                 $data['page_title'] = 'Payment requests';
                 $data['booking'] = $hostelBooking;
-                $data['charge'] = ServiceCharge::whereProperty_type($hostelBooking->property->type)->first();
+                $data['charge'] = ServiceCharge::whereProperty_type($hostelBooking->property->type_status)->first();
                 return view('user.requests.payment', $data);
             }else{
                 return view('errors.404');
