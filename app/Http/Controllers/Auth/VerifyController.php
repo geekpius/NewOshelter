@@ -53,7 +53,7 @@ class VerifyController extends Controller
                     $user->verify_email = true;
                     $user->verify_email_time = Carbon::now();
                     $user->update();
-                    return redirect()->route('index');
+                    return redirect()->route('account.info');
                 }else{
                     session()->flash('error', 'Verification code is invalid');
                 }
@@ -128,7 +128,7 @@ class VerifyController extends Controller
                 $user->verify_email = true;
                 $user->update();
                 $deleted = DB::delete('delete from email_verifies where token = :token', ['token'=>$token]);
-                return redirect()->route('index');
+                return redirect()->route('account.info');
             }
         }
         

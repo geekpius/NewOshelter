@@ -116,7 +116,7 @@
                                     <div class="pro-order-box">
                                         <h4 class="header-title text-primary">
                                             <i class="fa fa-home text-success font-12"></i>
-                                            {{ $block->propertyHostelBlock->block_name }}
+                                            {{ $block->propertyHostelBlock->block_name }} <span class="font-12 text-muted">({{ $block->gender }})</span>
                                         </h4>
                                         <div class="font-14">
                                             <span class="text-primary">{{ ucfirst(str_replace('_', ' ', $block->furnish)) }} {{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms for {{ $block->person_per_room }} person per room. 
@@ -1118,15 +1118,10 @@
 {{-- date range --}}
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-@if($property->type=='hostel')
 <script type="text/javascript" src="{{ asset('assets/pages/website/hostel-property-detail.js') }}"></script>
-@else
-    @if ($property->type_status=='rent')
-    <script type="text/javascript" src="{{ asset('assets/pages/website/rent-property-detail.js') }}"></script>
-    @elseif($property->type_status=='short_stay')
-    <script type="text/javascript" src="{{ asset('assets/pages/website/short-stay-property-detail.js') }}"></script>
-    @endif
-@endif
+<script type="text/javascript" src="{{ asset('assets/pages/website/rent-property-detail.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/pages/website/short-stay-property-detail.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/pages/website/sale-property-detail.js') }}"></script>
 <script src="{{ asset('assets/light/js/owl.carousel.min.js') }}"></script>
 <script>
     $(".btn_review_all").on("click", function(){

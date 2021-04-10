@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 23, 2021 at 06:35 PM
+-- Generation Time: Apr 10, 2021 at 09:27 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
@@ -59,7 +59,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `is_active`, `image`, `role`, `login_time`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin Geek', 'fiifipius@gmail.com', '$2y$10$C5fgKPH/HSQ79J4wiybGVOgILhRN2cCpeyMXn5VFCxiw.leAIVZki', 1, NULL, 'admin', '2021-03-05 12:18:22', 'G0fni8HaxsSu4ZCH8qOoiNxvorawLL7iyfjzMBRNbEbt5WTwg5gRToUvoyxP', NULL, '2021-03-05 12:18:22');
+(1, 'Admin Geek', 'fiifipius@gmail.com', '$2y$10$C5fgKPH/HSQ79J4wiybGVOgILhRN2cCpeyMXn5VFCxiw.leAIVZki', 1, NULL, 'admin', '2021-03-30 17:56:39', 'msjo4BUiyaYBFlBkbwKTMTmn0WOnzM7enhtjz4G9gmR22Kv2uv1KsC33m7Tq', NULL, '2021-03-30 17:56:39');
 
 -- --------------------------------------------------------
 
@@ -222,7 +222,7 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `user_id`, `property_id`, `owner_id`, `check_in`, `check_out`, `adult`, `children`, `infant`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 2, 1, '2021-03-23', '2021-03-31', 1, 0, 0, 3, '2021-03-22 16:52:21', '2021-03-22 17:06:56');
+(1, 2, 2, 1, '2021-03-23', '2021-04-02', 1, 0, 0, 3, '2021-03-24 11:54:04', '2021-03-24 11:55:27');
 
 -- --------------------------------------------------------
 
@@ -244,9 +244,7 @@ CREATE TABLE `booking_transactions` (
 --
 
 INSERT INTO `booking_transactions` (`id`, `transaction_id`, `booking_id`, `property_type`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'room', '2021-03-22 17:06:56', '2021-03-22 17:06:56'),
-(2, 2, 1, 'hostel', '2021-03-23 16:00:38', '2021-03-23 16:00:38'),
-(3, 3, 2, 'hostel', '2021-03-23 16:03:36', '2021-03-23 16:03:36');
+(1, 1, 1, 'room', '2021-03-24 11:55:27', '2021-03-24 11:55:27');
 
 -- --------------------------------------------------------
 
@@ -271,7 +269,7 @@ CREATE TABLE `confirmations` (
 --
 
 INSERT INTO `confirmations` (`id`, `user_id`, `owner_id`, `visit_id`, `transaction_id`, `type`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 1, 1, 'room', 1, '2021-03-23 11:01:10', '2021-03-23 11:01:10');
+(1, 2, 1, 1, 1, 'room', 1, '2021-03-24 15:39:43', '2021-03-24 15:39:43');
 
 -- --------------------------------------------------------
 
@@ -310,7 +308,8 @@ CREATE TABLE `currencies` (
 --
 
 INSERT INTO `currencies` (`id`, `currency`, `symbol`, `created_at`, `updated_at`) VALUES
-(1, 'Ghana Cedis', 'GHS', '2021-03-22 11:20:23', '2021-03-22 11:20:23');
+(1, 'Ghana Cedis', 'GHS', '2021-03-22 11:20:23', '2021-03-22 11:20:23'),
+(2, 'United State Dollars', 'USD', '2021-03-24 15:44:14', '2021-03-24 15:44:14');
 
 -- --------------------------------------------------------
 
@@ -343,7 +342,7 @@ CREATE TABLE `email_verifies` (
 --
 
 INSERT INTO `email_verifies` (`email`, `token`, `created_at`) VALUES
-('fiifipius@gmail.com', '6f91a95158feba18ce28aece6bd349ae2dc6c53f7110c4acdc6817edfb60f9fc', '2021-03-22 10:59:10'),
+('fiifipius@gmail.com', 'c5105821028995c6303c79a8bdd0c5af1a5b196033a37b4d5a114bc22f5294a2', '2021-03-26 13:52:06'),
 ('theresa@gmail.com', '50dd76b42882e867e0003d71ffe3ca1ea06413b86efb4612d135f5cdcf743b53', '2021-03-22 11:24:14'),
 ('fiifijava@gmail.com', '5ef33cb91316db75a4cf67b4f2301e20a2c527b4d82dc16216ee6283a854f3e2', '2021-03-23 11:08:35');
 
@@ -440,7 +439,9 @@ CREATE TABLE `hostel_block_rooms` (
 
 INSERT INTO `hostel_block_rooms` (`id`, `property_hostel_block_id`, `block_room_type`, `gender`, `block_no_room`, `start_room_no`, `bed_person`, `person_per_room`, `furnish`, `kitchen`, `bathroom`, `bath_private`, `toilet`, `toilet_private`, `created_at`, `updated_at`) VALUES
 (1, 1, 'single_room', 'male', 5, 1, 2, 2, 'partially_furnished', 1, 1, 1, 1, 1, '2021-03-23 15:10:35', '2021-03-23 15:10:35'),
-(3, 2, 'single_room', 'female', 10, 1, 2, 2, 'partially_furnished', 1, 1, 1, 1, 1, '2021-03-23 15:43:47', '2021-03-23 15:43:47');
+(3, 2, 'single_room', 'female', 10, 1, 2, 2, 'partially_furnished', 1, 1, 1, 1, 1, '2021-03-23 15:43:47', '2021-03-23 15:43:47'),
+(5, 3, 'single_room', 'male', 5, 1, 1, 1, 'partially_furnished', 1, 1, 1, 1, 1, '2021-03-25 11:00:23', '2021-03-25 11:00:23'),
+(6, 3, 'single_room', 'female', 5, 6, 1, 1, 'partially_furnished', 1, 1, 1, 1, 1, '2021-03-25 11:00:53', '2021-03-25 11:00:53');
 
 -- --------------------------------------------------------
 
@@ -464,7 +465,7 @@ CREATE TABLE `hostel_block_room_numbers` (
 --
 
 INSERT INTO `hostel_block_room_numbers` (`id`, `hostel_block_room_id`, `room_no`, `person_per_room`, `occupant`, `full`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 2, 1, 0, '2021-03-23 15:10:35', '2021-03-23 16:00:38'),
+(1, 1, 1, 2, 1, 0, '2021-03-23 15:10:35', '2021-03-24 10:18:47'),
 (2, 1, 2, 2, 0, 0, '2021-03-23 15:10:35', '2021-03-23 15:10:35'),
 (3, 1, 3, 2, 0, 0, '2021-03-23 15:10:35', '2021-03-23 15:10:35'),
 (4, 1, 4, 2, 0, 0, '2021-03-23 15:10:35', '2021-03-23 15:10:35'),
@@ -478,7 +479,17 @@ INSERT INTO `hostel_block_room_numbers` (`id`, `hostel_block_room_id`, `room_no`
 (13, 3, 7, 2, 0, 0, '2021-03-23 15:43:47', '2021-03-23 15:43:47'),
 (14, 3, 8, 2, 0, 0, '2021-03-23 15:43:47', '2021-03-23 15:43:47'),
 (15, 3, 9, 2, 0, 0, '2021-03-23 15:43:47', '2021-03-23 15:43:47'),
-(16, 3, 10, 2, 0, 0, '2021-03-23 15:43:47', '2021-03-23 15:43:47');
+(16, 3, 10, 2, 0, 0, '2021-03-23 15:43:47', '2021-03-23 15:43:47'),
+(37, 5, 1, 1, 0, 0, '2021-03-25 11:00:23', '2021-03-25 11:00:23'),
+(38, 5, 2, 1, 0, 0, '2021-03-25 11:00:23', '2021-03-25 11:00:23'),
+(39, 5, 3, 1, 0, 0, '2021-03-25 11:00:23', '2021-03-25 11:00:23'),
+(40, 5, 4, 1, 0, 0, '2021-03-25 11:00:23', '2021-03-25 11:00:23'),
+(41, 5, 5, 1, 0, 0, '2021-03-25 11:00:23', '2021-03-25 11:00:23'),
+(42, 6, 6, 1, 0, 0, '2021-03-25 11:00:53', '2021-03-25 11:00:53'),
+(43, 6, 7, 1, 0, 0, '2021-03-25 11:00:53', '2021-03-25 11:00:53'),
+(44, 6, 8, 1, 0, 0, '2021-03-25 11:00:53', '2021-03-25 11:00:53'),
+(45, 6, 9, 1, 0, 0, '2021-03-25 11:00:53', '2021-03-25 11:00:53'),
+(46, 6, 10, 1, 0, 0, '2021-03-25 11:00:53', '2021-03-25 11:00:53');
 
 -- --------------------------------------------------------
 
@@ -499,14 +510,6 @@ CREATE TABLE `hostel_bookings` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `hostel_bookings`
---
-
-INSERT INTO `hostel_bookings` (`id`, `user_id`, `property_id`, `owner_id`, `hostel_block_room_number_id`, `room_number`, `check_in`, `check_out`, `status`, `created_at`, `updated_at`) VALUES
-(1, 3, 3, 1, 1, 1, '2021-03-30', '2021-11-30', 3, '2021-03-23 15:55:48', '2021-03-23 16:00:38'),
-(2, 2, 3, 1, 7, 1, '2021-03-30', '2021-11-30', 3, '2021-03-23 16:03:01', '2021-03-23 16:03:36');
 
 -- --------------------------------------------------------
 
@@ -540,7 +543,17 @@ INSERT INTO `hostel_room_amenities` (`id`, `hostel_block_room_id`, `name`, `crea
 (18, 3, 'Ceiling Fan', '2021-03-23 15:44:18', '2021-03-23 15:44:18'),
 (19, 3, 'Learning Light', '2021-03-23 15:44:18', '2021-03-23 15:44:18'),
 (20, 3, 'Wardrobe', '2021-03-23 15:44:18', '2021-03-23 15:44:18'),
-(21, 3, 'Balcony', '2021-03-23 15:44:18', '2021-03-23 15:44:18');
+(21, 3, 'Balcony', '2021-03-23 15:44:18', '2021-03-23 15:44:18'),
+(22, 5, 'Bed', '2021-03-25 11:02:33', '2021-03-25 11:02:33'),
+(23, 5, 'Ceiling Fan', '2021-03-25 11:02:33', '2021-03-25 11:02:33'),
+(24, 5, 'Learning Light', '2021-03-25 11:02:33', '2021-03-25 11:02:33'),
+(25, 5, 'Wardrobe', '2021-03-25 11:02:33', '2021-03-25 11:02:33'),
+(26, 5, 'Balcony', '2021-03-25 11:02:33', '2021-03-25 11:02:33'),
+(27, 6, 'Bed', '2021-03-25 11:02:44', '2021-03-25 11:02:44'),
+(28, 6, 'Ceiling Fan', '2021-03-25 11:02:44', '2021-03-25 11:02:44'),
+(29, 6, 'Learning Light', '2021-03-25 11:02:44', '2021-03-25 11:02:44'),
+(30, 6, 'Wardrobe', '2021-03-25 11:02:44', '2021-03-25 11:02:44'),
+(31, 6, 'Balcony', '2021-03-25 11:02:44', '2021-03-25 11:02:44');
 
 -- --------------------------------------------------------
 
@@ -564,7 +577,25 @@ INSERT INTO `include_utilities` (`id`, `property_id`, `name`, `created_at`, `upd
 (1, 1, 'water', '2021-03-22 11:21:12', '2021-03-22 11:21:12'),
 (2, 1, 'sanitation', '2021-03-22 11:21:12', '2021-03-22 11:21:12'),
 (3, 3, 'water', '2021-03-23 15:41:59', '2021-03-23 15:41:59'),
-(4, 3, 'sanitation', '2021-03-23 15:41:59', '2021-03-23 15:41:59');
+(4, 3, 'sanitation', '2021-03-23 15:41:59', '2021-03-23 15:41:59'),
+(5, 5, 'water', '2021-03-25 11:07:18', '2021-03-25 11:07:18'),
+(6, 5, 'sanitation', '2021-03-25 11:07:18', '2021-03-25 11:07:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -671,6 +702,22 @@ CREATE TABLE `mobile_withdraws` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `property_id` int(10) UNSIGNED NOT NULL,
+  `owner_id` int(10) UNSIGNED NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `packages`
 --
 
@@ -694,6 +741,13 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('fiifipius@gmail.com', '$2y$10$EbyWOBIXVS35QrA60knnBux0T8Sv3HfMs1j1moli0QWcFGqJzhsES', '2021-03-30 18:01:17');
 
 -- --------------------------------------------------------
 
@@ -725,7 +779,10 @@ CREATE TABLE `properties` (
 INSERT INTO `properties` (`id`, `user_id`, `base`, `type`, `type_status`, `title`, `adult`, `children`, `publish`, `step`, `done_step`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 1, 'house', 'apartment', 'rent', '2 Sway apartment', 1, 0, 1, 9, 1, 1, '2021-03-22 10:59:52', '2021-03-22 11:21:37'),
 (2, 1, 'storey_building', 'room', 'short_stay', 'Platinum single room', 2, 0, 1, 9, 1, 1, '2021-03-22 11:56:20', '2021-03-22 12:30:50'),
-(3, 1, 'storey_building', 'hostel', 'rent', 'HighFrame Hostel', 1, 0, 1, 9, 1, 1, '2021-03-23 12:54:45', '2021-03-23 15:49:23');
+(3, 1, 'storey_building', 'hostel', 'rent', 'HighFrame Hostel', 1, 0, 1, 9, 1, 1, '2021-03-23 12:54:45', '2021-03-23 15:49:23'),
+(4, 1, 'house', 'house', 'rent', 'Mandet 4 bedroom house', 1, 0, 1, 9, 1, 1, '2021-03-25 10:53:23', '2021-03-25 10:57:17'),
+(5, 1, 'storey_building', 'hostel', 'rent', 'Great man hostel', NULL, NULL, 1, 9, 1, 1, '2021-03-25 10:58:04', '2021-03-25 11:07:20'),
+(6, 1, 'house', 'house', 'sale', '2 Sweet Homes', 1, 0, 1, 9, 1, 1, '2021-04-09 14:30:02', '2021-04-09 14:34:47');
 
 -- --------------------------------------------------------
 
@@ -761,7 +818,17 @@ INSERT INTO `property_amenities` (`id`, `property_id`, `name`, `created_at`, `up
 (13, 2, 'Ceiling Fan', '2021-03-22 11:57:07', '2021-03-22 11:57:07'),
 (14, 2, 'Balcony', '2021-03-22 11:57:07', '2021-03-22 11:57:07'),
 (15, 2, 'Wardrobe', '2021-03-22 11:57:07', '2021-03-22 11:57:07'),
-(16, 2, 'Water Reservoir', '2021-03-22 11:57:07', '2021-03-22 11:57:07');
+(16, 2, 'Water Reservoir', '2021-03-22 11:57:07', '2021-03-22 11:57:07'),
+(17, 4, 'Wardrobe', '2021-03-25 10:54:18', '2021-03-25 10:54:18'),
+(18, 4, 'Water Reservoir', '2021-03-25 10:54:18', '2021-03-25 10:54:18'),
+(19, 6, 'Smoke Detector', '2021-04-09 14:31:33', '2021-04-09 14:31:33'),
+(20, 6, 'Air Conditioning', '2021-04-09 14:31:33', '2021-04-09 14:31:33'),
+(21, 6, 'Ceiling Fan', '2021-04-09 14:31:33', '2021-04-09 14:31:33'),
+(22, 6, 'Wardrobe', '2021-04-09 14:31:33', '2021-04-09 14:31:33'),
+(23, 6, 'Water Reservoir', '2021-04-09 14:31:33', '2021-04-09 14:31:33'),
+(24, 6, 'Door Bell', '2021-04-09 14:31:33', '2021-04-09 14:31:33'),
+(25, 6, 'Car Parking Space', '2021-04-09 14:31:33', '2021-04-09 14:31:33'),
+(26, 6, 'Garden', '2021-04-09 14:31:33', '2021-04-09 14:31:33');
 
 -- --------------------------------------------------------
 
@@ -790,7 +857,9 @@ CREATE TABLE `property_contains` (
 
 INSERT INTO `property_contains` (`id`, `property_id`, `bedroom`, `no_bed`, `kitchen`, `bathroom`, `bath_private`, `toilet`, `toilet_private`, `furnish`, `created_at`, `updated_at`) VALUES
 (1, 1, '2', 0, 1, 1, 1, 1, 1, 'partially_furnished', '2021-03-22 11:00:22', '2021-03-22 11:00:22'),
-(2, 2, '1', 1, 1, 1, 1, 1, 1, 'fully_furnished', '2021-03-22 11:56:41', '2021-03-22 11:56:41');
+(2, 2, '1', 1, 1, 1, 1, 1, 1, 'fully_furnished', '2021-03-22 11:56:41', '2021-03-22 11:56:41'),
+(3, 4, '4', 0, 1, 2, 1, 2, 1, 'not_furnished', '2021-03-25 10:53:45', '2021-03-25 10:53:45'),
+(4, 6, '4', 4, 1, 1, 1, 1, 1, 'not_furnished', '2021-04-09 14:30:55', '2021-04-09 14:30:55');
 
 -- --------------------------------------------------------
 
@@ -816,7 +885,10 @@ CREATE TABLE `property_descriptions` (
 INSERT INTO `property_descriptions` (`id`, `property_id`, `gate`, `description`, `neighbourhood`, `direction`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letrase', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-03-22 11:18:44', '2021-03-22 11:18:44'),
 (2, 2, 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letrase', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', '2021-03-22 12:29:01', '2021-03-22 12:29:01'),
-(3, 3, 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letrase', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-03-23 15:41:21', '2021-03-23 15:41:21');
+(3, 3, 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letrase', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-03-23 15:41:21', '2021-03-23 15:41:21'),
+(4, 4, 0, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem IpsumLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-03-25 10:56:21', '2021-03-25 10:56:21'),
+(5, 5, 0, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letrase', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-03-25 11:05:44', '2021-03-25 11:05:44'),
+(6, 6, 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letrase', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-04-09 14:33:31', '2021-04-09 14:33:31');
 
 -- --------------------------------------------------------
 
@@ -838,7 +910,8 @@ CREATE TABLE `property_hostel_blocks` (
 
 INSERT INTO `property_hostel_blocks` (`id`, `property_id`, `block_name`, `created_at`, `updated_at`) VALUES
 (1, 3, 'kofi annan', '2021-03-23 12:54:57', '2021-03-23 12:54:57'),
-(2, 3, 'christine harbured', '2021-03-23 13:16:06', '2021-03-23 13:16:06');
+(2, 3, 'christine harbured', '2021-03-23 13:16:06', '2021-03-23 13:16:06'),
+(3, 5, 'great man', '2021-03-25 10:58:22', '2021-03-25 10:58:22');
 
 -- --------------------------------------------------------
 
@@ -863,7 +936,9 @@ CREATE TABLE `property_hostel_prices` (
 
 INSERT INTO `property_hostel_prices` (`id`, `hostel_block_room_id`, `payment_duration`, `price_calendar`, `property_price`, `currency`, `created_at`, `updated_at`) VALUES
 (1, 1, 8, 'month', 450, 'GHS', '2021-03-23 15:41:42', '2021-03-23 15:41:42'),
-(3, 3, 8, 'month', 450, 'GHS', '2021-03-23 15:44:42', '2021-03-23 15:44:42');
+(3, 3, 8, 'month', 450, 'GHS', '2021-03-23 15:44:42', '2021-03-23 15:44:42'),
+(4, 5, 9, 'month', 400, 'GHS', '2021-03-25 11:07:04', '2021-03-25 11:07:04'),
+(5, 6, 9, 'month', 400, 'GHS', '2021-03-25 11:07:16', '2021-03-25 11:07:16');
 
 -- --------------------------------------------------------
 
@@ -901,7 +976,25 @@ INSERT INTO `property_images` (`id`, `property_id`, `caption`, `image`, `created
 (21, 3, 'Cool', '15a13dd1bfa9ddbd294058f2f2db707e605ccd7f6.jpg', '2021-03-23 15:32:05', '2021-03-23 15:34:29'),
 (22, 3, 'Front', '1fa899c08165c5d37a6f8338eb41deb65f4ad74ad.jpg', '2021-03-23 15:32:05', '2021-03-23 15:34:12'),
 (23, 3, 'Sitting', '119119fb908e3c3a8508bf2ac6c905da369263515.jpg', '2021-03-23 15:32:05', '2021-03-23 15:32:13'),
-(26, 3, 'Fresh air', '15fcad9fbb2987cba9a6487f66c2598a864aa0cf1.png', '2021-03-23 15:49:05', '2021-03-23 15:49:20');
+(26, 3, 'Fresh air', '15fcad9fbb2987cba9a6487f66c2598a864aa0cf1.png', '2021-03-23 15:49:05', '2021-03-23 15:49:20'),
+(27, 4, 'House', '1ec79995343df0be8b74f0b740d01e18846926e46.jpg', '2021-03-25 10:55:36', '2021-03-25 10:55:50'),
+(28, 4, 'House', '131b8132a91be25b9bdcccf94beba5835f3cc44b5.jpg', '2021-03-25 10:55:36', '2021-03-25 10:55:51'),
+(29, 4, 'House', '185928e3b173d5dc52795c75271d9e39ffbdaef46.jpg', '2021-03-25 10:55:37', '2021-03-25 10:55:53'),
+(30, 4, 'House', '1f683b7f529838eecaa0303f22b99181e6d6b0e11.jpg', '2021-03-25 10:55:37', '2021-03-25 10:55:55'),
+(31, 4, 'House', '1849e2926156d793dd49ea17511e549d82b3d19ac.jpg', '2021-03-25 10:55:37', '2021-03-25 10:55:56'),
+(32, 4, 'House', '12a593664f3ddb855f7da23c58ebfeb47f1f6e411.png', '2021-03-25 10:55:37', '2021-03-25 10:55:56'),
+(33, 5, 'Hostel', '11ed3afcf13a2ac3e5e8ba8cc7b2d13993402c170.jpg', '2021-03-25 11:05:21', '2021-03-25 11:05:25'),
+(34, 5, 'Hostel', '171dc4bdb7a64c089c4368749b4de22655ea14482.jpg', '2021-03-25 11:05:21', '2021-03-25 11:05:27'),
+(35, 5, 'Hostel', '16d036afdc96ea1f6affa5639a4d5e3591ccc8f53.jpg', '2021-03-25 11:05:21', '2021-03-25 11:05:29'),
+(36, 5, 'Hostel', '196fec877ba5b2c4ea44add6f010178c480c3aa3a.jpg', '2021-03-25 11:05:21', '2021-03-25 11:05:31'),
+(37, 5, 'Hostel', '1beb022444feb520ae5cb60256e1939d0aacdb574.jpg', '2021-03-25 11:05:21', '2021-03-25 11:05:34'),
+(38, 5, 'Hostel', '1151ae1160b0a6f65cd8cfe31f57f34b0e4503dcf.jpg', '2021-03-25 11:05:21', '2021-03-25 11:05:36'),
+(39, 6, 'Frontview', '1fd4e7dbdbf41c2dc3553fca1f3a06eb90ed2d38c.jpg', '2021-04-09 14:32:28', '2021-04-09 14:32:32'),
+(40, 6, 'Frontview', '10e845a1ce4347aba0e1a6872938ae116ad53db3f.jpg', '2021-04-09 14:32:28', '2021-04-09 14:32:34'),
+(41, 6, 'Backview', '15f55911cc686d8d848b09f4daf159bcdf2ea2458.jpg', '2021-04-09 14:32:28', '2021-04-09 14:32:40'),
+(42, 6, 'Sitting room', '1bd36eced4fb03f7b1480e7c243315363df94ea12.jpg', '2021-04-09 14:32:28', '2021-04-09 14:32:45'),
+(43, 6, 'Garden', '16687cef7531f050ddf7d72a71187fcc49c211308.jpg', '2021-04-09 14:32:28', '2021-04-09 14:32:50'),
+(44, 6, 'Outside', '1e6de3dddf2ab7ae26599bea7802134b68409580d.png', '2021-04-09 14:32:28', '2021-04-09 14:32:55');
 
 -- --------------------------------------------------------
 
@@ -928,7 +1021,10 @@ CREATE TABLE `property_locations` (
 INSERT INTO `property_locations` (`id`, `property_id`, `digital_address`, `location`, `location_slug`, `latitude`, `longitude`, `created_at`, `updated_at`) VALUES
 (4, 1, NULL, 'Airport Hills, Accra, Ghana', 'airport-hills-accra-ghana', '5.616592001263079', '-0.14350556322937802', '2021-03-22 11:02:27', '2021-03-22 11:02:27'),
 (5, 2, NULL, '37 Mills Road, Accra, Ghana', '37-mills-road-accra-ghana', '5.534203501391307', '-0.21482020422973758', '2021-03-22 12:03:56', '2021-03-22 12:03:56'),
-(6, 3, NULL, 'Cantonments, Accra, Ghana', 'cantonments-accra-ghana', '5.576882658596576', '-0.17802226004943078', '2021-03-23 15:19:19', '2021-03-23 15:19:19');
+(6, 3, NULL, 'Cantonments, Accra, Ghana', 'cantonments-accra-ghana', '5.576882658596576', '-0.17802226004943078', '2021-03-23 15:19:19', '2021-03-23 15:19:19'),
+(7, 4, NULL, 'Madina, Accra Metropolis, Ghana', 'madina-accra-metropolis-ghana', '5.673532998751293', '-0.16635291349181847', '2021-03-25 10:55:09', '2021-03-25 10:55:09'),
+(8, 5, NULL, 'Tse Addo High Street, Accra, Ghana', 'tse-addo-high-street-accra-ghana', '5.586547257581744', '-0.14089420555725818', '2021-03-25 11:04:55', '2021-03-25 11:04:55'),
+(9, 6, NULL, 'Accra - Tema Motorway, Accra, Ghana', 'accra-tema-motorway-accra-ghana', '5.635052585835802', '-0.14450998968810413', '2021-04-09 14:32:09', '2021-04-09 14:32:09');
 
 -- --------------------------------------------------------
 
@@ -971,7 +1067,9 @@ CREATE TABLE `property_prices` (
 
 INSERT INTO `property_prices` (`id`, `property_id`, `payment_duration`, `minimum_stay`, `maximum_stay`, `price_calendar`, `property_price`, `smart_price`, `currency`, `negotiable`, `created_at`, `updated_at`) VALUES
 (1, 1, 12, NULL, NULL, 'month', 500, NULL, 'GHS', NULL, '2021-03-22 11:21:12', '2021-03-22 11:21:12'),
-(2, 2, NULL, 5, 30, 'night', 500, 480, 'GHS', NULL, '2021-03-22 12:30:16', '2021-03-22 12:30:16');
+(2, 2, NULL, 5, 30, 'night', 500, 480, 'GHS', NULL, '2021-03-22 12:30:16', '2021-03-22 12:30:16'),
+(3, 4, 12, NULL, NULL, 'month', 2500, NULL, 'GHS', NULL, '2021-03-25 10:57:00', '2021-03-25 10:57:00'),
+(4, 6, NULL, NULL, NULL, NULL, 4000000, NULL, 'GHS', NULL, '2021-04-09 14:34:09', '2021-04-09 14:34:09');
 
 -- --------------------------------------------------------
 
@@ -1020,7 +1118,11 @@ INSERT INTO `property_rules` (`id`, `property_id`, `rule`, `created_at`, `update
 (4, 2, 'No deadly weapons', '2021-03-22 11:57:11', '2021-03-22 11:57:11'),
 (5, 3, 'No smoking', '2021-03-23 15:18:36', '2021-03-23 15:18:36'),
 (6, 3, 'No deadly weapons', '2021-03-23 15:18:36', '2021-03-23 15:18:36'),
-(7, 3, 'Dont host visitors more than 2 weeks', '2021-03-23 15:18:36', '2021-03-23 15:18:36');
+(7, 3, 'Dont host visitors more than 2 weeks', '2021-03-23 15:18:36', '2021-03-23 15:18:36'),
+(8, 4, 'No smoking', '2021-03-25 10:54:48', '2021-03-25 10:54:48'),
+(9, 4, 'No deadly weapons', '2021-03-25 10:54:48', '2021-03-25 10:54:48'),
+(10, 5, 'No smoking', '2021-03-25 11:03:02', '2021-03-25 11:03:02'),
+(11, 5, 'No deadly weapons', '2021-03-25 11:03:02', '2021-03-25 11:03:02');
 
 -- --------------------------------------------------------
 
@@ -1053,7 +1155,14 @@ INSERT INTO `property_shared_amenities` (`id`, `property_id`, `name`, `created_a
 (15, 3, 'Garden', '2021-03-23 15:44:20', '2021-03-23 15:44:20'),
 (16, 3, 'Basketball Court', '2021-03-23 15:44:20', '2021-03-23 15:44:20'),
 (17, 3, 'Car Park', '2021-03-23 15:44:20', '2021-03-23 15:44:20'),
-(18, 3, 'Water Reservoir', '2021-03-23 15:44:20', '2021-03-23 15:44:20');
+(18, 3, 'Water Reservoir', '2021-03-23 15:44:20', '2021-03-23 15:44:20'),
+(19, 4, 'Garden', '2021-03-25 10:54:18', '2021-03-25 10:54:18'),
+(20, 4, 'Car Park', '2021-03-25 10:54:18', '2021-03-25 10:54:18'),
+(21, 4, 'Gym', '2021-03-25 10:54:18', '2021-03-25 10:54:18'),
+(22, 5, 'Car Park', '2021-03-25 11:02:55', '2021-03-25 11:02:55'),
+(23, 5, 'Wifi Connection', '2021-03-25 11:02:55', '2021-03-25 11:02:55'),
+(24, 5, 'Water Reservoir', '2021-03-25 11:02:55', '2021-03-25 11:02:55'),
+(25, 5, 'Gym', '2021-03-25 11:02:55', '2021-03-25 11:02:55');
 
 -- --------------------------------------------------------
 
@@ -1075,11 +1184,11 @@ CREATE TABLE `property_types` (
 --
 
 INSERT INTO `property_types` (`id`, `name`, `image`, `is_public`, `created_at`, `updated_at`) VALUES
-(1, 'room', '1807ee9526913412cc9e1b51e6aa57e7d992a5215.jpg', 1, '2020-10-15 11:48:18', '2020-11-27 16:30:40'),
-(2, 'apartment', '14d05efc1fd3d6fe5a0860be5603011afb11edd24.jpg', 1, '2020-10-15 12:01:44', '2020-11-27 16:31:30'),
-(3, 'store', '141b1c14e3e628e08a7cf23a0daf44abb3617d0a9.jpg', 0, '2020-10-15 12:02:12', '2020-12-14 11:19:49'),
-(4, 'hostel', '13a556dcbb81022cbcc90ff9d6349d6fb8b714f81.jpg', 1, '2020-10-15 12:03:53', '2020-12-14 11:19:26'),
-(5, 'house', '199ea26a8b6ed076ef76527a730b55267a7b7c437.jpg', 1, '2020-12-15 08:53:48', '2020-12-15 08:55:40');
+(1, 'room', NULL, 1, '2020-10-15 11:48:18', '2020-11-27 16:30:40'),
+(2, 'apartment', NULL, 1, '2020-10-15 12:01:44', '2020-11-27 16:31:30'),
+(3, 'store', NULL, 0, '2020-10-15 12:02:12', '2020-12-14 11:19:49'),
+(4, 'hostel', NULL, 1, '2020-10-15 12:03:53', '2020-12-14 11:19:26'),
+(5, 'house', NULL, 1, '2020-12-15 08:53:48', '2020-12-15 08:55:40');
 
 -- --------------------------------------------------------
 
@@ -1138,9 +1247,7 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `user_id`, `owner_id`, `reference_id`, `amount`, `service_fee`, `discount_fee`, `currency`, `channel`, `property_type`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 'VTB22032021170554', 3500, 0, 0, 'GHS', 'mobile_money', 'room', '2021-03-22 17:06:56', '2021-03-22 17:06:56'),
-(2, 3, 1, 'VTB23032021155851', 3600, 0, 0, 'GHS', 'mobile_money', 'hostel', '2021-03-23 16:00:38', '2021-03-23 16:00:38'),
-(3, 2, 1, 'VTB23032021160327', 3600, 0, 0, 'GHS', 'card', 'hostel', '2021-03-23 16:03:36', '2021-03-23 16:03:36');
+(1, 2, 1, 'VTB24032021115519', 3500, 0, 0, 'GHS', 'card', 'room', '2021-03-24 11:55:27', '2021-03-24 11:55:27');
 
 -- --------------------------------------------------------
 
@@ -1177,9 +1284,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `account_type`, `is_active`, `image`, `email_verification_token`, `email_verification_expired_at`, `verify_email`, `verify_email_time`, `sms_verification_token`, `verify_sms`, `verify_sms_time`, `is_id_verified`, `login_time`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'fiifi pius', 'fiifipius@gmail.com', '$2y$10$OWs2Uutg7RoxheWPazEnU.5WlMRPedSayEdY9uhtfeD1a2bs5HjTK', '0542398441', 'owner', 1, '123d1bbf7c8196420c070a167ab7027e697409fca.jpeg', '23714843', '2021-03-22 11:59:09', 1, '2021-03-22 10:59:29', NULL, 0, NULL, 1, '2021-03-22 12:54:17', 'DzSLEa6PV7CD9DsvxOGiF1rKpVlL3j6N5CUqXybKubAEoF3xniwovnEtxrBk', '2021-03-22 10:59:10', '2021-03-22 12:54:17', NULL),
-(2, 'theresa ohenewaa', 'theresa@gmail.com', '$2y$10$Yqj5zOGbdCvYp62uXlhyjeU3IRjko4Gm8HkA8Sru.Xhqmk.3.g6R6', '0507791393', 'visitor', 1, '281c4498c193a3ab60d0cf6d9f1ab4af17344c1a9.jpg', '08392336', '2021-03-22 12:24:14', 1, '2021-03-22 11:24:28', '2871', 1, '2021-03-22 16:32:24', 1, '2021-03-23 16:01:34', 'HoUc23MAlqlLSAa8WduSVmUnNRcgCVX6Jfta1poR9xDTaJvSGUsc6Q08UGbY', '2021-03-22 11:24:14', '2021-03-23 16:01:34', NULL),
-(3, 'fiifi geek', 'fiifijava@gmail.com', '$2y$10$gMkE9pQkYPEk8X/DfkYqk.3WX5c5kCBj1AHJkZi4t908PoeErohcC', '0542398442', 'visitor', 1, NULL, '46354974', '2021-03-23 12:08:35', 1, '2021-03-23 11:09:38', '5767', 1, '2021-03-23 15:55:36', 1, '2021-03-23 15:58:29', '1GOWdSBkzjuMIOAM8EZv4BXvc9csG4OEfDcfEvBkTEulN8mu6HMy6OBLIrnl', '2021-03-23 11:08:35', '2021-03-23 15:58:29', NULL);
+(1, 'fiifi pius', 'fiifipius@gmail.com', '$2y$10$OWs2Uutg7RoxheWPazEnU.5WlMRPedSayEdY9uhtfeD1a2bs5HjTK', '0542398441', 'owner', 1, '123d1bbf7c8196420c070a167ab7027e697409fca.jpeg', '78173074', '2021-03-26 14:52:06', 1, '2021-03-22 10:59:29', NULL, 0, NULL, 1, '2021-04-09 15:52:38', 'lhqByXkbnPEpEDsmVG5tF2Ng8JFEZaUBmJR8XR06WkdAsHCXMvI7GhOv2DhY', '2021-03-22 10:59:10', '2021-04-10 18:52:16', NULL),
+(2, 'theresa ohenewaa', 'theresa@gmail.com', '$2y$10$Yqj5zOGbdCvYp62uXlhyjeU3IRjko4Gm8HkA8Sru.Xhqmk.3.g6R6', '0507791393', 'visitor', 1, '281c4498c193a3ab60d0cf6d9f1ab4af17344c1a9.jpg', '08392336', '2021-03-22 12:24:14', 1, '2021-03-22 11:24:28', '2871', 1, '2021-03-22 16:32:24', 1, '2021-04-09 15:52:54', 'jwoOMSpuKsslqxJOtCdZCTGSiRU6bPRevLG0oeUKSYGimZvKuE0keSXsXRoY', '2021-03-22 11:24:14', '2021-04-10 18:52:16', NULL),
+(3, 'fiifi geek', 'fiifijava@gmail.com', '$2y$10$gMkE9pQkYPEk8X/DfkYqk.3WX5c5kCBj1AHJkZi4t908PoeErohcC', '0542398442', 'visitor', 1, NULL, '46354974', '2021-03-23 12:08:35', 1, '2021-03-23 11:09:38', '5767', 1, '2021-03-23 15:55:36', 1, '2021-03-24 09:31:34', 'A5v8CgbsCcB4d2IGvUWd1X9hs0LwudGrmbUJdodMPhrMj5P7xadR7UFmiqLC', '2021-03-23 11:08:35', '2021-04-10 18:52:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -1200,7 +1307,7 @@ CREATE TABLE `user_currencies` (
 --
 
 INSERT INTO `user_currencies` (`id`, `user_id`, `currency`, `created_at`, `updated_at`) VALUES
-(2, 1, 'GHS', '2021-03-22 11:21:12', '2021-03-22 11:21:12');
+(1, 1, 'GHS', '2021-03-25 11:06:16', '2021-03-25 11:06:16');
 
 -- --------------------------------------------------------
 
@@ -1240,14 +1347,6 @@ CREATE TABLE `user_hostel_visits` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `user_hostel_visits`
---
-
-INSERT INTO `user_hostel_visits` (`id`, `user_id`, `property_id`, `hostel_booking_id`, `hostel_block_room_id`, `hostel_block_room_number_id`, `check_in`, `check_out`, `is_in`, `created_at`, `updated_at`) VALUES
-(7, 3, 3, 1, 1, 1, '2021-03-30', '2021-11-30', 1, '2021-03-23 16:00:38', '2021-03-23 16:00:38'),
-(8, 2, 3, 2, 3, 7, '2021-03-30', '2021-11-30', 1, '2021-03-23 16:03:36', '2021-03-23 16:03:36');
-
 -- --------------------------------------------------------
 
 --
@@ -1271,7 +1370,8 @@ CREATE TABLE `user_logins` (
 INSERT INTO `user_logins` (`id`, `user_id`, `device`, `browser`, `location`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Ubuntu', 'Firefox', ', ', '2021-03-22 11:53:01', '2021-03-22 11:53:01'),
 (2, 2, 'Linux', 'Chrome', ', ', '2021-03-23 10:28:26', '2021-03-23 10:28:26'),
-(3, 3, 'Linux', 'Chrome', ', ', '2021-03-23 15:58:15', '2021-03-23 15:58:15');
+(3, 3, 'Linux', 'Chrome', ', ', '2021-03-23 15:58:15', '2021-03-23 15:58:15'),
+(4, 1, 'Linux', 'Chrome', ', ', '2021-03-26 12:59:56', '2021-03-26 12:59:56');
 
 -- --------------------------------------------------------
 
@@ -1332,8 +1432,8 @@ CREATE TABLE `user_profiles` (
 --
 
 INSERT INTO `user_profiles` (`id`, `user_id`, `gender`, `dob`, `marital_status`, `city`, `country`, `occupation`, `emergency`, `id_front`, `id_number`, `id_type`, `created_at`, `updated_at`) VALUES
-(1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '246b8d0d7293f24688f417358cb92968e79997b49.png', 'GHA-0123456789-0', 'national', '2021-03-22 15:36:48', '2021-03-22 15:36:56'),
-(2, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1e526fbc7afc49df75e16403513024fd3c3baa8e5.png', 'GHA-0123456789-1', 'national', '2021-03-22 16:54:07', '2021-03-22 16:54:42'),
+(1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GHA-0123456789-0', 'national', '2021-03-22 15:36:48', '2021-03-22 15:36:56'),
+(2, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1f1b39f8d15d2f7b9ed2c607f0ccc326c0bb40208.jpg', 'GHA-0123456789-0', 'national', '2021-03-22 16:54:07', '2021-04-08 19:03:04'),
 (3, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3be907bb66240263f8cb253764a454ed653bc79d6.png', 'GHA-0123456789-2', 'national', '2021-03-23 15:50:29', '2021-03-23 15:50:37');
 
 -- --------------------------------------------------------
@@ -1376,7 +1476,7 @@ CREATE TABLE `user_visits` (
 --
 
 INSERT INTO `user_visits` (`id`, `user_id`, `property_id`, `booking_id`, `check_in`, `check_out`, `adult`, `children`, `infant`, `status`, `created_at`, `updated_at`) VALUES
-(1, 2, 2, 1, '2021-03-23', '2021-03-31', 1, 0, 0, 1, '2021-03-22 17:06:56', '2021-03-22 17:06:56');
+(1, 2, 2, 1, '2021-03-26', '2021-04-02', 1, 0, 0, 1, '2021-03-24 11:55:27', '2021-03-24 15:35:36');
 
 -- --------------------------------------------------------
 
@@ -1401,9 +1501,7 @@ CREATE TABLE `user_wallets` (
 --
 
 INSERT INTO `user_wallets` (`id`, `user_id`, `transaction_id`, `balance`, `currency`, `type`, `is_cash_out`, `created_at`, `updated_at`) VALUES
-(2, 1, 1, 3500, 'GHS', 'booking', 1, '2021-03-22 17:06:56', '2021-03-23 11:01:10'),
-(3, 1, 2, 3600, 'GHS', 'booking', 0, '2021-03-23 16:00:38', '2021-03-23 16:00:38'),
-(4, 1, 3, 3600, 'GHS', 'booking', 0, '2021-03-23 16:03:36', '2021-03-23 16:03:36');
+(1, 1, 1, 3500, 'GHS', 'booking', 1, '2021-03-24 11:55:27', '2021-03-24 15:39:43');
 
 -- --------------------------------------------------------
 
@@ -1553,10 +1651,10 @@ ALTER TABLE `hostel_block_room_numbers`
 --
 ALTER TABLE `hostel_bookings`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_id_hostel_bookings_index` (`user_id`),
   ADD KEY `owner_id_hostel_bookings_index` (`owner_id`),
   ADD KEY `hostel_block_room_number_id_hostel_bookings_index` (`hostel_block_room_number_id`),
-  ADD KEY `property_id_hostel_bookings_index` (`property_id`);
+  ADD KEY `property_id_hostel_bookings_index` (`property_id`),
+  ADD KEY `user_id_hostel_bookings_index` (`user_id`) USING BTREE;
 
 --
 -- Indexes for table `hostel_room_amenities`
@@ -1571,6 +1669,13 @@ ALTER TABLE `hostel_room_amenities`
 ALTER TABLE `include_utilities`
   ADD PRIMARY KEY (`id`),
   ADD KEY `include_utilities_property_id_index` (`property_id`);
+
+--
+-- Indexes for table `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobs_queue_index` (`queue`);
 
 --
 -- Indexes for table `messages`
@@ -1592,6 +1697,15 @@ ALTER TABLE `migrations`
 ALTER TABLE `mobile_withdraws`
   ADD PRIMARY KEY (`id`),
   ADD KEY `withdraw_id` (`withdraw_id`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `orders_user_id_foreign` (`user_id`),
+  ADD KEY `orders_owner_id_foreign` (`owner_id`),
+  ADD KEY `orders_property_id_foreign` (`property_id`);
 
 --
 -- Indexes for table `packages`
@@ -1824,13 +1938,13 @@ ALTER TABLE `withdraws`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `admin_activities`
 --
 ALTER TABLE `admin_activities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `bank_withdraws`
@@ -1848,7 +1962,7 @@ ALTER TABLE `bookings`
 -- AUTO_INCREMENT for table `booking_transactions`
 --
 ALTER TABLE `booking_transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `confirmations`
@@ -1866,7 +1980,7 @@ ALTER TABLE `contacts`
 -- AUTO_INCREMENT for table `currencies`
 --
 ALTER TABLE `currencies`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `deactivate_users`
@@ -1902,31 +2016,37 @@ ALTER TABLE `help_topics`
 -- AUTO_INCREMENT for table `hostel_block_rooms`
 --
 ALTER TABLE `hostel_block_rooms`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `hostel_block_room_numbers`
 --
 ALTER TABLE `hostel_block_room_numbers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `hostel_bookings`
 --
 ALTER TABLE `hostel_bookings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `hostel_room_amenities`
 --
 ALTER TABLE `hostel_room_amenities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `include_utilities`
 --
 ALTER TABLE `include_utilities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -1947,6 +2067,12 @@ ALTER TABLE `mobile_withdraws`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `packages`
 --
 ALTER TABLE `packages`
@@ -1956,49 +2082,49 @@ ALTER TABLE `packages`
 -- AUTO_INCREMENT for table `properties`
 --
 ALTER TABLE `properties`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `property_amenities`
 --
 ALTER TABLE `property_amenities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `property_contains`
 --
 ALTER TABLE `property_contains`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `property_descriptions`
 --
 ALTER TABLE `property_descriptions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `property_hostel_blocks`
 --
 ALTER TABLE `property_hostel_blocks`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `property_hostel_prices`
 --
 ALTER TABLE `property_hostel_prices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `property_images`
 --
 ALTER TABLE `property_images`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `property_locations`
 --
 ALTER TABLE `property_locations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `property_own_rules`
@@ -2010,7 +2136,7 @@ ALTER TABLE `property_own_rules`
 -- AUTO_INCREMENT for table `property_prices`
 --
 ALTER TABLE `property_prices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `property_reviews`
@@ -2022,13 +2148,13 @@ ALTER TABLE `property_reviews`
 -- AUTO_INCREMENT for table `property_rules`
 --
 ALTER TABLE `property_rules`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `property_shared_amenities`
 --
 ALTER TABLE `property_shared_amenities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `property_types`
@@ -2052,7 +2178,7 @@ ALTER TABLE `service_charges`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -2064,7 +2190,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_currencies`
 --
 ALTER TABLE `user_currencies`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_extension_requests`
@@ -2076,13 +2202,13 @@ ALTER TABLE `user_extension_requests`
 -- AUTO_INCREMENT for table `user_hostel_visits`
 --
 ALTER TABLE `user_hostel_visits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_logins`
 --
 ALTER TABLE `user_logins`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_notifications`
@@ -2100,7 +2226,7 @@ ALTER TABLE `user_profiles`
 -- AUTO_INCREMENT for table `user_saved_properties`
 --
 ALTER TABLE `user_saved_properties`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user_visits`
@@ -2112,7 +2238,7 @@ ALTER TABLE `user_visits`
 -- AUTO_INCREMENT for table `user_wallets`
 --
 ALTER TABLE `user_wallets`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `withdraws`
@@ -2209,6 +2335,14 @@ ALTER TABLE `messages`
 --
 ALTER TABLE `mobile_withdraws`
   ADD CONSTRAINT `mobile_withdraws_ibfk_1` FOREIGN KEY (`withdraw_id`) REFERENCES `withdraws` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_owner_id_foreign` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `orders_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `orders_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `properties`
@@ -2321,7 +2455,7 @@ ALTER TABLE `user_extension_requests`
 ALTER TABLE `user_hostel_visits`
   ADD CONSTRAINT `user_hostel_visits_hostel_block_room_id_foreign` FOREIGN KEY (`hostel_block_room_id`) REFERENCES `hostel_block_rooms` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `user_hostel_visits_hostel_block_room_number_id_foreign` FOREIGN KEY (`hostel_block_room_number_id`) REFERENCES `hostel_block_room_numbers` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `user_hostel_visits_ibfk_1` FOREIGN KEY (`hostel_booking_id`) REFERENCES `hostel_bookings` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_hostel_visits_hostel_booking_id_foreign` FOREIGN KEY (`hostel_booking_id`) REFERENCES `hostel_bookings` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `user_hostel_visits_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `user_hostel_visits_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 

@@ -65,7 +65,7 @@ class WebsiteController extends Controller
             ->from(with(new UserVisit)->getTable())
             ->whereIn('status', [0,2]);
         })->paginate(15);
-        $data['property_types'] = PropertyType::get(['name']);
+        $data['property_types'] = PropertyType::whereIs_public(true)->get(['name']);
         return view('website.properties.property-status', $data);
     }
 
@@ -74,7 +74,7 @@ class WebsiteController extends Controller
     {
         $type = str_replace('-',' ',$type);
         $data['page_title'] = 'Explore our neighborhoods on '.str_plural($type);
-        $data['property_types'] = PropertyType::get(['name']);
+        $data['property_types'] = PropertyType::whereIs_public(true)->get(['name']);
         $props = Property::whereType(str_replace(' ','_',$type))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC');
         $props->whereNotIn('id', function($query){
             $query->select('property_id')
@@ -181,7 +181,7 @@ class WebsiteController extends Controller
                 ->whereIn('status', [0,2]);
             });
             $data['properties'] = $props->orderBy('id','desc')->paginate(15);
-            $data['property_types'] = PropertyType::get(['name']);
+            $data['property_types'] = PropertyType::whereIs_public(true)->get(['name']);
             if(session()->has('properties'))
             {
                 session()->forget('properties');
@@ -257,7 +257,7 @@ class WebsiteController extends Controller
                 session()->forget('properties');
             }
             session(['properties' => $props->orderBy('id','desc')->get()]);
-            $data['property_types'] = PropertyType::get(['name']);
+            $data['property_types'] = PropertyType::whereIs_public(true)->get(['name']);
             return view('website.properties.search-properties', $data);
         }
     }
