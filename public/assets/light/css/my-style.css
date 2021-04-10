@@ -734,6 +734,13 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
   display: none;
 }
 
+/* BECOMING AN OWNER */
+.become-owner-image {
+  margin-right:15px; 
+  float: left;
+  width: 400px;
+  height: 200px;
+}
 
 
 /* MEDIA QUERIES */
@@ -956,11 +963,23 @@ Author: Fiifi Pius Geek | fiifipius@gmail.com
     font-size: .8rem;
     margin-left: 70%;
   }
+
+  .become-owner-image {
+    float: left;
+    width: 300px;
+    height: 160px;
+  }
 }
 
 @media screen and (max-width: 320px){
   .dropdown-content1 {
     min-width: 200px;
+  }
+
+  .become-owner-image {
+    float: left;
+    width: 260px;
+    height: 140px;
   }
 }
 

@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <p>
-                        <img src="{{ asset('assets/images/svg/owner.png') }}" alt="Owner_logo" width="400" height="200" style="margin-right:15px; float: left;">
+                        <img src="{{ asset('assets/images/svg/owner.png') }}" alt="Owner_logo" class="become-owner-image">
                         Property owners undergo a validation process when signing onto our platform. This process collects and reviews their background 
                         information which confirms their identity, address/residence, profession, work place, next of kin, among others. We also perform 
                         background checks on every property posted to our platform by property owners/managers. We’ll ask for, check, and validate all 
