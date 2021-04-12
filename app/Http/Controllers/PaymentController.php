@@ -18,10 +18,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Http\Traits\SMSTrait;
 
 class PaymentController extends Controller
 {
-    public $channel;
+    use SMSTrait; 
+
+    private $channel;
+    private $checkIn;
+    private $checkOut;
 
     public function __construct()
     {
@@ -37,6 +42,26 @@ class PaymentController extends Controller
     private function getPaymentChannel(): string
     {
         return $this->channel;
+    }
+
+    private function setCheckIn($checkIn): void
+    {
+        $this->checkIn = $checkIn;
+    }   
+
+    private function getCheckIn(): string
+    {
+        return $this->checkIn;
+    }
+
+    private function setCheckOut($checkOut): void
+    {
+        $this->checkOut = $checkOut;
+    }   
+
+    private function getCheckOut(): string
+    {
+        return $this->checkOut;
     }
 
     public function getVerificationStatus(string $reference): bool
@@ -105,6 +130,7 @@ class PaymentController extends Controller
                 $stay->check_in = $book->check_in;
                 $stay->check_out = $book->check_out;
                 $stay->save();
+                $this->setCheckIn(Carbon::createFromFormat('Y-m-d', $stay->check_in)->format('d-M-Y'));
                 //place visitor in hostel room
                 $roomNumber = HostelBlockRoomNumber::findOrFail($stay->hostel_block_room_number_id);
                 $roomNumber->occupant = $roomNumber->occupant+1;
@@ -128,6 +154,7 @@ class PaymentController extends Controller
                 $stay->infant = $book->infant;
                 $stay->save();
                 $book->update();
+                $this->setCheckIn(Carbon::createFromFormat('Y-m-d', $stay->check_in)->format('d-M-Y'));
             }
 
             $wallet = new UserWallet;
@@ -172,9 +199,11 @@ class PaymentController extends Controller
             $extensionRequest = UserExtensionRequest::findOrFail($bookingID);
             $extensionRequest->is_confirm = 3;
             if($extensionRequest->type == 'hostel'){
-                $extensionRequest->hostelVisit()->update(['check_out'=> $extensionRequest->extension_date]);
+                $check_out = $extensionRequest->hostelVisit()->update(['check_out'=> $extensionRequest->extension_date]);
+                $this->setCheckOut(Carbon::createFromFormat('Y-m-d', $check_out->check_out)->format('d-M-Y'));
             }else{
-                $extensionRequest->visit()->update(['check_out'=> $extensionRequest->extension_date]);
+                $check_out = $extensionRequest->visit()->update(['check_out'=> $extensionRequest->extension_date]);
+                $this->setCheckOut(Carbon::createFromFormat('Y-m-d', $check_out->check_out)->format('d-M-Y'));
             }
             $extensionRequest->update();
 
@@ -208,10 +237,28 @@ class PaymentController extends Controller
                 if($verificationStatus){
                     if($request->type == 'extension_request'){
                         (string) $saveResponse = $this->saveExtensionTransaction(intval($request->owner), $request->reference_id, floatval($request->amount), floatval($request->service_fee), floatval($request->discount_fee), $request->currency, $request->type, intval($request->booking_id));
-                        $message = ($saveResponse == "success")? route('payment.success'):$saveResponse;
+                        if($saveResponse == "success"){
+                            $totalAmount = number_format(floatval($request->amount) + (floatval($request->service_fee)-floatval($request->discount_fee)), 2);
+                            $checkOut = $this->getCheckOut();
+                            $paymentChannel = $this->getPaymentChannel();
+                            $smsMessage = "Payment of $request->currency$totalAmount has been made for $request->type extension via $paymentChannel. Reference#: $request->reference_id. Your check in date is $checkOut";
+                            $this->isSendSMS($smsMessage, Auth::user()->phone);
+                            $message = route('payment.success');
+                        }else{
+                            $message = $saveResponse;
+                        }
                     }else{
                         (string) $saveResponse = $this->saveBookingTransaction(intval($request->owner), $request->reference_id, floatval($request->amount), floatval($request->service_fee), floatval($request->discount_fee), $request->currency, $request->type, intval($request->booking_id));
-                        $message = ($saveResponse == "success")? route('payment.success'):$saveResponse;
+                        if($saveResponse == "success"){
+                            $totalAmount = number_format(floatval($request->amount) + (floatval($request->service_fee)-floatval($request->discount_fee)), 2);
+                            $checkIn = $this->getCheckIn();
+                            $paymentChannel = $this->getPaymentChannel();
+                            $smsMessage = "Payment of $request->currency$totalAmount has been made for $request->type booking via $paymentChannel. Reference#: $request->reference_id. Your check in date is $checkIn";
+                            $this->isSendSMS($smsMessage, Auth::user()->phone);
+                            $message = route('payment.success');
+                        }else{
+                            $message = $saveResponse;
+                        }
                     }
                 }else{
                     $message = 'error';
