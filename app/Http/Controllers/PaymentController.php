@@ -199,16 +199,17 @@ class PaymentController extends Controller
             $extensionRequest = UserExtensionRequest::findOrFail($bookingID);
             $extensionRequest->is_confirm = 3;
             if($extensionRequest->type == 'hostel'){
-                $check_out = $extensionRequest->hostelVisit()->update(['check_out'=> $extensionRequest->extension_date]);
-                $this->setCheckOut(Carbon::createFromFormat('Y-m-d', $check_out->check_out)->format('d-M-Y'));
+                $extensionRequest->hostelVisit()->update(['check_out'=> $extensionRequest->extension_date]);
+                $this->setCheckOut(Carbon::createFromFormat('Y-m-d', $extensionRequest->hostelVisit->check_out)->format('d-M-Y'));
             }else{
-                $check_out = $extensionRequest->visit()->update(['check_out'=> $extensionRequest->extension_date]);
-                $this->setCheckOut(Carbon::createFromFormat('Y-m-d', $check_out->check_out)->format('d-M-Y'));
+                $extensionRequest->visit()->update(['check_out'=> $extensionRequest->extension_date]);
+                $this->setCheckOut(Carbon::createFromFormat('Y-m-d', $extensionRequest->visit->check_out)->format('d-M-Y'));
             }
             $extensionRequest->update();
 
             $wallet = new UserWallet;
             $wallet->user_id = $ownerID;
+            $wallet->transaction_id = $trans->id;
             $wallet->balance = $amount;
             $wallet->currency = $currency;
             $wallet->type = 'extension';
@@ -217,7 +218,7 @@ class PaymentController extends Controller
             $message = "success";
         } catch (\Exception $e) {
             DB::rollback();
-            $message = "catch";
+            $message = "catch".$e->getMessage();
         }
         return $message;
     }
@@ -241,7 +242,7 @@ class PaymentController extends Controller
                             $totalAmount = number_format(floatval($request->amount) + (floatval($request->service_fee)-floatval($request->discount_fee)), 2);
                             $checkOut = $this->getCheckOut();
                             $paymentChannel = $this->getPaymentChannel();
-                            $smsMessage = "Payment of $request->currency$totalAmount has been made for $request->type extension via $paymentChannel. Reference#: $request->reference_id. Your check in date is $checkOut";
+                            $smsMessage = "Payment of $request->currency$totalAmount has been made for $request->type via $paymentChannel. Reference#: $request->reference_id. Your check out date is $checkOut";
                             $this->isSendSMS($smsMessage, Auth::user()->phone);
                             $message = route('payment.success');
                         }else{
