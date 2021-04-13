@@ -40,7 +40,7 @@
                                                 @if ($trans->property_type == 'hostel')
                                                     {{ $trans->bookingTransaction->hostelBooking->property->title }}
                                                 @elseif ($trans->property_type == 'extension_request')
-                                                    {{ $trans->extensionTransaction->property->title }}
+                                                    {{ $trans->extensionTransaction->userExtensionRequest->visit->property->title }}
                                                 @else
                                                     {{ $trans->bookingTransaction->booking->property->title }}
                                                 @endif    
@@ -52,7 +52,7 @@
                                                 @if ($trans->property_type == 'hostel')
                                                     Payment for <a target="_blank" href="{{ route('single.property', $trans->bookingTransaction->hostelBooking->property->id) }}">{{ $trans->bookingTransaction->hostelBooking->property->title }}</a> booking
                                                 @elseif ($trans->property_type == 'extension_request')
-                                                    Payment for <a target="_blank" href="{{ route('single.property', $trans->extensionTransaction->property->id) }}">{{ $trans->extensionTransaction->property->title }}</a> extension date
+                                                    Payment for <a target="_blank" href="{{ route('single.property', $trans->extensionTransaction->userExtensionRequest->visit->property->id) }}">{{ $trans->extensionTransaction->userExtensionRequest->visit->property->title }}</a> extension date
                                                 @else
                                                     Payment for <a target="_blank" href="{{ route('single.property', $trans->bookingTransaction->booking->property->id) }}">{{ $trans->bookingTransaction->booking->property->title }}</a> booking
                                                 @endif

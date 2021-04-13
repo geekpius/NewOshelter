@@ -205,6 +205,15 @@ class OrderController extends Controller
                 }
 
                 $message = "success";
+                //send a text to the onwer
+                $buyer = $order->user->name;
+                $property = $order->property->title;
+                $smsMessage = "$buyer is interested in your property($property). Oshelter is handling this client on your behalf. We will alert you when transaction is initiated. Thank you.";
+                $this->isSendSMS($smsMessage, $order->owner->phone);
+
+                $smsMessage2 = "Your interest in $property is under review. Oshelter will contact you soon for the necessary process. Thank you.";
+                $this->isSendSMS($smsMessage2, $order->user->phone);
+
                 //emailing
                 // $data = array(
                 //     "property" => $book->property->title,

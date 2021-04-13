@@ -109,6 +109,7 @@
                                     <th>Paid At</th>
                                     <th>Amount</th>
                                     <th>Type</th>
+                                    <th>Reason</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -119,6 +120,7 @@
                                     <td>{{ \Carbon\Carbon::parse($wallet->created_at)->diffForHumans() }}</td>
                                     <td>{{ $wallet->getBalanceAmount() }}</td>
                                     <td>{{ $wallet->getType() }}</td>
+                                    <td>{{ $wallet->transaction->confirmation->cancelConfirmation->reason }}</td>
                                     <td class="text-danger">{{ $wallet->getStatus() }}</td>  
                                 @endforeach                                                                                
                             </tbody>

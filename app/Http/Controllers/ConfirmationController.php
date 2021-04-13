@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\UserModel\Confirmation;
+use App\UserModel\CancelConfirmation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -97,6 +98,7 @@ class ConfirmationController extends Controller
             'visit_id' => 'required',
             'transaction_id' => 'required',
             'type' => 'required',
+            'reason' => 'required',
         ]);
 
         (string) $message = "";
@@ -132,6 +134,11 @@ class ConfirmationController extends Controller
                             $propertyTitle = $confirmation->visit->property->title;
                         }
                         UserWallet::whereUser_id($confirmation->owner_id)->whereTransaction_id($confirmation->transaction_id)->update(['is_cash_out' => 4]);
+                        
+                        $reason = new CancelConfirmation;
+                        $reason->confirmation_id = $confirmation->id;
+                        $reason->reason = $request->reason;
+                        $reason->save();
                         DB::commit();
                          //emailing
                          $data = array(

@@ -147,6 +147,35 @@
     </div>    
 </div>
 
+<!-- id modal -->
+<div id="reasonModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reasonModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title font-13 text-primary text-uppercase">Cancellation Reason</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <form action="#" id="frmReason">
+                <div class="modal-body"> 
+                    @csrf
+                    <input type="hidden" readonly name="owner_id">
+                    <input type="hidden" readonly name="visit_id">
+                    <input type="hidden" readonly name="transaction_id">
+                    <input type="hidden" readonly name="type">
+                    <div class="form-group validate">
+                        <label for="">Write your reason</label>
+                        <textarea name="reason" rows="3" maxlength="100" class="form-control"></textarea>
+                        <span class="text-danger small mySpan" role="alert"></span>
+                    </div>  
+                    <div class="form-group validate">
+                        <button class="btn btn-sm btn-primary btnSubmit float-right">Submit</button>
+                    </div> 
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal --> 
+
 @endsection
 
 @section('scripts')
@@ -203,47 +232,101 @@ $("#datatable tbody").on("click", ".btnConfirm", function(){
 
 $("#datatable tbody").on("click", ".btnReject", function(){
     var $this = $(this);
-    swal({
-        title: "Confirm",
-        text: "You are about to cancel your stay",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-primary btn-sm",
-        cancelButtonClass: "btn-danger btn-sm",
-        confirmButtonText: "Confirm",
-        closeOnConfirm: true
-        },
-    function(){
-        $this.addClass('disabled');
-        $("#datatable tbody .btnConfirm").addClass('disabled');
-        let data = {
-            _token: $this.data('token'),
-            owner_id: $this.data('owner'),
-            visit_id: $this.data('visit'),
-            transaction_id: $this.data('transaction'),
-            type: $this.data('type'),
+    $('#frmReason input[name="owner_id"]').val($this.data('owner'));
+    $('#frmReason input[name="visit_id"]').val($this.data('visit'));
+    $('#frmReason input[name="transaction_id"]').val($this.data('transaction'));
+    $('#frmReason input[name="type"]').val($this.data('type'));
+    $('#frmReason').attr("action", $this.attr('href'));
+    $('#reasonModal').modal('show');
+    // swal({
+    //     title: "Confirm",
+    //     text: "You are about to cancel your stay",
+    //     type: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonClass: "btn-primary btn-sm",
+    //     cancelButtonClass: "btn-danger btn-sm",
+    //     confirmButtonText: "Confirm",
+    //     closeOnConfirm: true
+    //     },
+    // function(){
+    //     $this.addClass('disabled');
+    //     $("#datatable tbody .btnConfirm").addClass('disabled');
+    //     let data = {
+    //         _token: $this.data('token'),
+    //         owner_id: $this.data('owner'),
+    //         visit_id: $this.data('visit'),
+    //         transaction_id: $this.data('transaction'),
+    //         type: $this.data('type'),
+    //     }
+    //     $.ajax({
+    //         url: $this.attr('href'),
+    //         type: "POST",
+    //         data: data,
+    //         success: function(resp){
+    //             if(resp=='success'){
+    //                 swal("Cancelled", "You have cancelled your stay.\nOwner do not have access to payment.\nService fee will be deducted.", "success");
+    //                 $this.parents('.record').find('td').eq(5).html('<span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>');
+    //             }else{
+    //                 swal("Warning", resp, "warning");
+    //                 $this.removeClass('disabled');
+    //                 $("#datatable tbody .btnConfirm").removeClass('disabled');
+    //             }
+    //         },
+    //         error: function(resp){
+    //             $this.removeClass('disabled');
+    //             $("#datatable tbody .btnConfirm").removeClass('disabled');
+    //             console.log("Something went wrong with request");
+    //         }
+    //     });
+    // });
+    return false;
+});
+
+$("#frmReason").on("submit", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this = $(this);
+    var valid = true;
+    $('#frmReason textarea').each(function() {
+        var $this = $(this);
+        
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('span').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
         }
+    });
+
+    if(valid){
+        let data = $this.serialize();
+        $("#frmReason .btnSubmit").html('<i class="fa fa-spinner fa-spin"></i> Submitting...').attr('disabled', true);
         $.ajax({
-            url: $this.attr('href'),
+            url: $this.attr('action'),
             type: "POST",
             data: data,
             success: function(resp){
-                if(resp=='success'){
-                    swal("Cancelled", "You have cancelled your stay.\nOwner do not have access to payment.\nService fee will be deducted.", "success");
-                    $this.parents('.record').find('td').eq(5).html('<span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>');
+                if(resp == 'success'){
+                    swal({
+                        title: "Cancelled",
+                        text: "You have cancelled your stay.\nOwner do not have access to payment.\nService fee will be deducted.",
+                        type: "success",
+                        confirmButtonClass: "btn-primary btn-sm",
+                        confirmButtonText: "Okay",
+                        closeOnConfirm: true
+                        },
+                    function(){
+                        window.location.reload();
+                    });
                 }else{
                     swal("Warning", resp, "warning");
-                    $this.removeClass('disabled');
-                    $("#datatable tbody .btnConfirm").removeClass('disabled');
+                    $("#frmReason .btnSubmit").html('Submit').attr('disabled', false);
                 }
             },
             error: function(resp){
-                $this.removeClass('disabled');
-                $("#datatable tbody .btnConfirm").removeClass('disabled');
                 console.log("Something went wrong with request");
+                $("#frmReason .btnSubmit").html('Submit').attr('disabled', false);
             }
         });
-    });
+    }
     return false;
 });
 </script>

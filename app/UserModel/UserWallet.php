@@ -92,7 +92,7 @@ class UserWallet extends Model
     }
 
     public function transaction(){
-        return $this->hasOne(Transaction::class);
+        return $this->belongsTo(Transaction::class, 'transaction_id');
     }
 
 

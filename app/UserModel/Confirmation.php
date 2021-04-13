@@ -7,6 +7,7 @@ use App\User;
 use App\UserModel\UserVisit;
 use App\UserModel\UserHostelVisit;
 use App\PaymentModel\Transaction;
+use App\UserModel\CancelConfirmation;
 
 class Confirmation extends Model
 {
@@ -49,6 +50,10 @@ class Confirmation extends Model
 
     public function transaction(){
         return $this->belongsTo(Transaction::class, 'transaction_id');
+    }
+
+    public function cancelConfirmation(){
+        return $this->hasOne(CancelConfirmation::class);
     }
 
 
