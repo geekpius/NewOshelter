@@ -134,7 +134,10 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
-            <div class="modal-heading pl-5 mb-2"><h6 class="modal-title"></h6></div>
+            <div class="modal-heading pl-5 mb-2">
+                <a href="javascript:void(0);" class="float-right mr-5 btnShare"><i class="fa fa-share-alt-square fa-lg"></i></a>
+                <h6 class="modal-title"></h6>
+            </div>
             <div class="modal-body">
                 <div id="gmaps-markers" class="gmaps1"></div>        
             </div>
@@ -178,6 +181,23 @@ function openResidenceLink(e){
 }
 
 residenceBtn.addEventListener("click", openResidenceLink);
+
+const shareData = {
+  title: 'MDN',
+  text: 'Learn web development on MDN!',
+  url: 'https://developer.mozilla.org',
+}
+
+const btn = document.querySelector('.btnShare');
+
+// Must be triggered some kind of "user activation"
+btn.addEventListener('click', async () => {
+  try {
+    await navigator.share(shareData)
+  } catch(err) {
+    console.log('error');
+  }
+});
 
 </script>
 @endsection

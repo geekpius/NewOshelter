@@ -23,6 +23,7 @@ use App\UserModel\UserNotification;
 use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
 use App\PaymentModel\Transaction;
+use App\OrderModel\Order;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -194,6 +195,10 @@ class User extends Authenticatable
 
     public function userConfirmations(){
         return $this->hasMany(Confirmation::class);
+    }
+
+    public function orders(){
+        return $this->hasMany(Order::class);
     }
 
 

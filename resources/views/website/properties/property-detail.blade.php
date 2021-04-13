@@ -871,32 +871,10 @@
                                 <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
                                 <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
                                 
-
-                                <div class="row" id="showCalculations">
-                                    <div class="col-sm-12">
-                                        <div>
-                                            <span id="dateCalculator">Month Cal</span>
-                                            <span class="pull-right" id="dateCalculatorResult">Total Month Fee</span>
-                                        </div>
-                                        <div>
-                                            <span>Service Fee</span>
-                                            <span class="pull-right" id="serviceFeeResult">Total Service Fee</span>
-                                        </div>
-                                        <div id="discountFee" style="display: none">
-                                            <span>Discount Fee</span>
-                                            <span class="pull-right" id="discountFeeResult">Total Discount Fee</span>
-                                        </div>
-                                        <hr>
-                                        <div>
-                                            <span><strong>Total</strong></span>
-                                            <span class="pull-right"><strong id="totalFeeResult">Total Fee</strong></span>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnOrder"><i class="fa fa-check-circle"></i> Buy this {{ str_replace('_', ' ', $property->type) }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnOrder"><i class="fa fa-cart-arrow-down"></i> Buy this {{ str_replace('_', ' ', $property->type) }}</button>
                                         </div>
                                     </div>
                                 </div>

@@ -231,6 +231,12 @@ Route::group(['middleware' => ['verify-email']], function() {
         /*------- Buying and Auction ------- */
         Route::group(['prefix' => 'orders'], function (){
             Route::post('/properties/buy', 'OrderController@order')->name('property.order.submit');
+            Route::get('/properties/{property}/{filter_id}/buy', 'OrderController@index')->name('property.order.index');
+            Route::post('/properties/buy/movenext', 'OrderController@moveNext')->name('property.order.movenext');
+            Route::post('/properties/buy/smsverification', 'OrderController@sendSmsVerification')->name('property.order.smsverification');
+            Route::post('/properties/buy/verify', 'OrderController@verifySmsNumber')->name('property.order.verify');
+            Route::post('/properties/buy/request', 'OrderController@orderRequest')->name('property.order.request');
+            Route::get('/properties/{property}/buy/exit', 'OrderController@exitOrderMode')->name('property.order.exit');
         });
          
         

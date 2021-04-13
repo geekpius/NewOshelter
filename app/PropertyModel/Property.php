@@ -2,6 +2,7 @@
 
 namespace App\PropertyModel;
 
+use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\UserModel\UserVisit;
 use App\UserModel\UserHostelVisit;
@@ -21,12 +22,12 @@ use App\PropertyModel\PropertyContain;
 use App\PropertyModel\PropertyOwnRule;
 use App\PropertyModel\PropertyUtility;
 use App\PropertyModel\PropertyLocation;
-use Illuminate\Database\Eloquent\Model;
 use App\PropertyModel\PropertyDescription;
 use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\PropertySharedAmenity;
 use App\PropertyModel\IncludeUtility;
+use App\OrderModel\Order;
 
 class Property extends Model
 {
@@ -219,6 +220,10 @@ class Property extends Model
 
     public function includeUtilities(){
         return $this->hasMany(IncludeUtility::class);
+    }
+
+    public function orders(){
+        return $this->hasMany(Order::class);
     }
 
 
