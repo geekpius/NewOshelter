@@ -1,4 +1,4 @@
-
+var shareData = {};
 let marker;
 function initMap(latitude, longitude) {        
   const myLatLng = { lat: latitude, lng: longitude };
@@ -15,12 +15,17 @@ function initMap(latitude, longitude) {
 
 }
 
+
 $("#datatable tbody").on('click', '.btnViewLocation', function(){
   var $this = $(this);
   $("#locationModal .modal-title").text($this.data('title'));
   let latitude = $this.data('lat');
   let longitude = $this.data('lng');
   initMap(Number(latitude), Number(longitude));
+  shareData = {
+    text: $this.data('text'),
+    link: $this.data('link')
+  }
   $("#locationModal").modal('show');
   return false;
 });
@@ -31,6 +36,29 @@ $("#datatable1 tbody").on('click', '.btnViewLocation', function(){
   let latitude = $this.data('lat');
   let longitude = $this.data('lng');
   initMap(Number(latitude), Number(longitude));
+  shareData = {
+    text: $this.data('text'),
+    link: $this.data('link')
+  }
   $("#locationModal").modal('show');
   return false;
+});
+
+
+
+
+const btn = document.querySelector('.btnShare');
+
+btn.addEventListener('click', async () => {
+  try {
+    await navigator.share({
+      title: document.title,
+      text: shareData.text,
+      url: shareData.link
+    })
+  } catch(err) {
+    console.log('error');
+  }
+
+  console.log(shareData.link)
 });

@@ -61,7 +61,7 @@
                                                 @elseif ($booking->isCancelAttribute())
                                                     <span class="text-danger"><i class="fa fa-times-circle"></i> Paid but cancelled</span>
                                                 @else
-                                                    <a href="#" class="btnViewLocation text-decoration-none" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">
+                                                    <a href="#" class="btnViewLocation text-decoration-none" data-text="{{ $booking->property->title }}" data-link="https://www.google.com/maps/place/{{ $booking->property->propertyLocation->latitude }},{{ $booking->property->propertyLocation->longitude }}" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">
                                                         <span class="text-success"><i class="mdi mdi-map-marker"></i> Paid, view location</span>
                                                     </a>
                                                 @endif
@@ -109,7 +109,7 @@
                                                 @elseif ($booking->isCancelAttribute())
                                                     <span class="text-danger"><i class="fa fa-times-circle"></i> Paid but cancelled</span>
                                                 @else
-                                                    <a href="#" class="btnViewLocation text-decoration-none" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">
+                                                    <a href="#" class="btnViewLocation text-decoration-none" data-text="{{ $booking->property->title }}" data-link="{{ route('single.property', $booking->property->id) }}" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">
                                                         <span class="text-success"><i class="mdi mdi-map-marker"></i> Paid, view location</span>
                                                     </a>
                                                 @endif
@@ -181,23 +181,6 @@ function openResidenceLink(e){
 }
 
 residenceBtn.addEventListener("click", openResidenceLink);
-
-const shareData = {
-  title: 'MDN',
-  text: 'Learn web development on MDN!',
-  url: 'https://developer.mozilla.org',
-}
-
-const btn = document.querySelector('.btnShare');
-
-// Must be triggered some kind of "user activation"
-btn.addEventListener('click', async () => {
-  try {
-    await navigator.share(shareData)
-  } catch(err) {
-    console.log('error');
-  }
-});
 
 </script>
 @endsection
