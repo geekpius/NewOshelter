@@ -23,6 +23,7 @@ use App\PropertyModel\PropertyCategory;
 use App\PropertyModel\PropertyLocation;
 use App\ContactModel\Contact;
 use App\UserModel\UserVisit;
+use App\OrderModel\Order;
 
 use App\Http\Resources\PropertyCollection;
 
@@ -38,8 +39,20 @@ class WebsiteController extends Controller
         $data['page_title'] = null;
         $data['types'] = PropertyType::whereIs_public(true)->get();
         $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->take(50)->inRandomOrder()->orderBy('id', 'DESC')
-        ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
-            $query->whereIn('status', [0,2]);
+        ->orderBy('id', 'DESC')->whereNotIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new UserVisit)->getTable());
+        })->orWhereIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new UserVisit)->getTable())
+            ->whereIn('status', [0,2]);
+        })->whereNotIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new Order)->getTable());
+        })->orWhereIn('id', function($query){
+            $query->select('property_id')
+            ->from(with(new Order)->getTable())
+            ->whereIn('status', [0,1]);
         })->get();
         return view('website.welcome', $data);
     }

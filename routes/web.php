@@ -137,6 +137,7 @@ Route::group(['middleware' => ['verify-email']], function() {
         });
 
         /*------- Properties ------- */
+        Route::get('/properties/start/{property}/preview', 'PropertyController@previewCreatedListing')->name('property.preview');
         Route::group(['middleware' => ['owner']], function() {
             Route::group(['prefix' => 'properties'], function () {
                 Route::get('/listings', 'PropertyController@index')->name('property');
@@ -148,7 +149,6 @@ Route::group(['middleware' => ['verify-email']], function() {
                 Route::get('/new', 'PropertyController@addNewListing')->name('property.add');
                 Route::get('/start', 'PropertyController@startNew')->name('property.start');
                 Route::get('/start/{property}/create', 'PropertyController@createNewListing')->name('property.create');
-                Route::get('/start/{property}/preview', 'PropertyController@previewCreatedListing')->name('property.preview');
                 Route::get('/start/{property}/checks', 'PropertyController@getChecks')->name('property.get.checks');
                 
                 Route::post('/add/block', 'PropertyController@addBlock')->name('property.block.submit');

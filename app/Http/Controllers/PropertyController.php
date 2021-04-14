@@ -136,16 +136,12 @@ class PropertyController extends Controller
     ///preview after listing
     public function previewCreatedListing(Property $property)
     {
-        if(Auth::user()->id == $property->user_id){
-            $data['page_title'] = 'Preview '.$property->title. ' listing';
-            $data['property']= $property; 
-            $countImages = $property->propertyImages->count();
-            $data['image'] = $property->propertyImages->sortBy('id')->first();
-            $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
-            return view('user.properties.preview-listing', $data);
-        }else{
-            return view("errors.404");
-        }
+        $data['page_title'] = 'Preview '.$property->title. ' listing';
+        $data['property']= $property; 
+        $countImages = $property->propertyImages->count();
+        $data['image'] = $property->propertyImages->sortBy('id')->first();
+        $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
+        return view('user.properties.preview-listing', $data);
     }
 
     ///add Hostel block

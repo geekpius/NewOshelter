@@ -45,7 +45,7 @@
                                         @foreach (Auth::user()->userBookings as $booking)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($booking->created_at)->diffForHumans() }}</td>
-                                            <td><a target="_blank" href="{{ route('single.property', $booking->property_id) }}">{{ $booking->property->title }}</a></td>
+                                            <td><a target="_blank" href="{{ route('property.preview', $booking->property_id) }}">{{ $booking->property->title }}</a></td>
                                             @php $image = (empty($booking->property->user->image))? 'user.svg':'users/'.$booking->property->user->image; @endphp
                                             <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->property->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $booking->property->user->name }}</td>
                                             <td>{{ \Carbon\Carbon::parse($booking->check_in)->format('d-M-Y') }}</td>
@@ -91,7 +91,7 @@
                                         @foreach (Auth::user()->userHostelBookings as $booking)
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($booking->created_at)->diffForHumans() }}</td>
-                                            <td><a target="_blank" href="{{ route('single.property', $booking->property_id) }}">{{ $booking->property->title }}</a></td>
+                                            <td><a target="_blank" href="{{ route('property.preview', $booking->property_id) }}">{{ $booking->property->title }}</a></td>
                                             @php $image = (empty($booking->property->user->image))? 'user.svg':'users/'.$booking->property->user->image; @endphp
                                             <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->property->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $booking->property->user->name }}</td>
                                             {{-- <td>{{ $booking->hostelBlockRoom->propertyHostelBlock->block_name }}({{ $booking->hostelBlockRoom->block_room_type }})</td> --}}
@@ -109,7 +109,7 @@
                                                 @elseif ($booking->isCancelAttribute())
                                                     <span class="text-danger"><i class="fa fa-times-circle"></i> Paid but cancelled</span>
                                                 @else
-                                                    <a href="#" class="btnViewLocation text-decoration-none" data-text="{{ $booking->property->title }}" data-link="{{ route('single.property', $booking->property->id) }}" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">
+                                                    <a href="#" class="btnViewLocation text-decoration-none" data-text="{{ $booking->property->title }}" data-link="{{ route('property.preview', $booking->property->id) }}" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">
                                                         <span class="text-success"><i class="mdi mdi-map-marker"></i> Paid, view location</span>
                                                     </a>
                                                 @endif
