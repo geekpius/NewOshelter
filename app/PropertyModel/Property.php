@@ -265,6 +265,11 @@ class Property extends Model
         return $this->propertyContain->bedroom.' '.str_plural('bedroom', $this->propertyContain->bedroom);
     }
 
+    public function isSold(): bool
+    {   
+        return $this->orders->where('status', 2)->count() == 0;
+    }
+
 
 
 

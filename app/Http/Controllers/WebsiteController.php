@@ -164,7 +164,7 @@ class WebsiteController extends Controller
 
     public function singleProperty(Property $property)
     {
-        if($property->done_step && $property->is_active && $property->publish && $property->isVisitorIn()){
+        if($property->done_step && $property->is_active && $property->publish && ($property->isVisitorIn() && $property->isSold())){
             $data['page_title'] = 'Detailing '.$property->title.' property for you. Have all the overviews of property to make decisions.';
             $data['property'] = $property;
             $data['charge'] = ServiceCharge::whereProperty_type($property->type_status)->first();

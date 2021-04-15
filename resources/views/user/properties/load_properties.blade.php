@@ -10,8 +10,13 @@
                         <i class="fas fa-ellipsis-v font-20 text-muted"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel1">
+                        @if ($property->type_status == 'rent' || $property->type_status == 'short_stay')
                         <a class="dropdown-item text-purple" href="javascript:void(0);" onclick="window.location='{{ route('property.visits',$property->id) }}';"><i class="fa fa-building"></i> Visits</a>
                         <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.bookings', $property->id) }}';"><i class="mdi mdi-briefcase"></i> Bookings</a>
+                        @endif
+                        @if ($property->type_status == 'sale')
+                        <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.orders', $property->id) }}';"><i class="mdi mdi-cart"></i> Orders</a>
+                        @endif
                         <a class="dropdown-item {{$property->publish? 'text-pink':'text-success'}} btnVisibility" href="javascript:void(0);" data-href="{{ route('property.visibility', $property->id) }}" data-title="{{ $property->title }}"><i class="{{$property->publish? 'fa fa-eye-slash':'fa fa-check'}}"></i> {{$property->publish? 'Hide':'Publish'}}</a>
                         <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.edit', $property->id) }}';"><i class="fa fa-edit"></i> Edit</a>
                         <a class="dropdown-item text-danger" href="javascript:void(0);" onclick="window.location='{{ route('property.confirmdelete', $property->id) }}';"><i class="fa fa-trash"></i> Delete</a>

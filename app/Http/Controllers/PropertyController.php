@@ -83,6 +83,17 @@ class PropertyController extends Controller
         return view('user.properties.property_bookings', $data);
     }
 
+    public function propertyOrders(Property $property)
+    {
+        if($property->type_status == 'sale'){
+            $data['page_title'] = $property->title.' orders';
+            $data['property'] = $property;
+            return view('user.properties.property_orders', $data);
+        }else{
+            return view('errors.404');
+        }
+    }
+
     ///check if uncompleted found
     public function addNewListing()
     {

@@ -146,6 +146,7 @@ Route::group(['middleware' => ['verify-email']], function() {
                 Route::get('/listings/search/{search}', 'PropertyController@searchProperties')->name('property.search');
                 Route::get('/listings/{property}/visits', 'PropertyController@propertyVisits')->name('property.visits');
                 Route::get('/listings/{property}/bookings', 'PropertyController@propertyBookings')->name('property.bookings');
+                Route::get('/listings/{property}/orders', 'PropertyController@propertyOrders')->name('property.orders');
                 Route::get('/new', 'PropertyController@addNewListing')->name('property.add');
                 Route::get('/start', 'PropertyController@startNew')->name('property.start');
                 Route::get('/start/{property}/create', 'PropertyController@createNewListing')->name('property.create');

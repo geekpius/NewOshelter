@@ -83,5 +83,9 @@ class PropertyPrice extends Model
             return "3 months maximum stay";
         }
     }
+
+    public function getPropertyPrice(){
+        return $this->currency.number_format($this->property_price,2);
+    }
     
 }
