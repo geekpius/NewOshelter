@@ -3,6 +3,8 @@
 namespace App\PropertyModel;
 
 use App\PropertyModel\Property;
+use App\UserModel\UserVisit;
+use App\OrderModel\Order;
 use Illuminate\Database\Eloquent\Model;
 
 class PropertyType extends Model
@@ -25,8 +27,18 @@ class PropertyType extends Model
     public function getPropertyCount()
     {
         return Property::whereType(strtolower(str_replace(' ','_',$this->name)))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)
-        ->whereDoesntHave('userVisits')->orWhereHas('userVisits', function($query){
-            $query->whereIn('status', [0,2]);
+        ->where(function($query){
+            $query->whereNotIn('id', function($query){
+                $query->select('property_id')->from(with(new UserVisit)->getTable());
+            })->orWhereIn('id', function($query){
+                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
+            });
+        })->where(function($query){
+            $query->whereNotIn('id', function($query){
+                $query->select('property_id')->from(with(new Order)->getTable());
+            })->orWhereIn('id', function($query){
+                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
+            });
         })->count();
     }
 
