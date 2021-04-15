@@ -28,6 +28,19 @@
                                         </div>
                                     </a>
                                 </div>
+                                <div class="col-6 col-sm-3 col-md-3 col-lg-2">
+                                    <a href="{{ route('property.visitor.orders') }}" class="text-decoration-none text-gray">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="text-center"><strong>{{ Auth::user()->orders->count() }}</strong> <br><small>Orders</small></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
                                 <div class="col-6 col-sm-3 col-lg-2">
                                     <a href="{{ route('payments') }}" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">

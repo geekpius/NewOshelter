@@ -246,6 +246,16 @@ class OrderController extends Controller
     }
 
 
+    public function visitorOrderList()
+    {      
+        if(Auth::user()->account_type=='visitor'){
+            $data['page_title'] = 'My orders';
+            return view('user.orders.visitororders', $data);
+        }else{
+            return view('errors.404');
+        }
+    }
+
 
 
 

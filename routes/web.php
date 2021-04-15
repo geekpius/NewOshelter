@@ -239,6 +239,7 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::post('/properties/buy/request', 'OrderController@orderRequest')->name('property.order.request');
             Route::get('/properties/{property}/buy/exit', 'OrderController@exitOrderMode')->name('property.order.exit');
         });
+        Route::get('/account/requests/orders', 'OrderController@visitorOrderList')->name('property.visitor.orders');
          
         
         /*------- Messages ------- */
