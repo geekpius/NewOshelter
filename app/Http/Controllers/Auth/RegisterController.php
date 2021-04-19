@@ -5,16 +5,11 @@ namespace App\Http\Controllers\Auth;
 use DB;
 use App\User;
 use Carbon\Carbon;
-// use App\UserModel\UserWallet;
-use App\UserModel\UserNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Str;
-
-use App\Mail\EmailSender;
-use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -84,18 +79,6 @@ class RegisterController extends Controller
         return $randomString;
     }
 
-    private function generateToken()
-    {
-        // This is set in the .env file
-        $key = config('app.key');
-
-        // Illuminate\Support\Str;
-        if (Str::startsWith($key, 'base64:')) {
-            $key = base64_decode(substr($key, 7));
-        }
-        return hash_hmac('sha256', Str::random(40), $key);
-    }
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -116,26 +99,7 @@ class RegisterController extends Controller
                 'email_verification_expired_at' => Carbon::now()->addHour(),
                 'password' => Hash::make($data['password']),
             ]);
-
-            UserNotification::create([
-                'user_id' => $user->id,
-            ]);
-
-            (string) $token = $this->generateToken();
-            $results = DB::select('select * from email_verifies where email = :email', ['email' => $user->email]);
-            if(empty($results)){
-                $insert = DB::insert('insert into email_verifies (email, token, created_at) values (?, ?, ?)', [$user->email, $token, Carbon::now()]);
-            }else{
-                $update = DB::update('update email_verifies set token = ?, created_at = ? where email = ?', [$token, Carbon::now(), $user->email]);
-            }
-
-            $data = array(
-                "name" => current(explode(' ',$user->name)),
-                "code" => $user->email_verification_token,
-                "expire" => $user->email_verification_expired_at,
-                "link" => route('verify.email.activate', ['token'=>$token]),
-            );
-            Mail::to($user->email)->send(new EmailSender($data, "Verify Email", "emails.verify_email"));
+            
             DB::commit();
 
             return $user;
