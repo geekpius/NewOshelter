@@ -116,7 +116,7 @@
                                             </li>
                                             <li data-step="6">
                                                 <span class="step">6</span>
-                                                <span class="title text-primary"><small>Hostel Photos</small></span>
+                                                <span class="title text-primary"><small>Hostel Photos & Video</small></span>
                                             </li>
                                             <li data-step="7">
                                                 <span class="step">7</span>
@@ -153,7 +153,7 @@
         
                                             <li data-step="5">
                                                 <span class="step">5</span>
-                                                <span class="title text-primary"><small>Photo & Video</small></span>
+                                                <span class="title text-primary"><small>Photos & Video</small></span>
                                             </li>
         
                                             <li data-step="6">
@@ -544,8 +544,8 @@
                                                         <input type="hidden" name="step" value="6" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         <div class="form-group validate">
-                                                            <label for=""><span class="text-primary">Enter a video link</span></label>
-                                                            <input type="url" class="form-control" value="{{ $property->propertyVideo->video_url?? '' }}" name="video_url" pattern="https://.*" placeholder="eg: https://www.youtube.com/watch?v=VEN2H3wGOW4&t=102s">
+                                                            <label for=""><span class="text-primary">Enter a video embeded link</span></label>
+                                                            <input type="url" class="form-control" value="{{ $property->propertyVideo->video_url?? '' }}" name="video_url" pattern="https://.*" placeholder="eg: https://www.youtube.com/embed/VEN2H3wGOW4">
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                     </form>
@@ -984,8 +984,8 @@
                                                         <input type="hidden" name="step" value="5" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         <div class="form-group validate">
-                                                            <label for=""><span class="text-primary">Enter a video link</span></label>
-                                                            <input type="url" class="form-control" value="{{ $property->propertyVideo->video_url?? '' }}" name="video_url" pattern="https://.*" placeholder="eg: https://www.youtube.com/watch?v=VEN2H3wGOW4&t=102s">
+                                                            <label for=""><span class="text-primary">Enter a video embeded link</span></label>
+                                                            <input type="url" class="form-control" value="{{ $property->propertyVideo->video_url?? '' }}" name="video_url" pattern="https://.*" placeholder="eg: https://www.youtube.com/embed/VEN2H3wGOW4">
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                     </form>
