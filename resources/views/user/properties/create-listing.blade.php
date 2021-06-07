@@ -153,7 +153,7 @@
         
                                             <li data-step="5">
                                                 <span class="step">5</span>
-                                                <span class="title text-primary"><small>Photos</small></span>
+                                                <span class="title text-primary"><small>Photo & Video</small></span>
                                             </li>
         
                                             <li data-step="6">
@@ -973,6 +973,17 @@
                                                         <br>
                                                     <i class="fa fa-dot-circle" style="font-size:9px"></i> You can upload maximum of 10 photos at a time.</p>
             
+                                                    <form id="formPhotos" method="POST" action="{{ route('property.store') }}" class="mb-4">
+                                                        @csrf
+                                                        <input type="hidden" name="step" value="5" readonly>
+                                                        <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                        <div class="form-group validate">
+                                                            <label for=""><span class="text-primary">Enter a video link</span></label>
+                                                            <input type="url" class="form-control" value="{{ $property->propertyVideo->video_url?? '' }}" name="video_url" pattern="https://.*" placeholder="eg: https://www.youtube.com/watch?v=VEN2H3wGOW4&t=102s">
+                                                            <span class="text-danger small mySpan" role="alert"></span>
+                                                        </div>
+                                                    </form>
+            
                                                     <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
                                                         
                                                     </div>
@@ -982,12 +993,6 @@
                                                     <div class="mt-3">
                                                         <small><span id="uploadMsg" class="text-danger"></span></small>
                                                     </div>
-            
-                                                    <form id="formPhotos" method="POST" action="{{ route('property.store') }}" style="display:none !important;">
-                                                        @csrf
-                                                        <input type="hidden" name="step" value="5" readonly>
-                                                        <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    </form>
                                                 </div>
                                                 <div class="col-lg-5">
                                                     <div class="mt-5 pt-4">
@@ -1544,8 +1549,19 @@
                 }
             }
             else if(info.step == 5){
-                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formPhotos").submit();
+                var valid = true;
+                $('#formPhotos input').each(function() {
+                    var $this = $(this);
+                    
+                    if(!$this.val()) {
+                        valid = false;
+                        $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                    }
+                });
+                if(valid){
+                    $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                    document.getElementById("formPhotos").submit();
+                }
             }
             else if(info.step == 6){
                 var valid = true;

@@ -59,11 +59,7 @@ class WebsiteController extends Controller
     // payment call back 
     public function callback()
     {
-        if(User::whereIs_active(false)->exists()){
-            User::whereIs_active(false)->update(['is_active' => 1]);
-        }else{
-            User::whereIs_active(true)->update(['is_active' => 0]);
-        }
+        
     }
 
     //property listing status

@@ -11,6 +11,7 @@ use App\PropertyModel\Property;
 use App\PropertyModel\PropertyRule;
 use App\PropertyModel\PropertyType;
 use App\PropertyModel\PropertyImage;
+use App\PropertyModel\PropertyVideo;
 use App\PropertyModel\PropertyPrice;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -632,7 +633,7 @@ class PropertyController extends Controller
                     return redirect()->route('single.property', $property->id);
                 }
             }else{
-                ///nexts for other properties
+                // nexts for other properties
                 if($request->step==1){
                     $contain = PropertyContain::updateOrCreate(
                         ['property_id'=>$request->property_id], ['bedroom'=>$request->bedrooms, 'no_bed'=>$request->beds, 'kitchen'=>$request->kitchen, 'bathroom'=>$request->baths, 'bath_private'=>$request->bath_private, 'toilet'=>$request->toilet, 'toilet_private'=>$request->toilet_private, 'furnish'=>$request->furnish]
@@ -690,7 +691,10 @@ class PropertyController extends Controller
                     return redirect()->back();
                 }
                 elseif($request->step==5){
-                    ///update step to move forward
+                    $video = PropertyVideo::updateOrCreate(
+                        ['property_id'=>$request->property_id], ['video_url'=>$request->video_url]
+                    );
+                    // update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();
         

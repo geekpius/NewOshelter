@@ -13,6 +13,7 @@ use App\PropertyModel\PropertyList;
 use App\PropertyModel\PropertyRent;
 use App\PropertyModel\PropertyRule;
 use App\PropertyModel\PropertyImage;
+use App\PropertyModel\PropertyVideo;
 use App\PropertyModel\PropertyPrice;
 use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
@@ -225,6 +226,11 @@ class Property extends Model
     public function orders(){
         return $this->hasMany(Order::class);
     }
+
+    public function propertyVideo(){
+        return $this->hasOne(PropertyVideo::class);
+    }
+
 
 
     
