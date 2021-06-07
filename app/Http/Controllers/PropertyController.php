@@ -591,6 +591,9 @@ class PropertyController extends Controller
                     return redirect()->back();
                 }
                 elseif($request->step==6){
+                    $video = PropertyVideo::updateOrCreate(
+                        ['property_id'=>$request->property_id], ['video_url'=>$request->video_url]
+                    );
                     ///update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();

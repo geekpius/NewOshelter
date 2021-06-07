@@ -538,6 +538,17 @@
                                                     <p class="mb-4 font-13"><i class="fa fa-dot-circle font-10"></i> Property photo with captions will best help us with the tour.
                                                     <br>
                                                     <i class="fa fa-dot-circle font-10"></i> You can upload maximum of 10 photos at a time.</p>
+
+                                                    <form id="formPhotos" method="POST" action="{{ route('property.store') }}" class="mb-4">
+                                                        @csrf
+                                                        <input type="hidden" name="step" value="6" readonly>
+                                                        <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+                                                        <div class="form-group validate">
+                                                            <label for=""><span class="text-primary">Enter a video link</span></label>
+                                                            <input type="url" class="form-control" value="{{ $property->propertyVideo->video_url?? '' }}" name="video_url" pattern="https://.*" placeholder="eg: https://www.youtube.com/watch?v=VEN2H3wGOW4&t=102s">
+                                                            <span class="text-danger small mySpan" role="alert"></span>
+                                                        </div>
+                                                    </form>
             
                                                     <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
                                                         
@@ -548,12 +559,7 @@
                                                     <div class="mt-3">
                                                         <small><span id="uploadMsg" class="text-danger"></span></small>
                                                     </div>
-            
-                                                    <form id="formPhotos" method="POST" action="{{ route('property.store') }}" style="display:none !important;">
-                                                        @csrf
-                                                        <input type="hidden" name="step" value="6" readonly>
-                                                        <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    </form>
+                                                    
                                                 </div>
                                                 <div class="col-lg-5">
                                                     <div class="mt-5 pt-4">
@@ -1403,9 +1409,7 @@
                                     {{ (Session::has('edit'))? 'Update to Next':'Next Step' }} 
                                     <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                 </button>
-                            </div><!-- end buttons -->
-                            
-        
+                            </div><!-- end buttons -->        
                         </div><!--end card-body-->
                     </div><!--end card-->
                 </div><!--end col-->
@@ -1471,8 +1475,19 @@
                 }
             }
             else if(info.step == 6){
-                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formPhotos").submit();
+                var valid = true;
+                $('#formPhotos input').each(function() {
+                    var $this = $(this);
+                    
+                    if(!$this.val()) {
+                        valid = false;
+                        $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+                    }
+                });
+                if(valid){
+                    $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                    document.getElementById("formPhotos").submit();
+                }
             }
             else if(info.step == 7){
                 var valid = true;
