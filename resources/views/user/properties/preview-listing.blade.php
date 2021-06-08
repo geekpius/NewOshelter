@@ -31,7 +31,7 @@
     <div class="pxp-single-property-gallery-container">
         <div class="pxp-single-property-gallery" itemscope itemtype="http://schema.org/ImageGallery">
             
-            @if ($property->propertyVideo->count()==0)
+            @if (empty($property->propertyVideo))
                 <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
                     <a href="{{ asset('assets/images/properties/'.$image->image) }}" title="{{ $image->caption }}" itemprop="contentUrl" data-size="1020x659" class="pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$image->image) }});"></a>
                     <figcaption itemprop="caption description">{{ $image->caption }}</figcaption>
