@@ -543,7 +543,7 @@
                                                         @csrf
                                                         <input type="hidden" name="step" value="6" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                        <div class="form-group validate">
+                                                        <div class="form-group">
                                                             <label for=""><span class="text-primary">Enter a video embeded link</span></label>
                                                             <input type="url" class="form-control" value="{{ $property->propertyVideo->video_url?? '' }}" name="video_url" pattern="https://.*" placeholder="eg: https://www.youtube.com/embed/VEN2H3wGOW4">
                                                             <span class="text-danger small mySpan" role="alert"></span>
@@ -1475,19 +1475,8 @@
                 }
             }
             else if(info.step == 6){
-                var valid = true;
-                $('#formPhotos input').each(function() {
-                    var $this = $(this);
-                    
-                    if(!$this.val()) {
-                        valid = false;
-                        $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                    }
-                });
-                if(valid){
-                    $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                    document.getElementById("formPhotos").submit();
-                }
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formPhotos").submit();
             }
             else if(info.step == 7){
                 var valid = true;
@@ -1564,19 +1553,8 @@
                 }
             }
             else if(info.step == 5){
-                var valid = true;
-                $('#formPhotos input').each(function() {
-                    var $this = $(this);
-                    
-                    if(!$this.val()) {
-                        valid = false;
-                        $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
-                    }
-                });
-                if(valid){
-                    $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                    document.getElementById("formPhotos").submit();
-                }
+                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
+                document.getElementById("formPhotos").submit();
             }
             else if(info.step == 6){
                 var valid = true;
