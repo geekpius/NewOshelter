@@ -544,7 +544,7 @@
                                                         <input type="hidden" name="step" value="6" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         <div class="form-group">
-                                                            <label for=""><span class="text-primary">Enter a video embeded link</span></label>
+                                                            <label for=""><span class="text-primary">Enter a video embed link</span></label>
                                                             <input type="url" class="form-control" value="{{ $property->propertyVideo->video_url?? '' }}" name="video_url" pattern="https://.*" placeholder="eg: https://www.youtube.com/embed/VEN2H3wGOW4">
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
@@ -983,8 +983,8 @@
                                                         @csrf
                                                         <input type="hidden" name="step" value="5" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                        <div class="form-group validate">
-                                                            <label for=""><span class="text-primary">Enter a video embeded link</span></label>
+                                                        <div class="form-group">
+                                                            <label for=""><span class="text-primary">Enter a video embed link</span></label>
                                                             <input type="url" class="form-control" value="{{ $property->propertyVideo->video_url?? '' }}" name="video_url" pattern="https://.*" placeholder="eg: https://www.youtube.com/embed/VEN2H3wGOW4">
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>

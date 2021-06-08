@@ -591,10 +591,18 @@ class PropertyController extends Controller
                     return redirect()->back();
                 }
                 elseif($request->step==6){
-                    $video = PropertyVideo::updateOrCreate(
-                        ['property_id'=>$request->property_id], ['video_url'=>$request->video_url]
-                    );
-                    ///update step to move forward
+                    if(!empty($request->video_url)){
+                        $video = PropertyVideo::updateOrCreate(
+                            ['property_id'=>$request->property_id], ['video_url'=>$request->video_url]
+                        );
+                    }else{
+                        if(!empty($property->propertyVideo)){
+                            $property->propertyVideo->delete();
+                        }
+                        
+                    }
+
+                    // update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();
         
@@ -694,9 +702,17 @@ class PropertyController extends Controller
                     return redirect()->back();
                 }
                 elseif($request->step==5){
-                    $video = PropertyVideo::updateOrCreate(
-                        ['property_id'=>$request->property_id], ['video_url'=>$request->video_url]
-                    );
+                    if(!empty($request->video_url)){
+                        $video = PropertyVideo::updateOrCreate(
+                            ['property_id'=>$request->property_id], ['video_url'=>$request->video_url]
+                        );
+                    }else{
+                        if(!empty($property->propertyVideo)){
+                            $property->propertyVideo->delete();
+                        }
+                        
+                    }
+
                     // update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();

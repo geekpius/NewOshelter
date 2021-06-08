@@ -42,7 +42,7 @@ class Property extends Model
     const NOT_DONE_STEP = false;
 
     protected $fillable = [
-        'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children',
+        'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children', 'publish', 'done_step', 'step',
     ];
 
     public function isPublish() : bool
