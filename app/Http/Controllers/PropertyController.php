@@ -127,6 +127,9 @@ class PropertyController extends Controller
                 if(!Auth::user()->userCurrency){
                     $data['currencies'] = Currency::all();
                 }
+                if($property->type_status == 'auction'){
+                    return view('user.properties.create-auction-listing', $data);
+                }
                 return view('user.properties.create-listing', $data);
             }else{
                 return view('errors.404');
@@ -656,10 +659,17 @@ class PropertyController extends Controller
                 } 
                 elseif($request->step==2){
                     if(!empty($request->amenities)){
+                        if($property->propertyAmenities->count() > 0){
+                            $property->propertyAmenities->each->delete();
+                        }
                         foreach($request->amenities as $myAmenity){
                             $amenity = PropertyAmenity::updateOrCreate(
                                 ['property_id'=>$request->property_id, 'name'=>$myAmenity]
                             );
+                        }
+                    }else{
+                        if($property->propertyAmenities->count() > 0){
+                            $property->propertyAmenities->each->delete();
                         }
                     }
 
@@ -788,6 +798,133 @@ class PropertyController extends Controller
         
                     return redirect()->route('single.property', $property->id);
                 }
+            }
+        }
+
+    }
+
+    public function storeAuction(Request $request)
+    {
+        $property = Property::findOrFail($request->property_id);
+        if($property->done_step){
+            return redirect()->back();
+        }
+        else{
+            if($request->step==1){
+                $contain = PropertyContain::updateOrCreate(
+                    ['property_id'=>$request->property_id], ['bedroom'=>$request->bedrooms, 'no_bed'=>$request->beds, 'kitchen'=>$request->kitchen, 'bathroom'=>$request->baths, 'bath_private'=>$request->bath_private, 'toilet'=>$request->toilet, 'toilet_private'=>$request->toilet_private, 'furnish'=>$request->furnish]
+                );
+                
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            } 
+            elseif($request->step==2){
+                if(!empty($request->amenities)){
+                    if($property->propertyAmenities->count() > 0){
+                        $property->propertyAmenities->each->delete();
+                    }
+                    foreach($request->amenities as $myAmenity){
+                        $amenity = PropertyAmenity::updateOrCreate(
+                            ['property_id'=>$request->property_id, 'name'=>$myAmenity]
+                        );
+                    }
+                }else{
+                    if($property->propertyAmenities->count() > 0){
+                        $property->propertyAmenities->each->delete();
+                    }
+                }
+
+                if(!empty($request->shared_amenities)){
+                    foreach($request->shared_amenities as $amenity){
+                        $myAmenity = PropertySharedAmenity::updateOrCreate(
+                            ['property_id'=>$request->property_id,'name'=>$amenity]
+                        );
+                    }
+                }
+
+                ///update step to move forward
+                $property->step = ($request->step+1);
+                $property->update();
+    
+                return redirect()->back();
+            }
+            elseif($request->step==3){
+                $location = PropertyLocation::updateOrCreate(
+                    ['property_id'=>$request->property_id], ['location'=>$request->location, 'location_slug'=>Str::slug($request->location, '-'), 'latitude'=>$request->latitude, 'longitude'=>$request->longitude]
+                );
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            }
+            elseif($request->step==4){
+                $description = PropertyDescription::updateOrCreate(
+                    ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 
+                    'direction'=>$request->directions]
+                );
+                ///update step to move forward
+                $property->step = ($request->step+1);
+                $property->update();
+    
+                return redirect()->back();
+            }
+            elseif($request->step==5){
+                if($property->type_status=='rent'){
+                    $price = PropertyPrice::updateOrCreate(
+                        ['property_id'=>$request->property_id],['payment_duration'=>$request->advance_duration, 'price_calendar'=>$request->price_calendar, 
+                        'property_price'=>$request->property_price, 'currency'=>$request->currency]
+                    );
+
+                    if(!empty($request->includes)){
+                        foreach($request->includes as $include){
+                            $utility = IncludeUtility::updateOrCreate(
+                                ['property_id'=>$request->property_id,'name'=>$include]
+                            );
+                        }
+                    }
+                }
+                elseif($property->type_status=='short_stay'){
+                    $price = PropertyPrice::updateOrCreate(
+                        ['property_id'=>$request->property_id],['minimum_stay'=>$request->minimum_stay, 'maximum_stay'=>$request->maximum_stay, 'price_calendar'=>$request->price_calendar, 
+                        'property_price'=>$request->property_price, 'smart_price'=>$request->smart_price, 'currency'=>$request->currency]
+                    );
+                }
+                elseif($property->type_status=='sale'){
+                    $price = PropertyPrice::updateOrCreate(
+                        ['property_id'=>$request->property_id],['property_price'=>$request->property_price, 'currency'=>$request->currency]
+                    );
+                }
+                else{
+                    $price = PropertyPrice::updateOrCreate(
+                        ['property_id'=>$request->property_id],['property_price'=>$request->property_price, 'currency'=>$request->currency]
+                    );
+                }
+
+                UserCurrency::firstOrCreate(
+                    ['user_id'=>Auth::user()->id],
+                    ['currency'=>$request->currency]
+                );
+                ///update step to move forward
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            } 
+            elseif($request->step==8){
+                ///how tenant will book
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            }elseif($request->step==9){
+                ///final step to publish
+                $property->publish = true;
+                $property->done_step = true;
+                $property->update();
+
+                if(Session::get("edit")){
+                    Session::forget("edit");
+                }
+    
+                return redirect()->route('single.property', $property->id);
             }
         }
 

@@ -27,6 +27,7 @@ use App\PropertyModel\PropertyDescription;
 use App\PropertyModel\PropertyHostelBlock;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\PropertySharedAmenity;
+use App\PropertyModel\PropertyAuctionSchedule;
 use App\PropertyModel\IncludeUtility;
 use App\OrderModel\Order;
 
@@ -229,6 +230,10 @@ class Property extends Model
 
     public function propertyVideo(){
         return $this->hasOne(PropertyVideo::class);
+    }
+
+    public function propertyAuctionSchedule(){
+        return $this->hasOne(PropertyAuctionSchedule::class);
     }
 
 

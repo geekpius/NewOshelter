@@ -92,6 +92,7 @@
         
                             <div id="registrationWizard">
                                 <div class="steps-container" data-name="{{ $property->title }}">
+
                                     <ul class="steps">
                                         @if($property->type=='hostel')
                                             <li data-step="1">
@@ -800,7 +801,7 @@
                                                             </select>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
-                                                        @if ($property->type_status=='rent')
+                                                        @if ($property->type_status=='rent' || $property->type_status=='auction')
                                                         <input type="hidden" value="0" name="beds" readonly>
                                                         @else
                                                         <div class="form-group mb-0 validate">
@@ -879,8 +880,10 @@
                                                         <input type="hidden" name="step" value="2" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         @include('includes.amenities')
+                                                        @if ($property->type_status != $sinTypeStatus)
                                                         <h4 class="mt-4">If there are shared amenities offered to your {{ $guest.'s' }} in your property, let them know.</h4>
                                                         @include('includes.shared-amenities')
+                                                        @endif
                                                     </form>
                                                 </div>
                                             </div><!-- end row --> 
