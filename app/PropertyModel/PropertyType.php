@@ -26,7 +26,8 @@ class PropertyType extends Model
 
     public function getPropertyCount()
     {
-        return Property::whereType(strtolower(str_replace(' ','_',$this->name)))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)
+        return Property::whereType(strtolower(str_replace(' ','_',$this->name)))->wherePublish(true)
+        ->whereIs_active(true)->whereDone_step(true)->where('type_status','!=','auction')
         ->where(function($query){
             $query->whereNotIn('id', function($query){
                 $query->select('property_id')->from(with(new UserVisit)->getTable());

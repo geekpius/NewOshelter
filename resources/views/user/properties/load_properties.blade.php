@@ -25,7 +25,7 @@
 
                 <div class="blog-card">
                     <a href="{{ route('property.preview', $property->id) }}">
-                        <img src="{{ asset('assets/images/properties/'.$property->propertyImages->first()->image) }}" alt="PropertyPhoto" class="img-fluid">
+                        <img src="{{ empty($property->propertyImages->first()->image)? asset('assets/images/properties/default.png'):asset('assets/images/properties/'.$property->propertyImages->first()->image) }}" alt="PropertyPhoto" class="img-fluid">
                     </a>
                     <div class="meta-box">
                         <ul class="p-0 mt-2 list-inline">
@@ -62,6 +62,10 @@
                                 @if ($property->type_status=='sale')
                                 <li class="list-inline-item">
                                     <span class="badge badge-secondary px-3">Available for sale</span>
+                                </li>
+                                @elseif ($property->type_status=='auction')
+                                <li class="list-inline-item">
+                                    <span class="badge badge-secondary px-3">Available for auction</span>
                                 </li>
                                 @else
                                 <li class="list-inline-item" style="text-transform: none">

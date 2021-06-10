@@ -242,7 +242,18 @@ Route::group(['middleware' => ['verify-email']], function() {
         });
         Route::get('/account/requests/orders', 'OrderController@visitorOrderList')->name('property.visitor.orders');
          
-        
+        Route::group(['prefix' => 'events'], function (){
+            Route::post('/properties/book', 'AuctionEventController@book')->name('property.event.submit');
+            Route::get('/properties/{property}/{filter_id}/book', 'AuctionEventController@index')->name('property.event.index');
+            Route::post('/properties/book/movenext', 'AuctionEventController@moveNext')->name('property.event.movenext');
+            Route::post('/properties/book/smsverification', 'AuctionEventController@sendSmsVerification')->name('property.event.smsverification');
+            Route::post('/properties/book/verify', 'AuctionEventController@verifySmsNumber')->name('property.event.verify');
+            Route::post('/properties/book/request', 'AuctionEventController@orderRequest')->name('property.event.request');
+            Route::get('/properties/{property}/book/exit', 'AuctionEventController@exitOrderMode')->name('property.event.exit');
+        });
+        Route::get('/account/requests/events', 'AuctionEventController@visitorOrderList')->name('property.visitor.events');
+         
+
         /*------- Messages ------- */
         Route::group(['prefix' => 'messages'], function () {
             Route::get('', 'MessageController@index')->name('messages');

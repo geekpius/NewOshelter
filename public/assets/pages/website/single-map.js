@@ -20,7 +20,7 @@
         zoom : 10,
         mapTypeId : 'Styled',
         panControl: false,
-        zoomControl: true,
+        zoomControl: false,
         mapTypeControl: false,
         scaleControl: false,
         streetViewControl: false,

@@ -4,6 +4,7 @@ namespace App\PropertyModel;
 
 use Illuminate\Database\Eloquent\Model;
 use App\PropertyModel\Property;
+use Carbon\Carbon;
 
 class PropertyAuctionSchedule extends Model
 {
@@ -20,5 +21,15 @@ class PropertyAuctionSchedule extends Model
 
     public function property(){
         return $this->belongsTo(Property::class, 'property_id');
+    }
+
+    public function auctionDate()
+    {
+        return Carbon::parse($this->auction_date)->format('d-M-Y');
+    }
+
+    public function auctionTime()
+    {
+        return Carbon::parse($this->auction_time)->format('h:ia');
     }
 }

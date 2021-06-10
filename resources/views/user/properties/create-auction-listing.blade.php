@@ -106,12 +106,12 @@
                                             <span class="step">5</span>
                                             <span class="title text-primary"><small>Schedule</small></span>
                                         </li>
-                                        <li data-step="8">
-                                            <span class="step">8</span>
+                                        <li data-step="6">
+                                            <span class="step">6</span>
                                             <span class="title text-primary"><small>{{ ucfirst($guest."'s") }} Guide</small></span>
                                         </li>
-                                        <li data-step="9">
-                                            <span class="step">9</span>
+                                        <li data-step="7">
+                                            <span class="step">7</span>
                                             <span class="title text-primary"><small>Ready to Publish</small></span>
                                         </li>
                                     </ul>
@@ -338,29 +338,14 @@
                                                 
                                             </div>
                                             <div class="col-lg-6">
-                                                @if ($property->type_status=='rent')
-                                                    <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3months before due date.</p>
-                                                    <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Eviction notification will be sent to visitor every two weeks till due date.</p>
-                                                    <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> It's visitor's choice to extend his/her stay or to evict.</p>
-                                                @elseif ($property->type_status=='sale')
-                                                    <p class="mt-5">You can set set-in price later when market is down.</p>
-                                                    <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Set price which has value for your property.</p>
-                                                    <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Don't set your price too high or too low to scare buyers.</p>
-                                                @elseif ($property->type_status=='short_stay')
-                                                    <p class="mt-5">You can set set-in price later when market is down.</p>
-                                                    <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3days before due date.</p>
-                                                    <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Set price which has value for your property.</p>
-                                                    <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Don't set your price too high or too low to scare travellers.</p>
-                                                @else
-                                                    <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Have a venue in mind.</p>
-                                                    <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Auctioning must be free and fair.</p>
-                                                    <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Let bidder do their job of bidding.</p>
-                                                @endif
+                                                <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Have a venue in mind.</p>
+                                                <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Auctioning must be free and fair.</p>
+                                                <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Let bidder do their job of bidding.</p>
                                             </div>
                                         </div><!-- end row --> 
                                     </div><!-- end step seven --> 
     
-                                    <div class="step-pane" data-step="8">
+                                    <div class="step-pane" data-step="6">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <h4 class="mb-3">
@@ -368,7 +353,7 @@
                                                 </h4>
                                                 
                                                 <div class="row">
-                                                    <div class="col-sm-4">
+                                                    <div class="col-sm-12">
                                                         <div class="card">
                                                             <div class="card-body">      
                                                                 <div class="text-center">
@@ -376,57 +361,11 @@
                                                                     <hr>
                                                                     <p>
                                                                         <i class="fa fa-square text-pink" style="font-size:10px"></i> 
-                                                                        Every {{ $guest }} on OShelter must be qualified to {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you
+                                                                        Every {{ $guest }} on OShelter must be qualified to bid your property
                                                                     </p>
                                                                     <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                     <p>
-                                                                        Every qualified {{ $guest }} must confirm their contact info, provide payment info 
-                                                                        before they can {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you.
-                                                                    </p>
-                                                                </div>
-                                                            </div><!--end card-body-->
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="card">
-                                                            <div class="card-body">      
-                                                                <div class="text-center">
-                                                                    <i class="fa fa-thumbs-up text-success fa-5x"></i>
-                                                                    <hr>
-                                                                    <p>
-                                                                        <i class="fa fa-square text-pink" style="font-size:10px"></i> 
-                                                                        You control who {{ $property->type_status=='auction'? 'bids':$sinTypeStatus.'s' }} you
-                                                                    </p>
-                                                                    <i class="fa fa-square text-pink" style="font-size:10px"></i>
-                                                                    <p>
-                                                                        Every {{ $guest }} who wants to {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you should agree to the property 
-                                                                        @if($property->type_status=='rent')
-                                                                        rules
-                                                                        @elseif($property->type_status=='short_stay') 
-                                                                        rules
-                                                                        @else
-                                                                        info
-                                                                        @endif
-                                                                        set by you before they go ahead.
-                                                                    </p>
-                                                                </div>
-                                                            </div><!--end card-body-->
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="card">
-                                                            <div class="card-body">      
-                                                                <div class="text-center">
-                                                                    <i class="fa fa-bell text-success fa-5x"></i>
-                                                                    <hr>
-                                                                    <p>
-                                                                        <i class="fa fa-square text-pink" style="font-size:10px"></i> 
-                                                                        You are always notified
-                                                                    </p>
-                                                                    <i class="fa fa-square text-pink" style="font-size:10px"></i>
-                                                                    <p>
-                                                                        Once {{ $guest }} {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you, you will get confirmation notification 
-                                                                        instantly with {{$guest}} info.
+                                                                        Every qualified {{ $guest }} must confirm their personal & contact info before they can bid your property.
                                                                     </p>
                                                                 </div>
                                                             </div><!--end card-body-->
@@ -436,17 +375,14 @@
                                                     <div class="col-lg-10 pt-4">
                                                         <h5><b>You are protected every step of the way.</b></h5>
                                                         <img src="{{ asset('assets/images/form-logo.png') }}" alt="Logo" width="40" height="40"  class="rounded-circle img-left mr-3" /> 
-                                                        <p>We never rest because we care. OShelter is here to protect both interest. All rent, short stay, sell and auction is covered 
-                                                            by OShelter's <a href="javascript:void(0)" class="text-primary">{{ ucfirst($guest) }} Refund Policy</a>.
-                                                        </p>
-                                                        <p>We care for you and your property so we have you covered with every {{ $proTypeStatus }} 
+                                                        <p class="pt-2">We care for you and your property so we have you covered with every {{ $proTypeStatus }} 
                                                             situations. <a href="javascript:void(0)" class="text-primary">{{ ucfirst($guest) }} Guide Policy</a>.
                                                         </p>
                                                     </div>
                                                 </div> 
-                                                <form id="formTenantGuide" method="POST" action="{{ route('property.store') }}" style="display:none">
+                                                <form id="formTenantGuide" method="POST" action="{{ route('property.store.auction') }}" style="display:none">
                                                     @csrf
-                                                    <input type="hidden" name="step" value="8" readonly>
+                                                    <input type="hidden" name="step" value="6" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                 </form>                                   
                                             </div>
@@ -454,7 +390,7 @@
                                         </div><!-- end row --> 
                                     </div><!-- end step eight -->   
     
-                                    <div class="step-pane" data-step="9">
+                                    <div class="step-pane" data-step="7">
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <h4>All set and ready for publishing</h4>
@@ -466,18 +402,13 @@
                                                 <p><i class="fa fa-dot-circle font-13"></i> Potential {{ $guest.'s' }} are wating for you to publish this property.</p>
                                             
                                                 <div class="mt-4 mb-3">
-                                                    <i class="fa fa-address-card fa-5x"></i>
-                                                </div>
-                                                <p><i class="fa fa-dot-circle font-13"></i> {{ $property->type_status=='auction'? 'Highest bidder':ucfirst($guest) }} will send a message of the date they will be moving in.</p>
-    
-                                                <div class="mt-4 mb-3">
                                                     <i class="fa fa-key fa-5x"></i>
                                                 </div>
                                                 <p class="mb-3"><i class="fa fa-dot-circle font-13"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>    
                                                 
-                                                <form id="formFinishListing" method="POST" action="{{ route('property.store') }}" style="display:none">
+                                                <form id="formFinishListing" method="POST" action="{{ route('property.store.auction') }}" style="display:none">
                                                     @csrf
-                                                    <input type="hidden" name="step" value="9" readonly>
+                                                    <input type="hidden" name="step" value="7" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                 </form> 
     
