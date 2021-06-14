@@ -48,7 +48,7 @@
                     <p>{{ current(explode(' ',$property->user->name)) }}</p>
                 </div>
                 <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
-                <p class="pxp-sp-top-address pxp-text-light" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"> <i class="fa fa-map-marker text-success"></i> {{ $property->propertyLocation->location }}</p>
+                <p class="pxp-sp-top-address pxp-text-light hidden" data-latitude="{{ $property->propertyLocation->latitude }}" data-longitude="{{ $property->propertyLocation->longitude }}"> <i class="fa fa-map-marker text-success"></i> </p>
             </div>
         </div>
     </div>

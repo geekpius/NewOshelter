@@ -246,7 +246,7 @@
         <button type="submit" class="pxp-filter-btn">Apply Filters</button>
     </div>
     <div class="row pb-4">
-        <div class="col-sm-9">
+        <div class="col-sm-12">
             <h2 class="pxp-content-side-h2">
                 @if (empty(request()->input('location')) && empty(request()->input('status')))
                 {{ number_format($properties->total()) }} {{ str_plural('result', $properties->total()) }}
@@ -257,23 +257,6 @@
                 {{ number_format($properties->total()) }} {{ str_plural('result', $properties->total()) }} for {{ str_plural(str_replace('_',' ',request()->input('status'))) }} in {{ ucwords(request()->input('location')) }}
                 @endif
             </h2>
-        </div>
-        <div class="col-sm-3">
-            <div class="pxp-sort-form form-inline float-right">
-                {{-- <div class="form-group">
-                    <select class="custom-select" id="pxp-sort-results">
-                        <option value="" selected="selected">Default Sort</option>
-                        <option value="">Price (Lo-Hi)</option>
-                        <option value="">Price (Hi-Lo)</option>
-                        <option value="">Beds</option>
-                        <option value="">Baths</option>
-                        <option value="">Size</option>
-                    </select>
-                </div> --}}
-                <div class="form-group d-flex">
-                    <a role="button" class="pxp-map-toggle"><span class="fa fa-map-o"></span></a>
-                </div>
-            </div>
         </div>
     </div>
 </form>

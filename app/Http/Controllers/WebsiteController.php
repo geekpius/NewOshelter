@@ -53,6 +53,10 @@ class WebsiteController extends Controller
                 $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
             });
         })->get();
+        $data['count_rent'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'rent')->count();
+        $data['count_short_stay'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'short_stay')->count();
+        $data['count_sale'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'sale')->count();
+        $data['count_auction'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'auction')->count();
         return view('website.welcome', $data);
     }
 
@@ -68,8 +72,14 @@ class WebsiteController extends Controller
         $status = str_replace('-',' ',$status);
         $data['page_title'] = 'Narrow down '.$status.' filter complexity';
         // $data['menu'] = 'pxp-no-bg';
-        $data['properties'] = Property::whereType_status(str_replace(' ','_',$status))->wherePublish(true)
-        ->whereIs_active(true)->whereDone_step(true)->where('type_status','!=','auction')->orderBy('id', 'DESC')
+        $data['property_types'] = PropertyType::whereIs_public(true)->get(['name']);
+        if($status == 'auction'){
+            $data['properties'] = Property::whereType_status('auction')->wherePublish(true)
+            ->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->paginate(15);
+            return view('website.properties.property-auction-status', $data);
+        }
+        $props = Property::whereType_status(str_replace(' ','_',$status))->wherePublish(true)
+        ->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')
         ->where(function($query){
             $query->whereNotIn('id', function($query){
                 $query->select('property_id')->from(with(new UserVisit)->getTable());
@@ -82,8 +92,14 @@ class WebsiteController extends Controller
             })->orWhereIn('id', function($query){
                 $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
             });
-        })->paginate(15);
-        $data['property_types'] = PropertyType::whereIs_public(true)->get(['name']);
+        });
+        $data['properties'] = $props->paginate(15);
+        if(session()->has('properties'))
+        {
+            session()->forget('properties');
+        }
+        session(['properties' => $props->get()]);
+        
         return view('website.properties.property-status', $data);
     }
 
@@ -121,6 +137,12 @@ class WebsiteController extends Controller
 
     // property type results to map
     public function mapPropertyType()
+    {
+        $properties = session('properties');
+        return PropertyCollection::collection($properties);
+    }
+
+    public function mapPropertyStatus()
     {
         $properties = session('properties');
         return PropertyCollection::collection($properties);
@@ -175,7 +197,8 @@ class WebsiteController extends Controller
     public function property()
     {
         $data['page_title'] = 'Browse all properties of any kind';
-        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')
+        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)
+        ->where('type_status','=','auction')->orderBy('id', 'DESC')
         ->where(function($query){
             $query->whereNotIn('id', function($query){
                 $query->select('property_id')->from(with(new UserVisit)->getTable());
@@ -196,7 +219,8 @@ class WebsiteController extends Controller
     // get all properties to the map
     public function mapProperty()
     {
-        $properties = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')
+        $properties = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)
+        ->where('type_status', '!=', 'auction')->orderBy('id', 'DESC')
         ->where(function($query){
             $query->whereNotIn('id', function($query){
                 $query->select('property_id')->from(with(new UserVisit)->getTable());

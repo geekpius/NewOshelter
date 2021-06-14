@@ -15,7 +15,7 @@
         <div class="pxp-content-side-wrapper">
             @include('includes.search-form')
 
-            <div class="row">
+            <div class="row" id="propertyMainRow" data-href="{{ route('browse.property_status_map') }}">
                 @php $i=0; @endphp
                 @foreach ($properties as $property)
                 @php $i++; @endphp
@@ -101,6 +101,6 @@
 
 @section('scripts')
 <script src="{{ asset('assets/light/js/markerclusterer.js') }}"></script> 
-<script src="{{ asset('assets/light/js/map.js') }}"></script>
+<script src="{{ asset('assets/pages/website/properties.gmap.init.js') }}"></script>
 
 @endsection

@@ -107,6 +107,51 @@
         </div>
     </div> --}}
 
+    <div class="container-fluid pxp-props-carousel-right mt-5">
+        <h2 class="pxp-section-h2">Browse Properties Faster</h2>
+        <p class="pxp-text-light">Browse our listing categories</p>
+        <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
+            <div class="owl-carousel pxp-props-carousel-right-stage">
+                <div>
+                    <a href="{{ route('status.property', 'rent') }}" class="pxp-prop-card-1-sm rounded-lg">
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/forrent.jpg') }});"></div>
+                        <span class="text-white on-top-tag on-top font-12">{{ $count_rent }} <small>{{ str_plural('property', $count_rent) }}</small></span>
+                    </a>
+                    <div class="mt-2">
+                        <div><p class="font-weight-bold">For Rent</p></div>
+                    </div>
+                </div>
+                <div>
+                    <a href="{{ route('status.property', 'short-stay') }}" class="pxp-prop-card-1-sm rounded-lg">
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/shortstay.jpg') }});"></div>
+                        <span class="text-white on-top-tag on-top font-12">{{ $count_short_stay }} <small>{{ str_plural('property', $count_short_stay) }}</small></span>
+                    </a>
+                    <div class="mt-2">
+                        <div><p class="font-weight-bold">Short Stay</p></div>
+                    </div>
+                </div>
+                <div>
+                    <a href="{{ route('status.property', 'sale') }}" class="pxp-prop-card-1-sm rounded-lg">
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/forsale.jpg') }});"></div>
+                        <span class="text-white on-top-tag on-top font-12">{{ $count_sale }} <small>{{ str_plural('property', $count_sale) }}</small></span>
+                    </a>
+                    <div class="mt-2">
+                        <div><p class="font-weight-bold">For Sale</p></div>
+                    </div>
+                </div>
+                <div>
+                    <a href="{{ route('status.property', 'auction') }}" class="pxp-prop-card-1-sm rounded-lg">
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/auction.jpg') }});"></div>
+                        <span class="text-white on-top-tag on-top font-12">{{ $count_auction }} <small>{{ str_plural('property', $count_auction) }}</small></span>
+                    </a>
+                    <div class="mt-2">
+                        <div><p class="font-weight-bold">For Auction</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid pxp-props-carousel-right mt-100">
         <h2 class="pxp-section-h2">Explore Our Neighborhoods</h2>
         <p class="pxp-text-light">Browse our comprehensive listing types</p>
