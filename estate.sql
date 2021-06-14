@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 13, 2021 at 06:47 PM
+-- Generation Time: Jun 14, 2021 at 07:38 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
@@ -59,7 +59,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `is_active`, `image`, `role`, `login_time`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin Geek', 'fiifipius@gmail.com', '$2y$10$C5fgKPH/HSQ79J4wiybGVOgILhRN2cCpeyMXn5VFCxiw.leAIVZki', 1, NULL, 'admin', '2021-04-13 12:19:17', '7tOVXmoAgRsNBIGpSCKkKo1fvIrVFWWQYFts8K535Zgp210VI0UWUgBhRzN0', NULL, '2021-04-13 12:19:17');
+(1, 'Admin Geek', 'fiifipius@gmail.com', '$2y$10$C5fgKPH/HSQ79J4wiybGVOgILhRN2cCpeyMXn5VFCxiw.leAIVZki', 1, NULL, 'admin', '2021-05-26 11:01:39', '7tOVXmoAgRsNBIGpSCKkKo1fvIrVFWWQYFts8K535Zgp210VI0UWUgBhRzN0', NULL, '2021-05-26 11:01:39');
 
 -- --------------------------------------------------------
 
@@ -375,7 +375,10 @@ CREATE TABLE `email_verifies` (
 --
 
 INSERT INTO `email_verifies` (`email`, `token`, `created_at`) VALUES
-('theresa@gmail.com', '50dd76b42882e867e0003d71ffe3ca1ea06413b86efb4612d135f5cdcf743b53', '2021-03-22 11:24:14');
+('theresa@gmail.com', '50dd76b42882e867e0003d71ffe3ca1ea06413b86efb4612d135f5cdcf743b53', '2021-03-22 11:24:14'),
+('marley@facebook.com', '285dc82162a367b4a93e303fdbb5357123df7f24e21193d78a239b64d7c9f59f', '2021-04-19 12:42:41'),
+('grace@gmail.com', '79536daa09ce684a6f75dbfb7da925911bfe207e43e87b314a8040fec2771323', '2021-04-19 12:53:02'),
+('gifty@gmail.com', 'd97097b159eabe8d69e745afeb1ba04f32ecb1ec15852d576528d5faaea84516', '2021-04-19 12:50:11');
 
 -- --------------------------------------------------------
 
@@ -664,7 +667,7 @@ CREATE TABLE `messages` (
 
 INSERT INTO `messages` (`id`, `user_id`, `destination`, `message`, `status`, `created_at`, `updated_at`) VALUES
 (3, 2, 1, 'I want inquire about your property. <br>This is in regard to <a class=\"text-primary\" target=\"_blank\" href=\"http://127.0.0.1:8000/properties/2/details\">Platinum single room</a>', 1, '2021-03-22 12:54:05', '2021-03-22 12:57:58'),
-(4, 2, 1, 'Please I want buy to your property. <br>This is in regard to <a class=\"text-primary\" target=\"_blank\" href=\"http://127.0.0.1:8000/properties/6/details\">2 Sweet Homes</a>', 0, '2021-04-13 11:40:57', '2021-04-13 11:40:57');
+(4, 2, 1, 'Please I want buy to your property. <br>This is in regard to <a class=\"text-primary\" target=\"_blank\" href=\"http://127.0.0.1:8000/properties/6/details\">2 Sweet Homes</a>', 1, '2021-04-13 11:40:57', '2021-06-08 10:10:42');
 
 -- --------------------------------------------------------
 
@@ -835,8 +838,10 @@ INSERT INTO `properties` (`id`, `user_id`, `base`, `type`, `type_status`, `title
 (3, 1, 'storey_building', 'hostel', 'rent', 'HighFrame Hostel', 1, 0, 1, 9, 1, 1, '2021-03-23 12:54:45', '2021-03-23 15:49:23'),
 (4, 1, 'house', 'house', 'rent', 'Mandet 4 bedroom house', 1, 0, 1, 9, 1, 1, '2021-03-25 10:53:23', '2021-03-25 10:57:17'),
 (5, 1, 'storey_building', 'hostel', 'rent', 'Great man hostel', NULL, NULL, 1, 9, 1, 1, '2021-03-25 10:58:04', '2021-03-25 11:07:20'),
-(6, 1, 'house', 'house', 'sale', '2 Sweet Homes', 1, 0, 1, 9, 1, 1, '2021-04-09 14:30:02', '2021-04-09 14:34:47'),
-(7, 1, 'house', 'house', 'short_stay', 'Ahodwo Homes', 3, 3, 1, 9, 1, 1, '2021-04-12 09:54:12', '2021-04-12 09:59:32');
+(6, 1, 'house', 'house', 'sale', '2 Sweet Homes', 1, 0, 1, 9, 1, 1, '2021-04-09 14:30:02', '2021-06-08 11:58:33'),
+(7, 1, 'house', 'house', 'short_stay', 'Ahodwo Homes', 3, 3, 1, 9, 1, 1, '2021-04-12 09:54:12', '2021-04-12 09:59:32'),
+(8, 1, 'house', 'house', 'auction', 'Oterdola Full Home', 1, 0, 1, 7, 1, 1, '2021-06-09 12:53:23', '2021-06-10 16:22:29'),
+(9, 1, 'storey_building', 'room', 'rent', 'Chamber and Hall Apartment', 1, 0, 0, 1, 0, 1, '2021-06-09 16:15:16', '2021-06-09 16:15:16');
 
 -- --------------------------------------------------------
 
@@ -898,7 +903,36 @@ INSERT INTO `property_amenities` (`id`, `property_id`, `name`, `created_at`, `up
 (39, 7, 'Door Bell', '2021-04-12 09:56:04', '2021-04-12 09:56:04'),
 (40, 7, 'Car Parking Space', '2021-04-12 09:56:04', '2021-04-12 09:56:04'),
 (41, 7, 'Garden', '2021-04-12 09:56:04', '2021-04-12 09:56:04'),
-(42, 7, 'Laundry', '2021-04-12 09:56:04', '2021-04-12 09:56:04');
+(42, 7, 'Laundry', '2021-04-12 09:56:04', '2021-04-12 09:56:04'),
+(98, 8, 'Ceiling Fan', '2021-06-09 17:10:22', '2021-06-09 17:10:22'),
+(99, 8, 'Wardrobe', '2021-06-09 17:10:22', '2021-06-09 17:10:22'),
+(100, 8, 'Water Reservoir', '2021-06-09 17:10:22', '2021-06-09 17:10:22'),
+(101, 8, 'Door Bell', '2021-06-09 17:10:22', '2021-06-09 17:10:22'),
+(102, 8, 'Swimming Pool', '2021-06-09 17:10:22', '2021-06-09 17:10:22'),
+(103, 8, 'Garden', '2021-06-09 17:10:22', '2021-06-09 17:10:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `property_auction_schedules`
+--
+
+CREATE TABLE `property_auction_schedules` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `property_id` int(10) UNSIGNED NOT NULL,
+  `auction_venue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `auction_date` date NOT NULL,
+  `auction_time` time NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `property_auction_schedules`
+--
+
+INSERT INTO `property_auction_schedules` (`id`, `property_id`, `auction_venue`, `auction_date`, `auction_time`, `created_at`, `updated_at`) VALUES
+(1, 8, 'Dreams and Cocktail Hotel, Tse Addo - Coffee Street', '2021-06-30', '10:00:00', '2021-06-10 10:14:53', '2021-06-10 10:14:53');
 
 -- --------------------------------------------------------
 
@@ -930,7 +964,8 @@ INSERT INTO `property_contains` (`id`, `property_id`, `bedroom`, `no_bed`, `kitc
 (2, 2, '1', 1, 1, 1, 1, 1, 1, 'fully_furnished', '2021-03-22 11:56:41', '2021-03-22 11:56:41'),
 (3, 4, '4', 0, 1, 2, 1, 2, 1, 'not_furnished', '2021-03-25 10:53:45', '2021-03-25 10:53:45'),
 (4, 6, '4', 4, 1, 1, 1, 1, 1, 'not_furnished', '2021-04-09 14:30:55', '2021-04-09 14:30:55'),
-(5, 7, '4', 4, 1, 2, 1, 2, 1, 'fully_furnished', '2021-04-12 09:54:42', '2021-04-12 09:54:42');
+(5, 7, '4', 4, 1, 2, 1, 2, 1, 'fully_furnished', '2021-04-12 09:54:42', '2021-04-12 09:54:42'),
+(6, 8, '3', 0, 1, 2, 1, 2, 1, 'not_furnished', '2021-06-09 13:12:42', '2021-06-09 13:12:42');
 
 -- --------------------------------------------------------
 
@@ -960,7 +995,8 @@ INSERT INTO `property_descriptions` (`id`, `property_id`, `gate`, `description`,
 (4, 4, 0, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem IpsumLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-03-25 10:56:21', '2021-03-25 10:56:21'),
 (5, 5, 0, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letrase', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-03-25 11:05:44', '2021-03-25 11:05:44'),
 (6, 6, 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letrase', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-04-09 14:33:31', '2021-04-09 14:33:31'),
-(7, 7, 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem IpsumLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-04-12 09:59:06', '2021-04-12 09:59:06');
+(7, 7, 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem IpsumLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-04-12 09:59:06', '2021-04-12 09:59:06'),
+(8, 8, 0, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letrase', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It h', '2021-06-09 16:52:29', '2021-06-09 16:52:29');
 
 -- --------------------------------------------------------
 
@@ -1104,7 +1140,8 @@ INSERT INTO `property_locations` (`id`, `property_id`, `digital_address`, `locat
 (7, 4, NULL, 'Madina, Accra Metropolis, Ghana', 'madina-accra-metropolis-ghana', '5.673532998751293', '-0.16635291349181847', '2021-03-25 10:55:09', '2021-03-25 10:55:09'),
 (8, 5, NULL, 'Tse Addo High Street, Accra, Ghana', 'tse-addo-high-street-accra-ghana', '5.586547257581744', '-0.14089420555725818', '2021-03-25 11:04:55', '2021-03-25 11:04:55'),
 (9, 6, NULL, 'Accra - Tema Motorway, Accra, Ghana', 'accra-tema-motorway-accra-ghana', '5.635052585835802', '-0.14450998968810413', '2021-04-09 14:32:09', '2021-04-09 14:32:09'),
-(10, 7, NULL, 'Accra New Town, Accra, Ghana', 'accra-new-town-accra-ghana', '5.578797325389278', '-0.21618968042602216', '2021-04-12 09:56:33', '2021-04-12 09:56:33');
+(10, 7, NULL, 'Accra New Town, Accra, Ghana', 'accra-new-town-accra-ghana', '5.578797325389278', '-0.21618968042602216', '2021-04-12 09:56:33', '2021-04-12 09:56:33'),
+(11, 8, NULL, 'Tse Addo High Street, Accra, Ghana', 'tse-addo-high-street-accra-ghana', '5.586643358468135', '-0.14108732460633044', '2021-06-09 15:59:53', '2021-06-09 16:52:05');
 
 -- --------------------------------------------------------
 
@@ -1278,6 +1315,27 @@ INSERT INTO `property_types` (`id`, `name`, `image`, `is_public`, `created_at`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `property_videos`
+--
+
+CREATE TABLE `property_videos` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `property_id` int(10) UNSIGNED NOT NULL,
+  `video_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `property_videos`
+--
+
+INSERT INTO `property_videos` (`id`, `property_id`, `video_url`, `created_at`, `updated_at`) VALUES
+(1, 6, 'https://www.youtube.com/embed/VEN2H3wGOW4', '2021-06-08 11:58:25', '2021-06-08 11:58:25');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `report_properties`
 --
 
@@ -1381,9 +1439,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `account_type`, `is_active`, `image`, `email_verification_token`, `email_verification_expired_at`, `verify_email`, `verify_email_time`, `sms_verification_token`, `verify_sms`, `verify_sms_time`, `is_id_verified`, `login_time`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'fiifi pius', 'fiifipius@gmail.com', '$2y$10$OWs2Uutg7RoxheWPazEnU.5WlMRPedSayEdY9uhtfeD1a2bs5HjTK', '0542398441', 'owner', 1, '123d1bbf7c8196420c070a167ab7027e697409fca.jpeg', '60522224', '2021-04-10 20:58:51', 1, '2021-03-22 10:59:29', NULL, 0, NULL, 1, '2021-04-13 16:11:41', '1ZIuFSHkd7TYKWCKbgPtpCEcUKYQvRamErDvuDkg0fyjHwV3ef94JMRdfyzC', '2021-03-22 10:59:10', '2021-04-13 16:11:41', NULL),
-(2, 'theresa ohenewaa', 'theresa@gmail.com', '$2y$10$Yqj5zOGbdCvYp62uXlhyjeU3IRjko4Gm8HkA8Sru.Xhqmk.3.g6R6', '0507791393', 'visitor', 1, '281c4498c193a3ab60d0cf6d9f1ab4af17344c1a9.jpg', '08392336', '2021-03-22 12:24:14', 1, '2021-03-22 11:24:28', '0087', 1, '2021-04-12 17:47:38', 1, '2021-04-13 15:18:46', 'LtSw189ETy3KATs0W1ZKhOhu8JkFWW8IrbGCThfUvUS7eigW8PRpcmqWS9vr', '2021-03-22 11:24:14', '2021-04-13 15:18:46', NULL),
-(4, 'geek pius', 'fiifijava@gmail.com', '$2y$10$MlHljWab8JH75XguYBmCquePYCYtWKyviZobf/EjLyIwUNsMNV.DC', '0542398442', 'visitor', 1, NULL, '54812703', '2021-04-13 13:09:59', 1, NULL, '0114', 1, NULL, 1, '2021-04-13 12:09:59', 'VBwFGjcTIF42SVSSnUNWY6A9cHQ00tSB3cH444pzHs1Uokdq8gBGyarOxfvA', '2021-04-13 12:09:59', '2021-04-13 12:10:15', NULL);
+(1, 'fiifi pius', 'fiifipius@gmail.com', '$2y$10$OWs2Uutg7RoxheWPazEnU.5WlMRPedSayEdY9uhtfeD1a2bs5HjTK', '0542398441', 'owner', 1, '123d1bbf7c8196420c070a167ab7027e697409fca.jpeg', '60522224', '2021-04-10 20:58:51', 1, '2021-03-22 10:59:29', NULL, 0, NULL, 1, '2021-06-10 16:15:14', 'MxPDatYtH31VNUD1DADRhwCmRo4wk7k8gsoxkulTEAMmUbyFOvma18iNpzdh', '2021-03-22 10:59:10', '2021-06-10 16:15:14', NULL),
+(2, 'theresa ohenewaa', 'theresa@gmail.com', '$2y$10$Yqj5zOGbdCvYp62uXlhyjeU3IRjko4Gm8HkA8Sru.Xhqmk.3.g6R6', '0507791393', 'visitor', 1, '281c4498c193a3ab60d0cf6d9f1ab4af17344c1a9.jpg', '08392336', '2021-03-22 12:24:14', 1, '2021-03-22 11:24:28', '9075', 1, '2021-06-10 12:25:34', 1, '2021-06-14 11:52:47', 'D5LPUYB2U16q4N5JNBJLXiudc2MFWijwaYLx9Nklu87m8PyGJt4I2OCUTDJQ', '2021-03-22 11:24:14', '2021-06-14 11:52:47', NULL),
+(4, 'geek pius', 'fiifijava@gmail.com', '$2y$10$MlHljWab8JH75XguYBmCquePYCYtWKyviZobf/EjLyIwUNsMNV.DC', '0542398442', 'visitor', 1, NULL, '54812703', '2021-04-13 13:09:59', 1, NULL, '0114', 1, NULL, 1, '2021-04-13 12:09:59', 'VBwFGjcTIF42SVSSnUNWY6A9cHQ00tSB3cH444pzHs1Uokdq8gBGyarOxfvA', '2021-04-13 12:09:59', '2021-04-16 12:57:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -1855,6 +1913,13 @@ ALTER TABLE `property_amenities`
   ADD KEY `property_amenities_property_id_index` (`property_id`);
 
 --
+-- Indexes for table `property_auction_schedules`
+--
+ALTER TABLE `property_auction_schedules`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `property_id` (`property_id`);
+
+--
 -- Indexes for table `property_contains`
 --
 ALTER TABLE `property_contains`
@@ -1939,6 +2004,13 @@ ALTER TABLE `property_shared_amenities`
 --
 ALTER TABLE `property_types`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `property_videos`
+--
+ALTER TABLE `property_videos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `property_id` (`property_id`);
 
 --
 -- Indexes for table `report_properties`
@@ -2209,25 +2281,31 @@ ALTER TABLE `packages`
 -- AUTO_INCREMENT for table `properties`
 --
 ALTER TABLE `properties`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `property_amenities`
 --
 ALTER TABLE `property_amenities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+
+--
+-- AUTO_INCREMENT for table `property_auction_schedules`
+--
+ALTER TABLE `property_auction_schedules`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `property_contains`
 --
 ALTER TABLE `property_contains`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `property_descriptions`
 --
 ALTER TABLE `property_descriptions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `property_hostel_blocks`
@@ -2251,7 +2329,7 @@ ALTER TABLE `property_images`
 -- AUTO_INCREMENT for table `property_locations`
 --
 ALTER TABLE `property_locations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `property_own_rules`
@@ -2288,6 +2366,12 @@ ALTER TABLE `property_shared_amenities`
 --
 ALTER TABLE `property_types`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `property_videos`
+--
+ALTER TABLE `property_videos`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `report_properties`
@@ -2490,6 +2574,12 @@ ALTER TABLE `property_amenities`
   ADD CONSTRAINT `property_amenities_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `property_auction_schedules`
+--
+ALTER TABLE `property_auction_schedules`
+  ADD CONSTRAINT `property_auction_schedules_ibfk_1` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `property_contains`
 --
 ALTER TABLE `property_contains`
@@ -2555,6 +2645,12 @@ ALTER TABLE `property_rules`
 --
 ALTER TABLE `property_shared_amenities`
   ADD CONSTRAINT `property_shared_amenities_property_id_foreign` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `property_videos`
+--
+ALTER TABLE `property_videos`
+  ADD CONSTRAINT `property_videos_ibfk_1` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `report_properties`
