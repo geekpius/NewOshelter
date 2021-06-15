@@ -7,9 +7,9 @@
 @section('content')
 <div class="pxp-content pull-content-down">
     <div class="container">
-        <h2>Property Orders</h2>  
+        <h2>Property Auction Events</h2>  
         <p>
-            <strong>{{ Auth::user()->name }},</strong> orders 
+            <strong>{{ Auth::user()->name }},</strong> auction events 
         </p>
         <div class="pt-4">
             <div class="row">
@@ -26,25 +26,23 @@
                                             <th>Ordered At</th>
                                             <th>Property</th>
                                             <th>Buyer</th>
-                                            <th>Amount</th>
                                             <th>Status</th>
                                         </tr><!--end tr-->
                                     </thead>
 
                                     <tbody>
-                                        @foreach ($property->orders as $order)
+                                        @foreach ($property->auctions as $auction)
                                         <tr>
-                                            <td>{{ \Carbon\Carbon::parse($order->created_at)->diffForHumans() }}</td>
-                                            <td>{{ $order->property->title }}</td>
-                                            @php $image = (empty($order->user->image))? 'user.svg':'users/'.$order->user->image; @endphp
-                                            <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $order->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $order->user->name }}</td>
-                                            <td>{{ $order->property->propertyPrice->getPropertyPrice() }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($auction->created_at)->diffForHumans() }}</td>
+                                            <td>{{ $auction->property->title }}</td>
+                                            @php $image = (empty($auction->user->image))? 'user.svg':'users/'.$auction->user->image; @endphp
+                                            <td><img src="{{ asset('assets/images/'.$image) }}" alt="{{ $auction->user->name }}" class="thumb-sm rounded-circle mr-2">{{ $auction->user->name }}</td>
                                             <td>
-                                                @if ($order->isPendingAttribute())
+                                                @if ($auction->isPendingAttribute())
                                                     <span class="text-primary"><i class="fa fa-spin fa-spinner"></i> Processing</span>
-                                                @elseif ($order->isDoneAttribute())
+                                                @elseif ($auction->isDoneAttribute())
                                                     <span class="text-success"><i class="fa fa-check-circle"></i> Bought</span>
-                                                @elseif ($order->isCancelAttribute())
+                                                @elseif ($auction->isCancelAttribute())
                                                     <span class="text-danger"><i class="fa fa-times-circle"></i> Cancelled</span>
                                                 @endif
                                             </td>
