@@ -53,9 +53,30 @@ class WebsiteController extends Controller
                 $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
             });
         })->get();
-        $data['count_rent'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'rent')->count();
-        $data['count_short_stay'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'short_stay')->count();
-        $data['count_sale'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'sale')->count();
+        $data['count_rent'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'rent')
+        ->where(function($query){
+            $query->whereNotIn('id', function($query){
+                $query->select('property_id')->from(with(new UserVisit)->getTable());
+            })->orWhereIn('id', function($query){
+                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
+            });
+        })->count();
+        $data['count_short_stay'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'short_stay')
+        ->where(function($query){
+            $query->whereNotIn('id', function($query){
+                $query->select('property_id')->from(with(new UserVisit)->getTable());
+            })->orWhereIn('id', function($query){
+                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
+            });
+        })->count();
+        $data['count_sale'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'sale')
+        ->where(function($query){
+            $query->whereNotIn('id', function($query){
+                $query->select('property_id')->from(with(new Order)->getTable());
+            })->orWhereIn('id', function($query){
+                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
+            });
+        })->count();
         $data['count_auction'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'auction')->count();
         return view('website.welcome', $data);
     }
