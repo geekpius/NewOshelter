@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
 use App\User;
+use App\EventModel\AuctionEvent;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -164,17 +165,7 @@ class AuctionEventController extends Controller
         return $message;        
     }
 
-
-    private function saveMessage(int $destination, string $msg, string $propertyDetail) : void
-    {
-        $message = new Message;
-        $message->user_id = Auth::user()->id;
-        $message->destination = $destination;
-        $message->message = $msg.' <br>'.$propertyDetail;
-        $message->save();
-    }
-
-    public function orderRequest(Request $request): string
+    public function bookRequest(Request $request): string
     {
         $validator = \Validator::make($request->all(), [
             'property_id' => 'required',
@@ -186,42 +177,26 @@ class AuctionEventController extends Controller
             $message = 'Validation failed';
         }else{
             try {
-                $order = new Order;
-                $order->user_id = Auth::user()->id;
-                $order->property_id  = $request->property_id;
-                $order->owner_id = $request->owner;
-                $order->status = Order::PENDING;
-                $order->save();
-
-                if(Session::has('owner_message') && !empty(Session::get('owner_message'))){
-                    (string) $msg = Session::get('owner_message');
-                    (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $order->property->id).'">'.$order->property->title.'</a>';
-                    $this->saveMessage(intval($order->property->user_id), $msg, $detail);
-                }
+                $event = new AuctionEvent;
+                $event->user_id = Auth::user()->id;
+                $event->property_id  = $request->property_id;
+                $event->owner_id = $request->owner;
+                $event->status = AuctionEvent::PENDING;
+                $event->save();
 
                 $message = "success";
                 //send a text to the onwer
-                $buyer = $order->user->name;
-                $property = $order->property->title;
-                $smsMessage = "$buyer is interested in your property($property). Oshelter is handling this client on your behalf. We will alert you when transaction is initiated. Thank you.";
-                $this->isSendSMS($smsMessage, $order->owner->phone);
+                $buyer = $event->user->name;
+                $property = $event->property->title;
+                $smsMessage = "$buyer is interested in your property($property). Oshelter is handling this client on your behalf. We will alert you when invitation is initiated. Thank you.";
+                $this->isSendSMS($smsMessage, $event->owner->phone);
 
-                $smsMessage2 = "Your interest in $property is under review. Oshelter will contact you soon for the necessary process. Thank you.";
-                $this->isSendSMS($smsMessage2, $order->user->phone);
-
-                //emailing
-                // $data = array(
-                //     "property" => $book->property->title,
-                //     "link" => route('requests.detail', $book->id),
-                //     "name" => current(explode(' ',$book->property->user->name)),
-                //     "guest" => current(explode(' ',Auth::user()->name)),
-                // );
-                // Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
+                $smsMessage2 = "Your interest in $property is under review. Oshelter will contact you soon ASAP for the necessary process. Thank you.";
+                $this->isSendSMS($smsMessage2, $event->user->phone);
                 Session::forget('bookingItems');
-                Session::forget('owner_message');
                 Session::forget('step');
             } catch (\Exception $e) {
-                $message = "Order request failed";
+                $message = "Event booking request failed";
             }
         }
 
@@ -233,7 +208,6 @@ class AuctionEventController extends Controller
     {      
         if(Session::has('bookingItems')){
             Session::forget('bookingItems');
-            Session::forget('owner_message');
             Session::forget('step');
         }
        

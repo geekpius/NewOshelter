@@ -30,6 +30,7 @@ use App\PropertyModel\PropertySharedAmenity;
 use App\PropertyModel\PropertyAuctionSchedule;
 use App\PropertyModel\IncludeUtility;
 use App\OrderModel\Order;
+use App\EventModel\AuctionEvent;
 
 class Property extends Model
 {
@@ -234,6 +235,10 @@ class Property extends Model
 
     public function propertyAuctionSchedule(){
         return $this->hasOne(PropertyAuctionSchedule::class);
+    }
+
+    public function auctions(){
+        return $this->hasMany(AuctionEvent::class);
     }
 
 

@@ -24,6 +24,7 @@ use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
 use App\PaymentModel\Transaction;
 use App\OrderModel\Order;
+use App\EventModel\AuctionEvent;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -203,6 +204,14 @@ class User extends Authenticatable
 
     public function ownerOrders(){
         return $this->hasMany(Order::class, 'owner_id');
+    }
+
+    public function auctions(){
+        return $this->hasMany(AuctionEvent::class, 'user_id');
+    }
+
+    public function ownerAuctions(){
+        return $this->hasMany(AuctionEvent::class, 'owner_id');
     }
 
 

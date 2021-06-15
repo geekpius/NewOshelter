@@ -131,13 +131,13 @@ $("#verify_code").on("keyup blur", function(e){
 });
 
 
-$("#formConfirmOrder").on("submit", function(e){
+$("#formConfirmBooking").on("submit", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this = $(this);
     swal({
         title: "Confirm",
-        text: "You are about to confirm your order",
+        text: "You are about to confirm your request",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-primary btn-sm",
@@ -147,7 +147,7 @@ $("#formConfirmOrder").on("submit", function(e){
         },
     function(){
         let data = $this.serialize();
-        $(".confirmOrder").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING ORDER...').attr('disabled', true);
+        $("#formConfirmBooking .confirmBook").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING REQUEST...').attr('disabled', true);
         $.ajax({
             url: $this.attr('action'),
             type: "POST",
@@ -156,18 +156,18 @@ $("#formConfirmOrder").on("submit", function(e){
                 if(resp == 'success'){
                     swal({
                         title: "Confirmed",
-                        text: "You have sent an order request to oshelter\nWait for a call.",
+                        text: "You have sent a booking request to oshelter\nWait for an invitation.",
                         type: "success",
                         confirmButtonClass: "btn-primary btn-sm",
                         confirmButtonText: "Okay",
                         closeOnConfirm: true
                         },
                     function(){
-                        window.location.href = $(".confirmOrder").data('href');
+                        window.location.href =  $("#formConfirmBooking .confirmBook").data('href');
                     });
                 }else{
                     swal("Warning", resp, "warning");
-                    $(".confirmOrder").text('<i class="fa fa-spinner fa-spin"></i> CONFIRM ORDER REQUEST').attr('disabled', false);
+                    $("#formConfirmBooking .confirmBook").text('<i class="fa fa-spinner fa-spin"></i> CONFIRM BOOKING REQUEST').attr('disabled', false);
                 }
             },
             error: function(resp){

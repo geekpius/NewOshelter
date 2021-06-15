@@ -116,25 +116,48 @@
                                     </div>  
 
                                     <div class="col-sm-12">
-                                        
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <p class="font-14">
+                                                    @php $image = (empty($property->user->image))? "user.svg":"users/".$property->user->image; @endphp
+                                                    <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
+                                                    This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div> 
+                                    <div class="col-sm-12">
+                                        <h5>Request Summary</h5>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> Confirm your booking for the event.</p>
+                                                <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> Oshelter will review your request.</p>
+                                                <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> Oshelter will respond to your request with details ASAP.</p>
+                                                <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If contacting you is taking too long (more than 24hours), <a href="{{ route('contact') }}" target="_blank" class="text-danger">contact us</a> for support.</p>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
                                     
                                     <div class="col-sm-12 mt-3 mb-5">
-                                        @php $order = $property->orders->where('user_id', Auth::user()->id)->sortByDesc('id')->first(); @endphp
-                                        @if (empty($order))
-                                        <form id="formConfirmOrder" action="{{ route('property.order.request') }}">
+                                        @php $auction = $property->auctions->where('user_id', Auth::user()->id)->sortByDesc('id')->first(); @endphp
+                                        @if (empty($auction))
+                                        <form id="formConfirmBooking" action="{{ route('property.event.request') }}">
                                             @csrf
                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                             <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
-                                            <button class="btn btn-primary pl-5 pr-5 confirmOrder font-weight-600" data-step="2" data-href="{{ route('single.property', $property->id) }}">CONFIRM ORDER REQUEST</button>
+                                            <button class="btn btn-primary pl-5 pr-5 confirmBook font-weight-600" data-step="2" data-href="{{ route('single.property', $property->id) }}">CONFIRM BOOKING REQUEST</button>
                                         </form>
                                         @else
                                         <span class="text-primary">
-                                            <i class="fa fa-spin fa-spinner"></i> YOUR ORDER IS GOING THROUGH BUYING PROCESS...
+                                            <i class="fa fa-spin fa-spinner"></i> YOUR BOOKING REQUEST IS UNDER REVIEW...
                                         </span>
                                         <br>
                                         <div class="mt-3">
-                                            <a href="{{ route('property.order.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from order mode </a>
+                                            <a href="{{ route('property.event.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from order mode </a>
                                         </div>
                                         @endif
                                     </div>
