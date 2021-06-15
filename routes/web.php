@@ -252,7 +252,7 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::post('/properties/book/request', 'AuctionEventController@bookRequest')->name('property.event.request');
             Route::get('/properties/{property}/book/exit', 'AuctionEventController@exitOrderMode')->name('property.event.exit');
         });
-        Route::get('/account/requests/events', 'AuctionEventController@visitorOrderList')->name('property.visitor.events');
+        Route::get('/account/requests/events', 'AuctionEventController@visitorEventList')->name('property.visitor.events');
          
 
         /*------- Messages ------- */

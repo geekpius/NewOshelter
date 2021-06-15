@@ -215,11 +215,11 @@ class AuctionEventController extends Controller
     }
 
 
-    public function visitorOrderList()
+    public function visitorEventList()
     {      
         if(Auth::user()->account_type=='visitor'){
-            $data['page_title'] = 'My orders';
-            return view('user.orders.visitororders', $data);
+            $data['page_title'] = 'My auction events';
+            return view('user.auctions.visitor-auction', $data);
         }else{
             return view('errors.404');
         }
