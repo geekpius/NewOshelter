@@ -64,5 +64,50 @@
 @endsection
 
 @section('scripts')
+<script>
+     var autocomplete;
+  autocomplete= new google.maps.places.Autocomplete((document.getElementById("search_input")), {
+      types: ['geocode']
+  });
+  
 
+  $('#min_price, #max_price').keypress(function(event) {
+      if (((event.which != 46 || (event.which == 46 && $(this).val() == '')) ||
+              $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+          event.preventDefault();
+      }
+    }).on('paste', function(event) {
+      event.preventDefault();
+    });
+    
+    $("#formSearch").on('submit', function(e){
+      e.stopPropagation();
+      if($("#location").val()==''){
+          return false;
+      }else{
+          return true;
+      }
+      return false;
+    });
+    
+    $("#formSearch input[name='location'], #formSearch select[name='status']").on('keydown', function(e){
+      e.stopPropagation();
+      if(e.which==13){
+          $("#formSearch").trigger("submit");
+      }
+    });
+
+    $("#formSearch select[name='status']").on('change', function(e){
+        e.stopPropagation();
+        $("#formSearch").trigger("submit");
+    });
+    
+    autocomplete.addListener("place_changed", function() {
+        const place = autocomplete.getPlace();
+        if (place.place_id) {
+            $("#formSearch").trigger("submit");
+            return;
+        }
+    });
+</script>
 @endsection
