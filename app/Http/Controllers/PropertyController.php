@@ -96,6 +96,17 @@ class PropertyController extends Controller
         }
     }
 
+    public function propertyAuctionEvents(Property $property)
+    {
+        if($property->type_status == 'auction'){
+            $data['page_title'] = $property->title.' auction events';
+            $data['property'] = $property;
+            return view('user.properties.property_auction_events', $data);
+        }else{
+            return view('errors.404');
+        }
+    }
+
     ///check if uncompleted found
     public function addNewListing()
     {
