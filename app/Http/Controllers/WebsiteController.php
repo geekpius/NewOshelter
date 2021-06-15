@@ -24,6 +24,7 @@ use App\PropertyModel\PropertyLocation;
 use App\ContactModel\Contact;
 use App\UserModel\UserVisit;
 use App\OrderModel\Order;
+use App\EventModel\AuctionEvent;
 
 use App\Http\Resources\PropertyCollection;
 
@@ -77,7 +78,14 @@ class WebsiteController extends Controller
                 $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
             });
         })->count();
-        $data['count_auction'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'auction')->count();
+        $data['count_auction'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'auction')
+        ->where(function($query){
+            $query->whereNotIn('id', function($query){
+                $query->select('property_id')->from(with(new AuctionEvent)->getTable());
+            })->orWhereIn('id', function($query){
+                $query->select('property_id')->from(with(new AuctionEvent)->getTable())->whereIn('status', [0,1]);
+            });
+        })->count();
         return view('website.welcome', $data);
     }
 
@@ -96,7 +104,14 @@ class WebsiteController extends Controller
         $data['property_types'] = PropertyType::whereIs_public(true)->get(['name']);
         if($status == 'auction'){
             $data['properties'] = Property::whereType_status('auction')->wherePublish(true)
-            ->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->paginate(15);
+            ->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')
+            ->where(function($query){
+                $query->whereNotIn('id', function($query){
+                    $query->select('property_id')->from(with(new AuctionEvent)->getTable());
+                })->orWhereIn('id', function($query){
+                    $query->select('property_id')->from(with(new AuctionEvent)->getTable())->whereIn('status', [0,1]);
+                });
+            })->paginate(15);
             return view('website.properties.property-auction-status', $data);
         }
         $props = Property::whereType_status(str_replace(' ','_',$status))->wherePublish(true)
