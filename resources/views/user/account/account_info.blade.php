@@ -348,7 +348,7 @@ $("select").on('change', function(){
 });
 
 
-$("#formProfileUpdate select[name='gender']").val("{{ empty(Auth::user()->profile->gender)? '':Auth::user()->profile->gender }}");
+$("#formProfileUpdate select[name='gender']").val("{{ empty(Auth::user()->profile->gender)? '':strtolower(Auth::user()->profile->gender) }}");
 $("#formProfileUpdate select[name='marital_status']").val("{{ empty(Auth::user()->profile->marital_status)? '':Auth::user()->profile->marital_status }}");
 </script>
 @endsection

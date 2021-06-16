@@ -55,11 +55,11 @@ $("#formProfileUpdate").on("submit", function(e){
                 else{
                     alert("Something went wrong");
                 }
-                $(".btnProfileUpdate").html('<i class="fa fa-refresh"></i> Update Profile').attr('disabled', false);
+                $(".btnProfileUpdate").html('<i class="mdi mdi-refresh fa-lg"></i> Update Profile').attr('disabled', false);
             },
             error: function(resp){
                 alert("Something went wrong with your request");
-                $(".btnProfileUpdate").html('<i class="fa fa-refresh"></i> Update Profile').attr('disabled', false);
+                $(".btnProfileUpdate").html('<i class="mdi mdi-refresh fa-lg"></i> Update Profile').attr('disabled', false);
             }
         });
     }
