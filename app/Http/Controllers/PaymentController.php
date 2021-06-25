@@ -64,6 +64,22 @@ class PaymentController extends Controller
         return $this->checkOut;
     }
 
+    public function isBookingAlreadyPaid(Request $request, Booking $booking): string 
+    {
+        if($booking->status == Booking::DONE){
+            return 'paid';
+        }
+        return 'not paid';
+    }
+
+    public function isHostelBookingAlreadyPaid(Request $request, HostelBooking $hostelBooking): string 
+    {
+        if($hostelBooking->status == HostelBooking::DONE){
+            return 'paid';
+        }
+        return 'not paid';
+    }
+
     public function getVerificationStatus(string $reference): bool
     {
         $curl = curl_init();
@@ -94,6 +110,59 @@ class PaymentController extends Controller
         }
     }
 
+    private function saveUserVisit(int $id): void 
+    {
+        $book = Booking::findOrFail($id);
+        $book->status = 3;
+
+        $stay = new UserVisit;
+        $stay->user_id = Auth::user()->id;
+        $stay->property_id = $book->property_id;
+        $stay->booking_id = $book->id;
+        $stay->check_in = $book->check_in;
+        $stay->check_out = $book->check_out;
+        $stay->adult = $book->adult;
+        $stay->children = $book->children;
+        $stay->infant = $book->infant;
+        $stay->save();
+        $book->update();
+        $this->setCheckIn(Carbon::createFromFormat('Y-m-d', $stay->check_in)->format('d-M-Y'));
+    }
+
+    private function saveUserHostelVisit(int $id): void 
+    {
+        $book = HostelBooking::findOrFail($id);
+        $book->status = 3;
+
+        $stay = new UserHostelVisit;
+        $stay->user_id = Auth::user()->id;
+        $stay->property_id = $book->property_id;
+        $stay->hostel_booking_id = $book->id;
+        $stay->hostel_block_room_id = $book->hostelBlockRoomNumber->hostelBlockRoom->id;
+        $stay->hostel_block_room_number_id = $book->hostel_block_room_number_id;
+        $stay->check_in = $book->check_in;
+        $stay->check_out = $book->check_out;
+        $stay->save();
+        $this->setCheckIn(Carbon::createFromFormat('Y-m-d', $stay->check_in)->format('d-M-Y'));
+        //place visitor in hostel room
+        $roomNumber = HostelBlockRoomNumber::findOrFail($stay->hostel_block_room_number_id);
+        $roomNumber->occupant = $roomNumber->occupant+1;
+        if($roomNumber->occupant == $roomNumber->person_per_room){
+            $roomNumber->full = true;
+        }
+        $roomNumber->update();
+        $book->update();
+    }
+
+    private function transaction(int $transId, int $bookingID, string $propertyType): void 
+    {
+        $bookTrans = new BookingTransaction;
+        $bookTrans->transaction_id = $transId;
+        $bookTrans->booking_id = $bookingID;
+        $bookTrans->property_type = $propertyType;
+        $bookTrans->save();
+    }
+
     private function saveBookingTransaction(int $ownerID, string $referenceId, float $amount, float $serviceFee, float $discountFee, string $currency, string $propertyType, int $bookingID): string
     {
         (string) $message = "";
@@ -111,50 +180,12 @@ class PaymentController extends Controller
             $trans->channel = $this->getPaymentChannel();
             $trans->save();
 
-            $bookTrans = new BookingTransaction;
-            $bookTrans->transaction_id = $trans->id;
-            $bookTrans->booking_id = $bookingID;
-            $bookTrans->property_type = $propertyType;
-            $bookTrans->save();
+            $this->transaction($trans->id, $bookingID, $propertyType);
 
             if($propertyType == 'hostel'){
-                $book = HostelBooking::findOrFail($bookingID);
-                $book->status = 3;
-
-                $stay = new UserHostelVisit;
-                $stay->user_id = Auth::user()->id;
-                $stay->property_id = $book->property_id;
-                $stay->hostel_booking_id = $book->id;
-                $stay->hostel_block_room_id = $book->hostelBlockRoomNumber->hostelBlockRoom->id;
-                $stay->hostel_block_room_number_id = $book->hostel_block_room_number_id;
-                $stay->check_in = $book->check_in;
-                $stay->check_out = $book->check_out;
-                $stay->save();
-                $this->setCheckIn(Carbon::createFromFormat('Y-m-d', $stay->check_in)->format('d-M-Y'));
-                //place visitor in hostel room
-                $roomNumber = HostelBlockRoomNumber::findOrFail($stay->hostel_block_room_number_id);
-                $roomNumber->occupant = $roomNumber->occupant+1;
-                if($roomNumber->occupant == $roomNumber->person_per_room){
-                    $roomNumber->full = true;
-                }
-                $roomNumber->update();
-                $book->update();
+                $this->saveUserHostelVisit($bookingID);
             }else{
-                $book = Booking::findOrFail($bookingID);
-                $book->status = 3;
-
-                $stay = new UserVisit;
-                $stay->user_id = Auth::user()->id;
-                $stay->property_id = $book->property_id;
-                $stay->booking_id = $book->id;
-                $stay->check_in = $book->check_in;
-                $stay->check_out = $book->check_out;
-                $stay->adult = $book->adult;
-                $stay->children = $book->children;
-                $stay->infant = $book->infant;
-                $stay->save();
-                $book->update();
-                $this->setCheckIn(Carbon::createFromFormat('Y-m-d', $stay->check_in)->format('d-M-Y'));
+                $this->saveUserVisit($bookingID);
             }
 
             $wallet = new UserWallet;

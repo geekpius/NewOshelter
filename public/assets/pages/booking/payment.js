@@ -1,9 +1,36 @@
 const paymentForm = document.getElementById('paymentForm');
-paymentForm.addEventListener("submit", payWithPaystack, false);
+paymentForm.addEventListener("submit", isBookingPaid, false);
 
-function payWithPaystack(e) {
+var initialButtonText = document.getElementById("paymentButton").innerText;
+
+function isBookingPaid(e)
+{
   e.preventDefault();
+  let url = $("#paymentForm #paymentButton").data("url");
   document.getElementById("paymentButton").disabled = true;
+  document.getElementById("paymentButton").innerText= "WAITING FOR VERIFICATION.....";
+  $.ajax({
+      url: url,
+      method: 'POST',
+      success: function (resp) {
+        if(resp == 'paid'){
+          swal("Already", "Already paid for this booking.", "success");
+          document.getElementById("paymentButton").disabled = false;
+          document.getElementById("paymentButton").innerText= initialButtonText;
+        }else{
+          payWithPaystack();
+        }
+      },
+      error: function(resp){
+          console.log("something went wrong");
+          document.getElementById("paymentButton").disabled = false;
+          document.getElementById("paymentButton").innerText= initialButtonText;
+      }
+  });
+  return false;
+}
+
+function payWithPaystack() {
   let handler = PaystackPop.setup({
     key: 'pk_test_816a9713c650da936913373b265a690a4948feb3', // Replace with your public key
     email: document.getElementById("email-address").value,
@@ -14,10 +41,9 @@ function payWithPaystack(e) {
     onClose: function(){
         swal("Cancelled", "This transaction was cancelled.", "warning");
         document.getElementById("paymentButton").disabled = false;
+        document.getElementById("paymentButton").innerText= initialButtonText;
     },
     callback: function(response){
-      const initialButtonText = document.getElementById("paymentButton").innerText;
-      document.getElementById("paymentButton").innerText= "WAITING FOR VERIFICATION.....";
         let url = $("#paymentForm").data("url");
         let data = {
             _token: $("#paymentForm input[name='_token']").val(),

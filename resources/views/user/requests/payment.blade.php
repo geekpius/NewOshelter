@@ -72,7 +72,7 @@
                             <input type="hidden" id="totalFee" value="{{ $totalFee }}" required readonly />
                             <input type="hidden" id="referenceId" value="VTB{{ \Carbon\Carbon::parse(now())->format('dmYHis') }}" required readonly />
                             <div class="form-submit">
-                              <button type="submit" onclick="payWithPaystack()" class="btn btn-primary pl-5 pr-5 font-weight-600" id="paymentButton">
+                              <button type="submit" data-url="{{ route('payment.check.hostel', $booking->id) }}" class="btn btn-primary pl-5 pr-5 font-weight-600" id="paymentButton">
                                   PAY NOW {{ $currency }} {{ number_format(($totalFee),2) }}
                               </button>
                             </div>
@@ -155,7 +155,7 @@
                             <input type="hidden" id="totalFee" value="{{ $totalFee }}" required readonly />
                             <input type="hidden" id="referenceId" value="VTB{{ \Carbon\Carbon::parse(now())->format('dmYHis') }}" required readonly />
                             <div class="form-submit">
-                              <button type="submit" onclick="payWithPaystack()" class="btn btn-primary pl-5 pr-5 font-weight-600" id="paymentButton">
+                              <button type="submit" data-url="{{ route('payment.check', $booking->id) }}" class="btn btn-primary pl-5 pr-5 font-weight-600" id="paymentButton">
                                   PAY NOW {{ $currency }} {{ number_format(($totalFee),2) }}
                               </button>
                             </div>

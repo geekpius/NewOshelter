@@ -105,6 +105,8 @@ Route::group(['middleware' => ['verify-email']], function() {
        
         /*------- Payments ------- */
         Route::group(['prefix' => 'payments'], function () {
+            Route::post('/check/{booking}/payment', 'PaymentController@isBookingAlreadyPaid')->name('payment.check');
+            Route::post('/check/{hostelBooking}/hostel/payment', 'PaymentController@isHostelBookingAlreadyPaid')->name('payment.check.hostel');
             Route::post('/verify', 'PaymentController@verifyPayment')->name('payments.verify');
             Route::get('/transaction/success', 'PaymentController@successTrasaction')->name('payment.success');
         });
