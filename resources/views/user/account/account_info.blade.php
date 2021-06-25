@@ -54,7 +54,7 @@
                 <div class="col-sm-6 col-md-8">
                     <div class="card card-bordered-blue">
                         <div class="card-body">
-                            <span class="text-primary">OShelter cares for your privacy. Therefore, we releases contact information of owners and guests after booking is confirmed.</span>
+                            <span class="text-primary">OShelter cares for your privacy. Therefore, we release contact information of owners and guests after booking is confirmed.</span>
                             <hr>
                             <form class="form-horizontal form-material mb-0" id="formProfileUpdate" data-action="{{ route('account.update') }}">
                                 @csrf

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 14, 2021 at 07:38 PM
+-- Generation Time: Jun 24, 2021 at 01:15 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.3.27
 
@@ -59,7 +59,9 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `is_active`, `image`, `role`, `login_time`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin Geek', 'fiifipius@gmail.com', '$2y$10$C5fgKPH/HSQ79J4wiybGVOgILhRN2cCpeyMXn5VFCxiw.leAIVZki', 1, NULL, 'admin', '2021-05-26 11:01:39', '7tOVXmoAgRsNBIGpSCKkKo1fvIrVFWWQYFts8K535Zgp210VI0UWUgBhRzN0', NULL, '2021-05-26 11:01:39');
+(1, 'Admin Geek', 'fiifipius@gmail.com', '$2y$10$C5fgKPH/HSQ79J4wiybGVOgILhRN2cCpeyMXn5VFCxiw.leAIVZki', 1, NULL, 'admin', '2021-06-17 10:25:43', 'wbOMUXHwdA63SBxo5OXjsoHDZsHr9aYaeplgO00hGvyDUAUrEZA1mnVWrjiC', NULL, '2021-06-17 10:25:43'),
+(5, 'pius tweneboah-koduah', 'tk@gmail.com', '$2y$10$TPtljSpV6.DpfDwMePB9jeexnhBqdSmcqPu9MSADqV5jnawlfOjPa', 1, NULL, 'user', '2021-06-24 10:50:09', NULL, '2021-06-24 10:48:10', '2021-06-24 10:50:09'),
+(6, 'pius tweneboah-koduah', 't@gmail.com', '$2y$10$jZXKJM6VrInriwkxFTjw4uB540RxQllqcRHVW3j5fZo3L123nftXy', 1, NULL, 'user', NULL, NULL, '2021-06-24 10:48:46', '2021-06-24 10:48:46');
 
 -- --------------------------------------------------------
 
@@ -80,111 +82,54 @@ CREATE TABLE `admin_activities` (
 --
 
 INSERT INTO `admin_activities` (`id`, `admin_id`, `action`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Room was added', '2020-10-15 11:48:18', '2020-10-15 11:48:18'),
-(2, 1, 'Apartment was added', '2020-10-15 12:01:44', '2020-10-15 12:01:44'),
-(3, 1, 'Store was added', '2020-10-15 12:02:12', '2020-10-15 12:02:12'),
-(4, 1, 'Hostel was added', '2020-10-15 12:03:53', '2020-10-15 12:03:53'),
-(5, 1, 'Apartment was changed to private', '2020-10-15 12:20:11', '2020-10-15 12:20:11'),
-(6, 1, 'Hostel was changed to private', '2020-10-15 12:20:14', '2020-10-15 12:20:14'),
-(7, 1, 'Room was changed to private', '2020-10-15 12:20:18', '2020-10-15 12:20:18'),
-(8, 1, 'Store was changed to private', '2020-10-15 12:20:22', '2020-10-15 12:20:22'),
-(9, 1, 'fiifijava@gmail.com user account added', '2020-11-02 15:41:01', '2020-11-02 15:41:01'),
-(10, 1, 'fiifijava@gmail.com account was blocked', '2020-11-02 15:42:38', '2020-11-02 15:42:38'),
-(11, 1, 'fiifijava@gmail.com account was unblocked', '2020-11-02 15:42:55', '2020-11-02 15:42:55'),
-(12, 1, 'fiifijava@gmail.com was deleted', '2020-11-02 15:43:24', '2020-11-02 15:43:24'),
-(13, 1, 'Apartment was changed to private', '2020-11-27 16:09:59', '2020-11-27 16:09:59'),
-(14, 1, 'Hostel was changed to private', '2020-11-27 16:10:04', '2020-11-27 16:10:04'),
-(15, 1, 'Room was changed to private', '2020-11-27 16:10:10', '2020-11-27 16:10:10'),
-(16, 1, 'Store was changed to private', '2020-11-27 16:10:15', '2020-11-27 16:10:15'),
-(17, 1, 'Store was changed to public', '2020-11-27 16:30:03', '2020-11-27 16:30:03'),
-(18, 1, 'Room was changed to public', '2020-11-27 16:30:07', '2020-11-27 16:30:07'),
-(19, 1, 'Hostel was changed to public', '2020-11-27 16:30:10', '2020-11-27 16:30:10'),
-(20, 1, 'Apartment was changed to public', '2020-11-27 16:30:15', '2020-11-27 16:30:15'),
-(21, 1, 'Room was changed to private', '2020-11-27 16:30:21', '2020-11-27 16:30:21'),
-(22, 1, 'Room was changed to public', '2020-11-27 16:30:34', '2020-11-27 16:30:34'),
-(23, 1, 'Room was changed to private', '2020-11-27 16:30:40', '2020-11-27 16:30:40'),
-(24, 1, 'Apartment was changed to private', '2020-11-27 16:31:30', '2020-11-27 16:31:30'),
-(25, 1, 'Hostel was changed to private', '2020-11-27 16:31:33', '2020-11-27 16:31:33'),
-(26, 1, 'Store was changed to private', '2020-11-27 16:31:37', '2020-11-27 16:31:37'),
-(27, 1, 'Hostel was changed to public', '2020-11-27 16:31:45', '2020-11-27 16:31:45'),
-(28, 1, 'Hostel was changed to private', '2020-12-14 11:19:26', '2020-12-14 11:19:26'),
-(29, 1, 'Store was changed to public', '2020-12-14 11:19:49', '2020-12-14 11:19:49'),
-(30, 1, 'House was added', '2020-12-15 08:53:48', '2020-12-15 08:53:48'),
-(31, 1, 'House was changed to public', '2020-12-15 08:55:40', '2020-12-15 08:55:40'),
-(32, 1, 'Added new document type general - Your Account', '2021-01-21 14:57:33', '2021-01-21 14:57:33'),
-(33, 1, 'Edited document type general - Your Account', '2021-01-21 15:01:25', '2021-01-21 15:01:25'),
-(34, 1, 'Edited document type general - Your Accounts', '2021-01-21 15:03:02', '2021-01-21 15:03:02'),
-(35, 1, 'Edited document type general - Your Account', '2021-01-21 15:03:16', '2021-01-21 15:03:16'),
-(36, 1, 'Added new document General Help - Your Account', '2021-01-21 15:13:51', '2021-01-21 15:13:51'),
-(37, 1, 'Edited document General Help - Your Account', '2021-01-21 15:24:40', '2021-01-21 15:24:40'),
-(38, 1, 'Added new currency United States Dollar', '2021-01-21 16:50:36', '2021-01-21 16:50:36'),
-(39, 1, 'Updated currency United States Dollar', '2021-01-21 17:05:29', '2021-01-21 17:05:29'),
-(40, 1, 'Updated currency United States Dollar', '2021-01-21 17:05:36', '2021-01-21 17:05:36'),
-(41, 1, 'Deleted currency United States Dollar', '2021-01-21 17:07:02', '2021-01-21 17:07:02'),
-(42, 1, 'Deleted currency Ghana Cedis', '2021-01-21 17:07:05', '2021-01-21 17:07:05'),
-(43, 1, 'Added new currency Ghana Cedis', '2021-01-21 17:07:21', '2021-01-21 17:07:21'),
-(44, 1, 'Added new currency United States Dollar', '2021-01-21 17:07:26', '2021-01-21 17:07:26'),
-(45, 1, 'Added new document type general - Your Account', '2021-01-25 14:27:53', '2021-01-25 14:27:53'),
-(46, 1, 'Deleted document type General Help - Your Account', '2021-01-25 14:27:58', '2021-01-25 14:27:58'),
-(47, 1, 'Added new document General Help - Your Account', '2021-01-25 14:31:01', '2021-01-25 14:31:01'),
-(48, 1, 'Added new document General Help - Your Account', '2021-01-25 14:33:04', '2021-01-25 14:33:04'),
-(49, 1, 'Added new document General Help - Your Account', '2021-01-25 14:34:01', '2021-01-25 14:34:01'),
-(50, 1, 'Added new document General Help - Account', '2021-01-25 15:55:50', '2021-01-25 15:55:50'),
-(51, 1, 'Added new document General Help - Account', '2021-01-25 15:56:22', '2021-01-25 15:56:22'),
-(52, 1, 'Added new document General Help - Account', '2021-01-25 15:56:49', '2021-01-25 15:56:49'),
-(53, 1, 'Added new document General Help - Account', '2021-01-25 15:57:00', '2021-01-25 15:57:00'),
-(54, 1, 'Added new document type general - Notifications', '2021-01-26 09:45:12', '2021-01-26 09:45:12'),
-(55, 1, 'Added new document General Help - Notifications', '2021-01-26 09:45:53', '2021-01-26 09:45:53'),
-(56, 1, 'Added new help category general - Your Account', '2021-01-26 10:58:32', '2021-01-26 10:58:32'),
-(57, 1, 'Added new help category general - About Oshelter', '2021-01-26 10:59:54', '2021-01-26 10:59:54'),
-(58, 1, 'Added new help category general - Your Account', '2021-01-26 11:00:09', '2021-01-26 11:00:09'),
-(59, 1, 'Added new help category general - Terms And Policies', '2021-01-26 11:00:33', '2021-01-26 11:00:33'),
-(60, 1, 'Added new help category general - About Oshelter', '2021-01-26 11:05:46', '2021-01-26 11:05:46'),
-(61, 1, 'Added new help category general - Your Account', '2021-01-26 11:05:57', '2021-01-26 11:05:57'),
-(62, 1, 'Added new help category general - Terms And Policies', '2021-01-26 11:06:07', '2021-01-26 11:06:07'),
-(63, 1, 'Edited help category general - Your Accounts', '2021-01-26 11:28:10', '2021-01-26 11:28:10'),
-(64, 1, 'Edited help category general - Your Account', '2021-01-26 11:29:18', '2021-01-26 11:29:18'),
-(65, 1, 'Edited help category general - Your Account', '2021-01-26 11:29:25', '2021-01-26 11:29:25'),
-(66, 1, 'Edited help category general - Your Account', '2021-01-26 11:29:30', '2021-01-26 11:29:30'),
-(67, 1, 'Edited help category general - Your Account', '2021-01-26 11:30:08', '2021-01-26 11:30:08'),
-(68, 1, 'Edited help category general - Your Accounts', '2021-01-26 11:30:53', '2021-01-26 11:30:53'),
-(69, 1, 'Edited help category general - Your Account', '2021-01-26 11:31:00', '2021-01-26 11:31:00'),
-(70, 1, 'Added new help topic About Oshelter - Getting started', '2021-01-26 12:24:44', '2021-01-26 12:24:44'),
-(71, 1, 'Added new help topic About Oshelter - Getting started', '2021-01-26 12:25:14', '2021-01-26 12:25:14'),
-(72, 1, 'Added new help topic About Oshelter - How oshelter works', '2021-01-26 12:26:23', '2021-01-26 12:26:23'),
-(73, 1, 'Edited help topic About Oshelter - How Oshelter work', '2021-01-26 12:48:21', '2021-01-26 12:48:21'),
-(74, 1, 'Edited help topic About Oshelter - How Oshelter works', '2021-01-26 12:48:42', '2021-01-26 12:48:42'),
-(75, 1, 'Added new help topic About Oshelter - Messaging', '2021-01-26 12:50:16', '2021-01-26 12:50:16'),
-(76, 1, 'Added new help topic About Oshelter - Our clients', '2021-01-26 12:50:58', '2021-01-26 12:50:58'),
-(77, 1, 'Edited help topic About Oshelter - Our clients and partners', '2021-01-26 12:51:12', '2021-01-26 12:51:12'),
-(78, 1, 'Added new help topic Your Account - Creating an account', '2021-01-26 12:51:59', '2021-01-26 12:51:59'),
-(79, 1, 'Added new help topic Your Account - Managing your account', '2021-01-26 12:52:28', '2021-01-26 12:52:28'),
-(80, 1, 'Added new help topic Your Account - Account security', '2021-01-26 12:52:50', '2021-01-26 12:52:50'),
-(81, 1, 'Added new help topic Your Account - Verification', '2021-01-26 12:53:07', '2021-01-26 12:53:07'),
-(82, 1, 'Added new help question Getting started - How do I create an account?', '2021-01-26 15:27:15', '2021-01-26 15:27:15'),
-(83, 1, 'Added new help question Getting started - Who can own a property on Oshelter?', '2021-01-26 15:27:54', '2021-01-26 15:27:54'),
-(84, 1, 'Added new help question How Oshelter works - How do I contact Oshelter?', '2021-01-26 15:30:34', '2021-01-26 15:30:34'),
-(85, 1, 'Added new help question How Oshelter works - How do I send feedback to Oshelter?', '2021-01-26 15:31:20', '2021-01-26 15:31:20'),
-(86, 1, 'Edited help question How Oshelter works - How do I contact Oshelter?', '2021-01-26 15:55:27', '2021-01-26 15:55:27'),
-(87, 1, 'Edited help question How Oshelter works - How do I contact Oshelter?', '2021-01-26 15:55:32', '2021-01-26 15:55:32'),
-(88, 1, 'Edited help question How Oshelter works - How do I contact Oshelter?', '2021-01-26 15:55:53', '2021-01-26 15:55:53'),
-(89, 1, 'Added new help question How Oshelter works - How do I send feedback to Oshelter?', '2021-01-28 10:24:13', '2021-01-28 10:24:13'),
-(90, 1, 'Edited help question How Oshelter works - How do I send feedback to Oshelter?', '2021-01-28 10:28:37', '2021-01-28 10:28:37'),
-(91, 1, 'Edited help question How Oshelter works - How do I send feedback to Oshelter?', '2021-01-28 10:28:47', '2021-01-28 10:28:47'),
-(92, 1, 'Added new help category owner - About Listing', '2021-02-05 13:58:07', '2021-02-05 13:58:07'),
-(93, 1, 'Added new help category owner - Managing Your Listing', '2021-02-05 13:58:56', '2021-02-05 13:58:56'),
-(94, 1, 'Added new help topic About Listing - Preparing for owning', '2021-02-05 13:59:35', '2021-02-05 13:59:35'),
-(95, 1, 'Added new help topic About Listing - How to own', '2021-02-05 14:00:10', '2021-02-05 14:00:10'),
-(96, 1, 'Added new help question Preparing for owning - What are Oshelter\'s requirements to own property?', '2021-02-05 14:01:44', '2021-02-05 14:01:44'),
-(97, 1, 'Added new help question Preparing for owning - How can I prepare to own?', '2021-02-05 14:02:24', '2021-02-05 14:02:24'),
-(98, 1, 'Added new help question How to own - What is owner assist and how do I sign up?', '2021-02-05 14:04:53', '2021-02-05 14:04:53'),
-(99, 1, 'Added new help question How to own - What is owner?', '2021-02-05 14:05:12', '2021-02-05 14:05:12'),
-(102, 1, 'Rent charges added - Charge(5%) Discount(0%)', '2021-04-10 20:13:58', '2021-04-10 20:13:58'),
-(103, 1, 'Rent charges updated - Charge(5%) Discount(0%)', '2021-04-10 20:20:09', '2021-04-10 20:20:09'),
-(104, 1, 'Short Stay charges added - Charge(5%) Discount(0%)', '2021-04-10 20:20:30', '2021-04-10 20:20:30'),
-(105, 1, 'Sale charges added - Charge(5%) Discount(0%)', '2021-04-10 20:20:40', '2021-04-10 20:20:40'),
-(106, 1, 'Short Stay charges updated - Charge(8%) Discount(0%)', '2021-04-10 20:20:48', '2021-04-10 20:20:48'),
-(107, 1, 'Short Stay charges updated - Charge(6%) Discount(0%)', '2021-04-10 20:20:57', '2021-04-10 20:20:57');
+(1, 1, 'Added new help category general - About Oshelter', '2021-06-17 16:09:46', '2021-06-17 16:09:46'),
+(2, 1, 'Added new help topic About Oshelter - Getting started', '2021-06-17 16:10:12', '2021-06-17 16:10:12'),
+(3, 1, 'Added new help question Getting started - How do I create an account?', '2021-06-17 16:10:55', '2021-06-17 16:10:55'),
+(4, 1, 'Edited help question Getting started - How do I create an account?', '2021-06-17 16:11:00', '2021-06-17 16:11:00'),
+(5, 1, 'Added new help question Getting started - Can I sign up with my social media account?', '2021-06-17 16:12:45', '2021-06-17 16:12:45'),
+(6, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 16:58:53', '2021-06-17 16:58:53'),
+(7, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:15:10', '2021-06-17 17:15:10'),
+(8, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:17:23', '2021-06-17 17:17:23'),
+(9, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:18:04', '2021-06-17 17:18:04'),
+(10, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:21:21', '2021-06-17 17:21:21'),
+(11, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:21:34', '2021-06-17 17:21:34'),
+(12, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:21:39', '2021-06-17 17:21:39'),
+(13, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:21:56', '2021-06-17 17:21:56'),
+(14, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:22:06', '2021-06-17 17:22:06'),
+(15, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:27:44', '2021-06-17 17:27:44'),
+(16, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:31:49', '2021-06-17 17:31:49'),
+(17, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:32:10', '2021-06-17 17:32:10'),
+(18, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:34:13', '2021-06-17 17:34:13'),
+(19, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:34:46', '2021-06-17 17:34:46'),
+(20, 1, 'Sent auction invitation to Theresa Ohenewaa of Oterdola Full Home', '2021-06-17 17:35:15', '2021-06-17 17:35:15'),
+(21, 1, 'tk@gmail.com user account added', '2021-06-24 10:43:17', '2021-06-24 10:43:17'),
+(22, 1, 'tk@gmail.com user account added', '2021-06-24 10:45:54', '2021-06-24 10:45:54'),
+(23, 1, 'fiius@gmail.co user account added', '2021-06-24 10:46:59', '2021-06-24 10:46:59'),
+(24, 1, 'tk@gmail.com user account added', '2021-06-24 10:48:10', '2021-06-24 10:48:10'),
+(25, 1, 't@gmail.com user account added', '2021-06-24 10:48:46', '2021-06-24 10:48:46');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auction_events`
+--
+
+CREATE TABLE `auction_events` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `property_id` int(10) UNSIGNED NOT NULL,
+  `owner_id` int(10) UNSIGNED NOT NULL,
+  `status` int(11) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `auction_events`
+--
+
+INSERT INTO `auction_events` (`id`, `user_id`, `property_id`, `owner_id`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 8, 1, 2, '2021-06-16 13:21:58', '2021-06-17 17:21:21');
 
 -- --------------------------------------------------------
 
@@ -417,6 +362,13 @@ CREATE TABLE `help_categories` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `help_categories`
+--
+
+INSERT INTO `help_categories` (`id`, `category`, `topic`, `topic_slug`, `created_at`, `updated_at`) VALUES
+(1, 'general', 'About Oshelter', 'about-oshelter', '2021-06-17 16:09:46', '2021-06-17 16:09:46');
+
 -- --------------------------------------------------------
 
 --
@@ -434,6 +386,14 @@ CREATE TABLE `help_questions` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `help_questions`
+--
+
+INSERT INTO `help_questions` (`id`, `help_topic_id`, `question`, `question_slug`, `answer`, `is_popular`, `created_at`, `updated_at`) VALUES
+(1, 1, 'How do I create an account?', 'how-do-i-create-an-account', 'To create an account go to', 1, '2021-06-17 16:10:55', '2021-06-17 16:10:55'),
+(2, 1, 'Can I sign up with my social media account?', 'can-i-sign-up-with-my-social-media-account', 'To sign up do this', 1, '2021-06-17 16:12:44', '2021-06-17 16:12:44');
+
 -- --------------------------------------------------------
 
 --
@@ -448,6 +408,13 @@ CREATE TABLE `help_topics` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `help_topics`
+--
+
+INSERT INTO `help_topics` (`id`, `help_category_id`, `topic_name`, `topic_name_slug`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Getting started', 'getting-started', '2021-06-17 16:10:12', '2021-06-17 16:10:12');
 
 -- --------------------------------------------------------
 
@@ -1439,9 +1406,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `phone`, `account_type`, `is_active`, `image`, `email_verification_token`, `email_verification_expired_at`, `verify_email`, `verify_email_time`, `sms_verification_token`, `verify_sms`, `verify_sms_time`, `is_id_verified`, `login_time`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'fiifi pius', 'fiifipius@gmail.com', '$2y$10$OWs2Uutg7RoxheWPazEnU.5WlMRPedSayEdY9uhtfeD1a2bs5HjTK', '0542398441', 'owner', 1, '123d1bbf7c8196420c070a167ab7027e697409fca.jpeg', '60522224', '2021-04-10 20:58:51', 1, '2021-03-22 10:59:29', NULL, 0, NULL, 1, '2021-06-10 16:15:14', 'MxPDatYtH31VNUD1DADRhwCmRo4wk7k8gsoxkulTEAMmUbyFOvma18iNpzdh', '2021-03-22 10:59:10', '2021-06-10 16:15:14', NULL),
-(2, 'theresa ohenewaa', 'theresa@gmail.com', '$2y$10$Yqj5zOGbdCvYp62uXlhyjeU3IRjko4Gm8HkA8Sru.Xhqmk.3.g6R6', '0507791393', 'visitor', 1, '281c4498c193a3ab60d0cf6d9f1ab4af17344c1a9.jpg', '08392336', '2021-03-22 12:24:14', 1, '2021-03-22 11:24:28', '9075', 1, '2021-06-10 12:25:34', 1, '2021-06-14 11:52:47', 'D5LPUYB2U16q4N5JNBJLXiudc2MFWijwaYLx9Nklu87m8PyGJt4I2OCUTDJQ', '2021-03-22 11:24:14', '2021-06-14 11:52:47', NULL),
-(4, 'geek pius', 'fiifijava@gmail.com', '$2y$10$MlHljWab8JH75XguYBmCquePYCYtWKyviZobf/EjLyIwUNsMNV.DC', '0542398442', 'visitor', 1, NULL, '54812703', '2021-04-13 13:09:59', 1, NULL, '0114', 1, NULL, 1, '2021-04-13 12:09:59', 'VBwFGjcTIF42SVSSnUNWY6A9cHQ00tSB3cH444pzHs1Uokdq8gBGyarOxfvA', '2021-04-13 12:09:59', '2021-04-16 12:57:38', NULL);
+(1, 'fiifi pius', 'fiifipius@gmail.com', '$2y$10$OWs2Uutg7RoxheWPazEnU.5WlMRPedSayEdY9uhtfeD1a2bs5HjTK', '0542398441', 'owner', 1, '123d1bbf7c8196420c070a167ab7027e697409fca.jpeg', '60522224', '2021-04-10 20:58:51', 1, '2021-03-22 10:59:29', NULL, 0, NULL, 0, '2021-06-15 15:32:49', 'xIogbNqqzH4ficDCqbxW7HOBViiuY6C8FagXXxI8XDaIiyIU38XT8zRl869O', '2021-03-22 10:59:10', '2021-06-16 18:26:09', NULL),
+(2, 'theresa ohenewaa', 'theresa@gmail.com', '$2y$10$Yqj5zOGbdCvYp62uXlhyjeU3IRjko4Gm8HkA8Sru.Xhqmk.3.g6R6', '0507791393', 'visitor', 1, '281c4498c193a3ab60d0cf6d9f1ab4af17344c1a9.jpg', '08392336', '2021-03-22 12:24:14', 1, '2021-03-22 11:24:28', '0675', 1, '2021-06-15 11:25:21', 1, '2021-06-16 11:15:52', '3pRmCrKDxEh1gdpM49BdHYymP9hNIGmvl22qVCKjAavqM1NX80i43xeWtcJl', '2021-03-22 11:24:14', '2021-06-16 18:27:54', NULL),
+(4, 'geek pius', 'fiifijava@gmail.com', '$2y$10$MlHljWab8JH75XguYBmCquePYCYtWKyviZobf/EjLyIwUNsMNV.DC', '0542398442', 'visitor', 1, NULL, '54812703', '2021-04-13 13:09:59', 1, NULL, '0114', 1, NULL, 1, '2021-04-13 12:09:59', 'VBwFGjcTIF42SVSSnUNWY6A9cHQ00tSB3cH444pzHs1Uokdq8gBGyarOxfvA', '2021-04-13 12:09:59', '2021-06-16 18:31:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -1600,7 +1567,7 @@ CREATE TABLE `user_profiles` (
 --
 
 INSERT INTO `user_profiles` (`id`, `user_id`, `gender`, `dob`, `marital_status`, `city`, `country`, `occupation`, `emergency`, `id_front`, `id_number`, `id_type`, `created_at`, `updated_at`) VALUES
-(1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'GHA-0123456789-0', 'national', '2021-03-22 15:36:48', '2021-03-22 15:36:56'),
+(1, 2, 'female', '2021-06-16', 'single', 'accra', NULL, 'graphic designer', '0542398441', NULL, 'GHA-0123456789-0', 'national', '2021-03-22 15:36:48', '2021-06-16 13:19:12'),
 (2, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1f1b39f8d15d2f7b9ed2c607f0ccc326c0bb40208.jpg', 'GHA-0123456789-0', 'national', '2021-03-22 16:54:07', '2021-04-08 19:03:04'),
 (4, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '426964bd3ddb322d18b82b9aa1ce26438037a6997.png', '1455475547', 'voter', '2021-04-13 12:10:58', '2021-04-13 12:11:06');
 
@@ -1715,6 +1682,15 @@ ALTER TABLE `admins`
 ALTER TABLE `admin_activities`
   ADD PRIMARY KEY (`id`),
   ADD KEY `admin_activities_admin_id_index` (`admin_id`);
+
+--
+-- Indexes for table `auction_events`
+--
+ALTER TABLE `auction_events`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `property_id` (`property_id`),
+  ADD KEY `owner_id` (`owner_id`);
 
 --
 -- Indexes for table `bank_withdraws`
@@ -2131,13 +2107,19 @@ ALTER TABLE `withdraws`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `admin_activities`
 --
 ALTER TABLE `admin_activities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `auction_events`
+--
+ALTER TABLE `auction_events`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `bank_withdraws`
@@ -2197,19 +2179,19 @@ ALTER TABLE `extension_transactions`
 -- AUTO_INCREMENT for table `help_categories`
 --
 ALTER TABLE `help_categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `help_questions`
 --
 ALTER TABLE `help_questions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `help_topics`
 --
 ALTER TABLE `help_topics`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `hostel_block_rooms`
@@ -2466,6 +2448,14 @@ ALTER TABLE `withdraws`
 --
 ALTER TABLE `admin_activities`
   ADD CONSTRAINT `admin_activities_admin_id_foreign` FOREIGN KEY (`admin_id`) REFERENCES `admins` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `auction_events`
+--
+ALTER TABLE `auction_events`
+  ADD CONSTRAINT `auction_events_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `auction_events_ibfk_2` FOREIGN KEY (`property_id`) REFERENCES `properties` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `auction_events_ibfk_3` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `bank_withdraws`
