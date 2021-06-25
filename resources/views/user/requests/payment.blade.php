@@ -12,6 +12,7 @@
         </p>
         <div class="pt-4">
             <div class="row">
+                
                 @if ($booking->property->type == 'hostel')
                 <div class="col-sm-8">
                     <div class="card">
@@ -21,7 +22,7 @@
                                 <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->owner->name }}" class="thumb-sm rounded-circle mr-1" />
                                 This {{ $booking->property->type }} belongs to {{ current(explode(' ',$booking->owner->name))}}. Other people like it.
                             </p>
-                            <div class="text-primary font-12"><a href="#" class="text-decoration-none" id="viewLocation">View property location</a></div>
+                            <div class="text-primary font-12"><a href="#" class="text-decoration-none" id="viewLocation" data-text="{{ $booking->property->title }}" data-link="{{ route('property.preview', $booking->property->id) }}" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}">View property location</a></div>
                             @php
                                 $from = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_in);
                                 $to = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_out);
@@ -94,6 +95,7 @@
                                 <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $booking->owner->name }}" class="thumb-sm rounded-circle mr-1" />
                                 This {{ $booking->property->type }} belongs to {{ current(explode(' ',$booking->owner->name))}}. Other people like it.
                             </p>
+                            <div class="text-primary font-12"><a href="#" class="text-decoration-none" id="viewLocation" data-text="{{ $booking->property->title }}" data-link="https://www.google.com/maps/place/{{ $booking->property->propertyLocation->latitude }},{{ $booking->property->propertyLocation->longitude }}" data-title="{{ $booking->property->propertyLocation->location }}" data-lat="{{ $booking->property->propertyLocation->latitude }}" data-lng="{{ $booking->property->propertyLocation->longitude }}"><i class="fa fa-map"></i> View property location</a></div>
                             @php
                                 if ($booking->property->type_status == 'rent') {
                                     $from = \Carbon\Carbon::createFromFormat('Y-m-d', $booking->check_in);
@@ -173,6 +175,23 @@
         </div>
     </div>    
 </div>
+<!-- id modal -->
+<div id="locationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="locationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-heading pl-5 mb-2">
+                <a href="javascript:void(0);" class="float-right mr-5 btnShare"><i class="fa fa-share-alt-square fa-lg"></i></a>
+                <h6 class="modal-title"></h6>
+            </div>
+            <div class="modal-body">
+                <div id="gmaps-markers" class="gmaps1"></div>        
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->  
 @endsection
 
 @section('scripts')
