@@ -92,7 +92,7 @@ class PaymentController extends Controller
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
-            "Authorization: Bearer sk_test_ee00381ccce25247856e9620cd6a73b0ef7c6b22",
+            "Authorization: Bearer sk_live_00327e2757a1b063f0abc65f97e60b3f0d6ce8cb",
             "Cache-Control: no-cache",
             ),
         ));

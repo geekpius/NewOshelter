@@ -32,11 +32,11 @@ function isBookingPaid(e)
 
 function payWithPaystack() {
   let handler = PaystackPop.setup({
-    key: 'pk_test_816a9713c650da936913373b265a690a4948feb3', // Replace with your public key
+    key: 'pk_live_4d7325b6362be020eb9ff78f77f82abfcb5fc435', 
     email: document.getElementById("email-address").value,
     amount: parseFloat(document.getElementById("totalFee").value) * 100,
-    currency: document.getElementById("userCurrency").value, // Use GHS for Ghana Cedis or USD for US Dollars
-    ref: document.getElementById("referenceId").value, // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+    currency: document.getElementById("userCurrency").value, 
+    ref: document.getElementById("referenceId").value,
     // label: "Optional string that replaces customer email"
     onClose: function(){
         swal("Cancelled", "This transaction was cancelled.", "warning");
