@@ -7,6 +7,54 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="{{ asset('assets/light/css/owl.carousel.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/light/css/owl.theme.default.min.css') }}">
+<style>
+    .iframe-view {
+        height: 649px; 
+        width: 930px;
+    }
+    @media (max-width: 2560px) {
+        .iframe-view {
+            height: 649px; 
+            width: 1330px;
+        }
+    }
+    @media (max-width: 1440px) {
+        .iframe-view {
+            height: 649px; 
+            width: 730px;
+        }
+    }
+    @media (max-width: 1024px) {
+        .iframe-view {
+            height: 649px; 
+            width: 530px;
+        }
+    }
+    @media (max-width: 768px) {
+        .iframe-view {
+            height: 449px; 
+            width: 390px;
+        }
+    }
+    @media (max-width: 425px) {
+        .iframe-view {
+            height: 349px; 
+            width: 430px;
+        }
+    }
+    @media (max-width: 375px) {
+        .iframe-view {
+            height: 349px; 
+            width: 375px;
+        }
+    }
+    @media (max-width: 320px) {
+        .iframe-view {
+            height: 349px; 
+            width: 330px;
+        }
+    }
+</style>
 @endsection
 
 @section('content')
@@ -59,7 +107,7 @@
             @else
                 <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
                     <a href="{{ asset('assets/images/properties/'.$image->image) }}" itemprop="contentUrl" data-size="1020x659" class="pxp-cover">
-                        <iframe  width="930" height="649" src="{{ $property->propertyVideo->video_url }}" frameborder="0" allowfullscreen></iframe>
+                        <iframe class="iframe-view" src="{{ $property->propertyVideo->video_url }}" frameborder="0" allowfullscreen></iframe>
                     </a>    
                 </figure>
             @endif
