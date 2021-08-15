@@ -238,8 +238,11 @@
     
     <div class="pxp-services pxp-cover mt-100 pt-100 mb-200" style="background-image: url({{ asset('assets/light/images/services-h-fig.jpg') }});">
         <h2 class="text-center pxp-section-h2">Why Choose Us</h2>
-        <p class="pxp-text-light text-center">We offer perfect real estate services</p>
-
+        
+            <div class="col-sm-4 offset-sm-4">
+                <p class="pxp-text-light text-center">At OShelter, our aim is to be one of the consistently best performing Real Estate platforms in the Real Estate market. In this respect, we maintain a responsible front in the commercial Real Estate business here in Ghana and the world at large. We prioritize our clients to success and ensure our major stakeholders hold them in the highest value. Our years of expertise and research affords our clients credible and professional assistance to make the right decisions that accrue to their profit.</p>
+            </div>
+            
         <div class="container">
             <div class="pxp-services-container rounded-lg mt-4 mt-md-5">
                 <a href="#" class="pxp-services-item">
@@ -248,7 +251,7 @@
                     </div>
                     <div class="pxp-services-item-text text-center">
                         <div class="pxp-services-item-text-title">Find your future home</div>
-                        <div class="pxp-services-item-text-sub">We help you find a new home by offering<br>a smart real estate experience</div>
+                        <div class="pxp-services-item-text-sub">Own the key to your dream homes now. OShelter has got you covered with the best and assured accommodations, be it houses to buy or sell, apartments to let, hostels to rent etc. We make finding homes stress-free and convenient for our clients.</div>
                     </div>
                     <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
                 </a>
@@ -293,7 +296,7 @@
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="pxp-cta-1-caption pxp-animate-in rounded-lg">
                         <h2 class="pxp-section-h2">Search Smarter, From Anywhere</h2>
-                        <p class="pxp-text-light">Power your search with our OShelter real estate platform, for timely listings and a seamless experience.</p>
+                        <p class="pxp-text-light">Power your search on our Oshelter platform for timely listings and a seamless experience. You can log on from any part of the world as a visitor when in need of a home or as an owner when you want to let out a home. The system is accessible on any electronic device with user friendly features.</p>
                         {{-- <a href="#" class="pxp-primary-cta text-uppercase mt-3 mt-md-5 pxp-animate">Search Now</a> --}}
                     </div>
                 </div>

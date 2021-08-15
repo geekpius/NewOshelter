@@ -157,18 +157,8 @@
                 <div class="pxp-single-property-section mt-4">
                     <h3>Overview</h3>
                     <div class="mt-3 mt-md-4">
-                        {{-- <p>@if ($property->type!='hostel') {{ ucfirst(strtolower($property->propertyContain->furnish)) }}. @endif Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. 
-                            This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every 
-                            room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is
-                            <span class="pxp-dots">...</span><span class="pxp-dots-more"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features 
-                                include rich herringbone floors, crown moldings and coffered ceilings throughout the apartment. 1049 5th Avenue is a classic pre-war building located across from Central Park, the 
-                                reservoir and The Metropolitan Museum. Elegant lobby and 24 hours doorman. This is a pet-friendly building.                           
-                            Conveniently located close to several trendy fitness centers like Equinox, New York Sports Clubs & Crunch. Fine restaurants around the area, as well as top-ranked schools. 2% Flip tax paid by buyer to 
-                            the condominium. Building just put an assessment for 18 months of approximately $500 per month.</span>
-                        </p>
-                            <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1 text-primary">Continue Reading <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2 text-primary">Show Less <span class="fa fa-angle-up"></span></span></a>      --}}
                         <p>
-                            {{ $property->propertyDescription->description }}
+                            {!! $property->propertyDescription->description !!}
                         </p>
                     </div>
 

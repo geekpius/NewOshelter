@@ -90,7 +90,7 @@
                     <h3>Overview</h3>
                     <div class="mt-3 mt-md-4">
                         <p>
-                            {{ $property->propertyDescription->description }}
+                            {!! $property->propertyDescription->description !!}
                         </p>
                     </div>
 
@@ -266,9 +266,9 @@
                     <div class="card card-bordered-pink">
                         <div class="card-body" style="padding-left:10px !important; padding-right:10px !important;">
                             <h6 class="text-center text-primary">Book for the action event</h6>
-                            <span><strong>Date:</strong> {{ $property->propertyAuctionSchedule->auctionDate()?? '' }}</span>
+                            <span><strong>Date:</strong> {{ $property->propertyAuctionSchedule->auctionDate()?? 'Not Set' }}</span>
                             <br>
-                            <span><strong>Time:</strong> {{ $property->propertyAuctionSchedule->auctionTime()?? '' }}</span>
+                            <span><strong>Time:</strong> {{ $property->propertyAuctionSchedule->auctionTime()?? 'Not Set' }}</span>
                             <form class="form-horizontal form-material mb-0" id="formEvent" method="POST" action="{{ route('property.event.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
@@ -277,7 +277,7 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnEvent"><i class="fas fa-pen"></i> Book Event</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnEvent" {{$property->propertyAuctionSchedule->auctionDate()?? 'disabled'}}><i class="fas fa-pen"></i> Book Event</button>
                                         </div>
                                     </div>
                                 </div>

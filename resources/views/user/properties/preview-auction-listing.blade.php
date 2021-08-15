@@ -78,7 +78,7 @@
                     <h3>Overview</h3>
                     <div class="mt-3 mt-md-4">
                         <p>
-                            {{ $property->propertyDescription->description }}
+                            {!! $property->propertyDescription->description !!}
                         </p>
                     </div>
 

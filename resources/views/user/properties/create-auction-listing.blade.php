@@ -278,7 +278,7 @@
                                                     </div>
                                                     <div class="form-group validate">
                                                         <label for="description"><span class="text-primary">A description of your property</span></label>
-                                                        <textarea class="form-control" name="description" rows="5" maxlength="1000" id="description" placeholder="Write descriptions about room decor, furniture, nearby things, how conducive the environment is. Just make it simple">{{ empty($property->propertyDescription->description)? '':$property->propertyDescription->description }}</textarea>
+                                                        <textarea class="form-control" name="description" rows="5" maxlength="1000" id="description" placeholder="Write descriptions about room decor, furniture, nearby things, how conducive the environment is. Just make it simple">{{ empty($property->propertyDescription->description)? ' ':$property->propertyDescription->description }}</textarea>
                                                         <small id="myDescriptionCharacters" class="form-text text-muted">1000 characters remaining</small>
                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                     </div>
@@ -455,6 +455,8 @@
 <script src="{{ asset('assets/wizard/ace.min.js') }}"></script>
 <script src="{{ asset('assets/wizard/ace-elements.min.js') }}"></script>
 <script src="{{ asset('assets/wizard/wizard.min.js') }}"></script>
+<!--Wysiwig js-->
+<script src="{{ asset('assets/plugins/tinymce/tinymce.min.js') }}"></script>
 <!-- Gmaps file -->
 <script src="{{ asset('assets/plugins/gmaps/gmaps.min.js') }}"></script>
 <!-- demo codes -->
@@ -530,7 +532,7 @@
             }
             else if(info.step == 5){
                 var valid = true;
-                $('#formSchedule input').each(function() {
+                $('#formSchedule input:text').each(function() {
                     var $this = $(this);
                     
                     if(!$this.val()) {
@@ -611,22 +613,23 @@
 
 
     //check remaining characters
-    var maxNumber = 1000;
-    var counter = $("#description").val().length;
-    maxNumber=maxNumber-counter;
-    $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
+    // var maxNumber = 1000;
+    // var counter = $("#description").val().length;
+    // maxNumber=maxNumber-counter;
+    // $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
 
-    $("#description").on("input", function(){
-        var maxNumber = 1000;
-        var $this = $(this);
-        if($this.val()!=""){
-            var counter = $this.val().length;
-            maxNumber=maxNumber-counter;
-            $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
-        }else{
-            $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
-        }
-    });
+    // $("#description").on("input", function(){
+    //     var maxNumber = 1000;
+    //     var $this = $(this);
+    //     if($this.val()!=""){
+    //         var counter = $this.val().length;
+    //         maxNumber=maxNumber-counter;
+    //         $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
+    //     }else{
+    //         $("#myDescriptionCharacters").text(maxNumber.toString()+" characters remaining");
+    //     }
+    // });
+
 
     @if(!empty($property))
         @if($property->type!='hostel')
@@ -668,5 +671,33 @@
         }
         return true;
     }
+
+
+    $(document).ready(function () {
+        if($("#formDescriptions textarea[name='description']").length > 0){
+            tinymce.init({
+                selector: "textarea#description",
+                theme: "modern",
+                height:200,
+                plugins: [
+                    "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                    "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                    "save table contextmenu directionality emoticons template paste textcolor"
+                ],
+                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
+                style_formats: [
+                    {title: 'Bold text', inline: 'b'},
+                    {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+                    {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+                    {title: 'Example 1', inline: 'span', classes: 'example1'},
+                    {title: 'Example 2', inline: 'span', classes: 'example2'},
+                    {title: 'Table styles'},
+                    {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+                ]
+            });
+            
+            
+        }
+    });
 </script>
 @endsection

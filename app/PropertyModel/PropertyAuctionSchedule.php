@@ -25,11 +25,11 @@ class PropertyAuctionSchedule extends Model
 
     public function auctionDate()
     {
-        return Carbon::parse($this->auction_date)->format('d-M-Y');
+        return empty($this->auction_date) ? null : Carbon::parse($this->auction_date)->format('d-M-Y');
     }
 
     public function auctionTime()
     {
-        return Carbon::parse($this->auction_time)->format('h:ia');
+        return empty($this->auction_time) ? null : Carbon::parse($this->auction_time)->format('h:ia');
     }
 }
