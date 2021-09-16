@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Mail;
 
 class WebsiteController extends Controller
 {
-    
+
     //index page
     public function index()
     {
@@ -41,58 +41,30 @@ class WebsiteController extends Controller
         $data['page_title'] = null;
         $data['types'] = PropertyType::whereIs_public(true)->get();
         $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status','!=','auction')->take(50)->inRandomOrder()->orderBy('id', 'DESC')
-        ->where(function($query){
-            $query->whereNotIn('id', function($query){
-                $query->select('property_id')->from(with(new UserVisit)->getTable());
-            })->orWhereIn('id', function($query){
-                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-            });
-        })->where(function($query){
-            $query->whereNotIn('id', function($query){
-                $query->select('property_id')->from(with(new Order)->getTable());
-            })->orWhereIn('id', function($query){
-                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-            });
-        })->get();
-        $data['count_rent'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'rent')
-        ->where(function($query){
-            $query->whereNotIn('id', function($query){
-                $query->select('property_id')->from(with(new UserVisit)->getTable());
-            })->orWhereIn('id', function($query){
-                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-            });
-        })->count();
-        $data['count_short_stay'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'short_stay')
-        ->where(function($query){
-            $query->whereNotIn('id', function($query){
-                $query->select('property_id')->from(with(new UserVisit)->getTable());
-            })->orWhereIn('id', function($query){
-                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-            });
-        })->count();
-        $data['count_sale'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'sale')
-        ->where(function($query){
-            $query->whereNotIn('id', function($query){
-                $query->select('property_id')->from(with(new Order)->getTable());
-            })->orWhereIn('id', function($query){
-                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-            });
-        })->count();
-        $data['count_auction'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'auction')
-        ->where(function($query){
-            $query->whereNotIn('id', function($query){
-                $query->select('property_id')->from(with(new AuctionEvent)->getTable());
-            })->orWhereIn('id', function($query){
-                $query->select('property_id')->from(with(new AuctionEvent)->getTable())->whereIn('status', [0,1]);
-            });
-        })->count();
+//        ->where(function($query){
+//            $query->whereNotIn('id', function($query){
+//                $query->select('property_id')->from(with(new Order)->getTable());
+//            })->orWhereIn('id', function($query){
+//                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
+//            });
+//        })
+            ->get();
+
+        $data['count_rent'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'rent')->count();
+
+        $data['count_short_stay'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'short_stay')->count();
+
+        $data['count_sale'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'sale')->count();
+
+        $data['count_auction'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'auction')->count();
+
         return view('website.welcome', $data);
     }
 
-    // payment call back 
+    // payment call back
     public function callback()
     {
-        
+
     }
 
     //property listing status
@@ -135,7 +107,7 @@ class WebsiteController extends Controller
             session()->forget('properties');
         }
         session(['properties' => $props->get()]);
-        
+
         return view('website.properties.property-status', $data);
     }
 
@@ -404,7 +376,7 @@ class WebsiteController extends Controller
         return PropertyCollection::collection($properties);
     }
 
-    /************ GENERAL ***************/ 
+    /************ GENERAL ***************/
     public function help()
     {
         $data['page_title'] = 'Oshelter help center';
@@ -418,7 +390,7 @@ class WebsiteController extends Controller
         return view('website.help.general.index', $data);
     }
 
-    /************ OWNER AND VISITOR ***************/ 
+    /************ OWNER AND VISITOR ***************/
     public function otherHelp(string $slug)
     {
         if($slug == 'owning-properties')
@@ -482,7 +454,7 @@ class WebsiteController extends Controller
         $data['questions'] = HelpQuestion::where('question', 'LIKE', '%'.$search.'%')->get();
         return view('website.help.search_results', $data)->render();
     }
-     
+
 
     public function becomeOwner()
     {
@@ -506,7 +478,7 @@ class WebsiteController extends Controller
     }
 
 
-    //view deactivated account 
+    //view deactivated account
     public function accountDeactivated()
     {
         $data['page_title'] = 'Account deactivated';
@@ -608,7 +580,7 @@ class WebsiteController extends Controller
 
     public function currencies()
     {
-        // set API Endpoint and API key 
+        // set API Endpoint and API key
         $endpoint = 'latest';
         $access_key = '8c5dc329251f71a140b747bfba552357';
 
@@ -637,7 +609,7 @@ class WebsiteController extends Controller
         // $amount = 10;
 
         // // initialize CURL:
-        // $ch = curl_init('http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'&from='.$from.'&to='.$to.'&amount='.$amount.'');   
+        // $ch = curl_init('http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'&from='.$from.'&to='.$to.'&amount='.$amount.'');
         // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         // // get the JSON data:
@@ -650,8 +622,8 @@ class WebsiteController extends Controller
         // // access the conversion result
         // print_r($conversionResult);
     }
-    
-    
+
+
 
 
 

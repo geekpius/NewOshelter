@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PropertyType extends Model
 {
-    
+
     protected $table = 'property_types';
     protected $primaryKey = 'id';
 
@@ -17,6 +17,11 @@ class PropertyType extends Model
         'name', 'image',
     ];
 
+
+    public function setNameAttribute($value)
+    {
+        return $this->attributes['name'] = strtolower($value);
+    }
 
 
     public function getNameAttribute($value)
@@ -28,19 +33,21 @@ class PropertyType extends Model
     {
         return Property::whereType(strtolower(str_replace(' ','_',$this->name)))->wherePublish(true)
         ->whereIs_active(true)->whereDone_step(true)->where('type_status','!=','auction')
-        ->where(function($query){
-            $query->whereNotIn('id', function($query){
-                $query->select('property_id')->from(with(new UserVisit)->getTable());
-            })->orWhereIn('id', function($query){
-                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-            });
-        })->where(function($query){
-            $query->whereNotIn('id', function($query){
-                $query->select('property_id')->from(with(new Order)->getTable());
-            })->orWhereIn('id', function($query){
-                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-            });
-        })->count();
+//        ->where(function($query){
+//            $query->whereNotIn('id', function($query){
+//                $query->select('property_id')->from(with(new UserVisit)->getTable());
+//            })->orWhereIn('id', function($query){
+//                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
+//            });
+//        })
+//            ->where(function($query){
+//            $query->whereNotIn('id', function($query){
+//                $query->select('property_id')->from(with(new Order)->getTable());
+//            })->orWhereIn('id', function($query){
+//                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
+//            });
+//        })
+            ->count();
     }
 
 }
