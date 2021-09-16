@@ -15,7 +15,7 @@ class CreatePropertyTypesTable extends Migration
     {
         Schema::create('property_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->index();
             $table->string('image')->nullable();
             $table->boolean('is_public')->default(false);
             $table->timestamps();

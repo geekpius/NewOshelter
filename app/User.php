@@ -214,5 +214,7 @@ class User extends Authenticatable
         return $this->hasMany(AuctionEvent::class, 'owner_id');
     }
 
+    
+
 
 }

@@ -24,8 +24,8 @@ class CreateUserProfilesTable extends Migration
             $table->string('occupation')->nullable();
             $table->string('emergency')->nullable();
             $table->string('id_front')->nullable();
-            $table->string('id_number')->nullable();
-            $table->string('id_type')->nullable();
+            $table->string('id_number')->nullable()->index();
+            $table->string('id_type')->nullable()->index();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
