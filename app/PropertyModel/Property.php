@@ -43,7 +43,6 @@ class Property extends Model
     const DONE_STEP = true;
     const NOT_DONE_STEP = false;
     CONST PENDING = 'pending';
-    CONST APPROVED = 'approved';
 
     protected $fillable = [
         'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children', 'publish', 'done_step', 'step',
