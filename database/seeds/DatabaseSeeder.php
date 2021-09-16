@@ -1,8 +1,6 @@
 <?php
 
-use App\User;
 use Illuminate\Database\Seeder;
-use App\PropertyModel\PropertyType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,8 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        factory(User::class)->create();
-         factory(PropertyType::class)->create();
+        $this->call(UserSeeder::class);
+        $this->call(PropertyTypeSeeder::class);
     }
 }

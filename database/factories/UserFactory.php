@@ -22,3 +22,5 @@ $factory->define(App\User::class, function (Faker $faker) {
         'account_type' => 'owner',
     ];
 });
+
+

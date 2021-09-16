@@ -34,14 +34,16 @@ use App\EventModel\AuctionEvent;
 
 class Property extends Model
 {
-    
+
     protected $table = 'properties';
     protected $primaryKey = 'id';
-    
+
     const PUBLISH = true;
     const NOT_PUBLISH = false;
     const DONE_STEP = true;
     const NOT_DONE_STEP = false;
+    CONST PENDING = 'pending';
+    CONST APPROVED = 'approved';
 
     protected $fillable = [
         'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children', 'publish', 'done_step', 'step',
@@ -49,7 +51,7 @@ class Property extends Model
 
     public function isPublish() : bool
     {
-        return $this->publish == Property::PUBLISH;
+        return $this->publish == self::PUBLISH;
     }
 
     /******************************  ATTRIBUTES ******************************/
@@ -60,7 +62,7 @@ class Property extends Model
 
     public function isDoneStep() : bool
     {
-        return $this->done_step == Property::DONE_STEP;
+        return $this->done_step == self::DONE_STEP;
     }
 
     public function getBaseAttribute($value)
@@ -208,7 +210,7 @@ class Property extends Model
     public function userHostelBookings(){
         return $this->hasMany(HostelBooking::class);
     }
-    
+
     public function userVisits(){
         return $this->hasMany(UserVisit::class);
     }
@@ -243,7 +245,7 @@ class Property extends Model
 
 
 
-    
+
     public function getAvailableRooms(): int
     {
         (int) $count= 0;
@@ -268,7 +270,7 @@ class Property extends Model
     }
 
     public function isVisitorIn(): bool
-    {   
+    {
         if($this->type=='hostel'){
             return true;
         }else{
@@ -277,12 +279,12 @@ class Property extends Model
     }
 
     public function getBedRooms(): string
-    {   
+    {
         return $this->propertyContain->bedroom.' '.str_plural('bedroom', $this->propertyContain->bedroom);
     }
 
     public function isSold(): bool
-    {   
+    {
         return $this->orders->where('status', 2)->count() == 0;
     }
 
