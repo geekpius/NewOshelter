@@ -11,11 +11,11 @@ function getMessageCount(){
             console.log("Something went wrong with request");
         }
     });
-    
+
     setTimeout(getMessageCount, 10000);
 }
 
-getMessageCount();
+// getMessageCount();
 
 
 // notifications
@@ -30,13 +30,13 @@ function getNotificationCount(){
             console.log("Something went wrong with request");
         }
     });
-    
+
     setTimeout(getNotificationCount, 10000);
 }
 
 
 function getNotification(){
-    $.ajax({                   
+    $.ajax({
         url: $(".myNotifications").data('url'),
         type: "GET",
         success: function(resp){
@@ -50,8 +50,8 @@ function getNotification(){
     setTimeout(getNotification, 10000);
 }
 
-getNotificationCount();
-getNotification();
+// getNotificationCount();
+// getNotification();
 
 $(".btnHeart").on("click", function(e){
     e.preventDefault();
@@ -62,7 +62,7 @@ $(".btnHeart").on("click", function(e){
         property_id : $this.data('id')
     }
     $.ajax({
-        url: $this.data('url'), 
+        url: $this.data('url'),
         type: 'POST',
         data: data,
         statusCode: {
@@ -82,7 +82,7 @@ $(".btnHeart").on("click", function(e){
         error: function(resp){
             console.log('Something went wrong with request');
         }
-        
+
     });
     return false;
 });

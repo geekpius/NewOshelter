@@ -28,7 +28,6 @@ class UserObserver
         // This is set in the .env file
         $key = config('app.key');
 
-        // Illuminate\Support\Str;
         if (Str::startsWith($key, 'base64:')) {
             $key = base64_decode(substr($key, 7));
         }
@@ -60,7 +59,7 @@ class UserObserver
             "link" => route('verify.email.activate', ['token'=>$token]),
         );
         Mail::to($user->email)->send(new EmailSender($data, "Verify Email", "emails.verify_email"));
-        
+
     }
 
     /**

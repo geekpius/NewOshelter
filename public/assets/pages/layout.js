@@ -11,12 +11,12 @@ function getMessageCount(){
             console.log("Something went wrong with request");
         }
     });
-    
+
     setTimeout(getMessageCount, 10000);
 }
 
 function getMessageNotification(){
-    $.ajax({                   
+    $.ajax({
         url: $(".myMessages").data('url'),
         type: "GET",
         success: function(resp){
@@ -30,8 +30,8 @@ function getMessageNotification(){
     setTimeout(getMessageNotification, 10000);
 }
 
-getMessageCount();
-getMessageNotification();
+// getMessageCount();
+// getMessageNotification();
 
 
 // notifications
@@ -46,13 +46,13 @@ function getNotificationCount(){
             console.log("Something went wrong with request");
         }
     });
-    
+
     setTimeout(getNotificationCount, 10000);
 }
 
 
 function getNotification(){
-    $.ajax({                   
+    $.ajax({
         url: $(".myNotifications").data('url'),
         type: "GET",
         success: function(resp){
@@ -66,5 +66,5 @@ function getNotification(){
     setTimeout(getNotification, 10000);
 }
 
-getNotificationCount();
-getNotification();
+// getNotificationCount();
+// getNotification();

@@ -22,7 +22,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
 @section('content')
 <div class="pxp-content pull-content-down">
     <div class="container">
-        <h2>New Listing</h2>  
+        <h2>New Listing</h2>
         <p>
             <strong>{{ Auth::user()->name }},</strong> listings
         </p>
@@ -59,11 +59,11 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                             @endphp
                             <div class="progress float-right mt-1 listing-progress" style="height: 10px; width:50%">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated small" role="progressbar" style="width: {{$progress}}%;">
-                                    {{$progress}}%                         
+                                    {{$progress}}%
                                 </div>
                             </div>
                         </div>
-                        @else                                
+                        @else
                         <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('formExitUpdateMode').submit();" class="text-danger text-decoration-none ml-3 mt-1 font-13">
                             <i class="fa fa-sign-out"></i> Exit Update Mode
                         </a>
@@ -74,7 +74,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                         </form>
                         @endif
                         <div class="card-body">
-                            
+
                             @php
                                 $proTypeStatus = ''; $sinTypeStatus = ''; $guest = '';
                                 if($property->type_status=='sale'){
@@ -91,12 +91,12 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                     $guest = 'visitor';
                                 }
                             @endphp
-        
+
                             <div id="registrationWizard">
                                 <div class="steps-container" data-name="{{ $property->title }}">
 
                                     <ul class="steps">
-                                        @if($property->type=='hostel')
+                                        @if($property->isHostelPropertyType())
                                             <li data-step="1">
                                                 <span class="step">1</span>
                                                 <span class="title text-primary"><small>Hostel Blocks</small></span>
@@ -138,32 +138,32 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                 <span class="step">1</span>
                                                 <span class="title text-primary"><small>Overview</small></span>
                                             </li>
-        
+
                                             <li data-step="2">
                                                 <span class="step">2</span>
                                                 <span class="title text-primary"><small>Amenities</small></span>
                                             </li>
-        
+
                                             <li data-step="3">
                                                 <span class="step">3</span>
                                                 <span class="title text-primary"><small>Property Rules</small></span>
                                             </li>
-        
+
                                             <li data-step="4">
                                                 <span class="step">4</span>
                                                 <span class="title text-primary"><small>Location/Landmark</small></span>
                                             </li>
-        
+
                                             <li data-step="5">
                                                 <span class="step">5</span>
                                                 <span class="title text-primary"><small>Photos & Video</small></span>
                                             </li>
-        
+
                                             <li data-step="6">
                                                 <span class="step">6</span>
                                                 <span class="title text-primary"><small>Descriptions</small></span>
                                             </li>
-        
+
                                             <li data-step="7">
                                                 <span class="step">7</span>
                                                 <span class="title text-primary"><small>Schedule&Price</small></span>
@@ -176,12 +176,12 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                 <span class="step">9</span>
                                                 <span class="title text-primary"><small>Ready to Publish</small></span>
                                             </li>
-                                        @endif 
+                                        @endif
                                     </ul>
-                                </div>  
-                                           
-                                <div class="step-content pos-rel">  
-                                    @if($property->type=='hostel')
+                                </div>
+
+                                <div class="step-content pos-rel">
+                                    @if(!$property->isHostelPropertyType())
                                         <div class="step-pane active" data-step="1">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -195,7 +195,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         </div>
                                                         <button type="submit" class="btn btnAddBlock btn-primary btn-sm mt-2"><i class="fa fa-plus-circle"></i> Add Block</button>
                                                     </form>
-        
+
                                                     <form id="formBlockNames" method="POST" action="{{ route("property.store") }}" style="display:none !important;">
                                                         @csrf
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -206,9 +206,9 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                     <span id="checkBlockName" style="display: none !important"></span>
                                                     <div id="getMyBlockNames"></div>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step one --> 
-        
+                                            </div><!-- end row -->
+                                        </div><!-- end step one -->
+
                                         <div class="step-pane" data-step="2">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -228,7 +228,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
-        
+
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group input-group-sm validate">
                                                                         <label for="">Block room type</label>
@@ -253,7 +253,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-        
+
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group input-group-sm validate">
@@ -262,7 +262,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
-        
+
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group input-group-sm validate">
                                                                         <label class="mb-2">Room no.# start from</label>
@@ -271,7 +271,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-        
+
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group input-group-sm validate">
@@ -298,7 +298,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-        
+
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group input-group-sm validate">
@@ -325,7 +325,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group input-group-sm mb-0 validate">
@@ -384,21 +384,21 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                 </div>
                                                             </div>
                                                         </form>
-        
+
                                                         <form id="formBlockRooms" method="POST" action="{{ route("property.store") }}" style="display:none !important;">
                                                             @csrf
                                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                             <input type="hidden" name="step" value="2" readonly>
                                                         </form>
-        
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div id="getMyCreatedRooms"></div>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step two --> 
-        
+                                            </div><!-- end row -->
+                                        </div><!-- end step two -->
+
                                         <div class="step-pane" data-step="3">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -418,7 +418,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
-        
+
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group input-group-sm validate">
                                                                         <label for="">Gender on block</label>
@@ -430,7 +430,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
-        
+
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group input-group-sm validate">
                                                                         <label for="">Block room type <small class="text-success hostelStep3" style="display: none">Loading room type...</small></label>
@@ -441,16 +441,16 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-        
+
                                                             @include('includes.hostel_amenities')
-        
+
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <button type="submit" class="btn btnAddAmenities btn-sm btn-primary mt-2"><i class="fa fa-plus-circle"></i> Add Amenities</button>
                                                                 </div>
                                                             </div>
                                                         </form>
-        
+
                                                         <hr class="mt-5">
                                                         <h5 class="">If there are shared amenities offered to your {{ $guest.'s' }} in your hostel accross all blocks, let them know.</h5>
                                                         <form id="formRoomAmenities" method="POST" action="{{ route("property.store") }}">
@@ -459,16 +459,16 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                             <input type="hidden" name="step" value="3" readonly>
                                                             @include('includes.shared-amenities')
                                                         </form>
-        
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div id="myErrorRoomAmenitiesMessage"></div>
                                                     <div id="getMyRoomAmenities"></div>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step three --> 
-        
+                                            </div><!-- end row -->
+                                        </div><!-- end step three -->
+
                                         <div class="step-pane" data-step="4">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -479,7 +479,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <input type="hidden" name="step" value="4" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         @include('includes.rules')
-                                                    </form>                                            
+                                                    </form>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <h5>Would you like to add other rules?</h5>
@@ -498,9 +498,9 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                     </form>
                                                     <div id="myDefineRules"></div>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step four --> 
-        
+                                            </div><!-- end row -->
+                                        </div><!-- end step four -->
+
                                         <div class="step-pane" data-step="5">
                                             <div class="row">
                                                 <div class="col-lg-5">
@@ -525,15 +525,15 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                 </div>
                                                 <div class="col-lg-7">
                                                     <div class="card mt-4">
-                                                        <div class="card-body">        
-                                                            <h5 class="mt-0 header-title">Pin your location to the right place</h5>     
+                                                        <div class="card-body">
+                                                            <h5 class="mt-0 header-title">Pin your location to the right place</h5>
                                                             <div id="gmaps-markers" class="gmaps"></div>
                                                         </div><!--end card-body-->
-                                                    </div><!--end card--> 
+                                                    </div><!--end card-->
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step five -->  
-                                        
+                                            </div><!-- end row -->
+                                        </div><!-- end step five -->
+
                                         <div class="step-pane" data-step="6">
                                             <div class="row">
                                                 <div class="col-lg-7">
@@ -552,9 +552,9 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                     </form>
-            
+
                                                     <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
-                                                        
+
                                                     </div>
                                                     <button class="btn btn-primary btn-sm mt-3" id="btnUpload" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
                                                         <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" multiple name="photos[]" /></div>
@@ -562,7 +562,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                     <div class="mt-3">
                                                         <small><span id="uploadMsg" class="text-danger"></span></small>
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <div class="col-lg-5">
                                                     <div class="mt-5 pt-4">
@@ -573,12 +573,12 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
                                                         <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Add property photos with size of 720x480 to best fit gallery.</p>
                                                         <p class="mt-4 font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> High photo quality will boost your property marketing.</p>
-            
+
                                                     </div>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step six --> 
-        
+                                            </div><!-- end row -->
+                                        </div><!-- end step six -->
+
                                         <div class="step-pane" data-step="7">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -615,23 +615,23 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         </div>
                                                     </form>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step seven --> 
-        
+                                            </div><!-- end row -->
+                                        </div><!-- end step seven -->
+
                                         <div class="step-pane" data-step="8">
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="">
                                                         <h5>Provide {{ str_plural($guest) }} with your rent schedule for each block rooms</h5>
                                                         <p class="font-13"><i class="fa fa-dot-circle font-12"></i> Guests must know advance payment and price calendar</p>
-                                                        
+
                                                         <form id="formHostelRoomPrices" method="POST" action="{{ route('property.store') }}">
                                                             @csrf
                                                             @include('includes.include_utilities')
                                                             <input type="hidden" name="step" value="8" readonly>
                                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                         </form>
-        
+
                                                         <form class="mt-2" id="formRentSchedule">
                                                             <div class="row">
                                                                 <div class="col-sm-6">
@@ -648,7 +648,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
-        
+
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group input-group-sm validate">
                                                                         <label for="">Gender on block</label>
@@ -660,7 +660,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
-        
+
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group input-group-sm validate">
                                                                         <label for="">Block room type <small class="text-success hostelStep8" style="display: none">Loading room type...</small></label>
@@ -671,7 +671,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-        
+
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group input-group-sm validate">
@@ -689,7 +689,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-        
+
                                                             <div class="row">
                                                                 <div class="col-sm-7">
                                                                     <div class="form-group input-group-sm validate">
@@ -708,7 +708,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-        
+
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group input-group-sm mb-3">
@@ -719,29 +719,29 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-        
+
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <button type="submit" class="btn btnHostelPrices btn-sm btn-primary mt-2"><i class="fa fa-plus-circle"></i> Price Room</button>
                                                                 </div>
                                                             </div>
-        
+
                                                         </form>
-                                                    </div>                                            
+                                                    </div>
                                                 </div>
-                                                
+
                                                 <div class="col-lg-6">
                                                     <div class="pl-4">
                                                         <label class="mt-3"><i class="fa fa-calendar text-success"></i> Prices schedule will be shown here <i class="fa fa-arrow-down"></i></label>
                                                         <div id="getMyBlockPrices" class="mt-3"></div>
                                                     </div>
-                                                    
+
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step eight --> 
-        
+                                            </div><!-- end row -->
+                                        </div><!-- end step eight -->
+
                                         <div class="step-pane" data-step="9">
-        
+
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <h5>All set and ready for publishing</h5>
@@ -751,37 +751,37 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <i class="fa fa-bed fa-5x"></i>
                                                     </div>
                                                     <p class="font-13"><i class="fa fa-dot-circle font-12"></i> Potential {{ $guest.'s' }} are wating for you to publish this property.</p>
-                                                
+
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-address-card fa-5x"></i>
                                                     </div>
                                                     <p class="font-13"><i class="fa fa-dot-circle font-12"></i> Guest will send a message of the date they will be moving in.</p>
-        
+
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-key fa-5x"></i>
                                                     </div>
-                                                    <p class="mb-3 font-13"><i class="fa fa-dot-circle font-12"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>    
-                                                    
+                                                    <p class="mb-3 font-13"><i class="fa fa-dot-circle font-12"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>
+
                                                     <form id="formFinishListing" method="POST" action="{{ route('property.store') }}" style="display:none">
                                                         @csrf
                                                         <input type="hidden" name="step" value="9" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    </form> 
-        
+                                                    </form>
+
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="card mt-3 float-right">
-                                                        <div class="card-body">        
+                                                        <div class="card-body">
                                                             <a href="{{ route('property.preview', $property->id) }}" class="text-primary text-decoration-none">
                                                                 <i class="fa fa-eye text-primary"></i>
                                                                 Preview Property
-                                                            </a> 
+                                                            </a>
                                                             <i class="fa fa-home text-success fa-4x"></i>
                                                         </div><!--end card-body-->
                                                     </div>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step nine --> 
+                                            </div><!-- end row -->
+                                        </div><!-- end step nine -->
                                     @else
                                         <div class="step-pane active" data-step="1">
                                             <div class="row">
@@ -797,7 +797,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                 <option value="">--Select--</option>
                                                                 <option value="1">1 Bedroom</option>
                                                                 @for ($i = 2; $i <= 50; $i++)
-                                                                <option value="{{ $i }}">{{ $i }} Bedrooms</option>    
+                                                                <option value="{{ $i }}">{{ $i }} Bedrooms</option>
                                                                 @endfor
                                                                 <option value="50+">50+ Bedrooms</option>
                                                             </select>
@@ -812,7 +812,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                         @endif
-        
+
                                                         <div class="form-group mt-4 validate">
                                                             <label for="">Furnished?</label>
                                                             <select name="furnish" class="form-control" id="furnish">
@@ -823,7 +823,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                             </select>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
-        
+
                                                         <div class="form-group mt-4 validate">
                                                             <label for="">Have kitchen? What type?</label>
                                                             <select name="kitchen" class="form-control" id="kitchen">
@@ -870,9 +870,9 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         </div>
                                                     </form>
                                                 </div>
-                                            </div><!-- end row --> 
+                                            </div><!-- end row -->
                                         </div><!-- end step one -->
-        
+
                                         <div class="step-pane" data-step="2">
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -888,9 +888,9 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         @endif
                                                     </form>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step two -->                              
-            
+                                            </div><!-- end row -->
+                                        </div><!-- end step two -->
+
                                         <div class="step-pane" data-step="3">
                                             <div class="row">
                                                 @if($property->type_status=='rent' || $property->type_status=='short_stay')
@@ -906,7 +906,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                             <input type="hidden" name="step" value="3" readonly>
                                                             <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                             @include('includes.rules')
-                                                        </form>                                            
+                                                        </form>
                                                     </div>
                                                     <div class="col-lg-5">
                                                         <h4>Would you like to add other rules?</h4>
@@ -926,23 +926,23 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <div id="myDefineRules"></div>
                                                     </div>
                                                 @else
-                                                    
+
                                                     <form class="mt-4" id="formPropertyRules" method="POST" action="{{ route('property.store') }}" style="display: none !important">
                                                         @csrf
                                                         <input type="hidden" name="step" value="3" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    </form>      
+                                                    </form>
                                                     <div class="col-lg-3"></div>
                                                     <div class="col-lg-6">
                                                         <div class="mt-5 mb-5 text-center">
-                                                            <h2 class="text-danger">If you are selling or auctioning, you don't need to set rules.</h2> 
-                                                            <h2 class="text-danger">Property rules are for visitors only when booking property.</h2> 
-                                                        </div> 
+                                                            <h2 class="text-danger">If you are selling or auctioning, you don't need to set rules.</h2>
+                                                            <h2 class="text-danger">Property rules are for visitors only when booking property.</h2>
+                                                        </div>
                                                     </div>
                                                 @endif
-                                            </div><!-- end row --> 
-                                        </div><!-- end step three -->    
-                                        
+                                            </div><!-- end row -->
+                                        </div><!-- end step three -->
+
                                         <div class="step-pane" data-step="4">
                                             <div class="row">
                                                 <div class="col-lg-5">
@@ -967,15 +967,15 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                 </div>
                                                 <div class="col-lg-7">
                                                     <div class="card mt-4">
-                                                        <div class="card-body">        
-                                                            <h4 class="mt-0 header-title">Pin your location to the right place</h4>     
+                                                        <div class="card-body">
+                                                            <h4 class="mt-0 header-title">Pin your location to the right place</h4>
                                                             <div id="gmaps-markers" class="gmaps"></div>
                                                         </div><!--end card-body-->
-                                                    </div><!--end card--> 
+                                                    </div><!--end card-->
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step four -->  
-            
+                                            </div><!-- end row -->
+                                        </div><!-- end step four -->
+
                                         <div class="step-pane" data-step="5">
                                             <div class="row">
                                                 <div class="col-lg-7">
@@ -983,7 +983,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                     <p class="mb-4"><i class="fa fa-dot-circle" style="font-size:9px"></i> Property photo with captions will best help us with the tour.
                                                         <br>
                                                     <i class="fa fa-dot-circle" style="font-size:9px"></i> You can upload maximum of 10 photos at a time.</p>
-            
+
                                                     <form id="formPhotos" method="POST" action="{{ route('property.store') }}" class="mb-4">
                                                         @csrf
                                                         <input type="hidden" name="step" value="5" readonly>
@@ -994,9 +994,9 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                     </form>
-            
+
                                                     <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
-                                                        
+
                                                     </div>
                                                     <button class="btn btn-primary mt-3" id="btnUpload" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
                                                         <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" multiple name="photos[]" /></div>
@@ -1014,12 +1014,12 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
                                                         <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Add property photos with size of 720x480 to best fit gallery.</p>
                                                         <p class="mt-5"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> High photo quality will boost your property marketing.</p>
-            
+
                                                     </div>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step five --> 
-            
+                                            </div><!-- end row -->
+                                        </div><!-- end step five -->
+
                                         <div class="step-pane" data-step="6">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -1040,7 +1040,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <div class="form-group validate">
                                                             <label for="description"><span class="text-primary">A description of your property</span></label>
                                                             <textarea class="form-control" name="description" rows="5" maxlength="1000" id="description" placeholder="Write descriptions about room decor, furniture, nearby things, how conducive the environment is. Just make it simple">{{ empty($property->propertyDescription->description)? ' ':$property->propertyDescription->description }}</textarea>
-                                                            <small id="myDescriptionCharacters" class="form-text text-muted">1000 characters remaining</small>
+{{--                                                            <small id="myDescriptionCharacters" class="form-text text-muted">1000 characters remaining</small>--}}
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                         <p class="mt-5"><strong>Let's narrow down the complexity</strong> <i class="fa fa-arrow-down"></i></p>
@@ -1056,19 +1056,19 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         </div>
                                                     </form>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step six --> 
-                                        
+                                            </div><!-- end row -->
+                                        </div><!-- end step six -->
+
                                         <div class="step-pane" data-step="7">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    @if ($property->type_status=='rent')
+                                                    @if ($property->isRentProperty())
                                                         <h4>Provide {{ $guest.'s' }} with your rent schedule</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Visitors must know advance payment and price calendar</p>
-                                                    @elseif ($property->type_status=='sale')
+                                                    @elseif ($property->isSaleProperty())
                                                         <h4>Provide buyers with your buying schedule</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Buyers must know buying price</p>
-                                                    @elseif ($property->type_status=='short_stay')
+                                                    @elseif ($property->isShortStayProperty())
                                                         <h4>Provide {{ $guest.'s' }} with your booking schedule</h4>
                                                         <p><i class="fa fa-dot-circle font-13"></i> Visitors must know booking price</p>
                                                     @else
@@ -1079,7 +1079,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         @csrf
                                                         <input type="hidden" name="step" value="7" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                        @if($property->type_status=='rent')
+                                                        @if($property->isRentProperty())
                                                             @include('includes.include_utilities')
                                                             <div class="row">
                                                                 <div class="col-sm-12">
@@ -1095,7 +1095,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
 
                                                                     <div>
-                                                                        <i class="fa fa-exclamation-circle float-right" 
+                                                                        <i class="fa fa-exclamation-circle float-right"
                                                                         title="To the maximum extent permitted by applicable law (rent and housing control), Oshelter Company Limited shall not be liable for any advance agreements or contracts beyond six months either between property owner(landlord) and visitor(tenant) or vice versa. The company cannot guarantee the validity of such information provided by each party in this type of contract or agreement as there are no legal backings to such terms. Moreover, any such contract/agreement beyond six months is against the laws and policies regarding rent and housing (ref.). Hence, we make NO warranties about the content's accuracy and assume no liability or responsibility for such agreement or contracts. We only take full responsibility for the laws and policies governing renting and housing in Ghana."></i>
                                                                     </div>
 
@@ -1108,24 +1108,24 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                                 </div>
                                                                                 <div class="modal-body">
                                                                                     <p>
-                                                                                        To the maximum extent permitted by applicable law (rent and housing control), Oshelter 
-                                                                                        Company Limited shall not be liable for any advance agreements or contracts beyond 
-                                                                                        six months either between property owner(landlord) and visitor(tenant) or vice versa. The company cannot 
-                                                                                        guarantee the validity of such information provided by each party in this type of 
-                                                                                        contract or agreement as there are no legal backings to such terms. Moreover, any such 
-                                                                                        contract/agreement beyond six months is against the laws and policies regarding rent 
-                                                                                        and housing (ref.). Hence, we make NO warranties about the content's accuracy and 
-                                                                                        assume no liability or responsibility for such agreement or contracts. We only take 
+                                                                                        To the maximum extent permitted by applicable law (rent and housing control), Oshelter
+                                                                                        Company Limited shall not be liable for any advance agreements or contracts beyond
+                                                                                        six months either between property owner(landlord) and visitor(tenant) or vice versa. The company cannot
+                                                                                        guarantee the validity of such information provided by each party in this type of
+                                                                                        contract or agreement as there are no legal backings to such terms. Moreover, any such
+                                                                                        contract/agreement beyond six months is against the laws and policies regarding rent
+                                                                                        and housing (ref.). Hence, we make NO warranties about the content's accuracy and
+                                                                                        assume no liability or responsibility for such agreement or contracts. We only take
                                                                                         full responsibility for the laws and policies governing renting and housing in Ghana.
                                                                                     </p>
                                                                                 </div>
                                                                             </div><!-- /.modal-content -->
                                                                         </div><!-- /.modal-dialog -->
-                                                                    </div><!-- /.modal -->  
+                                                                    </div><!-- /.modal -->
 
                                                                 </div>
                                                             </div>
-        
+
                                                             <div class="row">
                                                                 <div class="col-sm-7">
                                                                     <div class="form-group validate">
@@ -1144,8 +1144,8 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
-                                                        @elseif($property->type_status=='short_stay')
+
+                                                        @elseif($property->isShortStayProperty())
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <div class="form-group validate">
@@ -1180,7 +1180,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-        
+
                                                             <div class="row">
                                                                 <div class="col-sm-7">
                                                                     <div class="form-group validate">
@@ -1208,17 +1208,17 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        
+
                                                         @else
                                                             <p class=""><i class="fa fa-dot-circle" style="font-size: 9px"></i> <strong>Price your property for {{ $property->type_status }} </strong></p>
                                                             <div class="form-group validate">
-                                                                <label for="">This will be your {{ $property->type_status=='sale'? 'default':'initial' }} {{ $property->type_status }} price <span id="myPriceCal"></span></label>
+                                                                <label for="">This will be your {{ $property->isSaleProperty() ? 'default':'initial' }} {{ $property->type_status }} price <span id="myPriceCal"></span></label>
                                                                 <input type="tel" name="property_price" keypress="return isNumber(event)" class="form-control" id="property_price" placeholder="Tip: 100000.00">
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
-                                                                                            
+
                                                         @endif
-                                                            
+
                                                         @if (Auth::user()->userCurrency)
                                                         <div class="form-group">
                                                             <p class="font-weight-bold font-14">Choosen currency</p>
@@ -1231,25 +1231,26 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                             <select name="currency" class="form-control" id="currency">
                                                                 @foreach ($currencies as $currency)
                                                                 <option value="{{ $currency->symbol }}">{{ $currency->currency }}</option>
-                                                                @endforeach  
+                                                                @endforeach
                                                             </select>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
                                                         @endif
-        
+
                                                     </form>
-                                                    
+
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    @if ($property->type_status=='rent')
-                                                        <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3months before due date.</p>
+                                                    <h5 class="mt-3">If you subscribed to our management platform, you will have access to the following</h5>
+                                                    @if ($property->isRentProperty())
+                                                        <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3months before due date.</p>
                                                         <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Eviction notification will be sent to visitor every two weeks till due date.</p>
                                                         <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> It's visitor's choice to extend his/her stay or to evict.</p>
-                                                    @elseif ($property->type_status=='sale')
+                                                    @elseif ($property->isSaleProperty())
                                                         <p class="mt-5">You can set set-in price later when market is down.</p>
                                                         <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Set price which has value for your property.</p>
                                                         <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Don't set your price too high or too low to scare buyers.</p>
-                                                    @elseif ($property->type_status=='short_stay')
+                                                    @elseif ($property->isShortStayProperty())
                                                         <p class="mt-5">You can set set-in price later when market is down.</p>
                                                         <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Eviction notice will start from 3days before due date.</p>
                                                         <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Set price which has value for your property.</p>
@@ -1261,31 +1262,31 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> If you are satisfied with the highest bidding, you can close auctioning.</p>
                                                     @endif
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step seven --> 
-        
+                                            </div><!-- end row -->
+                                        </div><!-- end step seven -->
+
                                         <div class="step-pane" data-step="8">
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <h4 class="mb-3">
                                                         This is how {{ $guest.'s' }} will interact through the {{ $proTypeStatus }} process.
                                                     </h4>
-                                                    
+
                                                     <div class="row">
                                                         <div class="col-sm-4">
                                                             <div class="card">
-                                                                <div class="card-body">      
+                                                                <div class="card-body">
                                                                     <div class="text-center">
                                                                         <i class="fa fa-user text-success fa-5x"></i>
                                                                         <hr>
                                                                         <p>
-                                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i> 
-                                                                            Every {{ $guest }} on OShelter must be qualified to {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you
+                                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i>
+                                                                            Every {{ $guest }} on OShelter must be qualified to {{ $property->isAuctionProperty()? 'book':$sinTypeStatus }} you
                                                                         </p>
                                                                         <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                         <p>
-                                                                            Every qualified {{ $guest }} must confirm their contact info, provide payment info 
-                                                                            before they can {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you.
+                                                                            Every qualified {{ $guest }} must confirm their personal info, contact info,
+                                                                            before they can {{ $property->isAuctionProperty() ? 'book':$sinTypeStatus }} you.
                                                                         </p>
                                                                     </div>
                                                                 </div><!--end card-body-->
@@ -1293,20 +1294,20 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <div class="card">
-                                                                <div class="card-body">      
+                                                                <div class="card-body">
                                                                     <div class="text-center">
                                                                         <i class="fa fa-thumbs-up text-success fa-5x"></i>
                                                                         <hr>
                                                                         <p>
-                                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i> 
-                                                                            You control who {{ $property->type_status=='auction'? 'bids':$sinTypeStatus.'s' }} you
+                                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i>
+                                                                            You control who {{ $property->isAuctionProperty() ? 'book\'s':$sinTypeStatus.'s' }} you
                                                                         </p>
                                                                         <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                         <p>
-                                                                            Every {{ $guest }} who wants to {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you should agree to the property 
-                                                                            @if($property->type_status=='rent')
+                                                                            Every {{ $guest }} who wants to {{ $property->isAuctionProperty() ? 'book':$sinTypeStatus }} you should agree to the property
+                                                                            @if($property->isRentProperty())
                                                                             rules
-                                                                            @elseif($property->type_status=='short_stay') 
+                                                                            @elseif($property->isShortStayProperty())
                                                                             rules
                                                                             @else
                                                                             info
@@ -1319,45 +1320,45 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <div class="card">
-                                                                <div class="card-body">      
+                                                                <div class="card-body">
                                                                     <div class="text-center">
                                                                         <i class="fa fa-bell text-success fa-5x"></i>
                                                                         <hr>
                                                                         <p>
-                                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i> 
+                                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                             You are always notified
                                                                         </p>
                                                                         <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                         <p>
-                                                                            Once {{ $guest }} {{ $property->type_status=='auction'? 'bid':$sinTypeStatus }} you, you will get confirmation notification 
+                                                                            Once {{ $guest }} {{ $property->isAuctionProperty() ? 'book':$sinTypeStatus }} you, Oshelter will notify you
                                                                             instantly with {{$guest}} info.
                                                                         </p>
                                                                     </div>
                                                                 </div><!--end card-body-->
                                                             </div>
                                                         </div>
-        
+
                                                         <div class="col-lg-10 pt-4">
                                                             <h5><b>You are protected every step of the way.</b></h5>
-                                                            <img src="{{ asset('assets/images/form-logo.png') }}" alt="Logo" width="40" height="40"  class="rounded-circle img-left mr-3" /> 
-                                                            <p>We never rest because we care. OShelter is here to protect both interest. All rent, short stay, sell and auction is covered 
-                                                                by OShelter's <a href="javascript:void(0)" class="text-primary">{{ ucfirst($guest) }} Refund Policy</a>.
+                                                            <img src="{{ asset('assets/images/form-logo.png') }}" alt="Logo" width="40" height="40"  class="rounded-circle img-left mr-3" />
+                                                            <p>We never rest because we care. OShelter is here to protect both interest. All rent, short stay, sell and auction is covered
+                                                                by OShelter's <a href="javascript:void(0)" class="text-primary">Oshelter's Commission Policy</a>.
                                                             </p>
-                                                            <p>We care for you and your property so we have you covered with every {{ $proTypeStatus }} 
+                                                            <p>We care for you and your property so we have you covered with every {{ $proTypeStatus }}
                                                                 situations. <a href="javascript:void(0)" class="text-primary">{{ ucfirst($guest) }} Guide Policy</a>.
                                                             </p>
                                                         </div>
-                                                    </div> 
+                                                    </div>
                                                     <form id="formTenantGuide" method="POST" action="{{ route('property.store') }}" style="display:none">
                                                         @csrf
                                                         <input type="hidden" name="step" value="8" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    </form>                                   
+                                                    </form>
                                                 </div>
-                                                
-                                            </div><!-- end row --> 
-                                        </div><!-- end step eight -->   
-        
+
+                                            </div><!-- end row -->
+                                        </div><!-- end step eight -->
+
                                         <div class="step-pane" data-step="9">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -1368,59 +1369,59 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <i class="fa fa-bed fa-5x"></i>
                                                     </div>
                                                     <p><i class="fa fa-dot-circle font-13"></i> Potential {{ $guest.'s' }} are wating for you to publish this property.</p>
-                                                
+
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-address-card fa-5x"></i>
                                                     </div>
-                                                    <p><i class="fa fa-dot-circle font-13"></i> {{ $property->type_status=='auction'? 'Highest bidder':ucfirst($guest) }} will send a message of the date they will be moving in.</p>
-        
+                                                    <p><i class="fa fa-dot-circle font-13"></i> {{ $property->isAuctionProperty() ? 'Highest bidder':ucfirst($guest) }} will notify you the date they will be moving in.</p>
+
                                                     <div class="mt-4 mb-3">
                                                         <i class="fa fa-key fa-5x"></i>
                                                     </div>
-                                                    <p class="mb-3"><i class="fa fa-dot-circle font-13"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>    
-                                                    
+                                                    <p class="mb-3"><i class="fa fa-dot-circle font-13"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>
+
                                                     <form id="formFinishListing" method="POST" action="{{ route('property.store') }}" style="display:none">
                                                         @csrf
                                                         <input type="hidden" name="step" value="9" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    </form> 
-        
+                                                    </form>
+
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="card mt-3 float-right">
-                                                        <div class="card-body">        
+                                                        <div class="card-body">
                                                             <a href="{{ route('property.preview', $property->id) }}" class="text-primary text-decoration-none">
                                                                 <i class="fa fa-eye text-primary"></i>
                                                                 Preview Property
-                                                            </a> 
+                                                            </a>
                                                             <i class="fa fa-home text-success fa-4x"></i>
                                                         </div><!--end card-body-->
                                                     </div>
                                                 </div>
-                                            </div><!-- end row --> 
-                                        </div><!-- end step nine --> 
+                                            </div><!-- end row -->
+                                        </div><!-- end step nine -->
                                     @endif
-                                </div><!-- end step content -->   
-                            </div> <!-- end wizard -->                
-                            
+                                </div><!-- end step content -->
+                            </div> <!-- end wizard -->
+
                             <hr />
                             <div class="wizard-actions" style="text-align:center !important;">
                                 <button class="btn btn-prev btn-primary text-light mb-2 mr-lg-5 mr-sm-1">
                                     <i class="ace-icon fa fa-arrow-left"></i>
                                     Go Previous
                                 </button>
-                                
+
                                 <button class="btn btn-success text-light btn-next mb-2 ml-lg-5 mr-sm-1" data-last="{{ (Session::has('edit'))? 'Update to Publish':'Finish And Publish ' }}">
-                                    {{ (Session::has('edit'))? 'Update to Next':'Next Step' }} 
+                                    {{ (Session::has('edit'))? 'Update to Next':'Next Step' }}
                                     <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                 </button>
-                            </div><!-- end buttons -->        
+                            </div><!-- end buttons -->
                         </div><!--end card-body-->
                     </div><!--end card-->
                 </div><!--end col-->
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 @endsection
 
@@ -1442,7 +1443,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
     })
     .on('actionclicked.fu.wizard' , function(e, info){
         if(info.direction == 'next'){
-        @if($property->type=='hostel')
+        @if($property->isHostelPropertyType())
             if(info.step == 1) {
                 $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
                 let blockName = document.getElementById('checkBlockName').innerText;
@@ -1470,7 +1471,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                 var valid = true;
                 $('#formLocationLandmark input').each(function() {
                     var $this = $(this);
-                    
+
                     if(!$this.val()) {
                         valid = false;
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -1489,7 +1490,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                 var valid = true;
                 $('#formDescriptions input, #formDescriptions textarea, #formDescriptions select').each(function() {
                     var $this = $(this);
-                    
+
                     if(!$this.val()) {
                         valid = false;
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -1525,7 +1526,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                 }
                 $('#formContainAmenities select').each(function() {
                     var $this = $(this);
-                    
+
                     if(!$this.val()) {
                         valid = false;
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -1548,7 +1549,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                 var valid = true;
                 $('#formLocationLandmark input').each(function() {
                     var $this = $(this);
-                    
+
                     if(!$this.val()) {
                         valid = false;
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -1567,7 +1568,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                 var valid = true;
                 $('#formDescriptions input, #formDescriptions textarea, #formDescriptions select').each(function() {
                     var $this = $(this);
-                    
+
                     if(!$this.val()) {
                         valid = false;
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -1582,7 +1583,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                 var valid = true;
                 $('#formRentSchedule input, #formRentSchedule select').each(function() {
                     var $this = $(this);
-                    
+
                     if(!$this.val()) {
                         valid = false;
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -1642,9 +1643,9 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
         });
         return true; //this will not prevent clicking and selecting steps
     });
-    
 
-    @if($property->type=='hostel')
+
+    @if($property->isHostelPropertyType())
 
     function getChecks(id){
         $.ajax({
@@ -1669,7 +1670,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
         var valid = true;
         $('#formBlocks input').each(function() {
             var $this = $(this);
-            
+
             if(!$this.val()) {
                 valid = false;
                 $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -1739,7 +1740,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
         var valid = true;
         $('#formCreateRooms select, #formCreateRooms input').each(function() {
             var $this = $(this);
-            
+
             if(!$this.val()) {
                 valid = false;
                 $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -1764,7 +1765,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                         $("#formCreateRooms input[name='toilet']").val('');
                         $("#formCreateRooms input[name='beds']").val('');
                         $("#formCreateRooms select").val('');
-                    }                
+                    }
                     else{
                         alert(resp);
                     }
@@ -1831,7 +1832,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
         var valid = true;
         $('#formHostelRoomAmenity select').each(function() {
             var $this = $(this);
-            
+
             if(!$this.val()) {
                 valid = false;
                 $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -1854,7 +1855,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                     if(resp=='success'){
                         $("#getMyRoomAmenities").load("{{ route('property.room.amenities.show', $property->id) }}");
                         $("#formHostelRoomAmenity input[name='amenities[]']").prop('checked', false);
-                    }                
+                    }
                     else{
                         console.log(resp);
                     }
@@ -1871,7 +1872,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
     });
 
     $("#getMyRoomAmenities").load("{{ route('property.room.amenities.show', $property->id) }}");
-   
+
 
     // clear  gender
     $("#formRentSchedule #block").on("change", function(e){
@@ -1925,7 +1926,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
         var valid = true;
         $('#formRentSchedule input, #formRentSchedule select').each(function() {
             var $this = $(this);
-            
+
             if(!$this.val()) {
                 valid = false;
                 $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -1984,7 +1985,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
             var s=0; var e=0;
             for (var index = 0; index < totalfiles; index++) {
                 var size = document.getElementById('upfile').files[index].size;
-                var fileSize = Math.round((size / 1024)); 
+                var fileSize = Math.round((size / 1024));
                 var selectedFile = document.getElementById('upfile').files[index].name;
                 var ext = selectedFile.replace(/^.*\./, '');
                 ext= ext.toLowerCase();
@@ -2012,7 +2013,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                 $("#uploadMsg").html('<i class="fa fa-spin fa-spinner"></i> Uploading...');
                 $this.parents("#btnUpload").attr("disabled", true);
                 $.ajax({
-                    url: "{{ route('property.photos.submit', $property->id) }}", 
+                    url: "{{ route('property.photos.submit', $property->id) }}",
                     type: 'POST',
                     data: form_data,
                     contentType: false,
@@ -2037,7 +2038,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                         $("#uploadMsg").html('');
                         $this.parents("#btnUpload").attr("disabled", false);
                     }
-                    
+
                 });
             }
         }
@@ -2057,7 +2058,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
         var valid = true;
         $('#formPropertyOtherRules input').each(function() {
             var $this = $(this);
-            
+
             if(!$this.val()) {
                 valid = false;
                 $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -2103,7 +2104,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
     $("select").on('change', function(){
         if($(this).val()!=''){
             $(this).parents('.validate').find('.mySpan').text('');
-        }else{ 
+        }else{
             $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
         }
     });
@@ -2146,7 +2147,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
     @endif
 
     @if(!empty($property))
-        @if($property->type!='hostel')
+        @if(!$property->isHostelPropertyType())
             $("#formContainAmenities #bedrooms").val("{{ empty($property->propertyContain->bedroom)? '':$property->propertyContain->bedroom }}");
             $("#formContainAmenities #beds").val("{{ empty($property->propertyContain->no_bed)? '0':$property->propertyContain->no_bed }}");
             $("#formContainAmenities #kitchen").val("{{ empty($property->propertyContain->kitchen)? '0':$property->propertyContain->kitchen }}");
@@ -2166,15 +2167,15 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                 @endif
             @endif
 
-            @if($property->type_status=='rent')
+            @if($property->isRentProperty())
                 $("#formRentSchedule #advance_duration").val("{{ empty($property->propertyPrice->payment_duration)? '':$property->propertyPrice->payment_duration }}");
                 $("#formRentSchedule #price_calendar").val("{{ empty($property->propertyPrice->price_calendar)? 'month':$property->propertyPrice->price_calendar }}");
-            @elseif($property->type_status=='short_stay')
+            @elseif($property->isShortStayProperty())
                 $("#formRentSchedule #minimum_stay").val("{{ empty($property->propertyPrice->minimum_stay)? '':$property->propertyPrice->minimum_stay }}");
                 $("#formRentSchedule #maximum_stay").val("{{ empty($property->propertyPrice->maximum_stay)? '':$property->propertyPrice->maximum_stay }}");
                 $("#formRentSchedule #price_calendar").val("{{ empty($property->propertyPrice->price_calendar)? 'night':$property->propertyPrice->price_calendar }}");
                 $("#formRentSchedule #smart_price").val("{{ empty($property->propertyPrice->smart_price)? '':$property->propertyPrice->smart_price }}");
-            @elseif($property->type_status=='sell')
+            @elseif($property->isSaleProperty())
                 @if(!empty($property->propertyPrice->negotiable))
                     $("#formRentSchedule #negotiable").prop("checked", true);
                 @endif
@@ -2207,8 +2208,8 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
     }).on('paste', function(event) {
         event.preventDefault();
     });
-    
-    
+
+
     $(document).ready(function () {
         if($("#formDescriptions textarea[name='description']").length > 0){
             tinymce.init({
@@ -2231,8 +2232,8 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                     {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
                 ]
             });
-            
-            
+
+
         }
     });
 

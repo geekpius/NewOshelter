@@ -4,9 +4,9 @@
 
 <div class="pxp-content pull-content-down">
     <div class="container">
-        <h2>Account Info</h2>  
+        <h2>Account Info</h2>
         <p>
-            <strong>{{ Auth::user()->name }},</strong> account owner 
+            <strong>{{ Auth::user()->name }},</strong> account owner
         </p>
         <div id="" class="pt-4">
             @include('includes.gobackroute')
@@ -19,10 +19,10 @@
                                     <img src="{{ (empty(Auth::user()->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.Auth::user()->image) }}" alt="{{ Auth::user()->name }}" width="130" height="130" class="rounded-circle img_preview" />
                                     <div style='height: 0px;width:0px; overflow:hidden;'><input id="upfile" type="file" name="photo" data-href="{{ route('profile.photo') }}" /></div>
                                 </div>
-                            </div> 
+                            </div>
 
                             <div class="text-center mt-3">
-                                <h5 id="myLegalName">{{ Auth::user()->name }}</h5>                                                        
+                                <h5 id="myLegalName">{{ Auth::user()->name }}</h5>
                                 <p class="mb-0" id="myOccupation">{{ empty(Auth::user()->profile->occupation)? 'Profession':Auth::user()->profile->occupation }}</p>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                                         <div class="form-group validate">
                                             <label for="">Legal Name</label>
                                             <input type="text" name="legal_name" id="legal_name" value="{{ Auth::user()->name }}" placeholder="Enter legal name" class="form-control">
-                                            <span class="text-danger small mySpan" role="alert"></span>                                  
+                                            <span class="text-danger small mySpan" role="alert"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -76,14 +76,14 @@
                                                 <option value="male">Male</option>
                                                 <option value="female">Female</option>
                                             </select>
-                                            <span class="text-danger small mySpan" role="alert"></span>                                  
+                                            <span class="text-danger small mySpan" role="alert"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group validate">
                                             <label for="">Date of Birth</label>
                                             <input type="date" name="dob" id="dob" value="{{ empty(Auth::user()->profile->dob)? '':Auth::user()->profile->dob }}" placeholder="Select dob" class="form-control">
-                                            <span class="text-danger small mySpan" role="alert"></span>                                  
+                                            <span class="text-danger small mySpan" role="alert"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -99,14 +99,14 @@
                                                 <option value="widow">Widow</option>
                                                 <option value="widower">Widower</option>
                                             </select>
-                                            <span class="text-danger small mySpan" role="alert"></span>                                  
+                                            <span class="text-danger small mySpan" role="alert"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group validate">
                                             <label for="">City</label>
                                             <input type="text" name="city" id="city" value="{{ empty(Auth::user()->profile->city)? '':Auth::user()->profile->city }}" placeholder="Enter city location" class="form-control">
-                                            <span class="text-danger small mySpan" role="alert"></span>                                  
+                                            <span class="text-danger small mySpan" role="alert"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -115,33 +115,33 @@
                                         <div class="form-group validate">
                                             <label for="">Profession/Occupation</label>
                                             <input type="text" name="profession" id="profession" value="{{ empty(Auth::user()->profile->occupation)? '':Auth::user()->profile->occupation }}" placeholder="Enter your profession/occupation" class="form-control">
-                                            <span class="text-danger small mySpan" role="alert"></span>                                  
+                                            <span class="text-danger small mySpan" role="alert"></span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group validate">
                                             <label for="">Emergency Contact</label>
                                             <input type="tel" name="emergency_contact" id="emergency_contact" onkeypress="return isNumber(event)" value="{{ empty(Auth::user()->profile->emergency)? '':Auth::user()->profile->emergency }}" placeholder="Enter emergency contact" class="form-control">
-                                            <span class="text-danger small mySpan" role="alert"></span>                                  
+                                            <span class="text-danger small mySpan" role="alert"></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <button class="btn btn-primary px-4 mt-3 btnProfileUpdate"><i class="mdi mdi-refresh fa-lg"></i> Update Profile</button>
                                 </div>
-                            </form> 
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-8 offset-sm-4">
-                    <div class="text-center mt-2">
-                        Would you like to deactivate your account?
-                        <a href="{{ route('profile.deactivate') }}" class="text-danger ml-2">Deactivate Account</a>
-                    </div>
-                </div>
+{{--                <div class="col-sm-8 offset-sm-4">--}}
+{{--                    <div class="text-center mt-2">--}}
+{{--                        Would you like to deactivate your account?--}}
+{{--                        <a href="{{ route('profile.deactivate') }}" class="text-danger ml-2">Deactivate Account</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 
 <!-- id modal -->
@@ -155,7 +155,7 @@
             <div class="modal-body">
                 <div class="text-center" onclick="getFrontFile();" style="cursor:pointer">
                     <div>
-                        <img src="{{ asset('assets/images/iconmonstr-id-card-14.svg') }}" data-img="{{ (empty(Auth::user()->profile->id_front))? '':'cards/'.Auth::user()->profile->id_front }}" alt="Front" width="100" height="100" id="img_preview">    
+                        <img src="{{ asset('assets/images/iconmonstr-id-card-14.svg') }}" data-img="{{ (empty(Auth::user()->profile->id_front))? '':'cards/'.Auth::user()->profile->id_front }}" alt="Front" width="100" height="100" id="img_preview">
                     </div>
                     <div>
                         <a href="javascript:void(0);"> <span id="msgStatus">Upload ID front</span>
@@ -176,21 +176,21 @@
                             <option value="driver">Driver's License</option>
                         </select>
                         <span class="small text-danger mySpan"></span>
-                    </div> 
+                    </div>
                     <div class="form-group input-group-sm validate">
                         <label>ID number</label>
                         <input type="text" name="id_number" placeholder="Enter your ID number" class="form-control">
                         <span class="small text-danger mySpan"></span>
-                    </div> 
-                    
+                    </div>
+
                     <div class="form-group input-group-sm">
                         <button class="btn btn-primary btn-sm btnID">Update Info</button>
-                    </div>   
-                </form>   
+                    </div>
+                </form>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal --> 
+</div><!-- /.modal -->
 
 @endsection
 
@@ -236,7 +236,7 @@ $("#front_file").on("change", function(){
     else{
         form_data.append("front_file", document.getElementById('front_file').files[0]);
         $.ajax({
-            url: $this.data('url'), 
+            url: $this.data('url'),
             type: 'POST',
             data: form_data,
             contentType: false,
@@ -253,7 +253,7 @@ $("#front_file").on("change", function(){
                 }
                 else{
                     $("#msgStatus").addClass('text-success').text("Uploaded Successfully");
-                    $(".front_card").attr("src", $this.data('path')+"/"+response); 
+                    $(".front_card").attr("src", $this.data('path')+"/"+response);
                     $("#img_preview").data('img', 'inserted');
                 }
                 document.getElementById("front_file").value = null;
@@ -262,10 +262,10 @@ $("#front_file").on("change", function(){
                 console.log('Something went wrong.');
                 document.getElementById("front_file").value = null;
             }
-            
+
         });
     }
-    
+
     return false;
 });
 
@@ -276,7 +276,7 @@ $("#formID").on("submit", function(e){
     var valid = true;
     $('#formID input, #formID select').each(function() {
         var $this = $(this);
-        
+
         if(!$this.val()) {
             valid = false;
             $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -330,8 +330,8 @@ $("input").on('input', function(){
     if($(this).val()!=''){
         $(this).parents('.validate').find('.mySpan').text('');
         $(this).removeClass('is-invalid');
-    }else{ 
-        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); 
+    }else{
+        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
         $(this).addClass('is-invalid');
     }
 });
@@ -341,7 +341,7 @@ $("select").on('change', function(){
     if($(this).val()!=''){
         $(this).parents('.validate').find('.mySpan').text('');
         $(this).removeClass('is-invalid');
-    }else{ 
+    }else{
         $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
         $(this).addClass('is-invalid');
     }

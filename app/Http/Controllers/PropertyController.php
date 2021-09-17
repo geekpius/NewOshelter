@@ -51,22 +51,22 @@ class PropertyController extends Controller
 
     public function loadProperties()
     {
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15); 
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
         return view('user.properties.load_properties', $data)->render();
     }
 
     public function filterProperties(string $filter)
     {
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereType($filter)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15); 
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereType($filter)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
         return view('user.properties.load_properties', $data)->render();
     }
 
     public function searchProperties(string $search)
     {
         if(empty($search)){
-            $data['properties'] = Property::whereUser_id(Auth::user()->id)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);   
+            $data['properties'] = Property::whereUser_id(Auth::user()->id)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
         }else{
-            $data['properties'] = Property::whereUser_id(Auth::user()->id)->where('title','LIKE','%'.$search.'%')->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15); 
+            $data['properties'] = Property::whereUser_id(Auth::user()->id)->where('title','LIKE','%'.$search.'%')->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
         }
         return view('user.properties.load_properties', $data)->render();
     }
@@ -112,7 +112,7 @@ class PropertyController extends Controller
     {
         if(Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(false)->count()>0){
             $data['page_title'] = 'Found something';
-            $data['property']= Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(false)->get(); 
+            $data['property']= Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(false)->get();
             return view('user.properties.duplicate-listing', $data);
         }else{
             $data['page_title'] = 'Add new listing';
@@ -133,13 +133,13 @@ class PropertyController extends Controller
     public function createNewListing(Property $property)
     {
         if(Auth::user()->id == $property->user_id){
-            if(!$property->done_step){
+            if(!$property->isDoneStep()){
                 $data['page_title'] = 'Creating new listing';
-                $data['property']= $property; 
+                $data['property']= $property;
                 if(!Auth::user()->userCurrency){
                     $data['currencies'] = Currency::all();
                 }
-                if($property->type_status == 'auction'){
+                if($property->isAuctionProperty()){
                     return view('user.properties.create-auction-listing', $data);
                 }
                 return view('user.properties.create-listing', $data);
@@ -164,7 +164,7 @@ class PropertyController extends Controller
     public function previewCreatedListing(Property $property)
     {
         $data['page_title'] = 'Preview '.$property->title. ' listing';
-        $data['property']= $property; 
+        $data['property']= $property;
         $countImages = $property->propertyImages->count();
         $data['image'] = $property->propertyImages->sortBy('id')->first();
         $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
@@ -351,7 +351,7 @@ class PropertyController extends Controller
     {
         if(Auth::user()->id == $property->user_id){
             $data['rooms']=$property->propertyHostelBlockRooms()->get();
-            return view("user.properties.show-hostel-amenities", $data)->render(); 
+            return view("user.properties.show-hostel-amenities", $data)->render();
         }else{
             return view("errors.404")->render();
         }
@@ -384,8 +384,7 @@ class PropertyController extends Controller
                             $new_name = Auth::user()->id . $name . '.' . $photo->getClientOriginalExtension();
                             $location = 'assets/images/properties/' . $new_name;
                             (string) $waterMarkLocation = 'assets/images/watermark.png';
-                            $photo = Image::make($photo)->resize(720, 480)->insert($waterMarkLocation, 'center')->save($location); 
-                            // $photo = Image::make($photo)->resize(720, 480)->save($location); 
+                            $photo = Image::make($photo)->resize(720, 480)->insert($waterMarkLocation, 'center')->save($location);
                             //save temp image
                             $files = new PropertyImage;
                             $files->property_id = $property->id;
@@ -395,7 +394,7 @@ class PropertyController extends Controller
                         $message="success";
                     }
                 }
-                
+
             DB::commit();
         }catch(\Exception $e){
             DB::rollback();
@@ -410,7 +409,7 @@ class PropertyController extends Controller
         if(Auth::user()->id == $property->user->id){
             $countImages = $property->propertyImages->count();
             $data['images'] = $property->propertyImages->sortBy('id');
-            return view('user.properties.show-property-photos', $data)->render(); 
+            return view('user.properties.show-property-photos', $data)->render();
         }else{
             return view('errors.404')->render();
         }
@@ -420,7 +419,7 @@ class PropertyController extends Controller
     public function propertyPhotoCaption(Request $request)
     {
         $image = PropertyImage::findOrFail($request->id);
-        $image->caption = $request->name;          
+        $image->caption = $request->name;
         $image->update();
     }
 
@@ -430,7 +429,7 @@ class PropertyController extends Controller
         if(Auth::user()->id == $propertyImage->property->user_id){
             \File::delete("assets/images/properties/".$propertyImage->image);
             $propertyImage->delete();
-            return 'success'; 
+            return 'success';
         }else{
             return 'You are unauthorized to delete';
         }
@@ -479,7 +478,7 @@ class PropertyController extends Controller
     {
         if(Auth::user()->id == $propertyOwnRule->property->user_id){
             $propertyOwnRule->delete();
-            return 'success'; 
+            return 'success';
         }else{
             return 'You are unauthorized to delete';
         }
@@ -502,7 +501,7 @@ class PropertyController extends Controller
             try{
                 DB::beginTransaction();
                 $price = PropertyHostelPrice::updateOrCreate(
-                    ['hostel_block_room_id'=>$request->block_room],['payment_duration'=>$request->advance_duration, 'price_calendar'=>$request->price_calendar, 
+                    ['hostel_block_room_id'=>$request->block_room],['payment_duration'=>$request->advance_duration, 'price_calendar'=>$request->price_calendar,
                     'property_price'=>$request->property_price, 'currency'=>$request->currency]
                 );
                 $message="success";
@@ -531,7 +530,7 @@ class PropertyController extends Controller
     public function deleteHostelBlockPrice(PropertyHostelPrice $propertyHostelPrice)
     {
         $propertyHostelPrice->delete();
-        return 'success'; 
+        return 'success';
     }
 
     //save and continue
@@ -554,11 +553,11 @@ class PropertyController extends Controller
         }
 
         $property = Property::findOrFail($request->property_id);
-        if($property->done_step){
+        if($property->isDoneStep()){
             return redirect()->back();
         }
         else{
-            if($property->type=='hostel')
+            if($property->isHostelPropertyType())
             {
                 //nexts for Hostel
                 if($request->step==1){
@@ -596,14 +595,14 @@ class PropertyController extends Controller
                     ///update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();
-        
+
                     return redirect()->back();
                 }
                 elseif($request->step==5){
                     $location = PropertyLocation::updateOrCreate(
                         ['property_id'=>$request->property_id], ['location'=>$request->location, 'location_slug'=>Str::slug($request->location, '-'), 'latitude'=>$request->latitude, 'longitude'=>$request->longitude]
                     );
-                    
+
                     $property->step = ($request->step+1);
                     $property->update();
                     return redirect()->back();
@@ -617,24 +616,24 @@ class PropertyController extends Controller
                         if(!empty($property->propertyVideo)){
                             $property->propertyVideo->delete();
                         }
-                        
+
                     }
 
                     // update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();
-        
+
                     return redirect()->back();
                 }
                 elseif($request->step==7){
                     $description = PropertyDescription::updateOrCreate(
-                        ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 
+                        ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood,
                         'direction'=>$request->directions]
                     );
                     ///update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();
-        
+
                     return redirect()->back();
                 }
                 elseif($request->step==8){
@@ -649,7 +648,7 @@ class PropertyController extends Controller
                     $property->step = ($request->step+1);
                     $property->update();
                     return redirect()->back();
-                } 
+                }
                 elseif($request->step==9){
                     ///final step to publish
                     $property->publish = true;
@@ -664,21 +663,21 @@ class PropertyController extends Controller
             }else{
                 // nexts for other properties
                 if($request->step==1){
-                    $contain = PropertyContain::updateOrCreate(
+                    PropertyContain::updateOrCreate(
                         ['property_id'=>$request->property_id], ['bedroom'=>$request->bedrooms, 'no_bed'=>$request->beds, 'kitchen'=>$request->kitchen, 'bathroom'=>$request->baths, 'bath_private'=>$request->bath_private, 'toilet'=>$request->toilet, 'toilet_private'=>$request->toilet_private, 'furnish'=>$request->furnish]
                     );
-                    
+
                     $property->step = ($request->step+1);
                     $property->update();
                     return redirect()->back();
-                } 
+                }
                 elseif($request->step==2){
                     if(!empty($request->amenities)){
                         if($property->propertyAmenities->count() > 0){
                             $property->propertyAmenities->each->delete();
                         }
                         foreach($request->amenities as $myAmenity){
-                            $amenity = PropertyAmenity::updateOrCreate(
+                            PropertyAmenity::updateOrCreate(
                                 ['property_id'=>$request->property_id, 'name'=>$myAmenity]
                             );
                         }
@@ -690,7 +689,7 @@ class PropertyController extends Controller
 
                     if(!empty($request->shared_amenities)){
                         foreach($request->shared_amenities as $amenity){
-                            $myAmenity = PropertySharedAmenity::updateOrCreate(
+                            PropertySharedAmenity::updateOrCreate(
                                 ['property_id'=>$request->property_id,'name'=>$amenity]
                             );
                         }
@@ -699,14 +698,14 @@ class PropertyController extends Controller
                     ///update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();
-        
+
                     return redirect()->back();
                 }
                 elseif($request->step==3){
-                    if($property->type_status != 'sale'){
+                    if(!$property->isSaleProperty()){
                         if(!empty($request->property_rules)){
                             foreach($request->property_rules as $rule){
-                                $rule = PropertyRule::updateOrCreate(
+                                PropertyRule::updateOrCreate(
                                     ['property_id'=>$request->property_id,'rule'=>$rule]
                                 );
                             }
@@ -715,11 +714,11 @@ class PropertyController extends Controller
                     ///update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();
-        
+
                     return redirect()->back();
                 }
                 elseif($request->step==4){
-                    $location = PropertyLocation::updateOrCreate(
+                    PropertyLocation::updateOrCreate(
                         ['property_id'=>$request->property_id], ['location'=>$request->location, 'location_slug'=>Str::slug($request->location, '-'), 'latitude'=>$request->latitude, 'longitude'=>$request->longitude]
                     );
                     $property->step = ($request->step+1);
@@ -728,61 +727,61 @@ class PropertyController extends Controller
                 }
                 elseif($request->step==5){
                     if(!empty($request->video_url)){
-                        $video = PropertyVideo::updateOrCreate(
+                        PropertyVideo::updateOrCreate(
                             ['property_id'=>$request->property_id], ['video_url'=>$request->video_url]
                         );
                     }else{
                         if(!empty($property->propertyVideo)){
                             $property->propertyVideo->delete();
                         }
-                        
+
                     }
 
                     // update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();
-        
+
                     return redirect()->back();
                 }
                 elseif($request->step==6){
-                    $description = PropertyDescription::updateOrCreate(
-                        ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 
+                    PropertyDescription::updateOrCreate(
+                        ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood,
                         'direction'=>$request->directions]
                     );
                     ///update step to move forward
                     $property->step = ($request->step+1);
                     $property->update();
-        
+
                     return redirect()->back();
                 }
                 elseif($request->step==7){
-                    if($property->type_status=='rent'){
-                        $price = PropertyPrice::updateOrCreate(
-                            ['property_id'=>$request->property_id],['payment_duration'=>$request->advance_duration, 'price_calendar'=>$request->price_calendar, 
+                    if($property->isRentProperty()){
+                        PropertyPrice::updateOrCreate(
+                            ['property_id'=>$request->property_id],['payment_duration'=>$request->advance_duration, 'price_calendar'=>$request->price_calendar,
                             'property_price'=>$request->property_price, 'currency'=>$request->currency]
                         );
 
                         if(!empty($request->includes)){
                             foreach($request->includes as $include){
-                                $utility = IncludeUtility::updateOrCreate(
+                                IncludeUtility::updateOrCreate(
                                     ['property_id'=>$request->property_id,'name'=>$include]
                                 );
                             }
                         }
                     }
-                    elseif($property->type_status=='short_stay'){
-                        $price = PropertyPrice::updateOrCreate(
-                            ['property_id'=>$request->property_id],['minimum_stay'=>$request->minimum_stay, 'maximum_stay'=>$request->maximum_stay, 'price_calendar'=>$request->price_calendar, 
+                    elseif($property->isShortStayProperty()){
+                        PropertyPrice::updateOrCreate(
+                            ['property_id'=>$request->property_id],['minimum_stay'=>$request->minimum_stay, 'maximum_stay'=>$request->maximum_stay, 'price_calendar'=>$request->price_calendar,
                             'property_price'=>$request->property_price, 'smart_price'=>$request->smart_price, 'currency'=>$request->currency]
                         );
                     }
-                    elseif($property->type_status=='sale'){
-                        $price = PropertyPrice::updateOrCreate(
+                    elseif($property->isSaleProperty()){
+                        PropertyPrice::updateOrCreate(
                             ['property_id'=>$request->property_id],['property_price'=>$request->property_price, 'currency'=>$request->currency]
                         );
                     }
                     else{
-                        $price = PropertyPrice::updateOrCreate(
+                        PropertyPrice::updateOrCreate(
                             ['property_id'=>$request->property_id],['property_price'=>$request->property_price, 'currency'=>$request->currency]
                         );
                     }
@@ -795,13 +794,14 @@ class PropertyController extends Controller
                     $property->step = ($request->step+1);
                     $property->update();
                     return redirect()->back();
-                } 
+                }
                 elseif($request->step==8){
                     ///how tenant will book
                     $property->step = ($request->step+1);
                     $property->update();
                     return redirect()->back();
-                }elseif($request->step==9){
+                }
+                elseif($request->step==9){
                     ///final step to publish
                     $property->publish = true;
                     $property->done_step = true;
@@ -810,7 +810,7 @@ class PropertyController extends Controller
                     if(Session::get("edit")){
                         Session::forget("edit");
                     }
-        
+
                     return redirect()->route('single.property', $property->id);
                 }
             }
@@ -829,11 +829,11 @@ class PropertyController extends Controller
                 $contain = PropertyContain::updateOrCreate(
                     ['property_id'=>$request->property_id], ['bedroom'=>$request->bedrooms, 'no_bed'=>$request->beds, 'kitchen'=>$request->kitchen, 'bathroom'=>$request->baths, 'bath_private'=>$request->bath_private, 'toilet'=>$request->toilet, 'toilet_private'=>$request->toilet_private, 'furnish'=>$request->furnish]
                 );
-                
+
                 $property->step = ($request->step+1);
                 $property->update();
                 return redirect()->back();
-            } 
+            }
             elseif($request->step==2){
                 if(!empty($request->amenities)){
                     if($property->propertyAmenities->count() > 0){
@@ -861,7 +861,7 @@ class PropertyController extends Controller
                 ///update step to move forward
                 $property->step = ($request->step+1);
                 $property->update();
-    
+
                 return redirect()->back();
             }
             elseif($request->step==3){
@@ -874,31 +874,31 @@ class PropertyController extends Controller
             }
             elseif($request->step==4){
                 $description = PropertyDescription::updateOrCreate(
-                    ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood, 
+                    ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood,
                     'direction'=>$request->directions]
                 );
                 ///update step to move forward
                 $property->step = ($request->step+1);
                 $property->update();
-    
+
                 return redirect()->back();
             }
             elseif($request->step==5){
-                
+
                 $venue = PropertyAuctionSchedule::updateOrCreate(
                     ['property_id'=>$request->property_id],
                     [
-                        'auction_venue'=>$request->auction_venue, 
-                        'auction_date'=>$request->auction_date, 
+                        'auction_venue'=>$request->auction_venue,
+                        'auction_date'=>$request->auction_date,
                         'auction_time'=>$request->auction_time
                     ]
                 );
-                
+
                 ///update step to move forward
                 $property->step = ($request->step+1);
                 $property->update();
                 return redirect()->back();
-            } 
+            }
             elseif($request->step==6){
                 ///how tenant will book
                 $property->step = ($request->step+1);
@@ -914,7 +914,7 @@ class PropertyController extends Controller
                 if(Session::get("edit")){
                     Session::forget("edit");
                 }
-    
+
                 return redirect()->route('single.property', $property->id);
             }
         }
@@ -951,7 +951,7 @@ class PropertyController extends Controller
         return redirect()->route('single.property', $property->id);
     }
 
-    
+
     //edit saved listing
     public function editListing(Property $property)
     {
@@ -964,7 +964,7 @@ class PropertyController extends Controller
             return view("errors.404");
         }
     }
-    
+
     //update edited listing
     public function updateListing(Request $request, Property $property)
     {
@@ -980,7 +980,7 @@ class PropertyController extends Controller
                 $property->children = $request->children;
                 $property->done_step = false;
                 $property->update();
-                
+
                 if($property->publish){
                     Session::put("edit", true);
                 }
@@ -989,7 +989,7 @@ class PropertyController extends Controller
         }else{
             return redirect()->back();
         }
-        
+
     }
 
     ///toggle publish visibility
@@ -1012,7 +1012,7 @@ class PropertyController extends Controller
             return 'You are unauthorized to switch visibility';
         }
     }
-    
+
     ///confirm delete
     public function confirmDelete(Property $property)
     {
@@ -1034,7 +1034,7 @@ class PropertyController extends Controller
         ]);
 
         if(auth()->check()){
-            if(Hash::check($request->password, Auth::user()->password)) 
+            if(Hash::check($request->password, Auth::user()->password))
             {
                 $property->is_active = false;
                 $property->update();
@@ -1066,9 +1066,9 @@ class PropertyController extends Controller
     //     $data['images'] = $property->propertyImages->slice(1)->take(($countImages==0)? 0:$countImages-1);
     //     return view('admin.properties.show-detail-property', $data);
     // }
-    
 
-   
+
+
 
 
 

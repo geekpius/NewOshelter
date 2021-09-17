@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->boolean('is_active')->default(true);
             $table->string('image')->nullable();
             $table->string('email_verification_token')->nullable();
+            $table->dateTime('email_verification_expired_at')->nullable();
             $table->boolean('verify_email')->default(User::UNVERIFY_EMAIL);
             $table->dateTime('verify_email_time')->nullable();
             $table->string('sms_verification_token')->nullable();

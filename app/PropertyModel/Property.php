@@ -45,7 +45,9 @@ class Property extends Model
     CONST PENDING = 'pending';
 
     protected $fillable = [
-        'user_id', 'base', 'type', 'type_status', 'title', 'step', 'adult', 'children', 'publish', 'done_step', 'step',
+        'user_id', 'base', 'type', 'type_status', 'title', 'step',
+        'adult', 'children', 'publish', 'done_step', 'step',
+        'section', 'is_active',
     ];
 
     public function isPublish() : bool
@@ -287,7 +289,30 @@ class Property extends Model
         return $this->orders->where('status', 2)->count() == 0;
     }
 
+    public function isAuctionProperty(): bool
+    {
+        return $this->type_status == 'auction';
+    }
 
+    public function isSaleProperty(): bool
+    {
+        return $this->type_status == 'sale';
+    }
+
+    public function isRentProperty(): bool
+    {
+        return $this->type_status == 'rent';
+    }
+
+    public function isShortStayProperty(): bool
+    {
+        return $this->type_status == 'short_stay';
+    }
+
+    public function isHostelPropertyType(): bool
+    {
+        return $this->type == 'hostel';
+    }
 
 
 

@@ -33,8 +33,8 @@ class UserProfileController extends Controller
         $data['page_title'] = current(explode(' ',Auth::user()->name)).' account info';
         return view('user.account.account_info', $data);
     }
- 
-    public function updateAccountInfo(Request $request)
+
+    public function updateAccountInfo(Request $request): string
     {
         $validator = \Validator::make($request->all(), [
             'legal_name' => 'required|string',
@@ -45,16 +45,15 @@ class UserProfileController extends Controller
             'profession' => 'required|string',
             'emergency_contact' => 'required|string',
         ]);
-        
+
         if ($validator->fails()){
             return 'fail';
-            exit();
         }else{
             $pro = User::FindorFail(Auth::user()->id);
             $pro->name= $request->legal_name;
             $pro->update();
 
-            $profile = UserProfile::updateOrCreate(
+            UserProfile::updateOrCreate(
                 ['user_id'=>Auth::user()->id],
                 [
                     'gender'=>$request->gender, 'dob'=>$request->dob, 'marital_status'=>$request->marital_status,
@@ -65,8 +64,8 @@ class UserProfileController extends Controller
         }
     }
 
-    public function uploadProfilePhoto(Request $request)
-    {    
+    public function uploadProfilePhoto(Request $request): string
+    {
         $validator = \Validator::make($request->all(), [
             'photo' => 'required|image|mimes:jpg,png,jpeg|max:1024',
         ]);
@@ -82,7 +81,7 @@ class UserProfileController extends Controller
                     $name = sha1(date('YmdHis') . str_random(30));
                     $new_name = Auth::user()->id . $name . '.' . $photo->getClientOriginalExtension();
                     $location = 'assets/images/users/' . $new_name;
-                    Image::make($photo)->resize(150, 150)->save($location); 
+                    Image::make($photo)->resize(150, 150)->save($location);
                     //delete old photo
                     if(!empty($user->image)){
                         \File::delete("assets/images/users/".$user->image);
@@ -102,7 +101,7 @@ class UserProfileController extends Controller
         }
 
         return $message;
-             
+
     }
 
 
@@ -111,7 +110,7 @@ class UserProfileController extends Controller
         $data['page_title'] = 'Change password';
         return view('user.account.change_password', $data);
     }
- 
+
     public function updatePassword(Request $request)
     {
         $validator = \Validator::make($request->all(), [
@@ -125,7 +124,7 @@ class UserProfileController extends Controller
         }
         else{
             if(auth()->check()){
-                if(Hash::check($request->current_password, Auth::user()->password)) 
+                if(Hash::check($request->current_password, Auth::user()->password))
                 {
                     $user = User::findorFail(Auth::user()->id);
                     $user->password = Hash::make($request->password);
@@ -138,7 +137,7 @@ class UserProfileController extends Controller
                 }
             }
         }
-        
+
     }
 
     public function loginsView()
@@ -187,7 +186,7 @@ class UserProfileController extends Controller
     }
 
     public function uploadFrontCard(Request $request): string
-    {    
+    {
         $validator = \Validator::make($request->all(), [
             'front_file' => 'required|image|mimes:jpg,png,jpeg|max:1024',
         ]);
@@ -205,7 +204,7 @@ class UserProfileController extends Controller
                     $name = sha1(date('YmdHis') . str_random(30));
                     $new_name = Auth::user()->id . $name . '.' . $photo->getClientOriginalExtension();
                     $location = 'assets/images/cards/' . $new_name;
-                    Image::make($photo)->resize(300, 200)->save($location); 
+                    Image::make($photo)->resize(300, 200)->save($location);
                     //delete old photo
                     if(!empty($user)){
                         if(!empty($user->id_front)){
@@ -230,11 +229,11 @@ class UserProfileController extends Controller
         }
 
         return $message;
-             
+
     }
 
     public function updateCardInfo(Request $request): string
-    {    
+    {
         $validator = \Validator::make($request->all(), [
             'id_type' => 'required',
             'id_number' => 'required',
@@ -260,11 +259,11 @@ class UserProfileController extends Controller
         }
 
         return $message;
-             
+
     }
 
-    
 
-        
-    
+
+
+
 }
