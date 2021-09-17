@@ -399,7 +399,7 @@ class ComposerStaticInitec12ffc76e7e9fd2117533448ccaa5ee
         'App\\Jobs\\SendEmailJob' => __DIR__ . '/../..' . '/app/Jobs/SendEmailJob.php',
         'App\\Mail\\EmailSender' => __DIR__ . '/../..' . '/app/Mail/EmailSender.php',
         'App\\MessageModel\\Message' => __DIR__ . '/../..' . '/app/MessageModel/Message.php',
-        'App\\MyMode\\IncludeUtility' => __DIR__ . '/../..' . '/app/MyMode/IncludeUtility.php',
+        'App\\MyMode\\PropertyReview' => __DIR__ . '/../..' . '/app/MyMode/PropertyReview.php',
         'App\\Notifications\\SendResetPasswordNotification' => __DIR__ . '/../..' . '/app/Notifications/SendResetPasswordNotification.php',
         'App\\Observers\\UserObserver' => __DIR__ . '/../..' . '/app/Observers/UserObserver.php',
         'App\\OrderModel\\Order' => __DIR__ . '/../..' . '/app/OrderModel/Order.php',
