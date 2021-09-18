@@ -40,7 +40,7 @@ class WebsiteController extends Controller
         // SELECT * FROM properties WHERE is_active=1 AND publish=1 AND done_step=1 AND (id NOT IN (SELECT property_id FROM user_visits) OR id IN (SELECT property_id FROM user_visits WHERE status IN(0,2))) AND (id NOT IN (SELECT property_id FROM orders) OR id IN (SELECT property_id FROM orders WHERE status IN(0,1)))
         $data['page_title'] = null;
         $data['types'] = PropertyType::whereIs_public(true)->get();
-        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status','!=','auction')->take(50)->inRandomOrder()->orderBy('id', 'DESC')
+        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status','!=','auction')->take(50)->inRandomOrder()->orderBy('id', 'DESC')
 //        ->where(function($query){
 //            $query->whereNotIn('id', function($query){
 //                $query->select('property_id')->from(with(new Order)->getTable());
@@ -50,13 +50,13 @@ class WebsiteController extends Controller
 //        })
             ->get();
 
-        $data['count_rent'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'rent')->count();
+        $data['count_rent'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status', 'rent')->count();
 
-        $data['count_short_stay'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'short_stay')->count();
+        $data['count_short_stay'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status', 'short_stay')->count();
 
-        $data['count_sale'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'sale')->count();
+        $data['count_sale'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status', 'sale')->count();
 
-        $data['count_auction'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('type_status', 'auction')->count();
+        $data['count_auction'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status', 'auction')->count();
 
         return view('website.welcome', $data);
     }

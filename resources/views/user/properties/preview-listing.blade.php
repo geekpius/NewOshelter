@@ -258,117 +258,117 @@
 
                 <hr>
                 {{-- Availability --}}
-{{--                <div class="pxp-single-property-section">--}}
-{{--                    <h3>Availability</h3>--}}
-{{--                    @if ($property->isHostelPropertyType())--}}
-{{--                        <p>--}}
-{{--                            <i class="fa fa-square font-12"></i> You will get to know your room mate when renting is confirmed.--}}
-{{--                        </p>--}}
-{{--                        <div class="row">--}}
-{{--                            @if (count($property->propertyHostelBlockRooms))--}}
-{{--                                @foreach ($property->propertyHostelBlockRooms as $block)--}}
-{{--                                <div class="col-md-6 col-lg-4">--}}
-{{--                                    <div class="pro-order-box">--}}
-{{--                                        <h4 class="header-title text-primary">--}}
-{{--                                            <i class="fa fa-home text-success font-12"></i>--}}
-{{--                                            {{  $block->propertyHostelBlock->block_name  }}--}}
-{{--                                        </h4>--}}
-{{--                                        <p class="">--}}
-{{--                                            <i class="fa fa-check text-success" style="font-size:9px"></i>--}}
-{{--                                            <span>{{  $block->block_room_type  }}</span>--}}
-{{--                                            <br>--}}
-{{--                                            <i class="fa fa-check text-success" style="font-size:9px"></i>--}}
-{{--                                            <span>{{ $block->gender }}</span><br>--}}
-{{--                                            <i class="fa fa-check text-success" style="font-size:9px"></i>--}}
-{{--                                            <span class="font-weight-bold">{{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}/{{ $block->propertyHostelPrice->price_calendar }}</span><br>--}}
-{{--                                            <i class="fa fa-check text-success" style="font-size:9px"></i>--}}
-{{--                                            @if ($block->hostelBlockRoomNumbers->where('full', false)->count()>0)--}}
-{{--                                            <span class="font-weight-bold">{{ $block->hostelBlockRoomNumbers->where('full', false)->count() }} room(s) available </span>--}}
-{{--                                            @else--}}
-{{--                                            <span class="font-weight-bold">No room available on this block </span>--}}
-{{--                                            @endif--}}
-{{--                                        </p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                @endforeach--}}
-{{--                            @endif--}}
-{{--                        </div>--}}
-{{--                    @else--}}
-{{--                        <div class="row">--}}
-{{--                            @if ($property->isRentProperty())--}}
-{{--                                <div class="col-sm-12 col-lg-6">--}}
-{{--                                    <div class="pro-order-box">--}}
-{{--                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for renting':'Rented, too late' }}</h6>--}}
-{{--                                        <p class=""><i class="fa fa-check text-success font-12"></i>--}}
-{{--                                            <span>{{ $property->propertyPrice->getPaymentDuration() }}</span>--}}
-{{--                                            <br>--}}
-{{--                                            <i class="fa fa-check text-success font-12"></i>--}}
-{{--                                            <span>--}}
-{{--                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>/<small>{{ $property->propertyPrice->price_calendar }}</small>--}}
-{{--                                            </span>--}}
-{{--                                        </p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            @elseif ($property->isShortStayProperty())--}}
-{{--                                <div class="col-sm-12 col-lg-6">--}}
-{{--                                    <div class="pro-order-box">--}}
-{{--                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for booking':'Booked, too late' }}</h6>--}}
-{{--                                        <p class=""><i class="fa fa-check text-success font-12"></i>--}}
-{{--                                            <span>{{ $property->propertyPrice->getMinimumStay() }}</span>--}}
-{{--                                            <br>--}}
-{{--                                            <i class="fa fa-check text-success font-12"></i>--}}
-{{--                                            <span>{{ $property->propertyPrice->getMaximumStay() }}</span><br>--}}
-{{--                                            <i class="fa fa-check text-success font-12"></i>--}}
-{{--                                            <span>--}}
-{{--                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>/<small>{{ $property->propertyPrice->price_calendar }}</small>--}}
-{{--                                            </span><br>--}}
-{{--                                            <i class="fa fa-check text-success font-12"></i>--}}
-{{--                                            <span>{{ $property->getNumberOfGuest() }} {{ str_plural('Visitor', $property->getNumberOfGuest()) }}</span><br>--}}
-{{--                                            <i class="fa fa-check text-success font-12"></i>--}}
-{{--                                            <span>{{ $property->adult }} {{ str_plural('Adult', $property->adult) }}</span> |--}}
-{{--                                            <span>--}}
-{{--                                            @if($property->children==0)--}}
-{{--                                            No Children--}}
-{{--                                            @elseif($property->children==1)--}}
-{{--                                            {{ $property->children.' Child' }}--}}
-{{--                                            @else--}}
-{{--                                            {{ $property->children.' Children' }}--}}
-{{--                                            @endif--}}
-{{--                                            </span>--}}
-{{--                                        </p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            @elseif ($property->isSaleProperty())--}}
-{{--                                <div class="col-sm-12 col-lg-6">--}}
-{{--                                    <div class="pro-order-box">--}}
-{{--                                        <h6 class="header-title text-primary">Available for sale</h6>--}}
-{{--                                        <p class="">--}}
-{{--                                            <i class="fa fa-check text-success font-12"></i>--}}
-{{--                                            <span>--}}
-{{--                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>--}}
-{{--                                            </span>--}}
-{{--                                        </p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            @else--}}
-{{--                                <div class="col-sm-12 col-lg-6">--}}
-{{--                                    <div class="pro-order-box">--}}
-{{--                                        <i class="fa fa-user-circle text-primary"></i>--}}
-{{--                                        <h4 class="header-title">Some Title</h4>--}}
-{{--                                        <p class="">--}}
-{{--                                            <span>Bidding initial price</span>--}}
-{{--                                            <br>--}}
-{{--                                            <i class="fa fa-check text-success" style="font-size:9px"></i>--}}
-{{--                                            <span>--}}
-{{--                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>--}}
-{{--                                            </span>--}}
-{{--                                        </p>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            @endif--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
-{{--                </div>--}}
+                <div class="pxp-single-property-section">
+                    <h3>Availability</h3>
+                    @if ($property->isHostelPropertyType())
+                        <p>
+                            <i class="fa fa-square font-12"></i> You will get to know your room mate when renting is confirmed.
+                        </p>
+                        <div class="row">
+                            @if (count($property->propertyHostelBlockRooms))
+                                @foreach ($property->propertyHostelBlockRooms as $block)
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="pro-order-box">
+                                        <h4 class="header-title text-primary">
+                                            <i class="fa fa-home text-success font-12"></i>
+                                            {{  $block->propertyHostelBlock->block_name  }}
+                                        </h4>
+                                        <p class="">
+                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            <span>{{  $block->block_room_type  }}</span>
+                                            <br>
+                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            <span>{{ $block->gender }}</span><br>
+                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            <span class="font-weight-bold">{{ $block->propertyHostelPrice->currency }} {{ number_format($block->propertyHostelPrice->property_price,2) }}/{{ $block->propertyHostelPrice->price_calendar }}</span><br>
+                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            @if ($block->hostelBlockRoomNumbers->where('full', false)->count()>0)
+                                            <span class="font-weight-bold">{{ $block->hostelBlockRoomNumbers->where('full', false)->count() }} room(s) available </span>
+                                            @else
+                                            <span class="font-weight-bold">No room available on this block </span>
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+                                @endforeach
+                            @endif
+                        </div>
+                    @else
+                        <div class="row">
+                            @if ($property->isRentProperty())
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="pro-order-box">
+                                        <h6 class="header-title {{ !$property->isPropertyTaken() ? 'text-primary':'text-danger' }}">{{ !$property->isPropertyTaken() ? 'Available, ready for renting':'Rented, too late' }}</h6>
+                                        <p class=""><i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->propertyPrice->getPaymentDuration() }}</span>
+                                            <br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>
+                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>/<small>{{ $property->propertyPrice->price_calendar }}</small>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            @elseif ($property->isShortStayProperty())
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="pro-order-box">
+                                        <h6 class="header-title {{ !$property->isPropertyTaken() ? 'text-primary':'text-danger' }}">{{ !$property->isPropertyTaken() ? 'Available, ready for booking':'Booked, too late' }}</h6>
+                                        <p class=""><i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->propertyPrice->getMinimumStay() }}</span>
+                                            <br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->propertyPrice->getMaximumStay() }}</span><br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>
+                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>/<small>{{ $property->propertyPrice->price_calendar }}</small>
+                                            </span><br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->getNumberOfGuest() }} {{ str_plural('Visitor', $property->getNumberOfGuest()) }}</span><br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->adult }} {{ str_plural('Adult', $property->adult) }}</span> |
+                                            <span>
+                                            @if($property->children==0)
+                                            No Children
+                                            @elseif($property->children==1)
+                                            {{ $property->children.' Child' }}
+                                            @else
+                                            {{ $property->children.' Children' }}
+                                            @endif
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            @elseif ($property->isSaleProperty())
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="pro-order-box">
+                                        <h6 class="header-title text-primary">Available for sale</h6>
+                                        <p class="">
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>
+                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="col-sm-12 col-lg-6">
+                                    <div class="pro-order-box">
+                                        <i class="fa fa-user-circle text-primary"></i>
+                                        <h4 class="header-title">Some Title</h4>
+                                        <p class="">
+                                            <span>Bidding initial price</span>
+                                            <br>
+                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
+                                            <span>
+                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                </div>
                 <hr>
                 {{-- Reviews --}}
                 <div class="pxp-single-property-section">

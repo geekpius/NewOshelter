@@ -43,6 +43,8 @@ class Property extends Model
     const DONE_STEP = true;
     const NOT_DONE_STEP = false;
     CONST PENDING = 'pending';
+    CONST APPROVED = 'approved';
+    CONST TAKEN = 'taken';
 
     protected $fillable = [
         'user_id', 'base', 'type', 'type_status', 'title', 'step',
@@ -312,6 +314,22 @@ class Property extends Model
     public function isHostelPropertyType(): bool
     {
         return $this->type == 'hostel';
+    }
+
+
+    public function isPropertyTaken(): bool
+    {
+        return $this->status == self::TAKEN;
+    }
+
+    public function isPropertyPending(): bool
+    {
+        return $this->status == self::PENDING;
+    }
+
+    public function isPropertyApproved(): bool
+    {
+        return $this->status == self::APPROVED;
     }
 
 

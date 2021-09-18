@@ -10,14 +10,14 @@
                         <i class="fas fa-ellipsis-v font-20 text-muted"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel1">
-                        @if ($property->type_status == 'rent' || $property->type_status == 'short_stay')
+                        @if ($property->isRentProperty() || $property->isShortStayProperty())
                         <a class="dropdown-item text-purple" href="javascript:void(0);" onclick="window.location='{{ route('property.visits',$property->id) }}';"><i class="fa fa-building"></i> Visits</a>
                         <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.bookings', $property->id) }}';"><i class="mdi mdi-briefcase"></i> Bookings</a>
                         @endif
-                        @if ($property->type_status == 'sale')
+                        @if ($property->isSaleProperty())
                         <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.orders', $property->id) }}';"><i class="mdi mdi-cart"></i> Orders</a>
                         @endif
-                        @if ($property->type_status == 'auction')
+                        @if ($property->isAuctionProperty())
                         <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.events', $property->id) }}';"><i class="mdi mdi-briefcase"></i> Auction Bookings</a>
                         @endif
                         <a class="dropdown-item {{$property->publish? 'text-pink':'text-success'}} btnVisibility" href="javascript:void(0);" data-href="{{ route('property.visibility', $property->id) }}" data-title="{{ $property->title }}"><i class="{{$property->publish? 'fa fa-eye-slash':'fa fa-check'}}"></i> {{$property->publish? 'Hide':'Publish'}}</a>
@@ -49,7 +49,7 @@
                                 No reviews yet
                                 @endif
                             </li>
-                            @if ($property->type=='hostel')
+                            @if ($property->isHostelPropertyType())
                                 <li class="list-inline-item" style="text-transform: none">
                                     {{ $property->userHostelVisits->whereIn('is_in', [0,1])->count() }} {{ str_plural('occupant', $property->userHostelVisits->whereIn('is_in', [0,1])->count()) }}
                                 </li>
@@ -62,25 +62,25 @@
                                     @endif
                                 </li>
                             @else
-                                @if ($property->type_status=='sale')
+                                @if ($property->isSaleProperty())
                                 <li class="list-inline-item">
                                     <span class="badge badge-secondary px-3">Available for sale</span>
                                 </li>
-                                @elseif ($property->type_status=='auction')
+                                @elseif ($property->isAuctionProperty())
                                 <li class="list-inline-item">
                                     <span class="badge badge-secondary px-3">Available for auction</span>
                                 </li>
                                 @else
                                 <li class="list-inline-item" style="text-transform: none">
-                                    {{ $property->userVisits->whereIn('status', [0,1])->count() }} {{ str_plural('occupant', $property->userVisits->whereIn('status', [0,1])->count()) }}                                                 
+                                    {{ $property->isPropertyTaken() }}
                                 </li>
                                 <br>
                                 <li class="list-inline-item">
-                                    @if (!$property->userVisits->count())
+                                    @if (!$property->isPropertyTaken())
                                         <span class="badge badge-secondary px-3">Available for {{ str_replace('_',' ',$property->type_status) }}</span>
                                     @else
                                         <span class="badge badge-danger px-3">
-                                            @if ($property->type_status=='rent')
+                                            @if ($property->isRentProperty())
                                                 Rented
                                             @else
                                                 Booked
@@ -90,16 +90,16 @@
                                 </li>
                                 @endif
                             @endif
-                            
+
                             <li class="list-inline-item font-14"><i class="fa fa-clock"></i> {{  \Carbon\Carbon::parse($property->created_at)->format('d M, Y')  }}</li>
                             <li class="list-inline-item text-capitalize publishStatus font-14">{{  $property->publish? 'Published':"Hidden"  }}</li>
                         </ul>
-                    </div><!--end meta-box-->            
+                    </div><!--end meta-box-->
                     <h6 class="">
                         <a href="{{ route('property.preview', $property->id) }}" class="text-primary">{{ $property->title }}</a>
                     </h6>
                     <span class="font-14">{{ $property->propertyLocation->location }}</span>
-                </div><!--end blog-card-->                                   
+                </div><!--end blog-card-->
             </div><!--end card-body-->
         </div>
     </div>
@@ -117,13 +117,13 @@
 </div> --}}
 @else
 <div class="text-center mt-5 mb-3">
-    <div class="alert alert-outline-pink b-round fade show" role="alert">                                            
+    <div class="alert alert-outline-pink b-round fade show" role="alert">
         <i class="mdi mdi-alert-outline alert-icon text-danger"></i>
         <div class="alert-text">
             No property found in your lists. You can add <a href="{{ route('property.add') }}">new property</a> list now.
         </div>
     </div>
-</div>                    
+</div>
 @endif
 
 @if(count($properties))
@@ -172,4 +172,3 @@
 </script>
 @endif
 
-                

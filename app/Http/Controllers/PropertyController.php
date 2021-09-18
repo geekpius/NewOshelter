@@ -811,12 +811,17 @@ class PropertyController extends Controller
                         Session::forget("edit");
                     }
 
+                    if($property->isPropertyPending()){
+                        session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure property is legit.');
+                        return redirect()->route('property');
+                    }
                     return redirect()->route('single.property', $property->id);
                 }
             }
         }
 
     }
+
 
     public function storeAuction(Request $request)
     {
