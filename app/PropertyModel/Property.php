@@ -44,12 +44,13 @@ class Property extends Model
     const NOT_DONE_STEP = false;
     CONST PENDING = 'pending';
     CONST APPROVED = 'approved';
+    CONST REJECTED = 'rejected';
     CONST TAKEN = 'taken';
 
     protected $fillable = [
         'user_id', 'base', 'type', 'type_status', 'title', 'step',
         'adult', 'children', 'publish', 'done_step', 'step',
-        'section', 'is_active',
+        'section', 'is_active', 'sector',
     ];
 
     public function isPublish() : bool

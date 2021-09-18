@@ -60,6 +60,7 @@ return array(
     'App\\Jobs\\SendEmailJob' => $baseDir . '/app/Jobs/SendEmailJob.php',
     'App\\Mail\\EmailSender' => $baseDir . '/app/Mail/EmailSender.php',
     'App\\MessageModel\\Message' => $baseDir . '/app/MessageModel/Message.php',
+    'App\\MyMode\\Message' => $baseDir . '/app/MyMode/Message.php',
     'App\\MyMode\\PropertyReview' => $baseDir . '/app/MyMode/PropertyReview.php',
     'App\\Notifications\\SendResetPasswordNotification' => $baseDir . '/app/Notifications/SendResetPasswordNotification.php',
     'App\\Observers\\UserObserver' => $baseDir . '/app/Observers/UserObserver.php',

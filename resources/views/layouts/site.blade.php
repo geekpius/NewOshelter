@@ -41,7 +41,7 @@
                             <span class="font-14-large oshelter">OShelter</span>
                         </a>
                     </div>
-                    
+
                     <div class="col-8 col-md-7 text-center">
                         <div class="mobile-menu-items">
                             @auth
@@ -89,10 +89,10 @@
                             <a class="nav-link" data-toggle="dropdown" href="#" role="button"
                                 aria-haspopup="false" aria-expanded="false">
                                 <i class="fa fa-bell fa-lg text-white noti-bell"></i>
-                                <span class="badge badge-danger badge-pill noti-icon-badge myNotificationCount" data-url="{{ route('notification.count') }}"></span>
+                                <span class="badge badge-danger badge-pill noti-icon-badge myNotificationCount" data-url="{{ route('notification.count') }}">0</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right myNotifications" data-url="{{ route('notifications') }}" style="width: 250px">
-                                
+
                             </div>
                         </div>
                     </div>

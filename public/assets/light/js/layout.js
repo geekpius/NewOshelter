@@ -15,7 +15,7 @@ function getMessageCount(){
     setTimeout(getMessageCount, 10000);
 }
 
-// getMessageCount();
+getMessageCount();
 
 
 // notifications
