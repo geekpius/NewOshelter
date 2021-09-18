@@ -574,7 +574,7 @@ class PropertyController extends Controller
                     if(!empty($request->shared_amenities)){
                         PropertySharedAmenity::whereProperty_id($request->property_id)->delete();
                         foreach($request->shared_amenities as $amenity){
-                            $myAmenity = PropertySharedAmenity::updateOrCreate(
+                            PropertySharedAmenity::updateOrCreate(
                                 ['property_id'=>$request->property_id,'name'=>$amenity]
                             );
                         }
@@ -599,7 +599,7 @@ class PropertyController extends Controller
                     return redirect()->back();
                 }
                 elseif($request->step==5){
-                    $location = PropertyLocation::updateOrCreate(
+                    PropertyLocation::updateOrCreate(
                         ['property_id'=>$request->property_id], ['location'=>$request->location, 'location_slug'=>Str::slug($request->location, '-'), 'latitude'=>$request->latitude, 'longitude'=>$request->longitude]
                     );
 
@@ -626,7 +626,7 @@ class PropertyController extends Controller
                     return redirect()->back();
                 }
                 elseif($request->step==7){
-                    $description = PropertyDescription::updateOrCreate(
+                    PropertyDescription::updateOrCreate(
                         ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood,
                         'direction'=>$request->directions]
                     );
@@ -658,9 +658,14 @@ class PropertyController extends Controller
                     if(Session::get("edit")){
                         Session::forget("edit");
                     }
+                    if($property->isPropertyPending()){
+                        session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure property is legit.');
+                        return redirect()->route('property');
+                    }
                     return redirect()->route('single.property', $property->id);
                 }
-            }else{
+            }
+            else{
                 // nexts for other properties
                 if($request->step==1){
                     PropertyContain::updateOrCreate(
@@ -831,7 +836,7 @@ class PropertyController extends Controller
         }
         else{
             if($request->step==1){
-                $contain = PropertyContain::updateOrCreate(
+                PropertyContain::updateOrCreate(
                     ['property_id'=>$request->property_id], ['bedroom'=>$request->bedrooms, 'no_bed'=>$request->beds, 'kitchen'=>$request->kitchen, 'bathroom'=>$request->baths, 'bath_private'=>$request->bath_private, 'toilet'=>$request->toilet, 'toilet_private'=>$request->toilet_private, 'furnish'=>$request->furnish]
                 );
 
@@ -845,7 +850,7 @@ class PropertyController extends Controller
                         $property->propertyAmenities->each->delete();
                     }
                     foreach($request->amenities as $myAmenity){
-                        $amenity = PropertyAmenity::updateOrCreate(
+                        PropertyAmenity::updateOrCreate(
                             ['property_id'=>$request->property_id, 'name'=>$myAmenity]
                         );
                     }
@@ -857,7 +862,7 @@ class PropertyController extends Controller
 
                 if(!empty($request->shared_amenities)){
                     foreach($request->shared_amenities as $amenity){
-                        $myAmenity = PropertySharedAmenity::updateOrCreate(
+                       PropertySharedAmenity::updateOrCreate(
                             ['property_id'=>$request->property_id,'name'=>$amenity]
                         );
                     }
@@ -870,7 +875,7 @@ class PropertyController extends Controller
                 return redirect()->back();
             }
             elseif($request->step==3){
-                $location = PropertyLocation::updateOrCreate(
+                PropertyLocation::updateOrCreate(
                     ['property_id'=>$request->property_id], ['location'=>$request->location, 'location_slug'=>Str::slug($request->location, '-'), 'latitude'=>$request->latitude, 'longitude'=>$request->longitude]
                 );
                 $property->step = ($request->step+1);
@@ -878,7 +883,7 @@ class PropertyController extends Controller
                 return redirect()->back();
             }
             elseif($request->step==4){
-                $description = PropertyDescription::updateOrCreate(
+                PropertyDescription::updateOrCreate(
                     ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood,
                     'direction'=>$request->directions]
                 );
@@ -890,7 +895,7 @@ class PropertyController extends Controller
             }
             elseif($request->step==5){
 
-                $venue = PropertyAuctionSchedule::updateOrCreate(
+                PropertyAuctionSchedule::updateOrCreate(
                     ['property_id'=>$request->property_id],
                     [
                         'auction_venue'=>$request->auction_venue,
@@ -920,6 +925,10 @@ class PropertyController extends Controller
                     Session::forget("edit");
                 }
 
+                if($property->isPropertyPending()){
+                    session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure property is legit.');
+                    return redirect()->route('property');
+                }
                 return redirect()->route('single.property', $property->id);
             }
         }

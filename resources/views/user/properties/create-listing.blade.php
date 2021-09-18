@@ -181,7 +181,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                 </div>
 
                                 <div class="step-content pos-rel">
-                                    @if(!$property->isHostelPropertyType())
+                                    @if($property->isHostelPropertyType())
                                         <div class="step-pane active" data-step="1">
                                             <div class="row">
                                                 <div class="col-lg-6">
@@ -712,7 +712,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                             <div class="row">
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group input-group-sm mb-3">
-                                                                        <span class="font-14 float-right"><a href="{{ route('account.payments') }}" target="_blank" class="text-decoration-none btn-edit">Edit</a></span>
+                                                                        <span class="font-14 float-right"><a href="{{ route('account.payments') }}" target="_blank" class="text-decoration-none btn-edit">Change</a></span>
                                                                         <p class="font-weight-bold font-14">Choosen currency</p>
                                                                         <p class="font-14">{{ Auth::user()->userCurrency? Auth::user()->userCurrency->getCurrencyName():'Ghana Cedis' }}</p>
                                                                         <input type="hidden" name="currency" readonly value="{{ Auth::user()->userCurrency? Auth::user()->userCurrency->currency:'GHS' }}">
@@ -803,7 +803,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                             </select>
                                                             <span class="text-danger small mySpan" role="alert"></span>
                                                         </div>
-                                                        @if ($property->type_status=='rent' || $property->type_status=='auction')
+                                                        @if ($property->isSaleProperty() || $property->isAuctionProperty())
                                                         <input type="hidden" value="0" name="beds" readonly>
                                                         @else
                                                         <div class="form-group mb-0 validate">
@@ -893,12 +893,12 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
 
                                         <div class="step-pane" data-step="3">
                                             <div class="row">
-                                                @if($property->type_status=='rent' || $property->type_status=='short_stay')
+                                                @if($property->isRentProperty() || $property->isShortStayProperty())
                                                     <div class="col-lg-7">
                                                         <h4>Enforce property rules if any</h4>
-                                                        @if ($property->type_status=='rent')
+                                                        @if ($property->isRentProperty())
                                                         <p><i class="fa fa-dot-circle font-13"></i> Visitors must agree to your rules before renting property</p>
-                                                        @elseif($property->type_status=='short_stay')
+                                                        @elseif($property->isShortStayProperty())
                                                         <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> Guests must agree to your rules before booking property</p>
                                                         @endif
                                                         <form class="mt-4" id="formPropertyRules" method="POST" action="{{ route('property.store') }}">

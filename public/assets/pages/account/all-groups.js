@@ -1,4 +1,4 @@
-// go back route 
+// go back route
 function goBackRoute(e){
     e.preventDefault();
     let windowWidth = $(window).width();
@@ -11,11 +11,11 @@ function goBackRoute(e){
 }
 
 
-function getLegalName(name) { 
+function getLegalName(name) {
     document.getElementById('myLegalName').innerText = name;
 }
 
-function getOccupation(occupation) { 
+function getOccupation(occupation) {
     document.getElementById('myOccupation').innerText = occupation;
 }
 
@@ -33,7 +33,7 @@ $("#formProfileUpdate").on("submit", function(e){
     var valid = true;
     $('#formProfileUpdate input, #formProfileUpdate select').each(function() {
         var $this = $(this);
-        
+
         if(!$this.val()) {
             valid = false;
             $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -89,7 +89,7 @@ $("#upfile").on("change", function(){
     else{
         form_data.append("photo", document.getElementById('upfile').files[0]);
         $.ajax({
-            url: $("#upfile").data('href'), 
+            url: $("#upfile").data('href'),
             type: 'POST',
             data: form_data,
             contentType: false,
@@ -106,7 +106,7 @@ $("#upfile").on("change", function(){
                 }
                 else{
                     let src = $(".img_preview").data('preview');
-                    $(".img_preview").attr("src", "/assets/images/users/"+response); 
+                    $(".img_preview").attr("src", "/assets/images/users/"+response);
                 }
                 document.getElementById("upfile").value = null;
             },
@@ -114,10 +114,10 @@ $("#upfile").on("change", function(){
                 alert('Something went wrong.');
                 document.getElementById("upfile").value = null;
             }
-            
+
         });
     }
-    
+
     return false;
 });
 
@@ -128,7 +128,7 @@ $("#formChangePassword").on("submit", function(e){
     var valid = true;
     $('#formChangePassword input').each(function() {
         var $this = $(this);
-        
+
         if(!$this.val()) {
             valid = false;
             $this.parents('.validate').find('span:last').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -165,7 +165,7 @@ $("#formChangePassword").on("submit", function(e){
                         closeOnConfirm: true
                     });
                 }
-                
+
                 $('.btnChangePassword').html('<i class="fa fa-refresh"></i> Change Password').attr('disabled', false);
                 $("#currrent_password").focus();
             },
@@ -224,31 +224,31 @@ $("#formCurrency").on("submit", function(e){
 });
 
 
-// $("#formCurrency").on("submit", function(e){
-//     e.preventDefault();
-//     var $this = $(this);
-//     let data = $this.serialize();
-//     $.ajax({
-//         url: $this.data("url"),
-//         type: "POST",
-//         data: data,
-//         success: function(resp){
-//             if(resp == "fail"){
-//                 console.log("Validation failed");
-//             }else{
-//                 $("#choosenCurrency").text(resp);
-//                 $(".btn-edit").trigger("click");
-//             }
-//         },
-//         error: function(resp){
-//             console.log("Something went wrong");
-//         }
-//     })
-//     return false;
-// });
+$("#formCurrency").on("submit", function(e){
+    e.preventDefault();
+    var $this = $(this);
+    let data = $this.serialize();
+    $.ajax({
+        url: $this.data("url"),
+        type: "POST",
+        data: data,
+        success: function(resp){
+            if(resp == "fail"){
+                console.log("Validation failed");
+            }else{
+                $("#choosenCurrency").text(resp);
+                $(".btn-edit").trigger("click");
+            }
+        },
+        error: function(resp){
+            console.log("Something went wrong");
+        }
+    })
+    return false;
+});
 
 
-// $("#formCurrency select[name='currency']").val($("#formCurrency select[name='currency']").data('currency'));
+$("#formCurrency select[name='currency']").val($("#formCurrency select[name='currency']").data('currency'));
 
 // //coupon
 // $(".btnAddCoupon").on("click", function(e){
@@ -266,7 +266,7 @@ $("#formCurrency").on("submit", function(e){
 //     var valid = true;
 //     $('#formCoupon input').each(function() {
 //         var $this = $(this);
-        
+
 //         if(!$this.val()) {
 //             valid = false;
 //             $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -296,16 +296,16 @@ $(".checkMessage").on("change", function(e){
     }
 
     $.ajax({
-        url: $this.data('href'), 
+        url: $this.data('href'),
         type: 'POST',
         data: data,
         success: function (resp) {
-            
+
         },
         error: function(resp){
             console.log('Request error.');
         }
-        
+
     });
     return false;
 });
@@ -319,16 +319,16 @@ $(".checkSupport").on("change", function(e){
     }
 
     $.ajax({
-        url: $this.data('href'), 
+        url: $this.data('href'),
         type: 'POST',
         data: data,
         success: function (resp) {
-            
+
         },
         error: function(resp){
             console.log('Request error.');
         }
-        
+
     });
     return false;
 });
@@ -342,16 +342,16 @@ $(".checkReminder").on("change", function(e){
     }
 
     $.ajax({
-        url: $this.data('href'), 
+        url: $this.data('href'),
         type: 'POST',
         data: data,
         success: function (resp) {
-            
+
         },
         error: function(resp){
             console.log('Request error.');
         }
-        
+
     });
     return false;
 });
@@ -365,16 +365,16 @@ $(".checkPolicy").on("change", function(e){
     }
 
     $.ajax({
-        url: $this.data('href'), 
+        url: $this.data('href'),
         type: 'POST',
         data: data,
         success: function (resp) {
-            
+
         },
         error: function(resp){
             console.log('Request error.');
         }
-        
+
     });
     return false;
 });
@@ -384,15 +384,15 @@ $(".checkUnsubscribe").on("change", function(e){
     e.stopPropagation();
     var $this = $(this);
     $.ajax({
-        url: $this.data('href'), 
+        url: $this.data('href'),
         type: 'POST',
         success: function (resp) {
-            
+
         },
         error: function(resp){
             console.log('Request error.');
         }
-        
+
     });
     return false;
 });

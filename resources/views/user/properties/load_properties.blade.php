@@ -51,7 +51,7 @@
                             </li>
                             @if ($property->isHostelPropertyType())
                                 <li class="list-inline-item" style="text-transform: none">
-                                    {{ $property->userHostelVisits->whereIn('is_in', [0,1])->count() }} {{ str_plural('occupant', $property->userHostelVisits->whereIn('is_in', [0,1])->count()) }}
+{{--                                    {{ $property->userHostelVisits->whereIn('is_in', [0,1])->count() }} {{ str_plural('occupant', $property->userHostelVisits->whereIn('is_in', [0,1])->count()) }}--}}
                                 </li>
                                 <br>
                                 <li class="list-inline-item">
