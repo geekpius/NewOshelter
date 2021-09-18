@@ -13,7 +13,7 @@
     </div>
     <div class="pxp-content-side pxp-content-left pxp-half">
         <div class="pxp-content-side-wrapper">
-            
+
             @include('includes.search-form')
 
             <div class="row" id="propertyMainRow" data-href="{{ route('browse.property_types_map') }}">
@@ -38,12 +38,12 @@
                             </span>
                         </div>
                         <div class="pxp-results-card-1-gradient"></div>
-                        @if ($property->type=='hostel')
+                        @if ($property->isHostelPropertyType())
                             <div class="pxp-results-card-1-details">
                                 <div class="pxp-results-card-1-details-title">{{ $property->title }}</div>
                                 <div class="pxp-results-card-1-details-price">{{ $property->propertyHostelBlockRooms->where('full', false)->sum('block_no_room') }} {{ str_plural('Room', $property->propertyHostelBlockRooms->where('full', false)->sum('block_no_room')) }}</div>
 
-                                <span class="fa fa-tag text-white pull-right"> 
+                                <span class="fa fa-tag text-white pull-right">
                                     <strong>For Rent</strong>
                                 </span>
                             </div>
@@ -55,7 +55,7 @@
                                 <div class="pxp-results-card-1-details-title">{{ $property->title }}</div>
                                 <div class="pxp-results-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}@if($property->type_status!='sale')<small>/{{ $property->propertyPrice->price_calendar }}</small>@endif</div>
 
-                                <span class="fa fa-tag text-white pull-right"> 
+                                <span class="fa fa-tag text-white pull-right">
                                     <strong>
                                     @if ($property->type_status=='rent')
                                         For Rent
@@ -73,7 +73,7 @@
                                 <span>{{ $property->propertyContain->bedroom }} <i class="fa fa-home"></i> <span>|</span> {{ $property->propertyContain->bathroom }} <i class="fas fa-bath"></i> <span>|</span> {{ $property->propertyContain->toilet }} <i class="fas fa-toilet"></i> </span>
                             </div>
                         @endif
-                        
+
                         <div class="pxp-results-card-1-save btnHeart" data-id="{{ $property->id }}" data-url="{{ route('saved.submit') }}">
                             @auth
                             <span class="fa fa-heart {{ (Auth::user()->userSavedProperties()->whereProperty_id($property->id)->count()>0)? 'text-pink':'text-primary' }} heart-hover"></span>

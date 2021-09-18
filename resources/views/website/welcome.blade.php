@@ -58,7 +58,7 @@
                             <div class="pxp-areas-1-item-details-area">Short Stay</div>
                         </div>
                         <div class="pxp-areas-1-item-counter"><span class="text-primary">
-                        @php $propCount = App\PropertyModel\Property::whereType_status('short_stay')->whereDone_step(true)->count(); @endphp  
+                        @php $propCount = App\PropertyModel\Property::whereType_status('short_stay')->whereDone_step(true)->count(); @endphp
                         {{ $propCount. ' Properties' }}
                         </span></div>
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
@@ -71,7 +71,7 @@
                             <div class="pxp-areas-1-item-details-area">Rent</div>
                         </div>
                         <div class="pxp-areas-1-item-counter"><span class="text-primary">
-                        @php $propCount = App\PropertyModel\Property::whereType_status('rent')->whereDone_step(true)->count(); @endphp  
+                        @php $propCount = App\PropertyModel\Property::whereType_status('rent')->whereDone_step(true)->count(); @endphp
                         {{ $propCount. ' Properties' }}
                         </span></div>
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
@@ -84,7 +84,7 @@
                             <div class="pxp-areas-1-item-details-area">Sell</div>
                         </div>
                         <div class="pxp-areas-1-item-counter"><span class="text-primary">
-                        @php $propCount = App\PropertyModel\Property::whereType_status('sell')->whereDone_step(true)->count(); @endphp  
+                        @php $propCount = App\PropertyModel\Property::whereType_status('sell')->whereDone_step(true)->count(); @endphp
                         {{ $propCount. ' Properties' }}
                         </span></div>
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
@@ -97,12 +97,12 @@
                             <div class="pxp-areas-1-item-details-area">Auction</div>
                         </div>
                         <div class="pxp-areas-1-item-counter"><span class="text-primary">
-                        @php $propCount = App\PropertyModel\Property::whereType_status('auction')->whereDone_step(true)->count(); @endphp  
+                        @php $propCount = App\PropertyModel\Property::whereType_status('auction')->whereDone_step(true)->count(); @endphp
                         {{ $propCount. ' Properties' }}
                         </span></div>
                         <div class="pxp-areas-1-item-cta text-uppercase font-10">Explore</div>
                     </a>
-                </div> 
+                </div>
             </div>
         </div>
     </div> --}}
@@ -158,7 +158,7 @@
         <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
             <div class="owl-carousel pxp-props-carousel-right-stage">
                 @foreach ($types as $type)
-                @php $propCount = $type->getPropertyCount(); @endphp  
+                @php $propCount = $type->getPropertyCount(); @endphp
                 <div>
                     <a href="{{ route('type.property', strtolower(str_replace(' ','-',$type->name))) }}" class="pxp-areas-1-item rounded-lg">
                         @php $image = empty($type->image)? 'area-1.jpg':'types/'.$type->image; @endphp
@@ -201,25 +201,25 @@
                         <div class="pxp-prop-card-1-gradient pxp-animate"></div>
                         <div class="pxp-prop-card-1-details">
                             <div class="pxp-prop-card-1-details-title">{{ $property->title }}</div>
-                            @if($property->type=='hostel')
-                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} {{ str_plural('Room', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</div>                                
+                            @if($property->isHostelPropertyType())
+                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} {{ str_plural('Room', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</div>
                             @else
-                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}@if($property->type_status!='sale')<small>/{{ $property->propertyPrice->price_calendar }}</small>@endif</div>                                
+                            <div class="pxp-prop-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}@if($property->type_status!='sale')<small>/{{ $property->propertyPrice->price_calendar }}</small>@endif</div>
                             @endif
-                            <span class="fa fa-tag text-white pull-right"> 
+                            <span class="fa fa-tag text-white pull-right">
                                 <strong>
-                                @if ($property->type_status=='rent')
+                                @if ($property->isRentProperty())
                                     For Rent
-                                @elseif($property->type_status=='sale')
+                                @elseif($property->isSaleProperty())
                                     For Sale
-                                @elseif($property->type_status=='auction')
+                                @elseif($property->isAuctionProperty())
                                     Auction
                                 @else
                                     Short Stay
                                 @endif
                                 </strong>
                             </span>
-                            @if($property->type=='hostel')
+                            @if($property->isHostelPropertyType())
                             <div class="pxp-prop-card-1-details-features text-uppercase"> <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i> </span></div>
                             @else
                             <div class="pxp-prop-card-1-details-features text-uppercase">{{ $property->propertyContain->bedroom }} <i class="fa fa-home"></i> <span>|</span> {{ $property->propertyContain->bathroom }} <i class="fas fa-bath"></i> <span>|</span> {{ $property->propertyContain->toilet }} <i class="fas fa-toilet"></i> </div>
@@ -235,14 +235,14 @@
         </div>
     </div>
 
-    
+
     <div class="pxp-services pxp-cover mt-100 pt-100 mb-200" style="background-image: url({{ asset('assets/light/images/services-h-fig.jpg') }});">
         <h2 class="text-center pxp-section-h2">Why Choose Us</h2>
-        
+
             <div class="col-sm-4 offset-sm-4">
                 <p class="pxp-text-light text-center">At OShelter, our aim is to be one of the consistently best performing Real Estate platforms in the Real Estate market. In this respect, we maintain a responsible front in the commercial Real Estate business here in Ghana and the world at large. We prioritize our clients to success and ensure our major stakeholders hold them in the highest value. Our years of expertise and research affords our clients credible and professional assistance to make the right decisions that accrue to their profit.</p>
             </div>
-            
+
         <div class="container">
             <div class="pxp-services-container rounded-lg mt-4 mt-md-5">
                 <a href="#" class="pxp-services-item">
