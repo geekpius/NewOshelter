@@ -6,13 +6,36 @@
 @section('content')
 <div class="pxp-content pull-content-down">
     <div class="container">
-        <h2>List Property</h2>  
+        <h2>List Property</h2>
         <p>
             <strong>{{ Auth::user()->name }},</strong> listings  > <small><a href="{{ route('property') }}">Checkout your listings</a></small>
         </p>
         <div class="pt-4">
             <div class="row">
-                <div class="col-sm-8">
+                @if(!Auth::user()->is_id_verified)
+                    <div class="col-sm-8">
+                        <div class="row mb-5">
+                            <div class="col-sm-4">
+                                <div class="text-center mt-2">
+                                    <img src="{{ asset('assets/images/card-sample.png') }}" alt="ID Card Front" class="front_card" width="200" height="170" style="border-radius:2%" />
+                                </div>
+                                <div class="text-center mt-3">
+                                    <p><span class="text-primary">Status:</span> {{ empty(Auth::user()->profile->id_type)? 'No card type selected':'Oshelter is checking ID card...' }}</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="font-weight-bold">CARD SAMPLE</h6>
+                                <p>ID card type: <span class="text-primary">National ID</span></p>
+                                <p>ID card type: <span class="text-primary">GHA-0123456789-0</span></p>
+                                <p class="mt-3">
+                                    Seeing this information means you haven't updated your government approved card info.
+                                    <a target="_blank" href="{{ route('account.info') }}">Update your government approved card info here</a>
+                                </p>
+                            </div>
+                        </div><!-- end row -->
+                    </div>
+                @else
+                    <div class="col-sm-8">
                     <h5>What kind of property are you listing?</h5>
                     <form class="mt-4" id="formPropertyType" method="POST" action="{{ route('property.store') }}">
                         @csrf
@@ -31,7 +54,7 @@
                             <select name="property_type" class="form-control" id="property_type">
                                 <option value="">--Select--</option>
                                 @foreach ($property_types as $type)
-                                <option value="{{ strtolower(str_replace(' ','_',$type->name))  }}">{{ $type->name }}</option>    
+                                <option value="{{ strtolower(str_replace(' ','_',$type->name))  }}">{{ $type->name }}</option>
                                 @endforeach
                             </select>
                             <span class="text-danger small mySpan" role="alert"></span>
@@ -44,15 +67,15 @@
                         <div class="form-group validate">
                             <label for="">What do you want to do with your property?</label>
                             <select name="property_type_status" class="form-control" id="property_type_status">
-                                <option value="">--Select--</option>         
-                                <option value="rent">I want to rent out</option>              
-                                <option value="short_stay">For short stay</option>                                     
+                                <option value="">--Select--</option>
+                                <option value="rent">I want to rent out</option>
+                                <option value="short_stay">For short stay</option>
                                 <option value="sale">I want to sell</option>
                                 <option value="auction">I want to auction</option>
                             </select>
                             <span class="text-danger small mySpan" role="alert"></span>
                         </div>
-                        
+
                         <div id="myGuests" style="display: none">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -108,9 +131,10 @@
                         </div>
                     </form>
                 </div>
+                @endif
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 @endsection
 
