@@ -126,11 +126,10 @@ class User extends Authenticatable
 
 
     /************** RELATIONSHIPS **************/
-    public function rejectReason()
+    public function rejectReasons()
     {
-        return $this->morphMany(RejectReason::class, 'rejectable');
+        return $this->hasMany(RejectReason::class);
     }
-
 
     public function properties(){
         return $this->hasMany(Property::class);
@@ -218,6 +217,21 @@ class User extends Authenticatable
 
     public function ownerAuctions(){
         return $this->hasMany(AuctionEvent::class, 'owner_id');
+    }
+
+    public function countMyProperties(): int
+    {
+        return $this->properties()->where('is_active', true)->where('publish', true)->where('done_step', true)->count();
+    }
+
+    public function countOverallRating(): int
+    {
+        return $this->propertyReviews()->count();
+    }
+
+    public function countRejectReasons(): int
+    {
+        return $this->rejectReasons()->count();
     }
 
 

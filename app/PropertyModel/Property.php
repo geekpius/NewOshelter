@@ -2,6 +2,7 @@
 
 namespace App\PropertyModel;
 
+use App\RejectReason;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\UserModel\UserVisit;
@@ -146,6 +147,13 @@ class Property extends Model
 
 
     /******************************  RELATIONSHIP ******************************/
+
+    public function rejectReason()
+    {
+        return $this->morphMany(RejectReason::class, 'rejectable');
+    }
+
+
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
