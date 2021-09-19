@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\RejectReasonObserver;
+use App\RejectReason;
 use Illuminate\Support\ServiceProvider;
 use App\User;
 use App\Observers\UserObserver;
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         User::observe(UserObserver::class);
+        RejectReason::observe(RejectReasonObserver::class);
     }
 
     /**

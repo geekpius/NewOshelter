@@ -48,16 +48,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 
-        'email', 
-        'password', 
-        'phone', 
-        'account_type', 
-        'email_verification_token', 
-        'email_verification_expired_at', 
-        'verify_email_time', 
-        'verify_email', 
-        'verify_sms', 
+        'name',
+        'email',
+        'password',
+        'phone',
+        'account_type',
+        'email_verification_token',
+        'email_verification_expired_at',
+        'verify_email_time',
+        'verify_email',
+        'verify_sms',
         'login_time',
         'is_id_verified',
     ];
@@ -72,7 +72,7 @@ class User extends Authenticatable
     ];
 
 
-    /************** PROPERTIES **************/ 
+    /************** PROPERTIES **************/
     public function isVerifyEmail() : bool
     {
         return $this->verify_email == User::VERIFY_EMAIL;
@@ -125,11 +125,17 @@ class User extends Authenticatable
     }
 
 
-    /************** RELATIONSHIPS **************/ 
+    /************** RELATIONSHIPS **************/
+    public function rejectReason()
+    {
+        return $this->morphMany(RejectReason::class, 'rejectable');
+    }
+
+
     public function properties(){
         return $this->hasMany(Property::class);
     }
-    
+
     public function profile(){
         return $this->hasOne(UserProfile::class);
     }
@@ -214,7 +220,7 @@ class User extends Authenticatable
         return $this->hasMany(AuctionEvent::class, 'owner_id');
     }
 
-    
+
 
 
 }
