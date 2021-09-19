@@ -9,50 +9,55 @@
 <link rel="stylesheet" href="{{ asset('assets/light/css/owl.theme.default.min.css') }}">
 <style>
     .iframe-view {
-        height: 649px; 
+        height: 649px;
         width: 930px;
     }
     @media (max-width: 2560px) {
         .iframe-view {
-            height: 649px; 
+            height: 649px;
             width: 1330px;
         }
     }
     @media (max-width: 1440px) {
         .iframe-view {
-            height: 649px; 
+            height: 649px;
             width: 730px;
         }
     }
     @media (max-width: 1024px) {
         .iframe-view {
-            height: 649px; 
+            height: 649px;
             width: 530px;
         }
     }
     @media (max-width: 768px) {
         .iframe-view {
-            height: 449px; 
+            height: 449px;
             width: 390px;
         }
     }
     @media (max-width: 425px) {
         .iframe-view {
-            height: 349px; 
+            height: 349px;
             width: 430px;
         }
     }
     @media (max-width: 375px) {
         .iframe-view {
-            height: 349px; 
+            height: 349px;
             width: 375px;
         }
     }
     @media (max-width: 320px) {
         .iframe-view {
-            height: 349px; 
+            height: 349px;
             width: 330px;
         }
+    }
+
+    .disabled{
+        pointer-events: none !important;
+        cursor:not-allowed !important;
     }
 </style>
 @endsection
@@ -60,7 +65,7 @@
 @section('content')
 
 <div class="pxp-content">
-  
+
     <div class="pxp-single-property-top pxp-content-wrapper mt-5">
         <div class="container">
             <div class="row">
@@ -76,7 +81,7 @@
                             <a class="text-primary text-decoration-none" href="avascript:void(0);" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="fa fa-share-alt"></span> Share
                             </a>
-                            
+
                             @php
                                 $actual_link = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
                                 // $propertyLink = "<a href='".route('single.property', $property->id)."' target='_blank'>$property->title</a>";
@@ -98,7 +103,7 @@
 
     <div class="pxp-single-property-gallery-container">
         <div class="pxp-single-property-gallery" itemscope itemtype="http://schema.org/ImageGallery">
-            
+
             @if (empty($property->propertyVideo))
                 <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
                     <a href="{{ asset('assets/images/properties/'.$image->image) }}" title="{{ $image->caption }}" itemprop="contentUrl" data-size="1020x659" class="pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$image->image) }});"></a>
@@ -108,7 +113,7 @@
                 <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
                     <a href="{{ asset('assets/images/properties/'.$image->image) }}" itemprop="contentUrl" data-size="1020x659" class="pxp-cover">
                         <iframe class="iframe-view" src="{{ $property->propertyVideo->video_url }}" frameborder="0" allowfullscreen></iframe>
-                    </a>    
+                    </a>
                 </figure>
             @endif
 
@@ -126,20 +131,20 @@
                 <figcaption itemprop="caption description">{{ $item->caption }}"</figcaption>
             </figure>
             @endif
-            @endforeach 
+            @endforeach
         </div>
         <a href="javascript:void(0);" class="pxp-sp-gallery-btn"><i class="fa fa-photo text-pink"></i> View all {{ $i }} {{ str_plural('photo', $i) }} </a>
         <div class="clearfix"></div>
     </div>
-    
+
     <hr>
-    
+
     <div class="container mt-4">
         <div class="row">
             <div class="col-sm-12">
                 <!-- Title and Location -->
                 <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                    <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-md rounded-circle" /> 
+                    <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-md rounded-circle" />
                     <p>{{ current(explode(' ',$property->user->name)) }}</p>
                 </div>
                 <h2 class="pxp-sp-top-title">{{ $property->title }}</h2>
@@ -150,21 +155,21 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">  
+            <div class="col-lg-8">
                 {{-- Key details --}}
                 <div class="pxp-single-property-section">
                     <h3>Key Details</h3>
-                
+
                     <!-- Contained amenities -->
                     @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
                     <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
                     @else
                     <p>
-                        <i class="fa fa-home text-success"></i> 
-                        <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
+                        <i class="fa fa-home text-success"></i>
+                        <b>@if(!$property->isHostelPropertyType()){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
                     @endif
 
-                    @if ($property->type=='hostel')
+                    @if ($property->isHostelPropertyType())
                         @if (count($property->propertyHostelBlockRooms))
                         <div class="row">
                             @foreach ($property->propertyHostelBlockRooms as $block)
@@ -175,35 +180,35 @@
                                             {{ $block->propertyHostelBlock->block_name }} <span class="font-12 text-muted">({{ $block->gender }})</span>
                                         </h4>
                                         <div class="font-14">
-                                            <span class="text-primary">{{ ucfirst(str_replace('_', ' ', $block->furnish)) }} {{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms for {{ $block->person_per_room }} person per room. 
+                                            <span class="text-primary">{{ ucfirst(str_replace('_', ' ', $block->furnish)) }} {{ ucfirst(strtolower($block->block_room_type)) }}</span> with {{ $block->block_no_room }} rooms for {{ $block->person_per_room }} person per room.
                                             <br>
-                                            <span class="badge badge-soft-primary">{{$block->bed_person}} <i class="fa fa-bed" title="Bed per room"></i> </span>                                                  
+                                            <span class="badge badge-soft-primary">{{$block->bed_person}} <i class="fa fa-bed" title="Bed per room"></i> </span>
                                             @if($block->kitchen==0)
-                                            <span class="badge badge-soft-primary">0  <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="No Kitchen"></span>                                                
+                                            <span class="badge badge-soft-primary">0  <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="No Kitchen"></span>
                                             @elseif($block->kitchen==1)
-                                            <span class="badge badge-soft-primary">Private <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Private Kitchen"></span> 
+                                            <span class="badge badge-soft-primary">Private <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Private Kitchen"></span>
                                             @else
-                                            <span class="badge badge-soft-primary">Shared <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Shared Kitchen"></span> 
-                                            @endif        
-                                            <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }}  <i class="fas fa-bath"></i></span>                                          
-                                            <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} <i class="fas fa-toilet"></i></span>                              
+                                            <span class="badge badge-soft-primary">Shared <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Shared Kitchen"></span>
+                                            @endif
+                                            <span class="badge badge-soft-primary">{{ $block->bathroom }} {{ ($block->bath_private)? 'private':'shared' }}  <i class="fas fa-bath"></i></span>
+                                            <span class="badge badge-soft-primary">{{ $block->toilet }} {{ ($block->toilet_private)? 'private':'shared' }} <i class="fas fa-toilet"></i></span>
                                         </div>
                                         <div><hr></div>
                                         <div class="">
                                             <h6><strong>Amenities</strong></h6>
                                             @if(count($block->hostelRoomAmenities))
                                                 @foreach ($block->hostelRoomAmenities as $amenity)
-                                                <span class="mr-4 font-12"><span class="fa fa-check-square text-success"></span>  {{ $amenity->name }}</span> 
-                                                @endforeach   
+                                                <span class="mr-4 font-12"><span class="fa fa-check-square text-success"></span>  {{ $amenity->name }}</span>
+                                                @endforeach
                                             @else
                                                 <p class="text-danger">No amenity reported</p>
-                                            @endif  
-                                        </div>    
+                                            @endif
+                                        </div>
                                     </div>
-                                </div>  
-                            @endforeach  
+                                </div>
+                            @endforeach
                         </div>
-                        @endif  
+                        @endif
                     @else
                         <span>{{ $property->propertyContain->bedroom }}&nbsp;<i class="fa fa-home" title="Bedroom"></i></span>
                         @if ($property->type_status=='short_stay')
@@ -218,7 +223,7 @@
                         @endif
                         <span class="ml-3">{{ $property->propertyContain->bathroom }} {{ $property->propertyContain->bath_private? "private":"shared" }}  <i class="fas fa-bath"></i></span>
                         <span class="ml-3">{{ $property->propertyContain->toilet }} {{ $property->propertyContain->toilet_private? "private":"shared" }}  <i class="fas fa-toilet"></i></span>
-                    @endif 
+                    @endif
                 </div>
 
                 {{-- Overview --}}
@@ -233,15 +238,15 @@
                     <p class="mt-4">
                         <b>Other notice</b><br>
                         @if ($property->propertyDescription->gate)
-                        Property is located in a gated community.  
+                        Property is located in a gated community.
                         @else
-                        Property is not located in a gated community.  
+                        Property is not located in a gated community.
                         @endif
                     </p>
                 </div>
 
                 <!-- Amenities -->
-                @if ($property->type!='hostel')
+                @if (!$property->isHostelPropertyType())
                     <hr>
                     <div class="pxp-single-property-section">
                         <h3>Amenities</h3>
@@ -250,7 +255,7 @@
                                 @foreach ($property->propertyAmenities as $amen)
                                 <div class="col-sm-6 col-lg-4 mb-2">
                                     <div class=""><i class="fa fa-check-square text-success"></i> {{ $amen->name }}</div>
-                                </div>                 
+                                </div>
                                 @endforeach
                             @else
                                 <p class="text-danger"><i class="fa fa-square font-12"></i> No amenities reported on property.</p>
@@ -268,19 +273,19 @@
                             @foreach ($property->propertySharedAmenities as $amen)
                             <div class="col-sm-6 col-lg-4 mb-2">
                                 <div class=""><i class="fa fa-check-square text-success"></i> {{ $amen->name }}</div>
-                            </div>                 
+                            </div>
                             @endforeach
                         @else
                             <p class="text-danger ml-3"><i class="fa fa-dot-circle font-12"></i> No shared amenities reported on property.</p>
                         @endif
                     </div>
                 </div>
-                
+
                 <hr>
                 {{-- Availability --}}
                 <div class="pxp-single-property-section">
-                    <h3>Availability</h3> 
-                    @if ($property->type=='hostel')
+                    <h3>Availability</h3>
+                    @if ($property->isHostelPropertyType())
                         <p>
                             <i class="fa fa-dot-circle font-12"></i> You will get to know your room mate when booking is confirmed.
                         </p>
@@ -310,15 +315,15 @@
                                         </p>
                                     </div>
                                 </div>
-                                @endforeach       
-                            @endif  
-                        </div> 
+                                @endforeach
+                            @endif
+                        </div>
                     @else
                         <div class="row">
-                            @if ($property->type_status=='rent')
+                            @if ($property->isRentProperty())
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for renting':'Rented, too late' }}</h6>
+                                        <h6 class="header-title {{ !$property->isPropertyTaken() ? 'text-primary':'text-danger' }}">{{ !$property->isPropertyTaken() ? 'Available, ready for renting':'Rented, too late' }}</h6>
                                         <p class=""><i class="fa fa-check text-success font-12"></i>
                                             <span>{{ $property->propertyPrice->getPaymentDuration() }}</span>
                                             <br>
@@ -329,10 +334,10 @@
                                         </p>
                                     </div>
                                 </div>
-                            @elseif ($property->type_status=='short_stay')
+                            @elseif ($property->isShortStayProperty())
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
-                                        <h6 class="header-title {{ !$property->userVisits->count()? 'text-primary':'text-danger' }}">{{ !$property->userVisits->count()? 'Available, ready for booking':'Booked, too late' }}</h6>
+                                        <h6 class="header-title {{ !$property->isPropertyTaken() ? 'text-primary':'text-danger' }}">{{ !$property->isPropertyTaken() ? 'Available, ready for booking':'Booked, too late' }}</h6>
                                         <p class=""><i class="fa fa-check text-success font-12"></i>
                                             <span>{{ $property->propertyPrice->getMinimumStay() }}</span>
                                             <br>
@@ -358,14 +363,14 @@
                                         </p>
                                     </div>
                                 </div>
-                            @elseif ($property->type_status=='sale')
+                            @elseif ($property->isSaleProperty())
                                 <div class="col-sm-12 col-lg-6">
                                     <div class="pro-order-box">
                                         <h6 class="header-title text-primary">Available for sale</h6>
                                         <p class="">
                                             <i class="fa fa-check text-success font-12"></i>
                                             <span>
-                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b> 
+                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>
                                             </span>
                                         </p>
                                     </div>
@@ -380,19 +385,19 @@
                                             <br>
                                             <i class="fa fa-check text-success" style="font-size:9px"></i>
                                             <span>
-                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b> 
+                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>
                                             </span>
                                         </p>
                                     </div>
                                 </div>
                             @endif
                         </div>
-                    @endif 
+                    @endif
                 </div>
                 <hr>
                 {{-- Reviews --}}
                 <div class="pxp-single-property-section">
-                    <h3>Reviews</h3>                    
+                    <h3>Reviews</h3>
                     <!-- Reviews -->
                     @php
                         $countReview = $property->propertyReviews->count();
@@ -418,7 +423,7 @@
                                         </div>
                                     </td>
                                     <td class="no-border small" style="padding-left:0px !important">{{ number_format($accuracyStar/5,1) }}</td>
-                                    
+
                                     <td class="no-border"><i class="fas fa-map-marked text-primary"></i> <b class="small">Location</b></td>
                                     <td class="no-border" width="120" style="padding-top: 4%!important">
                                         <div class="progress" style="height: 3px;">
@@ -462,7 +467,7 @@
                             </table>
                             @foreach ($property->propertyReviews->sortByDesc('created_at')->take(6) as $review)
                             <div class="col-sm-6">
-                                <img src="{{ (empty($review->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$review->user->image) }}" alt="{{ current(explode(' ',$review->user->name)) }}" width="60" height="60"  class="rounded-circle thumb-md img-left mr-3" /> 
+                                <img src="{{ (empty($review->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$review->user->image) }}" alt="{{ current(explode(' ',$review->user->name)) }}" width="60" height="60"  class="rounded-circle thumb-md img-left mr-3" />
                                 <p>
                                     <b>{{ current(explode(' ',$review->user->name)) }}</b><br>
                                     {{ \Carbon\Carbon::parse($review->created_at)->format('F, Y') }}
@@ -476,8 +481,8 @@
                         </div>
                        @if ($property->propertyReviews->count() > 6)
                        <div class="small mb-5">
-                            <a href="#" class="btn btn-primary btn-sm btn_review_all">View all {{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count()<=1) ? 'review':'reviews' }}</a>     
-                        </div>                           
+                            <a href="#" class="btn btn-primary btn-sm btn_review_all">View all {{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count()<=1) ? 'review':'reviews' }}</a>
+                        </div>
                        @endif
                     @else
                         <p><i class="fa fa-dot-circle" style="font-size: 9px"></i> No reviews yet</p>
@@ -485,8 +490,8 @@
                     @endif
                     <!-- Refund policy -->
                     <div class="">
-                        <img src="{{ asset('assets/images/form-logo.png') }}" alt="Logo" class="thumb-xs rounded-circle img-left mr-3" /> 
-                        <p>We never rest because we care. OShelter is here to protect both interest. All rent, sell and auction is covered 
+                        <img src="{{ asset('assets/images/form-logo.png') }}" alt="Logo" class="thumb-xs rounded-circle img-left mr-3" />
+                        <p>We never rest because we care. OShelter is here to protect both interest. All rent, sell and auction is covered
                             by OShelter's <a href="javascript:void(0)" class="text-primary">Refund Policy</a>.
                         </p>
                     </div>
@@ -497,22 +502,22 @@
                 <div class="pxp-single-property-section">
                     <!-- Contact -->
                     <div class="img-right mr-lg-5 mr-sm-5 text-center">
-                        <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" /> 
+                        <img src="{{ (empty($property->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$property->user->image) }}" alt="{{ current(explode(' ',$property->user->name)) }}" class="thumb-lg rounded-circle" />
                     </div>
-                    <h4><b>Owned by {{ current(explode(' ',$property->user->name)) }}</b></h4>                           
-                    <p>{{ empty($property->user->profile->city)? 'City':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>                           
-                    
+                    <h4><b>Owned by {{ current(explode(' ',$property->user->name)) }}</b></h4>
+                    <p>{{ empty($property->user->profile->city)? 'City':$property->user->profile->city }} - Joined {{ \Carbon\Carbon::parse($property->user->created_at)->format('F, Y') }}</p>
+
                     @if (count($property->propertyReviews))
                         <span class="mr-5"><i class="fa fa-star text-warning"></i> <b>Overall Reviews</b></span>
                     @endif
                     <span><i class="fa fa-check-circle {{ $property->user->verify_email? 'text-success':'text-danger' }}"></i> <b>{{ $property->user->verify_email? 'Verified':'Not Verified' }}</b></span>
-                    <br>   <br> 
-                    <a href="{{ $property->user->verify_email? route('messages.compose', ['user'=>$property->user->id, 'property'=>$property->id]):'#' }}" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</a>     
+                    <br>   <br>
+                    <a href="{{ $property->user->verify_email? route('messages.compose', ['user'=>$property->user->id, 'property'=>$property->id]):'#' }}" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</a>
                     <hr>
                     <div>
-                        <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make  
-                        payments outside OShelter's website and app.</p>    
-                    </div>     
+                        <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make
+                        payments outside OShelter's website and app.</p>
+                    </div>
 
                 </div>
 
@@ -521,9 +526,9 @@
                 <div class="pxp-single-property-section">
                     <h3>Explore the Area</h3>
                     <div>
-                        <p>{{ $property->propertyDescription->neighbourhood }}</p>   
-                    </div> 
-                    <!-- The descriptions and directions --> 
+                        <p>{{ $property->propertyDescription->neighbourhood }}</p>
+                    </div>
+                    <!-- The descriptions and directions -->
                     <div class="pxp-sp-pois-nav mt-3 mt-md-4">
                         <div class="pxp-sp-pois-nav-transportation text-uppercase">Transportation</div>
                         <div class="pxp-sp-pois-nav-restaurants text-uppercase">Restaurants</div>
@@ -531,40 +536,40 @@
                         <div class="pxp-sp-pois-nav-cafes text-uppercase">Cafes & Bars</div>
                         <div class="pxp-sp-pois-nav-arts text-uppercase">Arts & Entertainment</div>
                         <div class="pxp-sp-pois-nav-fitness text-uppercase">Fitness</div>
-                    </div>     
-                            
+                    </div>
+
                     <div id="pxp-sp-map" class="mt-3" data-image="{{ asset('assets/images/svg/home.png') }}"></div>
-                    
-                    <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>  
+
+                    <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>
                         Exact location is provided after {{ $property->type_status=='sale'? 'buying':'booking' }} is confirmed
-                    </p>      
+                    </p>
                 </div>
 
-                @if ($property->type_status!='sale')
+                @if (!$property->isSaleProperty())
                 <hr>
                 {{-- Cancellation --}}
                 <div class="pxp-single-property-section">
                     <h3>Cancellation and Eviction</h3>
                     <p>
-                        <i class="fa fa-minus-circle font-12"></i> 
+                        <i class="fa fa-minus-circle font-12"></i>
                         Cancellation after 48 hours, you will get full refund minus service fee.
-                    </p>       
-                    @if($property->type_status=='rent')   
+                    </p>
+                    @if($property->type_status=='rent')
                         <p>
-                            <i class="fa fa-minus-circle font-12"></i> 
+                            <i class="fa fa-minus-circle font-12"></i>
                             Eviction notice will be sent to visitors 3 months before time. Visitors will wish to extend or evict.
                         </p>
-                    @elseif($property->type_status=='short_stay')   
+                    @elseif($property->type_status=='short_stay')
                         <p>
-                            <i class="fa fa-minus-circle font-12"></i> 
+                            <i class="fa fa-minus-circle font-12"></i>
                             Eviction notice will be sent to visitor 3 days and 1 day before time.
                         </p>
-                    @endif                       
-                </div>                  
+                    @endif
+                </div>
                 @endif
 
                 {{-- property rules --}}
-                @if ($property->type_status!='sale')
+                @if (!$property->isSaleProperty())
                 <hr>
                 <div class="pxp-single-property-section">
                     <h3>Property Rules</h3>
@@ -574,7 +579,7 @@
                             @foreach ($property->propertyRules as $rule)
                             <div class="col-sm-6 col-lg-4">
                                 <p><i class="fa fa-check-square text-success font-12"></i> {{ $rule->rule }}</p>
-                            </div>                                
+                            </div>
                             @endforeach
                         @else
                             <div class="col-sm-6 col-lg-4">
@@ -583,27 +588,27 @@
                         @endif
                     </div>
 
-                                               
+
                     @if (count($property->propertyOwnRules))
                     <h6><b>Other Rules</b></h6>
                     @endif
                     <div class="row">
-                        @if (count($property->propertyOwnRules)) 
+                        @if (count($property->propertyOwnRules))
                             @foreach ($property->propertyOwnRules as $rule)
                             <div class="col-sm-6 col-lg-4">
                                 <p><i class="fa fa-check-square text-success font-12"></i> {{ $rule->rule }}</p>
-                            </div>                                
+                            </div>
                             @endforeach
                         @endif
                     </div>
-                </div>                   
+                </div>
                 @endif
             </div>
-            
+
             {{-- Booking form --}}
             <div class="col-lg-4">
                 <div class="pxp-single-property-section pxp-sp-agent-section mt-4 mt-md-5 mt-lg-0">
-                @if ($property->type=='hostel')
+                @if ($property->isHostelPropertyType())
                     <div class="card card-bordered-pink">
                         <div class="card-body" style="padding-left:10px !important; padding-right:10px !important">
                             <div class="card-heading">
@@ -614,7 +619,7 @@
                             <hr>
                             <span class="small text-primary">You're charged after booking is confirmed.</span>
                             <hr>
-        
+
                             <form class="form-horizontal form-material mb-0" id="formBookHostel" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
@@ -698,7 +703,7 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnHostelBook"><i class="fa fa-check-circle"></i> Book this {{ $property->type }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnHostelBook disabled"><i class="fa fa-check-circle"></i> Book this {{ $property->type }}</button>
                                             <span class="btn btn-default disabled btn-sm btn-block btnHostelBooked pl-5 pr-5 mt-3" style="display: none"> This hostel room is full</span>
                                         </div>
                                     </div>
@@ -712,8 +717,8 @@
                             <div class="card-heading">
                                 <h6>
                                     <strong>
-                                        <span class="font-20" id="initialCurrency" data-currency="{{ $property->propertyPrice->currency }}">{{ $property->propertyPrice->currency }}</span> 
-                                        <span id="initialAmount" data-amount="{{ $property->propertyPrice->property_price }}" data-duration="{{ $property->propertyPrice->payment_duration }}">{{ number_format($property->propertyPrice->property_price,2) }}</span>@if($property->type_status!='sale')/<small>{{ $property->propertyPrice->price_calendar }}</small> @endif                                    
+                                        <span class="font-20" id="initialCurrency" data-currency="{{ $property->propertyPrice->currency }}">{{ $property->propertyPrice->currency }}</span>
+                                        <span id="initialAmount" data-amount="{{ $property->propertyPrice->property_price }}" data-duration="{{ $property->propertyPrice->payment_duration }}">{{ number_format($property->propertyPrice->property_price,2) }}</span>@if($property->type_status!='sale')/<small>{{ $property->propertyPrice->price_calendar }}</small> @endif
                                     </strong>
                                 </h6>
                                 <span class="font-12"><i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b> ({{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }})</span>
@@ -722,7 +727,7 @@
                             <span class="small text-primary">You're charged after {{ $property->type_status=='sale'? 'buying':'booking' }} is confirmed.</span>
                             <hr>
                             {{-- for rent --}}
-                            @if ($property->type_status=='rent')
+                            @if ($property->isRentProperty())
                             <form class="form-horizontal form-material mb-0" id="formRentBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
@@ -799,17 +804,17 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            @if ($property->userVisits->where('status',1)->count())
+                                            @if ($property->isPropertyTaken())
                                             <span class="btn btn-default disabled btn-sm btn-block pl-5 pr-5 mt-3"><i class="fa fa-check"></i> {{ ucwords(str_replace('_', ' ', $property->type)) }} is booked</span>
                                             @else
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnRentBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnRentBook disabled"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
                             </form>
 
-                            @elseif ($property->type_status=='short_stay')
+                            @elseif ($property->isShortStayProperty())
                             {{-- for short stay --}}
                             <form class="form-horizontal form-material mb-0" id="formStayBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
@@ -899,28 +904,28 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            @if ($property->userVisits->where('status', 1)->count())
+                                            @if ($property->isPropertyTaken())
                                             <span class="btn btn-default disabled btn-sm btn-block pl-5 pr-5 mt-3"><i class="fa fa-check"></i> {{ ucwords(str_replace('_', ' ', $property->type)) }} is booked</span>
                                             @else
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnStayBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnStayBook disabled"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
                             </form>
 
-                            @elseif ($property->type_status=='sale')
+                            @elseif ($property->isSaleProperty())
                             <form class="form-horizontal form-material mb-0" id="formOrder" method="POST" action="{{ route('property.order.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <input type="hidden" name="type" readonly value="sale">
                                 <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
                                 <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
-                                
+
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnOrder"><i class="fa fa-cart-arrow-down"></i> Buy this {{ str_replace('_', ' ', $property->type) }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnOrder disabled"><i class="fa fa-cart-arrow-down"></i> Buy this {{ str_replace('_', ' ', $property->type) }}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -956,7 +961,7 @@
                         <span class="fa fa-heart text-primary heart-hover"></span>
                         @endauth
                     </span>
-                    <span class="text-white on-top-tag on-top font-12"> 
+                    <span class="text-white on-top-tag on-top font-12">
                         @if ($property->type_status=='rent')
                             For Rent
                         @elseif($property->type_status=='sale')
@@ -974,7 +979,7 @@
                     @else
                     <div class="text-muted font-13">No review yet</div>
                     @endif
-                    <div class="">{{ $property->getPropertyType() }} 
+                    <div class="">{{ $property->getPropertyType() }}
                     @if ($property->type=='hostel')
                         <small> {{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} {{ str_plural('bedroom', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</small>
                     @else
@@ -1011,7 +1016,7 @@
                         <h4 class="ml-3">
                             <i class="fa fa-star text-warning"></i> <b>{{ number_format($sumReviews/6,2) }}</b>
                             <span class="ml-5"><i class="fa fa-eye text-primary"></i> <b>{{ $property->propertyReviews->count() }} {{ ($property->propertyReviews->count() <= 1)? 'Review':'Reviews' }}</b></span>
-                        </h4>                        
+                        </h4>
                         <table class="table table-responsive">
                             <tr>
                                 <td class="no-border"><i class="fa fa-thumbs-up text-primary"></i> <b class="small">Accuracy</b></td>
@@ -1076,7 +1081,7 @@
                         <div style="overflow-y:scroll; height:800px;">
                             @foreach ($property->propertyReviews->sortByDesc('created_at')->take(6) as $review)
                             <div class="mb-1">
-                                <img src="{{ (empty($review->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$review->user->image) }}" alt="{{ current(explode(' ',$review->user->name)) }}" width="60" height="60"  class="rounded-circle thumb-md img-left mr-3" /> 
+                                <img src="{{ (empty($review->user->image))? asset('assets/images/user.svg'):asset('assets/images/users/'.$review->user->image) }}" alt="{{ current(explode(' ',$review->user->name)) }}" width="60" height="60"  class="rounded-circle thumb-md img-left mr-3" />
                                 <p>
                                     <b>{{ $review->user->name }}</b><br>
                                     <span class="text-muted">{{ \Carbon\Carbon::parse($review->created_at)->format('F, Y') }}</span>
@@ -1088,11 +1093,11 @@
                             @endforeach
                         </div>
                     </div>
-                </div>       
+                </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->  
+</div><!-- /.modal -->
 
 
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1119,7 +1124,7 @@
                 </div>
             </div>
             <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
+                <div class="pswp__share-tooltip"></div>
             </div>
             <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
             <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
@@ -1133,7 +1138,7 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/light/js/photoswipe.min.js') }}"></script> 
+<script src="{{ asset('assets/light/js/photoswipe.min.js') }}"></script>
 <script src="{{ asset('assets/light/js/photoswipe-ui-default.min.js') }}"></script>
 <script src="{{ asset('assets/light/js/jquery.sticky.js') }}"></script>
 <script src="{{ asset('assets/light/js/gallery.js') }}"></script>

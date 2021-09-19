@@ -6,9 +6,9 @@
 @section('content')
 <div class="pxp-content pull-content-down">
     <div class="container">
-        <h2>Wishlist</h2>  
+        <h2>Wishlist</h2>
         <p>
-            <strong>{{ Auth::user()->name }},</strong> wishlist 
+            <strong>{{ Auth::user()->name }},</strong> wishlist
         </p>
         <div class="pt-4">
             @if (count($lists))
@@ -34,12 +34,12 @@
                             </span>
                         </div>
                         <div class="pxp-results-card-1-gradient"></div>
-                        @if ($list->property->type=='hostel')
+                        @if ($list->property->isHostelPropertyType())
                             <div class="pxp-results-card-1-details">
                                 <div class="pxp-results-card-1-details-title">{{ $list->property->title }}</div>
-                                <div class="pxp-results-card-1-details-price"><small class="font-weight-bold">{{ $list->property->userHostelVisits->count() }} visits</small></div>
+                                <div class="pxp-results-card-1-details-price"><small class="font-weight-bold">Coming soon</small></div>
 
-                                <span class="fa fa-tag text-white pull-right"> 
+                                <span class="fa fa-tag text-white pull-right">
                                     <strong>Rent</strong>
                                 </span>
                             </div>
@@ -49,14 +49,14 @@
                         @else
                             <div class="pxp-results-card-1-details">
                                 <div class="pxp-results-card-1-details-title">{{ $list->property->title }}</div>
-                                <div class="pxp-results-card-1-details-price"><small class="font-weight-bold">{{ $list->property->userVisits->count() }} visits</small></div>
-                                <span class="fa fa-tag text-white pull-right"> 
+                                <div class="pxp-results-card-1-details-price"><small class="font-weight-bold">Coming soon</small></div>
+                                <span class="fa fa-tag text-white pull-right">
                                     <strong>
-                                        @if ($list->property->type_status=='rent')
+                                        @if ($list->property->isRentProperty())
                                         Rent
-                                    @elseif($list->property->type_status=='sell')
+                                    @elseif($list->property->isSaleProperty())
                                         Sell
-                                    @elseif($list->property->type_status=='auction')
+                                    @elseif($list->property->isAuctionProperty())
                                         Auction
                                     @else
                                         Short Stay
@@ -79,7 +79,7 @@
             </div>
             @endif
         </div>
-    </div>    
+    </div>
 </div>
 @endsection
 
@@ -89,7 +89,7 @@
         e.preventDefault();
         var $this = $(this);
         $.ajax({
-            url: $this.data('url'), 
+            url: $this.data('url'),
             type: 'GET',
             success: function (resp) {
                 if(resp=='success'){
@@ -101,7 +101,7 @@
             error: function(resp){
                 console.log('Something went wrong with request');
             }
-            
+
         });
         return false;
     });

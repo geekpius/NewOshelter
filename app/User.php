@@ -234,6 +234,16 @@ class User extends Authenticatable
         return $this->rejectReasons()->count();
     }
 
+    public function isVisitor(): bool
+    {
+        return $this->account_type=='visitor';
+    }
+
+    public function isOwner(): bool
+    {
+        return $this->account_type=='owner';
+    }
+
 
 
 

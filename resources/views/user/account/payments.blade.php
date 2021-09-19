@@ -34,11 +34,10 @@
                                     <strong>Payment methods</strong><br>
                                     <p>OShelter do not store your payment details on our system. You only enter payment details when making a
                                         transaction. It is a way to make sure that your payment info is protected and only you knows. All our transactions
-                                        are heavily encrypted which makes you save and secure. @if (Auth::user()->account_type=='owner')
+                                        are heavily encrypted which makes you save and secure. @if (Auth::user()->isOwner())
                                         <a href="{{ route('property.add') }}">Start planning your next visit</a>.
                                         @endif
                                     </p>
-                                    <hr>
                                     {{-- <div>
                                         <span class="font-14 float-right"><a href="#" class="text-decoration-none btn-edit">Edit</a></span>
                                         <p class="font-weight-bold font-14">Choosen currency</p>
@@ -56,7 +55,8 @@
                                             </div>
                                         </form>
                                     </div> --}}
-
+                                    @if (Auth::user()->isOwner())
+                                        <hr>
                                     <div>
                                         @if (!Auth::user()->userCurrency)
                                         <span class="font-14 float-right"><a href="#" class="text-decoration-none btn-edit">Edit</a></span>
@@ -76,6 +76,7 @@
                                             </div>
                                         </form>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
