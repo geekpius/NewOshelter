@@ -148,7 +148,7 @@ class Property extends Model
 
     /******************************  RELATIONSHIP ******************************/
 
-    public function rejectReason()
+    public function rejectReasons()
     {
         return $this->morphMany(RejectReason::class, 'rejectable');
     }
