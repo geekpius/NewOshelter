@@ -2,16 +2,12 @@
 
 namespace App\Observers;
 
+use App\Events\UserRegisteredEvent;
 use App\User;
-use App\UserModel\UserNotification;
-use App\UserModel\UserProfile;
-
 
 use DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-use App\Mail\EmailSender;
-use Illuminate\Support\Facades\Mail;
 
 class UserObserver
 {
@@ -36,29 +32,18 @@ class UserObserver
 
     public function created(User $user)
     {
-        UserProfile::create([
-            'user_id' => $user->id,
-        ]);
-
-        UserNotification::create([
-            'user_id' => $user->id,
-        ]);
+        $user->profile()->create();
+        $user->userNotification()->create();
 
         (string) $token = $this->generateToken();
         $results = DB::select('select * from email_verifies where email = :email', ['email' => $user->email]);
         if(empty($results)){
-            $insert = DB::insert('insert into email_verifies (email, token, created_at) values (?, ?, ?)', [$user->email, $token, Carbon::now()]);
+            DB::insert('insert into email_verifies (email, token, created_at) values (?, ?, ?)', [$user->email, $token, Carbon::now()]);
         }else{
-            $update = DB::update('update email_verifies set token = ?, created_at = ? where email = ?', [$token, Carbon::now(), $user->email]);
+            DB::update('update email_verifies set token = ?, created_at = ? where email = ?', [$token, Carbon::now(), $user->email]);
         }
 
-        $data = array(
-            "name" => current(explode(' ',$user->name)),
-            "code" => $user->email_verification_token,
-            "expire" => $user->email_verification_expired_at,
-            "link" => route('verify.email.activate', ['token'=>$token]),
-        );
-        Mail::to($user->email)->send(new EmailSender($data, "Verify Email", "emails.verify_email"));
+        event(new UserRegisteredEvent($user, $token));
 
     }
 
