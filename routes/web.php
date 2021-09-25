@@ -216,23 +216,12 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
         Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
         Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
-        Route::post('/properties/bookings/request', 'BookingController@bookingRequest')->name('property.bookings.request');
+
         Route::get('/account/requests/bookings', 'BookingController@visitorBookingList')->name('property.visitor.bookings');
 
-        /*------- Visitors Visit ------- */
-        Route::group(['middleware' => ['visitor']], function() {
-            Route::group(['prefix' => 'visits'], function () {
-                Route::get('', 'VisitorController@index')->name('visits');
-                Route::get('/residence/upcoming', 'VisitorController@residenceUpcoming')->name('visits.upcoming');
-                Route::get('/residence/past', 'VisitorController@residencePast')->name('visits.past');
-                Route::post('/past/extend', 'VisitorController@extendStay')->name('visits.past.extend');
-                Route::get('/hostel/upcoming', 'VisitorController@hostelUpcoming')->name('visits.hostel.upcoming');
-                Route::get('/hostel/past', 'VisitorController@hostelPast')->name('visits.hostel.past');
-                Route::get('/{visit}/ratings', 'VisitorController@rateProperty')->name('visits.property.rating');
-                Route::post('/{visit}/ratings', 'VisitorController@submitRating')->name('visits.property.rating.submit');
-                // Route::get('/{name}/types', 'VisitorController@types')->name('visits.types');
-            });
-        });
+        /*------------ Requests ------------- */
+        Route::post('/properties/requests/rent', 'RentRequestController@store')->name('property.request.rent');
+
 
         /*------- Buying and Auction ------- */
         Route::group(['prefix' => 'orders'], function (){
@@ -274,10 +263,5 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::post('/submit', 'ReportPropertyController@store')->name('report-listing.submit');
         });
 
-        /*------- Wallet and Payments ------- */
-        Route::group(['middleware' => ['owner']], function() {
-            Route::get('/account/requests/wallet', 'UserWalletController@index')->name('wallet');
-            Route::post('/account/requests/wallet/withdraw', 'UserWalletController@withdrawWithMobile')->name('wallet.withdraw');
-        });
     });
 });

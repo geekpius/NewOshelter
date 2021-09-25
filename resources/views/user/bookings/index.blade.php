@@ -44,7 +44,7 @@
                         </div>
                     </div><!-- end row -->
                     @else
-                        @if ($property->type=='hostel')
+                        @if ($property->isHostelPropertyType())
                         <div class="row">
                             <div class="col-sm-5 col-lg-7">
                                 <div id="propertyReview" style="display: {{ (Session::get('step')==1)? 'block':'none' }}">
@@ -63,12 +63,12 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            @php
-                                                $bookingItems = Session::get("bookingItems");
-                                                $from = \Carbon\Carbon::parse($bookingItems['check_in']);
-                                                $to = \Carbon\Carbon::parse($bookingItems['check_out']);
-                                                $dateDiff = $to->diffInMonths($from);
-                                            @endphp
+{{--                                            @php--}}
+{{--                                                $bookingItems = Session::get("bookingItems");--}}
+{{--                                                $from = \Carbon\Carbon::parse($bookingItems['check_in']);--}}
+{{--                                                $to = \Carbon\Carbon::parse($bookingItems['check_out']);--}}
+{{--                                                $dateDiff = $to->diffInMonths($from);--}}
+{{--                                            @endphp--}}
                                             <div class="mt-3">
                                                 <h4>{{ $dateDiff }}  {{ str_plural('Month', $dateDiff) }} <small>@if ($dateDiff==12) (1 Year) @endif</small></h4>
                                                 <div class="row">
@@ -392,44 +392,6 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                            @php
-                                                $bookingItems = Session::get('bookingItems');
-                                                if ($property->type_status=='rent') {
-                                                    $from = \Carbon\Carbon::parse($bookingItems['check_in']);
-                                                    $to = \Carbon\Carbon::parse($bookingItems['check_out']);
-                                                    $dateDiff = $to->diffInMonths($from);
-                                                }elseif ($property->type_status=='short_stay'){
-                                                    $from=date_create($bookingItems['check_in']);
-                                                    $to=date_create($bookingItems['check_out']);
-                                                    $diff=date_diff($from,$to);
-                                                    $dateDiff = $diff->format("%a");
-                                                }
-                                            @endphp
-                                            <div class="mt-3">
-                                                @if ($property->type_status=='rent')
-                                                <h4>{{ $dateDiff }}  {{ str_plural('Month', $dateDiff) }} <small>@if ($dateDiff==12) (1 Year) @elseif($dateDiff==24) (2 Years) @endif</small></h4>
-                                                @else
-                                                <h4>{{ $dateDiff }}  {{ str_plural('Day', $dateDiff) }}</h4>
-                                                @endif
-                                                <div class="row">
-                                                    <div class="col-sm-12 col-lg-4">
-                                                        Check In
-                                                        <div class="card card-purple">
-                                                            <div class="card-body text-center text-white">
-                                                                <strong class="font-16">{{ \Carbon\Carbon::parse($bookingItems['check_in'])->format('d-M-Y') }}</strong>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 col-lg-4 offset-lg-2">
-                                                        Check Out
-                                                        <div class="card card-purple">
-                                                            <div class="card-body text-center text-white">
-                                                                <strong class="font-16">{{ \Carbon\Carbon::parse($bookingItems['check_out'])->format('d-M-Y') }}</strong>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="mt-3">
                                                 @if (count($property->propertyOwnRules) || count($property->propertyRules))
                                                 <h4>Take note of the rules</h4>
@@ -463,7 +425,7 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="2">&lt; Back</a>
-                                            <h4 class="mt-2">Verify to boost owner and OShelter early feedback</h4>
+                                            <h4 class="mt-2">Verify to boost OShelter early feedback</h4>
                                         </div>
                                         <div class="col-sm-12 mt-2">
                                             <div class="card card-bordered-pink">
@@ -473,17 +435,6 @@
                                                         <img src="{{ asset('assets/images/'.$image) }}" alt="{{ $property->user->name }}" class="thumb-sm rounded-circle mr-1" />
                                                         This property belongs to {{ current(explode(' ',$property->user->name))}}. Other people like it.
                                                     </p>
-                                                </div>
-                                            </div>
-                                            <div class="mt-3">
-                                                <h4>Click with your property owner</h4>
-                                                <p>Say hi to {{ current(explode(' ',$property->user->name))}} to kickstart before you arrive.</p>
-                                                <div class="row">
-                                                    <div class="col-sm-8">
-                                                        <div class="form-group">
-                                                            <textarea name="owner_message" id="owner_message" cols="10" rows="4" class="form-control" placeholder="Hi {{ current(explode(' ',$property->user->name))}}, i'm excited to lodge in your property">{{ (empty(Session::get('owner_message')))? '':Session::get('owner_message') }}</textarea>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="mt-3">
@@ -558,93 +509,14 @@
                                         <div class="col-sm-12">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> Your booking request will be sent to the owner.</p>
-                                                    <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> As soon as owner confirms, you will be requested to make payment.</p>
                                                     <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If owner is taking too long (more than 24hours) to response, <a href="{{ route('contact') }}" target="_blank" class="text-danger">contact us</a> for support.</p>
 
+
+                                                    @if($property->isRentProperty())
+                                                        @include('includes/booking/rent-booking-form')
+                                                    @endif
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        @php
-                                            $currency = $property->propertyPrice->currency;
-                                            $price = $property->propertyPrice->property_price;
-                                            $totalPrice = ($property->propertyPrice->property_price* $dateDiff);
-                                            $fee = empty($charge->charge)? 0:$charge->charge;
-                                            $serviceFee = ($totalPrice)*($fee/100);
-                                            $discount = empty($charge->discount)? 0:$charge->discount;
-                                            $discountFee = ($totalPrice)*($discount/100);
-                                            $totalFee = ($totalPrice+$serviceFee)-$discountFee;
-                                        @endphp
-                                        <div class="col-sm-12 mt-3 mb-5">
-                                            @php  $booking = $property->userBookings->sortByDesc('id')->first(); @endphp
-                                                @if (empty($booking) || ($booking->isDoneAttribute() && $booking->isCheckoutAttribute()) || ($booking->isDoneAttribute() && $booking->isCancelAttribute()))
-                                                <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}">
-                                                    @csrf
-                                                    <input type="hidden" name="book_status" value="freshbook" readonly>
-                                                    <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                    <input type="hidden" name="type" value="{{ $property->type }}" readonly>
-                                                    <input type="hidden" name="type_status" value="{{ $property->type_status }}" readonly>
-                                                    <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
-                                                    <input type="hidden" name="checkin" value="{{ $bookingItems['check_in'] }}" readonly>
-                                                    <input type="hidden" name="checkout" value="{{ $bookingItems['check_out'] }}" readonly>
-                                                    <input type="hidden" name="adult" value="{{ $bookingItems['adult'] }}" readonly>
-                                                    <input type="hidden" name="child" value="{{ $bookingItems['children'] }}" readonly>
-                                                    @if ($property->type_status == 'short_stay')
-                                                    <input type="hidden" name="infant" value="{{ $bookingItems['infant'] }}" readonly>
-                                                    @endif
-                                                    <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">CONFIRM BOOKING REQUEST</button>
-                                                </form>
-                                                @else
-                                                    @if ($booking->isPendingAttribute())
-                                                        <span class="text-primary">
-                                                            <i class="fa fa-spin fa-spinner"></i>
-                                                            {{ ($booking->user_id == Auth::user()->id) ? 'YOUR BOOKING IS WAITING FOR CONFIRMATION...':'ALREADY BOOKED AND WAITING FOR CONFIRMATION...' }}
-                                                        </span>
-                                                        <br>
-                                                        <div class="mt-3">
-                                                            <a href="{{ route('property.bookings.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from booking mode </a>
-                                                        </div>
-                                                    @elseif ($booking->isConfirmAttribute())
-                                                        <span class="text-primary">
-                                                            <i class="fa fa-spin fa-spinner"></i>
-                                                            {{ ($booking->user_id == Auth::user()->id) ? 'YOUR BOOKING IS WAITING FOR PAYMENT...':'ALREADY CONFIRMED AND WAITING FOR PAYMENT...' }}
-                                                        </span>
-                                                        <br>
-                                                        <div class="mt-3">
-                                                            <a href="{{ route('property.bookings.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from booking mode </a>
-                                                        </div>
-                                                    @elseif ($booking->isRejectAttribute())
-                                                        @if ($booking->user_id == Auth::user()->id)
-                                                        <span class="text-danger">YOUR REQUEST WAS CANCELLED BY OWNER</span>
-                                                        @endif
-                                                        <form id="formConfirmBooking" action="{{ route('property.bookings.request') }}" class="mt-2">
-                                                            @csrf
-                                                            <input type="hidden" name="book_status" value="{{ ($booking->user_id == Auth::user()->id) ? 'rebook':'freshbook' }}" readonly>
-                                                            <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                            <input type="hidden" name="type" value="{{ $property->type }}" readonly>
-                                                            <input type="hidden" name="type_status" value="{{ $property->type_status }}" readonly>
-                                                            <input type="hidden" name="owner" value="{{ $property->user_id }}" readonly>
-                                                            <input type="hidden" name="checkin" value="{{ $bookingItems['check_in'] }}" readonly>
-                                                            <input type="hidden" name="checkout" value="{{ $bookingItems['check_out'] }}" readonly>
-                                                            <input type="hidden" name="adult" value="{{ $bookingItems['adult'] }}" readonly>
-                                                            <input type="hidden" name="child" value="{{ $bookingItems['children'] }}" readonly>
-                                                            @if ($property->type_status == 'short_stay')
-                                                            <input type="hidden" name="infant" value="{{ $bookingItems['infant'] }}" readonly>
-                                                            @endif
-                                                            <button class="btn btn-primary pl-5 pr-5 confirmBooking font-weight-600" data-step="3" data-href="{{ route('single.property', $property->id) }}">{{ ($booking->user_id == Auth::user()->id) ? 'RE-APPLY BOOKING REQUEST':'CONFIRM BOOKING REQUEST' }}</button>
-                                                        </form>
-                                                    @elseif ($booking->isDoneAttribute() && !$booking->isCheckoutAttribute())
-                                                        <span class="text-primary">
-                                                            <i class="fa fa-spin fa-spinner"></i>
-                                                            {{ ($booking->user_id == Auth::user()->id) ? 'YOU ARE CURRENTLY LIVING IN THE PROPERTY':'SOMEONE IS CURRENTLY LIVING IN THE PROPERTY' }}
-                                                        </span>
-                                                        <br>
-                                                        <div class="mt-3">
-                                                            <a href="{{ route('property.bookings.exit', $property->id) }}" class="text-danger"><i class="fa fa-arrow-circle-left"></i> Exit from booking mode </a>
-                                                        </div>
-                                                    @endif
-                                                @endif
                                         </div>
                                     </div>
                                 </div>
@@ -653,6 +525,10 @@
                             <div class="col-sm-7 col-lg-5">
                                 <div class="card card-bordered-pink">
                                     <div class="card-body">
+                                        @php
+                                            $currency = $property->propertyPrice->currency;
+                                            $price = $property->propertyPrice->property_price;
+                                        @endphp
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 @php $image = $property->propertyImages->first(); @endphp
@@ -672,11 +548,7 @@
                                                 </p>
                                             </div>
                                                 <div class="col-sm-12"><hr></div>
-                                            @if ($property->type_status=='rent')
-                                                    <div class="col-sm-12">
-                                                        <h6><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children'])) }}</h6>
-                                                    </div>
-                                                    <div class="col-sm-12"><hr></div>
+                                            @if ($property->isRentProperty())
                                                 <div class="col-sm-12">
                                                 @if (count($property->includeUtilities))
                                                     <h6 class="text-primary">Inclusive Utilities</h6>
@@ -695,25 +567,11 @@
                                                     <div>
                                                         <p class="font-14">{{ $currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
                                                     </div>
-                                                    <div class="font-14">
-                                                        <span id="dateCalculator">{{ $dateDiff }} x {{ number_format($price,2) }}</span>
-                                                        <span class="float-right" id="dateCalculatorResult">{{ $currency }} {{ number_format($totalPrice,2) }}</span>
-                                                    </div>
-                                                    <div class="font-14">
-                                                        <span>Service Fee</span>
-                                                        <span class="float-right" id="serviceFeeResult">{{ $currency }} {{ number_format($serviceFee,2) }}</span>
-                                                    </div>
-                                                    @if($discountFee != 0)
-                                                    <div class="font-14">
-                                                        <span>Discount Fee</span>
-                                                        <span class="float-right" id="serviceDiscountResult">{{ $currency }} {{ number_format($discountFee, 2) }}</span>
-                                                    </div>
-                                                    @endif
                                                     <hr>
                                                     <div class="font-14">
                                                         <span><strong>Total</strong></span>
                                                         <span class="float-right"><strong id="totalFeeResult">
-                                                            {{ $currency }} {{ number_format($totalFee,2) }}</strong></span>
+                                                            {{ $currency }} {{ number_format($price,2) }}</strong></span>
                                                     </div>
                                                 </div>
                                             @elseif($property->type_status == 'short_stay')
@@ -756,10 +614,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            <div class="col-sm-12"><hr></div>
-                                            <div class="col-sm-12">
-                                                <p class="font-14"><span class="text-danger"><strong>Note:</strong></span> Cancellation after 48 hours, you will get full refund minus service fee.</p>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -776,7 +631,7 @@
 @endsection
 
 @section('scripts')
-@if ($property->type=='hostel')
+@if ($property->isHostelPropertyType())
 <script src="{{ asset('assets/pages/booking/hostelbooking.js') }}"></script>
 @else
 <script src="{{ asset('assets/pages/booking/booking.js') }}"></script>

@@ -47,8 +47,7 @@ $(".btnContinue").on("click", function(e){
     }
     else if($this.data('step')=='2'){
         var data = {
-            "step": $this.data('step'),
-            "owner_message": $("#owner_message").val(),
+            "step": $this.data('step')
         }
 
         $.ajax({
@@ -139,7 +138,7 @@ $(".btnVerify").on("click", function(e){
             }
         });
     }
-    
+
     return false;
 });
 
@@ -176,24 +175,37 @@ $("#verify_code").on("keyup blur", function(e){
     return false;
 });
 
-//confirm booking
-$("#formConfirmBooking").on("submit", function(e){
+
+$('#formRent select[name="duration"]').on('change', function (){
+    let $this= $(this);
+    if($this.val() == ''){
+        $('#formRent input[name="total_amount"]').val('0.00')
+    }else{
+        let duration = parseInt($this.val());
+        let price = parseFloat($this.data('price'));
+        $('#formRent input[name="total_amount"]').val((duration*price).toFixed(2))
+    }
+});
+
+
+
+$("#formRent").on("submit", function(e){
     e.preventDefault();
     e.stopPropagation();
     var $this = $(this);
-    swal({
-        title: "Confirm",
-        text: "You are about to confirm your booking",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: "btn-primary btn-sm",
-        cancelButtonClass: "btn-danger btn-sm",
-        confirmButtonText: "Confirm",
-        closeOnConfirm: true
-        },
-    function(){
+    var valid = true;
+    $('#formRent input, #formRent select').each(function() {
+        var $this = $(this);
+
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
+    });
+
+    if(valid){
         let data = $this.serialize();
-        $(".confirmBooking").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING...').attr('disabled', true);
+        $("#formRent .confirmBooking").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING...').attr('disabled', true);
         $.ajax({
             url: $this.attr('action'),
             type: "POST",
@@ -201,36 +213,84 @@ $("#formConfirmBooking").on("submit", function(e){
             success: function(resp){
                 if(resp == 'success'){
                     swal({
-                        title: "Confirmed",
-                        text: "You have sent a booking request to owner\nWait for owner confirmation.",
-                        type: "success",
-                        confirmButtonClass: "btn-primary btn-sm",
-                        confirmButtonText: "Okay",
-                        closeOnConfirm: true
+                            title: "Confirmed",
+                            text: "You have sent a booking request\nOshelter will contact you.",
+                            type: "success",
+                            confirmButtonClass: "btn-primary btn-sm",
+                            confirmButtonText: "Okay",
+                            closeOnConfirm: true
                         },
-                    function(){
-                        window.location.href = $(".confirmBooking").data('href');
-                    });
+                        function(){
+                            window.location.href = $("#formRent .confirmBooking").data('href');
+                        });
                 }else{
                     swal("Warning", resp, "warning");
-                    $(".confirmBooking").text('<i class="fa fa-spinner fa-spin"></i> CONFIRM BOOKING REQUEST').attr('disabled', false);
+                    $(".confirmBooking").text('CONFIRM BOOKING REQUEST').attr('disabled', false);
                 }
             },
             error: function(resp){
                 console.log("Something went wrong with request");
             }
         });
-    });
+    }
     return false;
 });
+
+//confirm booking
+// $("#formRent").on("submit", function(e){
+//     e.preventDefault();
+//     e.stopPropagation();
+//     var $this = $(this);
+//     swal({
+//         title: "Confirm",
+//         text: "You are about to confirm your booking",
+//         type: "warning",
+//         showCancelButton: true,
+//         confirmButtonClass: "btn-primary btn-sm",
+//         cancelButtonClass: "btn-danger btn-sm",
+//         confirmButtonText: "Confirm",
+//         closeOnConfirm: true
+//         },
+//     function(){
+//         let data = $this.serialize();
+//         $(".confirmBooking").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING...').attr('disabled', true);
+//         $.ajax({
+//             url: $this.attr('action'),
+//             type: "POST",
+//             data: data,
+//             success: function(resp){
+//                 if(resp == 'success'){
+//                     swal({
+//                         title: "Confirmed",
+//                         text: "You have sent a booking request to owner\nWait for owner confirmation.",
+//                         type: "success",
+//                         confirmButtonClass: "btn-primary btn-sm",
+//                         confirmButtonText: "Okay",
+//                         closeOnConfirm: true
+//                         },
+//                     function(){
+//                         window.location.href = $(".confirmBooking").data('href');
+//                     });
+//                 }else{
+//                     swal("Warning", resp, "warning");
+//                     $(".confirmBooking").text('<i class="fa fa-spinner fa-spin"></i> CONFIRM BOOKING REQUEST').attr('disabled', false);
+//                 }
+//             },
+//             error: function(resp){
+//                 console.log("Something went wrong with request");
+//             }
+//         });
+//     });
+//     return false;
+// });
 
 // toggle input field error messages
 $("input, textarea").on('input', function(){
     if($(this).val()!=''){
         $(this).parents('.validate').find('.mySpan').text('');
         $(this).removeClass('is-invalid');
-    }else{ 
-        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required'); 
+    }else{
+        $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
         $(this).addClass('is-invalid');
     }
 });
@@ -240,7 +300,7 @@ $("select").on('change', function(){
     if($(this).val()!=''){
         $(this).parents('.validate').find('.mySpan').text('');
         $(this).removeClass('is-invalid');
-    }else{ 
+    }else{
         $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
         $(this).addClass('is-invalid');
     }
