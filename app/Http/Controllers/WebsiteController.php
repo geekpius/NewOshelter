@@ -4,26 +4,14 @@ namespace App\Http\Controllers;
 
 use DB;
 use Route;
-use App\User;
-use App\ServiceCharge;
 use App\HelpCategory;
 use App\HelpQuestion;
 use App\HelpTopic;
-use App\UserModel\Amenity;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyType;
-use App\PropertyModel\PropertyImage;
-use App\UserModel\AccountReactivate;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Crypt;
 use App\PropertyModel\PropertyCategory;
 use App\PropertyModel\PropertyLocation;
-use App\ContactModel\Contact;
-use App\UserModel\UserVisit;
-use App\OrderModel\Order;
 use App\EventModel\AuctionEvent;
 
 use App\Http\Resources\PropertyCollection;
@@ -162,7 +150,6 @@ class WebsiteController extends Controller
         if($property->isDoneStep() && $property->isActive() && $property->isPublish() && $property->isPropertyApproved() && !$property->isPropertyTaken()){
             $data['page_title'] = 'Detailing '.$property->title.' property for you. Have all the overviews of property to make decisions.';
             $data['property'] = $property;
-            $data['charge'] = ServiceCharge::whereProperty_type($property->type_status)->first();
             $countImages = $property->propertyImages->count();
             $data['image'] = $property->propertyImages->first();
             $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
