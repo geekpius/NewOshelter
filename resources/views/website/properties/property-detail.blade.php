@@ -546,26 +546,26 @@
                 </div>
 
                 @if (!$property->isSaleProperty())
-                <hr>
+{{--                <hr>--}}
                 {{-- Cancellation --}}
-                <div class="pxp-single-property-section">
-                    <h3>Cancellation and Eviction</h3>
-                    <p>
-                        <i class="fa fa-minus-circle font-12"></i>
-                        Cancellation after 48 hours, you will get full refund minus service fee.
-                    </p>
-                    @if($property->type_status=='rent')
-                        <p>
-                            <i class="fa fa-minus-circle font-12"></i>
-                            Eviction notice will be sent to visitors 3 months before time. Visitors will wish to extend or evict.
-                        </p>
-                    @elseif($property->type_status=='short_stay')
-                        <p>
-                            <i class="fa fa-minus-circle font-12"></i>
-                            Eviction notice will be sent to visitor 3 days and 1 day before time.
-                        </p>
-                    @endif
-                </div>
+{{--                <div class="pxp-single-property-section">--}}
+{{--                    <h3>Cancellation and Eviction</h3>--}}
+{{--                    <p>--}}
+{{--                        <i class="fa fa-minus-circle font-12"></i>--}}
+{{--                        Cancellation after 48 hours, you will get full refund minus service fee.--}}
+{{--                    </p>--}}
+{{--                    @if($property->type_status=='rent')--}}
+{{--                        <p>--}}
+{{--                            <i class="fa fa-minus-circle font-12"></i>--}}
+{{--                            Eviction notice will be sent to visitors 3 months before time. Visitors will wish to extend or evict.--}}
+{{--                        </p>--}}
+{{--                    @elseif($property->type_status=='short_stay')--}}
+{{--                        <p>--}}
+{{--                            <i class="fa fa-minus-circle font-12"></i>--}}
+{{--                            Eviction notice will be sent to visitor 3 days and 1 day before time.--}}
+{{--                        </p>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
                 @endif
 
                 {{-- property rules --}}
@@ -732,82 +732,13 @@
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <input type="hidden" name="type" readonly value="rent">
-                                <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
-                                <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group input-group-sm validate">
-                                            <select name="duration" id="duration" class="form-control">
-                                                <option value="">--Select rent duration--</option>
-                                                <option value="6">6 months</option>
-                                                <option value="12">1 year</option>
-                                                <option value="24">2 years</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 mt-2">
-                                        <div class="form-group input-group-sm validate">
-                                            <select name="adult" id="adult" class="form-control">
-                                                <option value="1">1 Adult</option>
-                                                <option value="2">2 Adults</option>
-                                                <option value="3">3 Adults</option>
-                                                <option value="4">4 Adults</option>
-                                                <option value="5">5 Adults</option>
-                                                <option value="6">6 Adults</option>
-                                                <option value="7">7 Adults</option>
-                                                <option value="8">8 Adults</option>
-                                                <option value="9">9 Adults</option>
-                                                <option value="10">10 Adults</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 mt-2">
-                                        <div class="form-group input-group-sm validate">
-                                            <select name="children" id="children" title="Under 12 years" class="form-control">
-                                                <option value="0">No Children</option>
-                                                <option value="1">1 Child</option>
-                                                <option value="2">2 Children</option>
-                                                <option value="3">3 Children</option>
-                                                <option value="4">4 Children</option>
-                                                <option value="5">5 Children</option>
-                                                <option value="6">6 Children</option>
-                                                <option value="7">7 Children</option>
-                                                <option value="8">8 Children</option>
-                                                <option value="9">9 Children</option>
-                                                <option value="10">10 Children</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row" id="showCalculations">
-                                    <div class="col-sm-12">
-                                        <div>
-                                            <span id="dateCalculator">Month Cal</span>
-                                            <span class="pull-right" id="dateCalculatorResult">Total Month Fee</span>
-                                        </div>
-                                        <div>
-                                            <span>Service Fee</span>
-                                            <span class="pull-right" id="serviceFeeResult">Total Service Fee</span>
-                                        </div>
-                                        <div id="discountFee" style="display: none">
-                                            <span>Discount Fee</span>
-                                            <span class="pull-right" id="discountFeeResult">Total Discount Fee</span>
-                                        </div>
-                                        <hr>
-                                        <div>
-                                            <span><strong>Total</strong></span>
-                                            <span class="pull-right"><strong id="totalFeeResult">Total Fee</strong></span>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
                                             @if ($property->isPropertyTaken())
                                             <span class="btn btn-default disabled btn-sm btn-block pl-5 pr-5 mt-3"><i class="fa fa-check"></i> {{ ucwords(str_replace('_', ' ', $property->type)) }} is booked</span>
                                             @else
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnRentBook disabled"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnRentBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
                                             @endif
                                         </div>
                                     </div>
