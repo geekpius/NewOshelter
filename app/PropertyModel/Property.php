@@ -2,6 +2,7 @@
 
 namespace App\PropertyModel;
 
+use App\Models\RentRequest;
 use App\RejectReason;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
@@ -133,6 +134,11 @@ class Property extends Model
 
     public function propertyContain(){
         return $this->hasOne(PropertyContain::class);
+    }
+
+    public function rentRequests()
+    {
+        return $this->hasMany(RentRequest::class);
     }
 
     public function propertyHostelBlocks(){

@@ -511,10 +511,11 @@
                                                 <div class="card-body">
                                                     <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If owner is taking too long (more than 24hours) to response, <a href="{{ route('contact') }}" target="_blank" class="text-danger">contact us</a> for support.</p>
 
-
                                                     @if($property->isRentProperty())
                                                         @include('includes/booking/rent-booking-form')
                                                     @endif
+
+                                                    <a class="text-danger" href="{{ route('property.bookings.exit', $property->id) }}">Exit from booking</a>
                                                 </div>
                                             </div>
                                         </div>

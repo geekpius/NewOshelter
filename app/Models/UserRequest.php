@@ -34,4 +34,16 @@ class UserRequest extends Model
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function scopeRentRequests()
+    {
+        return UserRequest::where('requestable_type', 'App\Models\RentRequest');
+    }
+
+    public function scopePendingRentRequests()
+    {
+        return UserRequest::where('requestable_type', 'App\Models\RentRequest')->where('status', UserRequest::PENDING);
+    }
+
+
 }
