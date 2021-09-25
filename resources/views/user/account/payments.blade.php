@@ -21,13 +21,6 @@
                                         Always pay and communicate through OShelter to ensure you're protected under our Terms of Service,
                                         Payments Terms of Service, cancellation, and other safeguards. <a href="javascript:void(0);" class="text-primary">Learn more</a>
                                     </p>
-                                    <p>
-                                        <strong>Payout</strong><br>
-                                        When you receive a payment for a reservation, we call that payment to you a "payout." Our secure payment system
-                                        supports several payment methods. <br>
-                                        To get paid, you need to <a href="#">request for payout</a>. OShelter releases payouts about 24-48 hours after a visitor's scheduled
-                                        check-in time. The time it takes for the funds to appear in your account depends on your payment method. <a href="javascript:void(0);" class="text-primary">Learn more</a>
-                                    </p>
                                 </div>
 
                                 <div class="col-sm-6">
