@@ -20,6 +20,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserRegisteredEvent' => [
             'App\Listeners\RegisteredUserEmailListener'
         ],
+
+        'App\Events\LoginEvent' => [
+            'App\Listeners\LoginListener'
+        ],
     ];
 
     /**

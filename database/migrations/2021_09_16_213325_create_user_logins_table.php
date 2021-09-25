@@ -18,7 +18,7 @@ class CreateUserLoginsTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->string('device')->index();
             $table->string('browser')->index();
-            $table->string('location')->index();
+            $table->string('location')->nullable()->index();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

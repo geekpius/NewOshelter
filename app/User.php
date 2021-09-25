@@ -60,6 +60,7 @@ class User extends Authenticatable
         'verify_sms',
         'login_time',
         'is_id_verified',
+        'login_time',
     ];
 
     /**
@@ -242,6 +243,11 @@ class User extends Authenticatable
     public function isOwner(): bool
     {
         return $this->account_type=='owner';
+    }
+
+    public function isUserDifferentDevice(string $device, string $browser): bool
+    {
+        return $this->userLogins->where('device', $device)->where('browser', $browser)-> count() < 1;
     }
 
 
