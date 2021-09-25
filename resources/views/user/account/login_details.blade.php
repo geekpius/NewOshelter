@@ -4,9 +4,9 @@
 
 <div class="pxp-content pull-content-down">
     <div class="container">
-        <h2>Logins & Security</h2>  
+        <h2>Logins & Security</h2>
         <p>
-            <strong>{{ Auth::user()->name }},</strong> account owner 
+            <strong>{{ Auth::user()->name }},</strong> account owner
         </p>
         <div id="" class="pt-4">
             @include('includes.gobackroute')
@@ -23,8 +23,7 @@
                                             <i class="fa fa-desktop fa-2x"></i>
                                         </div>
                                         <div class="">
-                                            <p>{{ $log->device }} - {{ $log->browser }} <br>
-                                                {{ (trim($log->location)==',')?'Unknown Location':$log->location }} - {{ \Carbon\Carbon::parse($log->created_at)->diffForHumans() }}
+                                            <p>{{ $log->device }} - {{ $log->browser }} - {{ \Carbon\Carbon::parse($log->created_at)->diffForHumans() }}
                                             </p>
                                         </div>
                                         <hr>
@@ -41,7 +40,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 
 @endsection
