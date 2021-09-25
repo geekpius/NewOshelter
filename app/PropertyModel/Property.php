@@ -5,33 +5,7 @@ namespace App\PropertyModel;
 use App\RejectReason;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
-use App\UserModel\UserVisit;
-use App\UserModel\UserHostelVisit;
-use App\BookModel\Booking;
-use App\BookModel\HostelBooking;
-use App\PropertyModel\Property;
-use App\PropertyModel\PropertyList;
-use App\PropertyModel\PropertyRent;
-use App\PropertyModel\PropertyRule;
-use App\PropertyModel\PropertyImage;
-use App\PropertyModel\PropertyVideo;
-use App\PropertyModel\PropertyPrice;
 use App\UserModel\UserSavedProperty;
-use App\PropertyModel\PropertyReview;
-use App\PropertyModel\HostelBlockRoom;
-use App\PropertyModel\PropertyAmenity;
-use App\PropertyModel\PropertyContain;
-use App\PropertyModel\PropertyOwnRule;
-use App\PropertyModel\PropertyUtility;
-use App\PropertyModel\PropertyLocation;
-use App\PropertyModel\PropertyDescription;
-use App\PropertyModel\PropertyHostelBlock;
-use App\PropertyModel\PropertyHostelPrice;
-use App\PropertyModel\PropertySharedAmenity;
-use App\PropertyModel\PropertyAuctionSchedule;
-use App\PropertyModel\IncludeUtility;
-use App\OrderModel\Order;
-use App\EventModel\AuctionEvent;
 
 class Property extends Model
 {
@@ -153,7 +127,6 @@ class Property extends Model
         return $this->morphMany(RejectReason::class, 'rejectable');
     }
 
-
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -215,33 +188,11 @@ class Property extends Model
         return $this->hasMany(UserSavedProperty::class);
     }
 
-    public function userBookings(){
-        return $this->hasMany(Booking::class);
-    }
-
-    public function userHostelBookings(){
-        return $this->hasMany(HostelBooking::class);
-    }
-
-    public function userVisits(){
-        return $this->hasMany(UserVisit::class);
-    }
-
-    public function userHostelVisits(){
-        return $this->hasMany(UserHostelVisit::class);
-    }
-
-    public function propertyUtilities(){
-        return $this->hasMany(PropertyUtility::class);
-    }
 
     public function includeUtilities(){
         return $this->hasMany(IncludeUtility::class);
     }
 
-    public function orders(){
-        return $this->hasMany(Order::class);
-    }
 
     public function propertyVideo(){
         return $this->hasOne(PropertyVideo::class);
@@ -250,12 +201,6 @@ class Property extends Model
     public function propertyAuctionSchedule(){
         return $this->hasOne(PropertyAuctionSchedule::class);
     }
-
-    public function auctions(){
-        return $this->hasMany(AuctionEvent::class);
-    }
-
-
 
 
     public function getAvailableRooms(): int

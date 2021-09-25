@@ -2,29 +2,15 @@
 
 namespace App;
 
-use App\User;
+use App\Models\UserRequest;
 use Carbon\Carbon;
-use App\UserModel\Vat;
-use Illuminate\Support\Str;
 use App\UserModel\UserLogin;
-use App\UserModel\UserVisit;
-use App\UserModel\UserHostelVisit;
 use App\UserModel\UserCurrency;
-use App\UserModel\Confirmation;
-use App\BookModel\Booking;
-use App\BookModel\HostelBooking;
-use App\UserModel\UserWallet;
 use App\UserModel\UserProfile;
 use App\PropertyModel\Property;
-use App\PropertyModel\PropertyBid;
-use App\PropertyModel\PropertyBuy;
-use App\PropertyModel\PropertyRent;
 use App\UserModel\UserNotification;
 use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
-use App\PaymentModel\Transaction;
-use App\OrderModel\Order;
-use App\EventModel\AuctionEvent;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -132,6 +118,11 @@ class User extends Authenticatable
         return $this->hasMany(RejectReason::class);
     }
 
+    public function userRequest()
+    {
+        return $this->hasMany(UserRequest::class);
+    }
+
     public function properties(){
         return $this->hasMany(Property::class);
     }
@@ -152,73 +143,15 @@ class User extends Authenticatable
         return $this->hasMany(PropertyReview::class);
     }
 
-    public function propertyRents(){
-        return $this->hasMany(PropertyRent::class);
-    }
-
-    public function propertyBuys(){
-        return $this->hasMany(PropertyBuy::class);
-    }
-
-    public function propertyBids(){
-        return $this->hasMany(PropertyBid::class);
-    }
-
-    public function userWallets(){
-        return $this->hasMany(UserWallet::class);
-    }
-
     public function userSavedProperties(){
         return $this->hasMany(UserSavedProperty::class);
     }
 
-    public function userVisits(){
-        return $this->hasMany(UserVisit::class);
-    }
-
-    public function userHostelVisits(){
-        return $this->hasMany(UserHostelVisit::class);
-    }
-
-    public function userBookings(){
-        return $this->hasMany(Booking::class);
-    }
-
-    public function userHostelBookings(){
-        return $this->hasMany(HostelBooking::class);
-    }
-
-    public function userTransactions(){
-        return $this->hasMany(Transaction::class, 'user_id');
-    }
-
-    public function ownerTransactions(){
-        return $this->hasMany(Transaction::class, 'owner_id');
-    }
 
     public function userCurrency(){
         return $this->hasOne(UserCurrency::class);
     }
 
-    public function userConfirmations(){
-        return $this->hasMany(Confirmation::class);
-    }
-
-    public function orders(){
-        return $this->hasMany(Order::class, 'user_id');
-    }
-
-    public function ownerOrders(){
-        return $this->hasMany(Order::class, 'owner_id');
-    }
-
-    public function auctions(){
-        return $this->hasMany(AuctionEvent::class, 'user_id');
-    }
-
-    public function ownerAuctions(){
-        return $this->hasMany(AuctionEvent::class, 'owner_id');
-    }
 
     public function countMyProperties(): int
     {
