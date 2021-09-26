@@ -45,5 +45,10 @@ class UserRequest extends Model
         return UserRequest::where('requestable_type', 'App\Models\RentRequest')->where('status', UserRequest::PENDING);
     }
 
+    public function pendingUserRequests()
+    {
+        return UserRequest::where('status', UserRequest::PENDING);
+    }
+
 
 }

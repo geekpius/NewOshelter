@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\RentRequest;
 use App\Models\UserRequest;
-use App\PropertyModel\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -52,9 +51,9 @@ class RentRequestController extends Controller
             $message = 'Validation failed';
         }else{
             $rq = new UserRequest;
-            if($rq->scopePendingRentRequests()->where('user_id', Auth::user()->id)->exists())
+            if($rq->pendingUserRequests()->where('user_id', Auth::user()->id)->exists())
             {
-                return 'You have a pending rent request';
+                return 'You have a pending booking request';
             }
             $rentRequest = RentRequest::create([
                         'property_id' => $request->property_id,
