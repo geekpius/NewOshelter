@@ -1,7 +1,8 @@
 @extends('layouts.site')
 
 @section('style')
-
+{{-- date range --}}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 @section('content')
 <div class="pxp-content pull-content-down">
@@ -513,9 +514,13 @@
 
                                                     @if($property->isRentProperty())
                                                         @include('includes/booking/rent-booking-form')
+                                                    @elseif($property->isShortStayProperty())
+                                                        @include('includes/booking/short-stay-booking-form')
                                                     @endif
 
-                                                    <a class="text-danger" href="{{ route('property.bookings.exit', $property->id) }}">Exit from booking</a>
+                                                   <div class="mt-4">
+                                                       <a class="text-danger" href="{{ route('property.bookings.exit', $property->id) }}">Exit from booking</a>
+                                                   </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -575,7 +580,7 @@
                                                             {{ $currency }} {{ number_format($price,2) }}</strong></span>
                                                     </div>
                                                 </div>
-                                            @elseif($property->type_status == 'short_stay')
+                                            @elseif($property->isShortStayProperty())
                                                 <div class="col-sm-12">
                                                     <h6 class="text-primary">Inclusive Utilities</h6>
                                                     <div class="row">
@@ -586,32 +591,14 @@
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
                                                 <div class="col-sm-12">
-                                                    <h6><i class="fa fa-users"></i> &nbsp;&nbsp; {{ ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant']) }} {{ str_plural('Visitor', ($bookingItems['adult']+$bookingItems['children']+$bookingItems['infant'])) }}</h6>
-                                                </div>
-                                                <div class="col-sm-12"><hr></div>
-                                                <div class="col-sm-12">
                                                     <div>
                                                         <p class="font-14">{{ $currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
                                                     </div>
-                                                    <div class="font-14">
-                                                        <span id="dateCalculator">{{ $dateDiff }} {{ str_plural('Day', $dateDiff) }} x {{ number_format($price,2) }}</span>
-                                                        <span class="float-right" id="dateCalculatorResult">{{ $currency }} {{ number_format($totalPrice,2) }}</span>
-                                                    </div>
-                                                    <div class="font-14">
-                                                        <span>Service Fee</span>
-                                                        <span class="float-right" id="serviceFeeResult">{{ $currency }} {{ number_format($serviceFee, 2) }}</span>
-                                                    </div>
-                                                    @if($discountFee != 0)
-                                                    <div class="font-14">
-                                                        <span>Discount Fee</span>
-                                                        <span class="float-right" id="serviceDiscountResult">{{ $currency }} {{ number_format($discountFee, 2) }}</span>
-                                                    </div>
-                                                    @endif
                                                     <hr>
                                                     <div class="font-14">
                                                         <span><strong>Total</strong></span>
-                                                        <span class="float-right"><strong id="totalFeeResult">
-                                                            {{ $currency }} {{ number_format($totalFee, 2) }}</strong></span>
+                                                        <span class="float-right"><strong>
+                                                            {{ $currency }} {{ number_format($price, 2) }}</strong></span>
                                                     </div>
                                                 </div>
                                             @endif
@@ -636,5 +623,8 @@
 <script src="{{ asset('assets/pages/booking/hostelbooking.js') }}"></script>
 @else
 <script src="{{ asset('assets/pages/booking/booking.js') }}"></script>
+{{-- date range --}}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 @endif
 @endsection

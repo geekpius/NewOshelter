@@ -4,8 +4,12 @@ namespace App\Providers;
 
 
 use App\Models\RentRequest;
+use App\Models\SaleRequest;
+use App\Models\ShortStayRequest;
 use App\Models\UserRequest;
 use App\Observers\RentRequestObserver;
+use App\Observers\SaleRequestObserver;
+use App\Observers\ShortStayRequestObserver;
 use App\Observers\UserRequestObserver;
 use Illuminate\Support\ServiceProvider;
 use App\User;
@@ -23,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         RentRequest::observe(RentRequestObserver::class);
         UserRequest::observe(UserRequestObserver::class);
+        ShortStayRequest::observe(ShortStayRequestObserver::class);
+        SaleRequest::observe(SaleRequestObserver::class);
     }
 
     /**
