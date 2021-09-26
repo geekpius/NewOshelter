@@ -523,13 +523,6 @@ class WebsiteController extends Controller
         if ($validator->fails()){
             $message = 'Something went wrong with your input';
         }else{
-//            $contact  = new Contact;
-//            $contact->name = $request->name;
-//            $contact->email = $request->email;
-//            $contact->help_desk = $request->help_desk;
-//            $contact->phone = $request->phone;
-//            $contact->message = $request->message;
-//            $contact->save();
 
             $data = array(
                 "name" => $request->name,

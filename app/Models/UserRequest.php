@@ -45,6 +45,16 @@ class UserRequest extends Model
         return UserRequest::where('requestable_type', 'App\Models\RentRequest')->where('status', UserRequest::PENDING);
     }
 
+    public function scopeShortStayRequests()
+    {
+        return UserRequest::where('requestable_type', 'App\Models\ShortStayRequest');
+    }
+
+    public function scopePendingShortStayRequests()
+    {
+        return UserRequest::where('requestable_type', 'App\Models\ShortStayRequest')->where('status', UserRequest::PENDING);
+    }
+
     public function pendingUserRequests()
     {
         return UserRequest::where('status', UserRequest::PENDING);

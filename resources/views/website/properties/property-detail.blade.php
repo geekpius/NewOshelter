@@ -3,8 +3,6 @@
 @section('style')
 <link rel="stylesheet" href="{{ asset('assets/light/css/photoswipe.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/light/css/default-skin/default-skin.css') }}">
-{{-- date range --}}
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="{{ asset('assets/light/css/owl.carousel.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/light/css/owl.theme.default.min.css') }}">
 <style>
@@ -527,11 +525,11 @@
                     <span><i class="fa fa-check-circle {{ $property->user->verify_email? 'text-success':'text-danger' }}"></i> <b>{{ $property->user->verify_email? 'Verified':'Not Verified' }}</b></span>
                     <br>   <br>
                     <a href="{{ $property->user->verify_email? route('messages.compose', ['user'=>$property->user->id, 'property'=>$property->id]):'#' }}" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</a>
-                    <hr>
-                    <div>
-                        <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make
-                        payments outside OShelter's website and app.</p>
-                    </div>
+{{--                    <hr>--}}
+{{--                    <div>--}}
+{{--                        <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make--}}
+{{--                        payments outside OShelter's website and app.</p>--}}
+{{--                    </div>--}}
 
                 </div>
 
@@ -719,7 +717,7 @@
                             <hr>
                             {{-- for rent --}}
                             @if ($property->isRentProperty())
-                            <form class="form-horizontal form-material mb-0" id="formRentBooking" method="POST" action="{{ route('property.bookings.submit') }}">
+                            <form class="form-horizontal form-material mb-0" id="formBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <input type="hidden" name="type" readonly value="rent">
@@ -729,7 +727,7 @@
                                             @if ($property->isPropertyTaken())
                                             <span class="btn btn-default disabled btn-sm btn-block pl-5 pr-5 mt-3"><i class="fa fa-check"></i> {{ ucwords(str_replace('_', ' ', $property->type)) }} is booked</span>
                                             @else
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnRentBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
                                             @endif
                                         </div>
                                     </div>
@@ -738,98 +736,17 @@
 
                             @elseif ($property->isShortStayProperty())
                             {{-- for short stay --}}
-                            <form class="form-horizontal form-material mb-0" id="formStayBooking" method="POST" action="{{ route('property.bookings.submit') }}">
+                            <form class="form-horizontal form-material mb-0" id="formBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <input type="hidden" name="type" readonly value="short_stay">
-                                <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
-                                <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
-                                <div class="row">
-                                    <div class="col-sm-12" id="dateMaxMin" data-min="{{ $property->propertyPrice->minimum_stay }}" data-max="{{ $property->propertyPrice->maximum_stay }}">
-                                        <div class="input-group input-group-sm validate" id="dateRanger" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}">
-                                            <input type="text" name="check_in" value="" class="form-control" placeholder="Check In" readonly />
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text fa fa-arrow-right small" id="inputGroup-sizing-sm"></span>
-                                            </div>
-                                            <input type="text" name="check_out" value="" class="form-control" placeholder="Check Out" readonly />
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 mt-3">
-                                        <div class="form-group input-group-sm validate">
-                                            <select name="adult" id="adult" class="form-control" data-number="{{ $property->adult }}">
-                                                <option value="1">1 Adult</option>
-                                                <option value="2">2 Adults</option>
-                                                <option value="3">3 Adults</option>
-                                                <option value="4">4 Adults</option>
-                                                <option value="5">5 Adults</option>
-                                                <option value="6">6 Adults</option>
-                                                <option value="7">7 Adults</option>
-                                                <option value="8">8 Adults</option>
-                                                <option value="9">9 Adults</option>
-                                                <option value="10">10 Adults</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group input-group-sm validate">
-                                            <select name="children" id="children" class="form-control" data-number="{{ $property->children }}">
-                                                <option value="0">No Children</option>
-                                                <option value="1">1 Child</option>
-                                                <option value="2">2 Children</option>
-                                                <option value="3">3 Children</option>
-                                                <option value="4">4 Children</option>
-                                                <option value="5">5 Children</option>
-                                                <option value="6">6 Children</option>
-                                                <option value="7">7 Children</option>
-                                                <option value="8">8 Children</option>
-                                                <option value="9">9 Children</option>
-                                                <option value="10">10 Children</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="form-group input-group-sm validate">
-                                            <select name="infant" id="infant" class="form-control">
-                                                <option value="0">No Infant</option>
-                                                <option value="1">1 Infant</option>
-                                                <option value="2">2 Infants</option>
-                                                <option value="3">3 Infants</option>
-                                                <option value="4">4 Infants</option>
-                                                <option value="5">5 Infants</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row" id="showCalculations">
-                                    <div class="col-sm-12">
-                                        <div>
-                                            <span id="dateCalculator">Month Cal</span>
-                                            <span class="pull-right" id="dateCalculatorResult">Total Month Fee</span>
-                                        </div>
-                                        <div>
-                                            <span>Service Fee</span>
-                                            <span class="pull-right" id="serviceFeeResult">Total Service Fee</span>
-                                        </div>
-                                        <div id="discountFee" style="display: none">
-                                            <span>Discount Fee</span>
-                                            <span class="pull-right" id="discountFeeResult">Total Discount Fee</span>
-                                        </div>
-                                        <hr>
-                                        <div>
-                                            <span><strong>Total</strong></span>
-                                            <span class="pull-right"><strong id="totalFeeResult">Total Fee</strong></span>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
                                             @if ($property->isPropertyTaken())
                                             <span class="btn btn-default disabled btn-sm btn-block pl-5 pr-5 mt-3"><i class="fa fa-check"></i> {{ ucwords(str_replace('_', ' ', $property->type)) }} is booked</span>
                                             @else
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnStayBook disabled"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
                                             @endif
                                         </div>
                                     </div>
@@ -837,17 +754,15 @@
                             </form>
 
                             @elseif ($property->isSaleProperty())
-                            <form class="form-horizontal form-material mb-0" id="formOrder" method="POST" action="{{ route('property.order.submit') }}">
+                            <form class="form-horizontal form-material mb-0" id="formBooking" method="POST" action="{{ route('property.order.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <input type="hidden" name="type" readonly value="sale">
-                                <input type="hidden" name="charge" readonly value="{{ empty($charge->charge)? 0:$charge->charge }}">
-                                <input type="hidden" name="discount" readonly value="{{ empty($charge->discount)? 0:$charge->discount }}">
 
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnOrder disabled"><i class="fa fa-cart-arrow-down"></i> Buy this {{ str_replace('_', ' ', $property->type) }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnBook"><i class="fa fa-cart-arrow-down"></i> Buy this {{ str_replace('_', ' ', $property->type) }}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1066,15 +981,19 @@
 <script src="{{ asset('assets/light/js/gallery.js') }}"></script>
 <script src="{{ asset('assets/light/js/infobox.js') }}"></script>
 <script src="{{ asset('assets/pages/website/single-map.js') }}"></script>
-{{-- date range --}}
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="{{ asset('assets/pages/website/hostel-property-detail.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/pages/website/rent-property-detail.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/pages/website/short-stay-property-detail.js') }}"></script>
-<script type="text/javascript" src="{{ asset('assets/pages/website/sale-property-detail.js') }}"></script>
 <script src="{{ asset('assets/light/js/owl.carousel.min.js') }}"></script>
 <script>
+    $("#formBooking").on('submit', function(e){
+        e.stopPropagation();
+        var $this = $(this);
+        var valid = true;
+        if(valid){
+            $("#formBooking .btnBook").html('<i class="fa fa-spin fa-spinner"></i> Booking...').attr('disabled', true);
+            return true;
+        }
+        return false;
+    });
+
     $(".btn_review_all").on("click", function(){
         $("#reviewModal").modal('show');
         return false;

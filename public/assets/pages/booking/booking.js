@@ -225,7 +225,7 @@ $("#formRent").on("submit", function(e){
                         });
                 }else{
                     swal("Warning", resp, "warning");
-                    $(".confirmBooking").text('CONFIRM BOOKING REQUEST').attr('disabled', false);
+                    $("#formRent .confirmBooking").text('CONFIRM BOOKING REQUEST').attr('disabled', false);
                 }
             },
             error: function(resp){
@@ -236,53 +236,55 @@ $("#formRent").on("submit", function(e){
     return false;
 });
 
-//confirm booking
-// $("#formRent").on("submit", function(e){
-//     e.preventDefault();
-//     e.stopPropagation();
-//     var $this = $(this);
-//     swal({
-//         title: "Confirm",
-//         text: "You are about to confirm your booking",
-//         type: "warning",
-//         showCancelButton: true,
-//         confirmButtonClass: "btn-primary btn-sm",
-//         cancelButtonClass: "btn-danger btn-sm",
-//         confirmButtonText: "Confirm",
-//         closeOnConfirm: true
-//         },
-//     function(){
-//         let data = $this.serialize();
-//         $(".confirmBooking").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING...').attr('disabled', true);
-//         $.ajax({
-//             url: $this.attr('action'),
-//             type: "POST",
-//             data: data,
-//             success: function(resp){
-//                 if(resp == 'success'){
-//                     swal({
-//                         title: "Confirmed",
-//                         text: "You have sent a booking request to owner\nWait for owner confirmation.",
-//                         type: "success",
-//                         confirmButtonClass: "btn-primary btn-sm",
-//                         confirmButtonText: "Okay",
-//                         closeOnConfirm: true
-//                         },
-//                     function(){
-//                         window.location.href = $(".confirmBooking").data('href');
-//                     });
-//                 }else{
-//                     swal("Warning", resp, "warning");
-//                     $(".confirmBooking").text('<i class="fa fa-spinner fa-spin"></i> CONFIRM BOOKING REQUEST').attr('disabled', false);
-//                 }
-//             },
-//             error: function(resp){
-//                 console.log("Something went wrong with request");
-//             }
-//         });
-//     });
-//     return false;
-// });
+
+
+$("#formShortStay").on("submit", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this = $(this);
+    var valid = true;
+    $('#formShortStay input, #formShortStay select').each(function() {
+        var $this = $(this);
+
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
+    });
+
+    if(valid){
+        let data = $this.serialize();
+        $("#formShortStay .confirmBooking").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING...').attr('disabled', true);
+        $.ajax({
+            url: $this.attr('action'),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp == 'success'){
+                    swal({
+                            title: "Confirmed",
+                            text: "You have sent a booking request\nOshelter will contact you.",
+                            type: "success",
+                            confirmButtonClass: "btn-primary btn-sm",
+                            confirmButtonText: "Okay",
+                            closeOnConfirm: true
+                        },
+                        function(){
+                            window.location.href = $("#formShortStay .confirmBooking").data('href');
+                        });
+                }else{
+                    swal("Warning", resp, "warning");
+                    $("#formShortStay .confirmBooking").text('CONFIRM BOOKING REQUEST').attr('disabled', false);
+                }
+            },
+            error: function(resp){
+                console.log("Something went wrong with request");
+            }
+        });
+    }
+    return false;
+});
+
 
 // toggle input field error messages
 $("input, textarea").on('input', function(){
@@ -324,3 +326,70 @@ function removeZero(field) {
         document.getElementById('phoneSpan').innerText = '';
     }
 }
+
+
+// Date pickers //
+$(function() {
+    $('#dateRanger').daterangepicker({
+        opens: 'left',
+        autoApply: true,
+        // showDropdowns: true,
+        minDate: $('#dateRanger').data('date'),
+    });
+});
+
+$('#dateRanger').on('apply.daterangepicker', function(ev, picker) {
+    var checkIn = picker.startDate;
+    var checkOut =picker.endDate;
+
+    if(checkOut){
+        let checkInDate = new Date(checkIn).getTime();
+        let checkOutDate = new Date(checkOut).getTime();
+        let distance = checkOutDate - checkInDate;
+        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+        // checking max and min stays
+        maxStay = $("#dateMaxMin").data('max');
+        minStay = $("#dateMaxMin").data('min');
+        if (days < minStay || days > maxStay){
+            swal("Warning", "Check in and check out with owners minimum and maximum stay.", "warning");
+            return;
+        }
+        // get the total selected days price
+        let totalPrice = days * parseFloat($("#formShortStay #initialAmount").val());
+
+        $('#formShortStay input[name="total_amount"]').val(`${totalPrice.toFixed(2)}`);
+    }
+
+    $("#dateRanger input[name='check_in']").val(picker.startDate.format('DD-MM-YYYY').toString()).removeClass('is-invalid');
+    $("#dateRanger input[name='check_out']").val(picker.endDate.format('DD-MM-YYYY').toString()).removeClass('is-invalid');
+});
+
+
+// checking select adults and owner's
+$("#formShortStay select[name='adult']").on("change", function(){
+    $this = $(this);
+    if($this.val()!=""){
+        let setAdult = $this.data('number');
+        if(parseInt($this.val())>parseInt(setAdult)){
+            let noOfAdult = (parseInt(setAdult)>1)? setAdult+" adults":setAdult+" adult";
+            alert("Property require "+noOfAdult);
+            $this.val('1');
+            return;
+        }
+    }
+});
+
+// checking select children and owner's
+$("#formShortStay select[name='children']").on("change", function(){
+    $this = $(this);
+    if($this.val()!=""){
+        let setChildren = $this.data('number');
+        if(parseInt($this.val())>parseInt(setChildren)){
+            let noOfChild = (parseInt(setChildren)>1)? setChildren+" children":setChildren+" child";
+            alert("Property require "+noOfChild);
+            $this.val(`${setChildren}`);
+            return;
+        }
+    }
+});
