@@ -20,6 +20,28 @@
         <input type="text" readonly name="total_amount" class="form-control" value="0.00"  />
         <span class="text-danger small mySpan" role="alert"></span>
     </div>
+    <div class="form-group mt-4 validate">
+        <label for="">How many adult are coming?</label>
+        <select name="adult" class="form-control">
+            <option value="">--Select--</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        <span class="text-danger small mySpan" role="alert"></span>
+    </div>
+
+    <div class="form-group mt-4 validate">
+        <label for="">How many children are coming?</label>
+        <select name="children" class="form-control">
+            <option value="">--Select--</option>
+            @for($i = 1; $i <= 10; $i++)
+                <option value="{{ $i }}">{{ $i }}</option>
+            @endfor
+        </select>
+        <span class="text-danger small mySpan" role="alert"></span>
+    </div>
 
     <input type="hidden" readonly name="step" value="3">
 

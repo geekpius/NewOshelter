@@ -44,6 +44,8 @@ class RentRequestController extends Controller
             'type_status' => 'required',
             'duration' => 'required',
             'total_amount' => 'required',
+            'adult' => 'required',
+            'children' => 'required',
         ]);
 
         $message ='';
@@ -60,6 +62,8 @@ class RentRequestController extends Controller
                         'duration' => $request->duration,
                         'calender' => 'month',
                         'amount' => $request->total_amount,
+                        'adult' => $request->adult,
+                        'children' => $request->children,
                     ]);
 
             $rentRequest->userRequests()->create([
