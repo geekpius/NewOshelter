@@ -1,21 +1,24 @@
 
-<form class="mt-4" id="formSale" method="POST" action="{{ route('property.request.auction') }}">
+<form class="mt-4" id="formAuction" method="POST" action="{{ route('property.request.auction') }}">
     @csrf
     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-    <input type="hidden" name="type_status" value="sale" readonly>
+    <input type="hidden" name="type_status" value="auction" readonly>
+
     <div class="form-group mt-4 validate">
-        <label for="">How do you wish to pay?</label>
-        <select name="payment_method" class="form-control" data-price="{{ $property->propertyPrice->property_price }}">
-            <option value="">--Select--</option>
-            <option value="full">Full Payment</option>
-            <option value="installment">Installment</option>
-        </select>
+        <label for="">Auction Venue</label>
+        <input type="text" readonly name="auction_venue" class="form-control" value="{{ $property->propertyAuctionSchedule->auction_venue }}"  />
         <span class="text-danger small mySpan" role="alert"></span>
     </div>
 
     <div class="form-group mt-4 validate">
-        <label for="">Total amount to be paid for chosen method (monthly if installment is chosen)</label>
-        <input type="text" readonly name="total_amount" class="form-control" value="0.00"  />
+        <label for="">Auction Date</label>
+        <input type="text" readonly name="auction_date" class="form-control" value="{{ $property->propertyAuctionSchedule->auction_date }}"  />
+        <span class="text-danger small mySpan" role="alert"></span>
+    </div>
+
+    <div class="form-group mt-4 validate">
+        <label for="">Auction Time</label>
+        <input type="text" readonly name="auction_time" class="form-control" value="{{ date('h:ia', strtotime($property->propertyAuctionSchedule->auction_time)) }}"  />
         <span class="text-danger small mySpan" role="alert"></span>
     </div>
 

@@ -141,7 +141,6 @@ class BookingController extends Controller
     }
 
 
-
     private function auctionBooking(Request $request): RedirectResponse
     {
         $bookingItems = collect([
@@ -407,6 +406,17 @@ class BookingController extends Controller
 //        if(Auth::user()->account_type=='visitor'){
 //            $data['page_title'] = 'My orders';
 //            return view('user.orders.visitororders', $data);
+//        }else{
+//            return view('errors.404');
+//        }
+//    }
+
+
+//    public function visitorEventList()
+//    {
+//        if(Auth::user()->account_type=='visitor'){
+//            $data['page_title'] = 'My auction events';
+//            return view('user.auctions.visitor-auction', $data);
 //        }else{
 //            return view('errors.404');
 //        }

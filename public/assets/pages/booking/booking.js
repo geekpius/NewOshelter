@@ -350,6 +350,54 @@ $("#formSale").on("submit", function(e){
 });
 
 
+$("#formAuction").on("submit", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this = $(this);
+    var valid = true;
+    $('#formAuction input, #formAuction select').each(function() {
+        var $this = $(this);
+
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
+    });
+
+    if(valid){
+        let data = $this.serialize();
+        $("#formAuction .confirmBooking").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING...').attr('disabled', true);
+        $.ajax({
+            url: $this.attr('action'),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp == 'success'){
+                    swal({
+                            title: "Confirmed",
+                            text: "You have sent a booking request\nOshelter will contact you.",
+                            type: "success",
+                            confirmButtonClass: "btn-primary btn-sm",
+                            confirmButtonText: "Okay",
+                            closeOnConfirm: true
+                        },
+                        function(){
+                            window.location.href = $("#formAuction .confirmBooking").data('href');
+                        });
+                }else{
+                    swal("Warning", resp, "warning");
+                    $("#formAuction .confirmBooking").text('CONFIRM BOOKING REQUEST').attr('disabled', false);
+                }
+            },
+            error: function(resp){
+                console.log("Something went wrong with request");
+            }
+        });
+    }
+    return false;
+});
+
+
 // toggle input field error messages
 $("input, textarea").on('input', function(){
     if($(this).val()!=''){

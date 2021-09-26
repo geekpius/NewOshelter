@@ -425,7 +425,8 @@
                                 <div id="verifyContact" style="display: {{ (Session::get('step')==2)? 'block':'none' }}">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            @if(!$property->isSaleProperty())
+
+                                            @if(!$property->isSaleProperty() && !$property->isAuctionProperty())
                                                 <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="2">&lt; Back</a>
                                             @endif
                                             <h4 class="mt-2">Verify to boost OShelter early feedback</h4>
@@ -520,6 +521,8 @@
                                                         @include('includes/booking/short-stay-booking-form')
                                                     @elseif($property->isSaleProperty())
                                                         @include('includes/booking/sale-booking-form')
+                                                    @elseif($property->isAuctionProperty())
+                                                        @include('includes/booking/auction-booking-form')
                                                     @endif
 
                                                    <div class="mt-4">
@@ -536,13 +539,15 @@
                                 <div class="card card-bordered-pink">
                                     <div class="card-body">
                                         @php
-                                            $currency = $property->propertyPrice->currency;
-                                            $price = $property->propertyPrice->property_price;
+                                            if(!$property->isAuctionProperty()){
+                                                $currency = $property->propertyPrice->currency;
+                                                $price = $property->propertyPrice->property_price;
+                                            }
                                         @endphp
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 @php $image = $property->propertyImages->first(); @endphp
-                                                <img src="{{ asset('assets/images/properties/'.$image->image) }}" alt="{{ $image->caption }}" class="img-thumbnail" width="200" height="200" />
+                                                <img src="{{$property->isAuctionProperty() ? '/assets/images/properties/default.png' : asset('assets/images/properties/'.$image->image) }}" alt="{{ $property->isAuctionProperty() ? '' : $image->caption }}" class="img-thumbnail" width="200" height="200" />
                                             </div>
                                             <div class="col-sm-8">
                                                 <h5>{{ $property->title }}</h5>

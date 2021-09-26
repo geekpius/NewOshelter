@@ -210,6 +210,7 @@ Route::group(['middleware' => ['verify-email']], function() {
 
         Route::get('/account/requests/bookings', 'BookingController@visitorBookingList')->name('property.visitor.bookings');
         Route::get('/account/requests/orders', 'BookingController@visitorOrderList')->name('property.visitor.orders');
+        Route::get('/account/requests/events', 'BookingController@visitorEventList')->name('property.visitor.events');
 
         /*------------ Requests ------------- */
         Route::post('/properties/requests/rent', 'RentRequestController@store')->name('property.request.rent');
@@ -217,18 +218,6 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::post('/properties/requests/sale', 'SaleRequestController@store')->name('property.request.sale');
         Route::post('/properties/requests/auction', 'AuctionRequestController@store')->name('property.request.auction');
 
-
-
-        Route::group(['prefix' => 'events'], function (){
-            Route::post('/properties/book', 'AuctionEventController@book')->name('property.event.submit');
-            Route::get('/properties/{property}/{filter_id}/book', 'AuctionEventController@index')->name('property.event.index');
-            Route::post('/properties/book/movenext', 'AuctionEventController@moveNext')->name('property.event.movenext');
-            Route::post('/properties/book/smsverification', 'AuctionEventController@sendSmsVerification')->name('property.event.smsverification');
-            Route::post('/properties/book/verify', 'AuctionEventController@verifySmsNumber')->name('property.event.verify');
-            Route::post('/properties/book/request', 'AuctionEventController@bookRequest')->name('property.event.request');
-            Route::get('/properties/{property}/book/exit', 'AuctionEventController@exitOrderMode')->name('property.event.exit');
-        });
-        Route::get('/account/requests/events', 'AuctionEventController@visitorEventList')->name('property.visitor.events');
 
 
         /*------- Messages ------- */
