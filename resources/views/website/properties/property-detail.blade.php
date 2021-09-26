@@ -331,6 +331,20 @@
                                             <span>
                                                 <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>/<small>{{ $property->propertyPrice->price_calendar }}</small>
                                             </span>
+                                            <br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->getNumberOfGuest() }} {{ str_plural('Visitor', $property->getNumberOfGuest()) }}</span><br>
+                                            <i class="fa fa-check text-success font-12"></i>
+                                            <span>{{ $property->adult }} {{ str_plural('Adult', $property->adult) }}</span> |
+                                            <span>
+                                            @if($property->children==0)
+                                                    No Children
+                                                @elseif($property->children==1)
+                                                    {{ $property->children.' Child' }}
+                                                @else
+                                                    {{ $property->children.' Children' }}
+                                                @endif
+                                            </span>
                                         </p>
                                     </div>
                                 </div>
@@ -544,29 +558,6 @@
                         Exact location is provided after {{ $property->type_status=='sale'? 'buying':'booking' }} is confirmed
                     </p>
                 </div>
-
-                @if (!$property->isSaleProperty())
-{{--                <hr>--}}
-                {{-- Cancellation --}}
-{{--                <div class="pxp-single-property-section">--}}
-{{--                    <h3>Cancellation and Eviction</h3>--}}
-{{--                    <p>--}}
-{{--                        <i class="fa fa-minus-circle font-12"></i>--}}
-{{--                        Cancellation after 48 hours, you will get full refund minus service fee.--}}
-{{--                    </p>--}}
-{{--                    @if($property->type_status=='rent')--}}
-{{--                        <p>--}}
-{{--                            <i class="fa fa-minus-circle font-12"></i>--}}
-{{--                            Eviction notice will be sent to visitors 3 months before time. Visitors will wish to extend or evict.--}}
-{{--                        </p>--}}
-{{--                    @elseif($property->type_status=='short_stay')--}}
-{{--                        <p>--}}
-{{--                            <i class="fa fa-minus-circle font-12"></i>--}}
-{{--                            Eviction notice will be sent to visitor 3 days and 1 day before time.--}}
-{{--                        </p>--}}
-{{--                    @endif--}}
-{{--                </div>--}}
-                @endif
 
                 {{-- property rules --}}
                 @if (!$property->isSaleProperty())

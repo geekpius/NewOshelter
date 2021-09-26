@@ -20,6 +20,8 @@ class CreateRentRequestsTable extends Migration
             $table->integer('duration');
             $table->string('calender');
             $table->double('amount');
+            $table->integer('adult')->default(1);
+            $table->integer('children')->default(0);
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
         });
