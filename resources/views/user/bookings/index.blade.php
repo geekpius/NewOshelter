@@ -40,8 +40,8 @@
                             <p>ID card type: <span class="text-primary">GHA-0123456789-0</span></p>
                             <p class="mt-3">
                                 Seeing this information means you haven't updated your government approved card info.
-                                <a target="_blank" href="{{ route('account.info') }}">Update your government approved card info here</a>
                             </p>
+                            <button class="btn btn-primary btn-sm" onclick="window.location.href='{{ route('account.info') }}'">Update ID Card</button>
                         </div>
                     </div><!-- end row -->
                     @else
@@ -425,7 +425,9 @@
                                 <div id="verifyContact" style="display: {{ (Session::get('step')==2)? 'block':'none' }}">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="2">&lt; Back</a>
+                                            @if(!$property->isSaleProperty())
+                                                <a href="javascript:void(0);" class="text-primary moveBack text-decoration-none" data-step="2">&lt; Back</a>
+                                            @endif
                                             <h4 class="mt-2">Verify to boost OShelter early feedback</h4>
                                         </div>
                                         <div class="col-sm-12 mt-2">
@@ -516,6 +518,8 @@
                                                         @include('includes/booking/rent-booking-form')
                                                     @elseif($property->isShortStayProperty())
                                                         @include('includes/booking/short-stay-booking-form')
+                                                    @elseif($property->isSaleProperty())
+                                                        @include('includes/booking/sale-booking-form')
                                                     @endif
 
                                                    <div class="mt-4">
@@ -570,14 +574,10 @@
                                                 <div class="col-sm-12"><hr></div>
 
                                                 <div class="col-sm-12">
-                                                    <div>
-                                                        <p class="font-14">{{ $currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
-                                                    </div>
-                                                    <hr>
                                                     <div class="font-14">
-                                                        <span><strong>Total</strong></span>
+                                                        <span><strong>Price</strong></span>
                                                         <span class="float-right"><strong id="totalFeeResult">
-                                                            {{ $currency }} {{ number_format($price,2) }}</strong></span>
+                                                            {{ $currency }} {{ number_format($price,2) }}/</strong>{{ $property->propertyPrice->price_calendar }}</span>
                                                     </div>
                                                 </div>
                                             @elseif($property->isShortStayProperty())
@@ -591,16 +591,22 @@
                                                 </div>
                                                 <div class="col-sm-12"><hr></div>
                                                 <div class="col-sm-12">
-                                                    <div>
-                                                        <p class="font-14">{{ $currency }} {{ number_format($price,2) }}/{{ $property->propertyPrice->price_calendar }}</p>
-                                                    </div>
-                                                    <hr>
                                                     <div class="font-14">
-                                                        <span><strong>Total</strong></span>
-                                                        <span class="float-right"><strong>
-                                                            {{ $currency }} {{ number_format($price, 2) }}</strong></span>
+                                                        <span><strong>Price</strong></span>
+                                                        <span class="float-right"><strong id="totalFeeResult">
+                                                            {{ $currency }} {{ number_format($price,2) }}/</strong>{{ $property->propertyPrice->price_calendar }}</span>
                                                     </div>
                                                 </div>
+
+                                            @elseif($property->isSaleProperty())
+                                                <div class="col-sm-12">
+                                                    <div class="font-14">
+                                                        <span><strong>Price</strong></span>
+                                                        <span class="float-right"><strong id="totalFeeResult">
+                                                            {{ $currency }} {{ number_format($price,2) }}</strong></span>
+                                                    </div>
+                                                </div>
+
                                             @endif
 
                                         </div>

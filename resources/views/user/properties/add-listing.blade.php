@@ -29,8 +29,8 @@
                                 <p>ID card type: <span class="text-primary">GHA-0123456789-0</span></p>
                                 <p class="mt-3">
                                     Seeing this information means you haven't updated your government approved card info.
-                                    <a target="_blank" href="{{ route('account.info') }}">Update your government approved card info here</a>
                                 </p>
+                                <button class="btn btn-primary btn-sm" onclick="window.location.href='{{ route('account.info') }}'">Update ID Card</button>
                             </div>
                         </div><!-- end row -->
                     </div>

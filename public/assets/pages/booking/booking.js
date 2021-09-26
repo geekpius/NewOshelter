@@ -188,6 +188,22 @@ $('#formRent select[name="duration"]').on('change', function (){
 });
 
 
+$('#formSale select[name="payment_method"]').on('change', function (){
+    let $this= $(this);
+    if($this.val() == ''){
+        $('#formSale input[name="total_amount"]').val('0.00')
+    }else{
+        let price = parseFloat($this.data('price'));
+        if($this.val() == 'full'){
+            $('#formSale input[name="total_amount"]').attr('readonly', true);
+            $('#formSale input[name="total_amount"]').val(price.toFixed(2));
+        }else{
+            $('#formSale input[name="total_amount"]').attr('readonly', false);
+        }
+    }
+});
+
+
 
 $("#formRent").on("submit", function(e){
     e.preventDefault();
@@ -275,6 +291,54 @@ $("#formShortStay").on("submit", function(e){
                 }else{
                     swal("Warning", resp, "warning");
                     $("#formShortStay .confirmBooking").text('CONFIRM BOOKING REQUEST').attr('disabled', false);
+                }
+            },
+            error: function(resp){
+                console.log("Something went wrong with request");
+            }
+        });
+    }
+    return false;
+});
+
+
+$("#formSale").on("submit", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this = $(this);
+    var valid = true;
+    $('#formSale input, #formSale select').each(function() {
+        var $this = $(this);
+
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
+    });
+
+    if(valid){
+        let data = $this.serialize();
+        $("#formSale .confirmBooking").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING...').attr('disabled', true);
+        $.ajax({
+            url: $this.attr('action'),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp == 'success'){
+                    swal({
+                            title: "Confirmed",
+                            text: "You have sent a booking request\nOshelter will contact you.",
+                            type: "success",
+                            confirmButtonClass: "btn-primary btn-sm",
+                            confirmButtonText: "Okay",
+                            closeOnConfirm: true
+                        },
+                        function(){
+                            window.location.href = $("#formSale .confirmBooking").data('href');
+                        });
+                }else{
+                    swal("Warning", resp, "warning");
+                    $("#formSale .confirmBooking").text('CONFIRM BOOKING REQUEST').attr('disabled', false);
                 }
             },
             error: function(resp){

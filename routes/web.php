@@ -194,15 +194,6 @@ Route::group(['middleware' => ['verify-email']], function() {
                 Route::get('/{property}/remove', 'PropertyController@confirmDelete')->name('property.confirmdelete');
                 Route::post('/{property}/remove', 'PropertyController@deleteListing')->name('property.delete');
 
-                // Route::get('/my-properties', 'PropertyController@manageProperty')->name('property.manage');
-                // Route::get('/my-properties/{property}/details', 'PropertyController@managePropertyDetail')->name('property.manage.detail');
-                // Route::get('/manage-properties/{property}/utilities', 'PropertyUtilityController@index')->name('property.utilities');
-                // Route::get('/manage-properties/{property}/utilities-list', 'PropertyUtilityController@show')->name('property.utilities.list');
-                // Route::post('/manage-properties/create/utilities', 'PropertyUtilityController@store')->name('property.utilities.submit');
-                // Route::post('/manage-properties/switch/utilities', 'PropertyUtilityController@switch')->name('property.utilities.switch');
-                // Route::post('/manage-properties/update/utilities', 'PropertyUtilityController@update')->name('property.utilities.update');
-                // Route::get('/manage-properties/{propertyUtility}/remove', 'PropertyUtilityController@remove')->name('property.utilities.remove');
-
             });
         });
 
@@ -218,24 +209,15 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
 
         Route::get('/account/requests/bookings', 'BookingController@visitorBookingList')->name('property.visitor.bookings');
+        Route::get('/account/requests/orders', 'BookingController@visitorOrderList')->name('property.visitor.orders');
 
         /*------------ Requests ------------- */
         Route::post('/properties/requests/rent', 'RentRequestController@store')->name('property.request.rent');
         Route::post('/properties/requests/short-stay', 'ShortStayRequestController@store')->name('property.request.short.stay');
         Route::post('/properties/requests/sale', 'SaleRequestController@store')->name('property.request.sale');
+        Route::post('/properties/requests/auction', 'AuctionRequestController@store')->name('property.request.auction');
 
 
-        /*------- Buying and Auction ------- */
-//        Route::group(['prefix' => 'orders'], function (){
-//            Route::post('/properties/buy', 'OrderController@order')->name('property.order.submit');
-//            Route::get('/properties/{property}/{filter_id}/buy', 'OrderController@index')->name('property.order.index');
-//            Route::post('/properties/buy/movenext', 'OrderController@moveNext')->name('property.order.movenext');
-//            Route::post('/properties/buy/smsverification', 'OrderController@sendSmsVerification')->name('property.order.smsverification');
-//            Route::post('/properties/buy/verify', 'OrderController@verifySmsNumber')->name('property.order.verify');
-//            Route::post('/properties/buy/request', 'OrderController@orderRequest')->name('property.order.request');
-//            Route::get('/properties/{property}/buy/exit', 'OrderController@exitOrderMode')->name('property.order.exit');
-//        });
-        Route::get('/account/requests/orders', 'OrderController@visitorOrderList')->name('property.visitor.orders');
 
         Route::group(['prefix' => 'events'], function (){
             Route::post('/properties/book', 'AuctionEventController@book')->name('property.event.submit');

@@ -387,21 +387,6 @@
                                         </p>
                                     </div>
                                 </div>
-                            @else
-                                <div class="col-sm-12 col-lg-6">
-                                    <div class="pro-order-box">
-                                        <i class="fa fa-user-circle text-primary"></i>
-                                        <h4 class="header-title">Some Title</h4>
-                                        <p class="">
-                                            <span>Bidding initial price</span>
-                                            <br>
-                                            <i class="fa fa-check text-success" style="font-size:9px"></i>
-                                            <span>
-                                                <b>{{ $property->propertyPrice->currency }} {{ number_format($property->propertyPrice->property_price,2) }}</b>
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
                             @endif
                         </div>
                     @endif
@@ -754,7 +739,7 @@
                             </form>
 
                             @elseif ($property->isSaleProperty())
-                            <form class="form-horizontal form-material mb-0" id="formBooking" method="POST" action="{{ route('property.order.submit') }}">
+                            <form class="form-horizontal form-material mb-0" id="formBooking" method="POST" action="{{ route('property.bookings.submit') }}">
                                 @csrf
                                 <input type="hidden" name="property_id" readonly value="{{ $property->id }}">
                                 <input type="hidden" name="type" readonly value="sale">
@@ -762,7 +747,7 @@
                                 <div class="row">
                                     <div class="col-sm-12 text-center">
                                         <div class="form-group">
-                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnBook"><i class="fa fa-cart-arrow-down"></i> Buy this {{ str_replace('_', ' ', $property->type) }}</button>
+                                            <button class="btn btn-primary btn-sm btn-block pl-5 pr-5 mt-3 btnBook"><i class="fa fa-check-circle"></i> Book this {{ str_replace('_', ' ', $property->type) }}</button>
                                         </div>
                                     </div>
                                 </div>

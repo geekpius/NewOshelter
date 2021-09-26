@@ -59,7 +59,7 @@ class BookingController extends Controller
     }
 
     //booking entry route
-    public function index(Property $property, $filter_id)
+    public function index(Property $property, string $filter_id)
     {
         if(Session::has('bookingItems')){
             $bookingItems = Session::get("bookingItems");
@@ -82,16 +82,9 @@ class BookingController extends Controller
 
                     if($property->isActive() && $property->isPublish() && $property->isPropertyApproved() && $property->user_id != Auth::user()->id && !$property->isPropertyTaken())
                     {
-                        if($property->isRentProperty()){
-                            $data['page_title'] = 'Booking '.$property->title;
-                            $data['property'] = $property;
-                            return view('user.bookings.index', $data);
-                        }
-                        if($property->isShortStayProperty()){
-                            $data['page_title'] = 'Booking '.$property->title;
-                            $data['property'] = $property;
-                            return view('user.bookings.index', $data);
-                        }
+                        $data['page_title'] = 'Booking '.$property->title;
+                        $data['property'] = $property;
+                        return view('user.bookings.index', $data);
                     }
 
                     return view('errors.404');
@@ -106,7 +99,7 @@ class BookingController extends Controller
 
 
 
-    public function rentBooking(Request $request): RedirectResponse
+    private function rentBooking(Request $request): RedirectResponse
     {
         $bookingItems = collect([
             "property"=>$request->property_id,
@@ -117,8 +110,52 @@ class BookingController extends Controller
         Session::put('step', $step);
 
         return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'filter_id'=>$token]);
-
     }
+
+
+    private function shortStayBooking(Request $request): RedirectResponse
+    {
+        $bookingItems = collect([
+            "property"=>$request->property_id,
+        ]);
+        Session::put('bookingItems', $bookingItems);
+        $token = Str::random(32);
+        $step = 1;
+        Session::put('step', $step);
+
+        return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'filter_id'=>$token]);
+    }
+
+
+    private function saleBooking(Request $request): RedirectResponse
+    {
+        $bookingItems = collect([
+            "property"=>$request->property_id,
+        ]);
+        Session::put('bookingItems', $bookingItems);
+        $token = Str::random(32);
+        $step = 2;
+        Session::put('step', $step);
+
+        return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'filter_id'=>$token]);
+    }
+
+
+
+    private function auctionBooking(Request $request): RedirectResponse
+    {
+        $bookingItems = collect([
+            "property"=>$request->property_id,
+        ]);
+        Session::put('bookingItems', $bookingItems);
+        $token = Str::random(32);
+        $step = 2;
+        Session::put('step', $step);
+
+        return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'filter_id'=>$token]);
+    }
+
+
 
     // book a reservation
     public function book(Request $request)
@@ -128,32 +165,19 @@ class BookingController extends Controller
                 return $this->rentBooking($request);
             }
 
-            elseif($request->type == 'short_stay'){
-                $this->validate($request, [
-                    'check_in' => 'required',
-                    'check_out' => 'required',
-                    'adult'     => 'required|integer',
-                    'children'  => 'required|integer',
-                    'infant'  => 'required|integer',
-                ]);
-
-                $bookingItems = collect([
-                    "property"=>$request->property_id,
-                    "check_in"=>$request->check_in,
-                    "check_out"=>$request->check_out,
-                    "adult"=>$request->adult,
-                    "children"=>$request->children,
-                    "infant"=>$request->infant
-                    ]);
-                Session::put('bookingItems', $bookingItems);
-                Session::put('owner_message', '');
-                $token = Str::random(32);
-                (int) $step = 1;
-                Session::put('step', $step);
-                $guest = (int) $request->adult + (int) $request->children + (int) $request->infant;
-
-                return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$request->check_in, 'checkout'=>$request->check_out, 'guest'=>$guest, 'filter_id'=>$token]);
+            if($request->type == 'short_stay'){
+                return $this->shortStayBooking($request);
             }
+
+            if($request->type == 'sale'){
+                return $this->saleBooking($request);
+            }
+
+            if($request->type == 'auction'){
+                return $this->auctionBooking($request);
+            }
+
+
             elseif($request->type == 'hostel'){
                 $this->validate($request, [
                     'duration' => 'required',
@@ -350,8 +374,6 @@ class BookingController extends Controller
                 Session::forget('bookingItems');
                 Session::forget('owner_message');
                 Session::forget('step');
-            }else{
-
             }
         }
 
@@ -379,6 +401,16 @@ class BookingController extends Controller
             return view('errors.404');
         }
     }
+
+//    public function visitorOrderList()
+//    {
+//        if(Auth::user()->account_type=='visitor'){
+//            $data['page_title'] = 'My orders';
+//            return view('user.orders.visitororders', $data);
+//        }else{
+//            return view('errors.404');
+//        }
+//    }
 
 
 

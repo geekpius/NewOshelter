@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 
+use App\Models\AuctionRequest;
 use App\Models\RentRequest;
 use App\Models\SaleRequest;
 use App\Models\ShortStayRequest;
 use App\Models\UserRequest;
+use App\Observers\AuctionRequestObserver;
 use App\Observers\RentRequestObserver;
 use App\Observers\SaleRequestObserver;
 use App\Observers\ShortStayRequestObserver;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         UserRequest::observe(UserRequestObserver::class);
         ShortStayRequest::observe(ShortStayRequestObserver::class);
         SaleRequest::observe(SaleRequestObserver::class);
+        AuctionRequest::observe(AuctionRequestObserver::class);
     }
 
     /**

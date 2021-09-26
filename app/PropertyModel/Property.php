@@ -2,6 +2,7 @@
 
 namespace App\PropertyModel;
 
+use App\Models\AuctionRequest;
 use App\Models\RentRequest;
 use App\Models\SaleRequest;
 use App\Models\ShortStayRequest;
@@ -151,6 +152,11 @@ class Property extends Model
     public function saleRequests()
     {
         return $this->hasMany(SaleRequest::class);
+    }
+
+    public function auctionRequests()
+    {
+        return $this->hasMany(AuctionRequest::class);
     }
 
     public function propertyHostelBlocks(){
