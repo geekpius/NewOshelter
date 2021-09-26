@@ -3,6 +3,8 @@
 namespace App\PropertyModel;
 
 use App\Models\RentRequest;
+use App\Models\SaleRequest;
+use App\Models\ShortStayRequest;
 use App\RejectReason;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
@@ -139,6 +141,16 @@ class Property extends Model
     public function rentRequests()
     {
         return $this->hasMany(RentRequest::class);
+    }
+
+    public function shortStayRequests()
+    {
+        return $this->hasMany(ShortStayRequest::class);
+    }
+
+    public function saleRequests()
+    {
+        return $this->hasMany(SaleRequest::class);
     }
 
     public function propertyHostelBlocks(){
