@@ -53,11 +53,11 @@
                                 <i class="fa fa-home fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
                             @endif
-                            <a href="{{ route('messages') }}" class="pr-4 text-decoration-none" title="Message">
-                                <i class="fa fa-envelope-o fa-lg text-white mobile-menu-item-icon"></i>
-                            </a>
-                            <a href="{{ route('account') }}" class="text-decoration-none" title="Account">
+                            <a href="{{ route('account') }}" class="pr-4 text-decoration-none" title="Account">
                                 <i class="fa fa-user-circle fa-lg text-white mobile-menu-item-icon"></i>
+                            </a>
+                            <a href="{{ route('help') }}" class="pr-4 text-decoration-none" title="Help">
+                                <i class="fa fa-question-circle fa-lg text-white mobile-menu-item-icon"></i>
                             </a>
                             @endauth
                             @guest
@@ -103,7 +103,6 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="width: 200px">
                                 @auth
-                                <a class="dropdown-item" href="{{ route('messages') }}"><span class="fa fa-envelope"></span> Message (<span class="myMessageCount" data-url="{{ route('message.count') }}"></span>)</a>
                                 <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
                                 <hr>
                                 @if (Auth::user()->account_type == 'owner')
