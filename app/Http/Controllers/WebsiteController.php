@@ -65,31 +65,11 @@ class WebsiteController extends Controller
         if($status == 'auction'){
             $data['properties'] = Property::whereType_status('auction')->wherePublish(true)
             ->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->orderBy('id', 'DESC')
-            ->where(function($query){
-                $query->whereNotIn('id', function($query){
-                    $query->select('property_id')->from(with(new AuctionEvent)->getTable());
-                })->orWhereIn('id', function($query){
-                    $query->select('property_id')->from(with(new AuctionEvent)->getTable())->whereIn('status', [0,1]);
-                });
-            })->paginate(15);
+            ->paginate(15);
             return view('website.properties.property-auction-status', $data);
         }
         $props = Property::whereType_status(str_replace(' ','_',$status))->wherePublish(true)
         ->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->orderBy('id', 'DESC');
-//        ->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new UserVisit)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-//            });
-//        })
-//            ->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-//            });
-//        });
         $data['properties'] = $props->paginate(15);
         if(session()->has('properties'))
         {
@@ -108,19 +88,6 @@ class WebsiteController extends Controller
         $data['property_types'] = PropertyType::whereIs_public(true)->get(['name']);
         $props = Property::whereType(str_replace(' ','_',$type))->wherePublish(true)->whereIs_active(true)->whereDone_step(true)
             ->where('status', Property::APPROVED)->where('type_status','!=','auction')->orderBy('id', 'DESC');
-//        $props->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new UserVisit)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-//            });
-//        })->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-//            });
-//        });
 
         $data['properties'] = $props->paginate(15);
 
@@ -157,19 +124,6 @@ class WebsiteController extends Controller
             (string) $location = $property->propertyLocation->location;
             $data['properties'] = Property::whereType_status($property->type_status)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)
                 ->where('status', Property::APPROVED)->where('id','!=',$property->id)->take(50)->inRandomOrder()
-//            ->where(function($query){
-//                $query->whereNotIn('id', function($query){
-//                    $query->select('property_id')->from(with(new UserVisit)->getTable());
-//                })->orWhereIn('id', function($query){
-//                    $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-//                });
-//            })->where(function($query){
-//                $query->whereNotIn('id', function($query){
-//                    $query->select('property_id')->from(with(new Order)->getTable());
-//                })->orWhereIn('id', function($query){
-//                    $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-//                });
-//            })
                 ->whereIn('id', function($query) use($location) {
                 $query->select('property_id')->from(with(new PropertyLocation)->getTable())
                 ->where('location', 'LIKE', '%'.$location.'%');
@@ -195,21 +149,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'Browse all properties of any kind';
         $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)
-        ->where('status', Property::APPROVED)->where('type_status','=','auction')->orderBy('id', 'DESC')
-//        ->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new UserVisit)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-//            });
-//        })->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-//            });
-//        })
-            ->paginate(15);
+        ->where('status', Property::APPROVED)->where('type_status','=','auction')->orderBy('id', 'DESC')->paginate(15);
         $data['property_types'] = PropertyType::get(['name']);
         return view('website.properties.properties', $data);
     }
@@ -218,21 +158,7 @@ class WebsiteController extends Controller
     public function mapProperty()
     {
         $properties = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)
-            ->where('status', Property::APPROVED)->where('type_status', '!=', 'auction')->orderBy('id', 'DESC')
-//        ->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new UserVisit)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-//            });
-//        })->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-//            });
-//        })
-            ->get();
+            ->where('status', Property::APPROVED)->where('type_status', '!=', 'auction')->orderBy('id', 'DESC')->get();
         return PropertyCollection::collection($properties);
     }
 
@@ -249,19 +175,6 @@ class WebsiteController extends Controller
                 ->from(with(new PropertyLocation)->getTable())
                 ->where('location', 'LIKE', '%'.$location.'%');
             });
-//            ->where(function($query){
-//                $query->whereNotIn('id', function($query){
-//                    $query->select('property_id')->from(with(new UserVisit)->getTable());
-//                })->orWhereIn('id', function($query){
-//                    $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-//                });
-//            })->where(function($query){
-//                $query->whereNotIn('id', function($query){
-//                    $query->select('property_id')->from(with(new Order)->getTable());
-//                })->orWhereIn('id', function($query){
-//                    $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-//                });
-//            });
             $data['properties'] = $props->orderBy('id','desc')->paginate(15);
             $data['property_types'] = PropertyType::whereIs_public(true)->get(['name']);
             if(session()->has('properties'))
@@ -283,19 +196,6 @@ class WebsiteController extends Controller
                     ->from(with(new PropertyLocation)->getTable())
                     ->where('location', 'LIKE', '%'.$location.'%');
                 })
-//                ->where(function($query){
-//                    $query->whereNotIn('id', function($query){
-//                        $query->select('property_id')->from(with(new UserVisit)->getTable());
-//                    })->orWhereIn('id', function($query){
-//                        $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-//                    });
-//                })->where(function($query){
-//                    $query->whereNotIn('id', function($query){
-//                        $query->select('property_id')->from(with(new Order)->getTable());
-//                    })->orWhereIn('id', function($query){
-//                        $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-//                    });
-//                })
                 ->whereHas('propertyPrice', function($query) use($request){
                     $min = empty($request->get('min_price'))? 0:$request->get('min_price');
                     $max = empty($request->get('max_price'))? 0:$request->get('max_price');
@@ -319,19 +219,6 @@ class WebsiteController extends Controller
                     ->from(with(new PropertyLocation)->getTable())
                     ->where('location', 'LIKE', '%'.$location.'%');
                 })
-//                ->where(function($query){
-//                    $query->whereNotIn('id', function($query){
-//                        $query->select('property_id')->from(with(new UserVisit)->getTable());
-//                    })->orWhereIn('id', function($query){
-//                        $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-//                    });
-//                })->where(function($query){
-//                    $query->whereNotIn('id', function($query){
-//                        $query->select('property_id')->from(with(new Order)->getTable());
-//                    })->orWhereIn('id', function($query){
-//                        $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-//                    });
-//                })
                 ->whereHas('propertyPrice', function($query) use($request){
                     $min = empty($request->get('min_price'))? 0:$request->get('min_price');
                     $max = empty($request->get('max_price'))? 0:$request->get('max_price');
@@ -537,21 +424,7 @@ class WebsiteController extends Controller
     {
         $data['page_title'] = 'About us';
         $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)
-        ->where('type_status','!=','auction')->take(50)->inRandomOrder()
-//        ->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new UserVisit)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new UserVisit)->getTable())->whereIn('status', [0,2]);
-//            });
-//        })->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-//            });
-//        })
-            ->get();
+        ->where('type_status','!=','auction')->take(50)->inRandomOrder()->get();
         return view('website.about', $data);
     }
 
@@ -562,54 +435,6 @@ class WebsiteController extends Controller
         );
         return view('emails.contact')->with('data', $data);
     }
-
-    public function currencies()
-    {
-        // set API Endpoint and API key
-        $endpoint = 'latest';
-        $access_key = '8c5dc329251f71a140b747bfba552357';
-
-        // Initialize CURL:
-        $ch = curl_init('http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        // Store the data:
-        $json = curl_exec($ch);
-        curl_close($ch);
-
-        // Decode JSON response:
-        $exchangeRates = json_decode($json, true);
-
-        // Access the exchange rate values, e.g. GBP:
-        // echo $exchangeRates['rates']['GHS'];
-        echo ($exchangeRates['base']);
-        echo '<br>';
-        echo json_encode($exchangeRates['rates']);
-
-        // $endpoint = 'convert';
-        // $access_key = '8c5dc329251f71a140b747bfba552357';
-
-        // $from = 'USD';
-        // $to = 'EUR';
-        // $amount = 10;
-
-        // // initialize CURL:
-        // $ch = curl_init('http://data.fixer.io/api/'.$endpoint.'?access_key='.$access_key.'&from='.$from.'&to='.$to.'&amount='.$amount.'');
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        // // get the JSON data:
-        // $json = curl_exec($ch);
-        // curl_close($ch);
-
-        // // Decode JSON response:
-        // $conversionResult = json_decode($json, true);
-
-        // // access the conversion result
-        // print_r($conversionResult);
-    }
-
-
-
 
 
 }

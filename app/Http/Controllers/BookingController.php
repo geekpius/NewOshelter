@@ -30,33 +30,29 @@ class BookingController extends Controller
 
     public function __construct()
     {
-        $this->middleware('verify-user')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
-        $this->middleware('auth')->except(['getRoomTypeNumber', 'checkRoomTypeAvailability', 'book']);
+        $this->middleware('verify-user')->except(['book']);
+        $this->middleware('auth')->except(['book']);
     }
 
     //get hostel room number base on room type
-    public function getRoomTypeNumber(Request $request)
+    public function getBlockNames(Request $request)
     {
-        $room = HostelBlockRoom::whereProperty_hostel_block_id($request->block_id)->whereGender($request->gender)->whereBlock_room_type($request->room_type)->first();
-        $roomNumbers = HostelBlockRoomNumber::whereHostel_block_room_id($room->id)->whereFull(false)->get(['id','room_no']);
-        return response()->json($roomNumbers);
+        $rooms = HostelBlockRoom::where('gender', $request->gender)->where('block_room_type', $request->room_type)->with('propertyHostelBlock')->get();
+
+        return response()->json($rooms);
     }
 
-    //check hostel room number availability
-    public function checkRoomTypeAvailability(Request $request)
+    public function getRoomTypeNumber(Request $request)
     {
-        $room = HostelBlockRoom::whereProperty_hostel_block_id($request->block_id)->whereGender($request->gender)->whereBlock_room_type($request->room_type)->first();
-        $check = HostelBlockRoomNumber::whereHostel_block_room_id($room->id)->whereRoom_no($request->room_number)->whereFull(false)->first();
-        if(empty($check)){
-            return response()->json(array('data'=>'Not available. Room is full.', 'currency'=>'','price'=>'','calendar'=>'','isFull'=>'Yes', 'month'=>''));
-        }
-        else{
-            $price = PropertyHostelPrice::whereHostel_block_room_id($room->id)->first();
-            $left = $check->person_per_room - $check->occupant;
-            $plural = ($left <= 1)? 'space available':'spaces available';
-            return response()->json(array('data'=>$left.' '.$plural,'currency'=>(empty($price->currency)? '':$price->currency),'price'=>(empty($price->property_price)? '':$price->property_price),'calendar'=>(empty($price->price_calendar)? '':$price->price_calendar),'isFull'=>"No",'month'=>$price->payment_duration));
-        }
+        $room = HostelBlockRoom::where('property_hostel_block_id', $request->block)->where('gender', $request->gender)->where('block_room_type', $request->room_type)->first();
+        $roomNumbers = HostelBlockRoomNumber::whereHostel_block_room_id($room->id)->whereFull(false)->get(['id','room_no']);
+
+        return response()->json([
+            'rooms' => $roomNumbers,
+            'price' => $room->propertyHostelPrice->property_price
+        ]);
     }
+
 
     //booking entry route
     public function index(Property $property, string $filter_id)
@@ -66,18 +62,13 @@ class BookingController extends Controller
             if($bookingItems['property'] == $property->id){
                 if($property->isHostelPropertyType()){
                     if($property->isActive() && $property->isPublish() && $property->isPropertyApproved() && $property->user_id != Auth::user()->id){
-                        $data['page_title'] = 'Booking '.$property->title.' room';
+                        $data['page_title'] = 'Booking '.$property->title;
                         $data['property'] = $property;
-                        $data['my_room'] = HostelBlockRoom::whereProperty_hostel_block_id((int) $bookingItems['block_id'])
-                        ->whereBlock_room_type($bookingItems['room_type'])->whereGender($bookingItems['gender'])->first();
-
-                        $data['room_number'] = $data['my_room']->hostelBlockRoomNumbers->where('room_no',(int) $bookingItems['room_number'])->first();
-
                         return view('user.bookings.index', $data);
-
-                    }else{
-                        return view('errors.404');
                     }
+
+                    return view('errors.404');
+
                 }else{
 
                     if($property->isActive() && $property->isPublish() && $property->isPropertyApproved() && $property->user_id != Auth::user()->id && !$property->isPropertyTaken())
@@ -155,6 +146,20 @@ class BookingController extends Controller
     }
 
 
+    private function hostelBooking(Request $request): RedirectResponse
+    {
+        $bookingItems = collect([
+            "property"=>$request->property_id,
+        ]);
+        Session::put('bookingItems', $bookingItems);
+        $token = Str::random(32);
+        $step = 1;
+        Session::put('step', $step);
+
+        return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'filter_id'=>$token]);
+    }
+
+
 
     // book a reservation
     public function book(Request $request)
@@ -176,36 +181,8 @@ class BookingController extends Controller
                 return $this->auctionBooking($request);
             }
 
-
-            elseif($request->type == 'hostel'){
-                $this->validate($request, [
-                    'duration' => 'required',
-                    'block_name'     => 'required|string',
-                    'gender'  => 'required|string',
-                    'room_type'    => 'required|string',
-                    'room_number'    => 'required|string',
-                ]);
-
-                $checkIn = Carbon::now()->addDays(7)->toDateString();
-                $checkOut = Carbon::now()->addDays(7)->addMonths((int) $request->duration)->toDateString();
-                $bookingItems = collect([
-                    "property"=>$request->property_id,
-                    "check_in"=>$checkIn,
-                    "check_out"=>$checkOut,
-                    "block_id"=>$request->block_name,
-                    "gender"=>$request->gender,
-                    "room_type"=>$request->room_type,
-                    "room_number"=>$request->room_number,
-                    "adult"=>1,
-                    ]);
-                Session::put('bookingItems', $bookingItems);
-                Session::put('owner_message', '');
-                $token = Str::random(32);
-                (int) $step = 1;
-                Session::put('step', $step);
-                $guest = 1;
-
-                return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'checkin'=>$checkIn, 'checkout'=>$checkOut, 'guest'=>$guest, 'filter_id'=>$token]);
+            if($request->type == 'hostel'){
+                return $this->hostelBooking($request);
             }
         }else{
             return redirect()->route('login');

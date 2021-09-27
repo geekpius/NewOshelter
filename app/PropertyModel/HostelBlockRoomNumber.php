@@ -12,10 +12,10 @@ class HostelBlockRoomNumber extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'hostel_block_room_id', 
-        'room_no', 
-        'person_per_room', 
-        'occupant', 
+        'hostel_block_room_id',
+        'room_no',
+        'person_per_room',
+        'occupant',
         'full',
     ];
 
@@ -23,8 +23,5 @@ class HostelBlockRoomNumber extends Model
         return $this->belongsTo(HostelBlockRoom::class, 'hostel_block_room_id');
     }
 
-    public function userHostelVisits(){
-        return $this->hasMany(UserHostelVisit::class);
-    }
 
 }

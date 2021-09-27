@@ -199,6 +199,7 @@ Route::group(['middleware' => ['verify-email']], function() {
 
         /*------- Booking a Properties ------- */
         Route::post('/properties/get/block-room-type', 'PropertyController@getRoomType')->name('property.get.roomtype');
+        Route::post('/properties/get/block-names', 'BookingController@getBlockNames')->name('property.get.block.names');
         Route::post('/properties/get/block-room-number', 'BookingController@getRoomTypeNumber')->name('property.get.roomnumber');
         Route::post('/properties/check/block-room-type', 'BookingController@checkRoomTypeAvailability')->name('property.check.roomtype');
         Route::post('/properties/bookings', 'BookingController@book')->name('property.bookings.submit');
@@ -217,6 +218,7 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::post('/properties/requests/short-stay', 'ShortStayRequestController@store')->name('property.request.short.stay');
         Route::post('/properties/requests/sale', 'SaleRequestController@store')->name('property.request.sale');
         Route::post('/properties/requests/auction', 'AuctionRequestController@store')->name('property.request.auction');
+        Route::post('/properties/requests/hostel', 'HostelRequestController@store')->name('property.request.hostel');
 
 
 

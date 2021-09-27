@@ -18,7 +18,20 @@ class HostelBlockRoom extends Model
         'property_hostel_block_id', 'block_room_type', 'gender', 'block_no_room', 'start_room_no', 'bed_person', 'person_per_room', 'furnish', 'kitchen', 'bathroom', 'bath_private', 'toilet', 'toilet_private',
     ];
 
-    /***********  RELATIONSHIPS ***********/ 
+
+
+    /***********  ATTRIBUTES ***********/
+    public function getBlockRoomTypeAttribute($value)
+    {
+        return ucwords(str_replace('_',' ',$value));
+    }
+
+    public function getGenderAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
+    /***********  RELATIONSHIPS ***********/
     public function propertyHostelBlock(){
         return $this->belongsTo(PropertyHostelBlock::class, 'property_hostel_block_id');
     }
@@ -40,19 +53,14 @@ class HostelBlockRoom extends Model
     }
 
 
-    /***********  ATTRIBUTES ***********/ 
-    public function getBlockRoomTypeAttribute($value)
+    public function countNumberOfAvailableRooms()
     {
-        return ucwords(str_replace('_',' ',$value));
-    }
-
-    public function getGenderAttribute($value)
-    {
-        return ucfirst($value);
+        return $this->hostelBlockRoomNumbers->where('full', false)->count();
     }
 
 
 
 
-    
+
+
 }
