@@ -45,31 +45,33 @@
                     <div class="col-8 col-md-7 text-center">
                         <div class="mobile-menu-items">
                             @auth
-                            <a href="#" class="pr-4 text-decoration-none" title="Filter">
-                                <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
-                            </a>
-                            @if (Auth::user()->account_type=='owner')
-                            <a href="{{ route('property.add') }}" class="pr-4 text-decoration-none" title="Listings">
-                                <i class="fa fa-home fa-lg text-white mobile-menu-item-icon"></i>
-                            </a>
-                            @endif
-                            <a href="{{ route('account') }}" class="pr-4 text-decoration-none" title="Account">
-                                <i class="fa fa-user-circle fa-lg text-white mobile-menu-item-icon"></i>
-                            </a>
-                            <a href="{{ route('help') }}" class="pr-4 text-decoration-none" title="Help">
-                                <i class="fa fa-question-circle fa-lg text-white mobile-menu-item-icon"></i>
-                            </a>
+                                <a href="#" class="pr-4 text-decoration-none" title="Filter">
+                                    <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
+                                </a>
+                                @if (Auth::user()->account_type=='owner')
+                                <a href="{{ route('property.add') }}" class="pr-4 text-decoration-none" title="Listings">
+                                    <i class="fa fa-home fa-lg text-white mobile-menu-item-icon"></i>
+                                </a>
+                                @endif
+                                <a href="{{ route('account') }}" class="pr-4 text-decoration-none" title="Account">
+                                    <i class="fa fa-user-circle fa-lg text-white mobile-menu-item-icon"></i>
+                                </a>
+                                @if(Auth::user()->account_type == 'visitor')
+                                    <a href="{{ route('help') }}" class="pr-4 text-decoration-none" title="Help">
+                                        <i class="fa fa-question-circle fa-lg text-white mobile-menu-item-icon"></i>
+                                    </a>
+                                @endif
                             @endauth
                             @guest
-                            <a href="#" class="pr-4 text-decoration-none" title="Filter">
-                                <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
-                            </a>
-                            <a href="{{ route('help') }}" class="pr-4 text-decoration-none" title="Help">
-                                <i class="fa fa-question-circle fa-lg text-white mobile-menu-item-icon"></i>
-                            </a>
-                            <a href="{{ route('login') }}" class="text-decoration-none" title="Login">
-                                <i class="fa fa-user-circle fa-lg text-white mobile-menu-item-icon"></i>
-                            </a>
+                                <a href="#" class="pr-4 text-decoration-none" title="Filter">
+                                    <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
+                                </a>
+                                <a href="{{ route('help') }}" class="pr-4 text-decoration-none" title="Help">
+                                    <i class="fa fa-question-circle fa-lg text-white mobile-menu-item-icon"></i>
+                                </a>
+                                <a href="{{ route('login') }}" class="text-decoration-none" title="Login">
+                                    <i class="fa fa-user-circle fa-lg text-white mobile-menu-item-icon"></i>
+                                </a>
                             @endguest
                         </div>
                         <ul class="pxp-nav list-inline">

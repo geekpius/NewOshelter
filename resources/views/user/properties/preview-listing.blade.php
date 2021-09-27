@@ -487,7 +487,7 @@
                     @endif
                     <span><i class="fa fa-check-circle {{ $property->user->verify_email? 'text-success':'text-danger' }}"></i> <b>{{ $property->user->verify_email? 'Verified':'Not Verified' }}</b></span>
                     <br>   <br>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Contact Owner</a>
+                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-envelope"></i> Show Interest</a>
                     <hr>
                     <div>
                         <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make

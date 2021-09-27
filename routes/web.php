@@ -222,16 +222,6 @@ Route::group(['middleware' => ['verify-email']], function() {
 
 
 
-        /*------- Messages ------- */
-        Route::group(['prefix' => 'messages'], function () {
-            Route::get('', 'MessageController@index')->name('messages');
-            Route::get('/{user}/{property}/compose', 'MessageController@composeMessage')->name('messages.compose');
-            Route::post('/submit', 'MessageController@sendMessage')->name('messages.compose.submit');
-            Route::post('/reply', 'MessageController@reply')->name('messages.reply');
-            Route::get('/{message}/read', 'MessageController@read')->name('messages.read');
-            Route::post('/delete', 'MessageController@delete')->name('messages.delete');
-        });
-
         /*------- Report Listing ------- */
         Route::group(['prefix' => 'report'], function () {
             Route::get('/{property}/listing', 'ReportPropertyController@index')->name('report-listing');
