@@ -22,6 +22,7 @@ class UserRequest extends Model
         'requestable_type',
         'requestable_id',
         'reason',
+        'type',
         'status',
     ];
 

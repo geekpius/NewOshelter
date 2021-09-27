@@ -118,7 +118,7 @@ class User extends Authenticatable
         return $this->hasMany(RejectReason::class);
     }
 
-    public function userRequest()
+    public function userRequests()
     {
         return $this->hasMany(UserRequest::class);
     }
@@ -183,6 +183,25 @@ class User extends Authenticatable
         return $this->userLogins->where('device', $device)->where('browser', $browser)-> count() < 1;
     }
 
+    public function countBookingRequests(): int
+    {
+        return $this->userRequests->where('type', 'booking')->count();
+    }
+
+    public function countAllRequests(): int
+    {
+        return $this->userRequests->count();
+    }
+
+    public function countAllApprovedRequests(): int
+    {
+        return  $this->userRequests->where('status', UserRequest::APPROVED)->count();
+    }
+
+    public function countAllPendingRequests(): int
+    {
+        return  $this->userRequests->where('status', UserRequest::PENDING)->count();
+    }
 
 
 

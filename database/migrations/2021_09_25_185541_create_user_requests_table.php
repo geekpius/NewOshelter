@@ -20,6 +20,7 @@ class CreateUserRequestsTable extends Migration
             $table->morphs('requestable');
             $table->string('status')->default(\App\Models\UserRequest::PENDING)->index();
             $table->string('reason')->nullable()->index();
+            $table->string('type')->default('booking')->index();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
