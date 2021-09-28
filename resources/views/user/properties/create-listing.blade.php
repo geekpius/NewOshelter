@@ -536,13 +536,20 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
 
                                         <div class="step-pane" data-step="6">
                                             <div class="row">
-                                                <div class="col-lg-7">
+                                                <div class="col-lg-12">
                                                     <h5>Lets take a tour on your hostel</h5>
                                                     <p class="mb-4 font-13"><i class="fa fa-dot-circle font-10"></i> Property photo with captions will best help us with the tour.
                                                     <br>
                                                     <i class="fa fa-dot-circle font-10"></i> You can upload maximum of 10 photos at a time.</p>
+                                                    <div class="">
+                                                        <h5><i class="fa fa-lightbulb fa-lg text-pink"></i> Tips for adding a great photos of your property</h5>
+                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
+                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in landscape mode in order to capture more spaces. Shoot from corners to add perspective.</p>
+                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
+                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Add property photos with size of 720x480 to best fit gallery. High photo quality will boost your property marketing.</p>
+                                                    </div>
 
-                                                    <form id="formPhotos" method="POST" action="{{ route('property.store') }}" class="mb-4">
+                                                    <form id="formPhotos" method="POST" action="{{ route('property.store') }}" class="mb-4 mt-5">
                                                         @csrf
                                                         <input type="hidden" name="step" value="6" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -553,7 +560,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         </div>
                                                     </form>
 
-                                                    <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
+                                                    <div id="propertyPhotoHolder" class="row" style="height:500px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
 
                                                     </div>
                                                     <button class="btn btn-primary btn-sm mt-3" id="btnUpload" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
@@ -563,18 +570,6 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <small><span id="uploadMsg" class="text-danger"></span></small>
                                                     </div>
 
-                                                </div>
-                                                <div class="col-lg-5">
-                                                    <div class="mt-5 pt-4">
-                                                        <i class="fa fa-lightbulb fa-lg text-pink"></i>
-                                                        <h5>Tips for adding a great photos of your property</h5>
-                                                        <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
-                                                        <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in landscape mode in order to capture more spaces. Shoot from corners to add perspective.</p>
-                                                        <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
-                                                        <p class="font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Add property photos with size of 720x480 to best fit gallery.</p>
-                                                        <p class="mt-4 font-13"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> High photo quality will boost your property marketing.</p>
-
-                                                    </div>
                                                 </div>
                                             </div><!-- end row -->
                                         </div><!-- end step six -->
@@ -978,13 +973,20 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
 
                                         <div class="step-pane" data-step="5">
                                             <div class="row">
-                                                <div class="col-lg-7">
+                                                <div class="col-lg-12">
                                                     <h4>Lets take a tour on your property</h4>
                                                     <p class="mb-4"><i class="fa fa-dot-circle" style="font-size:9px"></i> Property photo with captions will best help us with the tour.
                                                         <br>
                                                     <i class="fa fa-dot-circle" style="font-size:9px"></i> You can upload maximum of 10 photos at a time.</p>
+                                                    <div class="">
+                                                        <h5><i class="fa fa-lightbulb fa-lg text-pink"></i> Tips for adding a great photos of your property</h5>
+                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
+                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in landscape mode in order to capture more spaces. Shoot from corners to add perspective.</p>
+                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
+                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Add property photos with size of 720x480 to best fit gallery. High photo quality will boost your property marketing.</p>
+                                                    </div>
 
-                                                    <form id="formPhotos" method="POST" action="{{ route('property.store') }}" class="mb-4">
+                                                    <form id="formPhotos" method="POST" action="{{ route('property.store') }}" class="mb-4 mt-5">
                                                         @csrf
                                                         <input type="hidden" name="step" value="5" readonly>
                                                         <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -995,7 +997,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         </div>
                                                     </form>
 
-                                                    <div id="propertyPhotoHolder" class="row" style="height:450px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
+                                                    <div id="propertyPhotoHolder" class="row" style="height:500px; border:dotted; border-radius:5px; overflow-y:scroll; overflow-x:hidden; background:url('{{ asset('assets/images/1.png') }}');background-position:center; background-repeat:no-repeat; background-size:cover;">
 
                                                     </div>
                                                     <button class="btn btn-primary mt-3" id="btnUpload" onclick="getFile();"><i class="fa fa-cloud-upload"></i> Add Photos
@@ -1003,18 +1005,6 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                     </button>
                                                     <div class="mt-3">
                                                         <small><span id="uploadMsg" class="text-danger"></span></small>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5">
-                                                    <div class="mt-5 pt-4">
-                                                        <i class="fa fa-lightbulb fa-lg text-pink"></i>
-                                                        <h5>Tips for adding a great photos of your property</h5>
-                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Include all places of your property. eg: bedroom, kitchen, bathroom, etc.</p>
-                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in landscape mode in order to capture more spaces. Shoot from corners to add perspective.</p>
-                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Shoot photos in HD cameras to get more quality and professional photos for your properties.</p>
-                                                        <p><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> Add property photos with size of 720x480 to best fit gallery.</p>
-                                                        <p class="mt-5"><i class="fa fa-dot-circle text-pink" style="font-size:9px"></i> High photo quality will boost your property marketing.</p>
-
                                                     </div>
                                                 </div>
                                             </div><!-- end row -->
@@ -1276,15 +1266,17 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <div class="col-sm-4">
                                                             <div class="card">
                                                                 <div class="card-body">
-                                                                    <div class="text-center">
-                                                                        <i class="fa fa-user text-success fa-5x"></i>
+                                                                    <div class="">
+                                                                        <div class="text-center">
+                                                                            <i class="fa fa-user text-success fa-5x"></i>
+                                                                        </div>
                                                                         <hr>
                                                                         <p>
                                                                             <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                             Every {{ $guest }} on OShelter must be qualified to {{ $property->isAuctionProperty()? 'book':$sinTypeStatus }} you
                                                                         </p>
-                                                                        <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                         <p>
+                                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                             Every qualified {{ $guest }} must confirm their personal info, contact info,
                                                                             before they can {{ $property->isAuctionProperty() ? 'book':$sinTypeStatus }} you.
                                                                         </p>
@@ -1295,15 +1287,17 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <div class="col-sm-4">
                                                             <div class="card">
                                                                 <div class="card-body">
-                                                                    <div class="text-center">
-                                                                        <i class="fa fa-thumbs-up text-success fa-5x"></i>
+                                                                    <div class="">
+                                                                        <div class="text-center">
+                                                                            <i class="fa fa-thumbs-up text-success fa-5x"></i>
+                                                                        </div>
                                                                         <hr>
                                                                         <p>
                                                                             <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                             You control who {{ $property->isAuctionProperty() ? 'book\'s':$sinTypeStatus.'s' }} you
                                                                         </p>
-                                                                        <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                         <p>
+                                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                             Every {{ $guest }} who wants to {{ $property->isAuctionProperty() ? 'book':$sinTypeStatus }} you should agree to the property
                                                                             @if($property->isRentProperty())
                                                                             rules
@@ -1321,15 +1315,17 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                         <div class="col-sm-4">
                                                             <div class="card">
                                                                 <div class="card-body">
-                                                                    <div class="text-center">
-                                                                        <i class="fa fa-bell text-success fa-5x"></i>
+                                                                    <div class="">
+                                                                        <div class="text-center">
+                                                                            <i class="fa fa-bell text-success fa-5x"></i>
+                                                                        </div>
                                                                         <hr>
                                                                         <p>
                                                                             <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                             You are always notified
                                                                         </p>
-                                                                        <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                         <p>
+                                                                            <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                             Once {{ $guest }} {{ $property->isAuctionProperty() ? 'book':$sinTypeStatus }} you, Oshelter will notify you
                                                                             instantly with {{$guest}} info.
                                                                         </p>

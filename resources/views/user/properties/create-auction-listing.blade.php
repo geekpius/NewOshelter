@@ -20,7 +20,7 @@
 @section('content')
 <div class="pxp-content pull-content-down">
     <div class="container">
-        <h2>New Listing</h2>  
+        <h2>New Listing</h2>
         <p>
             <strong>{{ Auth::user()->name }},</strong> listings
         </p>
@@ -57,11 +57,11 @@
                             @endphp
                             <div class="progress float-right mt-1 listing-progress" style="height: 10px; width:50%">
                                 <div class="progress-bar progress-bar-striped progress-bar-animated small" role="progressbar" style="width: {{$progress}}%;">
-                                    {{$progress}}%                         
+                                    {{$progress}}%
                                 </div>
                             </div>
                         </div>
-                        @else                                
+                        @else
                         <a href="javascript:void(0);" onclick="event.preventDefault(); document.getElementById('formExitUpdateMode').submit();" class="text-danger text-decoration-none ml-3 mt-1 font-13">
                             <i class="fa fa-sign-out"></i> Exit Update Mode
                         </a>
@@ -72,13 +72,13 @@
                         </form>
                         @endif
                         <div class="card-body">
-                            
+
                             @php
                                 $proTypeStatus = 'auctioning';
                                 $sinTypeStatus = 'auction';
                                 $guest = 'bidder';
                             @endphp
-        
+
                             <div id="registrationWizard">
                                 <div class="steps-container" data-name="{{ $property->title }}">
                                     <ul class="steps">
@@ -86,7 +86,7 @@
                                             <span class="step">1</span>
                                             <span class="title text-primary"><small>Overview</small></span>
                                         </li>
-    
+
                                         <li data-step="2">
                                             <span class="step">2</span>
                                             <span class="title text-primary"><small>Amenities</small></span>
@@ -96,12 +96,12 @@
                                             <span class="step">3</span>
                                             <span class="title text-primary"><small>Location/Landmark</small></span>
                                         </li>
-    
+
                                         <li data-step="4">
                                             <span class="step">4</span>
                                             <span class="title text-primary"><small>Descriptions</small></span>
                                         </li>
-    
+
                                         <li data-step="5">
                                             <span class="step">5</span>
                                             <span class="title text-primary"><small>Schedule</small></span>
@@ -115,9 +115,9 @@
                                             <span class="title text-primary"><small>Ready to Publish</small></span>
                                         </li>
                                     </ul>
-                                </div>  
-                                           
-                                <div class="step-content pos-rel">  
+                                </div>
+
+                                <div class="step-content pos-rel">
                                     <div class="step-pane active" data-step="1">
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -132,7 +132,7 @@
                                                             <option value="">--Select--</option>
                                                             <option value="1">1 Bedroom</option>
                                                             @for ($i = 2; $i <= 50; $i++)
-                                                            <option value="{{ $i }}">{{ $i }} Bedrooms</option>    
+                                                            <option value="{{ $i }}">{{ $i }} Bedrooms</option>
                                                             @endfor
                                                             <option value="50+">50+ Bedrooms</option>
                                                         </select>
@@ -147,7 +147,7 @@
                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                     </div>
                                                     @endif
-    
+
                                                     <div class="form-group mt-4 validate">
                                                         <label for="">Furnished?</label>
                                                         <select name="furnish" class="form-control" id="furnish">
@@ -158,7 +158,7 @@
                                                         </select>
                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                     </div>
-    
+
                                                     <div class="form-group mt-4 validate">
                                                         <label for="">Have kitchen? What type?</label>
                                                         <select name="kitchen" class="form-control" id="kitchen">
@@ -205,9 +205,9 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                        </div><!-- end row --> 
+                                        </div><!-- end row -->
                                     </div><!-- end step one -->
-    
+
                                     <div class="step-pane" data-step="2">
                                         <div class="row">
                                             <div class="col-lg-12">
@@ -223,9 +223,9 @@
                                                     @endif
                                                 </form>
                                             </div>
-                                        </div><!-- end row --> 
-                                    </div><!-- end step two -->                              
-        
+                                        </div><!-- end row -->
+                                    </div><!-- end step two -->
+
                                     <div class="step-pane" data-step="3">
                                         <div class="row">
                                             <div class="col-lg-5">
@@ -250,15 +250,15 @@
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="card mt-4">
-                                                    <div class="card-body">        
-                                                        <h4 class="mt-0 header-title">Pin your location to the right place</h4>     
+                                                    <div class="card-body">
+                                                        <h4 class="mt-0 header-title">Pin your location to the right place</h4>
                                                         <div id="gmaps-markers" class="gmaps"></div>
                                                     </div><!--end card-body-->
-                                                </div><!--end card--> 
+                                                </div><!--end card-->
                                             </div>
-                                        </div><!-- end row --> 
-                                    </div><!-- end step four -->  
-        
+                                        </div><!-- end row -->
+                                    </div><!-- end step four -->
+
                                     <div class="step-pane" data-step="4">
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -295,14 +295,14 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                        </div><!-- end row --> 
-                                    </div><!-- end step six --> 
-                                    
+                                        </div><!-- end row -->
+                                    </div><!-- end step six -->
+
                                     <div class="step-pane" data-step="5">
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <h4>Provide bidders with your bidding schedule</h4>
-                                                
+
                                                 <form class="mt-4" id="formSchedule" method="POST" action="{{ route('property.store.auction') }}">
                                                     @csrf
                                                     <input type="hidden" name="step" value="5" readonly>
@@ -333,63 +333,65 @@
                                                             </div>
                                                         </div>
                                                     </div>
-    
+
                                                 </form>
-                                                
+
                                             </div>
                                             <div class="col-lg-6">
                                                 <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Have a venue in mind.</p>
                                                 <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Auctioning must be free and fair.</p>
                                                 <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Let bidder do their job of bidding.</p>
                                             </div>
-                                        </div><!-- end row --> 
-                                    </div><!-- end step seven --> 
-    
+                                        </div><!-- end row -->
+                                    </div><!-- end step seven -->
+
                                     <div class="step-pane" data-step="6">
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <h4 class="mb-3">
                                                     This is how {{ $guest.'s' }} will interact through the {{ $proTypeStatus }} process.
                                                 </h4>
-                                                
+
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <div class="card">
-                                                            <div class="card-body">      
-                                                                <div class="text-center">
-                                                                    <i class="fa fa-user text-success fa-5x"></i>
+                                                            <div class="card-body">
+                                                                <div class="">
+                                                                    <div class="text-center">
+                                                                        <i class="fa fa-user text-success fa-5x"></i>
+                                                                    </div>
                                                                     <hr>
                                                                     <p>
-                                                                        <i class="fa fa-square text-pink" style="font-size:10px"></i> 
+                                                                        <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                         Every {{ $guest }} on OShelter must be qualified to bid your property
                                                                     </p>
-                                                                    <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                     <p>
+                                                                        <i class="fa fa-square text-pink" style="font-size:10px"></i>
                                                                         Every qualified {{ $guest }} must confirm their personal & contact info before they can bid your property.
                                                                     </p>
                                                                 </div>
                                                             </div><!--end card-body-->
                                                         </div>
                                                     </div>
-    
+
                                                     <div class="col-lg-10 pt-4">
                                                         <h5><b>You are protected every step of the way.</b></h5>
-                                                        <img src="{{ asset('assets/images/form-logo.png') }}" alt="Logo" width="40" height="40"  class="rounded-circle img-left mr-3" /> 
-                                                        <p class="pt-2">We care for you and your property so we have you covered with every {{ $proTypeStatus }} 
+                                                        <img src="{{ asset('assets/images/form-logo.png') }}" alt="Logo" width="40" height="40"  class="rounded-circle img-left mr-3" />
+                                                        <p class="pt-2">We care for you and your property so we have you covered with every {{ $proTypeStatus }}
                                                             situations. <a href="javascript:void(0)" class="text-primary">{{ ucfirst($guest) }} Guide Policy</a>.
                                                         </p>
                                                     </div>
-                                                </div> 
+                                                </div>
                                                 <form id="formTenantGuide" method="POST" action="{{ route('property.store.auction') }}" style="display:none">
                                                     @csrf
                                                     <input type="hidden" name="step" value="6" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                </form>                                   
+                                                </form>
                                             </div>
-                                            
-                                        </div><!-- end row --> 
-                                    </div><!-- end step eight -->   
-    
+
+                                        </div><!-- end row -->
+                                    </div><!-- end step eight -->
+
                                     <div class="step-pane" data-step="7">
                                         <div class="row">
                                             <div class="col-lg-6">
@@ -400,54 +402,54 @@
                                                     <i class="fa fa-bed fa-5x"></i>
                                                 </div>
                                                 <p><i class="fa fa-dot-circle font-13"></i> Potential {{ $guest.'s' }} are wating for you to publish this property.</p>
-                                            
+
                                                 <div class="mt-4 mb-3">
                                                     <i class="fa fa-key fa-5x"></i>
                                                 </div>
-                                                <p class="mb-3"><i class="fa fa-dot-circle font-13"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>    
-                                                
+                                                <p class="mb-3"><i class="fa fa-dot-circle font-13"></i> Make the keys ready for your {{ $guest.'s' }} on their arrival.</p>
+
                                                 <form id="formFinishListing" method="POST" action="{{ route('property.store.auction') }}" style="display:none">
                                                     @csrf
                                                     <input type="hidden" name="step" value="7" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
-                                                </form> 
-    
+                                                </form>
+
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="card mt-3 float-right">
-                                                    <div class="card-body">        
+                                                    <div class="card-body">
                                                         <a href="{{ route('property.preview', $property->id) }}" class="text-primary text-decoration-none">
                                                             <i class="fa fa-eye text-primary"></i>
                                                             Preview Property
-                                                        </a> 
+                                                        </a>
                                                         <i class="fa fa-home text-success fa-4x"></i>
                                                     </div><!--end card-body-->
                                                 </div>
                                             </div>
-                                        </div><!-- end row --> 
-                                    </div><!-- end step nine --> 
-                                    
-                                </div><!-- end step content -->   
-                            </div> <!-- end wizard -->                
-                            
+                                        </div><!-- end row -->
+                                    </div><!-- end step nine -->
+
+                                </div><!-- end step content -->
+                            </div> <!-- end wizard -->
+
                             <hr />
                             <div class="wizard-actions" style="text-align:center !important;">
                                 <button class="btn btn-prev btn-primary text-light mb-2 mr-lg-5 mr-sm-1">
                                     <i class="ace-icon fa fa-arrow-left"></i>
                                     Go Previous
                                 </button>
-                                
+
                                 <button class="btn btn-success text-light btn-next mb-2 ml-lg-5 mr-sm-1" data-last="{{ (Session::has('edit'))? 'Update to Publish':'Finish And Publish ' }}">
-                                    {{ (Session::has('edit'))? 'Update to Next':'Next Step' }} 
+                                    {{ (Session::has('edit'))? 'Update to Next':'Next Step' }}
                                     <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                 </button>
-                            </div><!-- end buttons -->        
+                            </div><!-- end buttons -->
                         </div><!--end card-body-->
                     </div><!--end card-->
                 </div><!--end col-->
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 @endsection
 
@@ -485,7 +487,7 @@
                 }
                 $('#formContainAmenities select').each(function() {
                     var $this = $(this);
-                    
+
                     if(!$this.val()) {
                         valid = false;
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -504,7 +506,7 @@
                 var valid = true;
                 $('#formLocationLandmark input').each(function() {
                     var $this = $(this);
-                    
+
                     if(!$this.val()) {
                         valid = false;
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -519,7 +521,7 @@
                 var valid = true;
                 $('#formDescriptions input, #formDescriptions textarea, #formDescriptions select').each(function() {
                     var $this = $(this);
-                    
+
                     if(!$this.val()) {
                         valid = false;
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -534,7 +536,7 @@
                 var valid = true;
                 $('#formSchedule input:text').each(function() {
                     var $this = $(this);
-                    
+
                     if(!$this.val()) {
                         valid = false;
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -593,7 +595,7 @@
         });
         return true; //this will not prevent clicking and selecting steps
     });
-    
+
 
 
     //remove error message if inputs are filled
@@ -606,7 +608,7 @@
     $("select").on('change', function(){
         if($(this).val()!=''){
             $(this).parents('.validate').find('.mySpan').text('');
-        }else{ 
+        }else{
             $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
         }
     });
@@ -695,8 +697,8 @@
                     {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
                 ]
             });
-            
-            
+
+
         }
     });
 </script>
