@@ -42,41 +42,21 @@ class PropertyController extends Controller
 
 
     //show all properties listed
-    public function index()
+    public function index(Request $request)
     {
         $data['page_title'] = 'All your properties';
         $data['property_types'] = PropertyType::whereIs_public(true)->get();
+        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->paginate(15);
+
+        if($request->search) {
+            $data['properties'] = Property::whereUser_id(Auth::user()->id)->where('title','LIKE','%'.$request->search.'%')->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
+        }
+        if($request->filter) {
+            $data['properties'] = Property::whereUser_id(Auth::user()->id)->where('type', $request->filter)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
+        }
         return view('user.properties.index', $data);
     }
 
-    public function loadProperties()
-    {
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
-        return view('user.properties.load_properties', $data)->render();
-    }
-
-    public function filterProperties(string $filter)
-    {
-        $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereType($filter)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
-        return view('user.properties.load_properties', $data)->render();
-    }
-
-    public function searchProperties(string $search)
-    {
-        if(empty($search)){
-            $data['properties'] = Property::whereUser_id(Auth::user()->id)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
-        }else{
-            $data['properties'] = Property::whereUser_id(Auth::user()->id)->where('title','LIKE','%'.$search.'%')->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
-        }
-        return view('user.properties.load_properties', $data)->render();
-    }
-
-    public function propertyVisits(Property $property)
-    {
-        $data['page_title'] = $property->title.' visits';
-        $data['property'] = $property;
-        return view('user.properties.property_visits', $data);
-    }
 
     public function propertyBookings(Property $property)
     {
@@ -85,27 +65,6 @@ class PropertyController extends Controller
         return view('user.properties.property_bookings', $data);
     }
 
-    public function propertyOrders(Property $property)
-    {
-        if($property->type_status == 'sale'){
-            $data['page_title'] = $property->title.' orders';
-            $data['property'] = $property;
-            return view('user.properties.property_orders', $data);
-        }else{
-            return view('errors.404');
-        }
-    }
-
-    public function propertyAuctionEvents(Property $property)
-    {
-        if($property->type_status == 'auction'){
-            $data['page_title'] = $property->title.' auction events';
-            $data['property'] = $property;
-            return view('user.properties.property_auction_events', $data);
-        }else{
-            return view('errors.404');
-        }
-    }
 
     ///check if uncompleted found
     public function addNewListing()

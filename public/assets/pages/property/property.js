@@ -1,79 +1,3 @@
-function getProperties(url) 
-{
-    $.ajax({
-        url: url,
-        type: "GET",
-        success: function(resp){
-            $("#propertyContent").html(resp);
-        },
-        error: function(resp){
-            console.log('something went wrong.');
-        }
-    });
-}
-
-getProperties($("#propertyContent").data('url'));
-
-$("select[name='filter']").on("change", function(){
-    var $this = $(this);
-    if($this.val() !== ''){
-        let url = `/user/properties/listings/filter/${$this.val()}`;
-        getProperties(url);
-    }
-    return false;
-});
-
-$("input[name='search']").on("keyup", function(){
-    var $this = $(this);
-    let url = `/user/properties/listings/search/${$this.val()}`;
-    getProperties(url);
-    return false;
-});
-
-// toggle between listed property invisible and visible
-$(".btnVisibility").on("click", function(e){
-    e.preventDefault();
-    e.stopPropagation();
-    var $this = $(this);
-    swal({
-        title: "Are you sure?",
-        text: "You are about "+$this.text().toLowerCase()+" "+$this.data("title")+" listing.",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonClass: ((jQuery.trim($this.text().toLowerCase())=="hide")? "btn-danger":"btn-success")+" btn-sm",
-        cancelButtonClass: "btn-sm",
-        confirmButtonText: "Yes, "+$this.text(),
-        closeOnConfirm: false
-        },
-    function(){
-        $.ajax({
-            url: $this.data('href'),
-            type: "POST",
-            success: function(resp){
-                if(resp=='success'){
-                    swal(((jQuery.trim($this.text().toLowerCase())=="hide")? "Hidden":"Published"), "Property "+((jQuery.trim($this.text().toLowerCase())=="hide")? "hidden":"published")+" successful", "success");
-                    $this.parents(".myParent").find(".blog-card .publishStatus").html(((jQuery.trim($this.text().toLowerCase())=="hide")? 'Hidden':'Published'));
-                    $this.html(((jQuery.trim($this.text().toLowerCase())=="hide")? '<i class="fa fa-check"></i> Publish':'<i class="fa fa-eye-slash"></i> Hide'));
-                    if(jQuery.trim($this.text().toLowerCase())=="hide"){
-                        $this.removeClass('text-success').addClass('text-pink');
-                    }else{
-                        $this.removeClass('text-pink').addClass('text-success');
-                    }
-                }
-                else{
-                    alert("Something went wrong");
-                }
-            },
-            error: function(resp){
-                alert("Something went wrong with request");
-            }
-        });
-    });
-    return false;
-});
-
-
-// from new listing //
 
 // submit form
 $("#formPropertyType").on("submit", function(e){
@@ -81,7 +5,7 @@ $("#formPropertyType").on("submit", function(e){
     var valid = true;
     $('#formPropertyType input, #formPropertyType select').each(function() {
         var $this = $(this);
-        
+
         if(!$this.val()) {
             valid = false;
             $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -106,7 +30,7 @@ $("input").on('input', function(){
 $("select").on('change', function(){
     if($(this).val()!=''){
         $(this).parents('.validate').find('.mySpan').text('');
-    }else{ 
+    }else{
         $(this).parents('.validate').find('.mySpan').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
     }
 });
@@ -176,7 +100,7 @@ $("#formConfirm").on("submit", function(e){
     var valid = true;
     $('#formConfirm input').each(function() {
         var $this = $(this);
-        
+
         if(!$this.val()) {
             valid = false;
             $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
