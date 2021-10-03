@@ -49,7 +49,9 @@ class BookingController extends Controller
 
         return response()->json([
             'rooms' => $roomNumbers,
-            'price' => $room->propertyHostelPrice->property_price
+            'price' => $room->propertyHostelPrice->property_price,
+            'currency' => $room->propertyHostelPrice->currency,
+            'duration' => $room->propertyHostelPrice->payment_duration
         ]);
     }
 

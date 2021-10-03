@@ -3,6 +3,7 @@
     @csrf
     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
     <input type="hidden" name="type_status" value="sale" readonly>
+    <input type="hidden" name="currency" value="{{ $property->propertyPrice->currency }}" readonly>
     <div class="form-group mt-4 validate">
         <label for="">How do you wish to pay?</label>
         <select name="payment_method" class="form-control" data-price="{{ $property->propertyPrice->property_price }}">

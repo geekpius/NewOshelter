@@ -44,6 +44,8 @@
         <input type="text" readonly name="total_amount" class="form-control" value="0.00"  />
         <span class="text-danger small mySpan" role="alert"></span>
     </div>
+    <input type="hidden" name="currency" value="GHS" readonly>
+    <input type="hidden" name="duration" value="" readonly>
 
     <input type="hidden" readonly name="step" value="3">
 

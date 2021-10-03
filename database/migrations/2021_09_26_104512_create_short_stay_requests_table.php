@@ -20,6 +20,7 @@ class CreateShortStayRequestsTable extends Migration
             $table->date('check_in');
             $table->date('check_out');
             $table->double('amount');
+            $table->string('currency')->default('GHS');
             $table->integer('adult')->default(1);
             $table->integer('children')->default(0);
             $table->timestamps();

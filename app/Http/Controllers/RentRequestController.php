@@ -36,7 +36,7 @@ class RentRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): string
     {
         $validator = \Validator::make($request->all(), [
             'property_id' => 'required',
@@ -44,6 +44,7 @@ class RentRequestController extends Controller
             'type_status' => 'required',
             'duration' => 'required',
             'total_amount' => 'required',
+            'currency' => 'required',
             'adult' => 'required',
             'children' => 'required',
         ]);
@@ -62,6 +63,7 @@ class RentRequestController extends Controller
                         'duration' => $request->duration,
                         'calender' => 'month',
                         'amount' => $request->total_amount,
+                        'currency' => $request->currency,
                         'adult' => $request->adult,
                         'children' => $request->children,
                     ]);

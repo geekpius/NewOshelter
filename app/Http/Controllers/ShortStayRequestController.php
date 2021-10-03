@@ -36,7 +36,7 @@ class ShortStayRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): string
     {
         $validator = \Validator::make($request->all(), [
             'property_id' => 'required',
@@ -44,6 +44,7 @@ class ShortStayRequestController extends Controller
             'check_in' => 'required',
             'check_out' => 'required',
             'total_amount' => 'required',
+            'currency' => 'required',
             'adult' => 'required',
             'children' => 'required',
         ]);
@@ -62,6 +63,7 @@ class ShortStayRequestController extends Controller
                 'check_in' => date("Y-m-d",strtotime($request->check_in)),
                 'check_out' => date("Y-m-d",strtotime($request->check_out)),
                 'amount' => $request->total_amount,
+                'currency' => $request->currency,
                 'adult' => $request->adult,
                 'children' => $request->children,
             ]);

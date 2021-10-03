@@ -239,6 +239,8 @@ $("#formHostel select[name='block']").on('change', function (){
                 });
                 $("#formHostel select[name='room']").find('.after').after(options);
                 $("#formHostel input[name='total_amount']").val(resp.price);
+                $("#formHostel input[name='currency']").val(resp.currency);
+                $("#formHostel input[name='duration']").val(resp.duration);
             },
             error: function(resp){
                 console.log("Something went wrong with request");

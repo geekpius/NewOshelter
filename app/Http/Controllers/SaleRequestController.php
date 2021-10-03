@@ -36,13 +36,14 @@ class SaleRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): string
     {
         $validator = \Validator::make($request->all(), [
             'property_id' => 'required',
             'step' => 'required',
             'payment_method' => 'required',
             'total_amount' => 'required',
+            'currency' => 'required',
         ]);
 
 
@@ -58,6 +59,7 @@ class SaleRequestController extends Controller
                 'property_id' => $request->property_id,
                 'method' => $request->payment_method,
                 'amount' => $request->total_amount,
+                'currency' => $request->currency,
             ]);
 
             $saleRequest->userRequests()->create([

@@ -24,6 +24,7 @@ class UserRequest extends Model
         'reason',
         'type',
         'status',
+        'type',
     ];
 
 

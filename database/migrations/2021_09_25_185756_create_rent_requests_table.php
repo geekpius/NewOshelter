@@ -20,6 +20,7 @@ class CreateRentRequestsTable extends Migration
             $table->integer('duration');
             $table->string('calender');
             $table->double('amount');
+            $table->string('currency')->default('GHS');
             $table->integer('adult')->default(1);
             $table->integer('children')->default(0);
             $table->timestamps();

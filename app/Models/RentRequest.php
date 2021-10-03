@@ -16,6 +16,7 @@ class RentRequest extends Model
         'duration',
         'calender',
         'amount',
+        'currency',
         'adult',
         'children',
     ];

@@ -16,6 +16,7 @@ class ShortStayRequest extends Model
         'check_in',
         'check_out',
         'amount',
+        'currency',
         'adult',
         'children',
     ];

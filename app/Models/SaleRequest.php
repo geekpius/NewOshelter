@@ -15,6 +15,7 @@ class SaleRequest extends Model
         'external_id',
         'method',
         'amount',
+        'currency',
     ];
 
 

@@ -16,7 +16,10 @@ class HostelRequest extends Model
         'property_id',
         'external_id',
         'hostel_block_room_number_id',
-        'total_amount',
+        'amount',
+        'currency',
+        'duration',
+        'calendar',
     ];
 
 

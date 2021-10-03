@@ -488,11 +488,7 @@
                     <span><i class="fa fa-check-circle {{ $property->user->verify_email? 'text-success':'text-danger' }}"></i> <b>{{ $property->user->verify_email? 'Verified':'Not Verified' }}</b></span>
                     <br>   <br>
                     <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-smile"></i> Show Interest</a>
-                    <hr>
-                    <div>
-                        <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make
-                        payments outside OShelter's website and app.</p>
-                    </div>
+                    
 
                 </div>
 
@@ -519,29 +515,6 @@
                         Exact location is provided after {{ $property->type_status=='sale'? 'buying':'booking' }} is confirmed
                     </p>
                 </div>
-
-                @if (!$property->isSaleProperty())
-                <hr>
-                {{-- Cancellation --}}
-                <div class="pxp-single-property-section">
-                    <h3>Cancellation and Eviction</h3>
-                    <p>
-                        <i class="fa fa-minus-circle font-12"></i>
-                        Cancellation after 48 hours, you will get full refund minus service fee.
-                    </p>
-                    @if($property->isRentProperty())
-                        <p>
-                            <i class="fa fa-minus-circle font-12"></i>
-                            Eviction notice will be sent to visitors 3 months before time. Visitors will wish to extend or evict.
-                        </p>
-                    @elseif($property->isShortStayProperty())
-                        <p>
-                            <i class="fa fa-minus-circle font-12"></i>
-                            Eviction notice will be sent to visitors 3 days and 1 day before time.
-                        </p>
-                    @endif
-                </div>
-                @endif
 
                 {{-- property rules --}}
                 @if (!$property->isSaleProperty())

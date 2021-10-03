@@ -2,6 +2,7 @@
 <form class="mt-4" id="formShortStay" method="POST" action="{{ route('property.request.short.stay') }}">
     @csrf
     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
+    <input type="hidden" name="currency" value="{{ $property->propertyPrice->currency }}" readonly>
     <div class="form-group mt-4 validate" id="dateMaxMin" data-min="{{ $property->propertyPrice->minimum_stay }}" data-max="{{ $property->propertyPrice->maximum_stay }}">
         <label for="">Duration you wish to stay for</label>
         <div class="input-group" id="dateRanger" data-date="{{ \Carbon\Carbon::parse(\Carbon\Carbon::tomorrow())->format('m-d-Y') }}">

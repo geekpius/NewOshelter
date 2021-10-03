@@ -36,13 +36,15 @@ class HostelRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): string
     {
         $validator = \Validator::make($request->all(), [
             'property_id' => 'required',
             'step' => 'required',
             'room' => 'required',
             'total_amount' => 'required',
+            'currency' => 'required',
+            'duration' => 'required',
         ]);
 
 
@@ -57,7 +59,10 @@ class HostelRequestController extends Controller
             $rentRequest = HostelRequest::create([
                 'property_id' => $request->property_id,
                 'hostel_block_room_number_id' => $request->room,
-                'total_amount' => $request->total_amount,
+                'amount' => $request->total_amount,
+                'currency' => $request->currency,
+                'duration' => $request->duration,
+                'calendar' => 'month',
             ]);
 
             $rentRequest->userRequests()->create([
