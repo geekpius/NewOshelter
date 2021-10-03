@@ -297,17 +297,17 @@ class Property extends Model
 
     public function isPropertyTaken(): bool
     {
-        return $this->status == self::TAKEN;
+        return $this->status == Property::TAKEN;
     }
 
     public function isPropertyPending(): bool
     {
-        return $this->status == self::PENDING;
+        return $this->status == Property::PENDING;
     }
 
     public function isPropertyApproved(): bool
     {
-        return $this->status == self::APPROVED;
+        return $this->status == Property::APPROVED;
     }
 
 

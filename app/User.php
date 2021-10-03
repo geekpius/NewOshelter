@@ -158,6 +158,13 @@ class User extends Authenticatable
         return $this->properties()->where('is_active', true)->where('publish', true)->where('done_step', true)->count();
     }
 
+    public function countApprovedProperties(): int
+    {
+        return $this->properties()->where('is_active', true)->where('publish', true)
+            ->where('done_step', true)->where('status', Property::APPROVED)->count();
+    }
+
+
     public function countOverallRating(): int
     {
         return $this->propertyReviews()->count();
