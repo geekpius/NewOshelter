@@ -8,6 +8,7 @@ use App\Models\HostelRequest;
 use App\Models\RentRequest;
 use App\Models\SaleRequest;
 use App\Models\ShortStayRequest;
+use App\Models\ShowInterest;
 use App\Models\UserRequest;
 use App\Observers\AuctionRequestObserver;
 use App\Observers\HostelRequestObserver;
@@ -35,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         SaleRequest::observe(SaleRequestObserver::class);
         AuctionRequest::observe(AuctionRequestObserver::class);
         HostelRequest::observe(HostelRequestObserver::class);
+        ShowInterest::observe(\CreateShowInterestsTable::class);
     }
 
     /**
