@@ -21,7 +21,6 @@ Route::group(['middleware' => ['verify-email']], function() {
     Route::get('/becoming-a-visitor', 'WebsiteController@becomeVisitor')->name('become.visitor');
 
     Route::group(['prefix' => 'properties'], function () {
-        // Route::get('/', 'WebsiteController@property')->name('browse.property');
         Route::get('/search', 'WebsiteController@searchProperty')->name('browse.property.search');
         Route::get('/status/{status}', 'WebsiteController@propertyStatus')->name('status.property');
         Route::get('/status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');
@@ -35,6 +34,7 @@ Route::group(['middleware' => ['verify-email']], function() {
     });
 
     Route::get('/why-choose-us/{title}', 'WebsiteController@whyChooseUs')->name('why.choose');
+    Route::get('/cron', 'WebsiteController@cron')->name('cron');
 
     Route::group(['prefix' => 'help'], function () {
         Route::get('/', 'WebsiteController@help')->name('help');
@@ -47,7 +47,7 @@ Route::group(['middleware' => ['verify-email']], function() {
     Route::get('/contact-us', 'WebsiteController@contact')->name('contact');
     Route::post('/contact-us', 'WebsiteController@submitContact')->name('contact.submit');
     Route::get('/about-us', 'WebsiteController@about')->name('about');
-    Route::get('/account-deactivated', 'WebsiteController@accountDeactivated')->name('account.deactivated');
+    Route::post('/show-interest', 'WebsiteController@showInterest')->name('show.interest');
     // Route::get('/email', 'WebsiteController@email');
 });
 

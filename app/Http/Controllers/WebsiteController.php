@@ -2,25 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Route;
+use App\Events\ContactUsEvent;
+use App\Events\ShowInterestEvent;
+use App\HelpType;
+use App\Models\ShowInterest;
+use Illuminate\Support\Facades\Artisan;
 use App\HelpCategory;
 use App\HelpQuestion;
 use App\HelpTopic;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
 use App\PropertyModel\PropertyType;
-use App\PropertyModel\PropertyCategory;
 use App\PropertyModel\PropertyLocation;
-use App\EventModel\AuctionEvent;
-
 use App\Http\Resources\PropertyCollection;
-
 use App\Mail\EmailSender;
 use Illuminate\Support\Facades\Mail;
 
 class WebsiteController extends Controller
 {
+
+    public function cron()
+    {
+        Artisan::call('queue:work');
+    }
 
     //index page
     public function index()
@@ -28,15 +32,8 @@ class WebsiteController extends Controller
         // SELECT * FROM properties WHERE is_active=1 AND publish=1 AND done_step=1 AND (id NOT IN (SELECT property_id FROM user_visits) OR id IN (SELECT property_id FROM user_visits WHERE status IN(0,2))) AND (id NOT IN (SELECT property_id FROM orders) OR id IN (SELECT property_id FROM orders WHERE status IN(0,1)))
         $data['page_title'] = null;
         $data['types'] = PropertyType::whereIs_public(true)->get();
-        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status','!=','auction')->take(50)->inRandomOrder()->orderBy('id', 'DESC')
-//        ->where(function($query){
-//            $query->whereNotIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable());
-//            })->orWhereIn('id', function($query){
-//                $query->select('property_id')->from(with(new Order)->getTable())->whereIn('status', [0,1]);
-//            });
-//        })
-            ->get();
+        $data['properties'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)
+            ->where('type_status','!=','auction')->take(50)->inRandomOrder()->orderBy('id', 'DESC') ->get();
 
         $data['count_rent'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status', 'rent')->count();
 
@@ -406,19 +403,45 @@ class WebsiteController extends Controller
             'message' => 'required|string',
         ]);
 
-        (string) $message = "";
-        if ($validator->fails()){
-            $message = 'Something went wrong with your input';
-        }else{
 
+        if ($validator->fails()){
+            return 'Something went wrong with your input';
+        }
             $data = array(
                 "name" => $request->name,
             );
-            Mail::to(strtolower($request->email))->send(new EmailSender($data, "Contact Support", "emails.contact"));
-            $message="success";
-        }
-        return $message;
+//            Mail::to(strtolower($request->email))->send(new EmailSender($data, "Contact Support", "emails.contact"));
+
+            event(new ContactUsEvent($data));
+            return  "success";
+
     }
+
+
+
+    public function showInterest(Request $request) : string
+    {
+        $validator = \Validator::make($request->all(), [
+            'name' => 'required|string',
+            'phone' => 'nullable|numeric',
+        ]);
+
+        if ($validator->fails()){
+            return 'Something went wrong with your input';
+        }
+
+        $showInterest = ShowInterest::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+        ]);
+
+        event(new ShowInterestEvent($showInterest));
+
+        return  'success';
+    }
+
+
+
 
     public function about()
     {
