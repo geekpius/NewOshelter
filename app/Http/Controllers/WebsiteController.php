@@ -422,6 +422,7 @@ class WebsiteController extends Controller
     public function showInterest(Request $request) : string
     {
         $validator = \Validator::make($request->all(), [
+            'property_id' => 'required|integer',
             'name' => 'required|string',
             'phone' => 'nullable|numeric',
         ]);
@@ -433,6 +434,7 @@ class WebsiteController extends Controller
         $showInterest = ShowInterest::create([
             'name' => $request->name,
             'phone' => $request->phone,
+            'property_id' => $request->property_id,
         ]);
 
         event(new ShowInterestEvent($showInterest));

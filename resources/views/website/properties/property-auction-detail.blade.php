@@ -229,9 +229,6 @@
                         <span class="mr-5"><i class="fa fa-star text-warning"></i> <b>Overall Reviews</b></span>
                     @endif
                     <span><i class="fa fa-check-circle {{ $property->user->verify_email? 'text-success':'text-danger' }}"></i> <b>{{ $property->user->verify_email? 'Verified':'Not Verified' }}</b></span>
-                    <br>   <br>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-smile"></i> Show Interest</a>
-
 
                 </div>
 

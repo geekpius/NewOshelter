@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\PropertyModel\Property;
 use Illuminate\Database\Eloquent\Model;
 
 class ShowInterest extends Model
@@ -14,6 +15,7 @@ class ShowInterest extends Model
 
     protected $fillable = [
         'external_id',
+        'property_id',
         'name',
         'phone',
         'status',
@@ -23,6 +25,11 @@ class ShowInterest extends Model
     public function getNameAttribute(string $value): void
     {
         $this->attributes['name'] = strtolower($value);
+    }
+
+
+    public function property(){
+        return $this->belongsTo(Property::class, 'property_id');
     }
 
 

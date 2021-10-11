@@ -509,7 +509,7 @@
                     @endif
                     <span><i class="fa fa-check-circle {{ $property->user->verify_email? 'text-success':'text-danger' }}"></i> <b>{{ $property->user->verify_email? 'Verified':'Not Verified' }}</b></span>
                     <br>   <br>
-                    <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-smile"></i> Show Interest</a>
+                    <a href="#" data-id="{{ $property->id }}" class="btn btn-primary btn-sm btn_show_interest"><i class="fa fa-smile"></i> Show Interest</a>
 {{--                    <hr>--}}
 {{--                    <div>--}}
 {{--                        <p><b>Communication always happens on OShelter's platform.</b> For the protection of your payments, never make--}}
@@ -749,6 +749,7 @@
     @endif
 </div>
 
+
 <!-- id modal -->
 <div id="reviewModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -847,6 +848,40 @@
 </div><!-- /.modal -->
 
 
+<!-- id modal -->
+<div id="showInterestModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="showInterestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('show.interest') }}" id="formShowInterest">
+                    <input type="hidden" name="property_id" value="" readonly>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="name" placeholder="Enter your fullname">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input type="tel" class="form-control" name="phone" maxlength="10" onkeypress="return isNumber(event);" placeholder="Enter your phone number">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button class="btn btn-primary btn-block btnSubmitShowInterest">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="pswp__bg"></div>
     <div class="pswp__scroll-wrap">
@@ -908,5 +943,73 @@
         $("#reviewModal").modal('show');
         return false;
     });
+
+    $(".btn_show_interest").on("click", function(){
+        $('#formShowInterest input[name="property_id"]').val($(this).data('id'));
+        $("#showInterestModal").modal('show');
+        return false;
+    });
+
+
+
+    $("#formShowInterest").on("submit", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var $this = $(this);
+        var valid = true;
+        $('#formShowInterest input').each(function() {
+            var $this = $(this);
+
+            if(!$this.val()) {
+                valid = false;
+                $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+            }
+        });
+
+        if(valid){
+            let data = $this.serialize();
+            $("#formShowInterest .btnSubmitShowInterest").html('<i class="fa fa-spinner fa-spin"></i> Submitting...').attr('disabled', true);
+            $.ajax({
+                url: $this.attr('action'),
+                type: "POST",
+                data: data,
+                success: function(resp){
+                    if(resp == 'success'){
+                        swal({
+                                title: "Submitted",
+                                text: "Your interest in this property is submitted.",
+                                type: "success",
+                                confirmButtonClass: "btn-primary btn-sm",
+                                confirmButtonText: "Okay",
+                                closeOnConfirm: true
+                            },
+                            function(){
+                                $("#showInterestModal").modal('hide');
+                                $("#formShowInterest .btnSubmitShowInterest").text('Submit').attr('disabled', false);
+                                $("#formShowInterest input").val('');
+                            });
+                    }else{
+                        swal("Warning", resp, "warning");
+                        $("#formShowInterest .btnSubmitShowInterest").text('Submit').attr('disabled', false);
+                    }
+                },
+                error: function(resp){
+                    console.log("Something went wrong with request");
+                }
+            });
+        }
+        return false;
+    });
+
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+
 </script>
 @endsection

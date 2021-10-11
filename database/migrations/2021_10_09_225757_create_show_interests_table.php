@@ -16,10 +16,12 @@ class CreateShowInterestsTable extends Migration
         Schema::create('show_interests', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('external_id')->nullable()->index();
+            $table->integer('property_id')->unsigned()->index();
             $table->string('name');
             $table->string('phone');
             $table->string('status')->default(\App\Models\ShowInterest::NOT_RESPONDED)->index();
             $table->timestamps();
+            $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
         });
     }
 
