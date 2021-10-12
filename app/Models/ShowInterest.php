@@ -22,7 +22,7 @@ class ShowInterest extends Model
     ];
 
 
-    public function getNameAttribute(string $value): void
+    public function setNameAttribute(string $value): void
     {
         $this->attributes['name'] = strtolower($value);
     }
