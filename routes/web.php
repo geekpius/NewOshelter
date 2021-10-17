@@ -104,13 +104,13 @@ Route::group(['middleware' => ['verify-email']], function() {
         });
 
         /*------- Payments ------- */
-        Route::group(['prefix' => 'payments'], function () {
-            Route::post('/check/{booking}/payment', 'PaymentController@isBookingAlreadyPaid')->name('payment.check');
-            Route::post('/check/{hostelBooking}/hostel/payment', 'PaymentController@isHostelBookingAlreadyPaid')->name('payment.check.hostel');
-            Route::post('/verify', 'PaymentController@verifyPayment')->name('payments.verify');
-            Route::get('/transaction/success', 'PaymentController@successTrasaction')->name('payment.success');
-        });
-        Route::get('/account/requests/payments', 'PaymentController@payment')->name('payments');
+        // Route::group(['prefix' => 'payments'], function () {
+        //     Route::post('/check/{booking}/payment', 'PaymentController@isBookingAlreadyPaid')->name('payment.check');
+        //     Route::post('/check/{hostelBooking}/hostel/payment', 'PaymentController@isHostelBookingAlreadyPaid')->name('payment.check.hostel');
+        //     Route::post('/verify', 'PaymentController@verifyPayment')->name('payments.verify');
+        //     Route::get('/transaction/success', 'PaymentController@successTrasaction')->name('payment.success');
+        // });
+        // Route::get('/account/requests/payments', 'PaymentController@payment')->name('payments');
 
         /*------- Account and Profile ------- */
         Route::group(['prefix' => 'account'], function () {
@@ -202,10 +202,6 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::post('/properties/bookings/movenext', 'BookingController@moveNext')->name('property.bookings.movenext');
         Route::post('/properties/bookings/smsverification', 'BookingController@sendSmsVerification')->name('property.bookings.smsverification');
         Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
-
-        Route::get('/account/requests/bookings', 'BookingController@visitorBookingList')->name('property.visitor.bookings');
-        Route::get('/account/requests/orders', 'BookingController@visitorOrderList')->name('property.visitor.orders');
-        Route::get('/account/requests/events', 'BookingController@visitorEventList')->name('property.visitor.events');
 
         /*------------ Requests ------------- */
         Route::post('/properties/requests/rent', 'RentRequestController@store')->name('property.request.rent');

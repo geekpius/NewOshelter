@@ -370,37 +370,6 @@ class BookingController extends Controller
     }
 
 
-    public function visitorBookingList()
-    {
-        if(Auth::user()->account_type=='visitor'){
-            $data['page_title'] = 'My bookings';
-            return view('user.bookings.visitorbookings', $data);
-        }else{
-            return view('errors.404');
-        }
-    }
-
-//    public function visitorOrderList()
-//    {
-//        if(Auth::user()->account_type=='visitor'){
-//            $data['page_title'] = 'My orders';
-//            return view('user.orders.visitororders', $data);
-//        }else{
-//            return view('errors.404');
-//        }
-//    }
-
-
-//    public function visitorEventList()
-//    {
-//        if(Auth::user()->account_type=='visitor'){
-//            $data['page_title'] = 'My auction events';
-//            return view('user.auctions.visitor-auction', $data);
-//        }else{
-//            return view('errors.404');
-//        }
-//    }
-
 
 
 

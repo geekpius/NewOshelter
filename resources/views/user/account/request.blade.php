@@ -210,6 +210,19 @@
                                     </div>
                                 </div>
                                 <div class="col-6 col-sm-3 col-lg-2">
+                                    <a href="{{ route('saved') }}" class="text-decoration-none text-gray">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="text-center"><strong>{{ Auth::user()->userSavedProperties->count() }}</strong> <br><small>Wishlists</small></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-6 col-sm-3 col-lg-2">
                                     <div class="card card-bordered-pink">
                                         <div class="card-body">
                                             <div class="row">
