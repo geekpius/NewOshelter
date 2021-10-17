@@ -105,7 +105,7 @@ Route::group(['middleware' => ['verify-email']], function() {
 
         /*------- Payments ------- */
         Route::get('/subscription/packages', 'PaymentController@index')->name('payment.index');
-        Route::post('/check/{hostelBooking}/hostel/payment', 'PaymentController@isHostelBookingAlreadyPaid')->name('payment.check.hostel');
+        Route::get('/subscription/packages/{package}', 'PaymentController@show')->name('payment.show');
         Route::post('/verify', 'PaymentController@verifyPayment')->name('payments.verify');
         Route::get('/transaction/success', 'PaymentController@successTrasaction')->name('payment.success');
         Route::get('/account/requests/payments', 'PaymentController@payment')->name('payments');
@@ -142,7 +142,7 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::group(['middleware' => ['owner']], function() {
             Route::group(['prefix' => 'properties'], function () {
                 Route::get('/listings', 'PropertyController@index')->name('property');
-                
+
                 Route::group(['middleware' => ['subscribe']], function() {
                     Route::get('/new', 'PropertyController@addNewListing')->name('property.add');
                     Route::get('/start', 'PropertyController@startNew')->name('property.start');

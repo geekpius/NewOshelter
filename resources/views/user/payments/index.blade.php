@@ -31,7 +31,7 @@
                                 <ul class="list-unstyled mt-3 mb-4">
                                 <li>{{ $package->package_description }}</li>
                                 </ul>
-                                <button type="button" class="btn btn-lg btn-block {{ (strtolower($package->package_name) == 'default')? 'btn-outline-primary':'btn-primary' }}" {{ (strtolower($package->package_name) == 'default')? 'disabled':'' }}>Subscribe</button>
+                                <button type="button" data-href="{{ route('payment.show', $package->id) }}" class="btn btn-lg btn-block btnSubscribe {{ (strtolower($package->package_name) == 'default')? 'btn-outline-primary':'btn-primary' }}" {{ (strtolower($package->package_name) == 'default')? 'disabled':'' }}>Subscribe</button>
                             </div>
                         </div>
                         @endforeach
@@ -46,5 +46,10 @@
 @endsection
 
 @section('scripts')
-<script src="{{ asset('assets/pages/account/all-groups.js') }}"></script>
+<script>
+$(".btnSubscribe").on('click', function(){
+    window.location.href = $(this).data('href');
+});
+</script>
+
 @endsection

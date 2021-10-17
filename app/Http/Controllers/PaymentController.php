@@ -35,6 +35,15 @@ class PaymentController extends Controller
     }
 
 
+    public function show(Package $package)
+    {
+        $data['page_title'] = $package->package_name.' package selected';
+        $data['package'] = $package;
+        return view('user.payments.show', $data);
+    }
+
+
+
 
     private function setPaymentChannel($channel): void
     {
