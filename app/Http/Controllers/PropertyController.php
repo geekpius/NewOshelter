@@ -48,12 +48,18 @@ class PropertyController extends Controller
         $data['property_types'] = PropertyType::whereIs_public(true)->get();
         $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->paginate(15);
 
+        
         if($request->search) {
             $data['properties'] = Property::whereUser_id(Auth::user()->id)->where('title','LIKE','%'.$request->search.'%')->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
         }
+        if($request->status) {
+            $data['properties'] = Property::whereUser_id(Auth::user()->id)->where('status', $request->status)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
+        }
+
         if($request->filter) {
             $data['properties'] = Property::whereUser_id(Auth::user()->id)->where('type', $request->filter)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
         }
+
         return view('user.properties.index', $data);
     }
 
@@ -611,7 +617,7 @@ class PropertyController extends Controller
                         Session::forget("edit");
                     }
                     if($property->isPropertyPending()){
-                        session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure property is legit.');
+                        session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure your property is legit.');
                         return redirect()->route('property');
                     }
                     return redirect()->route('single.property', $property->id);
@@ -769,7 +775,7 @@ class PropertyController extends Controller
                     }
 
                     if($property->isPropertyPending()){
-                        session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure property is legit.');
+                        session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure your property is legit.');
                         return redirect()->route('property');
                     }
                     return redirect()->route('single.property', $property->id);
@@ -878,7 +884,7 @@ class PropertyController extends Controller
                 }
 
                 if($property->isPropertyPending()){
-                    session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure property is legit.');
+                    session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure your property is legit.');
                     return redirect()->route('property');
                 }
                 return redirect()->route('single.property', $property->id);

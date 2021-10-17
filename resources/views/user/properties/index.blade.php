@@ -14,7 +14,17 @@
                 <div class="col-sm-12">
                     @include('includes.alerts')
                 </div>
-                <div class="col-sm-3 offset-sm-4">
+                <div class="col-sm-3">
+                    <form method="GET" id="formStatus">
+                        <select name="status" id="status" class="form-control">
+                            <option value="">Filter property status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="col-sm-3">
                     <form method="GET" id="formFilter">
                         <select name="filter" id="filter" class="form-control">
                             <option value="">Filter property type</option>
@@ -77,11 +87,12 @@
                                                             </li>
                                                             <br>
                                                             <li class="list-inline-item">
-                                                                @if ($property->hostelRoomLeft() >0)
+                                                                    <span class="badge badge-secondary px-3">Available for {{ str_replace('_',' ',$property->type_status) }}</span>
+                                                                <!-- @if ($property->hostelRoomLeft() >0)
                                                                     <span class="badge badge-secondary px-3">Available for {{ str_replace('_',' ',$property->type_status) }}</span>
                                                                 @else
                                                                     <span class="badge badge-danger px-3">Hostel is full</span>
-                                                                @endif
+                                                                @endif -->
                                                             </li>
                                                         @else
                                                             @if ($property->isSaleProperty())
@@ -115,6 +126,13 @@
 
                                                         <li class="list-inline-item font-14"><i class="fa fa-clock"></i> {{  \Carbon\Carbon::parse($property->created_at)->format('d M, Y')  }}</li>
                                                         <li class="list-inline-item text-capitalize publishStatus font-14">{{  $property->publish? 'Published':"Hidden"  }}</li>
+                                                        @if($property->status == 'pending')
+                                                        <span class="badge badge-primary text-capitalize small">{{  $property->status }}</apan>
+                                                        @elseif($property->status == 'approved')
+                                                        <span class="badge badge-success text-capitalize small">{{  $property->status }}</apan>
+                                                        @else
+                                                        <span class="badge badge-danger text-capitalize small">{{  $property->status }}</apan>
+                                                        @endif
                                                     </ul>
                                                 </div><!--end meta-box-->
                                                 <h6 class="">
@@ -159,6 +177,10 @@
     <script>
         $('#filter').on('change', function (){
             $("#formFilter").submit();
+        });
+
+        $('#status').on('change', function (){
+            $("#formStatus").submit();
         });
 
         // toggle between listed property invisible and visible
