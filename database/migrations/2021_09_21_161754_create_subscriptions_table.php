@@ -18,7 +18,7 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('package_id')->unsigned()->index();
             $table->date('start_date')->nullable()->index();
             $table->date('end_date')->nullable()->index();
-            $table->string('status')->default(\App\Subscription::ONETIME)->index();
+            $table->string('status')->default(\App\Subscription::RECURRENT)->index();
             $table->timestamps();
             $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
         });

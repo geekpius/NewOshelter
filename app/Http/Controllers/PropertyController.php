@@ -58,13 +58,6 @@ class PropertyController extends Controller
     }
 
 
-    public function propertyBookings(Property $property)
-    {
-        $data['page_title'] = $property->title.' bookings';
-        $data['property'] = $property;
-        return view('user.properties.property_bookings', $data);
-    }
-
 
     ///check if uncompleted found
     public function addNewListing()

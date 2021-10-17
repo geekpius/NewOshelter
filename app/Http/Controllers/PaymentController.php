@@ -4,15 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\PaymentModel\Transaction;
-use App\PaymentModel\BookingTransaction;
-use App\PaymentModel\ExtensionTransaction;
-use App\BookModel\Booking;
-use App\BookModel\HostelBooking;
-use App\UserModel\UserExtensionRequest;
-use App\UserModel\UserVisit;
-use App\UserModel\UserWallet;
-use App\UserModel\UserHostelVisit;
-use App\PropertyModel\HostelBlockRoomNumber;
+use App\Package;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -33,6 +25,16 @@ class PaymentController extends Controller
         $this->middleware('verify-user');
         $this->middleware('auth');
     }
+
+
+    public function index()
+    {
+        $data['page_title'] = 'Subscription packages';
+        $data['packages'] = Package::where('package_name', '!=', 'default')->get();
+        return view('user.payments.index', $data);
+    }
+
+
 
     private function setPaymentChannel($channel): void
     {

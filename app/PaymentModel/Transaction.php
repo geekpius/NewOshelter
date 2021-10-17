@@ -36,5 +36,28 @@ class Transaction extends Model
     }
 
 
+    public function scopeSubscriptions()
+    {
+        return Transaction::where('transactable_type', 'App\Subscription');
+    }
+
+
+    public function scopePendingSubscriptions()
+    {
+        return Transaction::where('transactable_type', 'App\Subscription')->where('status', Transaction::PENDING);
+    }
+
+    public function pendingTransactions()
+    {
+        return Transaction::where('status', Transaction::PENDING);
+    }
+
+    public function isSubscription(): bool
+    {
+        return $this->transactable_type == 'App\Subscription';
+    }
+
+
+
 
 }

@@ -11,6 +11,7 @@ use App\PropertyModel\Property;
 use App\UserModel\UserNotification;
 use App\UserModel\UserSavedProperty;
 use App\PropertyModel\PropertyReview;
+use App\PaymentModel\Transaction;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -113,6 +114,11 @@ class User extends Authenticatable
 
 
     /************** RELATIONSHIPS **************/
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function rejectReasons()
     {
         return $this->hasMany(RejectReason::class);
