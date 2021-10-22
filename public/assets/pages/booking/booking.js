@@ -316,6 +316,13 @@ $("#formSale").on("submit", function(e){
         }
     });
 
+    if(parseFloat($('#formSale input[name="total_amount"]').val()) > parseFloat($('#formSale select[name="payment_method"]').data('price')))
+    {
+        valid = false;
+        swal("Warning", 'Amount entered is greater total property selling price', "warning");
+    }
+
+
     if(valid){
         let data = $this.serialize();
         $("#formSale .confirmBooking").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING...').attr('disabled', true);

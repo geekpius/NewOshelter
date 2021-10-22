@@ -54,6 +54,20 @@
                                         </div>
                                     </a>
                                 </div>
+
+                                <div class="col-6 col-sm-3 col-md-3 col-lg-3">
+                                    <a href="#" class="text-decoration-none text-gray">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="text-center"><strong>{{ Auth::user()->countAllRejectedRequests() }}</strong> <br><small>Rejected Requests</small></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
 {{--                                <div class="col-6 col-sm-3 col-md-3 col-lg-2">--}}
 {{--                                    <a href="{{ route('property.visitor.orders') }}" class="text-decoration-none text-gray">--}}
 {{--                                        <div class="card card-bordered-pink">--}}
@@ -185,13 +199,40 @@
                                         </div>
                                     </a>
                                 </div>
+
                                 <div class="col-6 col-sm-3 col-lg-3">
-                                    <a href="{{ route('property') }}" class="text-decoration-none text-gray">
+                                    <a href="/user/properties/listings?status=pending" class="text-decoration-none text-gray">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="text-center"><strong>{{ Auth::user()->countPendingProperties() }}</strong> <br><small>Pending Properties</small></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-6 col-sm-3 col-lg-3">
+                                    <a href="/user/properties/listings?status=approved" class="text-decoration-none text-gray">
                                         <div class="card card-bordered-pink">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="text-center"><strong>{{ Auth::user()->countApprovedProperties() }}</strong> <br><small>Approved Properties</small></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-6 col-sm-3 col-lg-3">
+                                    <a href="/user/properties/listings?status=rejected" class="text-decoration-none text-gray">
+                                        <div class="card card-bordered-pink">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="text-center"><strong>{{ Auth::user()->countRejectedProperties() }}</strong> <br><small>Rejected Properties</small></div>
                                                     </div>
                                                 </div>
                                             </div>

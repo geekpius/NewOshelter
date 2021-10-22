@@ -164,10 +164,24 @@ class User extends Authenticatable
         return $this->properties()->where('is_active', true)->where('publish', true)->where('done_step', true)->count();
     }
 
+
+    public function countPendingProperties(): int
+    {
+        return $this->properties()->where('is_active', true)->where('publish', true)
+            ->where('done_step', true)->where('status', Property::PENDING)->count();
+    }
+
+
     public function countApprovedProperties(): int
     {
         return $this->properties()->where('is_active', true)->where('publish', true)
             ->where('done_step', true)->where('status', Property::APPROVED)->count();
+    }
+
+    public function countRejectedProperties(): int
+    {
+        return $this->properties()->where('is_active', true)->where('publish', true)
+            ->where('done_step', true)->where('status', Property::REJECTED)->count();
     }
 
 
@@ -214,6 +228,12 @@ class User extends Authenticatable
     public function countAllPendingRequests(): int
     {
         return  $this->userRequests->where('status', UserRequest::PENDING)->count();
+    }
+
+
+    public function countAllRejectedRequests(): int
+    {
+        return  $this->userRequests->where('status', UserRequest::REJECTED)->count();
     }
 
 
