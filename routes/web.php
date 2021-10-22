@@ -105,7 +105,7 @@ Route::group(['middleware' => ['verify-email']], function() {
 
         /*------- Payments ------- */
         Route::get('/subscription/packages', 'PaymentController@index')->name('payment.index');
-        Route::get('/subscription/packages/{package}', 'PaymentController@show')->name('payment.show');
+        Route::get('/subscription/packages/{externalId}', 'PaymentController@show')->name('payment.show');
         Route::post('/verify', 'PaymentController@verifyPayment')->name('payments.verify');
         Route::get('/transaction/success', 'PaymentController@successTrasaction')->name('payment.success');
         Route::get('/account/requests/payments', 'PaymentController@payment')->name('payments');

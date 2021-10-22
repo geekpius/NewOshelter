@@ -14,7 +14,7 @@ use App\Http\Traits\SMSTrait;
 
 class PaymentController extends Controller
 {
-    use SMSTrait; 
+    use SMSTrait;
 
     private $channel;
     private $checkIn;
@@ -35,8 +35,11 @@ class PaymentController extends Controller
     }
 
 
-    public function show(Package $package)
+    public function show($externalId)
     {
+        $package = Package::where('external_id', $externalId)->first();
+        if(!$package) abort(404);
+
         $data['page_title'] = $package->package_name.' package selected';
         $data['package'] = $package;
         return view('user.payments.show', $data);
@@ -48,7 +51,7 @@ class PaymentController extends Controller
     private function setPaymentChannel($channel): void
     {
         $this->channel = $channel;
-    }   
+    }
 
     private function getPaymentChannel(): string
     {
@@ -58,7 +61,7 @@ class PaymentController extends Controller
     private function setCheckIn($checkIn): void
     {
         $this->checkIn = $checkIn;
-    }   
+    }
 
     private function getCheckIn(): string
     {
@@ -68,14 +71,14 @@ class PaymentController extends Controller
     private function setCheckOut($checkOut): void
     {
         $this->checkOut = $checkOut;
-    }   
+    }
 
     private function getCheckOut(): string
     {
         return $this->checkOut;
     }
 
-    public function isBookingAlreadyPaid(Request $request, Booking $booking): string 
+    public function isBookingAlreadyPaid(Request $request, Booking $booking): string
     {
         if($booking->status == Booking::DONE){
             return 'paid';
@@ -83,7 +86,7 @@ class PaymentController extends Controller
         return 'not paid';
     }
 
-    public function isHostelBookingAlreadyPaid(Request $request, HostelBooking $hostelBooking): string 
+    public function isHostelBookingAlreadyPaid(Request $request, HostelBooking $hostelBooking): string
     {
         if($hostelBooking->status == HostelBooking::DONE){
             return 'paid';
@@ -107,11 +110,11 @@ class PaymentController extends Controller
             "Cache-Control: no-cache",
             ),
         ));
-        
+
         $response = curl_exec($curl);
         $err = curl_error($curl);
         curl_close($curl);
-        
+
         if ($err) {
             return false;
         } else {
@@ -121,7 +124,7 @@ class PaymentController extends Controller
         }
     }
 
-    private function saveUserVisit(int $id): void 
+    private function saveUserVisit(int $id): void
     {
         $book = Booking::findOrFail($id);
         $book->status = 3;
@@ -140,7 +143,7 @@ class PaymentController extends Controller
         $this->setCheckIn(Carbon::createFromFormat('Y-m-d', $stay->check_in)->format('d-M-Y'));
     }
 
-    private function saveUserHostelVisit(int $id): void 
+    private function saveUserHostelVisit(int $id): void
     {
         $book = HostelBooking::findOrFail($id);
         $book->status = 3;
@@ -165,7 +168,7 @@ class PaymentController extends Controller
         $book->update();
     }
 
-    private function transaction(int $transId, int $bookingID, string $propertyType): void 
+    private function transaction(int $transId, int $bookingID, string $propertyType): void
     {
         $bookTrans = new BookingTransaction;
         $bookTrans->transaction_id = $transId;
@@ -231,7 +234,7 @@ class PaymentController extends Controller
             $trans->property_type = $propertyType;
             $trans->channel = $this->getPaymentChannel();
             $trans->save();
-            
+
             $extensionTrans = new ExtensionTransaction;
             $extensionTrans->transaction_id = $trans->id;
             $extensionTrans->extension_id = $bookingID;
@@ -270,7 +273,7 @@ class PaymentController extends Controller
         $validator = \Validator::make($request->all(), [
             'reference_id' => 'required|string',
         ]);
-            
+
         (string) $message = "";
         if ($validator->fails()){
             $message = 'fail';
