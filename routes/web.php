@@ -67,6 +67,7 @@ Route::group(['middleware' => ['verify-email']], function() {
         /*------- Notifications ------- */
         Route::get('/notification-count', 'UserController@notificationCount')->name('notification.count');
         Route::get('/notifications', 'UserController@notification')->name('notifications');
+        Route::get('/notifications/{externalId}/show', 'UserController@show')->name('notifications.show');
 
         /*------- WishList ------- */
         Route::group(['prefix' => 'wishlist'], function () {
@@ -75,31 +76,6 @@ Route::group(['middleware' => ['verify-email']], function() {
             Route::get('/{userSavedProperty}/remove', 'UserSavedPropertyController@removeWishList')->name('saved.remove');
         });
 
-        /*------- Requests ------- */
-        Route::group(['prefix' => 'requests'], function () {
-            // Route::get('/requests', 'UserController@requests')->name('requests');
-            Route::get('/{booking}/detail', 'UserController@requestDetail')->name('requests.detail');
-            Route::get('/{booking}/confirm', 'UserController@requestConfirm')->name('requests.comfirm');
-            Route::get('/{booking}/cancel', 'UserController@requestCancel')->name('requests.cancel');
-            Route::get('/{booking}/payment', 'UserController@requestPayment')->name('requests.payment');
-            // Route::get('/{booking}/invoice', 'UserController@requestInvoice')->name('requests.invoice');
-
-             /*------- Hostel Requests ------- */
-            // Route::get('/requests/hostel', 'UserController@hostelRequests')->name('requests.hostel');
-            Route::get('/{hostelBooking}/hostel/detail', 'UserController@hostelRequestDetail')->name('requests.detail.hostel');
-            Route::get('/{hostelBooking}/hostel/confirm', 'UserController@hostelRequestConfirm')->name('requests.comfirm.hostel');
-            Route::get('/{hostelBooking}/hostel/cancel', 'UserController@hostelRequestCancel')->name('requests.cancel.hostel');
-            Route::get('/{hostelBooking}/hostel/payment', 'UserController@hostelRequestPayment')->name('requests.payment.hostel');
-            // Route::get('/{booking}/invoice', 'UserController@hostelRequestInvoice')->name('requests.invoice.hostel');
-
-            /*------- Extensions ------- */
-            // Route::get('/extensions', 'VisitorController@extensionRequests')->name('requests.extension');
-            Route::get('/extensions/{userExtensionRequest}/detail', 'VisitorController@extensionDetail')->name('requests.extension.detail');
-            Route::get('/extensions/{userExtensionRequest}/confirm', 'VisitorController@confirmExtendStay')->name('requests.extension.confirm');
-            Route::get('/extensions/{userExtensionRequest}/cancel', 'VisitorController@cancelExtendStay')->name('requests.extension.cancel');
-            Route::get('/extensions/{userExtensionRequest}/payment', 'VisitorController@extensionPayment')->name('requests.extension.payment');
-
-        });
 
         /*------- Payments ------- */
         Route::get('/subscription/packages', 'PaymentController@index')->name('payment.index');
