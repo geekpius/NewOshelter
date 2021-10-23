@@ -35,5 +35,20 @@ class RejectReason extends Model
     }
 
 
+    public function rejectedReasonTypeDetail(): string
+    {
+        if($this->rejectable_type === 'App\PropertyModel\Property') return $this->rejectable->title.'('.str_replace('_', ' ', $this->rejectable->type).')'. ' for '.str_replace('_', ' ', $this->rejectable->type_status);
+
+        if($this->rejectable_type === 'App\Models\UserRequest') return $this->rejectable->reason. ' for '.$this->rejectable->requestable->property->title;
+
+        return 'General rejection';
+    }
+
+    public function isPropertyRejection(): bool
+    {
+        return $this->rejectable_type === 'App\PropertyModel\Property';
+    }
+
+
 
 }
