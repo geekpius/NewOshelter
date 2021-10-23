@@ -236,6 +236,11 @@ class User extends Authenticatable
         return  $this->userRequests->where('status', UserRequest::REJECTED)->count();
     }
 
+    public function countRejectedReasons(): int
+    {
+        return  $this->rejectReasons->where('status', RejectReason::NOT_READ)->count();
+    }
+
 
 
 }

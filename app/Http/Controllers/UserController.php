@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\RejectReason;
 use Illuminate\Http\Request;
 use App\MessageModel\Message;
 use Illuminate\Support\Facades\Auth;
@@ -41,50 +42,23 @@ class UserController extends Controller
         return view('admin.dashboard.index', $data);
     }
 
-     
-    //notification message count
-    public function messageCount()
-    {
-        $countMessage = Message::whereDestination(Auth::user()->id)->whereStatus(0)->count();
-        return $countMessage;
-    }
+
 
     //notification count
     public function notificationCount()
     {
-        // room, apartment, house
-        $countBooking = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->count();
-        $countConfirm = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->count();
-        $normal = $countBooking+$countConfirm;
-        //extensions
-        $countExtension = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(1)->count();
-        $countExtensionConfirm = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIs_confirm(2)->count();
-        $extension = $countExtension+$countExtensionConfirm;
-
-        // hostel
-        $countHostelBooking = HostelBooking::whereOwner_id(Auth::user()->id)->whereStatus(1)->count();
-        $countHostelConfirm = HostelBooking::whereUser_id(Auth::user()->id)->whereStatus(2)->count();
-        $hostel = $countHostelBooking+$countHostelConfirm;
-        return $normal+$extension+$hostel;
+        return Auth::user()->countRejectedReasons();
     }
 
     //notification content
     public function notification()
     {
-        // room, apartment, house
-        $data['bookings'] = Booking::whereOwner_id(Auth::user()->id)->whereStatus(1)->orderBy('id','DESC')->get();
-        $data['confirms'] = Booking::whereUser_id(Auth::user()->id)->whereStatus(2)->orderBy('id','DESC')->get();
-        // extension request
-        $data['notifications'] = UserExtensionRequest::whereOwner_id(Auth::user()->id)->whereIs_confirm(1)->orderBy('id','DESC')->get();
-        $data['noti_confirms'] = UserExtensionRequest::whereUser_id(Auth::user()->id)->whereIs_confirm(2)->orderBy('id','DESC')->get();
-        // hostel
-        $data['hostels'] = HostelBooking::whereOwner_id(Auth::user()->id)->whereStatus(1)->orderBy('id','DESC')->get();
-        $data['hostels_confirms'] = HostelBooking::whereUser_id(Auth::user()->id)->whereStatus(2)->orderBy('id','DESC')->get();
+        $data['rejectReasons'] = RejectReason::where('user_id', Auth::user()->id)->where('status', RejectReason::NOT_READ)->get();
         return view('user.notifications.notification', $data)->render();
     }
 
-    // booking requests
 
+    // booking requests
     public function requestDetail(Booking $booking)
     {
        if(Auth::user()->id == $booking->owner_id){
@@ -164,7 +138,7 @@ class UserController extends Controller
             return view('errors.404');
         }
     }
-    
+
 
     // hostel booking requests
 

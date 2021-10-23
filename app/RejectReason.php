@@ -25,10 +25,15 @@ class RejectReason extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-//    public function isStream(): bool
-//    {
-//        return $this->transactable_type === 'App\Models\Stream';
-//    }
+    public function rejectedReasonType(): string
+    {
+        if($this->rejectable_type === 'App\PropertyModel\Property') return 'Property rejection';
+
+        if($this->rejectable_type === 'App\Models\UserRequest') return $this->rejectable->userRequestType();
+
+        return 'General rejection';
+    }
+
 
 
 }

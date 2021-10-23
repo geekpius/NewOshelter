@@ -1,23 +1,4 @@
 
-// messages
-function getMessageCount(){
-    $.ajax({
-        url: $(".myMessageCount").data('url'),
-        type: "GET",
-        success: function(resp){
-            $(".myMessageCount").text(resp);
-        },
-        error: function(resp){
-            console.log("Something went wrong with request");
-        }
-    });
-
-    setTimeout(getMessageCount, 10000);
-}
-
-getMessageCount();
-
-
 // notifications
 function getNotificationCount(){
     $.ajax({
@@ -50,8 +31,8 @@ function getNotification(){
     setTimeout(getNotification, 10000);
 }
 
-// getNotificationCount();
-// getNotification();
+getNotificationCount();
+getNotification();
 
 $(".btnHeart").on("click", function(e){
     e.preventDefault();

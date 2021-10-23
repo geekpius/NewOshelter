@@ -65,8 +65,6 @@ Route::group(['middleware' => ['verify-email']], function() {
     Route::group(['prefix' => 'user'], function () {
 
         /*------- Notifications ------- */
-        Route::get('/message-count', 'UserController@messageCount')->name('message.count');
-        // Route::get('/message-notification', 'UserController@messageNotification')->name('message.notification');
         Route::get('/notification-count', 'UserController@notificationCount')->name('notification.count');
         Route::get('/notifications', 'UserController@notification')->name('notifications');
 

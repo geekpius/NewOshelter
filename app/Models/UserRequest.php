@@ -62,5 +62,21 @@ class UserRequest extends Model
         return UserRequest::where('status', UserRequest::PENDING);
     }
 
+    public function userRequestType(): string
+    {
+        if($this->requestable_type === 'App\Models\RentRequest') return 'Rent booking rejection';
+
+        if($this->requestable_type === 'App\Models\ShortStayRequest') return 'Short stay booking rejection';
+
+        if($this->requestable_type === 'App\Models\SaleRequest') return 'Sale booking rejection';
+
+        if($this->requestable_type === 'App\Models\AuctionRequest') return 'Auction booking rejection';
+
+        if($this->requestable_type === 'App\Models\HostelRequest') return 'Hostel booking rejection';
+
+        return 'General rejection';
+    }
+
+
 
 }
