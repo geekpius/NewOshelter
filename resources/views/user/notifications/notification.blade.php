@@ -6,8 +6,7 @@
     @if (count($rejectReasons))
         @foreach ($rejectReasons as $item)
             <!-- item-->
-{{--            <a href="{{ route('requests.extension.detail', $item->id) }}" class="dropdown-item notify-item">--}}
-            <a href="#" class="dropdown-item notify-item">
+            <a href="{{ route('notifications.show', $item->external_id) }}" class="dropdown-item notify-item">
                 <div class="notify-icon bg-success"><i class="fa fa-bell"></i></div>
                 <p class="notify-details">
                     Rejected Reason
