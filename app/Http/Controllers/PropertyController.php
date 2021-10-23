@@ -118,6 +118,16 @@ class PropertyController extends Controller
         );
     }
 
+
+    public function getCountHostelRoom(Property $property)
+    {
+        return response()->json(
+            [
+                'countRoom' => $property->propertyHostelBlockRooms->count(),
+            ]
+        );
+    }
+
     ///preview after listing
     public function previewCreatedListing(Property $property)
     {

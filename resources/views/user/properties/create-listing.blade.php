@@ -394,6 +394,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6">
+                                                    <span id="checkBlockRooms" style="display: none !important"></span>
                                                     <div id="getMyCreatedRooms"></div>
                                                 </div>
                                             </div><!-- end row -->
@@ -1453,7 +1454,15 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
             }
             else if(info.step==2){
                 $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formBlockRooms").submit();
+                let blockName = document.getElementById('checkBlockRooms').innerText;
+                if(parseInt(blockName) === 0) {
+                    swal('Block Rooms', 'Create rooms to your blocks.', 'warning');
+                    $(".btn-next").html('Next Step <i class="ace-icon fa fa-arrow-right icon-on-right"></i>').attr('disabled', false);
+                    return false;
+                }else{
+
+                    document.getElementById("formBlockRooms").submit();
+                }
             }
             else if(info.step==3){
                 $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
@@ -1655,9 +1664,23 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                 console.log("Something went wrong with request");
             }
         });
+
+        $.ajax({
+            url: "{{ url('/user/properties/start') }}/"+id+"/check-rooms",
+            type: "GET",
+            dataType: 'json',
+            success: function(resp){
+                $("#checkBlockRooms").text(resp.countRoom);
+            },
+            error: function(resp){
+                console.log("Something went wrong with request");
+            }
+        });
+
     }
 
     getChecks({{ $property->id }});
+
 
     ////add host blocks
     $("#formBlocks").on("submit", function(e){
@@ -1766,6 +1789,7 @@ text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very 
                         alert(resp);
                     }
                     $(".btnCreateRoom").html('<i class="fa fa-plus-circle"></i> Create Room').attr('disabled', false);
+                    getChecks({{ $property->id }});
                 },
                 error: function(resp){
                     console.log("Something went wrong with request");
