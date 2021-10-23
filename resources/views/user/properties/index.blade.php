@@ -52,8 +52,11 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel1">
                                                     <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='#';"><i class="mdi mdi-briefcase"></i> Bookings</a>
-                                                    <a class="dropdown-item {{$property->publish? 'text-pink':'text-success'}} btnVisibility" href="javascript:void(0);" data-href="{{ route('property.visibility', $property->id) }}" data-title="{{ $property->title }}"><i class="{{$property->publish? 'fa fa-eye-slash':'fa fa-check'}}"></i> {{$property->publish? 'Hide':'Publish'}}</a>
                                                     <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.edit', $property->id) }}';"><i class="fa fa-edit"></i> Edit</a>
+                                                    @if($property->status == 'rejected')
+                                                        <a class="dropdown-item text-primary" href="javascript:void(0);" onclick="window.location='{{ route('property.send.approval', $property->id) }}';"><i class="fa fa-check-circle"></i> Send Approval</a>
+                                                    @endif
+                                                    <a class="dropdown-item {{$property->publish? 'text-pink':'text-success'}} btnVisibility" href="javascript:void(0);" data-href="{{ route('property.visibility', $property->id) }}" data-title="{{ $property->title }}"><i class="{{$property->publish? 'fa fa-eye-slash':'fa fa-check'}}"></i> {{$property->publish? 'Hide':'Publish'}}</a>
                                                     <a class="dropdown-item text-danger" href="javascript:void(0);" onclick="window.location='{{ route('property.confirmdelete', $property->id) }}';"><i class="fa fa-trash"></i> Delete</a>
                                                 </div>
                                             </div>

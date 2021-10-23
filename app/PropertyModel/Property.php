@@ -29,7 +29,7 @@ class Property extends Model
     protected $fillable = [
         'user_id', 'base', 'type', 'type_status', 'title', 'step',
         'adult', 'children', 'publish', 'done_step', 'step',
-        'section', 'is_active', 'sector',
+        'section', 'is_active', 'sector', 'status'
     ];
 
     public function isPublish() : bool

@@ -156,6 +156,8 @@ Route::group(['middleware' => ['verify-email']], function() {
                     Route::get('/{property}/edit', 'PropertyController@editListing')->name('property.edit');
                     Route::post('/{property}/edit', 'PropertyController@updateListing')->name('property.update');
 
+                    Route::get('/{property}/send-approval', 'PropertyController@sendApproval')->name('property.send.approval');
+
                     Route::post('/{property}/visibility', 'PropertyController@togglePublishVisibility')->name('property.visibility');
 
                     Route::get('/{property}/remove', 'PropertyController@confirmDelete')->name('property.confirmdelete');

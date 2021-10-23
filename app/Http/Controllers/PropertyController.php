@@ -48,7 +48,7 @@ class PropertyController extends Controller
         $data['property_types'] = PropertyType::whereIs_public(true)->get();
         $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->orderBy('id', 'DESC')->paginate(15);
 
-        
+
         if($request->search) {
             $data['properties'] = Property::whereUser_id(Auth::user()->id)->where('title','LIKE','%'.$request->search.'%')->wherePublish(true)->whereIs_active(true)->whereDone_step(true)->orderBy('id','DESC')->paginate(15);
         }
@@ -615,12 +615,16 @@ class PropertyController extends Controller
 
                     if(Session::get("edit")){
                         Session::forget("edit");
+                        if($property->status == Property::REJECTED){
+                            session()->flash('success',"Property details are update. This is property was rejected earlier. Select 'Send Approval' on property menu.");
+                        }else{
+                            session()->flash('success','Property details are updated.');
+                        }
                     }
                     if($property->isPropertyPending()){
                         session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure your property is legit.');
-                        return redirect()->route('property');
                     }
-                    return redirect()->route('single.property', $property->id);
+                    return redirect()->route('property');
                 }
             }
             else{
@@ -772,13 +776,18 @@ class PropertyController extends Controller
 
                     if(Session::get("edit")){
                         Session::forget("edit");
+                        if($property->status == Property::REJECTED){
+                            session()->flash('success',"Property details are update. This is property was rejected earlier. Select 'Send Approval' on property menu.");
+                        }else{
+                            session()->flash('success','Property details are updated.');
+                        }
                     }
 
                     if($property->isPropertyPending()){
                         session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure your property is legit.');
-                        return redirect()->route('property');
                     }
-                    return redirect()->route('single.property', $property->id);
+
+                    return redirect()->route('property');
                 }
             }
         }
@@ -881,13 +890,17 @@ class PropertyController extends Controller
 
                 if(Session::get("edit")){
                     Session::forget("edit");
+                    if($property->status == Property::REJECTED){
+                        session()->flash('success',"Property details are update. This is property was rejected earlier. Select 'Send Approval' on property menu.");
+                    }else{
+                        session()->flash('success','Property details are updated.');
+                    }
                 }
 
                 if($property->isPropertyPending()){
                     session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure your property is legit.');
-                    return redirect()->route('property');
                 }
-                return redirect()->route('single.property', $property->id);
+                return redirect()->route('property');
             }
         }
 
@@ -1020,24 +1033,19 @@ class PropertyController extends Controller
     }
 
 
-    // //manage property
-    // public function manageProperty()
-    // {
-    //     $data['page_title'] = 'My properties';
-    //     $data['properties'] = Property::whereUser_id(Auth::user()->id)->whereIs_active(true)->whereDone_step(true)->get();
-    //     return view('admin.properties.manage-property', $data);
-    // }
+    public function sendApproval(Property $property)
+    {
+        if($property->status == Property::REJECTED){
+            $property->update([
+                'status' => Property::PENDING,
+            ]);
 
-    // //manage property
-    // public function managePropertyDetail(Property $property)
-    // {
-    //     $data['page_title'] = $property->title.' details';
-    //     $data['property'] = $property;
-    //     $countImages = PropertyImage::whereProperty_id($property->id)->count();
-    //     $countImages = $property->propertyImages->count();
-    //     $data['images'] = $property->propertyImages->slice(1)->take(($countImages==0)? 0:$countImages-1);
-    //     return view('admin.properties.show-detail-property', $data);
-    // }
+            session()->flash('success', "Property - '".$property->title."' is sent for approval.");
+        }
+        return redirect()->back();
+    }
+
+
 
 
 
