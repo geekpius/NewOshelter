@@ -1,5 +1,3 @@
-
-text/x-generic create-listing.blade.php ( UTF-8 Unicode English text, with very long lines )
 @extends('layouts.site')
 
 @section('style')
