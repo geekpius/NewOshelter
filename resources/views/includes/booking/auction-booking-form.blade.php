@@ -5,12 +5,6 @@
     <input type="hidden" name="type_status" value="auction" readonly>
 
     <div class="form-group mt-4 validate">
-        <label for="">Auction Venue</label>
-        <input type="text" readonly name="auction_venue" class="form-control" value="{{ $property->propertyAuctionSchedule->auction_venue }}"  />
-        <span class="text-danger small mySpan" role="alert"></span>
-    </div>
-
-    <div class="form-group mt-4 validate">
         <label for="">Auction Date</label>
         <input type="text" readonly name="auction_date" class="form-control" value="{{ $property->propertyAuctionSchedule->auction_date }}"  />
         <span class="text-danger small mySpan" role="alert"></span>
