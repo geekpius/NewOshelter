@@ -22,7 +22,7 @@
         <span class="text-danger small mySpan" role="alert"></span>
     </div>
     <div class="form-group mt-4 validate">
-        <label for="">How many adult are coming?</label>
+        <label for="">How many adults?</label>
         <select name="adult" class="form-control">
             <option value="">--Select--</option>
             <option value="1">1</option>
@@ -34,7 +34,7 @@
     </div>
 
     <div class="form-group mt-4 validate">
-        <label for="">How many children are coming?</label>
+        <label for="">How many children?</label>
         <select name="children" class="form-control">
             <option value="">--Select--</option>
             @for($i = 1; $i <= 10; $i++)
