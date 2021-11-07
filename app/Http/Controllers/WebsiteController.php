@@ -470,7 +470,6 @@ class WebsiteController extends Controller
 
 
 
-
     public function about()
     {
         $data['page_title'] = 'About us';

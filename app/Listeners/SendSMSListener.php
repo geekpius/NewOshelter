@@ -18,6 +18,6 @@ class SendSMSListener
      */
     public function handle(SendSMSEvent $event)
     {
-        SendSMSJob::dispatch($event->phoneNumber, $event->message)->delay(2);
+        SendSMSJob::dispatch($event->phoneNumber, $event->message)->delay(now()->addSecond());
     }
 }

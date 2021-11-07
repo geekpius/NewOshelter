@@ -26,7 +26,7 @@ class RegisteredUserEmailListener
             "link" => route('verify.email.activate', ['token'=>$event->token]),
         );
 
-        SendEmailJob::dispatch($event->user, $data)->delay(5);
+        SendEmailJob::dispatch($event->user, $data)->delay(now()->addSecond(5));
     }
 
     private function generateToken()

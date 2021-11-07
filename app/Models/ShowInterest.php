@@ -27,6 +27,11 @@ class ShowInterest extends Model
         $this->attributes['name'] = strtolower($value);
     }
 
+    public function getNameAttribute(string $value): string
+    {
+        return ucwords($value);
+    }
+
 
     public function property(){
         return $this->belongsTo(Property::class, 'property_id');
