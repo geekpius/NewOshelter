@@ -26,6 +26,11 @@ class Property extends Model
     CONST REJECTED = 'rejected';
     CONST TAKEN = 'taken';
 
+    const STANDARD = 'standard';
+    const PREMIUM = 'premium';
+    const DELUXE = 'deluxe';
+
+
     protected $fillable = [
         'user_id', 'base', 'type', 'type_status', 'title', 'step',
         'adult', 'children', 'publish', 'done_step', 'step',

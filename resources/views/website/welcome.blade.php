@@ -108,6 +108,43 @@
     </div> --}}
 
     <div class="container-fluid pxp-props-carousel-right mt-5">
+        <h2 class="pxp-section-h2">Browse Categorized Properties</h2>
+        <p class="pxp-text-light">Browse our listing categories</p>
+        <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
+            <div class="owl-carousel pxp-props-carousel-right-stage">
+                <div>
+                    <a href="{{ route('section.property', 'standard') }}" class="pxp-prop-card-1-sm rounded-lg">
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/standard.svg') }});"></div>
+                        <span class="text-white on-top-tag on-top font-12">{{ $count_standard }} <small>{{ str_plural('property', $count_standard) }}</small></span>
+                    </a>
+                    <div class="mt-2">
+                        <div><p class="font-weight-bold">Standard</p></div>
+                    </div>
+                </div>
+                <div>
+                    <a href="{{ route('section.property', 'deluxe') }}" class="pxp-prop-card-1-sm rounded-lg">
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/deluxe.svg') }});"></div>
+                        <span class="text-white on-top-tag on-top font-12">{{ $count_deluxe }} <small>{{ str_plural('property', $count_deluxe) }}</small></span>
+                    </a>
+                    <div class="mt-2">
+                        <div><p class="font-weight-bold">Deluxe</p></div>
+                    </div>
+                </div>
+                <div>
+                    <a href="{{ route('section.property', 'premium') }}" class="pxp-prop-card-1-sm rounded-lg">
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/premium.svg') }});"></div>
+                        <span class="text-white on-top-tag on-top font-12">{{ $count_premium }} <small>{{ str_plural('property', $count_premium) }}</small></span>
+                    </a>
+                    <div class="mt-2">
+                        <div><p class="font-weight-bold">Premium</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid pxp-props-carousel-right mt-5">
         <h2 class="pxp-section-h2">Browse Properties Faster</h2>
         <p class="pxp-text-light">Browse our listing categories</p>
         <div class="pxp-props-carousel-right-container mt-4 mt-md-5">

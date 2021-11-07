@@ -43,6 +43,15 @@ class WebsiteController extends Controller
 
         $data['count_auction'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status', 'auction')->count();
 
+        $data['count_standard'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status', '!=', 'auction')
+            ->where('section', Property::STANDARD)->count();
+
+        $data['count_deluxe'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status', '!=', 'auction')
+            ->where('section', Property::DELUXE)->count();
+
+        $data['count_premium'] = Property::wherePublish(true)->whereIs_active(true)->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status', '!=', 'auction')
+            ->where('section', Property::PREMIUM)->count();
+
         return view('website.welcome', $data);
     }
 
@@ -50,6 +59,23 @@ class WebsiteController extends Controller
     public function callback()
     {
 
+    }
+
+    public function propertySection($section)
+    {
+        $data['page_title'] = 'Narrow down '.strtolower($section).' filter complexity';
+        $data['property_types'] = PropertyType::whereIs_public(true)->get(['name']);
+        $props = Property::where('section', strtolower($section))->wherePublish(true)->whereIs_active(true)
+            ->whereDone_step(true)->where('status', Property::APPROVED)->where('type_status', '!=', 'auction')
+            ->orderBy('id', 'DESC');
+        $data['properties'] = $props->paginate(15);
+        if(session()->has('properties'))
+        {
+            session()->forget('properties');
+        }
+        session(['properties' => $props->get()]);
+
+        return view('website.properties.property-section', $data);
     }
 
     //property listing status

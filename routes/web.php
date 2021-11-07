@@ -26,6 +26,8 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::get('/status/{status}/search', 'WebsiteController@propertyStatus')->name('status.property.search');
         Route::get('/types/{type}', 'WebsiteController@propertyType')->name('type.property');
         Route::get('/types/{type}/search', 'WebsiteController@propertyType')->name('type.property.search');
+        Route::get('/section/{section}', 'WebsiteController@propertySection')->name('section.property');
+        Route::get('/types/{section}/search', 'WebsiteController@propertySection')->name('section.property.search');
         Route::get('/{property}/details', 'WebsiteController@singleProperty')->name('single.property');
         Route::get('/map-properties', 'WebsiteController@mapProperty')->name('browse.property_map');
         Route::get('/map-properties/search', 'WebsiteController@mapSearchProperty')->name('browse.search_property_map');
