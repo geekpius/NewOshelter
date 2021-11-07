@@ -10,7 +10,9 @@
         "intervention/image": "^2.5",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
-        "nicolaslopezj/searchable": "1.*"
+        "nicolaslopezj/searchable": "1.*",
+      "ext-curl": "*",
+        "ext-json": "*"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
