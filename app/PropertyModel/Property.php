@@ -231,6 +231,10 @@ class Property extends Model
         return $this->hasOne(PropertyAuctionSchedule::class);
     }
 
+    public function propertyLandDetail(){
+        return $this->hasOne(LandDetail::class);
+    }
+
 
     public function getAvailableRooms(): int
     {
@@ -297,6 +301,12 @@ class Property extends Model
     public function isHostelPropertyType(): bool
     {
         return $this->type == 'hostel';
+    }
+
+
+    public function isLandPropertyType(): bool
+    {
+        return $this->type == 'land';
     }
 
 
