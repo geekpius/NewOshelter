@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePropertyDescriptionsTable extends Migration
+class CreateLandDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreatePropertyDescriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('property_descriptions', function (Blueprint $table) {
+        Schema::create('land_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('property_id')->unsigned()->index();
-            $table->boolean('gate')->default(false)->index();
-            $table->longText('description');
-            $table->string('neighbourhood')->nullable();
-            $table->string('direction')->nullable();
+            $table->string('area_size')->nullable();
+            $table->string('plot_size')->nullable();
+            $table->double('price')->nullable();
+            $table->boolean('have_indenture')->default(false);
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
         });
@@ -32,6 +32,6 @@ class CreatePropertyDescriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('property_descriptions');
+        Schema::dropIfExists('land_details');
     }
 }

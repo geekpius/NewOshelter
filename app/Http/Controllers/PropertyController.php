@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PropertyModel\LandDetail;
 use DB;
 use Image;
 use App\UserModel\Amenity;
@@ -97,6 +98,11 @@ class PropertyController extends Controller
                 if(!Auth::user()->userCurrency){
                     $data['currencies'] = Currency::all();
                 }
+
+                if($property->isLandPropertyType() && $property->isSaleProperty()){
+                    return view('user.properties.lands.create-land-listing', $data);
+                }
+
                 if($property->isAuctionProperty()){
                     return view('user.properties.create-auction-listing', $data);
                 }
@@ -508,9 +514,9 @@ class PropertyController extends Controller
             $property = new Property;
             $property->user_id = Auth::user()->id;
             $property->base = $request->base_property;
-            $property->type = $request->property_type;
+            $property->type = ($request->base_property == 'land') ? 'land' :  $request->property_type;
             $property->title = $request->property_title;
-            $property->type_status = $request->property_type_status;
+            $property->type_status = ($request->base_property == 'land') ? 'sale' : $request->property_type_status;
             if($request->property_type!='hostel'){
                 $property->adult = $request->adult;
                 $property->children = $request->children;
@@ -964,22 +970,43 @@ class PropertyController extends Controller
     public function updateListing(Request $request, Property $property)
     {
         if(Auth::user()->id == $property->user_id){
-            if(empty($request->base_property) || empty($request->property_type) || empty($request->property_title) || empty($request->property_type_status)){
-                return redirect()->back();
-            }else{
-                $property->base = $request->base_property;
-                $property->type = $request->property_type;
-                $property->title = $request->property_title;
-                $property->type_status = $request->property_type_status;
-                $property->adult = $request->adult;
-                $property->children = $request->children;
-                $property->done_step = false;
-                $property->update();
+            if($property->isLandPropertyType()){
+                if(empty($request->base_property) || empty($request->property_title)){
+                    return redirect()->back();
+                }else{
+                    $property->base = $request->base_property;
+                    $property->type = 'land';
+                    $property->title = $request->property_title;
+                    $property->type_status = 'sale';
+                    $property->adult = $request->adult;
+                    $property->children = $request->children;
+                    $property->done_step = false;
+                    $property->update();
 
-                if($property->publish){
-                    Session::put("edit", true);
+                    if($property->publish){
+                        Session::put("edit", true);
+                    }
+                    return redirect()->route('property.create', $property->id);
                 }
-                return redirect()->route('property.create', $property->id);
+            }
+            else{
+                if(empty($request->base_property) || empty($request->property_type) || empty($request->property_title) || empty($request->property_type_status)){
+                    return redirect()->back();
+                }else{
+                    $property->base = $request->base_property;
+                    $property->type = ($request->base_property == 'land') ? 'land' : $request->property_type;
+                    $property->title = $request->property_title;
+                    $property->type_status = ($request->base_property == 'land') ? 'sale' : $request->property_type_status;
+                    $property->adult = $request->adult;
+                    $property->children = $request->children;
+                    $property->done_step = false;
+                    $property->update();
+
+                    if($property->publish){
+                        Session::put("edit", true);
+                    }
+                    return redirect()->route('property.create', $property->id);
+                }
             }
         }else{
             return redirect()->back();
@@ -1054,6 +1081,92 @@ class PropertyController extends Controller
         }
         return redirect()->back();
     }
+
+
+    public function storeLand(Request $request)
+    {
+        $property = Property::findOrFail($request->property_id);
+        if($property->done_step){
+            return redirect()->back();
+        }
+        else{
+            if($request->step==1){
+                LandDetail::updateOrCreate(
+                    ['property_id'=>$request->property_id], ['area_size'=>$request->area_size, 'plot_size'=>$request->plot_size,]
+                );
+
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            }
+            elseif($request->step==2) {
+                PropertyLocation::updateOrCreate(
+                    ['property_id' => $request->property_id], ['location' => $request->location, 'location_slug' => Str::slug($request->location, '-'), 'latitude' => $request->latitude, 'longitude' => $request->longitude]
+                );
+                $property->step = ($request->step + 1);
+                $property->update();
+                return redirect()->back();
+
+            }
+            elseif($request->step==3){
+                if(!empty($request->video_url)){
+                    PropertyVideo::updateOrCreate(
+                        ['property_id'=>$request->property_id], ['video_url'=>$request->video_url]
+                    );
+                }else{
+                    if(!empty($property->propertyVideo)){
+                        $property->propertyVideo->delete();
+                    }
+
+                }
+
+                // update step to move forward
+                $property->step = ($request->step+1);
+                $property->update();
+
+                return redirect()->back();
+            }
+            elseif($request->step==5){
+                PropertyDescription::updateOrCreate(
+                    ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood,
+                        'direction'=>$request->directions]
+                );
+                ///update step to move forward
+                $property->step = ($request->step+1);
+                $property->update();
+
+                return redirect()->back();
+            }
+            elseif($request->step==6){
+                ///how tenant will book
+                $property->step = ($request->step+1);
+                $property->update();
+                return redirect()->back();
+            }
+            elseif($request->step==7){
+                ///final step to publish
+                $property->publish = true;
+                $property->done_step = true;
+                $property->update();
+
+                if(Session::get("edit")){
+                    Session::forget("edit");
+                    if($property->status == Property::REJECTED){
+                        session()->flash('success',"Property details are update. This is property was rejected earlier. Select 'Send Approval' on property menu.");
+                    }else{
+                        session()->flash('success','Property details are updated.');
+                    }
+                }
+
+                if($property->isPropertyPending()){
+                    session()->flash('success','Wait for approval from Oshelter before your property can be visible to visitors. We want to make sure your property is legit.');
+                }
+                return redirect()->route('property');
+            }
+        }
+
+    }
+
 
 
 

@@ -153,6 +153,7 @@ Route::group(['middleware' => ['verify-email']], function() {
 
                     Route::post('/new/store', 'PropertyController@store')->name('property.store');
                     Route::post('/new/store/auction', 'PropertyController@storeAuction')->name('property.store.auction');
+                    Route::post('/new/store/land', 'PropertyController@storeLand')->name('property.store.land');
                     Route::post('/new/{property}/prev', 'PropertyController@previousStep')->name('property.back');
                     Route::post('/new/save-exit', 'PropertyController@saveAndExit')->name('property.save.exit');
 

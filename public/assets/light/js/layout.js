@@ -31,8 +31,24 @@ function getNotification(){
     setTimeout(getNotification, 10000);
 }
 
+function callCron(){
+    $.ajax({
+        url: '/cron',
+        type: "GET",
+        success: function(resp){
+
+        },
+        error: function(resp){
+            console.log("Something went wrong with request");
+        }
+    });
+
+    setTimeout(callCron, 30000);
+}
+
 getNotificationCount();
 getNotification();
+// callCron();
 
 $(".btnHeart").on("click", function(e){
     e.preventDefault();

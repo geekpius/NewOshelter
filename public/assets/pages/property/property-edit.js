@@ -4,7 +4,7 @@ $("#formPropertyType").on("submit", function(e){
     var valid = true;
     $('#formPropertyType input, #formPropertyType select').each(function() {
         var $this = $(this);
-        
+
         if(!$this.val()) {
             valid = false;
             $this.parents('.validate').find('span').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
@@ -29,9 +29,22 @@ $("input").on('input', function(){
 $("select").on('change', function(){
     if($(this).val()!=''){
         $(this).parents('.validate').find('span').text('');
-    }else{ 
+    }else{
         $(this).parents('.validate').find('span').text('The '+$(this).attr('name').replace(/[\_]+/g, ' ')+' field is required');
     }
+});
+
+
+$("#formPropertyType select[name='base_property']").on("change", function(){
+    var $this = $(this);
+    if($this.val() == 'land'){
+        $("#formPropertyType select[name='property_type']").val('land').attr('disabled', true);
+        $("#formPropertyType select[name='property_type_status']").val('sale').attr('disabled', true);
+    }else{
+        $("#formPropertyType select[name='property_type']").val('').attr('disabled', false);
+        $("#formPropertyType select[name='property_type_status']").val('').attr('disabled', false);
+    }
+    return false;
 });
 
 

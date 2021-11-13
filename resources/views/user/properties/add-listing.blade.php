@@ -46,6 +46,7 @@
                                 <option value="">--Select--</option>
                                 <option value="house">House</option>
                                 <option value="storey_building">Storey Building</option>
+                                <option value="land">Land</option>
                             </select>
                             <span class="text-danger small mySpan" role="alert"></span>
                         </div>

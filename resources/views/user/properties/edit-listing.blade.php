@@ -6,7 +6,7 @@
 @section('content')
 <div class="pxp-content pull-content-down">
     <div class="container">
-        <h2>Edit Listing</h2>  
+        <h2>Edit Listing</h2>
         <p>
             <strong>{{ Auth::user()->name }},</strong> listings
         </p>
@@ -22,6 +22,7 @@
                             <select name="base_property" class="form-control" id="base_property">
                                 <option value="house">House</option>
                                 <option value="storey_building">Storey Building</option>
+                                <option value="land">Land</option>
                             </select>
                             <span class="text-danger small mySpan" role="alert"></span>
                         </div>
@@ -29,7 +30,7 @@
                             <label for="">Now choose your property type</label>
                             <select name="property_type" class="form-control" id="property_type">
                                 @foreach ($property_types as $type)
-                                <option class="{{ strtolower(str_replace(' ','_',$type->name))  }}" value="{{ strtolower(str_replace(' ','_',$type->name))  }}">{{ $type->name }}</option>    
+                                <option class="{{ strtolower(str_replace(' ','_',$type->name))  }}" value="{{ strtolower(str_replace(' ','_',$type->name))  }}">{{ $type->name }}</option>
                                 @endforeach
                             </select>
                             <span class="text-danger small mySpan" role="alert"></span>
@@ -41,9 +42,9 @@
                         </div>
                         <div class="form-group validate">
                             <label for="">What do you want to do with your property?</label>
-                            <select name="property_type_status" class="form-control" id="property_type_status">   
-                                <option value="rent">I want to rent out</option>     
-                                <option value="short_stay">For short stay</option>                                   
+                            <select name="property_type_status" class="form-control" id="property_type_status">
+                                <option value="rent">I want to rent out</option>
+                                <option value="short_stay">For short stay</option>
                                 <option value="sale">I want to sell</option>
                                 <option value="auction">I want to auction</option>
                             </select>
@@ -99,7 +100,7 @@
 
                         <div class="form-group mt-3">
                             <button type="submit" class="btn btnMove btn-primary">
-                                <i class="fa fa-arrow-right"></i> 
+                                <i class="fa fa-arrow-right"></i>
                                 Edit Your Listing Portfolio
                             </button>
                         </div>
@@ -117,7 +118,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 @endsection
 
@@ -134,6 +135,11 @@ $('#infant').val("{{ $property->infant }}");
 $("#property_type option:selected").siblings(".hostel").attr('disabled', 'disabled').addClass("text-danger");
 @else
 $("#property_type option:selected").siblings().attr('disabled', 'disabled').addClass("text-danger");
+@endif
+
+@if($property->isLandPropertyType())
+$("#formPropertyType select[name='property_type']").val('land').attr('disabled', true);
+$("#formPropertyType select[name='property_type_status']").val('sale').attr('disabled', true);
 @endif
 </script>
 <script src="{{ asset('assets/pages/property/property-edit.js') }}"></script>

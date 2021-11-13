@@ -36,6 +36,18 @@ $("select").on('change', function(){
 });
 
 
+$("#formPropertyType select[name='base_property']").on("change", function(){
+    var $this = $(this);
+   if($this.val() == 'land'){
+       $("#formPropertyType select[name='property_type']").val('land').attr('disabled', true);
+       $("#formPropertyType select[name='property_type_status']").val('sale').attr('disabled', true);
+   }else{
+       $("#formPropertyType select[name='property_type']").val('').attr('disabled', false);
+       $("#formPropertyType select[name='property_type_status']").val('').attr('disabled', false);
+   }
+    return false;
+});
+
 // check if it is hostel
 $("#formPropertyType select[name='property_type']").on("change", function(){
     var $this = $(this);
