@@ -205,7 +205,7 @@
                                         <div class="row">
                                             <div class="col-lg-6">
                                                 <h4>How does your property looks like?</h4>
-                                                <form class="mt-4" id="formDescriptions" method="POST" action="{{ route('property.store.auction') }}">
+                                                <form class="mt-4" id="formDescriptions" method="POST" action="{{ route('property.store.land') }}">
                                                     @csrf
                                                     <input type="hidden" name="step" value="4" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -233,34 +233,40 @@
                                     <div class="step-pane" data-step="5">
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <h4>Provide bidders with your bidding schedule</h4>
+                                                <h4>Provide buyers with your pricing</h4>
 
-                                                <form class="mt-4" id="formSchedule" method="POST" action="{{ route('property.store.auction') }}">
+                                                <form class="mt-4" id="formSchedule" method="POST" action="{{ route('property.store.land') }}">
                                                     @csrf
                                                     <input type="hidden" name="step" value="5" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="form-group validate">
-                                                                <label for="">Auction venue</label>
-                                                                <input type="text" name="auction_venue" class="form-control" placeholder="Enter venue of the auction event">
+                                                                <label for="">Plot price</label>
+                                                                <input type="tel" name="price" class="form-control" onkeypress="return isNumber(event)" placeholder="Enter the price of a plot">
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
-                                                        <div class="col-sm-7">
+                                                        <div class="col-sm-12">
                                                             <div class="form-group validate">
-                                                                <label for="">Auction date</label>
-                                                                <input type="date" name="auction_date" class="form-control" >
-                                                                <span class="text-danger small mySpan" role="alert"></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-5">
-                                                            <div class="form-group validate">
-                                                                <label for="">Auction time</label>
-                                                                <input type="time" name="auction_time" class="form-control" >
+                                                                <label for="">Is indenture inclusive?</label>
+                                                                <div class="row mt-3">
+                                                                    <div class="col-sm-4">
+                                                                        <div class="custom-control custom-radio">
+                                                                            <input type="radio" id="have_indenture" name="indenture" value="1" class="custom-control-input" @if(empty($property)) checked @else @if($property->propertyLandDetail->have_indenture) checked @endif  @endif>
+                                                                            <label class="custom-control-label" for="have_indenture">Yes</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div class="custom-control custom-radio">
+                                                                            <input type="radio" id="no_indenture" name="indenture" value="0" class="custom-control-input" @if(!empty($property))  @if(!$property->propertyLandDetail->have_indenture) checked @endif  @endif>
+                                                                            <label class="custom-control-label" for="no_indenture">No</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
@@ -268,11 +274,6 @@
 
                                                 </form>
 
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <p class="mt-5"><i class="fa fa-square text-pink font-13"></i> Have a venue in mind.</p>
-                                                <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Auctioning must be free and fair.</p>
-                                                <p class="mt-2"><i class="fa fa-square text-pink font-13"></i> Let bidder do their job of bidding.</p>
                                             </div>
                                         </div><!-- end row -->
                                     </div><!-- end step seven -->
@@ -295,11 +296,11 @@
                                                                     <hr>
                                                                     <p>
                                                                         <i class="fa fa-square text-pink" style="font-size:10px"></i>
-                                                                        Every {{ $guest }} on OShelter must be qualified to bid your property
+                                                                        Every {{ $guest }} on OShelter must be qualified to buy your property
                                                                     </p>
                                                                     <p>
                                                                         <i class="fa fa-square text-pink" style="font-size:10px"></i>
-                                                                        Every qualified {{ $guest }} must confirm their personal & contact info before they can bid your property.
+                                                                        Every qualified {{ $guest }} must confirm their personal & contact info before they can buy your property.
                                                                     </p>
                                                                 </div>
                                                             </div><!--end card-body-->
@@ -454,7 +455,7 @@
             }
             else if(info.step == 5){
                 var valid = true;
-                $('#formSchedule input:text').each(function() {
+                $('#formSchedule input').each(function() {
                     var $this = $(this);
 
                     if(!$this.val()) {
@@ -468,10 +469,6 @@
                 }
             }
             else if(info.step == 6){
-                $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
-                document.getElementById("formTenantGuide").submit();
-            }
-            else if(info.step == 7){
                 $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Finished, Publishing...').attr('disabled', true);
                 document.getElementById("formFinishListing").submit();
             }
@@ -624,10 +621,8 @@
         $("#formContainAmenities input[name='area_size']").val("{{ empty($property->propertyLandDetail->area_size)? '':$property->propertyLandDetail->area_size }}");
         $("#formContainAmenities  input[name='plot_size']").val("{{ empty($property->propertyLandDetail->area_size)? '':$property->propertyLandDetail->plot_size }}");
 
-        $("#formSchedule input[name='auction_venue']").val("{{ empty($property->propertyAuctionSchedule->auction_venue)? '':$property->propertyAuctionSchedule->auction_venue }}");
-        $("#formSchedule input[name='auction_date']").val("{{ empty($property->propertyAuctionSchedule->auction_date)? 'month':$property->propertyAuctionSchedule->auction_date }}");
-        $("#formSchedule input[name='auction_time']").val("{{ empty($property->propertyAuctionSchedule->auction_time)? 'month':$property->propertyAuctionSchedule->auction_time }}");
-        // $("#formLocationLandmark input[name='digital_address']").val("{{ empty($property->propertyLocation->digital_address)? '':$property->propertyLocation->digital_address }}");
+        $("#formSchedule input[name='price']").val("{{ empty($property->propertyLandDetail->price)? '':$property->propertyLandDetail->price }}");
+
         $("#formLocationLandmark input[name='location']").val("{{ empty($property->propertyLocation->location)? '':$property->propertyLocation->location }}");
         $("#formDescriptions #gate").val("{{ empty($property->propertyDescription->gate)? '0':$property->propertyDescription->gate }}");
     @endif

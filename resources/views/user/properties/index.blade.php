@@ -7,7 +7,7 @@
     <div class="container">
         <h2>Your Properties</h2>
         <p>
-            <strong>{{ Auth::user()->name }},</strong> listings  > <small><a href="{{ route('property.add') }}">List new</a></small>
+            <strong>{{ Auth::user()->name }},</strong> listings  > <small><a class="btn btn-primary btn-sm" href="{{ route('property.add') }}">List new</a></small>
         </p>
         <div class="pt-4">
             <div class="row">

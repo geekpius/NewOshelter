@@ -49,7 +49,7 @@
                                     <i class="fa fa-search fa-lg text-white mobile-menu-item-icon"></i>
                                 </a>
                                 @if (Auth::user()->account_type=='owner')
-                                <a href="{{ route('property.add') }}" class="pr-4 text-decoration-none" title="Listings">
+                                <a href="{{ route('property') }}" class="pr-4 text-decoration-none" title="Listings">
                                     <i class="fa fa-home fa-lg text-white mobile-menu-item-icon"></i>
                                 </a>
                                 @endif
@@ -108,7 +108,7 @@
                                 <a class="dropdown-item" href="{{ route('saved') }}"><span class="fa fa-heart"></span> Wishlist</a>
                                 <hr>
                                 @if (Auth::user()->account_type == 'owner')
-                                <a class="dropdown-item" href="{{ route('property.add') }}"><span class="fa fa-home"></span> List a property</a>
+                                <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> List a property</a>
                                 @endif
                                 <a class="dropdown-item" href="{{ route('account.requests') }}"><span class="fa fa-send"></span> Requests & Actions</a>
                                 <a class="dropdown-item" href="{{ route('account') }}"><span class="fa fa-user-circle"></span> Account</a>
@@ -123,8 +123,6 @@
                                 <a class="dropdown-item" href="{{ route('login') }}"><span class="fas fa-sign-in-alt"></span> Log in</a>
                                 <a class="dropdown-item" href="{{ route('register') }}"><span class="fa fa-user-circle"></span> Sign up</a>
                                 <hr>
-                                {{-- <a class="dropdown-item" href="{{ route('property') }}"><span class="fa fa-home"></span> List a property</a>
-                                <hr> --}}
                                 <a class="dropdown-item" href="{{ route('help') }}"><span class="fa fa-question-circle"></span> Help</a>
                                 @endguest
                             </div>

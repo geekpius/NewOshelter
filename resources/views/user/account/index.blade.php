@@ -6,9 +6,9 @@
     <div class="container">
         <div class="row">
             <div class="col-9">
-                <h2>User Account</h2>  
+                <h2>User Account</h2>
                 <p>
-                    <strong>{{ Auth::user()->name }},</strong> account owner 
+                    <strong>{{ Auth::user()->name }},</strong> account owner
                 </p>
             </div>
             <div class="col-3">
@@ -89,7 +89,7 @@
                 <div class="col-sm-12"><hr></div>
                 <div class="col-sm-12">
                     <p class="text-muted font-12">Listing</p>
-                    <a href="{{ route('property.add') }}" class="text-decoration-none text-light-dark">
+                    <a href="{{ route('property') }}" class="text-decoration-none text-light-dark">
                         <p class="font-16 font-weight-bold"><i class="fa fa-home"></i> List a property</p>
                     </a>
                 </div>
@@ -117,7 +117,7 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
 
 @endsection

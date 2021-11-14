@@ -1126,10 +1126,9 @@ class PropertyController extends Controller
 
                 return redirect()->back();
             }
-            elseif($request->step==5){
+            elseif($request->step==4){
                 PropertyDescription::updateOrCreate(
-                    ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description, 'neighbourhood'=>$request->neighbourhood,
-                        'direction'=>$request->directions]
+                    ['property_id'=>$request->property_id], ['gate'=>$request->gate, 'description'=>$request->description]
                 );
                 ///update step to move forward
                 $property->step = ($request->step+1);
@@ -1137,13 +1136,17 @@ class PropertyController extends Controller
 
                 return redirect()->back();
             }
-            elseif($request->step==6){
+            elseif($request->step==5){
+                $property->propertyLandDetail->update([
+                    'price' => $request->price,
+                    'have_indenture' => $request->indenture,
+                ]);
                 ///how tenant will book
                 $property->step = ($request->step+1);
                 $property->update();
                 return redirect()->back();
             }
-            elseif($request->step==7){
+            elseif($request->step==6){
                 ///final step to publish
                 $property->publish = true;
                 $property->done_step = true;
