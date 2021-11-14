@@ -240,6 +240,8 @@
                             <div class="pxp-prop-card-1-details-title">{{ $property->title }}</div>
                             @if($property->isHostelPropertyType())
                             <div class="pxp-prop-card-1-details-price">{{ $property->propertyHostelBlockRooms()->sum('block_no_room') }} {{ str_plural('Room', $property->propertyHostelBlockRooms()->sum('block_no_room')) }}</div>
+                            @elseif($property->isLandPropertyType())
+                                <div class="pxp-prop-card-1-details-price">{{ $property->propertyLandDetail->currency }}{{ number_format($property->propertyLandDetail->price,2) }}</div>
                             @else
                             <div class="pxp-prop-card-1-details-price">{{ $property->propertyPrice->currency }}{{ number_format($property->propertyPrice->property_price,2) }}@if($property->type_status!='sale')<small>/{{ $property->propertyPrice->price_calendar }}</small>@endif</div>
                             @endif
@@ -258,6 +260,8 @@
                             </span>
                             @if($property->isHostelPropertyType())
                             <div class="pxp-prop-card-1-details-features text-uppercase"> <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i> </span></div>
+                            @elseif($property->isLandPropertyType())
+                                <div class="pxp-prop-card-1-details-features text-uppercase">{{ $property->propertyLandDetail->area_size }} m<sup>2</sup> <span>|</span> {{ $property->propertyLandDetail->plot_size }}</div>
                             @else
                             <div class="pxp-prop-card-1-details-features text-uppercase">{{ $property->propertyContain->bedroom }} <i class="fa fa-home"></i> <span>|</span> {{ $property->propertyContain->bathroom }} <i class="fas fa-bath"></i> <span>|</span> {{ $property->propertyContain->toilet }} <i class="fas fa-toilet"></i> </div>
                             @endif
