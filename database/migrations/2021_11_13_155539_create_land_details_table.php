@@ -19,6 +19,7 @@ class CreateLandDetailsTable extends Migration
             $table->string('area_size')->nullable();
             $table->string('plot_size')->nullable();
             $table->double('price')->nullable();
+            $table->string('currency')->default('GHS');
             $table->boolean('have_indenture')->default(false);
             $table->timestamps();
             $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
