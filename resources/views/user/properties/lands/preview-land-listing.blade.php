@@ -1,7 +1,56 @@
 @extends('layouts.site')
 
 @section('style')
-
+<link rel="stylesheet" href="{{ asset('assets/light/css/photoswipe.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/light/css/default-skin/default-skin.css') }}">
+<style>
+    .iframe-view {
+        height: 649px;
+        width: 930px;
+    }
+    @media (max-width: 2560px) {
+        .iframe-view {
+            height: 649px;
+            width: 1330px;
+        }
+    }
+    @media (max-width: 1440px) {
+        .iframe-view {
+            height: 649px;
+            width: 730px;
+        }
+    }
+    @media (max-width: 1024px) {
+        .iframe-view {
+            height: 649px;
+            width: 530px;
+        }
+    }
+    @media (max-width: 768px) {
+        .iframe-view {
+            height: 449px;
+            width: 390px;
+        }
+    }
+    @media (max-width: 425px) {
+        .iframe-view {
+            height: 349px;
+            width: 430px;
+        }
+    }
+    @media (max-width: 375px) {
+        .iframe-view {
+            height: 349px;
+            width: 375px;
+        }
+    }
+    @media (max-width: 320px) {
+        .iframe-view {
+            height: 349px;
+            width: 330px;
+        }
+    }
+</style>
 @endsection
 
 @section('content')
@@ -27,6 +76,44 @@
     </div>
     <hr>
 
+    <div class="pxp-single-property-gallery-container">
+        <div class="pxp-single-property-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+            @if (empty($property->propertyVideo))
+                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
+                    <a href="{{ asset('assets/images/properties/'.$image->image) }}" title="{{ $image->caption }}" itemprop="contentUrl" data-size="1020x659" class="pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$image->image) }});"></a>
+                    <figcaption itemprop="caption description">{{ $image->caption }}</figcaption>
+                </figure>
+            @else
+                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
+                    <a href="{{ asset('assets/images/properties/'.$image->image) }}" itemprop="contentUrl" data-size="1020x659" class="pxp-cover">
+                        <iframe class="iframe-view" src="{{ $property->propertyVideo->video_url }}" frameborder="0" allowfullscreen></iframe>
+                    </a>
+                </figure>
+            @endif
+
+            @php $i = 1; $j=0; @endphp
+            @foreach ($images as $item)
+                @php $i++; $j++; @endphp
+                @if($j>4)
+                    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="remove-on-every-screen">
+                        <a href="{{ asset('assets/images/properties/'.$item->image) }}" title="{{ $item->caption }}" itemprop="contentUrl" data-size="1020x659" class="pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$item->image) }});"></a>
+                        <figcaption itemprop="caption description">{{ $item->caption }}"</figcaption>
+                    </figure>
+                @else
+                    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                        <a href="{{ asset('assets/images/properties/'.$item->image) }}" title="{{ $item->caption }}" itemprop="contentUrl" data-size="1020x659" class="pxp-cover" style="background-image: url({{ asset('assets/images/properties/'.$item->image) }});"></a>
+                        <figcaption itemprop="caption description">{{ $item->caption }}"</figcaption>
+                    </figure>
+                @endif
+            @endforeach
+        </div>
+        <a href="javascript:void(0);" class="pxp-sp-gallery-btn"><i class="fa fa-photo text-pink"></i> View all {{ $i }} {{ str_plural('photo', $i) }} </a>
+        <div class="clearfix"></div>
+    </div>
+
+    <hr>
+
     <div class="container mt-4">
         <div class="row">
             <div class="col-sm-12">
@@ -49,28 +136,12 @@
                     <h3>Key Details</h3>
 
                     <!-- Contained amenities -->
-                    @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
-                    <p><i class="fa fa-home text-success"></i> <b>@if($property->type !='hostel'){{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;@endif{{ ucwords(str_replace('_',' ',$property->type)) }}</b></p>
-                    @else
                     <p>
-                        <i class="fa fa-home text-success"></i>
-                        <b>{{ ucfirst(strtolower($property->propertyContain->furnish)) }} &nbsp;{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</b></p>
-                    @endif
-
-                    <span>{{ $property->propertyContain->bedroom }}&nbsp;<i class="fa fa-home" title="Bedroom"></i></span>
-                    @if ($property->type_status=='short_stay')
-                    <span class="ml-3">{{ $property->propertyContain->no_bed }} &nbsp;<i class="fa fa-bed" title="Bed per room"></i></span>
-                    @endif
-                    @if ($property->propertyContain->kitchen==1)
-                    <span class="ml-3">Private <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Private Kitchen"></span>
-                    @elseif ($property->propertyContain->kitchen==2)
-                    <span class="ml-3">Shared <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="Shared Kitchen"></span>
-                    @else
-                    <span class="ml-3">0  <img src="{{ asset('assets/images/kitchen.png') }}" alt="Kitchen" width="14" height="14" title="No Kitchen"></span>
-                    @endif
-                    <span class="ml-3">{{ $property->propertyContain->bathroom }} {{ $property->propertyContain->bath_private? "private":"shared" }}  <i class="fas fa-bath"></i></span>
-                    <span class="ml-3">{{ $property->propertyContain->toilet }} {{ $property->propertyContain->toilet_private? "private":"shared" }}  <i class="fas fa-toilet"></i></span>
-
+                        <i class="fas fa-landmark text-success"></i>
+                        {{ ucwords(str_replace('_',' ',$property->type)) }} For {{ ucwords(str_replace('_', ' ', $property->type_status)) }}
+                    </p>
+                    <p>Size of Area - {{ $property->propertyLandDetail->area_size }}&nbsp;m<sup>2</sup></p>
+                    <p>Plot Dimension - {{ $property->propertyLandDetail->plot_size }}</p>
                 </div>
 
                 {{-- Overview --}}
@@ -93,22 +164,30 @@
                 </div>
 
                 <hr>
+                {{-- Availability --}}
                 <div class="pxp-single-property-section">
-                    <h3>Amenities</h3>
-                    <div class="row mt-3 mt-md-4">
-                        <!-- Amenities -->
-                        @if (count($property->propertyAmenities))
-                            @foreach ($property->propertyAmenities as $amen)
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="pxp-sp-amenities-item"><i class="fa fa-check-square text-success"></i> {{ $amen->name }}</div>
+                    <h3>Pricing</h3>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="pro-order-box">
+                                <h6 class="header-title {{ !$property->isPropertyTaken() ? 'text-primary':'text-danger' }}">{{ !$property->isPropertyTaken() ? 'Available for sale':'Sold, too late' }}</h6>
+                                <p class="">
+                                    <i class="fa fa-check text-success font-12"></i>
+                                    <span>
+                                        <b>{{ $property->propertyLandDetail->currency }} {{ number_format($property->propertyLandDetail->price,2) }}</b>
+                                    </span>
+                                </p>
+                                @if($property->propertyLandDetail->have_indenture )
+                                    <p> <i class="fa fa-check text-success font-12"></i> Indenture Inclusive</p>
+                                @else
+                                    <p> <i class="fa fa-check text-success font-12"></i> Indenture Exclusive</p>
+                                @endif
+                                <p> <i class="fa fa-check text-success font-12"></i> Size of Area - {{ $property->propertyLandDetail->area_size }}&nbsp;m<sup>2</sup></p>
+                                <p> <i class="fa fa-check text-success font-12"></i> Plot Dimension - {{ $property->propertyLandDetail->plot_size }}</p>
                             </div>
-                            @endforeach
-                        @else
-                            <p><i class="fa fa-square font-12"></i> No amenities reported on property.</p>
-                        @endif
+                        </div>
                     </div>
                 </div>
-
                 <hr>
 
                 {{-- Reviews --}}
@@ -244,7 +323,7 @@
                     <div id="pxp-sp-map" class="mt-3" data-image="{{ asset('assets/images/svg/home.png') }}"></div>
 
                     <p><i class="fa fa-dot-circle" style="font-size: 9px"></i>
-                        Exact location is provided after booking for auctioning event is confirmed
+                        Exact location is provided after booking is confirmed
                     </p>
                 </div>
             </div>
@@ -253,9 +332,50 @@
 
 </div>
 
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="pswp__bg"></div>
+    <div class="pswp__scroll-wrap">
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
 @section('scripts')
+<script src="{{ asset('assets/light/js/photoswipe.min.js') }}"></script>
+<script src="{{ asset('assets/light/js/photoswipe-ui-default.min.js') }}"></script>
+<script src="{{ asset('assets/light/js/jquery.sticky.js') }}"></script>
+<script src="{{ asset('assets/light/js/gallery.js') }}"></script>
 <script src="{{ asset('assets/light/js/infobox.js') }}"></script>
 <script src="{{ asset('assets/pages/website/single-map.js') }}"></script>
 @endsection

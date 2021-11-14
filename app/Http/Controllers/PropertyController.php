@@ -142,6 +142,11 @@ class PropertyController extends Controller
         $countImages = $property->propertyImages->count();
         $data['image'] = $property->propertyImages->sortBy('id')->first();
         $data['images'] = $property->propertyImages->slice(1)->take($countImages-1);
+
+        if($property->isLandPropertyType() && $property->isSaleProperty()){
+            return view('user.properties.lands.preview-land-listing', $data);
+        }
+
         if($property->isAuctionProperty()){
             return view('user.properties.preview-auction-listing', $data);
         }
