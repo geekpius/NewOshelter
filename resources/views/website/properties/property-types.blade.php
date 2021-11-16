@@ -50,6 +50,22 @@
                             <div class="pxp-results-card-1-features">
                                 <span>{{ $property->propertyLocation->location }} <i class="fa fa-map-marker"></i> </span>
                             </div>
+                        @elseif($property->isLandPropertyType())
+                            <div class="pxp-results-card-1-details">
+                                <div class="pxp-results-card-1-details-title">{{ $property->title }}</div>
+                                <div class="pxp-results-card-1-details-price">{{ $property->propertyLandDetail->currency }}{{ number_format($property->propertyLandDetail->price,2) }}</div>
+
+                                <span class="fa fa-tag text-white pull-right">
+                                    <strong>
+                                        @if($property->type_status=='sale')
+                                            For Sale
+                                        @endif
+                                    </strong>
+                                </span>
+                            </div>
+                            <div class="pxp-results-card-1-features">
+                                <span>{{ $property->propertyLandDetail->area_size }}m<sup>2</sup> <span>|</span> {{ $property->propertyLandDetail->plot_size }}  </span>
+                            </div>
                         @else
                             <div class="pxp-results-card-1-details">
                                 <div class="pxp-results-card-1-details-title">{{ $property->title }}</div>

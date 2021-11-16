@@ -14,6 +14,37 @@ class PropertyCollection extends JsonResource
      */
     public function toArray($request)
     {
+        if($this->isHostelPropertyType()){
+            $price = '';
+        }else{
+            if($this->isLandPropertyType()){
+                $price = number_format($this->propertyLandDetail->price,2);
+            }else{
+                $price = number_format($this->propertyPrice->property_price,2);
+            }
+        }
+
+        if($this->isHostelPropertyType()){
+            $currency = '';
+        }else{
+            if($this->isLandPropertyType()){
+                $currency = $this->propertyLandDetail->currency;
+            }else{
+                $currency = $this->propertyPrice->currency;
+            }
+        }
+
+        if($this->isHostelPropertyType()){
+            $calendar = '';
+        }else{
+            if($this->isLandPropertyType()){
+                $calendar = '';
+            }else{
+                $calendar = ((empty($this->propertyPrice->price_calendar))? '':'/'.$this->propertyPrice->price_calendar);
+            }
+        }
+
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -24,9 +55,9 @@ class PropertyCollection extends JsonResource
                 'lat'=> $this->propertyLocation->latitude,
                 'lng'=> $this->propertyLocation->longitude
             ],
-            'price' => ($this->type=='hostel')? '' : number_format($this->propertyPrice->property_price,2),
-            'currency' => ($this->type=='hostel')? '' : $this->propertyPrice->currency,
-            'calendar' => ($this->type=='hostel')? '' : ((empty($this->propertyPrice->price_calendar))? '':'/'.$this->propertyPrice->price_calendar),
+            'price' => $price,
+            'currency' => $currency,
+            'calendar' => $calendar,
             'rooms' => ($this->type=='hostel')? $this->propertyHostelBlockRooms()->sum('block_no_room').' Rooms' : '',
             'link' => route('single.property', $this->id),
         ];

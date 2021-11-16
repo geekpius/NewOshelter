@@ -151,6 +151,11 @@ class WebsiteController extends Controller
                 $query->select('property_id')->from(with(new PropertyLocation)->getTable())
                 ->where('location', 'LIKE', '%'.$location.'%');
             })->get();
+
+            if($property->isLandPropertyType()){
+                return view('website.properties.land-property-detail', $data);
+            }
+
             if($property->isAuctionProperty()){
                 $data['properties'] = Property::whereType_status($property->type_status)->wherePublish(true)->whereIs_active(true)->whereDone_step(true)
                     ->where('status', Property::APPROVED)->where('id','!=',$property->id)->where('type_status','=','auction')->take(50)->inRandomOrder()
