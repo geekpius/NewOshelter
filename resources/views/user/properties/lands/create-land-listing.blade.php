@@ -118,14 +118,21 @@
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
                                                     <input type="hidden" name="step" value="1" readonly>
                                                     <div class="form-group mt-4 validate">
-                                                        <label for="">What is the whole area size?</label>
-                                                        <input type="text" name="area_size" placeholder="Enter area size" class="form-control">
-                                                        <span class="text-danger small mySpan" role="alert"></span>
+                                                       <div class="row">
+                                                           <div class="col-lg-10">
+                                                               <label for="">What is the whole area size?</label>
+                                                               <input type="text" name="area_size" onkeypress="return isNumber(event)" placeholder="Enter area size eg: 400" class="form-control">
+                                                               <span class="text-danger small mySpan" role="alert"></span>
+                                                           </div>
+                                                           <div class="col-lg-2">
+                                                               <div style="padding-top: 10%" class="mt-4">m<sup>2</sup></div>
+                                                           </div>
+                                                       </div>
                                                     </div>
 
                                                     <div class="form-group mt-4 validate">
                                                         <label for="">Plot dimension?</label>
-                                                        <input type="text" name="plot_size" placeholder="Enter plot dimension" class="form-control">
+                                                        <input type="text" name="plot_size" placeholder="Enter plot dimension eg: 50ft x 100ft" class="form-control">
                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                     </div>
 
@@ -233,9 +240,9 @@
                                     <div class="step-pane" data-step="5">
                                         <div class="row">
                                             <div class="col-lg-6">
-                                                <h4>Provide buyers with your pricing</h4>
+                                                <h4>Provide pricing for your buyers</h4>
 
-                                                <form class="mt-4" id="formSchedule" method="POST" action="{{ route('property.store.land') }}">
+                                                <form class="mt-4" id="formSchedule" method="POST" action="{{ route('property.store.land') }}" enctype="multipart/form-data">
                                                     @csrf
                                                     <input type="hidden" name="step" value="5" readonly>
                                                     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
@@ -247,28 +254,62 @@
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12">
+                                                            @if (Auth::user()->userCurrency)
+                                                                <div class="form-group">
+                                                                    <label for="">Choosen currency</label>
+                                                                    <p class="font-14">{{ Auth::user()->userCurrency->getCurrencyName() }}</p>
+                                                                    <input type="hidden" name="currency" readonly value="{{ Auth::user()->userCurrency->currency }}">
+                                                                </div>
+                                                            @else
+                                                                <div class="form-group validate">
+                                                                    <label for="">Choosen currency</label>
+                                                                    <select name="currency" class="form-control" id="currency">
+                                                                        @foreach ($currencies as $currency)
+                                                                            <option value="{{ $currency->symbol }}">{{ $currency->currency }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    <span class="text-danger small mySpan" role="alert"></span>
+                                                                </div>
+                                                            @endif
+                                                        </div>
                                                     </div>
 
-                                                    <div class="row">
+                                                    <div class="row mt-2">
                                                         <div class="col-sm-12">
                                                             <div class="form-group validate">
                                                                 <label for="">Is indenture inclusive?</label>
                                                                 <div class="row mt-3">
                                                                     <div class="col-sm-4">
                                                                         <div class="custom-control custom-radio">
-                                                                            <input type="radio" id="have_indenture" name="indenture" value="1" class="custom-control-input" @if(empty($property)) checked @else @if($property->propertyLandDetail->have_indenture) checked @endif  @endif>
+                                                                            <input type="radio" id="have_indenture" name="indenture" value="1" class="custom-control-input" @if(!empty($property)) @if($property->propertyLandDetail->have_indenture) checked @endif  @endif>
                                                                             <label class="custom-control-label" for="have_indenture">Yes</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-4">
                                                                         <div class="custom-control custom-radio">
-                                                                            <input type="radio" id="no_indenture" name="indenture" value="0" class="custom-control-input" @if(!empty($property))  @if(!$property->propertyLandDetail->have_indenture) checked @endif  @endif>
+                                                                            <input type="radio" id="no_indenture" name="indenture" value="0" class="custom-control-input" @if(!empty($property))  @if(!$property->propertyLandDetail->have_indenture && !is_null($property->propertyLandDetail->have_indenture)) checked @endif  @endif>
                                                                             <label class="custom-control-label" for="no_indenture">No</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <span class="text-danger small mySpan IndentSapn" role="alert"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mt-4">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group validate" id="indentureFile" style="display: none">
+                                                                <label for="">Upload indenture image</label>
+                                                                <input type="file" class="form-control" name="indenture_file" >
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
+                                                            <div class="form-group validate" id="indentureDisclaimer" style="display: none">
+                                                                <h4 class="text-primary">Disclaimer!!!</h4>
+                                                            </div>
+
+                                                            @include('includes/alerts')
                                                         </div>
                                                     </div>
 
@@ -455,7 +496,7 @@
             }
             else if(info.step == 5){
                 var valid = true;
-                $('#formSchedule input').each(function() {
+                $('#formSchedule input, #formSchedule select').each(function() {
                     var $this = $(this);
 
                     if(!$this.val()) {
@@ -463,6 +504,23 @@
                         $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
                     }
                 });
+
+                if($('#formSchedule #have_indenture').is(":checked")){
+                    if(!$('#formSchedule input[name="indenture_file"]').val()){
+                        valid = false;
+                    }else{
+                        valid = true;
+                    }
+                }else{
+                    valid = true;
+                }
+
+
+                if( $('#formSchedule input[name="indenture"]:checked').length == 0){
+                    valid = false;
+                    $('#formSchedule .IndentSapn').text('The indenture field is required');
+                }
+
                 if(valid){
                     $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);
                     document.getElementById("formSchedule").submit();
@@ -598,6 +656,35 @@
     //load all uploaded property photos
     $("#propertyPhotoHolder").load("{{ route('property.photos.show',$property->id) }}");
 
+
+    function selectIndenture()
+    {
+        if($('#formSchedule #have_indenture').is(":checked")){
+            $("#indentureFile").show('slow');
+            $("#indentureDisclaimer").hide('slow');
+        }
+
+        if($('#formSchedule #no_indenture').is(":checked")){
+            $("#indentureFile").hide('slow');
+            $("#indentureDisclaimer").show('slow');
+        }
+    }
+
+    selectIndenture();
+
+
+
+    $('#formSchedule input:radio[name="indenture"]').change(function(){
+        if($(this).is(":checked")){
+            if($(this).val() == '1'){
+                $("#indentureFile").show('slow');
+                $("#indentureDisclaimer").hide('slow');
+            }else{
+                $("#indentureFile").hide('slow');
+                $("#indentureDisclaimer").show('slow');
+            }
+        }
+    });
 
     //remove error message if inputs are filled
     $("input, textarea").on('input', function(){

@@ -180,7 +180,7 @@
                                 @if($property->propertyLandDetail->have_indenture )
                                     <p> <i class="fa fa-check text-success font-12"></i> Indenture Inclusive</p>
                                 @else
-                                    <p> <i class="fa fa-check text-success font-12"></i> Indenture Exclusive</p>
+                                    <p> <i class="fa fa-check text-success font-12"></i> Indenture Not Inclusive</p>
                                 @endif
                                 <p> <i class="fa fa-check text-success font-12"></i> Size of Area - {{ $property->propertyLandDetail->area_size }}&nbsp;m<sup>2</sup></p>
                                 <p> <i class="fa fa-check text-success font-12"></i> Plot Dimension - {{ $property->propertyLandDetail->plot_size }}</p>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\PropertyModel\LandDetail;
 use DB;
 use Image;
-use App\UserModel\Amenity;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\PropertyModel\Property;
@@ -1142,9 +1141,34 @@ class PropertyController extends Controller
                 return redirect()->back();
             }
             elseif($request->step==5){
+                $validator = \Validator::make($request->all(), [
+                    'indenture_file' => 'nullable|image|mimes:jpg,png,jpeg|max:1024',
+                ]);
+                if($validator->fails()){
+                    session()->flash('error', $validator->messages()->toArray()['indenture_file'][0]);
+                    return redirect()->back();
+                }
+
+                $indentureFileName = null;
+               if($request->hasFile('indenture_file')){
+                   $file = $request->file('indenture_file');
+                   $name = sha1(date('YmdHis') . str_random(30));
+                   $new_name = Auth::user()->id . $name . '.' . $file->getClientOriginalExtension();
+                   $location = 'assets/images/indenture/' . $new_name;
+                   Image::make($file)->save($location);
+                   //delete old photo
+                   if(!empty($property->propertyLandDetail->indenture_file)){
+                       \File::delete("assets/images/indenture/".$property->propertyLandDetail->indenture_file);
+                   }
+                   $indentureFileName = $new_name;
+               }
+
+
                 $property->propertyLandDetail->update([
                     'price' => $request->price,
+                    'currency' => $request->currency,
                     'have_indenture' => $request->indenture,
+                    'indenture_file' => $indentureFileName,
                 ]);
                 ///how tenant will book
                 $property->step = ($request->step+1);

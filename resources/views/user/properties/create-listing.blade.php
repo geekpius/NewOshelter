@@ -1122,7 +1122,7 @@
                                                                 <div class="col-sm-7">
                                                                     <div class="form-group validate">
                                                                         <label for="">This will be your default booking price</label>
-                                                                        <input type="tel" name="property_price" class="form-control" keypress="return isNumber(event)" id="property_price" placeholder="Tip: 300.00">
+                                                                        <input type="tel" name="property_price" class="form-control" onkeypress="return isNumber(event)" id="property_price" placeholder="Tip: 300.00">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
@@ -1177,7 +1177,7 @@
                                                                 <div class="col-sm-7">
                                                                     <div class="form-group validate">
                                                                         <label for="">This will be your default booking price</label>
-                                                                        <input type="tel" name="property_price" keypress="return isNumber(event)" class="form-control" id="property_price" placeholder="Tip: 300.00">
+                                                                        <input type="tel" name="property_price" onkeypress="return isNumber(event)" class="form-control" id="property_price" placeholder="Tip: 300.00">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
@@ -1195,7 +1195,7 @@
                                                                 <div class="col-sm-12">
                                                                     <div class="form-group validate">
                                                                         <label for="" class="text-primary">Smart price will set in when market demand is low.</label>
-                                                                        <input type="tel" name="smart_price" keypress="return isNumber(event)" class="form-control" id="smart_price" placeholder="Enter smart price">
+                                                                        <input type="tel" name="smart_price" onkeypress="return isNumber(event)" class="form-control" id="smart_price" placeholder="Enter smart price">
                                                                         <span class="text-danger small mySpan" role="alert"></span>
                                                                     </div>
                                                                 </div>
@@ -1205,7 +1205,7 @@
                                                             <p class=""><i class="fa fa-dot-circle" style="font-size: 9px"></i> <strong>Price your property for {{ $property->type_status }} </strong></p>
                                                             <div class="form-group validate">
                                                                 <label for="">This will be your {{ $property->isSaleProperty() ? 'default':'initial' }} {{ $property->type_status }} price <span id="myPriceCal"></span></label>
-                                                                <input type="tel" name="property_price" keypress="return isNumber(event)" class="form-control" id="property_price" placeholder="Tip: 100000.00">
+                                                                <input type="tel" name="property_price" onkeypress="return isNumber(event)" class="form-control" id="property_price" placeholder="Tip: 100000.00">
                                                                 <span class="text-danger small mySpan" role="alert"></span>
                                                             </div>
 
