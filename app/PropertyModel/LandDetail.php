@@ -10,7 +10,7 @@ class LandDetail extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'property_id', 'area_size', 'plot_size', 'price', 'currency', 'have_indenture',
+        'property_id', 'area_size', 'plot_size', 'price', 'currency', 'have_indenture', 'indenture_file',
     ];
 
     public function property(){
