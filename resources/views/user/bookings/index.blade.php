@@ -392,7 +392,9 @@
                                                 <div class="card-body">
                                                     <p class="text-primary"><i class="fa fa-dot-circle font-10"></i> If Oshelter is taking too long (more than 24hours) to response, <a href="{{ route('contact') }}" target="_blank" class="text-danger">contact us</a> for support.</p>
 
-                                                    @if($property->isRentProperty())
+                                                    @if($property->isLandPropertyType())
+                                                        @include('includes/booking/land-booking-form')
+                                                    @elseif($property->isRentProperty())
                                                         @include('includes/booking/rent-booking-form')
                                                     @elseif($property->isShortStayProperty())
                                                         @include('includes/booking/short-stay-booking-form')
@@ -416,7 +418,7 @@
                                 <div class="card card-bordered-pink">
                                     <div class="card-body">
                                         @php
-                                            if(!$property->isAuctionProperty()){
+                                            if(!$property->isAuctionProperty() && !$property->isLandPropertyType()){
                                                 $currency = $property->propertyPrice->currency;
                                                 $price = $property->propertyPrice->property_price;
                                             }
@@ -428,7 +430,9 @@
                                             </div>
                                             <div class="col-sm-8">
                                                 <h5>{{ $property->title }}</h5>
-                                                @if(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
+                                                @if($property->isLandPropertyType())
+                                                    <p class="font-13">{{ ucwords(str_replace('_',' ',$property->type)) }}</p>
+                                                @elseif(strtolower($property->type) == 'house' && strtolower($property->base) == 'house')
                                                 <p class="font-13">{{ ucwords(str_replace('_',' ',$property->type)) }}</p>
                                                 @else
                                                 <p class="font-13">{{ ucwords(str_replace('_',' ',$property->type)) }} in {{ strtolower($property->base) }}</p>
@@ -440,7 +444,15 @@
                                                 </p>
                                             </div>
                                                 <div class="col-sm-12"><hr></div>
-                                            @if ($property->isRentProperty())
+                                            @if($property->isLandPropertyType())
+                                                <div class="col-sm-12">
+                                                    <div class="font-14">
+                                                        <span><strong>Price</strong></span>
+                                                        <span class="float-right"><strong id="totalFeeResult">
+                                                            {{ $property->propertyLandDetail->currency }} {{ number_format($property->propertyLandDetail->price,2) }}</strong></span>
+                                                    </div>
+                                                </div>
+                                            @elseif ($property->isRentProperty())
                                                 <div class="col-sm-12">
                                                 @if (count($property->includeUtilities))
                                                     <h6 class="text-primary">Inclusive Utilities</h6>

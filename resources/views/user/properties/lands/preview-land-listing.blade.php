@@ -178,7 +178,7 @@
                                     </span>
                                 </p>
                                 @if($property->propertyLandDetail->have_indenture )
-                                    <p> <i class="fa fa-check text-success font-12"></i> Indenture Inclusive</p>
+                                    <p> <i class="fa fa-check text-success font-12"></i> Indenture Is Inclusive</p>
                                 @else
                                     <p> <i class="fa fa-check text-success font-12"></i> Indenture Not Inclusive</p>
                                 @endif

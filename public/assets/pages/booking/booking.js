@@ -188,6 +188,17 @@ $('#formRent select[name="duration"]').on('change', function (){
 });
 
 
+$('#formLand input[name="plots"]').on('input', function (){
+    let $this= $(this);
+    if($this.val() == ''){
+        $('#formLand input[name="total_amount"]').val('0.00')
+    }else{
+        let price = parseFloat($this.data('price'));
+        $('#formLand input[name="total_amount"]').val((price*parseInt($this.val())).toFixed(2));
+    }
+});
+
+
 $('#formSale select[name="payment_method"]').on('change', function (){
     let $this= $(this);
     if($this.val() == ''){
@@ -403,6 +414,55 @@ $("#formAuction").on("submit", function(e){
     }
     return false;
 });
+
+
+$("#formLand").on("submit", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var $this = $(this);
+    var valid = true;
+    $('#formLand input').each(function() {
+        var $this = $(this);
+
+        if(!$this.val()) {
+            valid = false;
+            $this.parents('.validate').find('.mySpan').text('The '+$this.attr('name').replace(/[\_]+/g, ' ')+' field is required');
+        }
+    });
+
+    if(valid){
+        let data = $this.serialize();
+        $("#formLand .confirmBooking").html('<i class="fa fa-spinner fa-spin"></i> CONFIRMING BOOKING...').attr('disabled', true);
+        $.ajax({
+            url: $this.attr('action'),
+            type: "POST",
+            data: data,
+            success: function(resp){
+                if(resp == 'success'){
+                    swal({
+                            title: "Confirmed",
+                            text: "You have sent a booking request\nOshelter will contact you.",
+                            type: "success",
+                            confirmButtonClass: "btn-primary btn-sm",
+                            confirmButtonText: "Okay",
+                            closeOnConfirm: true
+                        },
+                        function(){
+                            window.location.href = $("#formLand .confirmBooking").data('href');
+                        });
+                }else{
+                    swal("Warning", resp, "warning");
+                    $("#formLand .confirmBooking").text('CONFIRM BOOKING REQUEST').attr('disabled', false);
+                }
+            },
+            error: function(resp){
+                console.log("Something went wrong with request");
+            }
+        });
+    }
+    return false;
+});
+
 
 
 // toggle input field error messages

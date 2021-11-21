@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Events\SendSMSEvent;
 use App\User;
-use App\ServiceCharge;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\MessageModel\Message;
 use App\PropertyModel\Property;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +15,6 @@ use Illuminate\Support\Facades\Session;
 use App\PropertyModel\PropertyHostelPrice;
 use App\PropertyModel\HostelBlockRoom;
 use App\PropertyModel\HostelBlockRoomNumber;
-use App\BookModel\Booking;
-use App\BookModel\HostelBooking;
 
 use App\Mail\EmailSender;
 use Illuminate\Support\Facades\Mail;
@@ -92,7 +88,7 @@ class BookingController extends Controller
 
 
 
-    private function rentBooking(Request $request): RedirectResponse
+    private function booking(Request $request): RedirectResponse
     {
         $bookingItems = collect([
             "property"=>$request->property_id,
@@ -100,62 +96,10 @@ class BookingController extends Controller
         Session::put('bookingItems', $bookingItems);
         $token = Str::random(32);
         $step = 1;
-        Session::put('step', $step);
+        if($request->type == 'sale' || $request->type == 'auction'){
+            $step = 2;
+        }
 
-        return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'filter_id'=>$token]);
-    }
-
-
-    private function shortStayBooking(Request $request): RedirectResponse
-    {
-        $bookingItems = collect([
-            "property"=>$request->property_id,
-        ]);
-        Session::put('bookingItems', $bookingItems);
-        $token = Str::random(32);
-        $step = 1;
-        Session::put('step', $step);
-
-        return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'filter_id'=>$token]);
-    }
-
-
-    private function saleBooking(Request $request): RedirectResponse
-    {
-        $bookingItems = collect([
-            "property"=>$request->property_id,
-        ]);
-        Session::put('bookingItems', $bookingItems);
-        $token = Str::random(32);
-        $step = 2;
-        Session::put('step', $step);
-
-        return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'filter_id'=>$token]);
-    }
-
-
-    private function auctionBooking(Request $request): RedirectResponse
-    {
-        $bookingItems = collect([
-            "property"=>$request->property_id,
-        ]);
-        Session::put('bookingItems', $bookingItems);
-        $token = Str::random(32);
-        $step = 2;
-        Session::put('step', $step);
-
-        return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'filter_id'=>$token]);
-    }
-
-
-    private function hostelBooking(Request $request): RedirectResponse
-    {
-        $bookingItems = collect([
-            "property"=>$request->property_id,
-        ]);
-        Session::put('bookingItems', $bookingItems);
-        $token = Str::random(32);
-        $step = 1;
         Session::put('step', $step);
 
         return redirect()->route('property.bookings.index', ['property'=>$request->property_id, 'filter_id'=>$token]);
@@ -167,25 +111,7 @@ class BookingController extends Controller
     public function book(Request $request)
     {
         if(auth()->check()){
-            if($request->type == 'rent'){
-                return $this->rentBooking($request);
-            }
-
-            if($request->type == 'short_stay'){
-                return $this->shortStayBooking($request);
-            }
-
-            if($request->type == 'sale'){
-                return $this->saleBooking($request);
-            }
-
-            if($request->type == 'auction'){
-                return $this->auctionBooking($request);
-            }
-
-            if($request->type == 'hostel'){
-                return $this->hostelBooking($request);
-            }
+            return $this->booking($request);
         }else{
             return redirect()->route('login');
         }
@@ -277,81 +203,6 @@ class BookingController extends Controller
                 $message = 'success';
             } else {
                 $message = 'Invalid phone verification code.';
-            }
-        }
-
-        return $message;
-    }
-
-
-    // confirm booking request
-    public function bookingRequest(Request $request): string
-    {
-        $validator = \Validator::make($request->all(), [
-            'property_id' => 'required',
-            'step' => 'required',
-            'type_status' => 'required',
-        ]);
-
-        (string)$message ='';
-        if ($validator->fails()){
-            $message = 'Validation failed';
-        }else{
-            $property = Property::findOrFail($request->property_id);
-
-            if($property->isHostelPropertyType()){
-                if($request->book_status == 'rebook'){
-                    $book = Auth::user()->userHostelBookings->where('property_id',$request->property_id)->where('hostel_block_room_number_id', $request->room_number_id)->where('room_number', $request->room_number)->where('status', 0)->sortByDesc('id')->first();
-                    $book->check_in  = date("Y-m-d",strtotime($request->checkin));
-                    $book->check_out  = date("Y-m-d",strtotime($request->checkout));
-                    $book->room_number = $request->room_number;
-                    $book->status  = 1;
-                    $book->update();
-
-                    if(Session::has('owner_message') && !empty(Session::get('owner_message'))){
-                        (string) $msg = Session::get('owner_message');
-                        (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $book->property->id).'">'.$book->property->title.'</a>';
-                        $this->saveMessage(intval($book->property->user_id), $msg, $detail);
-                    }
-                    $message = "success";
-                    //emailing
-                    $data = array(
-                        "property" => $book->property->title,
-                        "link" => route('requests.detail.hostel', $book->id),
-                        "name" => current(explode(' ',$book->property->user->name)),
-                        "guest" => current(explode(' ',Auth::user()->name)),
-                    );
-                    Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
-                }else{
-                    $book = new HostelBooking;
-                    $book->user_id = Auth::user()->id;
-                    $book->property_id  = $request->property_id;
-                    $book->owner_id  = $request->owner;
-                    $book->hostel_block_room_number_id  = $request->room_number_id;
-                    $book->room_number  = $request->room_number;
-                    $book->check_in  = date("Y-m-d",strtotime($request->checkin));
-                    $book->check_out  = date("Y-m-d",strtotime($request->checkout));
-                    $book->save();
-
-                    if(Session::has('owner_message') && !empty(Session::get('owner_message'))){
-                        (string) $msg = Session::get('owner_message');
-                        (string) $detail = 'This is in regard to <a class="text-primary" target="_blank" href="'.route('single.property', $book->property->id).'">'.$book->property->title.'</a>';
-                        $this->saveMessage(intval($book->property->user_id), $msg, $detail);
-                    }
-
-                    $message = "success";
-                    //emailing
-                    $data = array(
-                        "property" => $book->property->title,
-                        "link" => route('requests.detail.hostel', $book->id),
-                        "name" => current(explode(' ',$book->property->user->name)),
-                        "guest" => current(explode(' ',Auth::user()->name)),
-                    );
-                    Mail::to($book->property->user->email)->send(new EmailSender($data, 'Booking Request', 'emails.booking_request'));
-                }
-                Session::forget('bookingItems');
-                Session::forget('owner_message');
-                Session::forget('step');
             }
         }
 
