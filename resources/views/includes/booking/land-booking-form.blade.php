@@ -1,5 +1,5 @@
 
-<form class="mt-4" id="formLand" method="POST" action="{{ route('property.request.sale') }}">
+<form class="mt-4" id="formLand" method="POST" action="{{ route('property.request.land') }}">
     @csrf
     <input type="hidden" name="property_id" value="{{ $property->id }}" readonly>
     <input type="hidden" name="type_status" value="sale" readonly>

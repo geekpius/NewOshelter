@@ -5,6 +5,7 @@ namespace App\Providers;
 
 use App\Models\AuctionRequest;
 use App\Models\HostelRequest;
+use App\Models\LandRequest;
 use App\Models\RentRequest;
 use App\Models\SaleRequest;
 use App\Models\ShortStayRequest;
@@ -12,6 +13,7 @@ use App\Models\ShowInterest;
 use App\Models\UserRequest;
 use App\Observers\AuctionRequestObserver;
 use App\Observers\HostelRequestObserver;
+use App\Observers\LandRequestObserver;
 use App\Observers\RentRequestObserver;
 use App\Observers\SaleRequestObserver;
 use App\Observers\ShortStayRequestObserver;
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
         AuctionRequest::observe(AuctionRequestObserver::class);
         HostelRequest::observe(HostelRequestObserver::class);
         ShowInterest::observe(ShowInterestObserver::class);
+        LandRequest::observe(LandRequestObserver::class);
     }
 
     /**

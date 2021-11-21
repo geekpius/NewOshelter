@@ -184,6 +184,7 @@ Route::group(['middleware' => ['verify-email']], function() {
         Route::post('/properties/bookings/verify', 'BookingController@verifySmsNumber')->name('property.bookings.verify');
 
         /*------------ Requests ------------- */
+        Route::post('/properties/requests/land', 'LandRequestController@store')->name('property.request.land');
         Route::post('/properties/requests/rent', 'RentRequestController@store')->name('property.request.rent');
         Route::post('/properties/requests/short-stay', 'ShortStayRequestController@store')->name('property.request.short.stay');
         Route::post('/properties/requests/sale', 'SaleRequestController@store')->name('property.request.sale');
