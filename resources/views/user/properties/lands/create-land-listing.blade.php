@@ -282,13 +282,13 @@
                                                                 <div class="row mt-3">
                                                                     <div class="col-sm-4">
                                                                         <div class="custom-control custom-radio">
-                                                                            <input type="radio" id="have_indenture" name="indenture" value="1" class="custom-control-input" @if(!empty($property)) @if($property->propertyLandDetail->have_indenture) checked @endif  @endif>
+                                                                            <input type="radio" id="have_indenture" name="indenture" value="1" class="custom-control-input" @if(!empty($property)) @if(!empty($property->propertyLandDetail->have_indenture) && $property->propertyLandDetail->have_indenture) checked @endif  @endif>
                                                                             <label class="custom-control-label" for="have_indenture">Yes</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-sm-4">
                                                                         <div class="custom-control custom-radio">
-                                                                            <input type="radio" id="no_indenture" name="indenture" value="0" class="custom-control-input" @if(!empty($property))  @if(!$property->propertyLandDetail->have_indenture && !is_null($property->propertyLandDetail->have_indenture)) checked @endif  @endif>
+                                                                            <input type="radio" id="no_indenture" name="indenture" value="0" class="custom-control-input" @if(!empty($property))  @if(!empty($property->propertyLandDetail->price)) @if(!$property->propertyLandDetail->have_indenture) checked @endif @endif  @endif>
                                                                             <label class="custom-control-label" for="no_indenture">No</label>
                                                                         </div>
                                                                     </div>
@@ -302,11 +302,21 @@
                                                         <div class="col-sm-12">
                                                             <div class="form-group validate" id="indentureFile" style="display: none">
                                                                 <label for="">Upload indenture image</label>
-                                                                <input type="file" class="form-control" name="indenture_file" >
+                                                                <input type="file" class="form-control" name="indenture_file" data-file="{{ empty($property->propertyLandDetail->indenture_file)? '' : $property->propertyLandDetail->indenture_file }}">
                                                                 <span class="text-danger small mySpan" role="alert"></span>
+                                                                @if(!empty($property->propertyLandDetail->indenture_file))
+                                                                    <div class="alert alert-secondary border-0 mt-4" role="alert">
+                                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                            <span aria-hidden="true">x</span>
+                                                                        </button>
+                                                                        You already have an indenture uploaded.
+                                                                    </div>
+                                                                @endif
                                                             </div>
                                                             <div class="form-group validate" id="indentureDisclaimer" style="display: none">
-                                                                <h4 class="text-primary">Disclaimer!!!</h4>
+                                                                <h4 class="text-danger">Disclaimer!!!</h4>
+                                                                <p>Kindly upload a picture of your property's indenture with this listing as that will boost your buyers trust and make your property sell in a short time.
+                                                                    However, buyers who view your listing will be prompted by OShelter to be careful when dealing with properties without indenture.</p>
                                                             </div>
 
                                                             @include('includes/alerts')
@@ -505,21 +515,29 @@
                     }
                 });
 
+                @if(empty($property->propertyLandDetail->indenture_file))
                 if($('#formSchedule #have_indenture').is(":checked")){
-                    if(!$('#formSchedule input[name="indenture_file"]').val()){
+                    if(!$('#formSchedule input[name="indenture_file"]').val() || !$('#formSchedule input[name="price"]').val()){
                         valid = false;
                     }else{
                         valid = true;
                     }
                 }else{
+                    if($('#formSchedule input[name="price"]').val()){
+                        valid = true;
+                    }
+                }
+                @else
+                if( $('#formSchedule input[name="indenture_file"]').data('file') !=''){
                     valid = true;
                 }
+                @endif
 
 
-                if( $('#formSchedule input[name="indenture"]:checked').length == 0){
-                    valid = false;
-                    $('#formSchedule .IndentSapn').text('The indenture field is required');
-                }
+               if( $('#formSchedule input[name="indenture"]:checked').length == 0){
+                   valid = false;
+                   $('#formSchedule .IndentSapn').text('The indenture field is required');
+               }
 
                 if(valid){
                     $(".btn-next").html('<i class="fa fa-spin fa-spinner"></i> Stepping Next...').attr('disabled', true);

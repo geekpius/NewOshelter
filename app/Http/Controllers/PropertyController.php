@@ -1161,6 +1161,10 @@ class PropertyController extends Controller
                        \File::delete("assets/images/indenture/".$property->propertyLandDetail->indenture_file);
                    }
                    $indentureFileName = $new_name;
+               }else{
+                   if(!empty($property->propertyLandDetail->indenture_file)){
+                       \File::delete("assets/images/indenture/".$property->propertyLandDetail->indenture_file);
+                   }
                }
 
 
