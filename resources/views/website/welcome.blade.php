@@ -114,7 +114,7 @@
             <div class="owl-carousel pxp-props-carousel-right-stage">
                 <div>
                     <a href="{{ route('section.property', 'standard') }}" class="pxp-prop-card-1-sm rounded-lg">
-                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/standard.svg') }});"></div>
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/standard.jpg') }});"></div>
                         <span class="text-white on-top-tag on-top font-12">{{ $count_standard }} <small>{{ str_plural('property', $count_standard) }}</small></span>
                     </a>
                     <div class="mt-2">
@@ -123,7 +123,7 @@
                 </div>
                 <div>
                     <a href="{{ route('section.property', 'deluxe') }}" class="pxp-prop-card-1-sm rounded-lg">
-                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/deluxe.svg') }});"></div>
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/deluxe.jpg') }});"></div>
                         <span class="text-white on-top-tag on-top font-12">{{ $count_deluxe }} <small>{{ str_plural('property', $count_deluxe) }}</small></span>
                     </a>
                     <div class="mt-2">
@@ -132,7 +132,7 @@
                 </div>
                 <div>
                     <a href="{{ route('section.property', 'premium') }}" class="pxp-prop-card-1-sm rounded-lg">
-                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/premium.svg') }});"></div>
+                        <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({{ asset('assets/images/premium.jpg') }});"></div>
                         <span class="text-white on-top-tag on-top font-12">{{ $count_premium }} <small>{{ str_plural('property', $count_premium) }}</small></span>
                     </a>
                     <div class="mt-2">
